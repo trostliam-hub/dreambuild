@@ -1,0 +1,14 @@
+# Betriebssystem
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editoren
+.vscode/
+.idea/
+*.swp
+
+# Nichts Vertrauliches in dieses Repo
+*.env
+*credentials*
+*secret*
