@@ -304,6 +304,11 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
   margin-top:8px;line-height:1.5;display:flex;flex-wrap:wrap;gap:4px 12px}
 .modell-leer{padding:26px 14px;text-align:center;color:var(--ink-3);font-size:13px;line-height:1.5}
 
+.bildurl{display:flex;gap:6px;margin-top:8px}
+.bildurl input{flex:1;min-width:0;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  padding:7px 9px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.bildurl input:focus{border-color:var(--anod);outline:none}
+
 /* ── Bauteilbilder und PNG-Ausgabe ── */
 .teilfoto{display:grid;grid-template-columns:86px minmax(0,1fr);gap:11px;align-items:center;
   border:1px solid var(--line);border-radius:var(--r);padding:10px;margin-bottom:9px;background:var(--surface-2)}
@@ -1847,6 +1852,16 @@ function oeffneSlot(slotKey){
         <button class="btn ghost sm" data-teilfoto="${drin.id}">${tfoto ? "Bild ersetzen" : "Eigenes Bild"}</button>
         ${tfoto ? `<button class="btn ghost sm" data-teilfotoweg="${drin.id}">Entfernen</button>` : ""}
       </span>
+      <span style="grid-column:1 / -1">
+        <div class="bildurl">
+          <input id="url-${drin.id}" type="url" inputmode="url" placeholder="oder Bildadresse einfügen (https://…)"
+                 value="${tfoto && tfoto.indexOf("http") === 0 ? esc(tfoto) : ""}">
+          <button class="btn sm" data-bildurl="${drin.id}">Laden</button>
+        </div>
+        <p class="hint" style="margin-top:6px">Nur Bilder verwenden, an denen du die Rechte hast —
+          eigene Aufnahmen oder solche aus einem Partner-Feed mit Nutzungsrecht. Fremde Produktfotos
+          ohne Lizenz sind abmahnfähig, und zwar bei dir.</p>
+      </span>
     </div>`;
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">Bauteil wählen</span>${s.label}</h3>
@@ -2176,6 +2191,17 @@ document.addEventListener("click", e => {
   if(T("[data-fotowahl]")){ fotoZiel = {art:"rad"}; const i = $("foto-in"); if(i) i.click(); return; }
   const tf = T("[data-teilfoto]");
   if(tf){ fotoZiel = {art:"teil", id:tf.dataset.teilfoto}; const i = $("foto-in"); if(i) i.click(); return; }
+  const bu = T("[data-bildurl]");
+  if(bu){
+    const feld = document.getElementById("url-" + bu.dataset.bildurl);
+    const wert = feld ? feld.value.trim() : "";
+    if(!wert){ delete teilfotos[bu.dataset.bildurl]; }
+    else if(/^https:\/\//i.test(wert)){ teilfotos[bu.dataset.bildurl] = wert; }
+    else { alert("Die Adresse muss mit https:// beginnen."); return; }
+    sichern(); zeichne(); if(offenerSlot) oeffneSlot(offenerSlot);
+    return;
+  }
+
   const tw = T("[data-teilfotoweg]");
   if(tw){ delete teilfotos[tw.dataset.teilfotoweg]; sichern(); if(offenerSlot) oeffneSlot(offenerSlot); return; }
   if(T("[data-png]")){ alsPNG(); return; }
