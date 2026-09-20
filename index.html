@@ -289,7 +289,9 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 .legal b{color:var(--ink-2)}
 </style>
 <style>
-/* Grundlage, die im Artifact-Rahmen die Plattform stellt und hier selbst kommen muss. */
+/* Grundlage, die sonst die Plattform stellt und hier selbst kommen muss.
+   color-scheme MUSS "light dark" sein: sonst rendert das Betriebssystem im
+   Dunkelmodus die Zahlenfelder und Rollbalken hell auf hell. */
 :root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 img{max-width:100%}
 [hidden]{display:none!important}
@@ -1550,7 +1552,8 @@ try{
 
 /* Service Worker nur in der eigenständigen App-Fassung (GitHub Pages), nie im Artifact-Rahmen */
 try{
-  if("serviceWorker" in navigator && location.protocol === "https:" && window.top === window.self
+  if("serviceWorker" in navigator && window.top === window.self
+     && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")
      && document.querySelector('link[rel="manifest"]')){
     window.addEventListener("load", function(){ navigator.serviceWorker.register("mtb-sw.js").catch(function(){}); });
   }

@@ -41,6 +41,18 @@ verlässt es nicht. Als PWA installierbar und offline lauffähig.
 Lokal: `index.html` per Doppelklick öffnen. Offline-Cache und
 Homescreen-Installation brauchen `https://`.
 
+## Veroeffentlichen
+
+Doppelklick auf `App-veroeffentlichen.cmd`. Das Skript installiert bei Bedarf die
+GitHub CLI, meldet einmalig an, legt das Repo an, laedt hoch, schaltet Pages ein
+und oeffnet die fertige Adresse:
+
+    https://<dein-name>.github.io/mtb-pruefstand/
+
+Jeder weitere Doppelklick laedt nur die Aenderungen nach. Die Adresse bleibt gleich.
+
+Auf dem iPhone in **Safari** oeffnen, dann Teilen -> Zum Home-Bildschirm.
+
 ## Grenzen
 
 Preise sind Richtwerte auf UVP-Niveau, keine Live-Preise. Die Engine kennt
