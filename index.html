@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="MTB-Konfigurator: Dreambuilds pruefen, Kompatibilitaet messen, Upgrades finden.">
+<meta name="description" content="MTB-Konfigurator: Traumaufbauten bauen, Kompatibilitaet pruefen, Upgrades finden.">
 <meta name="robots" content="noindex">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0b6e79">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Pruefstand">
+<meta name="apple-mobile-web-app-title" content="Dreambuild">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" sizes="192x192">
-<title>Dreambuild Prüfstand</title>
+<title>Dreambuild</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
@@ -302,7 +302,7 @@ img{max-width:100%}
 
 <header class="top">
   <div class="top-in">
-    <span class="brand">Dreambuild Prüfstand</span>
+    <span class="brand">Dreambuild</span>
     <button class="dchip" id="btn-disz" aria-label="Disziplin wählen">
       <span class="dot"></span><span class="dn" id="disz-n">Trail</span>
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
@@ -1550,15 +1550,44 @@ try{
   else start(null);
 }catch(e){ start(null); }
 
-/* Service Worker nur in der eigenständigen App-Fassung (GitHub Pages), nie im Artifact-Rahmen */
+/* ═══════════ 12 · Selbstaktualisierung ═══════════
+   Die App soll sich ohne Zutun erneuern. Dafuer greifen drei Dinge ineinander:
+
+   1. updateViaCache:"none" — der Browser darf das Worker-Skript selbst nie aus
+      seinem HTTP-Cache beantworten, sonst merkt er eine neue Fassung tagelang nicht.
+   2. Der Worker ruft skipWaiting(). Eine neue Fassung wartet also nicht, bis alle
+      Tabs zu sind, sondern uebernimmt sofort.
+   3. Die Uebernahme loest controllerchange aus -> wir laden die Seite einmal neu.
+      Die Bedingung hatteController schliesst die Erstinstallation aus: dort
+      wechselt der Controller von "keiner" auf "einer", und ein Neuladen waere
+      nur ein Flackern ohne Grund.
+
+   Geprueft wird beim Start, bei jeder Rueckkehr in die App und stuendlich. */
 try{
   if("serviceWorker" in navigator && window.top === window.self
      && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")
      && document.querySelector('link[rel="manifest"]')){
-    window.addEventListener("load", function(){ navigator.serviceWorker.register("mtb-sw.js").catch(function(){}); });
+
+    var hatteController = !!navigator.serviceWorker.controller;
+    var laedtNeu = false;
+    navigator.serviceWorker.addEventListener("controllerchange", function(){
+      if(!hatteController || laedtNeu) return;
+      laedtNeu = true;
+      location.reload();
+    });
+
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("mtb-sw.js", {updateViaCache:"none"}).then(function(reg){
+        var schau = function(){ try{ reg.update(); }catch(e){} };
+        schau();
+        document.addEventListener("visibilitychange", function(){
+          if(document.visibilityState === "visible") schau();
+        });
+        setInterval(schau, 3600000);
+      }).catch(function(){});
+    });
   }
 }catch(e){}
 </script>
-
 </body>
 </html>

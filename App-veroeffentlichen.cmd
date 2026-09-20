@@ -1,15 +1,15 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title Dreambuild Pruefstand veroeffentlichen
+title Dreambuild veroeffentlichen
 
 set "GH=%ProgramFiles%\GitHub CLI\gh.exe"
 if not exist "%GH%" set "GH=gh"
-set "REPO=mtb-pruefstand"
+set "REPO=dreambuild"
 
 echo.
 echo ==================================================
-echo    Dreambuild Pruefstand  -  veroeffentlichen
+echo    Dreambuild  -  veroeffentlichen
 echo ==================================================
 echo.
 
@@ -47,6 +47,13 @@ git rev-parse --git-dir >nul 2>&1
 if errorlevel 1 git init -q
 git config user.name  >nul 2>&1 || git config user.name "%GHUSER%"
 git config user.email >nul 2>&1 || git config user.email "%GHUSER%@users.noreply.github.com"
+rem Jede Veroeffentlichung bekommt einen neuen Cache-Namen. Ohne das aendert sich
+rem das Worker-Skript nicht, der Browser sieht keine neue Fassung, und die App
+rem bliebe auf der alten haengen.
+for /f "delims=" %%v in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmm"') do set "STAMP=%%v"
+powershell -NoProfile -Command "(Get-Content -Raw 'mtb-sw.js') -replace \"var CACHE = '[^']*'\", \"var CACHE = 'dreambuild-%STAMP%'\" | Set-Content -NoNewline -Encoding UTF8 'mtb-sw.js'"
+echo Version: %STAMP%
+
 git add -A
 git diff --cached --quiet
 if not errorlevel 1 goto :kein_commit

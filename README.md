@@ -1,4 +1,4 @@
-# Dreambuild Prüfstand
+# Dreambuild
 
 MTB-Konfigurator für den DACH-Raum. Baut Dreambuilds, prüft sie gegen Normmaße
 und Herstellerfreigaben, bewertet die Abstimmung und schlägt Upgrades vor.
@@ -47,11 +47,22 @@ Doppelklick auf `App-veroeffentlichen.cmd`. Das Skript installiert bei Bedarf di
 GitHub CLI, meldet einmalig an, legt das Repo an, laedt hoch, schaltet Pages ein
 und oeffnet die fertige Adresse:
 
-    https://<dein-name>.github.io/mtb-pruefstand/
+    https://<dein-name>.github.io/dreambuild/
 
 Jeder weitere Doppelklick laedt nur die Aenderungen nach. Die Adresse bleibt gleich.
 
 Auf dem iPhone in **Safari** oeffnen, dann Teilen -> Zum Home-Bildschirm.
+
+## Aktualisierung
+
+Die App erneuert sich selbst. Beim Start, bei jeder Rueckkehr und stuendlich
+fragt sie nach einer neuen Fassung; findet sie eine, uebernimmt der Service
+Worker sofort und die Seite laedt sich einmal neu. Nichts neu installieren,
+nichts vom Home-Bildschirm loeschen, die Adresse bleibt gleich.
+
+Jede Veroeffentlichung stempelt einen neuen Cache-Namen in `mtb-sw.js` -- sonst
+saehe der Browser keine Aenderung am Worker und die App bliebe auf der alten
+Fassung stehen.
 
 ## Grenzen
 

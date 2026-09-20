@@ -1,7 +1,7 @@
 {
-  "name": "Dreambuild Pruefstand",
-  "short_name": "Pruefstand",
-  "description": "MTB-Konfigurator: Dreambuilds pruefen, Kompatibilitaet messen, Upgrades finden.",
+  "name": "Dreambuild",
+  "short_name": "Dreambuild",
+  "description": "MTB-Konfigurator: Traumaufbauten bauen, Kompatibilitaet pruefen, Upgrades finden.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

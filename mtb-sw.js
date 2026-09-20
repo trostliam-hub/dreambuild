@@ -1,4 +1,4 @@
-/* Service Worker fuer den Dreambuild Pruefstand.
+/* Service Worker fuer Dreambuild.
    Zweck: die App startet ohne Netz. Der gesamte Aufbau liegt im localStorage,
    die Logik in der HTML-Datei -- es gibt nichts, wofuer ein Server noetig waere.
 
@@ -11,7 +11,7 @@
    Die Google-Schriften werden beim ersten Start mitgecacht. Vor dem ersten
    Online-Start greift die Systemschrift aus dem Fallback-Stack -- die App ist
    dann lesbar, nur nicht in Archivo. */
-var CACHE = 'mtb-v1.0';
+var CACHE = 'dreambuild-start';
 var ASSETS = [
   './',
   './index.html',
@@ -25,7 +25,12 @@ var FREMD = ['https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
 
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(CACHE).then(function(c){ return c.addAll(ASSETS); })
-    .then(function(){ return self.skipWaiting(); }));
+    .then(function(){
+      /* Sofort uebernehmen statt zu warten, bis alle Tabs zu sind. Die Seite
+         laedt sich daraufhin selbst einmal neu -- so sieht der Nutzer immer die
+         aktuelle Fassung, ohne je etwas neu zu installieren. */
+      return self.skipWaiting();
+    }));
 });
 
 self.addEventListener('activate', function(e){
