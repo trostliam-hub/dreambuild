@@ -288,6 +288,22 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 .bar{top:calc(env(safe-area-inset-top,0px) + 104px)}
 @media (min-width:820px){.panel{top:calc(env(safe-area-inset-top,0px) + 190px)}}
 
+/* ── Radmodell ── */
+.modell{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:12px 12px 10px;margin-bottom:14px}
+.modell-kopf{display:flex;align-items:center;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+.modell-t{font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;margin-right:auto}
+.seiten{display:flex;background:var(--sunk);border-radius:8px;padding:3px;gap:2px}
+.seiten button{padding:5px 10px;border-radius:6px;font-size:11.5px;font-weight:600;
+  color:var(--ink-2);white-space:nowrap;min-height:30px}
+.seiten button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.16)}
+.modell-bild{width:100%;overflow:hidden}
+.modell-bild svg{display:block;width:100%;height:auto;max-width:100%}
+.modell-fuss{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);
+  margin-top:8px;line-height:1.5;display:flex;flex-wrap:wrap;gap:4px 12px}
+.modell-leer{padding:26px 14px;text-align:center;color:var(--ink-3);font-size:13px;line-height:1.5}
+
 /* ── Fotokarte ── */
 .fotokarte{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
   padding:12px;margin-bottom:14px}
@@ -436,52 +452,52 @@ const K = {
 rahmen:[
  {id:"f-topfuel", n:"Trek Top Fuel Carbon", m:"Trek", lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:false,
-  daempfer:{el:185,hub:50,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2450, p:2799},
+  daempfer:{el:185,hub:50,typ:"Trunnion"}, geo:{rs:1175,ks:435,lw:66.5,sw:76,  sr:430,ta:35}, ohne:[], e:E(5,3,0,0,0,0,0), g:2450, p:2799},
  {id:"f-stumpy", n:"Specialized Stumpjumper Alloy", m:"Specialized", lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:64, maxScheibeHR:203, udh:true,
-  daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:3400, p:2099},
+  daempfer:{el:210,hub:55,typ:"Trunnion"}, geo:{rs:1210,ks:437,lw:65.5,sw:76.5,sr:430,ta:35}, ohne:[], e:E(3,5,3,0,0,0,0), g:3400, p:2099},
  {id:"f-hightower", n:"Santa Cruz Hightower C", m:"Santa Cruz", lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:34.9, einsteck:230, maxReifen:64, maxScheibeHR:203, udh:true,
-  daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:3100, p:3199},
+  daempfer:{el:210,hub:55,typ:"Trunnion"}, geo:{rs:1215,ks:438,lw:65.5,sw:77,  sr:420,ta:35}, ohne:[], e:E(3,5,3,0,0,0,0), g:3100, p:3199},
  {id:"f-sentinel", n:"Radon Swoop AL", m:"Radon", lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:true,
-  daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(1,4,5,2,0,0,0), g:3500, p:1199},
+  daempfer:{el:210,hub:55,typ:"Trunnion"}, geo:{rs:1235,ks:440,lw:64.5,sw:77,  sr:440,ta:30}, ohne:[], e:E(1,4,5,2,0,0,0), g:3500, p:1199},
  {id:"f-spectral", n:"Canyon Spectral CF", m:"Canyon", lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12",
   bb:"PF92", stuetze:30.9, einsteck:225, maxReifen:63, maxScheibeHR:203, udh:true,
-  daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:[], e:E(1,4,5,2,0,0,0), g:2900, p:2499},
+  daempfer:{el:205,hub:65,typ:"Trunnion"}, geo:{rs:1220,ks:437,lw:64.5,sw:77.5,sr:430,ta:32}, ohne:[], e:E(1,4,5,2,0,0,0), g:2900, p:2499},
  {id:"f-tyee", n:"Propain Tyee CF", m:"Propain", lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:245, maxReifen:65, maxScheibeHR:203, udh:true,
-  daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3200, p:2299},
+  daempfer:{el:230,hub:65,typ:"Metric"}, geo:{rs:1250,ks:442,lw:64,  sw:78,  sr:430,ta:28}, ohne:[], e:E(0,3,5,3,0,0,0), g:3200, p:2299},
  {id:"f-capra", n:"YT Capra Core · Mullet", m:"YT", lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:250, maxReifen:66, maxScheibeHR:203, udh:true,
-  daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3600, p:2699},
+  daempfer:{el:230,hub:65,typ:"Metric"}, geo:{rs:1255,ks:437,lw:63.5,sw:78,  sr:420,ta:22}, ohne:[], e:E(0,2,5,4,0,0,0), g:3600, p:2699},
  {id:"f-metasx", n:"Commencal Meta SX · Super Boost", m:"Commencal", lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"157x12",
   bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:66, maxScheibeHR:220, udh:false,
-  daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,1,4,5,0,0,0), g:3900, p:1999},
+  daempfer:{el:230,hub:65,typ:"Metric"}, geo:{rs:1265,ks:440,lw:63,  sw:78,  sr:410,ta:20}, ohne:[], e:E(0,1,4,5,0,0,0), g:3900, p:1999},
  {id:"f-session", n:"Trek Session · Doppelbrücke", m:"Trek", lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"157x12",
   bb:"BSA73", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, udh:true,
-  daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4100, p:3499},
+  daempfer:{el:230,hub:65,typ:"Metric"}, geo:{rs:1290,ks:440,lw:62.5,sw:76,  sr:380,ta:18}, ohne:[], e:E(0,0,1,5,0,0,0), g:4100, p:3499},
  {id:"f-scout", n:"Nukeproof Scout 290 · Hardtail Stahl", m:"Nukeproof", lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:260, maxReifen:63, maxScheibeHR:180, udh:false,
-  daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,1,0,0), g:2700, p:699},
+  daempfer:null, geo:{rs:1190,ks:425,lw:65,  sw:75,  sr:420,ta:60}, ohne:["daempfer"], e:E(3,5,2,0,1,0,0), g:2700, p:699},
  {id:"f-absolut", n:"Commencal Absolut · Dirt", m:"Commencal", lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12",
   bb:"BSA73", stuetze:31.6, einsteck:115, maxReifen:60, maxScheibeHR:180, udh:false,
-  daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,3,1), g:2600, p:649},
+  daempfer:null, geo:{rs:1055,ks:385,lw:68.5,sw:71,  sr:300,ta:5}, ohne:["daempfer"], e:E(0,0,0,0,5,3,1), g:2600, p:649},
  {id:"f-stitched", n:"Canyon Stitched 360 · Dirt", m:"Canyon", lrV:"26", lrH:"26", maxGabel:110, schaft:"gerade", ha:"142x12",
   bb:"BSA73", stuetze:31.6, einsteck:115, maxReifen:60, maxScheibeHR:180, udh:false,
-  daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,3,1), g:2750, p:599},
+  daempfer:null, geo:{rs:1050,ks:383,lw:69,  sw:71,  sr:295,ta:5}, ohne:["daempfer"], e:E(0,0,0,0,5,3,1), g:2750, p:599},
  {id:"f-soda", n:"NS Bikes Soda Slope · Slopestyle", m:"NS Bikes", lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12",
   bb:"BSA73", stuetze:31.6, einsteck:120, maxReifen:60, maxScheibeHR:180, udh:false,
-  daempfer:{el:190,hub:45,typ:"Metric"}, ohne:[], e:E(0,1,0,0,3,5,0), g:3300, p:1299},
+  daempfer:{el:190,hub:45,typ:"Metric"}, geo:{rs:1080,ks:400,lw:67,  sw:72,  sr:320,ta:10}, ohne:[], e:E(0,1,0,0,3,5,0), g:3300, p:1299},
  {id:"f-arcade", n:"Inspired Arcade · Street Trial", m:"Inspired", lrV:"26", lrH:"26", maxGabel:0, schaft:"gerade", ha:"135x10",
   bb:"BSA68", stuetze:31.6, einsteck:105, maxReifen:62, maxScheibeHR:180, udh:false, klSoll:47,
-  felgenbremse:true, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,2,1,4), g:2300, p:899},
+  felgenbremse:true, daempfer:null, geo:{rs:1050,ks:390,lw:70,  sw:72,  sr:300,ta:-15}, ohne:["daempfer"], e:E(0,0,0,0,2,1,4), g:2300, p:899},
  {id:"f-cleanx4", n:"Clean X4 · Trial Stock 26″", m:"Clean", lrV:"26", lrH:"26", maxGabel:0, schaft:"gerade", ha:"135x10",
   bb:"BSA68", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:180, udh:false, klSoll:47,
-  felgenbremse:true, daempfer:null, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1750, p:749},
+  felgenbremse:true, daempfer:null, geo:{rs:1055,ks:375,lw:71,  sw:72,  sr:0,  ta:-55}, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1750, p:749},
  {id:"f-echo", n:"Echo Mark VI · Trial Mod 20″", m:"Echo", lrV:"20", lrH:"19", maxGabel:0, schaft:"gerade", ha:"116x10",
   bb:"BSA68", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:160, udh:false, klSoll:43,
-  felgenbremse:true, daempfer:null, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1450, p:599}
+  felgenbremse:true, daempfer:null, geo:{rs:1010,ks:355,lw:72,  sw:72,  sr:0,  ta:-50}, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1450, p:599}
 ],
 gabel:[
  {id:"g-sid", n:"RockShox SID SL Ultimate 110", m:"RockShox", travel:110, schaft:"tapered", va:"110x15", lr:["29"],
@@ -723,6 +739,7 @@ const AFF_START = [
 const leerBau = () => { const o = {}; for(const s of SLOTS) o[s.k] = null; return o; };
 let builds = {traum:{...START}, real:leerBau()};
 let modus = "traum";
+let seite = "antrieb";   /* Antriebsseite rechts, Bremsseite links */
 let fotos = {traum:null, real:null};
 let build = builds[modus];
 const setzeBau = o => { builds[modus] = o; build = o; };
@@ -747,6 +764,8 @@ function laden(){
     }
     const md = localStorage.getItem("mtb.modus");
     if(md === "real" || md === "traum") modus = md;
+    const se = localStorage.getItem("mtb.seite");
+    if(se === "antrieb" || se === "bremse") seite = se;
     const ft = localStorage.getItem("mtb.fotos");
     if(ft){ const p = JSON.parse(ft); if(p && typeof p === "object") fotos = {traum:p.traum||null, real:p.real||null}; }
     build = builds[modus];
@@ -764,6 +783,7 @@ function sichern(){
     builds[modus] = build;
     localStorage.setItem("mtb.builds", JSON.stringify(builds));
     localStorage.setItem("mtb.modus", modus);
+    localStorage.setItem("mtb.seite", seite);
     localStorage.setItem("mtb.sel", JSON.stringify(sel));
     localStorage.setItem("mtb.plan", JSON.stringify(plan));
     localStorage.setItem("mtb.aff", JSON.stringify(aff));
@@ -1181,6 +1201,187 @@ const eur = n => n.toLocaleString("de-DE", {maximumFractionDigits:0}) + " €";
 const kg  = g => (g/1000).toLocaleString("de-DE", {minimumFractionDigits:2, maximumFractionDigits:2}) + " kg";
 const ampel = v => v >= 85 ? "var(--gut)" : v >= 60 ? "var(--warn)" : "var(--bad)";
 
+
+/* ═══════════ Radmodell ═══════════
+   Kein gemaltes Bild, sondern eine Konstruktion: jede Strecke kommt aus den
+   Daten des gewaehlten Teils. Gerechnet wird in Millimetern mit dem Boden auf
+   y=0 und y nach oben; erst am Ende wird in SVG-Koordinaten gekippt. So darf
+   man die Geometrie so aufschreiben, wie sie im Datenblatt steht.
+   Es ist eine Schemazeichnung, kein Produktbild: Rohrverlaeufe sind
+   vereinfacht, die Masse und Proportionen stimmen. */
+
+const ETRTO = {"29":622, "27.5":584, "26":559, "24":507, "20":406, "19":387};
+const reifenRadius = (gr, br) => (ETRTO[gr] || 622)/2 + (br || 58);
+
+/* Einbauhoehe der Gabel. Richtwert echter Gabeln: Pike 29" mit 140 mm hat
+   551 mm Achse-Krone, je 10 mm Federweg rund 10 mm mehr. */
+function achsKrone(gabel, gr){
+  if(!gabel) return 520;
+  if(gabel.travel === 0) return gr === "20" ? 370 : 415;
+  const basis = {"29":551, "27.5":536, "26":521, "24":500, "20":460}[gr] || 540;
+  return basis + (gabel.travel - 140);
+}
+const zaehneRadius = z => z * 12.7 / (2 * Math.PI);   /* Teilkreis bei Halbzollkette */
+
+function radModell(b, seite){
+  const T = k => b[k] ? findeTeil(k, b[k]) : null;
+  const f = T("rahmen");
+  if(!f || !f.geo) return null;
+
+  const g = f.geo, gabel = T("gabel"), tv = T("reifenVR"), th = T("reifenHR"),
+        st = T("stuetze"), br = T("bremsen"), ku = T("kurbel"), an = T("antrieb"),
+        le = T("lenker"), vo = T("vorbau"), dae = T("daempfer");
+
+  const rV = reifenRadius(f.lrV, tv ? tv.breite : 58);
+  const rH = reifenRadius(f.lrH, th ? th.breite : 58);
+  const feV = (ETRTO[f.lrV] || 622)/2, feH = (ETRTO[f.lrH] || 622)/2;
+  const bog = d => d * Math.PI / 180;
+
+  const HA = [0, rH], VA = [g.rs, rV];
+  const bbx = Math.sqrt(Math.max(1, g.ks*g.ks - g.ta*g.ta));
+  const BB  = [bbx, rH + (rV - rH) * (bbx/g.rs) - g.ta];
+
+  const lw = bog(g.lw);
+  const u  = [-Math.cos(lw), Math.sin(lw)];    /* aufwaerts entlang der Lenkachse */
+  const fw = [ Math.sin(lw), Math.cos(lw)];    /* senkrecht dazu, nach vorn */
+  const off = gabel ? gabel.offset : 44;
+  const a2c = achsKrone(gabel, f.lrV);
+  const AX  = [VA[0] - off*fw[0], VA[1] - off*fw[1]];
+  const KR  = [AX[0] + a2c*u[0],  AX[1] + a2c*u[1]];
+  const HTo = [KR[0] + 115*u[0],  KR[1] + 115*u[1]];
+  const HTu = [KR[0] +  12*u[0],  KR[1] +  12*u[1]];
+
+  const sw = bog(g.sw), sd = [-Math.cos(sw), Math.sin(sw)];
+  const ST = g.sr > 0 ? [BB[0] + g.sr*sd[0], BB[1] + g.sr*sd[1]] : null;
+  let SP = null;
+  if(ST && st){
+    const aus = st.hub > 0 ? st.hub + 80 : 130;
+    SP = [ST[0] + aus*sd[0], ST[1] + aus*sd[1]];
+  }
+
+  const vl = vo ? vo.laenge : 50, vk = bog(-7);
+  const VB = [HTo[0] + vl*Math.cos(vk), HTo[1] + vl*Math.sin(vk)];
+  const GR = [VB[0] + 10, VB[1] + (le ? le.rise : 20)];
+
+  const kbR  = ku ? zaehneRadius(ku.kb) : 0;
+  const kasR = an ? zaehneRadius(an.kassette[1]) : 0;
+  const antriebsSeite = seite !== "bremse";
+
+  /* Zeichenfeld aus den tatsaechlichen Ausmassen, nicht geraten */
+  const pad = 55;
+  const minX = -rH - pad, maxX = g.rs + rV + pad;
+  const maxY = Math.max(2*rH, 2*rV, SP ? SP[1] + 90 : 0, GR[1] + 45, HTo[1] + 45) + pad;
+  const W = maxX - minX, H = maxY;
+  const X = x => x - minX, Y = y => maxY - y;
+  const L = (a, c, farbe, breite, extra) =>
+    '<line x1="' + X(a[0]) + '" y1="' + Y(a[1]) + '" x2="' + X(c[0]) + '" y2="' + Y(c[1]) +
+    '" stroke="' + farbe + '" stroke-width="' + breite + '" stroke-linecap="round"' + (extra || "") + '/>';
+  const C = (pt, r, fuell, strich, sb) =>
+    '<circle cx="' + X(pt[0]) + '" cy="' + Y(pt[1]) + '" r="' + r + '" fill="' + (fuell || "none") + '"' +
+    (strich ? ' stroke="' + strich + '" stroke-width="' + (sb || 8) + '"' : "") + '/>';
+
+  const F_REIF = "var(--ink)", F_FELGE = "var(--ink-3)", F_RAHMEN = "var(--anod)",
+        F_FED = "var(--ink-2)", F_ANTR = "var(--ink-3)", F_SITZ = "var(--ink-2)";
+  let o = "";
+
+  /* ── Laufraeder ── */
+  const laufrad = (M, rAussen, rFelge) => {
+    let t = C(M, (rAussen + rFelge)/2, "none", F_REIF, rAussen - rFelge);
+    t += C(M, rFelge, "none", F_FELGE, 13);
+    for(let i = 0; i < 8; i++){
+      const a = i * Math.PI/4;
+      t += L(M, [M[0] + Math.cos(a)*(rFelge-7), M[1] + Math.sin(a)*(rFelge-7)], F_FELGE, 3, ' opacity="0.5"');
+    }
+    return t + C(M, 22, F_FELGE);
+  };
+  o += laufrad(HA, rH, feH) + laufrad(VA, rV, feV);
+
+  /* ── Bremsen: Scheiben liegen links, also nur auf der Bremsseite ── */
+  if(br && br.mount !== "Felge" && !antriebsSeite){
+    if(br.sH) o += C(HA, br.sH/2, "none", F_ANTR, 7) + C(HA, Math.max(20, br.sH/2 - 26), "none", F_ANTR, 2.5);
+    if(br.sV) o += C(VA, br.sV/2, "none", F_ANTR, 7) + C(VA, Math.max(20, br.sV/2 - 26), "none", F_ANTR, 2.5);
+  }
+  if(br && br.mount === "Felge"){          /* Felgenbremse greift an der Flanke */
+    o += C([HA[0], HA[1] + feH], 34, "none", F_ANTR, 9);
+    o += C([VA[0], VA[1] + feV], 34, "none", F_ANTR, 9);
+  }
+
+  /* ── Rahmen ── */
+  const RB = 26;
+  o += L(HA, BB, F_RAHMEN, RB);
+  if(ST){
+    o += L(BB, ST, F_RAHMEN, RB);
+    o += L(HA, [ST[0] - 18*sd[0], ST[1] - 18*sd[1]], F_RAHMEN, RB - 6);
+    o += L(HTo, ST, F_RAHMEN, RB);
+  } else {
+    o += L(HA, HTo, F_RAHMEN, RB - 6);     /* Trial: kein Sitzrohr, durchgehende Strebe */
+  }
+  o += L(BB, HTu, F_RAHMEN, RB + 4);
+  o += L(HTu, HTo, F_RAHMEN, RB + 10);
+
+  /* ── Daempfer und Wippe beim Fully ── */
+  if(f.daempfer && dae){
+    const wip = ST ? [ST[0] + (BB[0]-ST[0])*0.22, ST[1] - g.sr*0.30] : BB;
+    const ur  = [BB[0] + (HTu[0]-BB[0])*0.42, BB[1] + (HTu[1]-BB[1])*0.42];
+    o += L(ur, wip, F_FED, 30, ' opacity="0.3"');
+    o += L(ur, wip, F_FED, 13);
+    o += C(wip, 14, "none", F_RAHMEN, 8);
+    o += C(ur, 11, F_FED);
+  }
+
+  /* ── Gabel ── */
+  if(gabel){
+    const bruecke = [AX[0] + (a2c*0.42)*u[0], AX[1] + (a2c*0.42)*u[1]];
+    if(gabel.travel > 0){
+      o += L(KR, bruecke, F_FED, 21);
+      o += L(bruecke, VA, F_FED, 31);
+      if(gabel.schaft === "dc")
+        o += L([KR[0] - 55*fw[0], KR[1] - 55*fw[1]], [KR[0] + 55*fw[0], KR[1] + 55*fw[1]], F_FED, 17);
+    } else {
+      o += L(KR, VA, F_FED, 19);
+    }
+  }
+
+  /* ── Antrieb liegt rechts ── */
+  if(antriebsSeite){
+    if(kasR) o += C(HA, kasR, "none", F_ANTR, 6) + C(HA, kasR*0.55, "none", F_ANTR, 4);
+    if(kbR){
+      o += C(BB, kbR, "none", F_ANTR, 7);
+      if(kasR){
+        o += L([BB[0], BB[1] + kbR], [HA[0], HA[1] + kasR], F_ANTR, 4);
+        o += L([BB[0], BB[1] - kbR], [HA[0] + kasR*0.5, HA[1] - kasR*0.35], F_ANTR, 4);
+      }
+    }
+    if(an && an.gaenge > 1) o += C([HA[0] + 55, HA[1] - kasR*0.75 - 35], 26, "none", F_ANTR, 6);
+  }
+  if(ku){
+    o += L(BB, [BB[0] - ku.laenge*0.42, BB[1] - ku.laenge*0.90], F_SITZ, 17);
+    o += C(BB, 15, F_SITZ);
+  }
+
+  /* ── Sitz und Cockpit ── */
+  if(ST && SP){
+    o += L(ST, SP, F_SITZ, st && st.hub > 0 ? 20 : 15);
+    if(st && st.hub > 0) o += L([ST[0] + 60*sd[0], ST[1] + 60*sd[1]], SP, F_SITZ, 14);
+    o += L([SP[0] - 95, SP[1] + 12], [SP[0] + 75, SP[1] + 20], F_SITZ, 22);
+  } else if(ST){
+    o += L(ST, [ST[0] + 60*sd[0], ST[1] + 60*sd[1]], F_SITZ, 14, ' opacity="0.3" stroke-dasharray="14 12"');
+  }
+  o += L(HTo, VB, F_SITZ, 19);
+  o += L(VB, GR, F_SITZ, 15);
+  o += C(GR, 17, F_SITZ);
+
+  o += '<line x1="0" y1="' + maxY + '" x2="' + W + '" y2="' + maxY +
+       '" stroke="var(--line)" stroke-width="4" stroke-dasharray="18 14"/>';
+
+  const inhalt = antriebsSeite ? o : '<g transform="translate(' + W + ',0) scale(-1,1)">' + o + '</g>';
+  return {
+    svg: '<svg viewBox="0 0 ' + Math.round(W) + ' ' + Math.round(H) + '" width="100%" role="img" ' +
+         'aria-label="Schemazeichnung des Rads aus den gewaehlten Teilen">' + inhalt + '</svg>',
+    rs: g.rs, lw: g.lw, gabel: gabel ? gabel.travel : 0
+  };
+}
+
 function specsVon(slotKey, t){
   const c = [];
   switch(slotKey){
@@ -1246,6 +1447,26 @@ function zeichne(){
   Array.prototype.forEach.call(document.querySelectorAll(".modus-in button"),
     b => b.setAttribute("aria-pressed", String(b.dataset.modus === modus)));
 
+  const mod = radModell(build, seite);
+  const modellkarte = `<div class="modell">
+    <div class="modell-kopf">
+      <span class="modell-t">${modus === "real" ? "Dein Rad" : "Dein Traumrad"}</span>
+      <div class="seiten" role="group" aria-label="Seite">
+        <button data-seite="antrieb" aria-pressed="${seite === "antrieb"}">Antriebsseite</button>
+        <button data-seite="bremse" aria-pressed="${seite === "bremse"}">Bremsseite</button>
+      </div>
+    </div>
+    ${mod ? `<div class="modell-bild">${mod.svg}</div>
+      <div class="modell-fuss">
+        <span>Radstand ${mod.rs} mm</span>
+        <span>Lenkwinkel ${String(mod.lw).replace(".", ",")}°</span>
+        <span>${mod.gabel ? mod.gabel + " mm Federweg" : "Starrgabel"}</span>
+        <span>maßstäbliche Schemazeichnung</span>
+      </div>`
+    : `<div class="modell-leer">Wähle einen Rahmen — dann zeichnet die App dein Rad
+        maßstäblich aus den Teiledaten.</div>`}
+  </div>`;
+
   const foto = fotos[modus];
   const fotokarte = modus !== "real" ? "" : `<div class="fotokarte">
     <label class="fotobox" for="foto-in">
@@ -1277,7 +1498,7 @@ function zeichne(){
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
   </button>`;
 
-  $("aufbau").innerHTML = fotokarte + leerHinweis + cta + GRUPPEN.map(g => {
+  $("aufbau").innerHTML = modellkarte + fotokarte + leerHinweis + cta + GRUPPEN.map(g => {
     const rows = SLOTS.filter(s => s.grp === g).map(s => {
       if(entfaellt(build, s.k))
         return `<div class="slot leer"><span class="slot-k">${s.label}</span>
@@ -1660,6 +1881,12 @@ document.addEventListener("click", e => {
     window.scrollTo({top:0, behavior:"smooth"}); return;
   }
 
+  const se = T("[data-seite]");
+  if(se){
+    if(se.dataset.seite !== seite){ seite = se.dataset.seite; sichern(); zeichne(); }
+    return;
+  }
+
   const md = T("[data-modus]");
   if(md){
     if(md.dataset.modus !== modus){ wechsle(md.dataset.modus); view = "aufbau"; sichern(); zeichne(); }
@@ -1699,12 +1926,13 @@ document.addEventListener("keydown", e => { if(e.key === "Escape") schliesse(); 
 $("btn-disz").addEventListener("click", oeffneDisz);
 $("btn-menu").addEventListener("click", oeffneMenu);
 
-try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({builds, modus, fotos, sel, plan, aff, view})); }catch(e){}
+try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({builds, modus, seite, fotos, sel, plan, aff, view})); }catch(e){}
 
 function start(daten){
   laden();
   if(daten && daten.builds){
-    builds = daten.builds; modus = daten.modus || modus; fotos = daten.fotos || fotos;
+    builds = daten.builds; modus = daten.modus || modus; seite = daten.seite || seite;
+    fotos = daten.fotos || fotos;
     sel = daten.sel || sel; plan = daten.plan || plan;
     aff = daten.aff || aff; view = daten.view || view;
     build = builds[modus];
