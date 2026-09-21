@@ -308,6 +308,19 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 /* ── Bauteilbilder und PNG-Ausgabe ── */
 .png-bild{width:100%;border-radius:9px;display:block;background:var(--sunk)}
 
+/* ── Bauteil-Detailansicht ── */
+.detail-bild{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:10px;
+  padding:14px;margin-bottom:12px}
+.detail-bild svg{display:block;margin:0 auto;width:auto;height:auto;max-width:100%;max-height:250px}
+.detail-bild{display:flex;flex-direction:column;justify-content:center;min-height:210px}
+.detail-mass{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);
+  text-align:center;margin-top:9px}
+.dspec{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 12px;font-size:12.5px;
+  padding:8px 0;border-top:1px solid var(--line-soft)}
+.dspec:first-of-type{border-top:none}
+.dspec dt{color:var(--ink-3);white-space:nowrap}
+.dspec dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+
 /* ── Shopzeile ── */
 .shops{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;
   margin-top:9px;padding-top:9px;border-top:1px solid var(--line-soft)}
@@ -1281,6 +1294,247 @@ function affHtml(teil, kompakt){
   </span>`;
 }
 
+/* ═══════════ Bauteil-Detailansicht ═══════════
+   Dieselbe Idee wie beim ganzen Rad: nicht malen, sondern aus den Daten
+   konstruieren. Eine 203er Scheibe wird groesser gezeichnet als eine 160er,
+   eine 180-mm-Gabel laenger als eine 110er, ein 2.5er Reifen dicker als ein
+   2.35er. Das zeigt etwas, was ein Produktfoto gerade nicht zeigt: den
+   Groessenunterschied im gleichen Massstab. */
+function kleinZeichner(minX, minY, maxX, maxY){
+  const W = maxX - minX, H = maxY - minY;
+  const X = x => Math.round((x - minX)*10)/10;
+  const Y = y => Math.round((maxY - y)*10)/10;
+  const defs = []; let z = 0;
+  const ns = "d" + Math.random().toString(36).slice(2,7);
+  const lack = farbe => {
+    const id = ns + (z++);
+    defs.push('<linearGradient id="'+id+'" x1="0" y1="0" x2="0.4" y2="1">' +
+      '<stop offset="0" stop-color="'+hell(farbe,.34)+'"/>' +
+      '<stop offset="0.42" stop-color="'+farbe+'"/>' +
+      '<stop offset="1" stop-color="'+dunk(farbe,.44)+'"/></linearGradient>');
+    return "url(#"+id+")";
+  };
+  const rohr = (a, c, w1, w2, f) => {
+    const dx=c[0]-a[0], dy=c[1]-a[1], L=Math.hypot(dx,dy)||1;
+    let nx=-dy/L, ny=dx/L; if(ny<0){nx=-nx;ny=-ny;}
+    const P=(pt,w,v)=>X(pt[0]+nx*w/2*v)+" "+Y(pt[1]+ny*w/2*v);
+    return '<path d="M '+P(a,w1,1)+' L '+P(c,w2,1)+' L '+P(c,w2,-1)+' L '+P(a,w1,-1)+
+           ' Z" fill="'+f+'" stroke="#fff" stroke-opacity="0.10" stroke-width="2"/>';
+  };
+  const kreis = (pt,r,f,st,sw,ex) => '<circle cx="'+X(pt[0])+'" cy="'+Y(pt[1])+'" r="'+Math.max(0.5,r)+
+    '" fill="'+(f||"none")+'"'+(st?' stroke="'+st+'" stroke-width="'+(sw||6)+'"':"")+(ex||"")+'/>';
+  const bloecke = (pt,r,w,f,n,g,ex) => {
+    const c=2*Math.PI*r, e=c/n;
+    return kreis(pt,r,"none",f,w,' stroke-dasharray="'+(e*g).toFixed(1)+' '+(e*(1-g)).toFixed(1)+'"'+(ex||""));
+  };
+  const fertig = o => '<svg viewBox="0 0 '+Math.round(W)+' '+Math.round(H)+
+    '" width="100%" role="img" aria-label="Massstaebliche Zeichnung des Bauteils">' +
+    '<defs>'+defs.join("")+'</defs>'+o+'</svg>';
+  return {X, Y, lack, rohr, kreis, bloecke, fertig};
+}
+
+function bauteilBild(slotKey, t){
+  const C_MET = "#aeb4ba", C_GUM = "#1b1e22";
+  const farbe = (t.fb && t.fb.u) || (t.fb && t.fb.h) || (typeof t.fb === "string" ? t.fb : null) || "#3a4048";
+  let o = "", zk = null, mass = "";
+
+  if(slotKey === "gabel"){
+    const a2c = achsKrone(t, (t.lr && t.lr[0]) || "29"), spur = 110, bein = 52;
+    zk = kleinZeichner(-110, -40, 110, a2c + 90);
+    const gs = zk.lack((t.fb && t.fb.s) || "#cfd2d6"), gu = zk.lack((t.fb && t.fb.u) || farbe);
+    o += zk.rohr([0, a2c+90], [0, a2c+10], 34, 34, gs);                       /* Schaft */
+    o += zk.rohr([-spur/2-14, a2c], [spur/2+14, a2c], 40, 40, gu);            /* Krone */
+    if(t.schaft === "dc") o += zk.rohr([-spur/2-14, a2c+62], [spur/2+14, a2c+62], 34, 34, gu);
+    const arch = t.travel > 0 ? a2c*0.42 : 0;
+    [-1, 1].forEach(v => {
+      if(t.travel > 0){
+        o += zk.rohr([v*spur/2, a2c-8], [v*spur/2, arch], 30, 30, gs);
+        o += zk.rohr([v*spur/2, arch], [v*spur/2, 8], 44, 34, gu);
+      } else o += zk.rohr([v*spur/2, a2c-8], [v*spur/2, 8], 30, 24, gu);
+    });
+    if(t.travel > 0) o += zk.rohr([-spur/2, arch], [spur/2, arch], 30, 30, gu);   /* Bruecke */
+    o += zk.rohr([-spur/2-20, 0], [spur/2+20, 0], 18, 18, zk.lack(C_MET));        /* Steckachse */
+    mass = "Achse–Krone " + Math.round(a2c) + " mm · " + (t.travel ? t.travel + " mm Federweg" : "starr") + " · " + t.va;
+
+  } else if(slotKey === "daempfer"){
+    zk = kleinZeichner(-30, -70, t.el + 30, 70);
+    const g = zk.lack(farbe);
+    o += zk.rohr([0,0], [t.el*0.52,0], 58, 58, g);                            /* Koerper */
+    o += zk.rohr([t.el*0.52,0], [t.el,0], 20, 20, zk.lack(C_MET));            /* Kolbenstange */
+    o += zk.rohr([t.el*0.16, 40], [t.el*0.40, 40], 40, 40, g);                /* Ausgleichsbehaelter */
+    o += zk.kreis([0,0], 15, "none", C_MET, 10) + zk.kreis([t.el,0], 15, "none", C_MET, 10);
+    mass = t.el + " × " + t.hub + " mm · " + t.typ;
+
+  } else if(slotKey === "laufraeder"){
+    const fe = (ETRTO[t.lrH] || 622)/2, ra = fe + 58;
+    zk = kleinZeichner(-ra-20, -ra-20, ra+20, ra+20);
+    const gf = zk.lack(farbe), gn = zk.lack(t.fbn || "#2b2f34");
+    o += zk.kreis([0,0], fe+29, "none", C_GUM, 58);
+    o += zk.bloecke([0,0], ra-14, 28, dunk(C_GUM,.3), 42, 0.52);
+    o += zk.kreis([0,0], fe-10, "none", gf, 21);
+    for(let i=0;i<16;i++){ const a=i*Math.PI/8, v=(i%2)?1:-1;
+      o += '<line x1="'+zk.X(Math.cos(a)*34)+'" y1="'+zk.Y(Math.sin(a)*34)+'" x2="'+
+           zk.X(Math.cos(a+v*0.3)*(fe-16))+'" y2="'+zk.Y(Math.sin(a+v*0.3)*(fe-16))+
+           '" stroke="'+C_MET+'" stroke-width="3.4" opacity="0.7"/>'; }
+    o += zk.kreis([0,0], 44, "none", gn, 12) + zk.kreis([0,0], 25, gn);
+    mass = (t.lrV === t.lrH ? t.lrV : t.lrV+"/"+t.lrH) + "″ · Maulweite " + t.iw + " mm · " + t.freilauf;
+
+  } else if(slotKey === "reifenVR" || slotKey === "reifenHR"){
+    const b = t.breite, h = b*0.95;
+    zk = kleinZeichner(-b/2-40, -30, b/2+40, h+60);
+    const g = zk.lack(C_GUM);
+    o += '<path d="M '+zk.X(-b/2)+' '+zk.Y(0)+' L '+zk.X(-b/2)+' '+zk.Y(h*0.55)+
+         ' Q '+zk.X(-b/2)+' '+zk.Y(h)+' '+zk.X(0)+' '+zk.Y(h)+
+         ' Q '+zk.X(b/2)+' '+zk.Y(h)+' '+zk.X(b/2)+' '+zk.Y(h*0.55)+
+         ' L '+zk.X(b/2)+' '+zk.Y(0)+' Z" fill="'+g+'"/>';                    /* Querschnitt */
+    for(let i=-2;i<=2;i++){                                                   /* Stollen */
+      const w = b*0.16, x = i*b*0.21;
+      o += '<rect x="'+zk.X(x-w/2)+'" y="'+zk.Y(h + h*0.14)+'" width="'+w+'" height="'+(h*0.14)+
+           '" rx="4" fill="'+dunk(C_GUM,.15)+'"/>'; }
+    o += zk.rohr([-b/2-26, 0], [b/2+26, 0], 14, 14, zk.lack("#2b2f34"));      /* Felgenbett */
+    mass = t.breite + " mm breit · Felge " + t.iw[0] + "–" + t.iw[1] + " mm · Grip " + t.grip + "/5";
+
+  } else if(slotKey === "antrieb"){
+    const gr = zaehneRadius(t.kassette[1]), kl = zaehneRadius(t.kassette[0]);
+    zk = kleinZeichner(-gr-30, -gr-130, gr+30, gr+30);
+    for(let i=0;i<5;i++){ const r = gr - (gr-kl)*i/4;
+      o += zk.kreis([0,0], r-4, "none", zk.lack(C_MET), 9, ' opacity="'+(0.95-i*0.1)+'"');
+      o += zk.bloecke([0,0], r, 7, dunk(C_MET,.35), Math.max(16, Math.round(r/5)), 0.46, ' opacity="0.5"'); }
+    if(t.gaenge > 1){
+      const p1=[26,-gr-58], p2=[-12,-gr-118];
+      o += zk.rohr([10,-gr+10], p1, 34, 26, zk.lack(farbe));
+      o += zk.rohr(p1, p2, 20, 20, zk.lack(farbe));
+      o += zk.kreis(p1, 21, "none", zk.lack(C_MET), 8) + zk.kreis(p2, 19, "none", zk.lack(C_MET), 8);
+    }
+    mass = t.gaenge + "-fach · " + t.kassette[0] + "–" + t.kassette[1] + " Zähne · " + t.freilauf;
+
+  } else if(slotKey === "kurbel"){
+    const r = zaehneRadius(t.kb);
+    zk = kleinZeichner(-r-40, -t.laenge-50, r+40, r+40);
+    const g = zk.lack(farbe);
+    o += zk.kreis([0,0], r-7, "none", g, 14);
+    o += zk.bloecke([0,0], r, 12, farbe, t.kb, 0.45);
+    for(let i=0;i<4;i++){ const a=i*Math.PI/2+0.4;
+      o += '<line x1="'+zk.X(0)+'" y1="'+zk.Y(0)+'" x2="'+zk.X(Math.cos(a)*(r-12))+'" y2="'+
+           zk.Y(Math.sin(a)*(r-12))+'" stroke="'+farbe+'" stroke-width="11" opacity="0.8"/>'; }
+    o += zk.rohr([0,0], [0,-t.laenge], 34, 24, g);
+    o += zk.rohr([-34,-t.laenge], [34,-t.laenge], 24, 24, zk.lack("#23272c"));
+    o += zk.kreis([0,0], 16, zk.lack(C_MET));
+    mass = t.kb + " Zähne · " + t.laenge + " mm Kurbelarm · Kettenlinie " + t.kl + " mm · " + t.iface;
+
+  } else if(slotKey === "bremsen"){
+    if(t.mount === "Felge"){
+      zk = kleinZeichner(-160, -70, 160, 70);
+      o += zk.rohr([-150,0], [150,0], 26, 26, zk.lack("#2b2f34"));
+      [-1,1].forEach(v => o += zk.rohr([v*70,-32], [v*70,32], 52, 52, zk.lack(farbe)));
+      mass = "Felgenbremse · beidseitige Klötze";
+    } else {
+      const r = t.sV/2;
+      zk = kleinZeichner(-r-40, -r-40, r+130, r+40);
+      o += zk.kreis([0,0], r-6, "none", zk.lack(C_MET), 12);
+      o += zk.bloecke([0,0], r-6, 12, dunk(C_MET,.55), 24, 0.22, ' opacity="0.8"');
+      for(let i=0;i<6;i++){ const a=i*Math.PI/3;
+        o += '<line x1="'+zk.X(Math.cos(a)*46)+'" y1="'+zk.Y(Math.sin(a)*46)+'" x2="'+
+             zk.X(Math.cos(a)*(r-16))+'" y2="'+zk.Y(Math.sin(a)*(r-16))+
+             '" stroke="'+C_MET+'" stroke-width="9" opacity="0.85"/>'; }
+      o += zk.kreis([0,0], 46, "none", zk.lack(C_MET), 8);
+      o += zk.rohr([r-16,-30], [r+70,30], 62, 62, zk.lack(farbe));            /* Sattel */
+      for(let i=0;i<t.kolben/2;i++)
+        o += zk.kreis([r+10+i*34, -6+i*12], 13, zk.lack(C_MET));
+      mass = t.kolben + " Kolben · Scheiben " + t.sV + "/" + t.sH + " mm · " + t.mount;
+    }
+
+  } else if(slotKey === "lenker"){
+    const b = t.breite;
+    zk = kleinZeichner(-b/2-30, -90, b/2+30, 90);
+    const g = zk.lack(farbe);
+    o += '<path d="M '+zk.X(-b/2)+' '+zk.Y(-52)+' Q '+zk.X(-b*0.22)+' '+zk.Y(-10)+' '+zk.X(0)+' '+zk.Y(0)+
+         ' Q '+zk.X(b*0.22)+' '+zk.Y(-10)+' '+zk.X(b/2)+' '+zk.Y(-52)+
+         '" fill="none" stroke="'+g+'" stroke-width="30" stroke-linecap="round"/>';
+    o += zk.rohr([-46,0], [46,0], 46, 46, zk.lack("#23272c"));                /* Klemmung */
+    [-1,1].forEach(v => o += zk.rohr([v*(b/2-20), -50], [v*(b/2-120), -30], 40, 40, zk.lack("#23272c")));
+    mass = t.breite + " mm breit · " + t.rise + " mm Rise · Klemmung " + t.klemm + " mm";
+
+  } else if(slotKey === "vorbau"){
+    zk = kleinZeichner(-50, -80, t.laenge + 70, 80);
+    const g = zk.lack(farbe);
+    o += zk.rohr([0,0], [t.laenge,0], 54, 44, g);
+    o += zk.rohr([0,-46], [0,46], 52, 52, g);
+    o += zk.rohr([t.laenge,-40], [t.laenge,40], t.klemm, t.klemm, zk.lack(dunk(farbe,.2)));
+    mass = t.laenge + " mm lang · Klemmung " + t.klemm + " mm";
+
+  } else if(slotKey === "stuetze"){
+    const ges = t.einbau + t.hub + 120;
+    zk = kleinZeichner(-90, -30, 90, ges + 40);
+    const g = zk.lack(farbe);
+    o += zk.rohr([0,0], [0, t.einbau], parseFloat(t.d)*2.6, parseFloat(t.d)*2.6, g);
+    if(t.hub > 0) o += zk.rohr([0, t.einbau], [0, t.einbau + t.hub], parseFloat(t.d)*2.1, parseFloat(t.d)*2.1, zk.lack(C_MET));
+    else o += zk.rohr([0, t.einbau], [0, t.einbau + 110], parseFloat(t.d)*2.5, parseFloat(t.d)*2.5, g);
+    const kopf = t.einbau + (t.hub > 0 ? t.hub : 110);
+    o += zk.rohr([-70, kopf+16], [70, kopf+22], 26, 26, zk.lack("#23272c"));
+    mass = t.d + " mm · " + (t.hub ? t.hub + " mm Hub" : "starr") + " · braucht " + t.einbau + " mm Einstecktiefe";
+
+  } else if(slotKey === "sattel"){
+    zk = kleinZeichner(-30, -60, 290, 90);
+    const g = zk.lack(farbe);
+    o += '<path d="M '+zk.X(0)+' '+zk.Y(30)+' Q '+zk.X(-16)+' '+zk.Y(56)+' '+zk.X(46)+' '+zk.Y(48)+
+         ' Q '+zk.X(150)+' '+zk.Y(40)+' '+zk.X(262)+' '+zk.Y(18)+' L '+zk.X(262)+' '+zk.Y(4)+
+         ' Q '+zk.X(140)+' '+zk.Y(8)+' '+zk.X(30)+' '+zk.Y(6)+' Q '+zk.X(-10)+' '+zk.Y(12)+' '+
+         zk.X(0)+' '+zk.Y(30)+' Z" fill="'+g+'"/>';
+    o += zk.rohr([40, -6], [200, -12], 12, 12, zk.lack(C_MET));
+    mass = "ca. 270 mm lang";
+
+  } else if(slotKey === "rahmen" && t.geo){
+    const gm = t.geo, bog = d => d*Math.PI/180;
+    const bbx = Math.sqrt(Math.max(1, gm.ks*gm.ks - gm.ta*gm.ta));
+    const HA=[0,0], BB=[bbx,-gm.ta];
+    const lwr = bog(gm.lw), u=[-Math.cos(lwr), Math.sin(lwr)];
+    const VAy = 0, KRx = gm.rs - 44*Math.sin(lwr);
+    const KR=[KRx + 500*u[0], VAy + 500*u[1]];
+    const swr = bog(gm.sw), sd=[-Math.cos(swr), Math.sin(swr)];
+    const ST = gm.sr>0 ? [BB[0]+gm.sr*sd[0], BB[1]+gm.sr*sd[1]] : null;
+    const alle=[HA,BB,KR].concat(ST?[ST]:[]);
+    const xs=alle.map(q=>q[0]), ys=alle.map(q=>q[1]);
+    zk = kleinZeichner(Math.min(...xs)-70, Math.min(...ys)-70, Math.max(...xs)+70, Math.max(...ys)+70);
+    const g = zk.lack((t.fb && t.fb.h) || farbe);
+    o += zk.rohr(HA, BB, 17, 30, g);
+    if(ST){ o += zk.rohr(BB, ST, 36, 29, g); o += zk.rohr(HA, ST, 21, 15, g); o += zk.rohr(KR, ST, 33, 27, g); }
+    else o += zk.rohr(HA, KR, 20, 26, g);
+    o += zk.rohr(BB, KR, 42, 34, g);
+    o += zk.kreis(BB, 27, g) + zk.kreis(HA, 14, zk.lack(C_MET));
+    mass = "Radstand " + gm.rs + " mm · Lenkwinkel " + String(gm.lw).replace(".",",") + "° · Sitzrohr " + gm.sr + " mm";
+  }
+
+  if(!zk) return null;
+  return {svg: zk.fertig(o), mass: mass};
+}
+
+function oeffneDetail(slotKey, teilId){
+  const t = findeTeil(slotKey, teilId);
+  if(!t) return;
+  const bild = bauteilBild(slotKey, t);
+  const specs = specsVon(slotKey, t);
+  zeigeSheet(`
+    <div class="sheet-h"><h3><span class="sub">${slotOf(slotKey).label}</span>${esc(t.n)}</h3>${zuBtn}</div>
+    <div class="sheet-b">
+      ${bild ? `<div class="detail-bild">${bild.svg}<div class="detail-mass">${esc(bild.mass)}</div></div>` : ""}
+      <p class="hint" style="margin-bottom:10px">Gezeichnet aus den echten Maßen dieses Teils — im selben
+        Maßstab wie jedes andere. Ein Produktfoto zeigt dir die Oberfläche, das hier den Größenunterschied.</p>
+      <dl style="margin:0 0 4px">
+        <div class="dspec"><dt>Daten</dt><dd>
+          <span class="specs" style="margin-top:0">${specs.map(c => `<span class="chip">${esc(c)}</span>`).join("")}</span>
+        </dd></div>
+        <div class="dspec"><dt>Gewicht</dt><dd>${t.g} g</dd></div>
+        <div class="dspec"><dt>Richtpreis</dt><dd>${eur(t.p)}</dd></div>
+        ${t.m ? `<div class="dspec"><dt>Marke</dt><dd>${esc(t.m)}</dd></div>` : ""}
+      </dl>
+      <p class="hint" style="margin:10px 0 0">So sieht es <b>in echt</b> aus — beim Shop ansehen:</p>
+      ${affHtml(t)}
+      ${build[slotKey] === t.id ? "" :
+        `<div style="margin-top:12px"><button class="btn wide" data-einbau="${slotKey}|${t.id}">Einbauen</button></div>`}
+    </div>`);
+}
+
 /* ═══════════ 9 · Darstellung ═══════════ */
 
 const $ = id => document.getElementById(id);
@@ -1897,6 +2151,7 @@ function oeffneSlot(slotKey){
         <div><div class="opt-n">${esc(t.n)} ${tag} ${dtag} ${mtag}</div>
           <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div></div>
         <div class="opt-r"><span class="opt-p">${eur(t.p)}</span><span class="opt-g">${t.g} g</span>
+          <button class="btn ghost sm" data-detail="${slotKey}|${t.id}">Ansehen</button>
           ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">Einbauen</button>`}</div>
         ${gruende}
         ${affHtml(t)}
@@ -2201,6 +2456,9 @@ function oeffneMenu(){
 document.addEventListener("click", e => {
   const T = q => e.target.closest(q);
   if(T("[data-zu]") || (e.target.classList && e.target.classList.contains("scrim"))){ schliesse(); return; }
+
+  const dt = T("[data-detail]");
+  if(dt){ const q = dt.dataset.detail.split("|"); oeffneDetail(q[0], q[1]); return; }
 
   const ein = T("[data-einbau]");
   if(ein){
