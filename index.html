@@ -308,6 +308,19 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 /* ── Bauteilbilder und PNG-Ausgabe ── */
 .png-bild{width:100%;border-radius:9px;display:block;background:var(--sunk)}
 
+/* ── Produktfeed ── */
+.feedbild{width:46px;height:36px;border-radius:6px;object-fit:contain;background:#fff;
+  border:1px solid var(--line-soft);flex:none;display:block}
+.feed-gross{width:100%;max-height:230px;object-fit:contain;background:#fff;border-radius:10px;
+  border:1px solid var(--line-soft);display:block;padding:10px}
+.livepreis{color:var(--gut);font-weight:700}
+.feedbox{border:1px dashed var(--line);border-radius:10px;padding:12px;margin-bottom:12px}
+.feedbox.voll{border-style:solid;border-color:var(--gut);background:var(--gut-soft)}
+.feedbox .z{font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+.feedbox.voll .z{color:var(--gut)}
+.fortschritt{height:5px;background:var(--sunk);border-radius:3px;overflow:hidden;margin-top:9px}
+.fortschritt i{display:block;height:100%;background:var(--anod);width:0;transition:width .2s}
+
 /* ── Bauteil-Detailansicht ── */
 .detail-bild{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:10px;
   padding:14px;margin-bottom:12px}
@@ -449,6 +462,7 @@ img{max-width:100%}
 </nav>
 
 <input type="file" id="foto-in" accept="image/*" hidden>
+<input type="file" id="feed-in" accept=".csv,.txt,text/csv,text/plain" hidden>
 <div id="modal"></div>
 
 <script>
@@ -801,6 +815,11 @@ let modus = "traum";
 let seite = "antrieb";   /* Antriebsseite rechts, Bremsseite links */
 let ansicht = "zeichnung";  /* oder "foto": das eigene Rad, wirklich 1:1 */
 let fotoZiel = null;   /* worauf sich die naechste Dateiauswahl bezieht */
+/* Produktfeed des Partnerprogramms: Bild-URL, Preis und Direktlink je Teil.
+   Diese Bilder sind zur Anzeige freigegeben -- anders als Fotos, die man sich
+   von einer Shopseite zieht. Gespeichert wird nur, was zu unseren Teilen passt:
+   rund neunzig Zeilen statt hunderttausend. */
+let feed = {treffer:{}, stand:0, quelle:"", zeilen:0};
 let fotos = {traum:null, real:null};
 let build = builds[modus];
 const setzeBau = o => { builds[modus] = o; build = o; };
@@ -829,6 +848,8 @@ function laden(){
     if(se === "antrieb" || se === "bremse") seite = se;
     const av = localStorage.getItem("mtb.ansicht");
     if(av === "foto" || av === "zeichnung") ansicht = av;
+    const fd = localStorage.getItem("mtb.feed");
+    if(fd){ const q = JSON.parse(fd); if(q && q.treffer) feed = q; }
     const ft = localStorage.getItem("mtb.fotos");
     if(ft){ const p = JSON.parse(ft); if(p && typeof p === "object") fotos = {traum:p.traum||null, real:p.real||null}; }
     build = builds[modus];
@@ -852,6 +873,7 @@ function sichern(){
     localStorage.setItem("mtb.modus", modus);
     localStorage.setItem("mtb.seite", seite);
     localStorage.setItem("mtb.ansicht", ansicht);
+    localStorage.setItem("mtb.feed", JSON.stringify(feed));
     localStorage.setItem("mtb.sel", JSON.stringify(sel));
     localStorage.setItem("mtb.plan", JSON.stringify(plan));
     localStorage.setItem("mtb.aff", JSON.stringify(aff));
@@ -1086,7 +1108,7 @@ function bewerte(b){
     moeglich++;
     const teil = b[s.k] ? findeTeil(s.k, b[s.k]) : null;
     if(!teil) continue;
-    teile++; gewicht += teil.g || 0; preis += teil.p || 0;
+    teile++; gewicht += teil.g || 0; preis += preisVon(teil);
     if(!teil.e) continue;
     const eig = eignung(teil);
     sum += eig * s.gew; gew += s.gew;
@@ -1201,7 +1223,7 @@ function generiere(){
 }
 
 const summe = b => { let p = 0; for(const s of SLOTS){ if(entfaellt(b,s.k)) continue;
-  const t = b[s.k] ? findeTeil(s.k, b[s.k]) : null; if(t) p += t.p||0; } return p; };
+  const t = b[s.k] ? findeTeil(s.k, b[s.k]) : null; if(t) p += preisVon(t); } return p; };
 
 function budgetPass(b, budget, quals){
   let wache = 0;
@@ -1216,7 +1238,7 @@ function budgetPass(b, budget, quals){
         if(t.id === jetzt.id || (t.p||0) >= (jetzt.p||0)) continue;
         const probe = {...b}; probe[s.k] = t.id;
         if(harteFehler(probe) > basis) continue;
-        const spart = (jetzt.p||0) - (t.p||0);
+        const spart = preisVon(jetzt) - preisVon(t);
         const kosten = (quals[s.k][jetzt.id] - quals[s.k][t.id]) / spart;
         if(kosten < bestKosten){ bestKosten = kosten; best = {k:s.k, id:t.id}; }
       }
@@ -1234,7 +1256,7 @@ function budgetPass(b, budget, quals){
       const jetzt = findeTeil(s.k, b[s.k]);
       for(const t of K[quelleOf(s)]){
         if(t.id === jetzt.id) continue;
-        const mehr = (t.p||0) - (jetzt.p||0);
+        const mehr = preisVon(t) - preisVon(jetzt);
         if(mehr <= 0 || mehr > rest) continue;
         const probe = {...b}; probe[s.k] = t.id;
         if(harteFehler(probe) > basis) continue;
@@ -1280,18 +1302,142 @@ const shopsAn = () => SHOPS.filter(sh => aff.an[sh.id]);
 
 function affHtml(teil, kompakt){
   const liste = shopsAn();
-  if(!liste.length) return "";
+  const fe = feedEintrag(teil);
+  /* Der Feed liefert den fertigen Deeplink auf das Produkt selbst. Der ist
+     jeder Suchseite ueberlegen: er landet direkt auf dem Artikel und traegt
+     die Provisionskennung bereits. */
+  const direkt = fe && fe.url
+    ? `<a class="shop bez" href="${esc(fe.url)}" target="_blank" rel="sponsored nofollow noopener"><span class="pkt"></span>Zum Produkt</a>`
+    : "";
+  if(!liste.length) return direkt ? `<span class="shops"><span class="werbung">Anzeige</span>${direkt}</span>` : "";
   const bezahlt = liste.some(shopVerdient);
   if(kompakt){
+    if(direkt) return direkt;
     const sh = liste[0];
     return `<a class="shop${shopVerdient(sh) ? " bez" : ""}" href="${shopLink(sh, teil)}"
       target="_blank" rel="sponsored nofollow noopener">${shopVerdient(sh) ? '<span class="pkt"></span>' : ""}${esc(sh.name)}</a>`;
   }
   return `<span class="shops">
-    ${bezahlt ? `<span class="werbung" title="Provisions-Link">Anzeige</span>` : ""}
+    ${(bezahlt || direkt) ? `<span class="werbung" title="Provisions-Link">Anzeige</span>` : ""}
+    ${direkt}
     ${liste.map(sh => `<a class="shop${shopVerdient(sh) ? " bez" : ""}" href="${shopLink(sh, teil)}"
       target="_blank" rel="sponsored nofollow noopener">${shopVerdient(sh) ? '<span class="pkt"></span>' : ""}${esc(sh.name)}</a>`).join("")}
   </span>`;
+}
+
+/* ═══════════ Produktfeed ═══════════
+   Der Feed kommt als CSV aus dem Partnerkonto. Er ist zu gross fuer den
+   Geraetespeicher -- bike-components allein liefert sechsstellig viele Zeilen.
+   Deshalb wird die Datei in Stuecken gelesen, jede Zeile sofort gegen unsere
+   rund neunzig Teilenamen geprueft und nur der beste Treffer behalten.
+   Am Ende stehen neunzig Eintraege im Speicher, nicht hunderttausend. */
+
+const feedEintrag = teil => feed.treffer[teil.id] || null;
+const preisVon = teil => { const f = feedEintrag(teil); return (f && f.preis != null) ? f.preis : (teil.p || 0); };
+
+function normal(x){
+  return String(x).toLowerCase()
+    .replace(/[×x]\s?(\d)/g, " $1").replace(/[^a-z0-9äöüß]+/g, " ").replace(/\s+/g, " ").trim();
+}
+function alleTeile(){
+  const out = [];
+  for(const k in K) for(const t of K[k]) out.push(t);
+  return out;
+}
+/* Zerlegt eine CSV-Zeile und achtet dabei auf Anfuehrungszeichen -- Produktnamen
+   enthalten regelmaessig Kommas und Semikolons. */
+function csvZeile(z, tr){
+  const out = []; let f = "", inQ = false;
+  for(let i = 0; i < z.length; i++){
+    const c = z[i];
+    if(c === '"'){ if(inQ && z[i+1] === '"'){ f += '"'; i++; } else inQ = !inQ; }
+    else if(c === tr && !inQ){ out.push(f); f = ""; }
+    else f += c;
+  }
+  out.push(f);
+  return out;
+}
+const SPALTEN = {
+  name:  ["product_name","merchant_product_name","productname","name","title"],
+  bild:  ["merchant_image_url","aw_image_url","image_url","large_image","merchant_thumb_url"],
+  preis: ["search_price","display_price","price","store_price","aw_price"],
+  link:  ["aw_deep_link","merchant_deep_link","deep_link","aw_product_link","product_url"]
+};
+function spalteFinden(kopf, kandidaten){
+  for(const k of kandidaten){ const i = kopf.indexOf(k); if(i >= 0) return i; }
+  return -1;
+}
+
+function feedEinlesen(datei, fertig){
+  const ziele = alleTeile().map(t => {
+    const w = normal(suchName(t)).split(" ").filter(x => x.length >= 3);
+    return {id:t.id, w:w, name:suchName(t)};
+  }).filter(z => z.w.length);
+  const beste = {};
+  let rest = "", kopf = null, tr = ",", iN = -1, iB = -1, iP = -1, iL = -1, zeilen = 0, pos = 0;
+  const STUECK = 4 * 1024 * 1024;
+  const balken = document.getElementById("feed-balken");
+
+  function stueck(){
+    if(pos >= datei.size){ return abschluss(); }
+    const leser = new FileReader();
+    leser.onload = function(ev){
+      const text = rest + ev.target.result;
+      const zs = text.split(/\r?\n/);
+      rest = zs.pop();
+      for(const z of zs) verarbeite(z);
+      pos += STUECK;
+      if(balken) balken.style.width = Math.min(100, Math.round(pos/datei.size*100)) + "%";
+      setTimeout(stueck, 0);                      /* Oberflaeche zwischendurch atmen lassen */
+    };
+    leser.onerror = function(){ fertig({fehler:"Datei ließ sich nicht lesen."}); };
+    leser.readAsText(datei.slice(pos, pos + STUECK));
+  }
+  function verarbeite(z){
+    if(!z) return;
+    if(!kopf){
+      tr = (z.split("\t").length > z.split(",").length) ? "\t"
+         : (z.split(";").length > z.split(",").length) ? ";" : ",";
+      kopf = csvZeile(z, tr).map(x => x.replace(/^\ufeff/, "").trim().toLowerCase());
+      iN = spalteFinden(kopf, SPALTEN.name); iB = spalteFinden(kopf, SPALTEN.bild);
+      iP = spalteFinden(kopf, SPALTEN.preis); iL = spalteFinden(kopf, SPALTEN.link);
+      return;
+    }
+    zeilen++;
+    const f = csvZeile(z, tr);
+    const nm = iN >= 0 ? f[iN] : "";
+    if(!nm) return;
+    const n = normal(nm);
+    for(const zi of ziele){
+      let passt = true;
+      for(const w of zi.w) if(n.indexOf(w) < 0){ passt = false; break; }
+      if(!passt) continue;
+      /* Bei mehreren Treffern den kuerzesten Namen nehmen: das ist meist das
+         Produkt selbst und nicht ein Set oder Zubehoer dazu. */
+      const alt = beste[zi.id];
+      if(alt && alt.len <= nm.length) continue;
+      beste[zi.id] = {
+        len: nm.length, name: nm,
+        bild: iB >= 0 ? (f[iB]||"").trim() : "",
+        preis: iP >= 0 ? parseFloat(String(f[iP]).replace(",", ".")) : NaN,
+        url: iL >= 0 ? (f[iL]||"").trim() : ""
+      };
+    }
+  }
+  function abschluss(){
+    if(rest) verarbeite(rest);
+    const treffer = {};
+    for(const id in beste){
+      const b = beste[id];
+      if(!/^https:\/\//i.test(b.bild || "")) b.bild = "";      /* nur sichere Bildquellen */
+      if(!/^https?:\/\//i.test(b.url || "")) b.url = "";
+      treffer[id] = {bild:b.bild, preis:isNaN(b.preis)?null:b.preis, url:b.url, name:b.name};
+    }
+    feed = {treffer:treffer, stand:Date.now(), quelle:datei.name, zeilen:zeilen};
+    sichern();
+    fertig({anzahl:Object.keys(treffer).length, zeilen:zeilen, spalten:{name:iN>=0, bild:iB>=0, preis:iP>=0, link:iL>=0}});
+  }
+  stueck();
 }
 
 /* ═══════════ Bauteil-Detailansicht ═══════════
@@ -1517,9 +1663,13 @@ function oeffneDetail(slotKey, teilId){
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${slotOf(slotKey).label}</span>${esc(t.n)}</h3>${zuBtn}</div>
     <div class="sheet-b">
+      ${(() => { const fe = feedEintrag(t); if(!fe || !fe.bild) return "";
+        return `<img class="feed-gross" src="${esc(fe.bild)}" alt="${esc(t.n)}" loading="lazy">
+          <p class="hint" style="margin:8px 0 12px">Produktbild aus deinem Partner-Feed${fe.preis != null
+            ? ` · <span class="livepreis">${eur(fe.preis)}</span> beim Shop` : ""}.</p>`; })()}
       ${bild ? `<div class="detail-bild">${bild.svg}<div class="detail-mass">${esc(bild.mass)}</div></div>` : ""}
-      <p class="hint" style="margin-bottom:10px">Gezeichnet aus den echten Maßen dieses Teils — im selben
-        Maßstab wie jedes andere. Ein Produktfoto zeigt dir die Oberfläche, das hier den Größenunterschied.</p>
+      <p class="hint" style="margin-bottom:10px">Die Zeichnung kommt aus den echten Maßen — im selben
+        Maßstab wie jedes andere Teil. Sie zeigt den Größenunterschied, den ein Produktfoto nicht zeigt.</p>
       <dl style="margin:0 0 4px">
         <div class="dspec"><dt>Daten</dt><dd>
           <span class="specs" style="margin-top:0">${specs.map(c => `<span class="chip">${esc(c)}</span>`).join("")}</span>
@@ -2047,7 +2197,7 @@ function zeichne(){
         <span class="slot-k">${lvl ? `<span class="mark"></span>` : ""}${s.label}</span>
         <span class="slot-n ${t ? "" : "empty"}">${t ? esc(t.n) : "Teil wählen …"}</span>
         ${chips ? `<span class="specs">${chips}</span>` : ""}
-        <span class="slot-r">${t ? `<span class="p">${eur(t.p)}</span><span class="g">${t.g} g</span>` : `<span class="g">offen</span>`}</span>
+        <span class="slot-r">${t ? `<span class="p">${eur(preisVon(t))}</span><span class="g">${t.g} g</span>` : `<span class="g">offen</span>`}</span>
       </button>`;
     }).join("");
     const n = SLOTS.filter(s => s.grp === g && !entfaellt(build, s.k)).length;
@@ -2103,7 +2253,7 @@ function upgrades(r){
       const d = pr.gesamt - r.gesamt;
       if(d <= 0) continue;
       if(plan.budget > 0 && pr.preis > plan.budget && pr.preis > r.preis) continue;
-      vor.push({slot:s, teil:kand, d:d, mehr:(kand.p||0) - (jetzt ? jetzt.p||0 : 0),
+      vor.push({slot:s, teil:kand, d:d, mehr:preisVon(kand) - (jetzt ? preisVon(jetzt) : 0),
                 gd:(kand.g||0) - (jetzt ? jetzt.g||0 : 0)});
     }
   }
@@ -2148,9 +2298,13 @@ function oeffneSlot(slotKey){
       `<div class="why ${f.level === "warnung" ? "w" : ""}"><b>${esc(f.titel)}.</b> ${f.text}</div>`).join("");
     return {gut:!fehler.length, sel:istSel, sort:[fehler.length ? 2 : warn.length ? 1 : 0, -d], html:`
       <div class="opt ${istSel ? "sel" : ""}">
-        <div><div class="opt-n">${esc(t.n)} ${tag} ${dtag} ${mtag}</div>
+        <div><div class="opt-n">${(() => { const fe = feedEintrag(t);
+            return fe && fe.bild ? `<img class="feedbild" src="${esc(fe.bild)}" alt="" loading="lazy">` : ""; })()}${esc(t.n)} ${tag} ${dtag} ${mtag}</div>
           <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div></div>
-        <div class="opt-r"><span class="opt-p">${eur(t.p)}</span><span class="opt-g">${t.g} g</span>
+        <div class="opt-r">${(() => { const fe = feedEintrag(t);
+            return fe && fe.preis != null
+              ? `<span class="opt-p livepreis">${eur(fe.preis)}</span>`
+              : `<span class="opt-p">${eur(t.p)}</span>`; })()}<span class="opt-g">${t.g} g</span>
           <button class="btn ghost sm" data-detail="${slotKey}|${t.id}">Ansehen</button>
           ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">Einbauen</button>`}</div>
         ${gruende}
@@ -2260,7 +2414,7 @@ function oeffneWiz(step){
       const t = b[s.k] ? findeTeil(s.k, b[s.k]) : null;
       return `<div class="erg"><span class="k">${s.label}</span>
         <span class="n">${t ? esc(t.n) : "—"}</span>
-        <span class="p">${t ? eur(t.p) : "—"}</span></div>`;
+        <span class="p">${t ? eur(preisVon(t)) : "—"}</span></div>`;
     }).join("");
     const uebrig = plan.budget - r.preis;
     body = `<p class="q">Dein Aufbau</p>
@@ -2390,6 +2544,7 @@ function alsPNG(){
 
 function oeffneMenu(){
   const an = shopsAn(), verdienen = an.filter(shopVerdient);
+  const anz = Object.keys(feed.treffer || {}).length;
   const status = !an.length
     ? `<div class="aff-status aus"><b>Kein Shop eingeschaltet.</b> Unten mindestens einen wählen.</div>`
     : verdienen.length === an.length
@@ -2415,6 +2570,21 @@ function oeffneMenu(){
     <div class="sheet-h"><h3><span class="sub">Einstellungen</span>Affiliate &amp; Profil</h3>${zuBtn}</div>
     <div class="sheet-b">
       ${status}
+
+      <div class="grp-h"><h2>Produktfeed</h2><div class="rule"></div></div>
+      <div class="feedbox ${anz ? "voll" : ""}">
+        <p class="z" style="margin:0 0 9px">${anz
+          ? `<b>${anz} Teile mit echtem Produktbild.</b> Aus <code>${esc(feed.quelle)}</code>,
+             ${feed.zeilen.toLocaleString("de-DE")} Zeilen gelesen, Stand ${new Date(feed.stand).toLocaleDateString("de-DE")}.`
+          : `<b>Noch kein Feed.</b> Lade im Awin-Konto unter „Produktdaten“ den Feed deines Shops als
+             <b>CSV</b> herunter und wähl ihn hier aus. Die App liest ihn auf dem Gerät, behält nur die
+             Treffer zu deinen Teilen und zeigt dann Produktbild, Live-Preis und Direktlink.`}</p>
+        <button class="btn ${anz ? "ghost" : ""} sm" data-feedwahl="1">${anz ? "Feed erneuern" : "Feed auswählen"}</button>
+        ${anz ? `<button class="btn ghost sm" data-feedweg="1">Entfernen</button>` : ""}
+        <div class="fortschritt" hidden id="feed-fortschritt"><i id="feed-balken"></i></div>
+      </div>
+      <p class="hint" style="margin:-4px 0 14px">Die Bilder aus dem Feed sind zur Anzeige freigegeben —
+        das ist der Unterschied zu Fotos, die man sich von einer Shopseite zieht.</p>
 
       <div class="grp-h"><h2>Netzwerk</h2><div class="rule"></div></div>
       <div class="fld"><label for="m-awin">Awin Publisher-ID</label>
@@ -2523,6 +2693,8 @@ document.addEventListener("click", e => {
   if(T("[data-fotowahl]")){ fotoZiel = {art:"rad"}; const i = $("foto-in"); if(i) i.click(); return; }
 
   if(T("[data-png]")){ alsPNG(); return; }
+  if(T("[data-feedwahl]")){ const i = $("feed-in"); if(i) i.click(); return; }
+  if(T("[data-feedweg]")){ feed = {treffer:{}, stand:0, quelle:"", zeilen:0}; sichern(); zeichne(); oeffneMenu(); return; }
   const sa = T("[data-shopan]");
   if(sa){ aff.an[sa.dataset.shopan] = !aff.an[sa.dataset.shopan]; sichern(); zeichne(); oeffneMenu(); return; }
   if(T("[data-fotoweg]")){ fotos[modus] = null; sichern(); zeichne(); return; }
@@ -2558,6 +2730,17 @@ document.addEventListener("input", e => {
   }
 });
 document.addEventListener("change", e => {
+  if(e.target && e.target.id === "feed-in" && e.target.files && e.target.files[0]){
+    const d = e.target.files[0]; e.target.value = "";
+    const bx = document.getElementById("feed-fortschritt"); if(bx) bx.hidden = false;
+    feedEinlesen(d, function(erg){
+      zeichne();
+      if(erg.fehler){ alert(erg.fehler); oeffneMenu(); return; }
+      if(!erg.spalten.name){ alert("In dieser Datei steckt keine Spalte mit dem Produktnamen. Lade den Feed als CSV mit Kopfzeile herunter."); }
+      oeffneMenu();
+    });
+    return;
+  }
   if(e.target && e.target.id === "foto-in" && e.target.files && e.target.files[0]){
     fotoAufnehmen(e.target.files[0], fotoZiel); fotoZiel = null; e.target.value = "";
   }
