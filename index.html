@@ -1716,13 +1716,18 @@ function zeichne(){
   Array.prototype.forEach.call(document.querySelectorAll(".modus-in button"),
     b => b.setAttribute("aria-pressed", String(b.dataset.modus === modus)));
 
-  const mod = radModell(build, seite);
+  /* Im Traumrad zaehlen die Teile, nicht das Bild. Die Zeichnung bleibt auf
+     "Mein Rad" beschraenkt, wo sie neben dem Foto beim Wiedererkennen hilft.
+     radModell wird gar nicht erst gerufen -- sonst rechnet die App bei jedem
+     Neuzeichnen eine Zeichnung, die niemand sieht. */
+  const zeigModell = modus === "real";
+  const mod = zeigModell ? radModell(build, seite) : null;
   /* Ein eigenes Foto ist die einzige wirklich massstabsgetreue Ansicht -- und
      die einzige, die rechtlich uns gehoert. Fremde Produktbilder kommen nicht
      in die App. */
   const fotoDa = modus === "real" && !!fotos.real;
   const fotoAn = fotoDa && ansicht === "foto";
-  const modellkarte = `<div class="modell">
+  const modellkarte = !zeigModell ? "" : `<div class="modell">
     <div class="modell-kopf">
       <span class="modell-t">${modus === "real" ? "Dein Rad" : "Dein Traumrad"}</span>
       ${fotoDa ? `<div class="seiten" role="group" aria-label="Ansicht">
