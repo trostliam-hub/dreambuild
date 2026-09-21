@@ -304,21 +304,37 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
   margin-top:8px;line-height:1.5;display:flex;flex-wrap:wrap;gap:4px 12px}
 .modell-leer{padding:26px 14px;text-align:center;color:var(--ink-3);font-size:13px;line-height:1.5}
 
-.bildurl{display:flex;gap:6px;margin-top:8px}
-.bildurl input{flex:1;min-width:0;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
-  padding:7px 9px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
-.bildurl input:focus{border-color:var(--anod);outline:none}
 
 /* ── Bauteilbilder und PNG-Ausgabe ── */
-.teilfoto{display:grid;grid-template-columns:86px minmax(0,1fr);gap:11px;align-items:center;
-  border:1px solid var(--line);border-radius:var(--r);padding:10px;margin-bottom:9px;background:var(--surface-2)}
-.teilfoto .bild{width:86px;height:64px;border-radius:7px;overflow:hidden;background:var(--sunk);
-  display:grid;place-items:center;border:1px dashed var(--line)}
-.teilfoto .bild img{width:100%;height:100%;object-fit:cover;display:block}
-.teilfoto b{font-size:13px;font-weight:600;display:block;line-height:1.3;margin-bottom:5px;overflow-wrap:anywhere}
-.slot-mini{width:40px;height:30px;border-radius:5px;object-fit:cover;display:block;flex:none;
-  border:1px solid var(--line-soft)}
 .png-bild{width:100%;border-radius:9px;display:block;background:var(--sunk)}
+
+/* ── Shopzeile ── */
+.shops{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+  margin-top:9px;padding-top:9px;border-top:1px solid var(--line-soft)}
+.werbung{font-size:9px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;
+  padding:2px 6px;border-radius:4px;background:var(--surface-2);color:var(--ink-3);
+  border:1px solid var(--line-soft);flex:none}
+.shop{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;
+  text-decoration:none;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;
+  padding:5px 10px;white-space:nowrap;min-height:30px}
+.shop:hover{border-color:var(--anod);color:var(--anod)}
+.shop.bez{color:var(--anod);border-color:var(--anod-soft);background:var(--anod-soft)}
+.shop .pkt{width:5px;height:5px;border-radius:50%;background:var(--gut);flex:none}
+.aff-status{font-size:12px;line-height:1.5;padding:10px 12px;border-radius:9px;margin-bottom:14px}
+.aff-status.ok{background:var(--gut-soft);color:var(--gut)}
+.aff-status.aus{background:var(--warn-soft);color:var(--warn)}
+.aff-status b{font-weight:700}
+.shopzeile{display:grid;grid-template-columns:22px minmax(0,1fr) 92px;gap:9px;align-items:center;
+  padding:9px 0;border-top:1px solid var(--line-soft)}
+.shopzeile:first-of-type{border-top:none}
+.shopzeile .nm{font-size:13px;font-weight:600;line-height:1.25}
+.shopzeile .nz{font-size:10.5px;color:var(--ink-3);font-family:"IBM Plex Mono",monospace}
+.shopzeile input{font-family:"IBM Plex Mono",monospace;font-size:12px;padding:7px 8px;border-radius:7px;
+  border:1px solid var(--line);background:var(--surface-2);color:var(--ink);width:100%;min-width:0}
+.shopzeile input:focus{border-color:var(--anod);outline:none}
+.schalt{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line);display:grid;
+  place-items:center;color:transparent;flex:none}
+.shopzeile[aria-pressed="true"] .schalt{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
 
 /* ── Fotokarte ── */
 .fotokarte{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
@@ -744,11 +760,24 @@ const START = {
   bremsen:"b-xt", lenker:"l-race", vorbau:"v-race", stuetze:"s-fox349", sattel:"sa-ergon"
 };
 const PLAN_START = {budget:0, fahrer:0, mSchalt:"", mBrems:"", mFed:"", prio:"pl"};
-const AFF_START = [
-  {shop:"bike-components", tpl:"https://www.bike-components.de/de/s/?keywords={q}"},
-  {shop:"Bike24",          tpl:"https://www.bike24.de/search?q={q}"},
-  {shop:"Amazon.de",       tpl:"https://www.amazon.de/s?k={q}"}
+/* Die Shops mit ihrer echten Suchadresse und dem Netzwerk, ueber das sie
+   abgerechnet werden. Die Advertiser-Kennung traegt der Nutzer ein -- sie steht
+   in seinem Netzwerkkonto beim jeweiligen Partnerprogramm. Erfinden waere
+   fatal: eine falsche Kennung fuehrt ins Leere oder schreibt den Umsatz einem
+   fremden Konto gut. */
+const SHOPS = [
+  {id:"bc",   name:"bike-components", netz:"awin",   suche:"https://www.bike-components.de/de/s/?keywords={q}"},
+  {id:"b24",  name:"Bike24",          netz:"awin",   suche:"https://www.bike24.de/search?q={q}"},
+  {id:"bd",   name:"Bike-Discount",   netz:"awin",   suche:"https://www.bike-discount.de/de/search?sSearch={q}"},
+  {id:"rose", name:"Rose Bikes",      netz:"awin",   suche:"https://www.rosebikes.de/search?q={q}"},
+  {id:"amz",  name:"Amazon.de",       netz:"amazon", suche:"https://www.amazon.de/s?k={q}"}
 ];
+const AFF_START = {
+  awinId: "",                                   /* Publisher-ID bei Awin */
+  amazonTag: "",                                /* PartnerNet-Tag */
+  mid: {},                                      /* Shop -> Advertiser-ID */
+  an: {bc:true, b24:true, bd:false, rose:false, amz:false}
+};
 
 /* Zwei Raeder nebeneinander: das Traumrad, das man sich zusammenstellt, und das
    echte, das in der Garage steht. Beide durchlaufen dieselbe Engine -- nur die
@@ -758,9 +787,6 @@ let builds = {traum:{...START}, real:leerBau()};
 let modus = "traum";
 let seite = "antrieb";   /* Antriebsseite rechts, Bremsseite links */
 let ansicht = "zeichnung";  /* oder "foto": das eigene Rad, wirklich 1:1 */
-/* Eigene Bilder je Bauteil, Schluessel ist die Teile-Kennung. Fremde
-   Produktfotos kommen nicht in die App -- diese hier gehoeren dem Nutzer. */
-let teilfotos = {};
 let fotoZiel = null;   /* worauf sich die naechste Dateiauswahl bezieht */
 let fotos = {traum:null, real:null};
 let build = builds[modus];
@@ -768,7 +794,7 @@ const setzeBau = o => { builds[modus] = o; build = o; };
 function wechsle(m){ builds[modus] = build; modus = m; build = builds[modus]; }
 let sel = ["trail"];
 let plan = {...PLAN_START};
-let aff = AFF_START.map(a => ({...a}));
+let aff = JSON.parse(JSON.stringify(AFF_START));
 let view = "aufbau";
 let nurPassende = true;
 let offenerSlot = null;
@@ -790,8 +816,6 @@ function laden(){
     if(se === "antrieb" || se === "bremse") seite = se;
     const av = localStorage.getItem("mtb.ansicht");
     if(av === "foto" || av === "zeichnung") ansicht = av;
-    const tf = localStorage.getItem("mtb.teilfotos");
-    if(tf){ const q = JSON.parse(tf); if(q && typeof q === "object") teilfotos = q; }
     const ft = localStorage.getItem("mtb.fotos");
     if(ft){ const p = JSON.parse(ft); if(p && typeof p === "object") fotos = {traum:p.traum||null, real:p.real||null}; }
     build = builds[modus];
@@ -801,7 +825,11 @@ function laden(){
     const pl = localStorage.getItem("mtb.plan");
     if(pl){ const p = JSON.parse(pl); if(p && typeof p === "object") plan = {...PLAN_START, ...p}; }
     const a = localStorage.getItem("mtb.aff");
-    if(a){ const p = JSON.parse(a); if(Array.isArray(p) && p.length) aff = p; }
+    if(a){
+      const q = JSON.parse(a);
+      if(q && !Array.isArray(q) && typeof q === "object")
+        aff = {...AFF_START, ...q, mid:{...(q.mid||{})}, an:{...AFF_START.an, ...(q.an||{})}};
+    }
   }catch(e){ /* privates Fenster oder blockierter Speicher */ }
 }
 function sichern(){
@@ -817,7 +845,6 @@ function sichern(){
   }catch(e){}
   try{
     localStorage.setItem("mtb.fotos", JSON.stringify(fotos));
-    localStorage.setItem("mtb.teilfotos", JSON.stringify(teilfotos));
   }catch(e){
     /* Bilderspeicher voll: lieber das Foto verwerfen als den ganzen Aufbau verlieren */
     fotos[modus] = null;
@@ -1211,14 +1238,47 @@ function budgetPass(b, budget, quals){
 
 /* ═══════════ 8 · Affiliate ═══════════ */
 
-function affHtml(teil){
-  for(const a of aff){
-    if(!a.tpl) continue;
-    const url = a.tpl.replace(/\{q\}/g, encodeURIComponent(teil.n));
-    return `<a class="aff" href="${url}" target="_blank" rel="nofollow sponsored noopener">${esc(a.shop || "Shop")}
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>`;
+/* Ein Affiliate-Link ist kein Suchlink mit angehaengtem Namen. Er laeuft ueber
+   das Netzwerk: dort wird der Klick gezaehlt, das Cookie gesetzt und erst dann
+   auf das Ziel weitergeleitet. Fehlt dieser Umweg, gibt es keine Provision --
+   der Link funktioniert, verdient aber nichts. */
+/* Der Anzeigename traegt oft einen erklaerenden Zusatz hinter einem Mittelpunkt
+   -- "Shimano Deore M6120 · 4 Kolben". Der gehoert nicht zum Produktnamen und
+   laesst die Shopsuche ins Leere laufen. Fuer die Suche bleibt der Teil davor. */
+function suchName(teil){
+  let n = String(teil.n).split(" · ")[0].trim();
+  n = n.replace(/\s*\((?:Mullet|Hardtail[^)]*|Dirt|Doppelbr[^)]*)\)\s*/gi, " ");
+  return n.replace(/\s+/g, " ").trim();
+}
+function shopLink(shop, teil){
+  const ziel = shop.suche.replace(/\{q\}/g, encodeURIComponent(suchName(teil)));
+  if(shop.netz === "amazon")
+    return aff.amazonTag ? ziel + "&tag=" + encodeURIComponent(aff.amazonTag) : ziel;
+  const mid = (aff.mid || {})[shop.id];
+  if(shop.netz === "awin" && aff.awinId && mid)
+    return "https://www.awin1.com/cread.php?awinmid=" + encodeURIComponent(mid) +
+           "&awinaffid=" + encodeURIComponent(aff.awinId) +
+           "&ued=" + encodeURIComponent(ziel);
+  return ziel;                                  /* unkonfiguriert: ehrlicher Direktlink */
+}
+const shopVerdient = sh => sh.netz === "amazon"
+  ? !!aff.amazonTag : !!(aff.awinId && (aff.mid || {})[sh.id]);
+const shopsAn = () => SHOPS.filter(sh => aff.an[sh.id]);
+
+function affHtml(teil, kompakt){
+  const liste = shopsAn();
+  if(!liste.length) return "";
+  const bezahlt = liste.some(shopVerdient);
+  if(kompakt){
+    const sh = liste[0];
+    return `<a class="shop${shopVerdient(sh) ? " bez" : ""}" href="${shopLink(sh, teil)}"
+      target="_blank" rel="sponsored nofollow noopener">${shopVerdient(sh) ? '<span class="pkt"></span>' : ""}${esc(sh.name)}</a>`;
   }
-  return "";
+  return `<span class="shops">
+    ${bezahlt ? `<span class="werbung" title="Provisions-Link">Anzeige</span>` : ""}
+    ${liste.map(sh => `<a class="shop${shopVerdient(sh) ? " bez" : ""}" href="${shopLink(sh, teil)}"
+      target="_blank" rel="sponsored nofollow noopener">${shopVerdient(sh) ? '<span class="pkt"></span>' : ""}${esc(sh.name)}</a>`).join("")}
+  </span>`;
 }
 
 /* ═══════════ 9 · Darstellung ═══════════ */
@@ -1700,10 +1760,8 @@ function zeichne(){
       ${foto ? `<button class="btn ghost sm" data-fotoweg="1">Entfernen</button>` : ""}
       <button class="btn ghost sm" data-spick="1">Wo steht was am Rad?</button>
     </div>
-    <p class="foto-hint"><b>Das Foto ist dein Gedächtnis, kein Scanner.</b> Kein Bilderkenner liest von
-      einem Foto ab, ob da XT oder SLX verbaut ist, welcher Freilauf in der Nabe steckt oder wie tief
-      dein Sitzrohr ist — und genau damit rechnet die App. Deshalb trägst du die Teile selbst ein.
-      „Wo steht was am Rad?" zeigt dir, an welcher Stelle jede Angabe aufgedruckt ist.</p>
+    <p class="foto-hint">Als Gedächtnisstütze. Die Teile trägst du selbst ein —
+      „Wo steht was am Rad?" zeigt, wo jede Angabe aufgedruckt ist.</p>
   </div>`;
 
   const leerHinweis = (modus === "real" && !build.rahmen) ? `<div class="card" style="margin-bottom:14px">
@@ -1726,12 +1784,11 @@ function zeichne(){
       const t = build[s.k] ? findeTeil(s.k, build[s.k]) : null;
       const lvl = slotLevel(r.funde, s.k);
       const chips = t ? specsVon(s.k, t).map(c => `<span class="chip">${esc(c)}</span>`).join("") : "";
-      const mini = t && teilfotos[t.id] ? `<img class="slot-mini" src="${teilfotos[t.id]}" alt="">` : "";
       return `<button class="slot ${lvl || ""}" data-slot="${s.k}">
         <span class="slot-k">${lvl ? `<span class="mark"></span>` : ""}${s.label}</span>
         <span class="slot-n ${t ? "" : "empty"}">${t ? esc(t.n) : "Teil wählen …"}</span>
         ${chips ? `<span class="specs">${chips}</span>` : ""}
-        <span class="slot-r">${mini}${t ? `<span class="p">${eur(t.p)}</span><span class="g">${t.g} g</span>` : `<span class="g">offen</span>`}</span>
+        <span class="slot-r">${t ? `<span class="p">${eur(t.p)}</span><span class="g">${t.g} g</span>` : `<span class="g">offen</span>`}</span>
       </button>`;
     }).join("");
     const n = SLOTS.filter(s => s.grp === g && !entfaellt(build, s.k)).length;
@@ -1760,7 +1817,7 @@ function zeichne(){
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
         <span class="delta">+${v.d}</span>
         <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Einbauen</button>
-        ${affHtml(v.teil)}
+        ${affHtml(v.teil, true)}
       </div>
     </div>`).join("")
     : `<p class="empty-note">Kein Tausch aus dem Katalog verbessert den Aufbau. Ab hier entscheidet der Fahrer, nicht das Teil.</p>`;
@@ -1835,39 +1892,19 @@ function oeffneSlot(slotKey){
         <div><div class="opt-n">${esc(t.n)} ${tag} ${dtag} ${mtag}</div>
           <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div></div>
         <div class="opt-r"><span class="opt-p">${eur(t.p)}</span><span class="opt-g">${t.g} g</span>
-          ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">Einbauen</button>`}
-          ${affHtml(t)}</div>
+          ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">Einbauen</button>`}</div>
         ${gruende}
+        ${affHtml(t)}
       </div>`};
   });
   karten.sort((a,b) => a.sort[0] - b.sort[0] || a.sort[1] - b.sort[1]);
   const passend = karten.filter(k => k.gut || k.sel);
   const zeige = (nurPassende && passend.length) ? passend : karten;
   const drin = build[slotKey] ? findeTeil(slotKey, build[slotKey]) : null;
-  const tfoto = drin ? teilfotos[drin.id] : null;
-  const fotoBlock = !drin ? "" : `<div class="teilfoto">
-      <span class="bild">${tfoto ? `<img src="${tfoto}" alt="">` :
-        `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="1.7" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg>`}</span>
-      <span><b>${esc(drin.n)}</b>
-        <button class="btn ghost sm" data-teilfoto="${drin.id}">${tfoto ? "Bild ersetzen" : "Eigenes Bild"}</button>
-        ${tfoto ? `<button class="btn ghost sm" data-teilfotoweg="${drin.id}">Entfernen</button>` : ""}
-      </span>
-      <span style="grid-column:1 / -1">
-        <div class="bildurl">
-          <input id="url-${drin.id}" type="url" inputmode="url" placeholder="oder Bildadresse einfügen (https://…)"
-                 value="${tfoto && tfoto.indexOf("http") === 0 ? esc(tfoto) : ""}">
-          <button class="btn sm" data-bildurl="${drin.id}">Laden</button>
-        </div>
-        <p class="hint" style="margin-top:6px">Nur Bilder verwenden, an denen du die Rechte hast —
-          eigene Aufnahmen oder solche aus einem Partner-Feed mit Nutzungsrecht. Fremde Produktfotos
-          ohne Lizenz sind abmahnfähig, und zwar bei dir.</p>
-      </span>
-    </div>`;
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">Bauteil wählen</span>${s.label}</h3>
       ${build[slotKey] ? `<button class="btn ghost sm" data-leeren="${slotKey}">Leeren</button>` : ""}${zuBtn}</div>
     <div class="sheet-b">
-      ${fotoBlock}
       <div class="filt">
         <button data-filt="1" aria-pressed="${nurPassende}">Nur passende · ${passend.length}</button>
         <button data-filt="0" aria-pressed="${!nurPassende}">Alle · ${karten.length}</button>
@@ -2029,19 +2066,18 @@ function fotoAufnehmen(datei, ziel){
   leser.onload = function(ev){
     const bild = new Image();
     bild.onload = function(){
-      const max = wohin.art === "teil" ? 420 : 1000;   /* Bauteilbilder duerfen klein sein */
+      const max = 1000;
       const f = Math.min(1, max / Math.max(bild.width, bild.height));
       const c = document.createElement("canvas");
       c.width = Math.round(bild.width * f); c.height = Math.round(bild.height * f);
       c.getContext("2d").drawImage(bild, 0, 0, c.width, c.height);
-      let daten = c.toDataURL("image/jpeg", wohin.art === "teil" ? 0.68 : 0.72);
+      let daten = c.toDataURL("image/jpeg", 0.72);
       if(daten.length > 1400000) daten = c.toDataURL("image/jpeg", 0.5);
-      if(wohin.art === "teil") teilfotos[wohin.id] = daten; else fotos[modus] = daten;
+      fotos[modus] = daten;
       sichern();
       /* Beides neu zeichnen: die Schublade zeigt das Bild, die Liste dahinter
          das Vorschaubild in der Zeile. Vorher blieb die Liste stehen. */
       zeichne();
-      if(wohin.art === "teil" && offenerSlot) oeffneSlot(offenerSlot);
     };
     bild.onerror = function(){ alert("Das Bild ließ sich nicht lesen. Versuch ein anderes Format."); };
     bild.src = ev.target.result;
@@ -2093,31 +2129,64 @@ function alsPNG(){
 }
 
 function oeffneMenu(){
+  const an = shopsAn(), verdienen = an.filter(shopVerdient);
+  const status = !an.length
+    ? `<div class="aff-status aus"><b>Kein Shop eingeschaltet.</b> Unten mindestens einen wählen.</div>`
+    : verdienen.length === an.length
+    ? `<div class="aff-status ok"><b>Alle ${an.length} Shops verdienen.</b> Die Links laufen über dein Netzwerkkonto.</div>`
+    : verdienen.length
+    ? `<div class="aff-status aus"><b>${verdienen.length} von ${an.length} Shops verdienen.</b>
+        Die übrigen verlinken direkt und bringen keine Provision — ihnen fehlt die Advertiser-ID.</div>`
+    : `<div class="aff-status aus"><b>Noch keine Provision.</b> Die Links funktionieren, laufen aber am
+        Netzwerk vorbei. Es fehlt ${aff.awinId ? "die Advertiser-ID je Shop" : "deine Publisher-ID"}.</div>`;
+
+  const zeile = sh => `<div class="shopzeile" aria-pressed="${!!aff.an[sh.id]}">
+      <button class="schalt" data-shopan="${sh.id}" aria-label="${esc(sh.name)} ein- oder ausschalten">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+      </button>
+      <span><span class="nm">${esc(sh.name)}</span>
+        <span class="nz">${sh.netz === "awin" ? "Awin" : "Amazon PartnerNet"}${shopVerdient(sh) ? " · verdient" : ""}</span></span>
+      ${sh.netz === "awin"
+        ? `<input data-mid="${sh.id}" value="${esc((aff.mid||{})[sh.id] || "")}" placeholder="ID" inputmode="numeric">`
+        : `<span class="nz" style="text-align:right">über Tag</span>`}
+    </div>`;
+
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">Einstellungen</span>Affiliate &amp; Profil</h3>${zuBtn}</div>
     <div class="sheet-b">
+      ${status}
+
+      <div class="grp-h"><h2>Netzwerk</h2><div class="rule"></div></div>
+      <div class="fld"><label for="m-awin">Awin Publisher-ID</label>
+        <input id="m-awin" data-affnetz="awinId" value="${esc(aff.awinId)}" placeholder="z. B. 1234567" inputmode="numeric">
+      </div>
+      <p class="hint" style="margin:-6px 0 12px">Steht im Awin-Konto oben rechts neben deinem Namen.
+        Ohne sie ist jeder Link nur ein normaler Shoplink.</p>
+      <div class="fld"><label for="m-amz">Amazon PartnerNet — Tracking-ID</label>
+        <input id="m-amz" data-affnetz="amazonTag" value="${esc(aff.amazonTag)}" placeholder="z. B. deinname-21">
+      </div>
+
+      <div class="grp-h" style="margin-top:6px"><h2>Shops</h2><div class="rule"></div></div>
+      ${SHOPS.map(zeile).join("")}
+      <p class="hint" style="margin-top:10px">Die <b>Advertiser-ID</b> findest du im Awin-Konto unter
+        „Partnerprogramme“ beim jeweiligen Shop — sie steht dort als Nummer neben dem Namen.
+        Ich trage sie nicht für dich ein: eine falsche Nummer führt ins Leere oder schreibt
+        deinen Umsatz einem fremden Konto gut.</p>
+
+      <div class="grp-h" style="margin-top:14px"><h2>Profil</h2><div class="rule"></div></div>
       <div class="fld"><label for="m-fahrer">Fahrergewicht in kg — prüft die Laufrad-Freigabe</label>
         <input id="m-fahrer" type="number" inputmode="numeric" min="0" max="180" value="${plan.fahrer || ""}" placeholder="leer = Prüfung aus" data-plan="fahrer"></div>
-      <div class="fld"><label for="m-budget">Budget in € — 0 schaltet die Budgetgrenze aus</label>
+      <div class="fld"><label for="m-budget">Budget in € — leer heißt ohne Grenze</label>
         <input id="m-budget" type="number" inputmode="numeric" min="0" step="50" value="${plan.budget || ""}" placeholder="leer = ohne Grenze" data-plan="budget"></div>
-      <p class="hint" style="margin-bottom:14px">Trag deine Partner-URL je Shop ein. <code>{q}</code> wird durch den
-        Teilenamen ersetzt. Der erste Eintrag mit ausgefüllter URL wird an jedem Teil verlinkt.</p>
-      ${aff.map((a,i) => `<div class="fld">
-        <label for="aff-shop-${i}">Shop ${i+1} — Anzeigename</label>
-        <input id="aff-shop-${i}" data-aff="shop|${i}" value="${esc(a.shop)}" placeholder="z. B. bike-components">
-        <label for="aff-tpl-${i}" style="margin-top:6px">URL-Vorlage</label>
-        <input id="aff-tpl-${i}" data-aff="tpl|${i}" value="${esc(a.tpl)}" placeholder="https://…?q={q}&partner=DEINE-ID">
-      </div>`).join("")}
-      <p class="hint"><b>Awin / Tradedoubler:</b> Deeplink-Vorlage komplett einsetzen, z. B.<br>
-        <code>https://www.awin1.com/cread.php?awinmid=XXXX&amp;awinaffid=DEINE-ID&amp;ued=https%3A%2F%2Fshop.de%2Fsuche%3Fq%3D{q}</code></p>
-      <div style="margin:14px 0 2px"><button class="btn ghost wide" data-reset="1">Alles zurücksetzen</button></div>
+
+      <div style="margin:10px 0 2px"><button class="btn ghost wide" data-reset="1">Alles zurücksetzen</button></div>
       <p class="legal">
-        <b>Kennzeichnungspflicht.</b> Affiliate-Links sind nach § 5a Abs. 4 UWG kennzeichnungspflichtig — ein Hinweis
-        wie „Anzeige“ oder „Provisions-Link“ muss vor dem Klick erkennbar sein, nicht erst im Impressum. Die Links
-        tragen bereits <code>rel="sponsored nofollow"</code>.<br><br>
-        <b>Preisangaben.</b> Sobald konkrete Preise neben einem Kauflink stehen, greift die PAngV: aktuell und als
-        Gesamtpreis inkl. USt. Die Richtwerte hier erfüllen das ausdrücklich nicht — für Live-Preise brauchst du
-        einen Produktfeed des Partnerprogramms.
+        <b>Kennzeichnung.</b> Sobald ein Link Provision bringt, steht neben der Shopzeile „Anzeige“ — § 5a Abs. 4
+        UWG verlangt das vor dem Klick, nicht erst im Impressum. Alle Links tragen
+        <code>rel="sponsored nofollow noopener"</code>.<br><br>
+        <b>Preisangaben.</b> Die Preise hier sind Richtwerte auf UVP-Niveau, keine Live-Preise. Sobald du
+        konkrete Preise neben einem Kauflink zeigst, greift die PAngV: aktuell und als Gesamtpreis inkl. USt.
+        Dafür brauchst du den Produktfeed deines Partnerprogramms.
       </p>
     </div>`);
 }
@@ -2189,22 +2258,10 @@ document.addEventListener("click", e => {
     return;
   }
   if(T("[data-fotowahl]")){ fotoZiel = {art:"rad"}; const i = $("foto-in"); if(i) i.click(); return; }
-  const tf = T("[data-teilfoto]");
-  if(tf){ fotoZiel = {art:"teil", id:tf.dataset.teilfoto}; const i = $("foto-in"); if(i) i.click(); return; }
-  const bu = T("[data-bildurl]");
-  if(bu){
-    const feld = document.getElementById("url-" + bu.dataset.bildurl);
-    const wert = feld ? feld.value.trim() : "";
-    if(!wert){ delete teilfotos[bu.dataset.bildurl]; }
-    else if(/^https:\/\//i.test(wert)){ teilfotos[bu.dataset.bildurl] = wert; }
-    else { alert("Die Adresse muss mit https:// beginnen."); return; }
-    sichern(); zeichne(); if(offenerSlot) oeffneSlot(offenerSlot);
-    return;
-  }
 
-  const tw = T("[data-teilfotoweg]");
-  if(tw){ delete teilfotos[tw.dataset.teilfotoweg]; sichern(); if(offenerSlot) oeffneSlot(offenerSlot); return; }
   if(T("[data-png]")){ alsPNG(); return; }
+  const sa = T("[data-shopan]");
+  if(sa){ aff.an[sa.dataset.shopan] = !aff.an[sa.dataset.shopan]; sichern(); zeichne(); oeffneMenu(); return; }
   if(T("[data-fotoweg]")){ fotos[modus] = null; sichern(); zeichne(); return; }
   if(T("[data-spick]")){ oeffneSpick(); return; }
 
@@ -2219,8 +2276,15 @@ document.addEventListener("click", e => {
 const wizOffen = () => !!$("modal").querySelector(".steps");
 
 document.addEventListener("input", e => {
-  const a = e.target.closest("[data-aff]");
-  if(a){ const p = a.dataset.aff.split("|"); aff[+p[1]][p[0]] = a.value; sichern(); zeichne(); return; }
+  const an = e.target.closest("[data-affnetz]");
+  if(an){ aff[an.dataset.affnetz] = an.value.trim(); sichern(); zeichne(); return; }
+  const md = e.target.closest("[data-mid]");
+  if(md){
+    if(!aff.mid) aff.mid = {};
+    const w = md.value.trim();
+    if(w) aff.mid[md.dataset.mid] = w; else delete aff.mid[md.dataset.mid];
+    sichern(); zeichne(); return;
+  }
   const pl = e.target.closest("[data-plan]");
   if(pl){
     const v = parseInt(pl.value, 10);
@@ -2239,13 +2303,13 @@ document.addEventListener("keydown", e => { if(e.key === "Escape") schliesse(); 
 $("btn-disz").addEventListener("click", oeffneDisz);
 $("btn-menu").addEventListener("click", oeffneMenu);
 
-try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({builds, modus, seite, ansicht, fotos, teilfotos, sel, plan, aff, view})); }catch(e){}
+try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({builds, modus, seite, ansicht, fotos, sel, plan, aff, view})); }catch(e){}
 
 function start(daten){
   laden();
   if(daten && daten.builds){
     builds = daten.builds; modus = daten.modus || modus; seite = daten.seite || seite;
-    ansicht = daten.ansicht || ansicht; teilfotos = daten.teilfotos || teilfotos;
+    ansicht = daten.ansicht || ansicht;
     fotos = daten.fotos || fotos;
     sel = daten.sel || sel; plan = daten.plan || plan;
     aff = daten.aff || aff; view = daten.view || view;
