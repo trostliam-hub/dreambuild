@@ -292,6 +292,30 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 
 /* ── Bauteilbilder und PNG-Ausgabe ── */
 
+/* ── Suche, Modelljahr, Laufrad-Zeilen ── */
+.suche{position:sticky;top:0;z-index:3;background:var(--surface);padding:0 0 4px}
+.suche input{width:100%;font:inherit;font-size:14px;padding:10px 12px 10px 36px;border-radius:10px;
+  border:1px solid var(--line);color:var(--ink);background-color:var(--surface-2);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c8996' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:12px center}
+.suche input:focus{border-color:var(--anod);outline:none}
+.filt .treffer{margin-left:auto;align-self:center;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3)}
+.jahrleiste{background:var(--surface);padding:10px 12px 11px;display:flex;flex-direction:column;gap:7px}
+.sheet-b > .jahrleiste{border:1px solid var(--line);border-radius:var(--r);background:var(--surface-2)}
+.jl-k{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.jl-reihe{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.jl-reihe::-webkit-scrollbar{display:none}
+.jl-reihe button{flex:none;border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:12px;
+  font-weight:600;color:var(--ink-2);white-space:nowrap;min-height:32px}
+.jl-reihe button[aria-pressed="true"]{border-color:var(--anod);background:var(--anod-soft);color:var(--anod)}
+.jl-h{font-size:11.5px;color:var(--ink-3);line-height:1.4}
+.rad2{grid-column:1;display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.rz{display:grid;grid-template-columns:50px minmax(0,1fr);gap:8px;font-size:12px;line-height:1.4;color:var(--ink-2)}
+.rz b{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700;padding-top:2px}
+.fit{grid-column:1;font-size:11.5px;font-weight:600;margin-top:5px;color:var(--ink-3);line-height:1.35}
+.fit.ok{color:var(--gut)}
+.fit.no{color:var(--bad)}
+
 /* ── Angebotsbewertung ── */
 .mk{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:13px;margin-bottom:12px}
 .mk h3{font-family:Archivo;font-size:15px;font-weight:700;margin:0 0 3px}
@@ -576,113 +600,113 @@ function mixPaar(s){
 
 const K = {
 rahmen:[
- {id:"f-topfuel", n:"Trek Top Fuel Carbon", m:"Trek", lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12",
+ {id:"f-topfuel", n:"Trek Top Fuel Carbon", m:"Trek", seit:2023, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:false,
   daempfer:{el:185,hub:50,typ:"Trunnion"}, geo:{rs:1175,ks:435,lw:66.5,sw:76,  sr:430,ta:35}, ohne:[], fb:{h:"#1d2c4e",a:"#d6403a"}, e:E(5,3,0,0,0,0,0), g:2450, p:2799},
- {id:"f-stumpy", n:"Specialized Stumpjumper Alloy", m:"Specialized", lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12",
+ {id:"f-stumpy", n:"Specialized Stumpjumper Alloy", m:"Specialized", seit:2021, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:64, maxScheibeHR:203, udh:true,
   daempfer:{el:210,hub:55,typ:"Trunnion"}, geo:{rs:1210,ks:437,lw:65.5,sw:76.5,sr:430,ta:35}, ohne:[], fb:{h:"#49545f",a:"#e9ecef"}, e:E(3,5,3,0,0,0,0), g:3400, p:2099},
- {id:"f-hightower", n:"Santa Cruz Hightower C", m:"Santa Cruz", lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12",
+ {id:"f-hightower", n:"Santa Cruz Hightower C", m:"Santa Cruz", seit:2022, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:34.9, einsteck:230, maxReifen:64, maxScheibeHR:203, udh:true,
   daempfer:{el:210,hub:55,typ:"Trunnion"}, geo:{rs:1215,ks:438,lw:65.5,sw:77,  sr:420,ta:35}, ohne:[], fb:{h:"#1f6f5c",a:"#e6e2d8"}, e:E(3,5,3,0,0,0,0), g:3100, p:3199},
- {id:"f-sentinel", n:"Radon Swoop AL", m:"Radon", lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12",
+ {id:"f-sentinel", n:"Radon Swoop AL", m:"Radon", seit:2022, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:true,
   daempfer:{el:210,hub:55,typ:"Trunnion"}, geo:{rs:1235,ks:440,lw:64.5,sw:77,  sr:440,ta:30}, ohne:[], fb:{h:"#23272c",a:"#f25c05"}, e:E(1,4,5,2,0,0,0), g:3500, p:1199},
- {id:"f-spectral", n:"Canyon Spectral CF", m:"Canyon", lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12",
+ {id:"f-spectral", n:"Canyon Spectral CF", m:"Canyon", seit:2021, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12",
   bb:"PF92", stuetze:30.9, einsteck:225, maxReifen:63, maxScheibeHR:203, udh:true,
   daempfer:{el:205,hub:65,typ:"Trunnion"}, geo:{rs:1220,ks:437,lw:64.5,sw:77.5,sr:430,ta:32}, ohne:[], fb:{h:"#2b2f36",a:"#00a3e0"}, e:E(1,4,5,2,0,0,0), g:2900, p:2499},
- {id:"f-tyee", n:"Propain Tyee CF", m:"Propain", lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12",
+ {id:"f-tyee", n:"Propain Tyee CF", m:"Propain", seit:2022, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:245, maxReifen:65, maxScheibeHR:203, udh:true,
   daempfer:{el:230,hub:65,typ:"Metric"}, geo:{rs:1250,ks:442,lw:64,  sw:78,  sr:430,ta:28}, ohne:[], fb:{h:"#1a1d21",a:"#d1372f"}, e:E(0,3,5,3,0,0,0), g:3200, p:2299},
- {id:"f-capra", n:"YT Capra Core · Mullet", m:"YT", lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12",
+ {id:"f-capra", n:"YT Capra Core · Mullet", m:"YT", seit:2022, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:250, maxReifen:66, maxScheibeHR:203, udh:true,
   daempfer:{el:230,hub:65,typ:"Metric"}, geo:{rs:1255,ks:437,lw:63.5,sw:78,  sr:420,ta:22}, ohne:[], fb:{h:"#101216",a:"#c6ff00"}, e:E(0,2,5,4,0,0,0), g:3600, p:2699},
- {id:"f-metasx", n:"Commencal Meta SX · Super Boost", m:"Commencal", lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"157x12",
+ {id:"f-metasx", n:"Commencal Meta SX · Super Boost", m:"Commencal", seit:2022, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"157x12",
   bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:66, maxScheibeHR:220, udh:false,
   daempfer:{el:230,hub:65,typ:"Metric"}, geo:{rs:1265,ks:440,lw:63,  sw:78,  sr:410,ta:20}, ohne:[], fb:{h:"#0f1115",a:"#ff4d00"}, e:E(0,1,4,5,0,0,0), g:3900, p:1999},
- {id:"f-session", n:"Trek Session · Doppelbrücke", m:"Trek", lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"157x12",
+ {id:"f-session", n:"Trek Session · Doppelbrücke", m:"Trek", seit:2023, lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"157x12",
   bb:"BSA73", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, udh:true,
   daempfer:{el:230,hub:65,typ:"Metric"}, geo:{rs:1290,ks:440,lw:62.5,sw:76,  sr:380,ta:18}, ohne:[], fb:{h:"#111318",a:"#e10600"}, e:E(0,0,1,5,0,0,0), g:4100, p:3499},
- {id:"f-scout", n:"Nukeproof Scout 290 · Hardtail Stahl", m:"Nukeproof", lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12",
+ {id:"f-scout", n:"Nukeproof Scout 290 · Hardtail Stahl", m:"Nukeproof", seit:2020, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:260, maxReifen:63, maxScheibeHR:180, udh:false,
   daempfer:null, geo:{rs:1190,ks:425,lw:65,  sw:75,  sr:420,ta:60}, ohne:["daempfer"], fb:{h:"#3b2f2a",a:"#c85a2a"}, e:E(3,5,2,0,1,0,0), g:2700, p:699},
- {id:"f-absolut", n:"Commencal Absolut · Dirt", m:"Commencal", lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12",
+ {id:"f-absolut", n:"Commencal Absolut · Dirt", m:"Commencal", seit:2020, lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12",
   bb:"BSA73", stuetze:31.6, einsteck:115, maxReifen:60, maxScheibeHR:180, udh:false,
   daempfer:null, geo:{rs:1055,ks:385,lw:68.5,sw:71,  sr:300,ta:5}, ohne:["daempfer"], fb:{h:"#1b3a5c",a:"#ff8a00"}, e:E(0,0,0,0,5,3,1), g:2600, p:649},
- {id:"f-stitched", n:"Canyon Stitched 360 · Dirt", m:"Canyon", lrV:"26", lrH:"26", maxGabel:110, schaft:"gerade", ha:"142x12",
+ {id:"f-stitched", n:"Canyon Stitched 360 · Dirt", m:"Canyon", seit:2019, lrV:"26", lrH:"26", maxGabel:110, schaft:"gerade", ha:"142x12",
   bb:"BSA73", stuetze:31.6, einsteck:115, maxReifen:60, maxScheibeHR:180, udh:false,
   daempfer:null, geo:{rs:1050,ks:383,lw:69,  sw:71,  sr:295,ta:5}, ohne:["daempfer"], fb:{h:"#22252a",a:"#7ad1ff"}, e:E(0,0,0,0,5,3,1), g:2750, p:599},
- {id:"f-soda", n:"NS Bikes Soda Slope · Slopestyle", m:"NS Bikes", lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12",
+ {id:"f-soda", n:"NS Bikes Soda Slope · Slopestyle", m:"NS Bikes", seit:2019, lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12",
   bb:"BSA73", stuetze:31.6, einsteck:120, maxReifen:60, maxScheibeHR:180, udh:false,
   daempfer:{el:190,hub:45,typ:"Metric"}, geo:{rs:1080,ks:400,lw:67,  sw:72,  sr:320,ta:10}, ohne:[], fb:{h:"#0f1418",a:"#8bd34a"}, e:E(0,1,0,0,3,5,0), g:3300, p:1299},
- {id:"f-arcade", n:"Inspired Arcade · Street Trial", m:"Inspired", lrV:"26", lrH:"26", maxGabel:0, schaft:"gerade", ha:"135x10",
+ {id:"f-arcade", n:"Inspired Arcade · Street Trial", m:"Inspired", seit:2019, lrV:"26", lrH:"26", maxGabel:0, schaft:"gerade", ha:"135x10",
   bb:"BSA68", stuetze:31.6, einsteck:105, maxReifen:62, maxScheibeHR:180, udh:false, klSoll:47,
   felgenbremse:true, daempfer:null, geo:{rs:1050,ks:390,lw:70,  sw:72,  sr:300,ta:-15}, ohne:["daempfer"], fb:{h:"#141a22",a:"#cfd3d6"}, e:E(0,0,0,0,2,1,4), g:2300, p:899},
- {id:"f-cleanx4", n:"Clean X4 · Trial Stock 26″", m:"Clean", lrV:"26", lrH:"26", maxGabel:0, schaft:"gerade", ha:"135x10",
+ {id:"f-cleanx4", n:"Clean X4 · Trial Stock 26″", m:"Clean", seit:2019, lrV:"26", lrH:"26", maxGabel:0, schaft:"gerade", ha:"135x10",
   bb:"BSA68", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:180, udh:false, klSoll:47,
   felgenbremse:true, daempfer:null, geo:{rs:1055,ks:375,lw:71,  sw:72,  sr:0,  ta:-55}, ohne:["daempfer","stuetze","sattel"], fb:{h:"#0e1216",a:"#ff2d55"}, e:E(0,0,0,0,0,0,5), g:1750, p:749},
- {id:"f-echo", n:"Echo Mark VI · Trial Mod 20″", m:"Echo", lrV:"20", lrH:"19", maxGabel:0, schaft:"gerade", ha:"116x10",
+ {id:"f-echo", n:"Echo Mark VI · Trial Mod 20″", m:"Echo", seit:2020, lrV:"20", lrH:"19", maxGabel:0, schaft:"gerade", ha:"116x10",
   bb:"BSA68", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:160, udh:false, klSoll:43,
   felgenbremse:true, daempfer:null, geo:{rs:1010,ks:355,lw:72,  sw:72,  sr:0,  ta:-50}, ohne:["daempfer","stuetze","sattel"], fb:{h:"#101418",a:"#00c2a8"}, e:E(0,0,0,0,0,0,5), g:1450, p:599},
- {id:"f-epic8", n:"Specialized Epic 8", m:"Specialized", geo:{rs:1168,ks:437,lw:67.5,sw:76.5,sr:430,ta:42}, fb:{h:"#b0132b",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2100, p:3299},
- {id:"f-supercal", n:"Trek Supercaliber Gen 3", m:"Trek", geo:{rs:1160,ks:435,lw:67,sw:76,sr:420,ta:45}, fb:{h:"#1d2c4e",a:"#f0c419"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:210, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:185,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:1950, p:3499},
- {id:"f-sparkrc", n:"Scott Spark RC", m:"Scott", geo:{rs:1165,ks:437,lw:67,sw:76.5,sr:425,ta:42}, fb:{h:"#f0e6d2",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:false, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2050, p:3199},
- {id:"f-luxtrail", n:"Canyon Lux Trail", m:"Canyon", geo:{rs:1175,ks:437,lw:66.5,sw:76,sr:430,ta:40}, fb:{h:"#2b2f36",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:220, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,4,0,0,0,0,0), g:2000, p:2499},
- {id:"f-oiz", n:"Orbea Oiz", m:"Orbea", geo:{rs:1162,ks:435,lw:67.5,sw:76,sr:425,ta:44}, fb:{h:"#0e3a5c",a:"#7ad1ff"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:1980, p:2999},
- {id:"f-blur", n:"Santa Cruz Blur TR", m:"Santa Cruz", geo:{rs:1170,ks:434,lw:66.5,sw:76.5,sr:420,ta:42}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:212, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,4,0,0,0,0,0), g:1870, p:3399},
- {id:"f-anthem", n:"Giant Anthem Advanced", m:"Giant", geo:{rs:1166,ks:435,lw:67,sw:76,sr:425,ta:44}, fb:{h:"#16181c",a:"#00a94f"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2120, p:2799},
- {id:"f-element", n:"Rocky Mountain Element", m:"Rocky Mountain", geo:{rs:1180,ks:437,lw:66,sw:76.5,sr:430,ta:38}, fb:{h:"#0f2b46",a:"#e94f1d"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:220, maxReifen:62, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(4,5,0,0,0,0,0), g:2250, p:2899},
- {id:"f-chisel", n:"Specialized Chisel", m:"Specialized", geo:{rs:1150,ks:432,lw:67.5,sw:75,sr:440,ta:65}, fb:{h:"#3f4a54",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:440, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(5,3,0,0,0,0,0), g:1450, p:999},
- {id:"f-fuelex", n:"Trek Fuel EX", m:"Trek", geo:{rs:1205,ks:437,lw:65,sw:77,sr:430,ta:35}, fb:{h:"#111318",a:"#e10600"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:3050, p:2799},
- {id:"f-stumpy15", n:"Specialized Stumpjumper 15", m:"Specialized", geo:{rs:1210,ks:438,lw:64.5,sw:77,sr:425,ta:34}, fb:{h:"#2b3a55",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,4,0,0,0,0), g:2750, p:3499},
- {id:"f-ripmoaf", n:"Ibis Ripmo AF", m:"Ibis", geo:{rs:1230,ks:436,lw:64.5,sw:76.5,sr:420,ta:30}, fb:{h:"#1a1d21",a:"#f25c05"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(1,5,5,1,0,0,0), g:3400, p:1999},
- {id:"f-spur", n:"Transition Spur", m:"Transition", geo:{rs:1180,ks:435,lw:66,sw:76,sr:415,ta:40}, fb:{h:"#5b2d8e",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:220, maxReifen:62, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,5,0,0,0,0,0), g:2050, p:2999},
- {id:"f-optic", n:"Norco Optic", m:"Norco", geo:{rs:1200,ks:435,lw:64.5,sw:77,sr:420,ta:34}, fb:{h:"#16181c",a:"#00b3a4"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(2,5,3,0,0,0,0), g:2900, p:2399},
- {id:"f-occam", n:"Orbea Occam", m:"Orbea", geo:{rs:1205,ks:437,lw:65,sw:76.5,sr:425,ta:35}, fb:{h:"#0e3a5c",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:232, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2850, p:2599},
- {id:"f-genius", n:"Scott Genius", m:"Scott", geo:{rs:1215,ks:438,lw:64.5,sw:77.5,sr:420,ta:32}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:false, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(2,5,4,0,0,0,0), g:2950, p:3199},
- {id:"f-trancex", n:"Giant Trance X", m:"Giant", geo:{rs:1200,ks:435,lw:65,sw:76.5,sr:425,ta:36}, fb:{h:"#16181c",a:"#00a94f"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:230, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2980, p:2299},
- {id:"f-trail429", n:"Pivot Trail 429", m:"Pivot", geo:{rs:1190,ks:432,lw:66,sw:76.5,sr:415,ta:38}, fb:{h:"#0f1115",a:"#e6c200"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"157x12", bb:"BSA73", stuetze:31.6, einsteck:225, maxReifen:63, maxScheibeHR:203, udh:false, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(4,5,2,0,0,0,0), g:2650, p:3599},
- {id:"f-sb120", n:"Yeti SB120", m:"Yeti", geo:{rs:1195,ks:436,lw:66,sw:77,sr:420,ta:36}, fb:{h:"#1f6f5c",a:"#101216"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:225, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(4,5,2,0,0,0,0), g:2600, p:3799},
- {id:"f-following", n:"Evil Following", m:"Evil", geo:{rs:1190,ks:435,lw:65.5,sw:76.5,sr:410,ta:36}, fb:{h:"#5b2d8e",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:222, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:190,hub:50,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2750, p:3299},
- {id:"f-stereo177", n:"Cube Stereo ONE77", m:"Cube", geo:{rs:1205,ks:437,lw:65,sw:77,sr:430,ta:35}, fb:{h:"#101418",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:3000, p:1999},
- {id:"f-instinct", n:"Rocky Mountain Instinct", m:"Rocky Mountain", geo:{rs:1208,ks:438,lw:65,sw:77,sr:425,ta:35}, fb:{h:"#0f2b46",a:"#e94f1d"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:232, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2950, p:2699},
- {id:"f-slash", n:"Trek Slash", m:"Trek", geo:{rs:1250,ks:442,lw:63.5,sw:78,sr:420,ta:28}, fb:{h:"#111318",a:"#e10600"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3300, p:3199},
- {id:"f-enduro", n:"Specialized Enduro", m:"Specialized", geo:{rs:1255,ks:440,lw:63.5,sw:78,sr:415,ta:26}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3250, p:3299},
- {id:"f-megatower", n:"Santa Cruz Megatower", m:"Santa Cruz", geo:{rs:1258,ks:441,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:238, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3200, p:3999},
- {id:"f-torque", n:"Canyon Torque", m:"Canyon", geo:{rs:1262,ks:443,lw:63,sw:78,sr:410,ta:24}, fb:{h:"#2b2f36",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3500, p:2299},
- {id:"f-strive", n:"Canyon Strive CFR", m:"Canyon", geo:{rs:1250,ks:440,lw:63.5,sw:78,sr:415,ta:28}, fb:{h:"#2b2f36",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3100, p:3499},
- {id:"f-giga", n:"Nukeproof Giga", m:"Nukeproof", geo:{rs:1265,ks:445,lw:63,sw:78,sr:410,ta:24}, fb:{h:"#3b2f2a",a:"#c85a2a"}, lrV:"29", lrH:"29", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3600, p:2199},
- {id:"f-rallon", n:"Orbea Rallon", m:"Orbea", geo:{rs:1252,ks:440,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#0e3a5c",a:"#ff8a00"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3250, p:2999},
- {id:"f-ransom", n:"Scott Ransom", m:"Scott", geo:{rs:1260,ks:443,lw:63,sw:78,sr:410,ta:25}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:false, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3450, p:3299},
- {id:"f-reign", n:"Giant Reign", m:"Giant", geo:{rs:1255,ks:438,lw:63.5,sw:78,sr:415,ta:24}, fb:{h:"#16181c",a:"#00a94f"}, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:238, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3400, p:2199},
- {id:"f-sentinel2", n:"Transition Sentinel", m:"Transition", geo:{rs:1255,ks:440,lw:63.5,sw:78,sr:420,ta:28}, fb:{h:"#5b2d8e",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3300, p:2499},
- {id:"f-hd6", n:"Ibis HD6", m:"Ibis", geo:{rs:1250,ks:439,lw:63.5,sw:78,sr:415,ta:28}, fb:{h:"#1a1d21",a:"#f25c05"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3100, p:3799},
- {id:"f-sb160", n:"Yeti SB160", m:"Yeti", geo:{rs:1252,ks:441,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#1f6f5c",a:"#101216"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3200, p:4299},
- {id:"f-foxy", n:"Mondraker Foxy", m:"Mondraker", geo:{rs:1240,ks:437,lw:64,sw:77.5,sr:415,ta:30}, fb:{h:"#101216",a:"#00c2a8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:235, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(0,4,5,2,0,0,0), g:3050, p:2699},
- {id:"f-metatr", n:"Commencal Meta TR", m:"Commencal", geo:{rs:1238,ks:438,lw:64,sw:77.5,sr:415,ta:30}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:235, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(0,4,5,2,0,0,0), g:3200, p:1799},
- {id:"f-spindrift", n:"Propain Spindrift", m:"Propain", geo:{rs:1262,ks:440,lw:63,sw:78,sr:410,ta:22}, fb:{h:"#1a1d21",a:"#d1372f"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,1,5,4,0,0,0), g:3500, p:2499},
- {id:"f-tarvo", n:"Last Tarvo", m:"Last", geo:{rs:1250,ks:440,lw:63.5,sw:78,sr:410,ta:28}, fb:{h:"#23272c",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3000, p:3299},
- {id:"f-301", n:"Liteville 301 CE", m:"Liteville", geo:{rs:1235,ks:438,lw:64.5,sw:77,sr:420,ta:32}, fb:{h:"#49545f",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:false, daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(1,5,4,0,0,0,0), g:3150, p:3599},
- {id:"f-nomad", n:"Santa Cruz Nomad", m:"Santa Cruz", geo:{rs:1250,ks:437,lw:63.5,sw:78,sr:410,ta:22}, fb:{h:"#1f6f5c",a:"#ff2d55"}, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:238, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3250, p:3899},
- {id:"f-demo", n:"Specialized Demo Race", m:"Specialized", geo:{rs:1290,ks:445,lw:62.5,sw:76,sr:380,ta:18}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:130, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4000, p:3799},
- {id:"f-v10", n:"Santa Cruz V10", m:"Santa Cruz", geo:{rs:1295,ks:447,lw:62,sw:76,sr:375,ta:17}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:130, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4100, p:4299},
- {id:"f-supreme", n:"Commencal Supreme DH", m:"Commencal", geo:{rs:1288,ks:443,lw:62.5,sw:76,sr:370,ta:16}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4200, p:2699},
- {id:"f-tues", n:"YT Tues", m:"YT", geo:{rs:1285,ks:442,lw:62.5,sw:76,sr:375,ta:18}, fb:{h:"#101216",a:"#c6ff00"}, lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4150, p:2999},
- {id:"f-sender", n:"Canyon Sender CFR", m:"Canyon", geo:{rs:1292,ks:446,lw:62,sw:76,sr:380,ta:17}, fb:{h:"#2b2f36",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:30.9, einsteck:130, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:3950, p:3999},
- {id:"f-gambler", n:"Scott Gambler", m:"Scott", geo:{rs:1290,ks:445,lw:62.5,sw:76,sr:375,ta:18}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:128, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4200, p:3299},
- {id:"f-fuse", n:"Specialized Fuse", m:"Specialized", geo:{rs:1185,ks:428,lw:65,sw:75.5,sr:430,ta:62}, fb:{h:"#3f4a54",a:"#ff8a00"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:440, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,1,0,0), g:2600, p:899},
- {id:"f-roscoe", n:"Trek Roscoe", m:"Trek", geo:{rs:1190,ks:430,lw:65.5,sw:75,sr:425,ta:64}, fb:{h:"#1d2c4e",a:"#f0c419"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:435, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,1,0,0), g:2700, p:799},
- {id:"f-stoic", n:"Canyon Stoic", m:"Canyon", geo:{rs:1188,ks:427,lw:64.5,sw:75.5,sr:430,ta:60}, fb:{h:"#2b2f36",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:445, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(2,5,3,0,1,0,0), g:2550, p:799},
- {id:"f-honzo", n:"Kona Honzo", m:"Kona", geo:{rs:1195,ks:425,lw:65,sw:75,sr:435,ta:62}, fb:{h:"#16181c",a:"#e94f1d"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:450, maxReifen:66, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,2,0,0), g:2650, p:899},
- {id:"f-chameleon", n:"Santa Cruz Chameleon", m:"Santa Cruz", geo:{rs:1190,ks:430,lw:65.5,sw:75.5,sr:430,ta:60}, fb:{h:"#1f6f5c",a:"#ff2d55"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:445, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,2,0,0), g:2400, p:1099},
- {id:"f-marley", n:"Ragley Marley", m:"Ragley", geo:{rs:1195,ks:425,lw:64.5,sw:75,sr:430,ta:58}, fb:{h:"#3b2f2a",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:450, maxReifen:66, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(2,5,3,0,2,0,0), g:2800, p:649},
- {id:"f-movement", n:"NS Bikes Movement 3", m:"NS Bikes", geo:{rs:1055,ks:383,lw:68.5,sw:71,sr:300,ta:5}, fb:{h:"#0f1418",a:"#8bd34a"}, lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12", bb:"BSA73", stuetze:31.6, einsteck:115, maxReifen:60, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,3,1), g:2550, p:599},
- {id:"f-two6", n:"Dartmoor Two6Player", m:"Dartmoor", geo:{rs:1050,ks:382,lw:69,sw:71,sr:295,ta:5}, fb:{h:"#16181c",a:"#ff8a00"}, lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12", bb:"BSA73", stuetze:31.6, einsteck:115, maxReifen:60, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,3,1), g:2600, p:549},
- {id:"f-p3", n:"Specialized P.3", m:"Specialized", geo:{rs:1045,ks:380,lw:69.5,sw:71,sr:290,ta:8}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"26", lrH:"26", maxGabel:100, schaft:"tapered", ha:"135x10", bb:"BSA68", stuetze:30.9, einsteck:115, maxReifen:58, maxScheibeHR:160, udh:false, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,2,1), g:2450, p:749},
- {id:"f-voltage", n:"Scott Voltage", m:"Scott", geo:{rs:1085,ks:402,lw:67,sw:72,sr:320,ta:10}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12", bb:"BSA73", stuetze:31.6, einsteck:120, maxReifen:60, maxScheibeHR:180, udh:false, daempfer:{el:190,hub:45,typ:"Metric"}, ohne:[], e:E(0,1,0,0,3,5,0), g:3350, p:1199},
- {id:"f-bb026", n:"Because BB026", m:"Because", geo:{rs:1050,ks:372,lw:71,sw:72,sr:0,ta:-55}, fb:{h:"#101418",a:"#ff8a00"}, lrV:"26", lrH:"26", maxGabel:0, schaft:"gerade", ha:"135x10", bb:"BSA68", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:180, udh:false, klSoll:47, felgenbremse:true, daempfer:null, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1700, p:899},
- {id:"f-fourplay", n:"Inspired Fourplay", m:"Inspired", geo:{rs:1030,ks:380,lw:70.5,sw:72,sr:290,ta:-10}, fb:{h:"#141a22",a:"#00c2a8"}, lrV:"24", lrH:"24", maxGabel:0, schaft:"gerade", ha:"135x10", bb:"BSA68", stuetze:31.6, einsteck:110, maxReifen:62, maxScheibeHR:180, udh:false, klSoll:47, felgenbremse:true, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,2,1,4), g:2250, p:949},
- {id:"f-czar", n:"Czar Ion 20", m:"Czar", geo:{rs:1005,ks:352,lw:72,sw:72,sr:0,ta:-50}, fb:{h:"#101418",a:"#ff2d55"}, lrV:"20", lrH:"19", maxGabel:0, schaft:"gerade", ha:"116x10", bb:"BSA68", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:160, udh:false, klSoll:43, felgenbremse:true, daempfer:null, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1420, p:649}
+ {id:"f-epic8", n:"Specialized Epic 8", m:"Specialized", seit:2024, geo:{rs:1168,ks:437,lw:67.5,sw:76.5,sr:430,ta:42}, fb:{h:"#b0132b",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2100, p:3299},
+ {id:"f-supercal", n:"Trek Supercaliber Gen 3", m:"Trek", seit:2024, geo:{rs:1160,ks:435,lw:67,sw:76,sr:420,ta:45}, fb:{h:"#1d2c4e",a:"#f0c419"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:210, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:185,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:1950, p:3499},
+ {id:"f-sparkrc", n:"Scott Spark RC", m:"Scott", seit:2022, geo:{rs:1165,ks:437,lw:67,sw:76.5,sr:425,ta:42}, fb:{h:"#f0e6d2",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:false, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2050, p:3199},
+ {id:"f-luxtrail", n:"Canyon Lux Trail", m:"Canyon", seit:2021, geo:{rs:1175,ks:437,lw:66.5,sw:76,sr:430,ta:40}, fb:{h:"#2b2f36",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:220, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,4,0,0,0,0,0), g:2000, p:2499},
+ {id:"f-oiz", n:"Orbea Oiz", m:"Orbea", seit:2022, geo:{rs:1162,ks:435,lw:67.5,sw:76,sr:425,ta:44}, fb:{h:"#0e3a5c",a:"#7ad1ff"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:1980, p:2999},
+ {id:"f-blur", n:"Santa Cruz Blur TR", m:"Santa Cruz", seit:2023, geo:{rs:1170,ks:434,lw:66.5,sw:76.5,sr:420,ta:42}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:212, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,4,0,0,0,0,0), g:1870, p:3399},
+ {id:"f-anthem", n:"Giant Anthem Advanced", m:"Giant", seit:2022, geo:{rs:1166,ks:435,lw:67,sw:76,sr:425,ta:44}, fb:{h:"#16181c",a:"#00a94f"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2120, p:2799},
+ {id:"f-element", n:"Rocky Mountain Element", m:"Rocky Mountain", seit:2023, geo:{rs:1180,ks:437,lw:66,sw:76.5,sr:430,ta:38}, fb:{h:"#0f2b46",a:"#e94f1d"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:220, maxReifen:62, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(4,5,0,0,0,0,0), g:2250, p:2899},
+ {id:"f-chisel", n:"Specialized Chisel", m:"Specialized", seit:2021, geo:{rs:1150,ks:432,lw:67.5,sw:75,sr:440,ta:65}, fb:{h:"#3f4a54",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:440, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(5,3,0,0,0,0,0), g:1450, p:999},
+ {id:"f-fuelex", n:"Trek Fuel EX", m:"Trek", seit:2023, geo:{rs:1205,ks:437,lw:65,sw:77,sr:430,ta:35}, fb:{h:"#111318",a:"#e10600"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:3050, p:2799},
+ {id:"f-stumpy15", n:"Specialized Stumpjumper 15", m:"Specialized", seit:2025, geo:{rs:1210,ks:438,lw:64.5,sw:77,sr:425,ta:34}, fb:{h:"#2b3a55",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,4,0,0,0,0), g:2750, p:3499},
+ {id:"f-ripmoaf", n:"Ibis Ripmo AF", m:"Ibis", seit:2020, geo:{rs:1230,ks:436,lw:64.5,sw:76.5,sr:420,ta:30}, fb:{h:"#1a1d21",a:"#f25c05"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(1,5,5,1,0,0,0), g:3400, p:1999},
+ {id:"f-spur", n:"Transition Spur", m:"Transition", seit:2023, geo:{rs:1180,ks:435,lw:66,sw:76,sr:415,ta:40}, fb:{h:"#5b2d8e",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:220, maxReifen:62, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,5,0,0,0,0,0), g:2050, p:2999},
+ {id:"f-optic", n:"Norco Optic", m:"Norco", seit:2023, geo:{rs:1200,ks:435,lw:64.5,sw:77,sr:420,ta:34}, fb:{h:"#16181c",a:"#00b3a4"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(2,5,3,0,0,0,0), g:2900, p:2399},
+ {id:"f-occam", n:"Orbea Occam", m:"Orbea", seit:2023, geo:{rs:1205,ks:437,lw:65,sw:76.5,sr:425,ta:35}, fb:{h:"#0e3a5c",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:232, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2850, p:2599},
+ {id:"f-genius", n:"Scott Genius", m:"Scott", seit:2022, geo:{rs:1215,ks:438,lw:64.5,sw:77.5,sr:420,ta:32}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:false, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(2,5,4,0,0,0,0), g:2950, p:3199},
+ {id:"f-trancex", n:"Giant Trance X", m:"Giant", seit:2022, geo:{rs:1200,ks:435,lw:65,sw:76.5,sr:425,ta:36}, fb:{h:"#16181c",a:"#00a94f"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:230, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2980, p:2299},
+ {id:"f-trail429", n:"Pivot Trail 429", m:"Pivot", seit:2023, geo:{rs:1190,ks:432,lw:66,sw:76.5,sr:415,ta:38}, fb:{h:"#0f1115",a:"#e6c200"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"157x12", bb:"BSA73", stuetze:31.6, einsteck:225, maxReifen:63, maxScheibeHR:203, udh:false, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(4,5,2,0,0,0,0), g:2650, p:3599},
+ {id:"f-sb120", n:"Yeti SB120", m:"Yeti", seit:2022, geo:{rs:1195,ks:436,lw:66,sw:77,sr:420,ta:36}, fb:{h:"#1f6f5c",a:"#101216"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:225, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:190,hub:45,typ:"Trunnion"}, ohne:[], e:E(4,5,2,0,0,0,0), g:2600, p:3799},
+ {id:"f-following", n:"Evil Following", m:"Evil", seit:2023, geo:{rs:1190,ks:435,lw:65.5,sw:76.5,sr:410,ta:36}, fb:{h:"#5b2d8e",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:222, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:190,hub:50,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2750, p:3299},
+ {id:"f-stereo177", n:"Cube Stereo ONE77", m:"Cube", seit:2024, geo:{rs:1205,ks:437,lw:65,sw:77,sr:430,ta:35}, fb:{h:"#101418",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:3000, p:1999},
+ {id:"f-instinct", n:"Rocky Mountain Instinct", m:"Rocky Mountain", seit:2023, geo:{rs:1208,ks:438,lw:65,sw:77,sr:425,ta:35}, fb:{h:"#0f2b46",a:"#e94f1d"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:232, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2950, p:2699},
+ {id:"f-slash", n:"Trek Slash", m:"Trek", seit:2024, geo:{rs:1250,ks:442,lw:63.5,sw:78,sr:420,ta:28}, fb:{h:"#111318",a:"#e10600"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3300, p:3199},
+ {id:"f-enduro", n:"Specialized Enduro", m:"Specialized", seit:2020, geo:{rs:1255,ks:440,lw:63.5,sw:78,sr:415,ta:26}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3250, p:3299},
+ {id:"f-megatower", n:"Santa Cruz Megatower", m:"Santa Cruz", seit:2022, geo:{rs:1258,ks:441,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:238, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3200, p:3999},
+ {id:"f-torque", n:"Canyon Torque", m:"Canyon", seit:2023, geo:{rs:1262,ks:443,lw:63,sw:78,sr:410,ta:24}, fb:{h:"#2b2f36",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3500, p:2299},
+ {id:"f-strive", n:"Canyon Strive CFR", m:"Canyon", seit:2022, geo:{rs:1250,ks:440,lw:63.5,sw:78,sr:415,ta:28}, fb:{h:"#2b2f36",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3100, p:3499},
+ {id:"f-giga", n:"Nukeproof Giga", m:"Nukeproof", seit:2021, geo:{rs:1265,ks:445,lw:63,sw:78,sr:410,ta:24}, fb:{h:"#3b2f2a",a:"#c85a2a"}, lrV:"29", lrH:"29", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3600, p:2199},
+ {id:"f-rallon", n:"Orbea Rallon", m:"Orbea", seit:2022, geo:{rs:1252,ks:440,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#0e3a5c",a:"#ff8a00"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3250, p:2999},
+ {id:"f-ransom", n:"Scott Ransom", m:"Scott", seit:2022, geo:{rs:1260,ks:443,lw:63,sw:78,sr:410,ta:25}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:false, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3450, p:3299},
+ {id:"f-reign", n:"Giant Reign", m:"Giant", seit:2023, geo:{rs:1255,ks:438,lw:63.5,sw:78,sr:415,ta:24}, fb:{h:"#16181c",a:"#00a94f"}, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:238, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3400, p:2199},
+ {id:"f-sentinel2", n:"Transition Sentinel", m:"Transition", seit:2022, geo:{rs:1255,ks:440,lw:63.5,sw:78,sr:420,ta:28}, fb:{h:"#5b2d8e",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3300, p:2499},
+ {id:"f-hd6", n:"Ibis HD6", m:"Ibis", seit:2023, geo:{rs:1250,ks:439,lw:63.5,sw:78,sr:415,ta:28}, fb:{h:"#1a1d21",a:"#f25c05"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3100, p:3799},
+ {id:"f-sb160", n:"Yeti SB160", m:"Yeti", seit:2023, geo:{rs:1252,ks:441,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#1f6f5c",a:"#101216"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3200, p:4299},
+ {id:"f-foxy", n:"Mondraker Foxy", m:"Mondraker", seit:2023, geo:{rs:1240,ks:437,lw:64,sw:77.5,sr:415,ta:30}, fb:{h:"#101216",a:"#00c2a8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:235, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(0,4,5,2,0,0,0), g:3050, p:2699},
+ {id:"f-metatr", n:"Commencal Meta TR", m:"Commencal", seit:2022, geo:{rs:1238,ks:438,lw:64,sw:77.5,sr:415,ta:30}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:235, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(0,4,5,2,0,0,0), g:3200, p:1799},
+ {id:"f-spindrift", n:"Propain Spindrift", m:"Propain", seit:2022, geo:{rs:1262,ks:440,lw:63,sw:78,sr:410,ta:22}, fb:{h:"#1a1d21",a:"#d1372f"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,1,5,4,0,0,0), g:3500, p:2499},
+ {id:"f-tarvo", n:"Last Tarvo", m:"Last", seit:2020, geo:{rs:1250,ks:440,lw:63.5,sw:78,sr:410,ta:28}, fb:{h:"#23272c",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3000, p:3299},
+ {id:"f-301", n:"Liteville 301 CE", m:"Liteville", seit:2021, geo:{rs:1235,ks:438,lw:64.5,sw:77,sr:420,ta:32}, fb:{h:"#49545f",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:false, daempfer:{el:210,hub:55,typ:"Trunnion"}, ohne:[], e:E(1,5,4,0,0,0,0), g:3150, p:3599},
+ {id:"f-nomad", n:"Santa Cruz Nomad", m:"Santa Cruz", seit:2023, geo:{rs:1250,ks:437,lw:63.5,sw:78,sr:410,ta:22}, fb:{h:"#1f6f5c",a:"#ff2d55"}, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:238, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Metric"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3250, p:3899},
+ {id:"f-demo", n:"Specialized Demo Race", m:"Specialized", seit:2023, geo:{rs:1290,ks:445,lw:62.5,sw:76,sr:380,ta:18}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:130, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4000, p:3799},
+ {id:"f-v10", n:"Santa Cruz V10", m:"Santa Cruz", seit:2023, geo:{rs:1295,ks:447,lw:62,sw:76,sr:375,ta:17}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:130, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4100, p:4299},
+ {id:"f-supreme", n:"Commencal Supreme DH", m:"Commencal", seit:2022, geo:{rs:1288,ks:443,lw:62.5,sw:76,sr:370,ta:16}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4200, p:2699},
+ {id:"f-tues", n:"YT Tues", m:"YT", seit:2024, geo:{rs:1285,ks:442,lw:62.5,sw:76,sr:375,ta:18}, fb:{h:"#101216",a:"#c6ff00"}, lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4150, p:2999},
+ {id:"f-sender", n:"Canyon Sender CFR", m:"Canyon", seit:2022, geo:{rs:1292,ks:446,lw:62,sw:76,sr:380,ta:17}, fb:{h:"#2b2f36",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:30.9, einsteck:130, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:3950, p:3999},
+ {id:"f-gambler", n:"Scott Gambler", m:"Scott", seit:2020, geo:{rs:1290,ks:445,lw:62.5,sw:76,sr:375,ta:18}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:128, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:250,hub:75,typ:"Metric"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4200, p:3299},
+ {id:"f-fuse", n:"Specialized Fuse", m:"Specialized", seit:2022, geo:{rs:1185,ks:428,lw:65,sw:75.5,sr:430,ta:62}, fb:{h:"#3f4a54",a:"#ff8a00"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:440, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,1,0,0), g:2600, p:899},
+ {id:"f-roscoe", n:"Trek Roscoe", m:"Trek", seit:2022, geo:{rs:1190,ks:430,lw:65.5,sw:75,sr:425,ta:64}, fb:{h:"#1d2c4e",a:"#f0c419"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:435, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,1,0,0), g:2700, p:799},
+ {id:"f-stoic", n:"Canyon Stoic", m:"Canyon", seit:2021, geo:{rs:1188,ks:427,lw:64.5,sw:75.5,sr:430,ta:60}, fb:{h:"#2b2f36",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:445, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(2,5,3,0,1,0,0), g:2550, p:799},
+ {id:"f-honzo", n:"Kona Honzo", m:"Kona", seit:2021, geo:{rs:1195,ks:425,lw:65,sw:75,sr:435,ta:62}, fb:{h:"#16181c",a:"#e94f1d"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:450, maxReifen:66, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,2,0,0), g:2650, p:899},
+ {id:"f-chameleon", n:"Santa Cruz Chameleon", m:"Santa Cruz", seit:2022, geo:{rs:1190,ks:430,lw:65.5,sw:75.5,sr:430,ta:60}, fb:{h:"#1f6f5c",a:"#ff2d55"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:445, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,2,0,0), g:2400, p:1099},
+ {id:"f-marley", n:"Ragley Marley", m:"Ragley", seit:2021, geo:{rs:1195,ks:425,lw:64.5,sw:75,sr:430,ta:58}, fb:{h:"#3b2f2a",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:450, maxReifen:66, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(2,5,3,0,2,0,0), g:2800, p:649},
+ {id:"f-movement", n:"NS Bikes Movement 3", m:"NS Bikes", seit:2021, geo:{rs:1055,ks:383,lw:68.5,sw:71,sr:300,ta:5}, fb:{h:"#0f1418",a:"#8bd34a"}, lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12", bb:"BSA73", stuetze:31.6, einsteck:115, maxReifen:60, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,3,1), g:2550, p:599},
+ {id:"f-two6", n:"Dartmoor Two6Player", m:"Dartmoor", seit:2021, geo:{rs:1050,ks:382,lw:69,sw:71,sr:295,ta:5}, fb:{h:"#16181c",a:"#ff8a00"}, lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12", bb:"BSA73", stuetze:31.6, einsteck:115, maxReifen:60, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,3,1), g:2600, p:549},
+ {id:"f-p3", n:"Specialized P.3", m:"Specialized", seit:2019, geo:{rs:1045,ks:380,lw:69.5,sw:71,sr:290,ta:8}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"26", lrH:"26", maxGabel:100, schaft:"tapered", ha:"135x10", bb:"BSA68", stuetze:30.9, einsteck:115, maxReifen:58, maxScheibeHR:160, udh:false, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,2,1), g:2450, p:749},
+ {id:"f-voltage", n:"Scott Voltage", m:"Scott", seit:2020, geo:{rs:1085,ks:402,lw:67,sw:72,sr:320,ta:10}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"26", lrH:"26", maxGabel:110, schaft:"tapered", ha:"142x12", bb:"BSA73", stuetze:31.6, einsteck:120, maxReifen:60, maxScheibeHR:180, udh:false, daempfer:{el:190,hub:45,typ:"Metric"}, ohne:[], e:E(0,1,0,0,3,5,0), g:3350, p:1199},
+ {id:"f-bb026", n:"Because BB026", m:"Because", seit:2021, geo:{rs:1050,ks:372,lw:71,sw:72,sr:0,ta:-55}, fb:{h:"#101418",a:"#ff8a00"}, lrV:"26", lrH:"26", maxGabel:0, schaft:"gerade", ha:"135x10", bb:"BSA68", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:180, udh:false, klSoll:47, felgenbremse:true, daempfer:null, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1700, p:899},
+ {id:"f-fourplay", n:"Inspired Fourplay", m:"Inspired", seit:2019, geo:{rs:1030,ks:380,lw:70.5,sw:72,sr:290,ta:-10}, fb:{h:"#141a22",a:"#00c2a8"}, lrV:"24", lrH:"24", maxGabel:0, schaft:"gerade", ha:"135x10", bb:"BSA68", stuetze:31.6, einsteck:110, maxReifen:62, maxScheibeHR:180, udh:false, klSoll:47, felgenbremse:true, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,2,1,4), g:2250, p:949},
+ {id:"f-czar", n:"Czar Ion 20", m:"Czar", seit:2022, geo:{rs:1005,ks:352,lw:72,sw:72,sr:0,ta:-50}, fb:{h:"#101418",a:"#ff2d55"}, lrV:"20", lrH:"19", maxGabel:0, schaft:"gerade", ha:"116x10", bb:"BSA68", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:160, udh:false, klSoll:43, felgenbremse:true, daempfer:null, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1420, p:649}
 ],
 gabel:[
  {id:"g-sid", n:"RockShox SID SL Ultimate 110", m:"RockShox", travel:110, schaft:"tapered", va:"110x15", lr:["29"],
@@ -1176,10 +1200,6 @@ const PLAN_START = {budget:0, fahrer:0, mSchalt:"", mBrems:"", mFed:"", prio:"pl
 /* Was ein gebrauchtes Rad wert ist, haengt an vier Dingen: was neu drin steckt,
    wie alt es ist, in welchem Zustand, und was an Verschleiss sofort faellig wird. */
 const MARKT_START = {alter:3, zustand:"gepflegt", verschleiss:{}, preis:0};
-const ALTERSSTUFEN = [
-  {v:0,   l:"Neu"},      {v:1, l:"1 Jahr"},   {v:2, l:"2 Jahre"}, {v:3, l:"3 Jahre"},
-  {v:4.5, l:"4–5 Jahre"},{v:7, l:"6–8 Jahre"},{v:10, l:"9 Jahre +"}
-];
 const ZUSTAENDE = [
   {v:"neuwertig",  l:"Neuwertig",  f:1.12, t:"kaum Spuren, alles läuft"},
   {v:"gepflegt",   l:"Gepflegt",   f:1.00, t:"normale Spuren, gewartet"},
@@ -1218,7 +1238,12 @@ const AFF_START = {
 const leerBau = () => { const o = {}; for(const s of SLOTS) o[s.k] = null; return o; };
 let builds = {traum:{...START}, real:leerBau(), markt:leerBau()};
 let modus = "traum";
-let zuGeklappt = {};   /* Themen, die der Nutzer eingeklappt hat */
+let zuGeklappt = {};
+/* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
+   Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
+const AKTUELL = new Date().getFullYear();
+let jahrWahl = {traum:AKTUELL, real:AKTUELL, markt:AKTUELL - 3};
+const jahrAktiv = () => jahrWahl[modus] || AKTUELL;   /* Themen, die der Nutzer eingeklappt hat */
 let fotoZiel = null;   /* worauf sich die naechste Dateiauswahl bezieht */
 /* Produktfeed des Partnerprogramms: Bild-URL, Preis und Direktlink je Teil.
    Diese Bilder sind zur Anzeige freigegeben -- anders als Fotos, die man sich
@@ -1251,6 +1276,13 @@ function laden(){
     }
     const md = localStorage.getItem("mtb.modus");
     if(md === "real" || md === "traum" || md === "markt") modus = md;
+    const jw = localStorage.getItem("mtb.jahr");
+    if(jw){ const q = JSON.parse(jw); if(q && typeof q === "object") jahrWahl = {...jahrWahl, ...q}; }
+    else {
+      /* Vor dem Modelljahr gab es im Angebotsmodus nur ein Alter in Jahren */
+      const alt = localStorage.getItem("mtb.markt");
+      if(alt){ const q = JSON.parse(alt); if(q && typeof q.alter === "number") jahrWahl.markt = AKTUELL - Math.round(q.alter); }
+    }
     const zg = localStorage.getItem("mtb.zu");
     if(zg){ const q = JSON.parse(zg); if(q && typeof q === "object") zuGeklappt = q; }
     const fd = localStorage.getItem("mtb.feed");
@@ -1280,6 +1312,7 @@ function sichern(){
     localStorage.setItem("mtb.modus", modus);
     localStorage.setItem("mtb.feed", JSON.stringify(feed));
     localStorage.setItem("mtb.zu", JSON.stringify(zuGeklappt));
+    localStorage.setItem("mtb.jahr", JSON.stringify(jahrWahl));
     localStorage.setItem("mtb.sel", JSON.stringify(sel));
     localStorage.setItem("mtb.plan", JSON.stringify(plan));
     localStorage.setItem("mtb.markt", JSON.stringify(markt));
@@ -1327,6 +1360,10 @@ function pruefe(b){
     else if(mp.min < .40) out.push(W("Weiter Spagat zwischen den Disziplinen","",[],
       `<code>${dLang(mp.paar[0])}</code> und <code>${dLang(mp.paar[1])}</code> ziehen stark auseinander. Machbar, aber jedes Teil wird ein Kompromiss — der Charakter-Wert wird nie hoch. Das ist kein Fehler im Aufbau, sondern im Plan.`));
   }
+
+  if(rahmen && rahmen.seit && jahrAktiv() < rahmen.seit)
+    out.push(W("Modelljahr älter als diese Generation","rahmen",["rahmen"],
+      `Den <code>${rahmen.n}</code> gibt es in dieser Form erst seit etwa <code>${rahmen.seit}</code>. Ein ${jahrAktiv()}er ist die Vorgängergeneration — Achsmaße, Dämpfergröße und Geometrie können anders sein. Die Prüfung rechnet mit der aktuellen Generation; gleich die Maße am echten Rad ab.`));
 
   if(rahmen && gabel){
     if(gabel.schaft !== rahmen.schaft){
@@ -1600,7 +1637,8 @@ function marktWert(b){
   if(!r.teile) return null;
   const teileEinzeln = r.preis;
   const neu = Math.round(teileEinzeln * KOMPLETTRAD);
-  const rw = restwertFaktor(markt.alter);
+  const alter = Math.max(0, AKTUELL - jahrWahl.markt);
+  const rw = restwertFaktor(alter);
   const z = (ZUSTAENDE.find(x => x.v === markt.zustand) || ZUSTAENDE[1]).f;
 
   /* Veraltete Standards kosten am Gebrauchtmarkt mehr als ihr technischer
@@ -1631,7 +1669,7 @@ function marktWert(b){
   const vs = Math.min(vsRoh, deckel);
   const gedeckelt = vsRoh > deckel;
   const wert = Math.max(Math.round(neu * 0.08), Math.round(basis - vs));
-  return {teileEinzeln:teileEinzeln, neu:neu, rw:rw, z:z, stdF:stdF, gedeckelt:gedeckelt,
+  return {teileEinzeln:teileEinzeln, neu:neu, alter:alter, rw:rw, z:z, stdF:stdF, gedeckelt:gedeckelt,
           abzuege:abzuege, vs:Math.round(vs), vsRoh:vsRoh, vsListe:vsListe,
           basis:Math.round(basis), wert:wert,
           unten:Math.round(wert*0.85), oben:Math.round(wert*1.15), befunde:r.funde};
@@ -1921,7 +1959,20 @@ function affHtml(teil, kompakt){
    Am Ende stehen neunzig Eintraege im Speicher, nicht hunderttausend. */
 
 const feedEintrag = teil => feed.treffer[teil.id] || null;
-const preisVon = teil => { const f = feedEintrag(teil); return (f && f.preis != null) ? f.preis : (teil.p || 0); };
+/* Ein Rahmen aus einem aelteren Modelljahr kostet weniger: das Vorjahresmodell
+   im Abverkauf rund 15 Prozent, ab zwei Jahren ist er praktisch nur noch
+   gebraucht zu haben und folgt der Restwertkurve. Im Angebotsmodus bleibt der
+   Preis unangetastet -- dort rechnet die Bewertung das Alter schon selbst ein,
+   sonst waere es doppelt abgezogen. */
+function jahrFaktor(teil){
+  if(!teil || !teil.geo || modus === "markt") return 1;
+  const alter = AKTUELL - jahrAktiv();
+  if(alter <= 0) return 1;
+  if(alter === 1) return 0.85;
+  return restwertFaktor(alter);
+}
+const grundpreis = teil => { const f = feedEintrag(teil); return (f && f.preis != null) ? f.preis : (teil.p || 0); };
+const preisVon = teil => Math.round(grundpreis(teil) * jahrFaktor(teil));
 
 function normal(x){
   return String(x).toLowerCase()
@@ -2063,6 +2114,115 @@ function oeffneDetail(slotKey, teilId){
     </div>`);
 }
 
+/* ═══════════ Anzeigehilfen ═══════════ */
+const ACHSE = {"110x15":"Boost 110×15", "100x15":"100×15", "110x20":"DH 110×20", "100x20":"100×20",
+  "148x12":"Boost 148×12", "157x12":"Super Boost 157×12", "142x12":"142×12",
+  "135x10":"135 mm Schnellspanner", "116x10":"116 mm Trial-Mod"};
+const achsName = a => ACHSE[a] || a;
+/* Welche Kassetten auf welchen Freilaufkoerper passen -- die Frage, an der
+   die meisten Laufradkaeufe scheitern. */
+const FREILAUF_FUER = {"HG":"Shimano bis 11-fach, SRAM NX, Sunrace", "Micro Spline":"Shimano 12-fach",
+  "XD":"SRAM Eagle und Transmission", "Trial (Ritzel fest)":"festes Trial-Ritzel"};
+
+function jahrKnoepfe(){
+  const j = jahrAktiv(), out = [];
+  for(let y = AKTUELL; y >= AKTUELL - 7; y--)
+    out.push(`<button data-jahr="${y}" aria-pressed="${j === y}">${y}${y === AKTUELL ? " · neu" : ""}</button>`);
+  out.push(`<button data-jahr="${AKTUELL - 10}" aria-pressed="${j <= AKTUELL - 8}">älter</button>`);
+  return out.join("");
+}
+function jahrLeiste(){
+  const j = jahrAktiv(), r = build.rahmen ? findeTeil("rahmen", build.rahmen) : null;
+  let h;
+  if(modus === "markt"){
+    const a = Math.max(0, AKTUELL - j);
+    h = a === 0 ? "Neu, dieses Modelljahr." : a + (a === 1 ? " Jahr" : " Jahre") + " alt — geht in die Bewertung ein.";
+  } else if(r){
+    const neu = grundpreis(r), jetzt = preisVon(r);
+    h = jetzt === neu ? "Aktuelles Modell zum vollen Preis."
+      : (AKTUELL - j === 1) ? `Vorjahresmodell im Abverkauf: Rahmen ${eur(jetzt)} statt ${eur(neu)}.`
+      : `Aus ${j <= AKTUELL - 8 ? "älteren Jahrgängen" : j} gibt es den Rahmen nur noch gebraucht: rund ${eur(jetzt)} statt ${eur(neu)} neu.`;
+  } else h = "Legt fest, wie alt der Rahmen ist — und damit seinen Preis.";
+  return `<div class="jahrleiste"><span class="jl-k">Modelljahr</span>
+    <div class="jl-reihe">${jahrKnoepfe()}</div><span class="jl-h">${h}</span></div>`;
+}
+
+/* Zusatzzeilen fuer Kacheln, bei denen Chips nicht reichen */
+function kachelZusatz(slotKey, t){
+  if(!t) return "";
+  if(slotKey === "laufraeder"){
+    const ka = (build.kassette && !entfaellt(build, "kassette")) ? findeTeil("kassette", build.kassette) : null;
+    const fit = !ka ? "" : ka.freilauf === t.freilauf
+      ? `<span class="fit ok">✓ Freilauf passt zur Kassette ${esc(ka.n)}</span>`
+      : `<span class="fit no">✗ Kassette braucht ${esc(ka.freilauf)}, die Nabe hat ${esc(t.freilauf)}</span>`;
+    return `<span class="rad2">
+      <span class="rz"><b>Vorn</b><span>${t.lrV}″ · Nabe ${achsName(t.va)} · ${esc(t.naben)} · ${t.iw} mm Maulweite</span></span>
+      <span class="rz"><b>Hinten</b><span>${t.lrH}″ · Nabe ${achsName(t.ha)} · Freilauf ${esc(t.freilauf)}${FREILAUF_FUER[t.freilauf] ? " (" + FREILAUF_FUER[t.freilauf] + ")" : ""}</span></span>
+      ${fit}</span>`;
+  }
+  if(slotKey === "kassette" && !entfaellt(build, "kassette")){
+    const lr = build.laufraeder ? findeTeil("laufraeder", build.laufraeder) : null;
+    return !lr ? `<span class="fit">braucht Freilauf ${esc(t.freilauf)}</span>`
+      : lr.freilauf === t.freilauf ? `<span class="fit ok">✓ passt auf die Nabe (${esc(lr.freilauf)})</span>`
+      : `<span class="fit no">✗ braucht Freilauf ${esc(t.freilauf)}, die Nabe hat ${esc(lr.freilauf)}</span>`;
+  }
+  return "";
+}
+
+/* Suche: Gross/klein egal, Umlaute egal ("ohlins" und "oehlins" finden
+   Öhlins), mehrere Woerter muessen alle vorkommen. */
+let suchText = "";
+let filterAlle = false;
+function suchNorm(x){
+  return String(x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/ß/g, "ss").replace(/[^a-z0-9.]+/g, " ").trim();
+}
+function suchIndex(parts){
+  const roh = parts.join(" ").toLowerCase();
+  const oe = roh.replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue");
+  return " " + suchNorm(roh) + " " + suchNorm(oe) + " ";
+}
+/* Begriffe, nach denen Leute suchen, die aber selten im Namen stehen. Von den
+   sieben Mullet-Rahmen traegt nur einer das Wort im Namen -- die Suche nach
+   "mullet" fand deshalb einen statt sieben. Abgeleitet aus den Daten, nicht
+   von Hand gepflegt. */
+function suchExtras(t){
+  const x = [];
+  if(t.lrV && t.lrH && t.lrV !== t.lrH) x.push("mullet mx gemischt");
+  if(t.lrV) x.push(t.lrV + "er", t.lrV + " zoll");
+  if(t.geo) x.push(t.daempfer ? "fully vollgefedert" : t.maxGabel > 0 ? "hardtail" : "starr");
+  if(t.ha) x.push(achsName(t.ha));
+  if(t.va) x.push(achsName(t.va));
+  if(t.schaft === "dc") x.push("doppelbrücke dualcrown dual crown");
+  if(t.hub > 0 && t.d) x.push("dropper variostütze absenkbar");
+  if(t.hub === 0 && t.d) x.push("starr");
+  if(t.kolben) x.push(t.kolben + " kolben " + t.kolben + "kolben");
+  if(t.typ === "Metric" && t.el >= 230) x.push("coil stahlfeder");
+  if(/Coil/i.test(t.n || "")) x.push("stahlfeder");
+  return x.join(" ");
+}
+function filterAnwenden(){
+  const wr = suchNorm(suchText).split(" ").filter(Boolean);
+  const els = Array.prototype.slice.call(document.querySelectorAll(".sheet .opt"));
+  const passendDa = els.some(e => e.dataset.passt === "1");
+  let n = 0;
+  els.forEach(el => {
+    /* Jedes Suchwort muss an einem Wortanfang treffen ("rock" findet RockShox,
+       aber "hox" nicht). Eine einzelne Ziffer muss ein ganzes Wort sein -- sonst
+       fand "2 kolben" jede Vierkolbenbremse, weil in "203" auch eine 2 steckt. */
+    const treffer = wr.every(w => el.dataset.such.indexOf(/^[0-9]$/.test(w) ? " " + w + " " : " " + w) >= 0);
+    /* Wer sucht, sucht ueber alles -- sonst findet man den Rahmen nicht, den
+       man meint, nur weil die Gabel nicht passt. */
+    const filterOk = wr.length || filterAlle || !passendDa || el.dataset.passt === "1" || el.classList.contains("sel");
+    el.hidden = !(treffer && filterOk);
+    if(!el.hidden) n++;
+  });
+  const tr = document.getElementById("treffer");
+  if(tr) tr.textContent = wr.length ? n + (n === 1 ? " Treffer" : " Treffer") : "";
+  const kt = document.getElementById("keine-treffer");
+  if(kt) kt.hidden = n > 0;
+}
+
 /* ═══════════ 9 · Darstellung ═══════════ */
 
 const $ = id => document.getElementById(id);
@@ -2083,8 +2243,8 @@ function specsVon(slotKey, t){
     case "gabel": c.push(t.travel ? t.travel + " mm" : "starr", t.lr.join("/") + "″", t.va,
       t.schaft === "dc" ? "Doppelbrücke" : t.schaft === "gerade" ? "1 1/8″" : "tapered", "Offset " + t.offset); break;
     case "daempfer": c.push(t.el + " × " + t.hub + " mm", t.typ); break;
-    case "laufraeder": c.push(t.lrV === t.lrH ? t.lrV + "″" : t.lrV + "/" + t.lrH + "″",
-      "Maulweite " + t.iw, t.freilauf, t.ha, t.va, t.naben, "max. " + t.maxSys + " kg"); break;
+    case "laufraeder": c.push("VR " + t.lrV + "″ " + achsName(t.va), "HR " + t.lrH + "″ " + achsName(t.ha),
+      "Freilauf " + t.freilauf, t.naben, "Maulweite " + t.iw, "max. " + t.maxSys + " kg"); break;
     case "reifenVR": case "reifenHR": c.push(t.groessen.join("/") + "″", t.breite + " mm",
       "Felge " + t.iw[0] + "–" + t.iw[1], "Grip " + t.grip + "/5"); break;
     case "schalthebel": c.push(t.gaenge + "-fach", t.iface); break;
@@ -2175,9 +2335,10 @@ function zeichne(){
       <p class="sub">Trag unten ein, was an dem Rad verbaut ist — dann rechnet die App aus den Teilepreisen,
         was es gebraucht wert ist.</p>
 
-      <span class="mk-lab">Wie alt ist das Rad?</span>
-      <div class="mk-reihe">${ALTERSSTUFEN.map(a =>
-        `<button data-alter="${a.v}" aria-pressed="${markt.alter === a.v}">${a.l}</button>`).join("")}</div>
+      <span class="mk-lab">Modelljahr</span>
+      <div class="jl-reihe">${jahrKnoepfe()}</div>
+      <p class="sub" style="margin:7px 0 0">${(() => { const a = Math.max(0, AKTUELL - jahrAktiv());
+        return a === 0 ? "Neu, dieses Modelljahr." : a + (a === 1 ? " Jahr" : " Jahre") + " alt."; })()}</p>
 
       <span class="mk-lab">Zustand</span>
       <div class="mk-reihe">${ZUSTAENDE.map(z =>
@@ -2198,7 +2359,7 @@ function zeichne(){
         <div class="rechnung"><span>als Komplettrad</span><span class="w">${eur(m.neu)}</span>
           <span class="g">Hersteller zahlen für dieselben Teile als Erstausrüstung weniger — ein
             Komplettrad kostet rund ${Math.round(KOMPLETTRAD*100)} % der Einzelpreise.</span></div>
-        <div class="rechnung"><span>nach ${ALTERSSTUFEN.find(a => a.v === markt.alter)?.l || markt.alter + " Jahren"}</span>
+        <div class="rechnung"><span>${m.alter === 0 ? "neu, dieses Modelljahr" : "nach " + m.alter + (m.alter === 1 ? " Jahr" : " Jahren")}</span>
           <span class="w">× ${Math.round(m.rw*100)} %</span>
           <span class="g">Gebrauchträder verlieren im ersten Jahr rund ein Drittel, danach flacht es ab.</span></div>
         ${m.z !== 1 ? `<div class="rechnung"><span>Zustand ${(ZUSTAENDE.find(x => x.v === markt.zustand)||{}).l}</span>
@@ -2255,11 +2416,16 @@ function zeichne(){
           <span class="slot-n empty">entfällt bei diesem Rahmen</span><span class="slot-r"></span></div>`;
       const t = build[s.k] ? findeTeil(s.k, build[s.k]) : null;
       const lvl = slotLevel(r.funde, s.k);
-      const chips = t ? specsVon(s.k, t).map(c => `<span class="chip">${esc(c)}</span>`).join("") : "";
+      const eigen = s.k === "laufraeder" && t;
+      const chips = (t && !eigen) ? specsVon(s.k, t).map(c => `<span class="chip">${esc(c)}</span>`).join("") : "";
+      const rr = build.rahmen ? findeTeil("rahmen", build.rahmen) : null;
+      const label = (rr && s.k === "reifenVR") ? s.label + " · " + rr.lrV + "″"
+                  : (rr && s.k === "reifenHR") ? s.label + " · " + rr.lrH + "″" : s.label;
       return `<button class="slot ${lvl || ""}" data-slot="${s.k}">
-        <span class="slot-k">${s.label}</span>
+        <span class="slot-k">${label}</span>
         <span class="slot-n ${t ? "" : "empty"}">${t ? esc(t.n) : "Teil wählen …"}</span>
         ${chips ? `<span class="specs">${chips}</span>` : ""}
+        ${kachelZusatz(s.k, t)}
         <span class="slot-r">${t ? `<span class="p">${eur(preisVon(t))}</span><span class="g">${t.g} g</span>` : `<span class="g">offen</span>`}</span>
       </button>`;
     }).join("");
@@ -2281,7 +2447,7 @@ function zeichne(){
         <span class="zahl">${voll}/${meine.length}</span>
         <svg class="pfeil" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <div class="grp-inhalt">${rows}</div>
+      <div class="grp-inhalt">${rows}${g.n === "Rahmen" ? jahrLeiste() : ""}</div>
     </section>`;
   }).join("") + `<p class="legal">
     <b>Was hier belastbar ist:</b> die Standards — Achsmaße, Steuerrohr, Tretlager, Stützendurchmesser,
@@ -2376,13 +2542,17 @@ function zeigeSheet(html){
   const f = $("modal").querySelector(".btn, input, .dis, .qopt, .iconbtn");
   if(f) f.focus();
 }
-function schliesse(){ $("modal").innerHTML = ""; document.body.style.overflow = ""; }
+function schliesse(){ $("modal").innerHTML = ""; document.body.style.overflow = ""; suchText = ""; offenerSlot = null; }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 
 function oeffneSlot(slotKey){
   const s = slotOf(slotKey);
   if(!s) return;
+  /* Neues Blatt, frische Suche. Beim Rahmen startet der Filter auf "Alle":
+     wer einen Rahmen sucht, will alle sehen und nicht nur die zwei, zu denen
+     die jetzige Gabel zufaellig passt. */
+  if(offenerSlot !== slotKey){ suchText = ""; filterAlle = slotKey === "rahmen" || !nurPassende; }
   offenerSlot = slotKey;
   const basis = bewerte(build);
   const wunsch = markenWunsch(slotKey);
@@ -2391,25 +2561,48 @@ function oeffneSlot(slotKey){
     const pr = bewerte(probe);
     const eigene = pr.funde.filter(f => f.slots.indexOf(slotKey) >= 0);
     const fehler = eigene.filter(f => f.level === "fehler");
-    const warn = eigene.filter(f => f.level === "warnung");
+    const warn = eigene.filter(f => f.level === "warnung" && f.titel.indexOf("Modelljahr") < 0);
     const d = pr.gesamt - basis.gesamt;
     const istSel = t.id === build[slotKey];
-    const tag = fehler.length ? `<span class="tag no">passt nicht</span>`
-              : warn.length   ? `<span class="tag w">mit Abstrich</span>` : `<span class="tag ok">passt</span>`;
+    let tag, gut, rang, gruende;
+
+    if(slotKey === "rahmen"){
+      /* Beim Rahmen heisst "passt nicht" meistens: die uebrigen Teile passen
+         nicht zu IHM. Das ist keine Aussage ueber den Rahmen, sondern ueber den
+         Umbau -- also wird gezaehlt, was mitgetauscht werden muesste. */
+      const tausch = [...new Set([].concat(...fehler.map(f => f.slots)).filter(k => k !== "rahmen"))];
+      const zuFrueh = t.seit && jahrAktiv() < t.seit;
+      gut = !tausch.length && !zuFrueh;
+      rang = zuFrueh ? 3 : tausch.length ? 1 + Math.min(1, tausch.length / 10) : warn.length ? 0.5 : 0;
+      tag = zuFrueh ? `<span class="tag n">erst ab ${t.seit}</span>`
+          : tausch.length ? `<span class="tag w">${tausch.length} ${tausch.length === 1 ? "Teil" : "Teile"} tauschen</span>`
+          : warn.length ? `<span class="tag w">mit Abstrich</span>` : `<span class="tag ok">passt</span>`;
+      gruende = zuFrueh
+        ? `<div class="why w">Diese Generation gibt es erst seit etwa ${t.seit}. Für ${jahrAktiv()} ist das die Vorgängerversion mit anderen Maßen.</div>`
+        : tausch.length
+        ? `<div class="why w"><b>Mit diesem Rahmen passen nicht mehr:</b> ${tausch.map(k => (slotOf(k) || {}).label || k).join(", ")}.</div>`
+        : warn.slice(0,1).map(f => `<div class="why w"><b>${esc(f.titel)}.</b> ${f.text}</div>`).join("");
+    } else {
+      gut = !fehler.length;
+      rang = fehler.length ? 2 : warn.length ? 1 : 0;
+      tag = fehler.length ? `<span class="tag no">passt nicht</span>`
+          : warn.length ? `<span class="tag w">mit Abstrich</span>` : `<span class="tag ok">passt</span>`;
+      gruende = fehler.concat(warn).slice(0,2).map(f =>
+        `<div class="why ${f.level === "warnung" ? "w" : ""}"><b>${esc(f.titel)}.</b> ${f.text}</div>`).join("");
+    }
     const dtag = istSel ? `<span class="tag n">verbaut</span>`
                : d > 0 ? `<span class="tag ok">+${d}</span>` : d < 0 ? `<span class="tag no">${d}</span>` : "";
     const mtag = (wunsch && t.m === wunsch) ? `<span class="tag m">${esc(wunsch)}</span>` : "";
-    const gruende = fehler.concat(warn).slice(0,2).map(f =>
-      `<div class="why ${f.level === "warnung" ? "w" : ""}"><b>${esc(f.titel)}.</b> ${f.text}</div>`).join("");
-    return {gut:!fehler.length, sel:istSel, sort:[fehler.length ? 2 : warn.length ? 1 : 0, -d], html:`
-      <div class="opt ${istSel ? "sel" : ""}">
-        <div><div class="opt-n">${(() => { const fe = feedEintrag(t);
-            return fe && fe.bild ? `<img class="feedbild" src="${esc(fe.bild)}" alt="" loading="lazy">` : ""; })()}${esc(t.n)} ${tag} ${dtag} ${mtag}</div>
-          <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div></div>
-        <div class="opt-r">${(() => { const fe = feedEintrag(t);
-            return fe && fe.preis != null
-              ? `<span class="opt-p livepreis">${eur(fe.preis)}</span>`
-              : `<span class="opt-p">${eur(t.p)}</span>`; })()}<span class="opt-g">${t.g} g</span>
+    const fe = feedEintrag(t);
+    const pNeu = grundpreis(t), pJetzt = preisVon(t);
+    const stark = t.e ? DID.filter(dd => (t.e[dd] || 0) >= 4).map(dLang) : [];
+    const such = suchIndex([t.n, t.m || "", specsVon(slotKey, t).join(" "), t.seit || "", stark.join(" "), suchExtras(t)]);
+    return {gut:gut, sel:istSel, sort:[rang, -d], html:`
+      <div class="opt ${istSel ? "sel" : ""}" data-passt="${gut ? 1 : 0}" data-such="${esc(such)}">
+        <div><div class="opt-n">${fe && fe.bild ? `<img class="feedbild" src="${esc(fe.bild)}" alt="" loading="lazy">` : ""}${esc(t.n)} ${tag} ${dtag} ${mtag}</div>
+          <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}${t.seit ? `<span class="chip">seit ${t.seit}</span>` : ""}</div></div>
+        <div class="opt-r"><span class="opt-p${fe && fe.preis != null ? " livepreis" : ""}">${eur(pJetzt)}</span>
+          ${pJetzt !== pNeu ? `<span class="opt-g"><s>${eur(pNeu)}</s> neu</span>` : ""}<span class="opt-g">${t.g} g</span>
           <button class="btn ghost sm" data-detail="${slotKey}|${t.id}">Ansehen</button>
           ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">Einbauen</button>`}</div>
         ${gruende}
@@ -2418,12 +2611,11 @@ function oeffneSlot(slotKey){
   });
   karten.sort((a,b) => a.sort[0] - b.sort[0] || a.sort[1] - b.sort[1]);
   const passend = karten.filter(k => k.gut || k.sel);
-  const zeige = (nurPassende && passend.length) ? passend : karten;
-  const drin = build[slotKey] ? findeTeil(slotKey, build[slotKey]) : null;
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">Bauteil wählen</span>${s.label}</h3>
       ${build[slotKey] ? `<button class="btn ghost sm" data-leeren="${slotKey}">Leeren</button>` : ""}${zuBtn}</div>
     <div class="sheet-b">
+      ${slotKey === "rahmen" ? jahrLeiste() : ""}
       ${(() => {
         const g = guenstigere(slotKey, build);
         if(!g.length) return "";
@@ -2434,11 +2626,17 @@ function oeffneSlot(slotKey){
               (x.ab.length ? " (" + esc(x.ab.join(", ")) + ")" : "")).join("<br>")}</p>
         </div>`;
       })()}
+      ${karten.length > 8 ? `<div class="suche"><input id="suche-in" type="search" data-suche="1" autocomplete="off"
+          placeholder="${esc(s.label)} suchen — Marke, Modell, 29, Boost …" value="${esc(suchText)}" aria-label="${esc(s.label)} suchen"></div>` : ""}
       <div class="filt">
-        <button data-filt="1" aria-pressed="${nurPassende}">Nur passende · ${passend.length}</button>
-        <button data-filt="0" aria-pressed="${!nurPassende}">Alle · ${karten.length}</button>
-      </div>${zeige.map(k => k.html).join("")}
+        <button data-filt="1" aria-pressed="${!filterAlle}">${slotKey === "rahmen" ? "Ohne Teiletausch" : "Nur passende"} · ${passend.length}</button>
+        <button data-filt="0" aria-pressed="${filterAlle}">Alle · ${karten.length}</button>
+        <span class="treffer" id="treffer"></span>
+      </div>
+      ${karten.map(k => k.html).join("")}
+      <p class="empty-note" id="keine-treffer" hidden>Nichts gefunden. Weniger Wörter oder anders schreiben — „rock“ findet RockShox, „ohlins“ findet Öhlins.</p>
     </div>`);
+  filterAnwenden();
 }
 
 function oeffneDisz(){
@@ -2717,7 +2915,13 @@ document.addEventListener("click", e => {
   if(le){ build[le.dataset.leeren] = null; sichern(); schliesse(); zeichne(); return; }
 
   const fi = T("[data-filt]");
-  if(fi){ nurPassende = fi.dataset.filt === "1"; if(offenerSlot) oeffneSlot(offenerSlot); return; }
+  if(fi){
+    filterAlle = fi.dataset.filt === "0";
+    if(offenerSlot !== "rahmen") nurPassende = !filterAlle;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-filt]"),
+      b => b.setAttribute("aria-pressed", String((b.dataset.filt === "0") === filterAlle)));
+    filterAnwenden(); return;
+  }
 
   const th = T("[data-thema]");
   if(th){
@@ -2758,8 +2962,13 @@ document.addEventListener("click", e => {
 
 
 
-  const al = T("[data-alter]");
-  if(al){ markt.alter = parseFloat(al.dataset.alter); sichern(); zeichne(); return; }
+  const jr = T("[data-jahr]");
+  if(jr){
+    jahrWahl[modus] = parseInt(jr.dataset.jahr, 10);
+    sichern(); zeichne();
+    if(offenerSlot === "rahmen" && $("modal").querySelector(".sheet")) oeffneSlot("rahmen");
+    return;
+  }
   const zu2 = T("[data-zustand]");
   if(zu2){ markt.zustand = zu2.dataset.zustand; sichern(); zeichne(); return; }
   const vs = T("[data-vs]");
@@ -2794,6 +3003,8 @@ document.addEventListener("click", e => {
 const wizOffen = () => !!$("modal").querySelector(".steps");
 
 document.addEventListener("input", e => {
+  const su = e.target.closest("[data-suche]");
+  if(su){ suchText = su.value; filterAnwenden(); return; }
   const an = e.target.closest("[data-affnetz]");
   if(an){ aff[an.dataset.affnetz] = an.value.trim(); sichern(); zeichne(); return; }
   const md = e.target.closest("[data-mid]");
