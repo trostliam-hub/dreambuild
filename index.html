@@ -289,24 +289,9 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 @media (min-width:820px){.panel{top:calc(env(safe-area-inset-top,0px) + 190px)}}
 
 /* ── Radmodell ── */
-.modell{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-  padding:12px 12px 10px;margin-bottom:14px}
-.modell-kopf{display:flex;align-items:center;gap:10px;margin-bottom:9px;flex-wrap:wrap}
-.modell-t{font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);
-  font-weight:600;margin-right:auto}
-.seiten{display:flex;background:var(--sunk);border-radius:8px;padding:3px;gap:2px}
-.seiten button{padding:5px 10px;border-radius:6px;font-size:11.5px;font-weight:600;
-  color:var(--ink-2);white-space:nowrap;min-height:30px}
-.seiten button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.16)}
-.modell-bild{width:100%;overflow:hidden}
-.modell-bild svg{display:block;width:100%;height:auto;max-width:100%}
-.modell-fuss{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);
-  margin-top:8px;line-height:1.5;display:flex;flex-wrap:wrap;gap:4px 12px}
-.modell-leer{padding:26px 14px;text-align:center;color:var(--ink-3);font-size:13px;line-height:1.5}
 
 
 /* ── Bauteilbilder und PNG-Ausgabe ── */
-.png-bild{width:100%;border-radius:9px;display:block;background:var(--sunk)}
 
 /* ── Produktfeed ── */
 .feedbild{width:46px;height:36px;border-radius:6px;object-fit:contain;background:#fff;
@@ -322,12 +307,6 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 .fortschritt i{display:block;height:100%;background:var(--anod);width:0;transition:width .2s}
 
 /* ── Bauteil-Detailansicht ── */
-.detail-bild{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:10px;
-  padding:14px;margin-bottom:12px}
-.detail-bild svg{display:block;margin:0 auto;width:auto;height:auto;max-width:100%;max-height:250px}
-.detail-bild{display:flex;flex-direction:column;justify-content:center;min-height:210px}
-.detail-mass{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);
-  text-align:center;margin-top:9px}
 .dspec{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 12px;font-size:12.5px;
   padding:8px 0;border-top:1px solid var(--line-soft)}
 .dspec:first-of-type{border-top:none}
@@ -812,8 +791,6 @@ const AFF_START = {
 const leerBau = () => { const o = {}; for(const s of SLOTS) o[s.k] = null; return o; };
 let builds = {traum:{...START}, real:leerBau()};
 let modus = "traum";
-let seite = "antrieb";   /* Antriebsseite rechts, Bremsseite links */
-let ansicht = "zeichnung";  /* oder "foto": das eigene Rad, wirklich 1:1 */
 let fotoZiel = null;   /* worauf sich die naechste Dateiauswahl bezieht */
 /* Produktfeed des Partnerprogramms: Bild-URL, Preis und Direktlink je Teil.
    Diese Bilder sind zur Anzeige freigegeben -- anders als Fotos, die man sich
@@ -844,10 +821,6 @@ function laden(){
     }
     const md = localStorage.getItem("mtb.modus");
     if(md === "real" || md === "traum") modus = md;
-    const se = localStorage.getItem("mtb.seite");
-    if(se === "antrieb" || se === "bremse") seite = se;
-    const av = localStorage.getItem("mtb.ansicht");
-    if(av === "foto" || av === "zeichnung") ansicht = av;
     const fd = localStorage.getItem("mtb.feed");
     if(fd){ const q = JSON.parse(fd); if(q && q.treffer) feed = q; }
     const ft = localStorage.getItem("mtb.fotos");
@@ -871,8 +844,6 @@ function sichern(){
     builds[modus] = build;
     localStorage.setItem("mtb.builds", JSON.stringify(builds));
     localStorage.setItem("mtb.modus", modus);
-    localStorage.setItem("mtb.seite", seite);
-    localStorage.setItem("mtb.ansicht", ansicht);
     localStorage.setItem("mtb.feed", JSON.stringify(feed));
     localStorage.setItem("mtb.sel", JSON.stringify(sel));
     localStorage.setItem("mtb.plan", JSON.stringify(plan));
@@ -1441,244 +1412,34 @@ function feedEinlesen(datei, fertig){
 }
 
 /* ═══════════ Bauteil-Detailansicht ═══════════
-   Dieselbe Idee wie beim ganzen Rad: nicht malen, sondern aus den Daten
-   konstruieren. Eine 203er Scheibe wird groesser gezeichnet als eine 160er,
-   eine 180-mm-Gabel laenger als eine 110er, ein 2.5er Reifen dicker als ein
-   2.35er. Das zeigt etwas, was ein Produktfoto gerade nicht zeigt: den
-   Groessenunterschied im gleichen Massstab. */
-function kleinZeichner(minX, minY, maxX, maxY){
-  const W = maxX - minX, H = maxY - minY;
-  const X = x => Math.round((x - minX)*10)/10;
-  const Y = y => Math.round((maxY - y)*10)/10;
-  const defs = []; let z = 0;
-  const ns = "d" + Math.random().toString(36).slice(2,7);
-  const lack = farbe => {
-    const id = ns + (z++);
-    defs.push('<linearGradient id="'+id+'" x1="0" y1="0" x2="0.4" y2="1">' +
-      '<stop offset="0" stop-color="'+hell(farbe,.34)+'"/>' +
-      '<stop offset="0.42" stop-color="'+farbe+'"/>' +
-      '<stop offset="1" stop-color="'+dunk(farbe,.44)+'"/></linearGradient>');
-    return "url(#"+id+")";
-  };
-  const rohr = (a, c, w1, w2, f) => {
-    const dx=c[0]-a[0], dy=c[1]-a[1], L=Math.hypot(dx,dy)||1;
-    let nx=-dy/L, ny=dx/L; if(ny<0){nx=-nx;ny=-ny;}
-    const P=(pt,w,v)=>X(pt[0]+nx*w/2*v)+" "+Y(pt[1]+ny*w/2*v);
-    return '<path d="M '+P(a,w1,1)+' L '+P(c,w2,1)+' L '+P(c,w2,-1)+' L '+P(a,w1,-1)+
-           ' Z" fill="'+f+'" stroke="#fff" stroke-opacity="0.10" stroke-width="2"/>';
-  };
-  const kreis = (pt,r,f,st,sw,ex) => '<circle cx="'+X(pt[0])+'" cy="'+Y(pt[1])+'" r="'+Math.max(0.5,r)+
-    '" fill="'+(f||"none")+'"'+(st?' stroke="'+st+'" stroke-width="'+(sw||6)+'"':"")+(ex||"")+'/>';
-  const bloecke = (pt,r,w,f,n,g,ex) => {
-    const c=2*Math.PI*r, e=c/n;
-    return kreis(pt,r,"none",f,w,' stroke-dasharray="'+(e*g).toFixed(1)+' '+(e*(1-g)).toFixed(1)+'"'+(ex||""));
-  };
-  const fertig = o => '<svg viewBox="0 0 '+Math.round(W)+' '+Math.round(H)+
-    '" width="100%" role="img" aria-label="Massstaebliche Zeichnung des Bauteils">' +
-    '<defs>'+defs.join("")+'</defs>'+o+'</svg>';
-  return {X, Y, lack, rohr, kreis, bloecke, fertig};
-}
-
-function bauteilBild(slotKey, t){
-  const C_MET = "#aeb4ba", C_GUM = "#1b1e22";
-  const farbe = (t.fb && t.fb.u) || (t.fb && t.fb.h) || (typeof t.fb === "string" ? t.fb : null) || "#3a4048";
-  let o = "", zk = null, mass = "";
-
-  if(slotKey === "gabel"){
-    const a2c = achsKrone(t, (t.lr && t.lr[0]) || "29"), spur = 110, bein = 52;
-    zk = kleinZeichner(-110, -40, 110, a2c + 90);
-    const gs = zk.lack((t.fb && t.fb.s) || "#cfd2d6"), gu = zk.lack((t.fb && t.fb.u) || farbe);
-    o += zk.rohr([0, a2c+90], [0, a2c+10], 34, 34, gs);                       /* Schaft */
-    o += zk.rohr([-spur/2-14, a2c], [spur/2+14, a2c], 40, 40, gu);            /* Krone */
-    if(t.schaft === "dc") o += zk.rohr([-spur/2-14, a2c+62], [spur/2+14, a2c+62], 34, 34, gu);
-    const arch = t.travel > 0 ? a2c*0.42 : 0;
-    [-1, 1].forEach(v => {
-      if(t.travel > 0){
-        o += zk.rohr([v*spur/2, a2c-8], [v*spur/2, arch], 30, 30, gs);
-        o += zk.rohr([v*spur/2, arch], [v*spur/2, 8], 44, 34, gu);
-      } else o += zk.rohr([v*spur/2, a2c-8], [v*spur/2, 8], 30, 24, gu);
-    });
-    if(t.travel > 0) o += zk.rohr([-spur/2, arch], [spur/2, arch], 30, 30, gu);   /* Bruecke */
-    o += zk.rohr([-spur/2-20, 0], [spur/2+20, 0], 18, 18, zk.lack(C_MET));        /* Steckachse */
-    mass = "Achse–Krone " + Math.round(a2c) + " mm · " + (t.travel ? t.travel + " mm Federweg" : "starr") + " · " + t.va;
-
-  } else if(slotKey === "daempfer"){
-    zk = kleinZeichner(-30, -70, t.el + 30, 70);
-    const g = zk.lack(farbe);
-    o += zk.rohr([0,0], [t.el*0.52,0], 58, 58, g);                            /* Koerper */
-    o += zk.rohr([t.el*0.52,0], [t.el,0], 20, 20, zk.lack(C_MET));            /* Kolbenstange */
-    o += zk.rohr([t.el*0.16, 40], [t.el*0.40, 40], 40, 40, g);                /* Ausgleichsbehaelter */
-    o += zk.kreis([0,0], 15, "none", C_MET, 10) + zk.kreis([t.el,0], 15, "none", C_MET, 10);
-    mass = t.el + " × " + t.hub + " mm · " + t.typ;
-
-  } else if(slotKey === "laufraeder"){
-    const fe = (ETRTO[t.lrH] || 622)/2, ra = fe + 58;
-    zk = kleinZeichner(-ra-20, -ra-20, ra+20, ra+20);
-    const gf = zk.lack(farbe), gn = zk.lack(t.fbn || "#2b2f34");
-    o += zk.kreis([0,0], fe+29, "none", C_GUM, 58);
-    o += zk.bloecke([0,0], ra-14, 28, dunk(C_GUM,.3), 42, 0.52);
-    o += zk.kreis([0,0], fe-10, "none", gf, 21);
-    for(let i=0;i<16;i++){ const a=i*Math.PI/8, v=(i%2)?1:-1;
-      o += '<line x1="'+zk.X(Math.cos(a)*34)+'" y1="'+zk.Y(Math.sin(a)*34)+'" x2="'+
-           zk.X(Math.cos(a+v*0.3)*(fe-16))+'" y2="'+zk.Y(Math.sin(a+v*0.3)*(fe-16))+
-           '" stroke="'+C_MET+'" stroke-width="3.4" opacity="0.7"/>'; }
-    o += zk.kreis([0,0], 44, "none", gn, 12) + zk.kreis([0,0], 25, gn);
-    mass = (t.lrV === t.lrH ? t.lrV : t.lrV+"/"+t.lrH) + "″ · Maulweite " + t.iw + " mm · " + t.freilauf;
-
-  } else if(slotKey === "reifenVR" || slotKey === "reifenHR"){
-    const b = t.breite, h = b*0.95;
-    zk = kleinZeichner(-b/2-40, -30, b/2+40, h+60);
-    const g = zk.lack(C_GUM);
-    o += '<path d="M '+zk.X(-b/2)+' '+zk.Y(0)+' L '+zk.X(-b/2)+' '+zk.Y(h*0.55)+
-         ' Q '+zk.X(-b/2)+' '+zk.Y(h)+' '+zk.X(0)+' '+zk.Y(h)+
-         ' Q '+zk.X(b/2)+' '+zk.Y(h)+' '+zk.X(b/2)+' '+zk.Y(h*0.55)+
-         ' L '+zk.X(b/2)+' '+zk.Y(0)+' Z" fill="'+g+'"/>';                    /* Querschnitt */
-    for(let i=-2;i<=2;i++){                                                   /* Stollen */
-      const w = b*0.16, x = i*b*0.21;
-      o += '<rect x="'+zk.X(x-w/2)+'" y="'+zk.Y(h + h*0.14)+'" width="'+w+'" height="'+(h*0.14)+
-           '" rx="4" fill="'+dunk(C_GUM,.15)+'"/>'; }
-    o += zk.rohr([-b/2-26, 0], [b/2+26, 0], 14, 14, zk.lack("#2b2f34"));      /* Felgenbett */
-    mass = t.breite + " mm breit · Felge " + t.iw[0] + "–" + t.iw[1] + " mm · Grip " + t.grip + "/5";
-
-  } else if(slotKey === "antrieb"){
-    const gr = zaehneRadius(t.kassette[1]), kl = zaehneRadius(t.kassette[0]);
-    zk = kleinZeichner(-gr-30, -gr-130, gr+30, gr+30);
-    for(let i=0;i<5;i++){ const r = gr - (gr-kl)*i/4;
-      o += zk.kreis([0,0], r-4, "none", zk.lack(C_MET), 9, ' opacity="'+(0.95-i*0.1)+'"');
-      o += zk.bloecke([0,0], r, 7, dunk(C_MET,.35), Math.max(16, Math.round(r/5)), 0.46, ' opacity="0.5"'); }
-    if(t.gaenge > 1){
-      const p1=[26,-gr-58], p2=[-12,-gr-118];
-      o += zk.rohr([10,-gr+10], p1, 34, 26, zk.lack(farbe));
-      o += zk.rohr(p1, p2, 20, 20, zk.lack(farbe));
-      o += zk.kreis(p1, 21, "none", zk.lack(C_MET), 8) + zk.kreis(p2, 19, "none", zk.lack(C_MET), 8);
-    }
-    mass = t.gaenge + "-fach · " + t.kassette[0] + "–" + t.kassette[1] + " Zähne · " + t.freilauf;
-
-  } else if(slotKey === "kurbel"){
-    const r = zaehneRadius(t.kb);
-    zk = kleinZeichner(-r-40, -t.laenge-50, r+40, r+40);
-    const g = zk.lack(farbe);
-    o += zk.kreis([0,0], r-7, "none", g, 14);
-    o += zk.bloecke([0,0], r, 12, farbe, t.kb, 0.45);
-    for(let i=0;i<4;i++){ const a=i*Math.PI/2+0.4;
-      o += '<line x1="'+zk.X(0)+'" y1="'+zk.Y(0)+'" x2="'+zk.X(Math.cos(a)*(r-12))+'" y2="'+
-           zk.Y(Math.sin(a)*(r-12))+'" stroke="'+farbe+'" stroke-width="11" opacity="0.8"/>'; }
-    o += zk.rohr([0,0], [0,-t.laenge], 34, 24, g);
-    o += zk.rohr([-34,-t.laenge], [34,-t.laenge], 24, 24, zk.lack("#23272c"));
-    o += zk.kreis([0,0], 16, zk.lack(C_MET));
-    mass = t.kb + " Zähne · " + t.laenge + " mm Kurbelarm · Kettenlinie " + t.kl + " mm · " + t.iface;
-
-  } else if(slotKey === "bremsen"){
-    if(t.mount === "Felge"){
-      zk = kleinZeichner(-160, -70, 160, 70);
-      o += zk.rohr([-150,0], [150,0], 26, 26, zk.lack("#2b2f34"));
-      [-1,1].forEach(v => o += zk.rohr([v*70,-32], [v*70,32], 52, 52, zk.lack(farbe)));
-      mass = "Felgenbremse · beidseitige Klötze";
-    } else {
-      const r = t.sV/2;
-      zk = kleinZeichner(-r-40, -r-40, r+130, r+40);
-      o += zk.kreis([0,0], r-6, "none", zk.lack(C_MET), 12);
-      o += zk.bloecke([0,0], r-6, 12, dunk(C_MET,.55), 24, 0.22, ' opacity="0.8"');
-      for(let i=0;i<6;i++){ const a=i*Math.PI/3;
-        o += '<line x1="'+zk.X(Math.cos(a)*46)+'" y1="'+zk.Y(Math.sin(a)*46)+'" x2="'+
-             zk.X(Math.cos(a)*(r-16))+'" y2="'+zk.Y(Math.sin(a)*(r-16))+
-             '" stroke="'+C_MET+'" stroke-width="9" opacity="0.85"/>'; }
-      o += zk.kreis([0,0], 46, "none", zk.lack(C_MET), 8);
-      o += zk.rohr([r-16,-30], [r+70,30], 62, 62, zk.lack(farbe));            /* Sattel */
-      for(let i=0;i<t.kolben/2;i++)
-        o += zk.kreis([r+10+i*34, -6+i*12], 13, zk.lack(C_MET));
-      mass = t.kolben + " Kolben · Scheiben " + t.sV + "/" + t.sH + " mm · " + t.mount;
-    }
-
-  } else if(slotKey === "lenker"){
-    const b = t.breite;
-    zk = kleinZeichner(-b/2-30, -90, b/2+30, 90);
-    const g = zk.lack(farbe);
-    o += '<path d="M '+zk.X(-b/2)+' '+zk.Y(-52)+' Q '+zk.X(-b*0.22)+' '+zk.Y(-10)+' '+zk.X(0)+' '+zk.Y(0)+
-         ' Q '+zk.X(b*0.22)+' '+zk.Y(-10)+' '+zk.X(b/2)+' '+zk.Y(-52)+
-         '" fill="none" stroke="'+g+'" stroke-width="30" stroke-linecap="round"/>';
-    o += zk.rohr([-46,0], [46,0], 46, 46, zk.lack("#23272c"));                /* Klemmung */
-    [-1,1].forEach(v => o += zk.rohr([v*(b/2-20), -50], [v*(b/2-120), -30], 40, 40, zk.lack("#23272c")));
-    mass = t.breite + " mm breit · " + t.rise + " mm Rise · Klemmung " + t.klemm + " mm";
-
-  } else if(slotKey === "vorbau"){
-    zk = kleinZeichner(-50, -80, t.laenge + 70, 80);
-    const g = zk.lack(farbe);
-    o += zk.rohr([0,0], [t.laenge,0], 54, 44, g);
-    o += zk.rohr([0,-46], [0,46], 52, 52, g);
-    o += zk.rohr([t.laenge,-40], [t.laenge,40], t.klemm, t.klemm, zk.lack(dunk(farbe,.2)));
-    mass = t.laenge + " mm lang · Klemmung " + t.klemm + " mm";
-
-  } else if(slotKey === "stuetze"){
-    const ges = t.einbau + t.hub + 120;
-    zk = kleinZeichner(-90, -30, 90, ges + 40);
-    const g = zk.lack(farbe);
-    o += zk.rohr([0,0], [0, t.einbau], parseFloat(t.d)*2.6, parseFloat(t.d)*2.6, g);
-    if(t.hub > 0) o += zk.rohr([0, t.einbau], [0, t.einbau + t.hub], parseFloat(t.d)*2.1, parseFloat(t.d)*2.1, zk.lack(C_MET));
-    else o += zk.rohr([0, t.einbau], [0, t.einbau + 110], parseFloat(t.d)*2.5, parseFloat(t.d)*2.5, g);
-    const kopf = t.einbau + (t.hub > 0 ? t.hub : 110);
-    o += zk.rohr([-70, kopf+16], [70, kopf+22], 26, 26, zk.lack("#23272c"));
-    mass = t.d + " mm · " + (t.hub ? t.hub + " mm Hub" : "starr") + " · braucht " + t.einbau + " mm Einstecktiefe";
-
-  } else if(slotKey === "sattel"){
-    zk = kleinZeichner(-30, -60, 290, 90);
-    const g = zk.lack(farbe);
-    o += '<path d="M '+zk.X(0)+' '+zk.Y(30)+' Q '+zk.X(-16)+' '+zk.Y(56)+' '+zk.X(46)+' '+zk.Y(48)+
-         ' Q '+zk.X(150)+' '+zk.Y(40)+' '+zk.X(262)+' '+zk.Y(18)+' L '+zk.X(262)+' '+zk.Y(4)+
-         ' Q '+zk.X(140)+' '+zk.Y(8)+' '+zk.X(30)+' '+zk.Y(6)+' Q '+zk.X(-10)+' '+zk.Y(12)+' '+
-         zk.X(0)+' '+zk.Y(30)+' Z" fill="'+g+'"/>';
-    o += zk.rohr([40, -6], [200, -12], 12, 12, zk.lack(C_MET));
-    mass = "ca. 270 mm lang";
-
-  } else if(slotKey === "rahmen" && t.geo){
-    const gm = t.geo, bog = d => d*Math.PI/180;
-    const bbx = Math.sqrt(Math.max(1, gm.ks*gm.ks - gm.ta*gm.ta));
-    const HA=[0,0], BB=[bbx,-gm.ta];
-    const lwr = bog(gm.lw), u=[-Math.cos(lwr), Math.sin(lwr)];
-    const VAy = 0, KRx = gm.rs - 44*Math.sin(lwr);
-    const KR=[KRx + 500*u[0], VAy + 500*u[1]];
-    const swr = bog(gm.sw), sd=[-Math.cos(swr), Math.sin(swr)];
-    const ST = gm.sr>0 ? [BB[0]+gm.sr*sd[0], BB[1]+gm.sr*sd[1]] : null;
-    const alle=[HA,BB,KR].concat(ST?[ST]:[]);
-    const xs=alle.map(q=>q[0]), ys=alle.map(q=>q[1]);
-    zk = kleinZeichner(Math.min(...xs)-70, Math.min(...ys)-70, Math.max(...xs)+70, Math.max(...ys)+70);
-    const g = zk.lack((t.fb && t.fb.h) || farbe);
-    o += zk.rohr(HA, BB, 17, 30, g);
-    if(ST){ o += zk.rohr(BB, ST, 36, 29, g); o += zk.rohr(HA, ST, 21, 15, g); o += zk.rohr(KR, ST, 33, 27, g); }
-    else o += zk.rohr(HA, KR, 20, 26, g);
-    o += zk.rohr(BB, KR, 42, 34, g);
-    o += zk.kreis(BB, 27, g) + zk.kreis(HA, 14, zk.lack(C_MET));
-    mass = "Radstand " + gm.rs + " mm · Lenkwinkel " + String(gm.lw).replace(".",",") + "° · Sitzrohr " + gm.sr + " mm";
-  }
-
-  if(!zk) return null;
-  return {svg: zk.fertig(o), mass: mass};
-}
-
+   Gezeigt wird ein echtes Produktbild aus dem Partner-Feed -- oder keins.
+   Selbst gezeichnete Ersatzgrafiken gibt es hier bewusst nicht: sie sehen
+   nach etwas aus, das sie nicht sind, und beantworten die Frage "wie sieht
+   das Teil aus" gerade nicht. */
 function oeffneDetail(slotKey, teilId){
   const t = findeTeil(slotKey, teilId);
   if(!t) return;
-  const bild = bauteilBild(slotKey, t);
+  const fe = feedEintrag(t);
   const specs = specsVon(slotKey, t);
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${slotOf(slotKey).label}</span>${esc(t.n)}</h3>${zuBtn}</div>
     <div class="sheet-b">
-      ${(() => { const fe = feedEintrag(t); if(!fe || !fe.bild) return "";
-        return `<img class="feed-gross" src="${esc(fe.bild)}" alt="${esc(t.n)}" loading="lazy">
-          <p class="hint" style="margin:8px 0 12px">Produktbild aus deinem Partner-Feed${fe.preis != null
-            ? ` · <span class="livepreis">${eur(fe.preis)}</span> beim Shop` : ""}.</p>`; })()}
-      ${bild ? `<div class="detail-bild">${bild.svg}<div class="detail-mass">${esc(bild.mass)}</div></div>` : ""}
-      <p class="hint" style="margin-bottom:10px">Die Zeichnung kommt aus den echten Maßen — im selben
-        Maßstab wie jedes andere Teil. Sie zeigt den Größenunterschied, den ein Produktfoto nicht zeigt.</p>
+      ${fe && fe.bild
+        ? `<img class="feed-gross" src="${esc(fe.bild)}" alt="${esc(t.n)}" loading="lazy">
+           <p class="hint" style="margin:8px 0 12px">Produktbild aus deinem Partner-Feed${fe.preis != null
+             ? ` · <span class="livepreis">${eur(fe.preis)}</span> beim Shop` : ""}.</p>`
+        : `<p class="hint" style="margin:0 0 12px">Kein Produktbild — dieses Teil steckt noch nicht in
+           deinem Produktfeed. Über die Shoplinks unten siehst du es beim Händler.</p>`}
       <dl style="margin:0 0 4px">
         <div class="dspec"><dt>Daten</dt><dd>
           <span class="specs" style="margin-top:0">${specs.map(c => `<span class="chip">${esc(c)}</span>`).join("")}</span>
         </dd></div>
         <div class="dspec"><dt>Gewicht</dt><dd>${t.g} g</dd></div>
-        <div class="dspec"><dt>Richtpreis</dt><dd>${eur(t.p)}</dd></div>
+        <div class="dspec"><dt>${fe && fe.preis != null ? "Preis" : "Richtpreis"}</dt>
+          <dd${fe && fe.preis != null ? ' class="livepreis"' : ""}>${eur(preisVon(t))}</dd></div>
         ${t.m ? `<div class="dspec"><dt>Marke</dt><dd>${esc(t.m)}</dd></div>` : ""}
       </dl>
-      <p class="hint" style="margin:10px 0 0">So sieht es <b>in echt</b> aus — beim Shop ansehen:</p>
+      <p class="hint" style="margin:10px 0 0">Beim Shop ansehen:</p>
       ${affHtml(t)}
       ${build[slotKey] === t.id ? "" :
         `<div style="margin-top:12px"><button class="btn wide" data-einbau="${slotKey}|${t.id}">Einbauen</button></div>`}
@@ -1693,367 +1454,6 @@ const eur = n => n.toLocaleString("de-DE", {maximumFractionDigits:0}) + " €";
 const kg  = g => (g/1000).toLocaleString("de-DE", {minimumFractionDigits:2, maximumFractionDigits:2}) + " kg";
 const ampel = v => v >= 85 ? "var(--gut)" : v >= 60 ? "var(--warn)" : "var(--bad)";
 
-
-/* ═══════════ Radmodell ═══════════
-   Eine Konstruktionszeichnung, kein gemaltes Bild: jede Strecke kommt aus den
-   Daten des gewaehlten Teils, jede Farbe aus seiner echten Lackierung.
-   Gerechnet wird in Millimetern mit dem Boden auf y=0 und y nach oben; erst
-   beim Zeichnen wird gekippt. So darf man die Geometrie so aufschreiben, wie
-   sie im Datenblatt steht.
-
-   Was es nicht ist: ein Produktfoto. Rohrverlaeufe sind vereinfacht und
-   Schriftzuege fehlen. Was es ist: massstaeblich in Geometrie, Federweg,
-   Reifenbreite, Kettenblatt-, Kassetten- und Scheibengroesse -- und in den
-   Serienfarben der Teile. */
-
-const ETRTO = {"29":622, "27.5":584, "26":559, "24":507, "20":406, "19":387};
-const reifenRadius = (gr, br) => (ETRTO[gr] || 622)/2 + (br || 58);
-
-function achsKrone(gabel, gr){
-  if(!gabel) return 520;
-  if(gabel.travel === 0) return gr === "20" ? 370 : 415;
-  const basis = {"29":551, "27.5":536, "26":521, "24":500, "20":460}[gr] || 540;
-  return basis + (gabel.travel - 140);
-}
-const zaehneRadius = z => z * 12.7 / (2 * Math.PI);
-
-/* ── Farbrechnen: aus einem Lack Licht- und Schattenseite ableiten ── */
-function hexZahl(h){
-  h = String(h || "#888888").replace("#","");
-  if(h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
-  return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
-}
-function zahlHex(a){
-  return "#" + a.map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2,"0")).join("");
-}
-function misch(a, b, t){
-  const A = hexZahl(a), B = hexZahl(b);
-  return zahlHex([0,1,2].map(i => A[i] + (B[i] - A[i]) * t));
-}
-const hell = (c,t) => misch(c, "#ffffff", t);
-const dunk = (c,t) => misch(c, "#000000", t);
-
-function radModell(b, seite){
-  const T = k => b[k] ? findeTeil(k, b[k]) : null;
-  const f = T("rahmen");
-  if(!f || !f.geo) return null;
-
-  const g = f.geo, gabel = T("gabel"), lr = T("laufraeder"), tv = T("reifenVR"),
-        th = T("reifenHR"), st = T("stuetze"), br = T("bremsen"), ku = T("kurbel"),
-        an = T("antrieb"), le = T("lenker"), vo = T("vorbau"), dae = T("daempfer"),
-        sa = T("sattel");
-
-  const rV = reifenRadius(f.lrV, tv ? tv.breite : 58);
-  const rH = reifenRadius(f.lrH, th ? th.breite : 58);
-  const feV = (ETRTO[f.lrV] || 622)/2, feH = (ETRTO[f.lrH] || 622)/2;
-  const bog = d => d * Math.PI / 180;
-
-  /* ── Geometrie ── */
-  const HA = [0, rH], VA = [g.rs, rV];
-  const bbx = Math.sqrt(Math.max(1, g.ks*g.ks - g.ta*g.ta));
-  const BB  = [bbx, rH + (rV - rH) * (bbx/g.rs) - g.ta];
-  const lw = bog(g.lw);
-  const u  = [-Math.cos(lw), Math.sin(lw)];
-  const fw = [ Math.sin(lw), Math.cos(lw)];
-  const off = gabel ? gabel.offset : 44;
-  const a2c = achsKrone(gabel, f.lrV);
-  const AX  = [VA[0] - off*fw[0], VA[1] - off*fw[1]];
-  const KR  = [AX[0] + a2c*u[0],  AX[1] + a2c*u[1]];
-  const HTo = [KR[0] + 118*u[0],  KR[1] + 118*u[1]];
-  const HTu = [KR[0] +  10*u[0],  KR[1] +  10*u[1]];
-  const sw = bog(g.sw), sd = [-Math.cos(sw), Math.sin(sw)];
-  const ST = g.sr > 0 ? [BB[0] + g.sr*sd[0], BB[1] + g.sr*sd[1]] : null;
-  let SP = null;
-  if(ST && st){
-    const aus = st.hub > 0 ? st.hub + 80 : 130;
-    SP = [ST[0] + aus*sd[0], ST[1] + aus*sd[1]];
-  }
-  const vl = vo ? vo.laenge : 50, vk = bog(-7);
-  const VB = [HTo[0] + vl*Math.cos(vk), HTo[1] + vl*Math.sin(vk)];
-  /* Im Seitenriss liegt der Griff hinter der Klemmung: der Lenker steigt an
-     und zieht durch den Ruecksweep zum Fahrer hin. */
-  const GR = [VB[0] - 58, VB[1] + (le ? le.rise : 20) + 10];
-  const kbR  = ku ? zaehneRadius(ku.kb) : 0;
-  const kasR = an ? zaehneRadius(an.kassette[1]) : 0;
-  const antriebsSeite = seite !== "bremse";
-
-  /* ── Zeichenfeld aus den tatsaechlichen Ausmassen ── */
-  const pad = 60;
-  const minX = -rH - pad, maxX = g.rs + rV + pad;
-  const maxY = Math.max(2*rH, 2*rV, SP ? SP[1] + 95 : 0, GR[1] + 55, HTo[1] + 50) + pad;
-  const W = maxX - minX, H = maxY;
-  const X = x => Math.round((x - minX)*10)/10, Y = y => Math.round((maxY - y)*10)/10;
-
-  /* ── Bausteine ── */
-  const ns = "m" + Math.random().toString(36).slice(2,7);
-  const defs = []; let gz = 0;
-  function lack(farbe, steil){
-    const id = ns + (gz++);
-    defs.push('<linearGradient id="'+id+'" x1="0" y1="0" x2="'+(steil?0.2:0.45)+'" y2="1">' +
-      '<stop offset="0" stop-color="'+hell(farbe,.34)+'"/>' +
-      '<stop offset="0.40" stop-color="'+farbe+'"/>' +
-      '<stop offset="1" stop-color="'+dunk(farbe,.45)+'"/></linearGradient>');
-    return "url(#" + id + ")";
-  }
-  /* Rohr mit unterschiedlichem Durchmesser an beiden Enden, wie hydrogeformt.
-     Ein flaches Polygon sieht nach Papier aus. Erst eine Glanzkante auf der
-     Oberseite und eine Schattenkante unten lassen es rund wirken -- dasselbe,
-     was Lack im Streiflicht macht. */
-  function rohr(a, c, w1, w2, fuell, matt){
-    const dx = c[0]-a[0], dy = c[1]-a[1], L = Math.hypot(dx,dy) || 1;
-    let nx = -dy/L, ny = dx/L;
-    if(ny < 0){ nx = -nx; ny = -ny; }            /* Normale zeigt immer nach oben */
-    const P = (pt, w, vz) => X(pt[0] + nx*w/2*vz) + " " + Y(pt[1] + ny*w/2*vz);
-    const flaeche = (o1, o2, vz) =>
-      "M " + X(a[0]+nx*o1[0]) + " " + Y(a[1]+ny*o1[0]) +
-      " L " + X(c[0]+nx*o2[0]) + " " + Y(c[1]+ny*o2[0]) +
-      " L " + X(c[0]+nx*o2[1]) + " " + Y(c[1]+ny*o2[1]) +
-      " L " + X(a[0]+nx*o1[1]) + " " + Y(a[1]+ny*o1[1]) + " Z";
-    let t = '<path d="M '+P(a,w1,1)+' L '+P(c,w2,1)+' L '+P(c,w2,-1)+' L '+P(a,w1,-1)+
-            ' Z" fill="'+fuell+'" stroke="#fff" stroke-opacity="0.10" stroke-width="2"/>';
-    if(matt) return t;
-    const h1 = w1/2, h2 = w2/2, dk = 0.17;
-    t += '<path d="'+flaeche([h1*0.94, h1*0.52], [h2*0.94, h2*0.52], 1)+
-         '" fill="#fff" opacity="0.20"/>';                       /* Glanzkante */
-    t += '<path d="'+flaeche([-h1*0.55, -h1*0.98], [-h2*0.55, -h2*0.98], -1)+
-         '" fill="#000" opacity="0.26"/>';                       /* Schattenkante */
-    return t;
-  }
-  const strich = (a,c,farbe,w,extra) =>
-    '<line x1="'+X(a[0])+'" y1="'+Y(a[1])+'" x2="'+X(c[0])+'" y2="'+Y(c[1])+
-    '" stroke="'+farbe+'" stroke-width="'+w+'" stroke-linecap="round"'+(extra||"")+'/>';
-  const kreis = (pt,r,fuell,strichF,sw2,extra) =>
-    '<circle cx="'+X(pt[0])+'" cy="'+Y(pt[1])+'" r="'+Math.max(0.5,r)+'" fill="'+(fuell||"none")+'"'+
-    (strichF?' stroke="'+strichF+'" stroke-width="'+(sw2||6)+'"':"")+(extra||"")+'/>';
-  /* gleichmaessige Bloecke auf einem Kreis -- daraus werden Stollen, Zaehne, Scheibenschlitze */
-  function bloecke(pt, r, w, farbe, anzahl, fuellgrad, extra){
-    const c = 2*Math.PI*r, e = c/anzahl;
-    return kreis(pt, r, "none", farbe, w,
-      ' stroke-dasharray="'+(e*fuellgrad).toFixed(1)+' '+(e*(1-fuellgrad)).toFixed(1)+'"'+(extra||""));
-  }
-
-  const cRahmen = (f.fb && f.fb.h) || "#3a4048";
-  const cAkzent = (f.fb && f.fb.a) || "#c9ccd1";
-  const cFelge  = (lr && lr.fb) || "#16181c";
-  const cNabe   = (lr && lr.fbn) || "#2b2f34";
-  const cReifen = "#1b1e22";
-  const cGabelU = (gabel && gabel.fb && gabel.fb.u) || "#14161a";
-  const cGabelS = (gabel && gabel.fb && gabel.fb.s) || "#cfd2d6";
-  const cDaempf = (dae && dae.fb) || "#1a1d21";
-  const cBremse = (br && br.fb) || "#8a9096";
-  const cKurbel = (ku && ku.fb) || "#b9bec4";
-  const cCock   = (le && le.fb) || "#16181c";
-  const cStuetz = (st && st.fb) || "#101214";
-  const cSattel = (sa && sa.fb) || "#16181c";
-  const cStahl  = "#aeb4ba";
-
-  const gRahmen = lack(cRahmen), gFelge = lack(cFelge), gGabelU = lack(cGabelU),
-        gGabelS = lack(cGabelS, true), gDaempf = lack(cDaempf), gKurbel = lack(cKurbel),
-        gCock = lack(cCock), gStuetz = lack(cStuetz), gSattel = lack(cSattel),
-        gStahl = lack(cStahl, true), gBremse = lack(cBremse), gNabe = lack(cNabe);
-
-  let o = "";
-
-  /* ── Standflaeche: weicher Schatten unter beiden Reifen, nicht ein Klecks ── */
-  defs.push('<radialGradient id="'+ns+'sch"><stop offset="0" stop-color="#000" stop-opacity="0.42"/>' +
-            '<stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>');
-  const fleck = (M, r) => '<ellipse cx="'+X(M[0])+'" cy="'+Y(0)+'" rx="'+(r*0.85)+
-                          '" ry="'+(r*0.16)+'" fill="url(#'+ns+'sch)"/>';
-  o += fleck(HA, rH) + fleck(VA, rV);
-
-  /* ── Laufrad ── */
-  function laufrad(M, rAussen, rFelge, reifen){
-    const stollen = Math.max(14, (reifen ? reifen.breite : 58) * 0.30);
-    const karkasse = rAussen - stollen - rFelge;
-    let t = "";
-    t += kreis(M, rFelge + karkasse/2 + 2, "none", cReifen, karkasse + 4);            /* Karkasse */
-    t += kreis(M, rFelge + karkasse*0.78, "none", hell(cReifen,.22), 9, ' opacity="0.75"');  /* Flanken-Glanz */
-    t += kreis(M, rFelge + karkasse*0.18, "none", "#000", 8, ' opacity="0.35"');      /* Schatten am Felgenhorn */
-    t += bloecke(M, rAussen - stollen*0.86, stollen*0.64, dunk(cReifen,.10), 26, 0.40, ' opacity="0.9"'); /* Seitenstollen */
-    t += bloecke(M, rAussen - stollen/2, stollen, dunk(cReifen,.28), 42, 0.52);       /* Mittelstollen */
-    t += bloecke(M, rAussen - stollen*0.5, stollen*0.55, dunk(cReifen,.48), 21, 0.34, ' opacity="0.85"');
-    t += bloecke(M, rAussen - stollen*0.30, stollen*0.22, "#fff", 42, 0.42, ' opacity="0.13"'); /* Licht auf den Stollen */
-    t += kreis(M, rFelge - 10, "none", gFelge, 21);                                   /* Felgenbett */
-    t += kreis(M, rFelge - 1.5, "none", hell(cFelge,.42), 3, ' opacity="0.8"');        /* Felgenhorn */
-    t += kreis(M, rFelge - 19, "none", dunk(cFelge,.5), 4, ' opacity="0.7"');          /* Innenkante */
-    t += kreis(M, rFelge - 10, "none", "#fff", 21,
-         ' opacity="0.10" stroke-dasharray="'+(2*Math.PI*(rFelge-10)*0.30).toFixed(0)+' '+
-         (2*Math.PI*(rFelge-10)*0.70).toFixed(0)+'" transform="rotate(-42 '+X(M[0])+' '+Y(M[1])+')"/>');
-    for(let i = 0; i < 16; i++){                                                      /* Speichen, gekreuzt */
-      const a = i * Math.PI/8, vz = (i % 2) ? 1 : -1;
-      const nab = [M[0] + Math.cos(a)*34, M[1] + Math.sin(a)*34];
-      const fel = [M[0] + Math.cos(a + vz*0.30)*(rFelge-16), M[1] + Math.sin(a + vz*0.30)*(rFelge-16)];
-      t += strich(nab, fel, cStahl, 3.4, ' opacity="0.7"');
-    }
-    t += kreis(M, 44, "none", gNabe, 12);                                             /* Nabenflansch */
-    t += kreis(M, 25, gNabe);                                                         /* Nabenkoerper */
-    t += kreis(M, 10, hell(cNabe,.45));                                               /* Achse */
-    return t;
-  }
-  o += laufrad(HA, rH, feH, th) + laufrad(VA, rV, feV, tv);
-
-  /* ── Bremsen ── */
-  if(br && br.mount !== "Felge" && !antriebsSeite){
-    const scheibe = (M, gr) => {
-      if(!gr) return "";
-      const r = gr/2;
-      let t = kreis(M, r - 6, "none", gStahl, 12);                  /* Bremsflaeche */
-      t += bloecke(M, r - 6, 12, dunk(cStahl,.55), 24, 0.22, ' opacity="0.8"');  /* Schlitze */
-      t += kreis(M, r, "none", dunk(cStahl,.2), 2);
-      for(let i = 0; i < 6; i++){                                   /* Spinne */
-        const a = i*Math.PI/3;
-        t += strich([M[0]+Math.cos(a)*46, M[1]+Math.sin(a)*46],
-                    [M[0]+Math.cos(a)*(r-16), M[1]+Math.sin(a)*(r-16)], cStahl, 9, ' opacity="0.85"');
-      }
-      t += kreis(M, 46, "none", gStahl, 8);
-      return t;
-    };
-    o += scheibe(HA, br.sH) + scheibe(VA, br.sV);
-    /* Bremssaettel dort, wo sie sitzen: hinten an der Strebe, vorn am Tauchrohr */
-    const satHi = [HA[0] - (br.sH/2 - 25)*0.35, HA[1] + br.sH/2 - 20];
-    o += rohr([satHi[0]-26, satHi[1]-14], [satHi[0]+26, satHi[1]+14], 46, 46, gBremse);
-    const satVo = [VA[0] - 20, VA[1] + br.sV/2 - 22];
-    o += rohr([satVo[0]-24, satVo[1]-13], [satVo[0]+24, satVo[1]+13], 44, 44, gBremse);
-  }
-  if(br && br.mount === "Felge"){
-    const backe = (M, rFelge) => rohr([M[0]-30, M[1]+rFelge-6], [M[0]+30, M[1]+rFelge+6], 34, 34, gBremse);
-    o += backe(HA, feH) + backe(VA, feV);
-  }
-
-  /* ── Hinterbau und Rahmen ── */
-  o += rohr(HA, BB, 17, 30, gRahmen);                               /* Kettenstrebe */
-  if(ST){
-    o += rohr([ST[0] - 16*sd[0], ST[1] - 16*sd[1]], HA, 21, 15, gRahmen);   /* Sitzstrebe */
-    o += rohr(BB, ST, 36, 29, gRahmen);                             /* Sitzrohr */
-    o += rohr(HTo, ST, 33, 27, gRahmen);                            /* Oberrohr */
-  } else {
-    o += rohr(HA, HTo, 20, 26, gRahmen);
-  }
-  o += rohr(BB, HTu, 42, 34, gRahmen);                              /* Unterrohr */
-  o += rohr(HTu, HTo, 46, 44, gRahmen);                             /* Steuerrohr */
-  o += kreis(BB, 27, gRahmen);                                      /* Tretlagergehaeuse */
-
-  /* ── Daempfer und Wippe ── */
-  if(f.daempfer && dae){
-    const wip = ST ? [ST[0] + (BB[0]-ST[0])*0.24, ST[1] - g.sr*0.28] : BB;
-    const ur  = [BB[0] + (HTu[0]-BB[0])*0.40, BB[1] + (HTu[1]-BB[1])*0.40];
-    const dx = wip[0]-ur[0], dy = wip[1]-ur[1], L = Math.hypot(dx,dy) || 1;
-    const qx = -dy/L, qy = dx/L;                                     /* quer zum Daempfer */
-    if(ST) o += rohr(wip, [ST[0] - 24*sd[0], ST[1] - 24*sd[1]], 30, 22, lack(cAkzent));  /* Wippe */
-    o += rohr(wip, [ur[0]+dx*0.10, ur[1]+dy*0.10], 15, 15, gStahl);  /* Kolbenstange */
-    o += rohr(ur, [ur[0]+dx*0.52, ur[1]+dy*0.52], 46, 46, gDaempf);  /* Daempferkoerper */
-    o += rohr([ur[0]+dx*0.18+qx*30, ur[1]+dy*0.18+qy*30],
-              [ur[0]+dx*0.42+qx*30, ur[1]+dy*0.42+qy*30], 32, 32, gDaempf);  /* Piggyback */
-    o += kreis(ur, 15, gStahl); o += kreis(wip, 14, gStahl);
-  }
-
-  /* ── Gabel ── */
-  if(gabel){
-    const arch = [AX[0] + a2c*0.40*u[0], AX[1] + a2c*0.40*u[1]];
-    if(gabel.travel > 0){
-      o += rohr(KR, arch, 22, 22, gGabelS);                          /* Standrohr, poliert */
-      o += rohr(arch, VA, 40, 27, gGabelU);                          /* Tauchrohr */
-      o += kreis(arch, 25, gGabelU);                                 /* Bruecke */
-      o += rohr([KR[0]-52*fw[0], KR[1]-52*fw[1]], [KR[0]+52*fw[0], KR[1]+52*fw[1]], 30, 30, gGabelU);
-      if(gabel.schaft === "dc"){
-        const ob = [KR[0]+95*u[0], KR[1]+95*u[1]];
-        o += rohr([ob[0]-52*fw[0], ob[1]-52*fw[1]], [ob[0]+52*fw[0], ob[1]+52*fw[1]], 26, 26, gGabelU);
-        o += rohr(KR, ob, 20, 20, gGabelS);
-      }
-    } else {
-      o += rohr(KR, VA, 24, 18, gGabelU);                            /* Starrgabel */
-    }
-    o += kreis(VA, 17, gStahl);                                      /* Steckachse */
-  }
-
-  /* ── Antrieb ── */
-  if(antriebsSeite){
-    if(kasR){                                                        /* Kassette, gestufte Ritzel */
-      for(let i = 0; i < 4; i++){
-        const r = kasR * (1 - i*0.21);
-        o += kreis(HA, r - 4, "none", gStahl, 9, ' opacity="'+(0.95 - i*0.11)+'"');
-        o += bloecke(HA, r, 7, dunk(cStahl,.35), Math.max(16, Math.round(r/5)), 0.46, ' opacity="0.5"');
-      }
-    }
-    if(kbR){
-      o += kreis(BB, kbR - 7, "none", gKurbel, 14);                  /* Kettenblatt */
-      o += bloecke(BB, kbR, 12, cKurbel, ku ? ku.kb : 32, 0.45);     /* Zaehne, echte Anzahl */
-      for(let i = 0; i < 4; i++){
-        const a = i*Math.PI/2 + 0.4;
-        o += strich(BB, [BB[0]+Math.cos(a)*(kbR-12), BB[1]+Math.sin(a)*(kbR-12)], cKurbel, 11, ' opacity="0.8"');
-      }
-      if(kasR){
-        /* Zugtrum laeuft oben gespannt vom Kettenblatt zum Ritzel, Leertrum
-           unten ueber Leit- und Spannroellchen zurueck. */
-        const kasU = kasR * 0.62;
-        const p1 = [HA[0] + 22, HA[1] - kasU - 62];                  /* Leitroellchen */
-        const p2 = [HA[0] - 16, HA[1] - kasU - 128];                 /* Spannroellchen */
-        o += strich([BB[0], BB[1]+kbR], [HA[0], HA[1]+kasR], cStahl, 7);
-        if(an && an.gaenge > 1){
-          o += rohr([HA[0] + 6, HA[1] - kasU + 6], p1, 34, 26, gKurbel);   /* Schaltwerkskoerper */
-          o += rohr(p1, p2, 20, 20, gKurbel);                              /* Kaefig */
-          o += strich([HA[0], HA[1]-kasU], p1, cStahl, 7);
-          o += strich(p1, p2, cStahl, 7);
-          o += strich(p2, [BB[0], BB[1]-kbR], cStahl, 7);
-          o += kreis(p1, 21, "none", gStahl, 8); o += kreis(p2, 19, "none", gStahl, 8);
-        } else {
-          o += strich([HA[0], HA[1]-kasR], [BB[0], BB[1]-kbR], cStahl, 7);
-        }
-      }
-    }
-  }
-  if(ku){                                                            /* Kurbel und Pedal */
-    const kEnd = [BB[0] - ku.laenge*0.40, BB[1] - ku.laenge*0.92];
-    o += rohr(BB, kEnd, 30, 22, gKurbel);
-    o += rohr([kEnd[0]-32, kEnd[1]-7], [kEnd[0]+32, kEnd[1]+7], 22, 22, gCock);
-    o += kreis(BB, 14, gStahl);
-  }
-
-  /* ── Sitz ── */
-  if(ST && SP){
-    const klemm = [ST[0] + 12*sd[0], ST[1] + 12*sd[1]];
-    if(st && st.hub > 0){
-      o += rohr(klemm, [SP[0]-18*sd[0], SP[1]-18*sd[1]], 30, 30, gStuetz);
-      o += rohr([ST[0]+70*sd[0], ST[1]+70*sd[1]], SP, 24, 24, gStahl);
-    } else {
-      o += rohr(klemm, SP, 27, 25, gStuetz);
-    }
-    o += kreis(ST, 15, lack(dunk(cAkzent, .35)));                    /* Sattelklemme */
-    /* Der Sattel steht waagerecht, nicht rechtwinklig zur Stuetze. Hinten breit
-       und leicht aufgebogen, vorn die schmale Nase. */
-    const hi = -132, vo = 138, ob = 26, un = 6;
-    const pfad = "M " + X(SP[0]+hi) + " " + Y(SP[1]+ob+8) +
-      " Q " + X(SP[0]+hi-16) + " " + Y(SP[1]+ob+30) + " " + X(SP[0]+hi+34) + " " + Y(SP[1]+ob+20) +
-      " Q " + X(SP[0]+20) + " " + Y(SP[1]+ob+12) + " " + X(SP[0]+vo) + " " + Y(SP[1]+un+16) +
-      " L " + X(SP[0]+vo) + " " + Y(SP[1]+un+4) +
-      " Q " + X(SP[0]+10) + " " + Y(SP[1]+un-2) + " " + X(SP[0]+hi+20) + " " + Y(SP[1]+un+2) +
-      " Q " + X(SP[0]+hi-10) + " " + Y(SP[1]+un+6) + " " + X(SP[0]+hi) + " " + Y(SP[1]+ob+8) + " Z";
-    o += '<path d="' + pfad + '" fill="' + gSattel + '"/>';
-    o += strich([SP[0]-70, SP[1]+10], [SP[0]+60, SP[1]+6], cStahl, 5, ' opacity="0.7"');  /* Streben */
-  } else if(ST){
-    o += rohr(ST, [ST[0]+55*sd[0], ST[1]+55*sd[1]], 24, 24, gStuetz);
-  }
-
-  /* ── Cockpit ── */
-  o += rohr([HTo[0]-10*u[0], HTo[1]-10*u[1]], [HTo[0]+22*u[0], HTo[1]+22*u[1]], 34, 34, gCock); /* Gabelschaftklemmung */
-  o += rohr(HTo, VB, 28, 22, gCock);                                 /* Vorbau */
-  o += rohr(VB, GR, 26, 23, gCock);                                  /* Lenker mit Rise und Ruecksweep */
-  o += rohr([GR[0]+22, GR[1]-4], [GR[0]-46, GR[1]+6], 40, 40, lack("#23272c"));  /* Griff */
-  o += rohr([GR[0]+20, GR[1]-2], [GR[0]+74, GR[1]-30], 14, 9, gBremse);          /* Bremshebel */
-  o += kreis([GR[0]-50, GR[1]+6], 15, hell(cCock,.30));                          /* Lenkerende */
-
-  /* ── Boden ── */
-  o += '<line x1="0" y1="'+Y(0)+'" x2="'+Math.round(W)+'" y2="'+Y(0)+
-       '" stroke="var(--line)" stroke-width="4" stroke-dasharray="20 16"/>';
-
-  const inhalt = antriebsSeite ? o : '<g transform="translate('+Math.round(W)+',0) scale(-1,1)">'+o+'</g>';
-  return {
-    svg: '<svg viewBox="0 0 '+Math.round(W)+' '+Math.round(H)+'" width="100%" role="img" ' +
-         'aria-label="Massstaebliche Zeichnung des Rads aus den gewaehlten Teilen">' +
-         '<defs>'+defs.join("")+'</defs>'+inhalt+'</svg>',
-    rs: g.rs, lw: g.lw, gabel: gabel ? gabel.travel : 0
-  };
-}
 
 function specsVon(slotKey, t){
   const c = [];
@@ -2120,43 +1520,6 @@ function zeichne(){
   Array.prototype.forEach.call(document.querySelectorAll(".modus-in button"),
     b => b.setAttribute("aria-pressed", String(b.dataset.modus === modus)));
 
-  /* Im Traumrad zaehlen die Teile, nicht das Bild. Die Zeichnung bleibt auf
-     "Mein Rad" beschraenkt, wo sie neben dem Foto beim Wiedererkennen hilft.
-     radModell wird gar nicht erst gerufen -- sonst rechnet die App bei jedem
-     Neuzeichnen eine Zeichnung, die niemand sieht. */
-  const zeigModell = modus === "real";
-  const mod = zeigModell ? radModell(build, seite) : null;
-  /* Ein eigenes Foto ist die einzige wirklich massstabsgetreue Ansicht -- und
-     die einzige, die rechtlich uns gehoert. Fremde Produktbilder kommen nicht
-     in die App. */
-  const fotoDa = modus === "real" && !!fotos.real;
-  const fotoAn = fotoDa && ansicht === "foto";
-  const modellkarte = !zeigModell ? "" : `<div class="modell">
-    <div class="modell-kopf">
-      <span class="modell-t">${modus === "real" ? "Dein Rad" : "Dein Traumrad"}</span>
-      ${fotoDa ? `<div class="seiten" role="group" aria-label="Ansicht">
-        <button data-ansicht="foto" aria-pressed="${fotoAn}">Foto</button>
-        <button data-ansicht="zeichnung" aria-pressed="${!fotoAn}">Zeichnung</button>
-      </div>` : ""}
-      <div class="seiten" role="group" aria-label="Seite"${fotoAn ? ' hidden' : ''}>
-        <button data-seite="antrieb" aria-pressed="${seite === "antrieb"}">Antriebsseite</button>
-        <button data-seite="bremse" aria-pressed="${seite === "bremse"}">Bremsseite</button>
-      </div>
-      ${mod && !fotoAn ? `<button class="btn ghost sm" data-png="1">PNG</button>` : ""}
-    </div>
-    ${fotoAn ? `<div class="modell-bild"><img src="${fotos.real}" alt="Dein Rad" style="width:100%;border-radius:9px;display:block"></div>
-      <div class="modell-fuss"><span>dein eigenes Foto, 1:1</span></div>`
-    : mod ? `<div class="modell-bild">${mod.svg}</div>
-      <div class="modell-fuss">
-        <span>Radstand ${mod.rs} mm</span>
-        <span>Lenkwinkel ${String(mod.lw).replace(".", ",")}°</span>
-        <span>${mod.gabel ? mod.gabel + " mm Federweg" : "Starrgabel"}</span>
-        <span>maßstäbliche Schemazeichnung</span>
-      </div>`
-    : `<div class="modell-leer">Wähle einen Rahmen — dann zeichnet die App dein Rad
-        maßstäblich aus den Teiledaten.</div>`}
-  </div>`;
-
   const foto = fotos[modus];
   const fotokarte = modus !== "real" ? "" : `<div class="fotokarte">
     <label class="fotobox" for="foto-in">
@@ -2185,7 +1548,7 @@ function zeichne(){
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
   </button>`;
 
-  $("aufbau").innerHTML = modellkarte + fotokarte + leerHinweis + cta + GRUPPEN.map(g => {
+  $("aufbau").innerHTML = fotokarte + leerHinweis + cta + GRUPPEN.map(g => {
     const rows = SLOTS.filter(s => s.grp === g).map(s => {
       if(entfaellt(build, s.k))
         return `<div class="slot leer"><span class="slot-k">${s.label}</span>
@@ -2499,49 +1862,6 @@ function fotoAufnehmen(datei, ziel){
   leser.readAsDataURL(datei);
 }
 
-/* Das Modell als echtes Rasterbild. Im SVG stehen zwei Farben als CSS-Variable;
-   ein Bild kennt keine Variablen, deshalb werden sie vorher aufgeloest. Sonst
-   faellt beides auf Schwarz zurueck und die Standlinie verschwindet. */
-function alsPNG(){
-  const quelle = document.querySelector(".modell-bild svg");
-  if(!quelle){ return; }
-  const stil = getComputedStyle(document.documentElement);
-  let txt = new XMLSerializer().serializeToString(quelle).replace(/\sxmlns="[^"]*"/g, "");
-  txt = txt.replace(/var\(--([a-z0-9-]+)\)/g, (_, n) => (stil.getPropertyValue("--" + n) || "#888").trim());
-  const vb = quelle.getAttribute("viewBox").split(/\s+/).map(Number);
-  const breite = 1800, hoehe = Math.round(breite * vb[3] / vb[2]);
-  const grund = (stil.getPropertyValue("--surface") || "#ffffff").trim();
-  /* Das SVG traegt fuer die Seitendarstellung width="100%". Bleibt das stehen und
-     kommt eine zweite Breite dazu, ist das Attribut doppelt und der Bildlader
-     bricht wortlos ab. Also erst raus, dann feste Masse setzen. */
-  txt = txt.replace(/^<svg([^>]*)>/, function(_, attr){
-    attr = attr.replace(/\s(width|height)="[^"]*"/g, "");
-    return '<svg' + attr + ' xmlns="http://www.w3.org/2000/svg" width="' + breite +
-           '" height="' + hoehe + '"><rect width="100%" height="100%" fill="' + grund + '"/>';
-  });
-
-  const bild = new Image();
-  bild.onload = function(){
-    const c = document.createElement("canvas");
-    c.width = breite; c.height = hoehe;
-    c.getContext("2d").drawImage(bild, 0, 0, breite, hoehe);
-    let daten;
-    try{ daten = c.toDataURL("image/png"); }
-    catch(e){ alert("Das Bild ließ sich nicht erzeugen."); return; }
-    const name = "dreambuild-" + (build.rahmen || "rad") + "-" + seite + ".png";
-    zeigeSheet(`
-      <div class="sheet-h"><h3><span class="sub">Bild fertig</span>Dein Rad als PNG</h3>${zuBtn}</div>
-      <div class="sheet-b">
-        <img class="png-bild" src="${daten}" alt="Dein Rad">
-        <p class="hint">Auf dem iPhone: Bild <b>lange gedrückt halten</b> → „Zu Fotos hinzufügen“.
-          Am Rechner und auf Android geht der Knopf darunter.</p>
-        <a class="btn wide" style="text-align:center;text-decoration:none" href="${daten}" download="${name}">Als Datei sichern</a>
-      </div>`);
-  };
-  bild.onerror = function(){ alert("Das Bild ließ sich nicht erzeugen."); };
-  bild.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(txt);
-}
-
 function oeffneMenu(){
   const an = shopsAn(), verdienen = an.filter(shopVerdient);
   const anz = Object.keys(feed.treffer || {}).length;
@@ -2673,17 +1993,7 @@ document.addEventListener("click", e => {
     window.scrollTo({top:0, behavior:"smooth"}); return;
   }
 
-  const av = T("[data-ansicht]");
-  if(av){
-    if(av.dataset.ansicht !== ansicht){ ansicht = av.dataset.ansicht; sichern(); zeichne(); }
-    return;
-  }
 
-  const se = T("[data-seite]");
-  if(se){
-    if(se.dataset.seite !== seite){ seite = se.dataset.seite; sichern(); zeichne(); }
-    return;
-  }
 
   const md = T("[data-modus]");
   if(md){
@@ -2692,7 +2002,6 @@ document.addEventListener("click", e => {
   }
   if(T("[data-fotowahl]")){ fotoZiel = {art:"rad"}; const i = $("foto-in"); if(i) i.click(); return; }
 
-  if(T("[data-png]")){ alsPNG(); return; }
   if(T("[data-feedwahl]")){ const i = $("feed-in"); if(i) i.click(); return; }
   if(T("[data-feedweg]")){ feed = {treffer:{}, stand:0, quelle:"", zeilen:0}; sichern(); zeichne(); oeffneMenu(); return; }
   const sa = T("[data-shopan]");
@@ -2749,13 +2058,12 @@ document.addEventListener("keydown", e => { if(e.key === "Escape") schliesse(); 
 $("btn-disz").addEventListener("click", oeffneDisz);
 $("btn-menu").addEventListener("click", oeffneMenu);
 
-try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({builds, modus, seite, ansicht, fotos, sel, plan, aff, view})); }catch(e){}
+try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({builds, modus, fotos, sel, plan, aff, view})); }catch(e){}
 
 function start(daten){
   laden();
   if(daten && daten.builds){
-    builds = daten.builds; modus = daten.modus || modus; seite = daten.seite || seite;
-    ansicht = daten.ansicht || ansicht;
+    builds = daten.builds; modus = daten.modus || modus; 
     fotos = daten.fotos || fotos;
     sel = daten.sel || sel; plan = daten.plan || plan;
     aff = daten.aff || aff; view = daten.view || view;
