@@ -109,7 +109,6 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 .wiz-cta b{font-family:Archivo;font-size:14.5px;font-weight:700;display:block;letter-spacing:-.01em}
 .wiz-cta span{font-size:11.5px;opacity:.85;display:block;margin-top:1px;line-height:1.35}
 
-.grp{margin-bottom:14px}
 .grp-h{display:flex;align-items:center;gap:9px;margin:0 2px 7px}
 .grp-h h2{font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
 .grp-h .rule{flex:1;height:1px;background:var(--line-soft)}
@@ -292,6 +291,33 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 
 
 /* ── Bauteilbilder und PNG-Ausgabe ── */
+
+/* ── Themenblöcke ── */
+.grp{margin-bottom:12px;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden}
+.grp.stoerung{border-color:var(--bad)}
+.grp.achtung{border-color:var(--warn)}
+.grp-kopf{display:grid;grid-template-columns:8px minmax(0,1fr) auto auto;gap:10px;align-items:start;
+  width:100%;text-align:left;padding:11px 13px;background:var(--surface-2)}
+.grp-kopf > *{align-self:start}
+.grp-kopf .punkt,.grp-kopf .zahl,.grp-kopf .pfeil{margin-top:4px}
+.grp-kopf .punkt{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.grp.stoerung .grp-kopf .punkt{background:var(--bad)}
+.grp.achtung .grp-kopf .punkt{background:var(--warn)}
+.grp.fertig .grp-kopf .punkt{background:var(--gut)}
+.grp-kopf h2{font-family:Archivo;font-size:14px;font-weight:700;letter-spacing:-.01em;
+  text-transform:none;color:var(--ink);line-height:1.2}
+.grp-kopf .t{display:block;font-family:"IBM Plex Sans",sans-serif;font-size:11.5px;font-weight:400;
+  color:var(--ink-3);letter-spacing:0;margin-top:2px;line-height:1.35;text-transform:none}
+.grp-kopf .zahl{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);white-space:nowrap}
+.grp-kopf .pfeil{color:var(--ink-3);transition:transform .15s}
+.grp.eingeklappt .grp-kopf .pfeil{transform:rotate(-90deg)}
+.grp-inhalt{display:flex;flex-direction:column;gap:1px;background:var(--line-soft)}
+.grp.eingeklappt .grp-inhalt{display:none}
+.grp .slot{border:none;border-radius:0;background:var(--surface)}
+.grp .slot:hover{background:var(--surface-2)}
+.grp .slot.fehler{border-left:3px solid var(--bad);padding-left:10px}
+.grp .slot.warnung{border-left:3px solid var(--warn);padding-left:10px}
 
 /* ── Produktfeed ── */
 .feedbild{width:46px;height:36px;border-radius:6px;object-fit:contain;background:#fff;
@@ -731,21 +757,33 @@ sattel:[
 /* ═══════════ 3 · Slots ═══════════ */
 
 const SLOTS = [
-  {k:"rahmen",     label:"Rahmen",        gew:3,   grp:"Rahmen & Fahrwerk", anteil:.30},
-  {k:"gabel",      label:"Federgabel",    gew:3,   grp:"Rahmen & Fahrwerk", anteil:.13},
-  {k:"daempfer",   label:"Dämpfer",       gew:2,   grp:"Rahmen & Fahrwerk", anteil:.06},
-  {k:"laufraeder", label:"Laufradsatz",   gew:2,   grp:"Laufräder & Reifen", anteil:.13},
-  {k:"reifenVR",   label:"Reifen vorn",   gew:2,   grp:"Laufräder & Reifen", anteil:.02, quelle:"reifen"},
-  {k:"reifenHR",   label:"Reifen hinten", gew:2,   grp:"Laufräder & Reifen", anteil:.02, quelle:"reifen"},
-  {k:"antrieb",    label:"Antrieb",       gew:1.5, grp:"Antrieb", anteil:.10},
-  {k:"kurbel",     label:"Kurbel",        gew:1,   grp:"Antrieb", anteil:.04},
-  {k:"bremsen",    label:"Bremsen",       gew:2,   grp:"Bremsen", anteil:.08},
-  {k:"lenker",     label:"Lenker",        gew:1,   grp:"Cockpit & Sitz", anteil:.025},
-  {k:"vorbau",     label:"Vorbau",        gew:1,   grp:"Cockpit & Sitz", anteil:.015},
-  {k:"stuetze",    label:"Sattelstütze",  gew:1,   grp:"Cockpit & Sitz", anteil:.06},
-  {k:"sattel",     label:"Sattel",        gew:0.5, grp:"Cockpit & Sitz", anteil:.02}
+  {k:"rahmen",     label:"Rahmen",        gew:3,   grp:"Rahmen",    anteil:.30},
+  {k:"gabel",      label:"Federgabel",    gew:3,   grp:"Fahrwerk",  anteil:.13},
+  {k:"daempfer",   label:"Dämpfer",       gew:2,   grp:"Fahrwerk",  anteil:.06},
+  {k:"laufraeder", label:"Laufradsatz",   gew:2,   grp:"Laufräder", anteil:.13},
+  {k:"reifenVR",   label:"Reifen vorn",   gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen"},
+  {k:"reifenHR",   label:"Reifen hinten", gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen"},
+  {k:"antrieb",    label:"Schaltung",     gew:1.5, grp:"Antrieb",   anteil:.10},
+  {k:"kurbel",     label:"Kurbel",        gew:1,   grp:"Antrieb",   anteil:.04},
+  {k:"bremsen",    label:"Bremsen",       gew:2,   grp:"Bremsen",   anteil:.08},
+  {k:"lenker",     label:"Lenker",        gew:1,   grp:"Cockpit",   anteil:.025},
+  {k:"vorbau",     label:"Vorbau",        gew:1,   grp:"Cockpit",   anteil:.015},
+  {k:"stuetze",    label:"Sattelstütze",  gew:1,   grp:"Sitz",      anteil:.06},
+  {k:"sattel",     label:"Sattel",        gew:0.5, grp:"Sitz",      anteil:.02}
 ];
-const GRUPPEN = ["Rahmen & Fahrwerk","Laufräder & Reifen","Antrieb","Bremsen","Cockpit & Sitz"];
+/* Ein Thema je Baugruppe, mit einem Satz dazu, was es am Rad entscheidet.
+   Vorher lagen Rahmen, Gabel und Daempfer unter einer Ueberschrift -- drei
+   Dinge, die nichts miteinander zu tun haben ausser der Nachbarschaft. */
+const GRUPPEN = [
+  {n:"Rahmen",    t:"Legt Laufradgröße, Achsmaße und Tretlager fest — und damit fast alles andere."},
+  {n:"Fahrwerk",  t:"Federweg vorn und hinten. Muss zur Freigabe des Rahmens passen."},
+  {n:"Laufräder", t:"Freilauf, Maulweite und Systemgewicht."},
+  {n:"Reifen",    t:"Breite, Grip und Freiraum im Rahmen."},
+  {n:"Antrieb",   t:"Schaltung und Kurbel — Freilauftyp und Kettenlinie müssen stimmen."},
+  {n:"Bremsen",   t:"Kolbenzahl und Scheibengröße."},
+  {n:"Cockpit",   t:"Lenker und Vorbau. Die Klemmung muss zueinander passen."},
+  {n:"Sitz",      t:"Sattelstütze und Sattel."}
+];
 const quelleOf = s => s.quelle || s.k;
 const slotOf = k => SLOTS.find(x => x.k === k);
 const findeTeil = (slotKey, id) => {
@@ -791,6 +829,7 @@ const AFF_START = {
 const leerBau = () => { const o = {}; for(const s of SLOTS) o[s.k] = null; return o; };
 let builds = {traum:{...START}, real:leerBau()};
 let modus = "traum";
+let zuGeklappt = {};   /* Themen, die der Nutzer eingeklappt hat */
 let fotoZiel = null;   /* worauf sich die naechste Dateiauswahl bezieht */
 /* Produktfeed des Partnerprogramms: Bild-URL, Preis und Direktlink je Teil.
    Diese Bilder sind zur Anzeige freigegeben -- anders als Fotos, die man sich
@@ -821,6 +860,8 @@ function laden(){
     }
     const md = localStorage.getItem("mtb.modus");
     if(md === "real" || md === "traum") modus = md;
+    const zg = localStorage.getItem("mtb.zu");
+    if(zg){ const q = JSON.parse(zg); if(q && typeof q === "object") zuGeklappt = q; }
     const fd = localStorage.getItem("mtb.feed");
     if(fd){ const q = JSON.parse(fd); if(q && q.treffer) feed = q; }
     const ft = localStorage.getItem("mtb.fotos");
@@ -845,6 +886,7 @@ function sichern(){
     localStorage.setItem("mtb.builds", JSON.stringify(builds));
     localStorage.setItem("mtb.modus", modus);
     localStorage.setItem("mtb.feed", JSON.stringify(feed));
+    localStorage.setItem("mtb.zu", JSON.stringify(zuGeklappt));
     localStorage.setItem("mtb.sel", JSON.stringify(sel));
     localStorage.setItem("mtb.plan", JSON.stringify(plan));
     localStorage.setItem("mtb.aff", JSON.stringify(aff));
@@ -1549,7 +1591,9 @@ function zeichne(){
   </button>`;
 
   $("aufbau").innerHTML = fotokarte + leerHinweis + cta + GRUPPEN.map(g => {
-    const rows = SLOTS.filter(s => s.grp === g).map(s => {
+    const meine = SLOTS.filter(s => s.grp === g.n && !entfaellt(build, s.k));
+    if(!meine.length) return "";                       /* Thema ganz ohne Slot am Rahmen */
+    const rows = SLOTS.filter(s => s.grp === g.n).map(s => {
       if(entfaellt(build, s.k))
         return `<div class="slot leer"><span class="slot-k">${s.label}</span>
           <span class="slot-n empty">entfällt bei diesem Rahmen</span><span class="slot-r"></span></div>`;
@@ -1557,15 +1601,32 @@ function zeichne(){
       const lvl = slotLevel(r.funde, s.k);
       const chips = t ? specsVon(s.k, t).map(c => `<span class="chip">${esc(c)}</span>`).join("") : "";
       return `<button class="slot ${lvl || ""}" data-slot="${s.k}">
-        <span class="slot-k">${lvl ? `<span class="mark"></span>` : ""}${s.label}</span>
+        <span class="slot-k">${s.label}</span>
         <span class="slot-n ${t ? "" : "empty"}">${t ? esc(t.n) : "Teil wählen …"}</span>
         ${chips ? `<span class="specs">${chips}</span>` : ""}
         <span class="slot-r">${t ? `<span class="p">${eur(preisVon(t))}</span><span class="g">${t.g} g</span>` : `<span class="g">offen</span>`}</span>
       </button>`;
     }).join("");
-    const n = SLOTS.filter(s => s.grp === g && !entfaellt(build, s.k)).length;
-    return `<section class="grp"><div class="grp-h"><h2>${g}</h2><div class="rule"></div><span class="n">${n}</span></div>
-      <div class="slots">${rows}</div></section>`;
+    /* Der Punkt am Thema fasst zusammen, was darin steckt: roter Konflikt,
+       gelbe Einschränkung, grün wenn vollständig und sauber. */
+    let stand = "";
+    for(const sl of meine){
+      const l = slotLevel(r.funde, sl.k);
+      if(l === "fehler"){ stand = "stoerung"; break; }
+      if(l === "warnung") stand = "achtung";
+    }
+    const voll = meine.filter(sl => build[sl.k]).length;
+    if(!stand && voll === meine.length) stand = "fertig";
+    const zu = !!zuGeklappt[g.n];
+    return `<section class="grp ${stand}${zu ? " eingeklappt" : ""}">
+      <button class="grp-kopf" data-thema="${esc(g.n)}" aria-expanded="${!zu}">
+        <span class="punkt"></span>
+        <span><h2>${esc(g.n)}<span class="t">${esc(g.t)}</span></h2></span>
+        <span class="zahl">${voll}/${meine.length}</span>
+        <svg class="pfeil" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="grp-inhalt">${rows}</div>
+    </section>`;
   }).join("") + `<p class="legal"><b>Preise sind Richtwerte auf UVP-Niveau</b>, keine Live-Preise und kein Angebot.
     Die Engine prüft Normmaße und Herstellerfreigaben nach öffentlich dokumentierten Standards — nicht jede
     Sonderlocke eines einzelnen Rahmenjahrgangs. Vor dem Kauf gegen das Datenblatt deines Rahmens prüfen.
@@ -1962,6 +2023,13 @@ document.addEventListener("click", e => {
 
   const fi = T("[data-filt]");
   if(fi){ nurPassende = fi.dataset.filt === "1"; if(offenerSlot) oeffneSlot(offenerSlot); return; }
+
+  const th = T("[data-thema]");
+  if(th){
+    const n = th.dataset.thema;
+    if(zuGeklappt[n]) delete zuGeklappt[n]; else zuGeklappt[n] = 1;
+    sichern(); zeichne(); return;
+  }
 
   const sl = T("[data-slot]");
   if(sl){ oeffneSlot(sl.dataset.slot); return; }
