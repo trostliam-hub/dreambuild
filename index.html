@@ -185,7 +185,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 @media (min-width:820px){.tabs{display:none}}
 @media (max-width:819px){
   body[data-view="aufbau"]   #panel{display:none}
-  body[data-view="befunde"]  #aufbau,body[data-view="befunde"]  #c-up{display:none}
+  body[data-view="befunde"]  #aufbau,body[data-view="befunde"]  #c-up,body[data-view="befunde"] #c-spar{display:none}
   body[data-view="upgrades"] #aufbau,body[data-view="upgrades"] #c-find{display:none}
 }
 
@@ -291,6 +291,19 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 
 
 /* ── Bauteilbilder und PNG-Ausgabe ── */
+
+/* ── Sparvorschläge ── */
+.spar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:center;
+  padding:10px 0;border-top:1px solid var(--line-soft)}
+.spar:first-child{border-top:none;padding-top:3px}
+.spar-n{font-size:13px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.spar-s{font-size:11px;color:var(--ink-3);font-family:"IBM Plex Mono",monospace;margin-top:3px}
+.spar-ab{font-size:11px;color:var(--warn);margin-top:3px;line-height:1.4}
+.minus{color:var(--gut);font-weight:700;font-family:"IBM Plex Mono",monospace;font-size:12px}
+.sparkasten{border:1px solid var(--gut);background:var(--gut-soft);border-radius:var(--r);
+  padding:11px 12px;margin-bottom:10px}
+.sparkasten b{color:var(--gut);font-weight:700;font-size:13px}
+.sparkasten p{margin:4px 0 0;font-size:12px;color:var(--gut);line-height:1.45}
 
 /* ── Themenblöcke ── */
 .grp{margin-bottom:12px;background:var(--surface);border:1px solid var(--line);
@@ -452,6 +465,10 @@ img{max-width:100%}
     <div class="card" id="c-find">
       <div class="grp-h" style="margin-bottom:2px"><h2>Befunde</h2><div class="rule"></div></div>
       <div id="findings"></div>
+    </div>
+    <div class="card" id="c-spar">
+      <div class="grp-h" style="margin-bottom:2px"><h2>Günstiger, gleiche Maße</h2><div class="rule"></div></div>
+      <div id="sparen"></div>
     </div>
     <div class="card" id="c-up">
       <div class="grp-h" style="margin-bottom:2px"><h2>Lohnende Upgrades</h2><div class="rule"></div></div>
@@ -656,31 +673,54 @@ reifen:[
  {id:"t-eagle19", n:"Monty Eagle Claw 19×2.5 · Trial Mod", m:"Monty", groessen:["19"], breite:63, iw:[28,38], grip:5, e:E(0,0,0,0,0,0,5), g:1080, p:54},
  {id:"t-eagle26", n:"Monty Eagle Claw 26×2.5 · Trial Stock", m:"Monty", groessen:["26"], breite:63, iw:[28,38], grip:5, e:E(0,0,0,0,1,0,5), g:1220, p:57}
 ],
-antrieb:[
- {id:"a-deore11", n:"Shimano Deore M5100 1×11", m:"Shimano", freilauf:"HG", gaenge:11, kassette:[11,51],
-  maxKB:34, iface:"Shimano", udhPflicht:false, e:E(4,4,2,0,1,1,0), g:1700, p:249},
- {id:"a-deore12", n:"Shimano Deore M6100 1×12", m:"Shimano", freilauf:"Micro Spline", gaenge:12, kassette:[10,51],
-  maxKB:34, iface:"Shimano", udhPflicht:false, e:E(3,5,3,1,1,1,0), g:1780, p:289},
- {id:"a-nx", n:"SRAM NX Eagle 1×12", m:"SRAM", freilauf:"HG", gaenge:12, kassette:[11,50],
-  maxKB:34, iface:"Eagle", udhPflicht:false, e:E(3,4,3,1,1,1,0), g:1790, p:349},
- {id:"a-slx", n:"Shimano SLX M7100 1×12", m:"Shimano", freilauf:"Micro Spline", gaenge:12, kassette:[10,51],
-  maxKB:34, iface:"Shimano", udhPflicht:false, e:E(4,5,4,1,1,1,0), g:1620, p:399},
- {id:"a-gx", n:"SRAM GX Eagle 1×12", m:"SRAM", freilauf:"XD", gaenge:12, kassette:[10,52],
-  maxKB:34, iface:"Eagle", udhPflicht:false, e:E(4,5,4,1,1,1,0), g:1520, p:549},
- {id:"a-xt", n:"Shimano XT M8100 1×12", m:"Shimano", freilauf:"Micro Spline", gaenge:12, kassette:[10,51],
-  maxKB:34, iface:"Shimano", udhPflicht:false, e:E(5,5,4,1,1,1,0), g:1450, p:599},
- {id:"a-gxt", n:"SRAM GX Eagle Transmission", m:"SRAM", freilauf:"XD", gaenge:12, kassette:[10,52],
-  maxKB:38, iface:"T-Type", udhPflicht:true, e:E(3,5,5,2,0,0,0), g:1620, p:799},
- {id:"a-xtr", n:"Shimano XTR M9100 1×12", m:"Shimano", freilauf:"Micro Spline", gaenge:12, kassette:[10,51],
-  maxKB:34, iface:"Shimano", udhPflicht:false, e:E(5,4,3,1,0,0,0), g:1180, p:1199},
- {id:"a-x0t", n:"SRAM X0 Eagle Transmission", m:"SRAM", freilauf:"XD", gaenge:12, kassette:[10,52],
-  maxKB:38, iface:"T-Type", udhPflicht:true, e:E(3,5,5,2,0,0,0), g:1480, p:1399},
- {id:"a-zee", n:"Shimano Zee 1×10 · Gravity", m:"Shimano", freilauf:"HG", gaenge:10, kassette:[11,28],
-  maxKB:38, iface:"Shimano", udhPflicht:false, e:E(0,1,3,5,3,3,0), g:1350, p:329},
- {id:"a-ss", n:"Singlespeed 25:11 mit Kettenspanner", m:"Generisch", freilauf:"HG", gaenge:1, kassette:[11,11],
-  maxKB:28, iface:"Singlespeed", udhPflicht:false, e:E(0,0,0,1,5,5,1), g:480, p:89},
- {id:"a-trial", n:"Trial 18:12 · Freilauf an der Kurbel", m:"Trial", freilauf:"Trial (Ritzel fest)", gaenge:1, kassette:[12,12],
-  maxKB:18, iface:"Trial", udhPflicht:false, e:E(0,0,0,0,1,0,5), g:390, p:179}
+schalthebel:[
+ {id:"sh-deore11", n:"Shimano Deore SL-M5100", m:"Shimano", gaenge:11, iface:"Shimano", fb:"#8a9096", e:E(4,4,2,0,1,1,0), g:120, p:35},
+ {id:"sh-deore12", n:"Shimano Deore SL-M6100", m:"Shimano", gaenge:12, iface:"Shimano", fb:"#8a9096", e:E(3,5,3,1,1,1,0), g:125, p:42},
+ {id:"sh-nx",      n:"SRAM NX Eagle Trigger", m:"SRAM", gaenge:12, iface:"Eagle", fb:"#1a1c1f", e:E(3,4,3,1,1,1,0), g:125, p:42},
+ {id:"sh-zee",     n:"Shimano Zee SL-M640", m:"Shimano", gaenge:10, iface:"Shimano", fb:"#8a9096", e:E(0,1,3,5,3,3,0), g:130, p:45},
+ {id:"sh-slx",     n:"Shimano SLX SL-M7100", m:"Shimano", gaenge:12, iface:"Shimano", fb:"#8a9096", e:E(4,5,4,1,1,1,0), g:118, p:52},
+ {id:"sh-gx",      n:"SRAM GX Eagle Trigger", m:"SRAM", gaenge:12, iface:"Eagle", fb:"#1a1c1f", e:E(4,5,4,1,1,1,0), g:122, p:59},
+ {id:"sh-xt",      n:"Shimano XT SL-M8100", m:"Shimano", gaenge:12, iface:"Shimano", fb:"#7f868d", e:E(5,5,4,1,1,1,0), g:116, p:69},
+ {id:"sh-xtr",     n:"Shimano XTR SL-M9100", m:"Shimano", gaenge:12, iface:"Shimano", fb:"#b9bec4", e:E(5,4,3,1,0,0,0), g:113, p:149},
+ {id:"sh-gxaxs",   n:"SRAM GX Eagle AXS Pod", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:75, p:169},
+ {id:"sh-x0axs",   n:"SRAM X0 Eagle AXS Pod", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:70, p:199}
+],
+schaltwerk:[
+ {id:"sw-deore11", n:"Shimano Deore RD-M5100 SGS", m:"Shimano", gaenge:11, iface:"Shimano", maxRitzel:51, maxKB:34, udhPflicht:false, fb:"#8a9096", e:E(4,4,2,0,1,1,0), g:320, p:45},
+ {id:"sw-deore12", n:"Shimano Deore RD-M6100 SGS", m:"Shimano", gaenge:12, iface:"Shimano", maxRitzel:51, maxKB:34, udhPflicht:false, fb:"#8a9096", e:E(3,5,3,1,1,1,0), g:322, p:55},
+ {id:"sw-slx",     n:"Shimano SLX RD-M7100 SGS", m:"Shimano", gaenge:12, iface:"Shimano", maxRitzel:51, maxKB:34, udhPflicht:false, fb:"#8a9096", e:E(4,5,4,1,1,1,0), g:318, p:72},
+ {id:"sw-zee",     n:"Shimano Zee RD-M640 SS", m:"Shimano", gaenge:10, iface:"Shimano", maxRitzel:28, maxKB:38, udhPflicht:false, fb:"#8a9096", e:E(0,1,3,5,3,3,0), g:300, p:89},
+ {id:"sw-nx",      n:"SRAM NX Eagle", m:"SRAM", gaenge:12, iface:"Eagle", maxRitzel:50, maxKB:34, udhPflicht:false, fb:"#1a1c1f", e:E(3,4,3,1,1,1,0), g:337, p:89},
+ {id:"sw-xt",      n:"Shimano XT RD-M8100 SGS", m:"Shimano", gaenge:12, iface:"Shimano", maxRitzel:51, maxKB:34, udhPflicht:false, fb:"#7f868d", e:E(5,5,4,1,1,1,0), g:284, p:105},
+ {id:"sw-gx",      n:"SRAM GX Eagle", m:"SRAM", gaenge:12, iface:"Eagle", maxRitzel:52, maxKB:34, udhPflicht:false, fb:"#1a1c1f", e:E(4,5,4,1,1,1,0), g:299, p:119},
+ {id:"sw-xtr",     n:"Shimano XTR RD-M9100 SGS", m:"Shimano", gaenge:12, iface:"Shimano", maxRitzel:51, maxKB:34, udhPflicht:false, fb:"#b9bec4", e:E(5,4,3,1,0,0,0), g:240, p:279},
+ {id:"sw-gxt",     n:"SRAM GX Eagle Transmission", m:"SRAM", gaenge:12, iface:"T-Type", maxRitzel:52, maxKB:38, udhPflicht:true, fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:461, p:349},
+ {id:"sw-x0t",     n:"SRAM X0 Eagle Transmission", m:"SRAM", gaenge:12, iface:"T-Type", maxRitzel:52, maxKB:38, udhPflicht:true, fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:442, p:549}
+],
+kassette:[
+ {id:"ka-ss",      n:"Singlespeed-Ritzel 18 Z.", m:"Generisch", gaenge:1, freilauf:"HG", spanne:[18,18], fb:"#aeb4ba", e:E(0,0,0,1,5,5,1), g:60, p:19},
+ {id:"ka-trial",   n:"Trial-Ritzel 12 Z. fest", m:"Trial", gaenge:1, freilauf:"Trial (Ritzel fest)", spanne:[12,12], fb:"#2a2f35", e:E(0,0,0,0,1,0,5), g:70, p:29},
+ {id:"ka-zee",     n:"Shimano HG500 11-28", m:"Shimano", gaenge:10, freilauf:"HG", spanne:[11,28], fb:"#aeb4ba", e:E(0,1,3,5,3,3,0), g:320, p:39},
+ {id:"ka-deore11", n:"Shimano Deore CS-M5100 11-51", m:"Shimano", gaenge:11, freilauf:"HG", spanne:[11,51], fb:"#aeb4ba", e:E(4,4,2,0,1,1,0), g:623, p:59},
+ {id:"ka-deore12", n:"Shimano Deore CS-M6100 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], fb:"#aeb4ba", e:E(3,5,3,1,1,1,0), g:593, p:79},
+ {id:"ka-nx",      n:"SRAM PG-1230 NX Eagle 11-50", m:"SRAM", gaenge:12, freilauf:"HG", spanne:[11,50], fb:"#aeb4ba", e:E(3,4,3,1,1,1,0), g:615, p:79},
+ {id:"ka-slx",     n:"Shimano SLX CS-M7100 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], fb:"#aeb4ba", e:E(4,5,4,1,1,1,0), g:534, p:99},
+ {id:"ka-xt",      n:"Shimano XT CS-M8100 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], fb:"#aeb4ba", e:E(5,5,4,1,1,1,0), g:470, p:149},
+ {id:"ka-gx",      n:"SRAM XG-1275 GX Eagle 10-52", m:"SRAM", gaenge:12, freilauf:"XD", spanne:[10,52], fb:"#aeb4ba", e:E(4,5,4,1,1,1,0), g:452, p:179},
+ {id:"ka-xs1275",  n:"SRAM XS-1275 Transmission 10-52", m:"SRAM", gaenge:12, freilauf:"XD", spanne:[10,52], fb:"#aeb4ba", e:E(3,5,5,2,0,0,0), g:445, p:229},
+ {id:"ka-xtr",     n:"Shimano XTR CS-M9100 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], fb:"#b9bec4", e:E(5,4,3,1,0,0,0), g:367, p:349}
+],
+kette:[
+ {id:"ke-ss",      n:"Singlespeed-Kette 1/8″", m:"Generisch", gaenge:1, iface:"", fb:"#aeb4ba", e:E(0,0,0,1,5,5,3), g:320, p:14},
+ {id:"ke-hg54",    n:"Shimano HG54 10-fach", m:"Shimano", gaenge:10, iface:"", fb:"#aeb4ba", e:E(0,1,3,5,3,3,0), g:300, p:19},
+ {id:"ke-hg601",   n:"Shimano HG601 11-fach", m:"Shimano", gaenge:11, iface:"", fb:"#aeb4ba", e:E(4,4,2,0,1,1,0), g:260, p:25},
+ {id:"ke-nx",      n:"SRAM NX Eagle 12-fach", m:"SRAM", gaenge:12, iface:"", fb:"#aeb4ba", e:E(3,4,3,1,1,1,0), g:268, p:25},
+ {id:"ke-m6100",   n:"Shimano CN-M6100 12-fach", m:"Shimano", gaenge:12, iface:"", fb:"#aeb4ba", e:E(3,5,3,1,1,1,0), g:252, p:29},
+ {id:"ke-gx",      n:"SRAM GX Eagle 12-fach", m:"SRAM", gaenge:12, iface:"", fb:"#aeb4ba", e:E(4,5,4,1,1,1,0), g:268, p:35},
+ {id:"ke-m7100",   n:"Shimano CN-M7100 12-fach", m:"Shimano", gaenge:12, iface:"", fb:"#aeb4ba", e:E(4,5,4,1,1,1,0), g:252, p:36},
+ {id:"ke-m8100",   n:"Shimano CN-M8100 12-fach", m:"Shimano", gaenge:12, iface:"", fb:"#aeb4ba", e:E(5,5,4,1,1,1,0), g:252, p:42},
+ {id:"ke-m9100",   n:"Shimano CN-M9100 12-fach", m:"Shimano", gaenge:12, iface:"", fb:"#b9bec4", e:E(5,4,3,1,0,0,0), g:242, p:55},
+ {id:"ke-flattop", n:"SRAM Eagle Transmission Flattop", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#aeb4ba", e:E(3,5,5,2,0,0,0), g:285, p:69}
 ],
 kurbel:[
  {id:"k-nx", n:"SRAM NX Eagle DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,4,3,1,0,0,0), g:780, p:99},
@@ -763,7 +803,10 @@ const SLOTS = [
   {k:"laufraeder", label:"Laufradsatz",   gew:2,   grp:"Laufräder", anteil:.13},
   {k:"reifenVR",   label:"Reifen vorn",   gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen"},
   {k:"reifenHR",   label:"Reifen hinten", gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen"},
-  {k:"antrieb",    label:"Schaltung",     gew:1.5, grp:"Antrieb",   anteil:.10},
+  {k:"schalthebel",label:"Schalthebel",   gew:0.5, grp:"Antrieb",   anteil:.015},
+  {k:"schaltwerk", label:"Schaltwerk",    gew:1,   grp:"Antrieb",   anteil:.035},
+  {k:"kassette",   label:"Kassette",      gew:1,   grp:"Antrieb",   anteil:.035},
+  {k:"kette",      label:"Kette",         gew:0.5, grp:"Antrieb",   anteil:.015},
   {k:"kurbel",     label:"Kurbel",        gew:1,   grp:"Antrieb",   anteil:.04},
   {k:"bremsen",    label:"Bremsen",       gew:2,   grp:"Bremsen",   anteil:.08},
   {k:"lenker",     label:"Lenker",        gew:1,   grp:"Cockpit",   anteil:.025},
@@ -793,14 +836,21 @@ const findeTeil = (slotKey, id) => {
 };
 function entfaellt(b, slotKey){
   const r = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
-  return !!(r && r.ohne && r.ohne.indexOf(slotKey) >= 0);
+  if(r && r.ohne && r.ohne.indexOf(slotKey) >= 0) return true;
+  /* Singlespeed und Trial fahren eine feste Uebersetzung -- Hebel und
+     Schaltwerk gibt es dort schlicht nicht. */
+  if(slotKey === "schalthebel" || slotKey === "schaltwerk"){
+    const ka = b.kassette ? findeTeil("kassette", b.kassette) : null;
+    if(ka && ka.gaenge === 1) return true;
+  }
+  return false;
 }
 
 /* ═══════════ 4 · Zustand ═══════════ */
 
 const START = {
   rahmen:"f-stumpy", gabel:"g-pike", daempfer:"d-sd210", laufraeder:"w-newmen",
-  reifenVR:"t-kryptotal", reifenHR:"t-dhr2", antrieb:"a-xt", kurbel:"k-xt",
+  reifenVR:"t-kryptotal", reifenHR:"t-dhr2", schalthebel:"sh-xt", schaltwerk:"sw-xt", kassette:"ka-xt", kette:"ke-m8100", kurbel:"k-xt",
   bremsen:"b-xt", lenker:"l-race", vorbau:"v-race", stuetze:"s-fox349", sattel:"sa-ergon"
 };
 const PLAN_START = {budget:0, fahrer:0, mSchalt:"", mBrems:"", mFed:"", prio:"pl"};
@@ -908,13 +958,13 @@ const H = (t,x,sl,txt) => ({level:"hinweis", titel:t, text:txt, slots:sl, fixSlo
 const hat = d => sel.indexOf(d) >= 0;
 const selNamen = () => sel.map(dLang).join(" + ");
 
-function sollKettenlinie(rahmen, antrieb){
+function sollKettenlinie(rahmen, schaltwerk){
   if(!rahmen) return null;
   if(rahmen.klSoll != null) return rahmen.klSoll;
   if(rahmen.ha === "157x12") return 56.5;
   if(rahmen.ha === "142x12") return 49;
   if(rahmen.ha === "135x10") return 47;
-  return antrieb && antrieb.iface === "T-Type" ? 55 : 52;
+  return schaltwerk && schaltwerk.iface === "T-Type" ? 55 : 52;
 }
 
 function pruefe(b){
@@ -922,7 +972,8 @@ function pruefe(b){
   for(const s of SLOTS) t[s.k] = b[s.k] ? findeTeil(s.k, b[s.k]) : null;
   const out = [];
   const rahmen = t.rahmen, gabel = t.gabel, daempfer = t.daempfer, laufraeder = t.laufraeder,
-        reifenVR = t.reifenVR, reifenHR = t.reifenHR, antrieb = t.antrieb, kurbel = t.kurbel,
+        reifenVR = t.reifenVR, reifenHR = t.reifenHR, kurbel = t.kurbel,
+        schalthebel = t.schalthebel, schaltwerk = t.schaltwerk, kassette = t.kassette, kette = t.kette,
         bremsen = t.bremsen, lenker = t.lenker, vorbau = t.vorbau, stuetze = t.stuetze;
 
   if(sel.length > 1){
@@ -979,10 +1030,10 @@ function pruefe(b){
   if(gabel && laufraeder && laufraeder.va !== gabel.va)
     out.push(F("Vorderachse passt nicht","laufraeder",["gabel","laufraeder"],
       `Gabel <code>${gabel.va}</code> gegen Vorderrad <code>${laufraeder.va}</code>. Endkappen lassen sich manchmal tauschen, der Achsdurchmesser nie.`));
-  if(antrieb && laufraeder && laufraeder.freilauf !== antrieb.freilauf){
-    const tr = antrieb.freilauf.indexOf("Trial") === 0 || laufraeder.freilauf.indexOf("Trial") === 0;
-    out.push(F("Freilaufkörper passt nicht zur Kassette","laufraeder",["laufraeder","antrieb"],
-      `Der Laufradsatz hat <code>${laufraeder.freilauf}</code>, der Antrieb braucht <code>${antrieb.freilauf}</code>. ${tr ? "Bei Trial sitzt der Freilauf in der Kurbel, die Nabe trägt ein festes Ritzel — anderes Bauprinzip, kein Tauschteil." : "Bei DT Swiss, Hope und Newmen ist der Freilaufkörper einzeln tauschbar (60–110 €) — muss aber bewusst mitbestellt werden."}`));
+  if(kassette && laufraeder && laufraeder.freilauf !== kassette.freilauf){
+    const tr = kassette.freilauf.indexOf("Trial") === 0 || laufraeder.freilauf.indexOf("Trial") === 0;
+    out.push(F("Freilaufkörper passt nicht zur Kassette","laufraeder",["laufraeder","kassette"],
+      `Der Laufradsatz hat <code>${laufraeder.freilauf}</code>, die Kassette braucht <code>${kassette.freilauf}</code>. ${tr ? "Bei Trial sitzt der Freilauf in der Kurbel, die Nabe trägt ein festes Ritzel — anderes Bauprinzip, kein Tauschteil." : "Bei DT Swiss, Hope und Newmen ist der Freilaufkörper einzeln tauschbar (60–110 €) — muss aber bewusst mitbestellt werden."}`));
   }
   if(laufraeder && (hat("enduro") || hat("dh") || hat("dirt") || hat("slope")) && laufraeder.maxSys < 120)
     out.push(W("Laufradsatz nicht für diesen Einsatz freigegeben","laufraeder",["laufraeder"],
@@ -1020,28 +1071,56 @@ function pruefe(b){
     out.push(W("Vorderreifen greift schwächer als der hintere","reifenVR",["reifenVR","reifenHR"],
       `Vorn <code>${reifenVR.n}</code>, hinten <code>${reifenHR.n}</code>. Wegrutschen vorn endet im Sturz, hinten nur im Drift — deshalb gehört der griffigere Reifen nach vorn.`));
 
-  if(rahmen && antrieb && antrieb.udhPflicht && !rahmen.udh)
-    out.push(F("Transmission braucht ein UDH-Ausfallende","antrieb",["rahmen","antrieb"],
+  if(rahmen && schaltwerk && schaltwerk.udhPflicht && !rahmen.udh)
+    out.push(F("Transmission braucht ein UDH-Ausfallende","schaltwerk",["rahmen","schaltwerk"],
       `SRAM Transmission wird direkt am Rahmen verschraubt und setzt <code>UDH</code> voraus. <code>${rahmen.n}</code> hat keines — auch nicht mit Adapter.`));
-  if(antrieb && kurbel && antrieb.gaenge !== kurbel.gaenge)
-    out.push(W("Kurbel und Schaltung aus verschiedenen Welten","kurbel",["antrieb","kurbel"],
-      `Antrieb <code>${antrieb.gaenge}-fach</code>, Kurbel für <code>${kurbel.gaenge === 1 ? "Singlespeed" : kurbel.gaenge + "-fach"}</code>. Die Zahnprofile sind auf andere Kettenbreiten optimiert — mehr Verschleiß und Abwurf unter Last.`));
-  if(antrieb && kurbel && kurbel.kb > antrieb.maxKB)
-    out.push(W("Kettenblatt größer als vom Schaltwerk verdaut","kurbel",["antrieb","kurbel"],
-      `<code>${kurbel.kb} Zähne</code> bei einer Freigabe von <code>${antrieb.maxKB}</code>. Auf dem größten Ritzel wird die Kette knapp und das Schaltwerk steht auf Anschlag.`));
+
+  /* Schalthebel und Schaltwerk muessen aus einem System stammen: Shimano und
+     SRAM ziehen pro Klick unterschiedlich viel Seil. Gemischt trifft kein
+     einziger Gang sauber -- das laesst sich auch nicht einstellen. */
+  if(schalthebel && schaltwerk && schalthebel.iface !== schaltwerk.iface)
+    out.push(F("Schalthebel und Schaltwerk aus verschiedenen Systemen","schaltwerk",["schalthebel","schaltwerk"],
+      `Hebel <code>${schalthebel.iface}</code>, Schaltwerk <code>${schaltwerk.iface}</code>. Das Zugverhältnis ist je System anders — die Gänge lassen sich nicht sauber einstellen, egal wie lange man dreht.${schalthebel.iface === "T-Type" || schaltwerk.iface === "T-Type" ? " Transmission schaltet ohnehin elektronisch und nur mit dem eigenen Bedienteil." : ""}`));
+
+  /* Gaenge quer durch den Antrieb */
+  const gTeile = [["schalthebel", schalthebel, "Schalthebel"], ["schaltwerk", schaltwerk, "Schaltwerk"],
+                  ["kassette", kassette, "Kassette"], ["kette", kette, "Kette"]]
+                 .filter(x => x[1] && !entfaellt(b, x[0]));
+  if(gTeile.length > 1){
+    const gs = [...new Set(gTeile.map(x => x[1].gaenge))];
+    if(gs.length > 1)
+      out.push(F("Gangzahlen passen nicht zusammen","kassette", gTeile.map(x => x[0]),
+        `${gTeile.map(x => x[2] + " <code>" + (x[1].gaenge === 1 ? "Singlespeed" : x[1].gaenge + "-fach") + "</code>").join(", ")}. Ritzelabstand und Kettenbreite sind je Gangzahl anders — das schaltet nicht, das rasselt.`));
+  }
+  if(schaltwerk && kassette && kassette.spanne[1] > schaltwerk.maxRitzel)
+    out.push(F("Schaltwerk reicht nicht über die Kassette","schaltwerk",["schaltwerk","kassette"],
+      `Das Schaltwerk ist bis <code>${schaltwerk.maxRitzel} Zähne</code> freigegeben, die Kassette hat <code>${kassette.spanne[1]}</code>. Auf dem größten Ritzel schlägt das Schaltwerk an oder reißt ab.`));
+  if(kette && schaltwerk && kette.iface && kette.iface !== schaltwerk.iface)
+    out.push(F("Kette passt nicht zum Schaltwerk","kette",["kette","schaltwerk"],
+      `<code>${kette.n}</code> ist eine Flattop-Kette und läuft nur in einer Transmission. Am <code>${schaltwerk.iface}</code>-Schaltwerk hat sie die falsche Form.`));
+  if(kette && schaltwerk && !kette.iface && schaltwerk.iface === "T-Type")
+    out.push(F("Transmission braucht die Flattop-Kette","kette",["kette","schaltwerk"],
+      `SRAM Transmission läuft ausschließlich mit der eigenen Flattop-Kette. Eine normale 12-fach-Kette greift in die Ritzel nicht richtig ein.`));
+
+  if(kassette && kurbel && kassette.gaenge !== kurbel.gaenge)
+    out.push(W("Kurbel und Kassette aus verschiedenen Welten","kurbel",["kassette","kurbel"],
+      `Kassette <code>${kassette.gaenge === 1 ? "Singlespeed" : kassette.gaenge + "-fach"}</code>, Kurbel für <code>${kurbel.gaenge === 1 ? "Singlespeed" : kurbel.gaenge + "-fach"}</code>. Die Zahnprofile sind auf andere Kettenbreiten optimiert — mehr Verschleiß und Abwurf unter Last.`));
+  if(schaltwerk && kurbel && kurbel.kb > schaltwerk.maxKB)
+    out.push(W("Kettenblatt größer als vom Schaltwerk verdaut","kurbel",["schaltwerk","kurbel"],
+      `<code>${kurbel.kb} Zähne</code> bei einer Freigabe von <code>${schaltwerk.maxKB}</code>. Auf dem größten Ritzel wird die Kette knapp und das Schaltwerk steht auf Anschlag.`));
   if(rahmen && kurbel){
-    const soll = sollKettenlinie(rahmen, antrieb);
+    const soll = sollKettenlinie(rahmen, schaltwerk);
     if(soll != null && Math.abs(kurbel.kl - soll) > 1.5){
       const lvl = Math.abs(kurbel.kl - soll) > 3 ? F : W;
-      out.push(lvl("Kettenlinie stimmt nicht","kurbel",["rahmen","kurbel","antrieb"],
-        `Der Hinterbau <code>${rahmen.ha}</code>${antrieb && antrieb.iface === "T-Type" ? " mit Transmission" : ""} verlangt <code>${soll} mm</code> Kettenlinie, die Kurbel liefert <code>${kurbel.kl} mm</code>. Die Kette läuft dauerhaft schräg: Rasseln, Abwurf, sichtbarer Verschleiß nach wenigen hundert Kilometern.`));
+      out.push(lvl("Kettenlinie stimmt nicht","kurbel",["rahmen","kurbel","schaltwerk"],
+        `Der Hinterbau <code>${rahmen.ha}</code>${schaltwerk && schaltwerk.iface === "T-Type" ? " mit Transmission" : ""} verlangt <code>${soll} mm</code> Kettenlinie, die Kurbel liefert <code>${kurbel.kl} mm</code>. Die Kette läuft dauerhaft schräg: Rasseln, Abwurf, sichtbarer Verschleiß nach wenigen hundert Kilometern.`));
     }
     const bbTxt = {BSA73:"BSA 73 mm (geschraubt)", BSA68:"BSA 68 mm (geschraubt)", PF92:"PressFit 92 mm (eingepresst)"}[rahmen.bb] || rahmen.bb;
     out.push(H("Passendes Innenlager mitbestellen","kurbel",["rahmen","kurbel"],
       `<code>${bbTxt}</code> trifft auf eine <code>${kurbel.iface}</code>-Welle. Passt zusammen, aber nur mit dem richtigen Lager — und das liegt bei den meisten Kurbeln nicht bei (25–90 €).`));
   }
-  if(hat("trial") && sel.length === 1 && antrieb && antrieb.iface !== "Trial")
-    out.push(W("Kein Trial-Antrieb","antrieb",["antrieb"],
+  if(hat("trial") && sel.length === 1 && kassette && kassette.gaenge > 1)
+    out.push(W("Kein Trial-Antrieb","kassette",["kassette"],
       `Trial fährt eine feste Übersetzung um <code>18:12</code> mit dem Freilauf in der Kurbel — das erlaubt Kurbelstellung halten und Rückwärtstreten. Ein Schaltwerk ist dort Ballast und bricht beim ersten Pedal Kick.`));
 
   if(bremsen){
@@ -1151,10 +1230,84 @@ function urteil(r){
   return `Sauberer Aufbau für ${zn}.`;
 }
 
+/* ═══════════ Gleiche Maße, weniger Geld ═══════════
+   Was an einem Bauteil das Maß ist, haengt vom Bauteil ab. Bei einem Vorbau
+   sind es Klemmung und Laenge, bei einem Daempfer Einbaulaenge und Hub, bei
+   einem Laufradsatz Achsen und Freilauf. "hart" muss exakt stimmen, sonst passt
+   es schlicht nicht. "weich" darf abweichen -- 20 mm Lenkerbreite merkt man,
+   aber sie machen das Teil nicht unbrauchbar. Jede weiche Abweichung wird
+   angezeigt, damit niemand blind tauscht. */
+const MASSE = {
+  rahmen:     {hart:["lrV","lrH","schaft","ha","bb","stuetze","udh"], weich:{maxGabel:["mm Gabelfreigabe",10], einsteck:["mm Einstecktiefe",15]}},
+  gabel:      {hart:["schaft","va"], weich:{travel:["mm Federweg",10], offset:["mm Offset",6]}},
+  daempfer:   {hart:["el","hub","typ"], weich:{}},
+  laufraeder: {hart:["lrV","lrH","va","ha","freilauf"], weich:{iw:["mm Maulweite",2]}},
+  reifenVR:   {hart:[], weich:{breite:["mm Breite",3], grip:["Grip",1]}},
+  reifenHR:   {hart:[], weich:{breite:["mm Breite",3], grip:["Grip",1]}},
+  schalthebel:{hart:["iface","gaenge"], weich:{}},
+  schaltwerk: {hart:["iface","gaenge","udhPflicht"], weich:{maxRitzel:["Z. max.",2], maxKB:["Z. vorn",4]}},
+  kassette:   {hart:["freilauf","gaenge"], weich:{}},
+  kette:      {hart:["gaenge","iface"], weich:{}},
+  kurbel:     {hart:["kl","gaenge","iface"], weich:{kb:["Zähne",2], laenge:["mm Länge",5]}},
+  bremsen:    {hart:["mount","kolben"], weich:{sV:["mm Scheibe vorn",23], sH:["mm Scheibe hinten",23]}},
+  lenker:     {hart:["klemm"], weich:{breite:["mm Breite",20], rise:["mm Rise",10]}},
+  vorbau:     {hart:["klemm"], weich:{laenge:["mm Länge",10]}},
+  stuetze:    {hart:["d","hub"], weich:{einbau:["mm Einstecktiefe",15]}},
+  sattel:     {hart:[], weich:{}}
+};
+
+/* Liefert null, wenn das Teil nicht als Ersatz taugt -- sonst die Liste der
+   weichen Abweichungen (leer = wirklich dasselbe Mass). */
+function massGleich(slotKey, jetzt, kand){
+  const m = MASSE[slotKey];
+  if(!m) return null;
+  for(const f of m.hart) if(String(jetzt[f]) !== String(kand[f])) return null;
+  const ab = [];
+  for(const f in m.weich){
+    const [txt, tol] = m.weich[f];
+    const d = (kand[f] || 0) - (jetzt[f] || 0);
+    if(Math.abs(d) > tol) return null;
+    if(d) ab.push((d > 0 ? "+" : "−") + Math.abs(d) + " " + txt);
+  }
+  return ab;
+}
+
+/* Guenstigere Teile, die dasselbe Mass halten und keinen neuen Konflikt bringen. */
+function guenstigere(slotKey, b){
+  const jetzt = b[slotKey] ? findeTeil(slotKey, b[slotKey]) : null;
+  if(!jetzt || entfaellt(b, slotKey)) return [];
+  const basis = harteFehler(b), preis = preisVon(jetzt);
+  const out = [];
+  for(const kand of K[quelleOf(slotOf(slotKey))]){
+    if(kand.id === jetzt.id) continue;
+    const spart = preis - preisVon(kand);
+    if(spart < Math.max(8, preis * 0.05)) continue;      /* unter 5 % lohnt der Tausch nicht */
+    const ab = massGleich(slotKey, jetzt, kand);
+    if(!ab) continue;
+    const dEig = eignung(jetzt) - eignung(kand);
+    if(dEig > 1.5) continue;                             /* anderes Teil, kein Ersatz */
+    if(dEig >= 0.5) ab.push("einfacher für " + selNamen());
+    const probe = {...b}; probe[slotKey] = kand.id;
+    if(harteFehler(probe) > basis) continue;
+    out.push({teil:kand, spart:spart, ab:ab, gd:(kand.g||0) - (jetzt.g||0)});
+  }
+  return out.sort((a, c) => c.spart - a.spart);
+}
+
+/* Ueber den ganzen Aufbau: wo liegt Geld, ohne dass sich am Mass etwas aendert. */
+function sparPlan(b){
+  const out = [];
+  for(const sl of SLOTS){
+    const g = guenstigere(sl.k, b);
+    if(g.length) out.push({slot:sl, ...g[0], anzahl:g.length});
+  }
+  return out.sort((a, c) => c.spart - a.spart);
+}
+
 /* ═══════════ 7 · Dreambuild-Generator ═══════════ */
 
 const MARKEN = {
-  schalt:{slots:["antrieb","kurbel"], opts:["Shimano","SRAM"], label:"Schaltung & Kurbel"},
+  schalt:{slots:["schalthebel","schaltwerk","kassette","kette","kurbel"], opts:["Shimano","SRAM"], label:"Schaltung & Kurbel"},
   brems: {slots:["bremsen"],          opts:["Shimano","SRAM","Magura","Hope","TRP"], label:"Bremsen"},
   fed:   {slots:["gabel","daempfer"], opts:["RockShox","Fox","Marzocchi"], label:"Federung"}
 };
@@ -1194,7 +1347,7 @@ function qualMap(slotKey){
 }
 
 /* Reihenfolge nach Abhängigkeit: erst was andere Teile festlegt. */
-const BAUFOLGE = ["rahmen","daempfer","gabel","antrieb","kurbel","laufraeder",
+const BAUFOLGE = ["rahmen","daempfer","gabel","kassette","schaltwerk","schalthebel","kette","kurbel","laufraeder",
                   "reifenVR","reifenHR","bremsen","lenker","vorbau","stuetze","sattel"];
 
 function generiere(){
@@ -1512,9 +1665,12 @@ function specsVon(slotKey, t){
       "Maulweite " + t.iw, t.freilauf, t.ha, t.va, t.naben, "max. " + t.maxSys + " kg"); break;
     case "reifenVR": case "reifenHR": c.push(t.groessen.join("/") + "″", t.breite + " mm",
       "Felge " + t.iw[0] + "–" + t.iw[1], "Grip " + t.grip + "/5"); break;
-    case "antrieb": c.push(t.gaenge === 1 ? "Singlespeed" : t.gaenge + "-fach",
-      t.kassette[0] + "–" + t.kassette[1] + " Z.", t.freilauf, "max. " + t.maxKB + " Z. vorn",
-      t.udhPflicht ? "UDH nötig" : null); break;
+    case "schalthebel": c.push(t.gaenge + "-fach", t.iface); break;
+    case "schaltwerk": c.push(t.gaenge + "-fach", t.iface, "bis " + t.maxRitzel + " Z.",
+      "max. " + t.maxKB + " Z. vorn", t.udhPflicht ? "UDH nötig" : null); break;
+    case "kassette": c.push(t.gaenge === 1 ? "Singlespeed" : t.gaenge + "-fach",
+      t.spanne[0] + "–" + t.spanne[1] + " Z.", t.freilauf); break;
+    case "kette": c.push(t.gaenge === 1 ? "Singlespeed" : t.gaenge + "-fach", t.iface || "Standard"); break;
     case "kurbel": c.push(t.iface, "Kettenlinie " + t.kl, t.kb + " Z.", t.laenge + " mm"); break;
     case "bremsen": c.push(t.mount === "Felge" ? "Felgenbremse" : t.kolben + " Kolben",
       t.mount === "Felge" ? "beidseitig" : t.sV + "/" + t.sH + " mm", t.mount); break;
@@ -1655,11 +1811,31 @@ function zeichne(){
     </div>`).join("")
     : `<p class="empty-note">Kein Tausch aus dem Katalog verbessert den Aufbau. Ab hier entscheidet der Fahrer, nicht das Teil.</p>`;
 
+  const spar = sparPlan(build);
+  const gesamtSpar = spar.reduce((a, x) => a + x.spart, 0);
+  $("sparen").innerHTML = spar.length
+    ? `<div class="sparkasten"><b>${eur(gesamtSpar)} liegen hier.</b>
+        <p>Gleiche Maße, gleiche Passform — nur billiger. Abweichungen stehen bei jedem Vorschlag dabei.</p></div>`
+      + spar.map(v => `<div class="spar">
+          <div>
+            <div class="spar-n">${esc(v.teil.n)}</div>
+            <div class="spar-s">${v.slot.label} · ${eur(preisVon(v.teil))} statt ${eur(preisVon(findeTeil(v.slot.k, build[v.slot.k])))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div>
+            ${v.ab.length ? `<div class="spar-ab">${esc(v.ab.join(" · "))}</div>` : ""}
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+            <span class="minus">−${eur(v.spart)}</span>
+            <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Tauschen</button>
+            ${affHtml(v.teil, true)}
+          </div>
+        </div>`).join("")
+    : `<p class="empty-note">Kein Teil lässt sich bei gleichen Maßen günstiger ersetzen. Der Aufbau
+       ist preislich schon sauber.</p>`;
+
   $("b-auf").textContent = r.teile + "/" + r.moeglich;
   const nF = r.funde.filter(f => f.level === "fehler").length;
   $("b-fin").textContent = r.funde.length;
   $("b-fin").className = "badge" + (nF ? " rot" : "");
-  $("b-up").textContent = top.length;
+  $("b-up").textContent = top.length + spar.length;
   document.body.dataset.view = view;
   Array.prototype.forEach.call(document.querySelectorAll(".tabs button"),
     b => b.setAttribute("aria-selected", String(b.dataset.view === view)));
@@ -1743,6 +1919,16 @@ function oeffneSlot(slotKey){
     <div class="sheet-h"><h3><span class="sub">Bauteil wählen</span>${s.label}</h3>
       ${build[slotKey] ? `<button class="btn ghost sm" data-leeren="${slotKey}">Leeren</button>` : ""}${zuBtn}</div>
     <div class="sheet-b">
+      ${(() => {
+        const g = guenstigere(slotKey, build);
+        if(!g.length) return "";
+        const top3 = g.slice(0, 3);
+        return `<div class="sparkasten" style="margin-bottom:4px">
+          <b>${eur(top3[0].spart)} günstiger bei gleichem Maß.</b>
+          <p>${top3.map(x => esc(x.teil.n) + " — " + eur(preisVon(x.teil)) +
+              (x.ab.length ? " (" + esc(x.ab.join(", ")) + ")" : "")).join("<br>")}</p>
+        </div>`;
+      })()}
       <div class="filt">
         <button data-filt="1" aria-pressed="${nurPassende}">Nur passende · ${passend.length}</button>
         <button data-filt="0" aria-pressed="${!nurPassende}">Alle · ${karten.length}</button>
