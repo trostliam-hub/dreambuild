@@ -11,7 +11,7 @@
    Die Google-Schriften werden beim ersten Start mitgecacht. Vor dem ersten
    Online-Start greift die Systemschrift aus dem Fallback-Stack -- die App ist
    dann lesbar, nur nicht in Archivo. */
-var CACHE = 'dreambuild-20260922-2247';
+var CACHE = 'dreambuild-20260922-2256';
 var ASSETS = [
   './',
   './index.html',

@@ -292,6 +292,49 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 
 /* ── Bauteilbilder und PNG-Ausgabe ── */
 
+/* ── Angebotsbewertung ── */
+.mk{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:13px;margin-bottom:12px}
+.mk h3{font-family:Archivo;font-size:15px;font-weight:700;margin:0 0 3px}
+.mk .sub{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:0 0 11px}
+.mk-lab{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;display:block;margin:12px 0 6px}
+.mk-lab:first-of-type{margin-top:0}
+.mk-reihe{display:flex;flex-wrap:wrap;gap:6px}
+.mk-reihe button{border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:12.5px;
+  font-weight:600;color:var(--ink-2);min-height:34px}
+.mk-reihe button[aria-pressed="true"]{border-color:var(--anod);background:var(--anod-soft);color:var(--anod)}
+.mk-vs{display:flex;flex-direction:column;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);
+  border-radius:9px;overflow:hidden}
+.mk-vs button{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:9px;align-items:center;
+  background:var(--surface);padding:9px 11px;text-align:left;font-size:12.5px;width:100%}
+.mk-vs button[aria-pressed="true"]{background:var(--anod-soft);color:var(--anod)}
+.mk-vs .kasten{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);
+  display:grid;place-items:center;color:transparent}
+.mk-vs button[aria-pressed="true"] .kasten{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
+.mk-vs .kst{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3)}
+.mk-preis{font-family:"IBM Plex Mono",monospace;font-size:16px;font-weight:600;padding:10px 12px;
+  border-radius:9px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);width:100%}
+.mk-preis:focus{border-color:var(--anod);outline:none}
+
+.urteil{border-radius:var(--r);padding:14px;margin-bottom:12px;border:1px solid}
+.urteil.schnaeppchen{background:var(--gut-soft);border-color:var(--gut);color:var(--gut)}
+.urteil.gut{background:var(--gut-soft);border-color:var(--gut);color:var(--gut)}
+.urteil.fair{background:var(--anod-soft);border-color:var(--anod);color:var(--anod)}
+.urteil.teuer{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.urteil.schlecht{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.urteil .kopf{font-family:Archivo;font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.urteil .zeile{font-size:13px;line-height:1.5;margin-top:6px}
+.urteil .balken{height:8px;border-radius:4px;background:rgba(127,127,127,.25);margin:12px 0 5px;position:relative}
+.urteil .spanne{position:absolute;top:0;bottom:0;background:currentColor;opacity:.35;border-radius:4px}
+.urteil .nadel{position:absolute;top:-4px;bottom:-4px;width:3px;background:currentColor;border-radius:2px}
+.urteil .skala{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;opacity:.8}
+.rechnung{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;font-size:12.5px;
+  padding:9px 0;border-top:1px solid var(--line-soft)}
+.rechnung:first-of-type{border-top:none}
+.rechnung .w{font-family:"IBM Plex Mono",monospace;font-weight:600;text-align:right;white-space:nowrap}
+.rechnung .g{color:var(--ink-3);font-size:11.5px;grid-column:1 / -1;line-height:1.4;margin-top:-1px}
+
 /* ── Sparvorschläge ── */
 .spar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:center;
   padding:10px 0;border-top:1px solid var(--line-soft)}
@@ -436,6 +479,7 @@ img{max-width:100%}
   <div class="modus-in" role="group" aria-label="Welches Rad">
     <button data-modus="traum" aria-pressed="true">Traumrad</button>
     <button data-modus="real" aria-pressed="false">Mein Rad</button>
+    <button data-modus="markt" aria-pressed="false">Angebot</button>
   </div>
 </div>
 
@@ -1129,6 +1173,26 @@ const START = {
   bremsen:"b-xt", lenker:"l-race", vorbau:"v-race", stuetze:"s-fox349", sattel:"sa-ergon"
 };
 const PLAN_START = {budget:0, fahrer:0, mSchalt:"", mBrems:"", mFed:"", prio:"pl"};
+/* Was ein gebrauchtes Rad wert ist, haengt an vier Dingen: was neu drin steckt,
+   wie alt es ist, in welchem Zustand, und was an Verschleiss sofort faellig wird. */
+const MARKT_START = {alter:3, zustand:"gepflegt", verschleiss:{}, preis:0};
+const ALTERSSTUFEN = [
+  {v:0,   l:"Neu"},      {v:1, l:"1 Jahr"},   {v:2, l:"2 Jahre"}, {v:3, l:"3 Jahre"},
+  {v:4.5, l:"4–5 Jahre"},{v:7, l:"6–8 Jahre"},{v:10, l:"9 Jahre +"}
+];
+const ZUSTAENDE = [
+  {v:"neuwertig",  l:"Neuwertig",  f:1.12, t:"kaum Spuren, alles läuft"},
+  {v:"gepflegt",   l:"Gepflegt",   f:1.00, t:"normale Spuren, gewartet"},
+  {v:"gebraucht",  l:"Gebraucht",  f:0.85, t:"sichtbar gefahren, Kleinigkeiten"},
+  {v:"abgeritten", l:"Abgeritten", f:0.65, t:"deutliche Spuren, Service überfällig"}
+];
+const VERSCHLEISS = [
+  {k:"antrieb", l:"Kette und Kassette fällig",     kosten:150},
+  {k:"reifen",  l:"Reifen abgefahren",             kosten:150},
+  {k:"belaege", l:"Bremsbeläge und Scheiben runter", kosten:90},
+  {k:"service", l:"Gabel- oder Dämpferservice fällig", kosten:240},
+  {k:"lager",   l:"Lager haben Spiel",             kosten:160}
+];
 /* Die Shops mit ihrer echten Suchadresse und dem Netzwerk, ueber das sie
    abgerechnet werden. Die Advertiser-Kennung traegt der Nutzer ein -- sie steht
    in seinem Netzwerkkonto beim jeweiligen Partnerprogramm. Erfinden waere
@@ -1152,7 +1216,7 @@ const AFF_START = {
    echte, das in der Garage steht. Beide durchlaufen dieselbe Engine -- nur die
    Frage ist eine andere: "Was baue ich?" gegen "Was habe ich und was lohnt sich?" */
 const leerBau = () => { const o = {}; for(const s of SLOTS) o[s.k] = null; return o; };
-let builds = {traum:{...START}, real:leerBau()};
+let builds = {traum:{...START}, real:leerBau(), markt:leerBau()};
 let modus = "traum";
 let zuGeklappt = {};   /* Themen, die der Nutzer eingeklappt hat */
 let fotoZiel = null;   /* worauf sich die naechste Dateiauswahl bezieht */
@@ -1161,12 +1225,13 @@ let fotoZiel = null;   /* worauf sich die naechste Dateiauswahl bezieht */
    von einer Shopseite zieht. Gespeichert wird nur, was zu unseren Teilen passt:
    rund neunzig Zeilen statt hunderttausend. */
 let feed = {treffer:{}, stand:0, quelle:"", zeilen:0};
-let fotos = {traum:null, real:null};
+let fotos = {traum:null, real:null, markt:null};
 let build = builds[modus];
 const setzeBau = o => { builds[modus] = o; build = o; };
 function wechsle(m){ builds[modus] = build; modus = m; build = builds[modus]; }
 let sel = ["trail"];
 let plan = {...PLAN_START};
+let markt = {...MARKT_START};
 let aff = JSON.parse(JSON.stringify(AFF_START));
 let view = "aufbau";
 let nurPassende = true;
@@ -1179,12 +1244,13 @@ function laden(){
       const p = JSON.parse(bs);
       if(p && p.traum) builds.traum = {...START, ...p.traum};
       if(p && p.real)  builds.real  = {...leerBau(), ...p.real};
+      if(p && p.markt) builds.markt = {...leerBau(), ...p.markt};
     } else {
       const alt1 = localStorage.getItem("mtb.build");   /* Fassung vor dem Umbau */
       if(alt1){ const p = JSON.parse(alt1); if(p && typeof p === "object") builds.traum = {...START, ...p}; }
     }
     const md = localStorage.getItem("mtb.modus");
-    if(md === "real" || md === "traum") modus = md;
+    if(md === "real" || md === "traum" || md === "markt") modus = md;
     const zg = localStorage.getItem("mtb.zu");
     if(zg){ const q = JSON.parse(zg); if(q && typeof q === "object") zuGeklappt = q; }
     const fd = localStorage.getItem("mtb.feed");
@@ -1195,6 +1261,8 @@ function laden(){
     const s = localStorage.getItem("mtb.sel");
     if(s){ const p = JSON.parse(s); if(Array.isArray(p)) sel = p.filter(x => DID.indexOf(x) >= 0); }
     if(!sel.length) sel = ["trail"];
+    const mk = localStorage.getItem("mtb.markt");
+    if(mk){ const q = JSON.parse(mk); if(q && typeof q === "object") markt = {...MARKT_START, ...q, verschleiss:{...(q.verschleiss||{})}}; }
     const pl = localStorage.getItem("mtb.plan");
     if(pl){ const p = JSON.parse(pl); if(p && typeof p === "object") plan = {...PLAN_START, ...p}; }
     const a = localStorage.getItem("mtb.aff");
@@ -1214,6 +1282,7 @@ function sichern(){
     localStorage.setItem("mtb.zu", JSON.stringify(zuGeklappt));
     localStorage.setItem("mtb.sel", JSON.stringify(sel));
     localStorage.setItem("mtb.plan", JSON.stringify(plan));
+    localStorage.setItem("mtb.markt", JSON.stringify(markt));
     localStorage.setItem("mtb.aff", JSON.stringify(aff));
   }catch(e){}
   try{
@@ -1507,6 +1576,79 @@ function urteil(r){
   if(r.tech < 90) return `Fahrbar, mit Kompromissen. Die Befunde sagen welche.`;
   if(r.chara >= 85) return `<b>Stimmig.</b> Alles zieht in Richtung ${zn}.`;
   return `Sauberer Aufbau für ${zn}.`;
+}
+
+/* ═══════════ Gebrauchtwert ═══════════
+   Ein Rad ist gebraucht selten mehr wert als die Summe seiner Teile, abgezinst
+   um das Alter, korrigiert um den Zustand, minus dem, was der Käufer sofort
+   nachkaufen muss. Genau so wird hier gerechnet -- kein Bauchgefühl, sondern
+   die Teilepreise, die ohnehin im Katalog stehen.
+
+   Die Kurve 0,13 + 0,72 · 0,76^Jahre bildet ab, was am Gebrauchtmarkt passiert:
+   im ersten Jahr bricht rund ein Drittel weg, danach flacht es ab, und unter
+   etwa 13 Prozent des Neupreises fällt ein fahrbares Rad praktisch nie. */
+const restwertFaktor = a => 0.13 + 0.72 * Math.pow(0.76, a);
+/* Die Summe der Einzelpreise ist NICHT der Preis eines Komplettrads. Hersteller
+   zahlen fuer dieselben Teile als Erstausruestung einen Bruchteil des
+   Ladenpreises und geben das weiter -- ein Rad, dessen Teile einzeln 6.500 Euro
+   kosten, steht als Komplettrad fuer gut 4.500 im Laden. Ohne diesen Faktor
+   haette die App jedes Angebot zu positiv bewertet. */
+const KOMPLETTRAD = 0.72;
+
+function marktWert(b){
+  const r = bewerte(b);
+  if(!r.teile) return null;
+  const teileEinzeln = r.preis;
+  const neu = Math.round(teileEinzeln * KOMPLETTRAD);
+  const rw = restwertFaktor(markt.alter);
+  const z = (ZUSTAENDE.find(x => x.v === markt.zustand) || ZUSTAENDE[1]).f;
+
+  /* Veraltete Standards kosten am Gebrauchtmarkt mehr als ihr technischer
+     Nachteil: wer kauft, denkt schon an die nächsten Ersatzteile. */
+  const f = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
+  const abzuege = [];
+  if(f){
+    const sportlich = (f.e.xc + f.e.trail + f.e.enduro + f.e.dh) > 0;
+    if(sportlich && (f.lrV === "26" || f.lrH === "26"))
+      abzuege.push({t:"26 Zoll", f:0.12, g:"Für 26″ gibt es kaum noch Gabeln und Auswahl bei Reifen."});
+    if(sportlich && (f.ha === "142x12" || f.ha === "135x10"))
+      abzuege.push({t:"kein Boost", f:0.08, g:"Vor-Boost-Hinterbau: aktuelle Laufräder und Kurbeln passen nicht ohne Weiteres."});
+    if(sportlich && f.schaft === "gerade" && f.maxGabel > 0)
+      abzuege.push({t:"gerades Steuerrohr", f:0.05, g:"Aktuelle Federgabeln haben konische Schäfte."});
+  }
+  let stdF = 1;
+  for(const a of abzuege) stdF *= (1 - a.f);
+
+  let vsRoh = 0; const vsListe = [];
+  for(const v of VERSCHLEISS) if(markt.verschleiss[v.k]){ vsRoh += v.kosten; vsListe.push(v); }
+
+  const basis = neu * rw * z * stdF;
+  /* Verschleiss wird gedeckelt. In ein sieben Jahre altes Rad baut niemand
+     Neuteile zum Ladenpreis -- ungedeckelt kam hier rechnerisch ein Wert von
+     null heraus, obwohl das Rad faehrt und allein die Teile noch Geld bringen.
+     Darunter liegt ein Boden: ein komplettes, rollendes Rad ist nie wertlos. */
+  const deckel = basis * 0.45;
+  const vs = Math.min(vsRoh, deckel);
+  const gedeckelt = vsRoh > deckel;
+  const wert = Math.max(Math.round(neu * 0.08), Math.round(basis - vs));
+  return {teileEinzeln:teileEinzeln, neu:neu, rw:rw, z:z, stdF:stdF, gedeckelt:gedeckelt,
+          abzuege:abzuege, vs:Math.round(vs), vsRoh:vsRoh, vsListe:vsListe,
+          basis:Math.round(basis), wert:wert,
+          unten:Math.round(wert*0.85), oben:Math.round(wert*1.15), befunde:r.funde};
+}
+
+function preisUrteil(preis, m){
+  const q = m.wert > 0 ? preis / m.wert : 99;
+  if(q <= 0.70) return {k:"schnaeppchen", kopf:"Schnäppchen",
+    txt:"Deutlich unter dem, was die Teile gebraucht wert sind. Wenn der Zustand stimmt, zuschlagen — aber vorher ansehen."};
+  if(q <= 0.88) return {k:"gut", kopf:"Guter Preis",
+    txt:"Unter Marktwert. Bei dem Preis lohnt sich die Anfahrt."};
+  if(q <= 1.12) return {k:"fair", kopf:"Marktüblich",
+    txt:"Im normalen Rahmen. Handeln kann sich lohnen, ein Schnäppchen ist es nicht."};
+  if(q <= 1.35) return {k:"teuer", kopf:"Zu teuer",
+    txt:"Über dem, was die Teile hergeben. Entweder runterhandeln oder weitersuchen."};
+  return {k:"schlecht", kopf:"Deutlich überteuert",
+    txt:"Der Preis hat mit dem Wert der Teile nichts mehr zu tun. Finger weg oder hart verhandeln."};
 }
 
 /* ═══════════ Gleiche Maße, weniger Geld ═══════════
@@ -1998,8 +2140,85 @@ function zeichne(){
   Array.prototype.forEach.call(document.querySelectorAll(".modus-in button"),
     b => b.setAttribute("aria-pressed", String(b.dataset.modus === modus)));
 
+  /* ── Angebotsbewertung ── */
+  let marktkarte = "";
+  if(modus === "markt"){
+    const m = marktWert(build);
+    const u = (m && markt.preis > 0) ? preisUrteil(markt.preis, m) : null;
+    const nF = m ? m.befunde.filter(x => x.level === "fehler").length : 0;
+
+    if(u){
+      /* Der Balken zeigt das Angebot gegen die Spanne. Skala bis zum Doppelten
+         des Werts, damit auch ein absurder Preis noch im Bild bleibt. */
+      const max = Math.max(m.oben * 1.35, markt.preis * 1.1, 1);
+      const pct = x => Math.max(0, Math.min(100, x / max * 100));
+      marktkarte += `<div class="urteil ${u.k}">
+        <div class="kopf">${u.kopf}</div>
+        <div class="zeile">${u.txt}</div>
+        <div class="balken">
+          <span class="spanne" style="left:${pct(m.unten)}%;width:${pct(m.oben)-pct(m.unten)}%"></span>
+          <span class="nadel" style="left:${pct(markt.preis)}%"></span>
+        </div>
+        <div class="skala"><span>0 €</span><span>realistisch ${eur(m.unten)}–${eur(m.oben)}</span><span>${eur(Math.round(max))}</span></div>
+        <div class="zeile"><b>Angebot ${eur(markt.preis)}</b> gegen einen Gebrauchtwert von rund
+          <b>${eur(m.wert)}</b>${markt.preis > m.wert
+            ? ` — ${eur(markt.preis - m.wert)} darüber.`
+            : markt.preis < m.wert ? ` — ${eur(m.wert - markt.preis)} darunter.` : "."}</div>
+        ${nF ? `<div class="zeile"><b>Achtung:</b> ${nF === 1 ? "ein Teil passt" : nF + " Teile passen"} nicht
+          zusammen. Prüf im Reiter Befunde, ob das am Rad wirklich so verbaut ist — oder ob die Beschreibung
+          nicht stimmt.</div>` : ""}
+      </div>`;
+    }
+
+    marktkarte += `<div class="mk">
+      <h3>Angebot bewerten</h3>
+      <p class="sub">Trag unten ein, was an dem Rad verbaut ist — dann rechnet die App aus den Teilepreisen,
+        was es gebraucht wert ist.</p>
+
+      <span class="mk-lab">Wie alt ist das Rad?</span>
+      <div class="mk-reihe">${ALTERSSTUFEN.map(a =>
+        `<button data-alter="${a.v}" aria-pressed="${markt.alter === a.v}">${a.l}</button>`).join("")}</div>
+
+      <span class="mk-lab">Zustand</span>
+      <div class="mk-reihe">${ZUSTAENDE.map(z =>
+        `<button data-zustand="${z.v}" aria-pressed="${markt.zustand === z.v}" title="${esc(z.t)}">${z.l}</button>`).join("")}</div>
+      <p class="sub" style="margin:7px 0 0">${esc((ZUSTAENDE.find(x => x.v === markt.zustand) || ZUSTAENDE[1]).t)}</p>
+
+      <span class="mk-lab">Was ist sofort fällig?</span>
+      <div class="mk-vs">${VERSCHLEISS.map(v => `<button data-vs="${v.k}" aria-pressed="${!!markt.verschleiss[v.k]}">
+        <span class="kasten"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <span>${v.l}</span><span class="kst">−${v.kosten} €</span></button>`).join("")}</div>
+
+      <span class="mk-lab">Geforderter Preis</span>
+      <input class="mk-preis" id="mk-preis" type="number" inputmode="numeric" min="0" step="10"
+        value="${markt.preis || ""}" placeholder="z. B. 1800" data-marktpreis="1">
+
+      ${m ? `<div style="margin-top:13px">
+        <div class="rechnung"><span>Teile einzeln gekauft</span><span class="w">${eur(m.teileEinzeln)}</span></div>
+        <div class="rechnung"><span>als Komplettrad</span><span class="w">${eur(m.neu)}</span>
+          <span class="g">Hersteller zahlen für dieselben Teile als Erstausrüstung weniger — ein
+            Komplettrad kostet rund ${Math.round(KOMPLETTRAD*100)} % der Einzelpreise.</span></div>
+        <div class="rechnung"><span>nach ${ALTERSSTUFEN.find(a => a.v === markt.alter)?.l || markt.alter + " Jahren"}</span>
+          <span class="w">× ${Math.round(m.rw*100)} %</span>
+          <span class="g">Gebrauchträder verlieren im ersten Jahr rund ein Drittel, danach flacht es ab.</span></div>
+        ${m.z !== 1 ? `<div class="rechnung"><span>Zustand ${(ZUSTAENDE.find(x => x.v === markt.zustand)||{}).l}</span>
+          <span class="w">× ${Math.round(m.z*100)} %</span></div>` : ""}
+        ${m.abzuege.map(a => `<div class="rechnung"><span>${esc(a.t)}</span><span class="w">− ${Math.round(a.f*100)} %</span>
+          <span class="g">${esc(a.g)}</span></div>`).join("")}
+        ${m.vsListe.map(v => `<div class="rechnung"><span>${esc(v.l)}</span><span class="w">− ${eur(v.kosten)}</span></div>`).join("")}
+        ${m.gedeckelt ? `<div class="rechnung"><span>Verschleiß gedeckelt</span><span class="w">nur − ${eur(m.vs)}</span>
+          <span class="g">Statt ${eur(m.vsRoh)}: in ein Rad dieses Alters baut man gebrauchte oder günstige
+            Teile ein, keine Neuteile zum Ladenpreis.</span></div>` : ""}
+        <div class="rechnung" style="border-top:1px solid var(--line);padding-top:10px">
+          <span><b>Gebrauchtwert</b></span><span class="w"><b>${eur(m.wert)}</b></span>
+          <span class="g">Realistische Spanne ${eur(m.unten)} bis ${eur(m.oben)} — darunter wird verkauft, wenn es schnell gehen muss.</span></div>
+      </div>` : `<p class="sub" style="margin-top:12px">Noch kein Teil eingetragen. Fang beim Rahmen an —
+        je mehr du einträgst, desto genauer wird die Rechnung.</p>`}
+    </div>`;
+  }
+
   const foto = fotos[modus];
-  const fotokarte = modus !== "real" ? "" : `<div class="fotokarte">
+  const fotokarte = (modus !== "real" && modus !== "markt") ? "" : `<div class="fotokarte">
     <label class="fotobox" for="foto-in">
       ${foto ? `<img src="${foto}" alt="Dein Rad">` : `<span class="leer">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.6"/></svg>
@@ -2010,8 +2229,9 @@ function zeichne(){
       ${foto ? `<button class="btn ghost sm" data-fotoweg="1">Entfernen</button>` : ""}
       <button class="btn ghost sm" data-spick="1">Wo steht was am Rad?</button>
     </div>
-    <p class="foto-hint">Als Gedächtnisstütze. Die Teile trägst du selbst ein —
-      „Wo steht was am Rad?" zeigt, wo jede Angabe aufgedruckt ist.</p>
+    <p class="foto-hint">${modus === "markt"
+      ? "Screenshot des Angebots — so hast du Bild und Rechnung an einer Stelle."
+      : "Als Gedächtnisstütze. Die Teile trägst du selbst ein."} „Wo steht was am Rad?" zeigt, wo jede Angabe aufgedruckt ist.</p>
   </div>`;
 
   const leerHinweis = (modus === "real" && !build.rahmen) ? `<div class="card" style="margin-bottom:14px">
@@ -2020,13 +2240,13 @@ function zeichne(){
       Tretlager fest und grenzt damit alles andere ein. Was du nicht weißt, lässt du offen;
       bewertet wird nur, was drin steht.</p></div>` : "";
 
-  const cta = modus === "real" ? "" : `<button class="wiz-cta" data-wiz="0">
+  const cta = modus !== "traum" ? "" : `<button class="wiz-cta" data-wiz="0">
     <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 5.3L19 10l-5.1 1.7L12 17l-1.9-5.3L5 10l5.1-1.7z"/><path d="M19 15.5 19.8 18l2.2.8-2.2.8L19 22l-.8-2.4-2.2-.8 2.2-.8z"/></svg></span>
     <span><b>Dreambuild-Assistent</b><span>${plan.budget > 0 ? "Budget " + eur(plan.budget) + " · nochmal rechnen" : "Budget, Marken, Fahrergewicht → fertiger Aufbau"}</span></span>
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
   </button>`;
 
-  $("aufbau").innerHTML = fotokarte + leerHinweis + cta + GRUPPEN.map(g => {
+  $("aufbau").innerHTML = marktkarte + fotokarte + leerHinweis + cta + GRUPPEN.map(g => {
     const meine = SLOTS.filter(s => s.grp === g.n && !entfaellt(build, s.k));
     if(!meine.length) return "";                       /* Thema ganz ohne Slot am Rahmen */
     const rows = SLOTS.filter(s => s.grp === g.n).map(s => {
@@ -2538,6 +2758,17 @@ document.addEventListener("click", e => {
 
 
 
+  const al = T("[data-alter]");
+  if(al){ markt.alter = parseFloat(al.dataset.alter); sichern(); zeichne(); return; }
+  const zu2 = T("[data-zustand]");
+  if(zu2){ markt.zustand = zu2.dataset.zustand; sichern(); zeichne(); return; }
+  const vs = T("[data-vs]");
+  if(vs){
+    const k = vs.dataset.vs;
+    if(markt.verschleiss[k]) delete markt.verschleiss[k]; else markt.verschleiss[k] = 1;
+    sichern(); zeichne(); return;
+  }
+
   const md = T("[data-modus]");
   if(md){
     if(md.dataset.modus !== modus){ wechsle(md.dataset.modus); view = "aufbau"; sichern(); zeichne(); }
@@ -2572,6 +2803,20 @@ document.addEventListener("input", e => {
     if(w) aff.mid[md.dataset.mid] = w; else delete aff.mid[md.dataset.mid];
     sichern(); zeichne(); return;
   }
+  const mp = e.target.closest("[data-marktpreis]");
+  if(mp){
+    const v = parseInt(mp.value, 10);
+    markt.preis = isNaN(v) || v < 0 ? 0 : v;
+    sichern();
+    /* Nur die Bewertung neu zeichnen waere schoener, aber zeichne() setzt das
+       Feld neu und der Fokus ginge verloren. Deshalb gezielt aktualisieren. */
+    const k = document.querySelector(".urteil");
+    const m = marktWert(build);
+    if(m && markt.preis > 0){ const u = preisUrteil(markt.preis, m); if(k){ k.className = "urteil " + u.k;
+      k.querySelector(".kopf").textContent = u.kopf; k.querySelector(".zeile").textContent = u.txt; } else zeichne(); }
+    else if(k) zeichne();
+    return;
+  }
   const pl = e.target.closest("[data-plan]");
   if(pl){
     const v = parseInt(pl.value, 10);
@@ -2601,14 +2846,14 @@ document.addEventListener("keydown", e => { if(e.key === "Escape") schliesse(); 
 $("btn-disz").addEventListener("click", oeffneDisz);
 $("btn-menu").addEventListener("click", oeffneMenu);
 
-try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({builds, modus, fotos, sel, plan, aff, view})); }catch(e){}
+try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({builds, modus, fotos, sel, plan, markt, aff, view})); }catch(e){}
 
 function start(daten){
   laden();
   if(daten && daten.builds){
     builds = daten.builds; modus = daten.modus || modus; 
     fotos = daten.fotos || fotos;
-    sel = daten.sel || sel; plan = daten.plan || plan;
+    sel = daten.sel || sel; plan = daten.plan || plan; markt = daten.markt || markt;
     aff = daten.aff || aff; view = daten.view || view;
     build = builds[modus];
   }
