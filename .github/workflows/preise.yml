@@ -1,0 +1,58 @@
+# Live-Preise fuer Dreambuild.
+#
+# Alle sechs Stunden: Produktfeeds der Partnershops laden, jede Zeile einem
+# Teil aus dem Katalog zuordnen, preise.json und preisverlauf.json schreiben
+# und veroeffentlichen. Die App holt sich die Dateien beim Start.
+#
+# Die Feed-Adressen stehen im Repository-Secret PREIS_FEEDS, eine je Zeile:
+#   bike-components|https://productdata.awin.com/datafeed/download/apikey/.../
+# Sie enthalten den persoenlichen API-Schluessel -- deshalb nur im Secret,
+# nie in einer Datei. Ohne Secret laeuft die Action durch und aendert nichts.
+name: Live-Preise
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: live-preise
+  cancel-in-progress: false
+
+jobs:
+  preise:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Feeds lesen, Preise zuordnen
+        env:
+          PREIS_FEEDS: ${{ secrets.PREIS_FEEDS }}
+        run: python tools/preise.py
+
+      - name: Neue Preise hochladen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain -- preise.json preisverlauf.json)" ]; then
+            echo "Keine neuen Preise."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add preise.json preisverlauf.json
+          git commit -q -m "Live-Preise $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase -q origin main
+          git push -q origin HEAD:main
+          # Pages neu bauen lassen -- ein Push mit dem Action-Token loest das
+          # nicht in jedem Fall selbst aus.
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" > /dev/null || true

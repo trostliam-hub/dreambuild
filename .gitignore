@@ -12,3 +12,6 @@ desktop.ini
 *.env
 *credentials*
 *secret*
+
+# Python
+__pycache__/
