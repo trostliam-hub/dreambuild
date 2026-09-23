@@ -13,7 +13,9 @@ Hinterbau und Schaltungsgeneration, UDH-Pflicht bei SRAM Transmission,
 Reifenbreite gegen Rahmen- und Gabelfreiheit sowie Felgenmaulweite,
 Bremsscheibengröße gegen Freigabe, Center Lock gegen 6-Loch, Felgenbremse
 gegen Bremssockel und Bremsflanke, Lenkerklemmung 31,8 gegen 35,
-Stützendurchmesser und Einstecktiefe, Systemgewicht gegen Laufrad-Freigabe.
+Stützendurchmesser und Einstecktiefe, Systemgewicht gegen Laufrad-Freigabe,
+Innenlager gegen Tretlagergehäuse (BSA 68/73/83, PressFit 92/107, PF30,
+Spanish) und Kurbelwelle (DUB, Hollowtech II, 30 mm, PowerSpline, ISIS).
 
 **Zwei getrennte Werte.** *Technik* misst, ob es mechanisch zusammenpasst.
 *Charakter* misst, ob alle Teile in dieselbe Richtung ziehen — ein Enduro-Rahmen
@@ -27,16 +29,27 @@ geprüft — XC plus Downhill ergibt kein Rad, sondern zwei.
 Markenwünsche, Priorität) und der Generator baut einen vollständigen,
 konfliktfreien Aufbau innerhalb des Budgets.
 
+**Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
+mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut
+Shop, „30-Tage-Tief“ aus dem eigenen Preisverlauf, eine Verlaufskurve über
+90 Tage und der Reiter *Deals*: alles, was gerade reduziert ist und in den
+eigenen Aufbau passt. Der Aufbau rechnet mit dem günstigsten lieferbaren
+Angebot; ohne Angebot mit dem Richtpreis aus dem Katalog.
+
 ## Technik
 
 Eine einzelne HTML-Datei, kein Framework, kein Server, keine Abhängigkeiten
 außer den Google-Schriften. Der Aufbau liegt im `localStorage` des Geräts und
 verlässt es nicht. Als PWA installierbar und offline lauffähig.
 
-    index.html              die gesamte App
-    manifest.webmanifest    Installationsdaten
-    sw.js                   Service Worker, Offline-Betrieb
-    icon-*.png              App-Symbole
+    index.html                    die gesamte App
+    manifest.webmanifest          Installationsdaten
+    mtb-sw.js                     Service Worker, Offline-Betrieb
+    icon-*.png                    App-Symbole
+    tools/preise.py               liest die Produktfeeds, schreibt die Preise
+    .github/workflows/preise.yml  startet preise.py alle sechs Stunden
+    preise.json                   Angebote je Teil (von der Action geschrieben)
+    preisverlauf.json             günstigster Preis je Teil und Tag
 
 Lokal: `index.html` per Doppelklick öffnen. Offline-Cache und
 Homescreen-Installation brauchen `https://`.
@@ -64,9 +77,30 @@ Jede Veroeffentlichung stempelt einen neuen Cache-Namen in `mtb-sw.js` -- sonst
 saehe der Browser keine Aenderung am Worker und die App bliebe auf der alten
 Fassung stehen.
 
+## Live-Preise einrichten
+
+Die Preise kommen aus den Produktfeeds der Partnerprogramme (Awin). Einmal
+einrichten, danach läuft es von selbst:
+
+1. Im Awin-Publisher-Konto die Shops als Partner beantragen (bike-components,
+   Bike24, Bike-Discount, Rose).
+2. Unter *Toolbox → Create-a-Feed* je Shop einen Feed als CSV anlegen, mit den
+   Spalten `product_name`, `search_price`, `rrp_price`, `delivery_cost`,
+   `aw_deep_link`, `merchant_image_url`, `in_stock`, `merchant_category`.
+   Die Download-Adresse kopieren.
+3. Im Repo unter *Settings → Secrets and variables → Actions* ein Secret
+   `PREIS_FEEDS` anlegen, eine Zeile je Shop: `Shopname|Download-Adresse`.
+4. Unter *Actions → Live-Preise* einmal *Run workflow* drücken.
+
+Die Download-Adressen enthalten den persönlichen API-Schlüssel. Sie gehören
+nur ins Secret, nie in eine Datei — das Repo ist öffentlich.
+
 ## Grenzen
 
-Preise sind Richtwerte auf UVP-Niveau, keine Live-Preise. Die Engine kennt
+Live-Preise gibt es nur für Teile, die ein Partnershop im Feed führt, und nur
+so aktuell wie der letzte Lauf (alle sechs Stunden). Maßgeblich ist der Preis
+im Shop. Die Zuordnung Feedzeile → Katalogteil ist auf Genauigkeit gebaut:
+lieber kein Preis als der Preis eines anderen Teils. Die Engine kennt
 Normmaße, nicht jede Sonderlocke eines einzelnen Rahmenjahrgangs — vor dem Kauf
 gegen das Datenblatt des eigenen Rahmens prüfen. Trial-Maße sind auf Mod 20/19″
 und Stock 26″ vereinfacht.

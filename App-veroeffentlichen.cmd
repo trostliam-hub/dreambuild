@@ -72,6 +72,10 @@ goto :pages
 :vorhanden
 echo Repo vorhanden. Lade Aenderungen hoch...
 git remote get-url origin >nul 2>&1 || git remote add origin https://github.com/%GHUSER%/%REPO%.git
+rem Die Preis-Action schreibt alle sechs Stunden preise.json ins Repo.
+rem Vorher holen, sonst lehnt GitHub den Upload ab.
+git pull --rebase -q origin main
+if errorlevel 1 goto :fehler_push
 git push -u origin main
 if errorlevel 1 goto :fehler_push
 

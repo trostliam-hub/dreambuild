@@ -239,7 +239,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
   max-width:520px;margin:0 auto;height:var(--tabs-h);padding:6px;border-radius:22px;
   background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);
   border:1px solid var(--hair);box-shadow:var(--shadow-hoch);
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
 .tabs button{position:relative;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   font-size:11px;font-weight:650;color:var(--ink-3)}
 .tabs button svg{display:block}
@@ -252,8 +252,9 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 @media (min-width:820px){.tabs{display:none}}
 @media (max-width:819px){
   body[data-view="aufbau"]   #panel{display:none}
-  body[data-view="befunde"]  #aufbau,body[data-view="befunde"]  #c-up,body[data-view="befunde"] #c-spar{display:none}
-  body[data-view="upgrades"] #aufbau,body[data-view="upgrades"] #c-find{display:none}
+  body[data-view="befunde"]  #aufbau,body[data-view="befunde"]  #c-up,body[data-view="befunde"] #c-spar,body[data-view="befunde"] #c-deals{display:none}
+  body[data-view="upgrades"] #aufbau,body[data-view="upgrades"] #c-find,body[data-view="upgrades"] #c-deals{display:none}
+  body[data-view="deals"]    #aufbau,body[data-view="deals"]    #c-find,body[data-view="deals"] #c-up,body[data-view="deals"] #c-spar{display:none}
 }
 
 /* ── Schublade (Bottom-Sheet) ── */
@@ -499,6 +500,57 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .feed-gross{width:100%;max-height:230px;object-fit:contain;background:#fff;border-radius:16px;
   border:1px solid var(--hair);display:block;padding:10px}
 .livepreis{color:var(--gut);font-weight:800}
+.opt-p small,.pv-p small{font-size:.72em;font-weight:650;color:var(--ink-3);margin-right:1px}
+/* Sale gegen UVP und 30-Tage-Tief -- zwei klar getrennte Aussagen */
+.sale,.tief,.sale-mini{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.01em;line-height:1.5;
+  padding:1px 7px;border-radius:999px;white-space:nowrap}
+.sale,.sale-mini{background:var(--bad);color:#fff}
+.tief{background:var(--gut-soft,rgba(46,160,90,.14));color:var(--gut)}
+.sale-mini{font-size:10px;padding:0 6px;margin:2px 0}
+.slot-r .p.live{color:var(--gut)}
+/* Preisvergleich im Detailblatt */
+.pv{border:1px solid var(--hair);border-radius:var(--r);padding:12px 13px;margin:0 0 14px;background:var(--surface)}
+.pv-kopf{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-bottom:8px}
+.pv-p{font-size:22px;font-weight:850;letter-spacing:-.02em;color:var(--gut)}
+.pv-p.aus{color:var(--ink-3)}
+.pv-uvp{font-size:12px;color:var(--ink-3);flex-basis:100%}
+.pv-liste{display:flex;flex-direction:column}
+.angebot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:10px 0;border-top:1px solid var(--hair)}
+.an-l{display:flex;flex-direction:column;gap:2px;min-width:0}
+.an-l b{font-size:14px}
+.an-n{font-size:11.5px;color:var(--ink-3);overflow-wrap:anywhere}
+.an-m{font-size:11.5px;color:var(--ink-2)}
+.an-m .aus{color:var(--bad);font-weight:700}
+.an-r{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.an-p{font-size:16px;font-weight:800}
+.pv-verlauf{margin:10px 0 4px}
+.pv-verlauf figcaption{font-size:11.5px;color:var(--ink-3);margin-bottom:2px}
+.pv-verlauf svg{width:100%;height:auto;display:block;overflow:visible}
+.pv-verlauf text{font-size:10px;fill:var(--ink-2);font-weight:700}
+.pv-verlauf text.ax{fill:var(--ink-3);font-weight:600}
+.pv-recht{font-size:11px;line-height:1.5;color:var(--ink-3);margin:10px 0 0}
+.pv-recht .werbung{margin-right:4px}
+/* Sortieren und Marken im Auswahlblatt */
+.sortier,.marken{display:flex;flex:none;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 6px;-webkit-overflow-scrolling:touch}
+.sortier::-webkit-scrollbar,.marken::-webkit-scrollbar{display:none}
+.sortier button,.marken button{flex:none;background:transparent;border:1px solid var(--hair);border-radius:999px;
+  padding:5px 11px;font-size:12px;font-weight:650;color:var(--ink-2);white-space:nowrap}
+.sortier button[aria-pressed="true"],.marken button[aria-pressed="true"]{background:var(--anod-soft);color:var(--anod);border-color:transparent}
+.marken button span{color:var(--ink-3);font-weight:600;margin-left:2px}
+.marken button[aria-pressed="true"] span{color:inherit}
+/* Deals */
+.deal-kopf{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11.5px;color:var(--ink-3);margin:2px 0 8px}
+.deal-filt{flex-wrap:wrap}
+.deal{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:12px 0;border-top:1px solid var(--hair)}
+.deal.nein{opacity:.72}
+.deal-l{display:flex;flex-direction:column;gap:3px;min-width:0}
+.deal-k{font-size:10.5px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.deal-n{font-weight:700;font-size:14px;overflow-wrap:anywhere}
+.deal-s{font-size:11.5px;color:var(--ink-2)}
+.deal-t{display:flex;gap:5px;flex-wrap:wrap;margin-top:2px}
+.deal-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.deal-p{font-size:17px;font-weight:850;color:var(--gut)}
+.badge.gruen,.tabs button[aria-selected="true"] .badge.gruen{background:var(--gut);color:#fff}
 .feedbox{border:1px dashed var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
 .feedbox.voll{border-style:solid;border-color:var(--gut);background:var(--gut-soft)}
 .feedbox .z{font-size:13px;line-height:1.5;color:var(--ink-2)}
@@ -651,6 +703,10 @@ img{max-width:100%}
       <div class="grp-h" style="margin-bottom:2px"><h2>Befunde</h2><div class="rule"></div></div>
       <div id="findings"></div>
     </div>
+    <div class="card" id="c-deals">
+      <div class="grp-h" style="margin-bottom:2px"><h2>Deals</h2><div class="rule"></div></div>
+      <div id="deals"></div>
+    </div>
     <div class="card" id="c-spar">
       <div class="grp-h" style="margin-bottom:2px"><h2>Günstiger, gleiche Maße</h2><div class="rule"></div></div>
       <div id="sparen"></div>
@@ -672,6 +728,9 @@ img{max-width:100%}
   <button role="tab" data-view="upgrades" aria-selected="false">
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>
     Upgrades <span class="badge" id="b-up">0</span></button>
+  <button role="tab" data-view="deals" aria-selected="false">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.6" cy="7.6" r="1.4"/></svg>
+    Deals <span class="badge" id="b-deal">0</span></button>
 </nav>
 
 <!-- Ploppt auf, sobald eine neue Version veroeffentlicht ist -- wie in Valkr.
@@ -776,6 +835,19 @@ function SR(std){ return dim("Steuerrohr", ["gerade","tapered"].map(x => o_(x, x
 function VA(std){ return dim("Vorderachse", ["110x15","110x20"].map(a => o_(a, a === "110x15" ? "15 mm Boost" : "20 mm Boost", {va:a},
   {h:"Nabe per Endkappen umrüstbar", kurz:"VR " + (a === "110x15" ? "15 mm" : "20 mm")})), std); }
 function KB(zs, std){ return dim("Kettenblatt", zs.map(z => o_(z, z + " Z.", {kb:z})), std); }
+/* Innenlager: Gehaeuse des Rahmens und Welle der Kurbel muessen beide stimmen.
+   Viele Lager gibt es je Gehaeusebreite als eigene Ausfuehrung -- die steht
+   dann als Wahl am Teil, wie der Federweg an der Gabel. */
+const BB_NAME = {BSA68:"BSA 68 mm", BSA73:"BSA 73 mm", BSA83:"BSA 83 mm", PF92:"PressFit 92", PF107:"PressFit 107",
+  PF30:"PF30", Spanish:"Spanish BB"};
+const bbName = x => BB_NAME[x] || x;
+function GH(liste){ return dim("Gehäuse", liste.map(([w, gs]) => o_(w, w, {gehaeuse:gs}, {kurz:w})), liste[0][0]); }
+function IL(id, n, m, welle, gh, x){
+  const t = {id:id, n:n, m:m, welle:welle, gehaeuse:gh[0][1], breit:!!x.breit, e:x.e, g:x.g, p:x.p};
+  if(gh.length > 1) t.v = [GH(gh)];
+  return t;
+}
+const BSA = [["BSA 68/73", ["BSA68","BSA73"]]], BSA_DH = [["BSA 68/73", ["BSA68","BSA73"]], ["BSA 83 (DH)", ["BSA83"]]];
 
 /* Kartuschen je Gabelfamilie. Erste Zeile = Grundausführung des Eintrags;
    Preis und Gewicht der anderen als Abstand dazu. Die Modelljahre stehen
@@ -1615,16 +1687,88 @@ sattel:[
  {id:"sa-smp", n:"Selle SMP Well M1", m:"Selle SMP", e:E(3,4,2,0,0,0,0), g:300, p:159},
  {id:"sa-lines", n:"Fabric Line-S Elite", m:"Fabric", e:E(4,4,2,0,0,0,0), g:250, p:79},
  {id:"sa-pivotal", n:"Pivotal-Sattel Slim · Dirt", m:"Generisch", e:E(0,0,1,2,5,5,2), g:230, p:39}
+],
+
+/* Gehaeuse und Wellen geprueft an den Produktdaten des Handels (Stand
+   2026-09-23). Preise = UVP, wo der Hersteller eine nennt. */
+innenlager:[
+ IL("il-bb52",     "Shimano SM-BB52 · Deore",               "Shimano",   "Hollowtech II", BSA,    {e:E(3,4,3,2,2,2,0), g:80,  p:24}),
+ IL("il-mt800",    "Shimano BB-MT800 · XT",                 "Shimano",   "Hollowtech II", BSA,    {e:E(4,5,4,3,2,2,0), g:72,  p:35}),
+ IL("il-bb80",     "Shimano SM-BB80 · Saint",               "Shimano",   "Hollowtech II", BSA_DH, {e:E(1,3,5,5,3,3,0), g:95,  p:40}),
+ IL("il-mt500pa",  "Shimano BB-MT500-PA · Pressfit",        "Shimano",   "Hollowtech II", [["PressFit 89,5/92", ["PF92"]]], {e:E(3,4,3,2,2,2,0), g:70, p:24}),
+ IL("il-mt800pa",  "Shimano BB-MT800-PA · XT Pressfit",     "Shimano",   "Hollowtech II", [["PressFit 89,5/92", ["PF92"]]], {e:E(4,5,4,3,2,2,0), g:66, p:31}),
+ IL("il-bb94",     "Shimano SM-BB94-41A · XTR Pressfit",    "Shimano",   "Hollowtech II", [["PressFit 89,5/92", ["PF92"]]], {e:E(5,4,3,1,1,1,0), g:60, p:44}),
+ IL("il-bb71c",    "Shimano SM-BB71-41C · Pressfit 107",    "Shimano",   "Hollowtech II", [["PressFit 104,5/107", ["PF107"]]], {e:E(1,2,4,5,2,2,0), g:75, p:31}),
+ IL("il-dubbsa",   "SRAM DUB BSA",                          "SRAM",      "DUB",           BSA_DH, {e:E(4,5,5,4,3,3,0), g:78,  p:42}),
+ IL("il-dubpf92",  "SRAM DUB PressFit MTB 89/92",           "SRAM",      "DUB",           [["PressFit 89,5/92", ["PF92"]]], {e:E(4,5,5,4,3,3,0), g:75, p:50}),
+ IL("il-dubpf92w", "SRAM DUB PressFit CL55 MTB Wide 89/92", "SRAM",      "DUB",           [["PressFit 89,5/92", ["PF92"]]], {e:E(4,5,5,4,3,3,0), g:78, p:50, breit:true}),
+ IL("il-dubpf107", "SRAM DUB PressFit MTB 107",             "SRAM",      "DUB",           [["PressFit 107", ["PF107"]]], {e:E(1,2,4,5,2,2,0), g:82, p:53}),
+ IL("il-dubpf30",  "SRAM DUB PF30 MTB",                     "SRAM",      "DUB",           [["PF30", ["PF30"]]], {e:E(3,4,4,3,4,4,0), g:80, p:57}),
+ IL("il-dubpf30w", "SRAM DUB PressFit 30 CL55 MTB Wide",    "SRAM",      "DUB",           [["PF30", ["PF30"]]], {e:E(3,4,4,3,4,4,0), g:82, p:47, breit:true}),
+ IL("il-pspline",  "SRAM PowerSpline BSA",                  "SRAM",      "PowerSpline",   BSA,    {e:E(2,3,2,1,2,2,0), g:300, p:34}),
+ IL("il-rfbsa",    "Race Face Cinch BSA 30",                "Race Face", "30 mm",         BSA_DH, {e:E(3,5,5,5,4,4,0), g:95,  p:60}),
+ IL("il-rfbb92",   "Race Face Cinch BB92 30",               "Race Face", "30 mm",         [["PressFit 89,5/92", ["PF92"]]], {e:E(3,5,5,5,4,4,0), g:90, p:43}),
+ IL("il-rfbb107",  "Race Face Cinch BB107 30",              "Race Face", "30 mm",         [["PressFit 107", ["PF107"]]], {e:E(1,2,4,5,2,2,0), g:100, p:70}),
+ IL("il-praxis",   "Praxis Works M30 THRU BSA",             "Praxis",    "30 mm",         BSA,    {e:E(4,5,4,3,3,3,0), g:90,  p:50}),
+ IL("il-hope24",   "Hope Edelstahl MTB Innenlager · 24 mm", "Hope",      "Hollowtech II", BSA,    {e:E(3,5,5,5,4,4,0), g:105, p:112}),
+ IL("il-hope30",   "Hope Edelstahl Innenlager · 30 mm",     "Hope",      "30 mm",         BSA,    {e:E(3,5,5,5,4,4,0), g:110, p:106}),
+ IL("il-hopepf30", "Hope Edelstahl Pressfit 46 × 30 mm",    "Hope",      "30 mm",         [["PF30", ["PF30"]]], {e:E(2,4,5,4,5,5,0), g:95, p:120}),
+ IL("il-trialbsa", "Trial-Innenlager ISIS · BSA",           "Trial",     "ISIS",          BSA,    {e:E(0,0,0,0,2,1,5), g:230, p:45}),
+ IL("il-trialsp",  "Trial-Innenlager ISIS · Spanish",       "Trial",     "ISIS",          [["Spanish BB", ["Spanish"]]], {e:E(0,0,0,0,2,1,5), g:220, p:55})
+],
+
+/* Pedale: Flat oder Klick. Gewicht je Paar. Alle MTB-Pedale haben das
+   9/16-Zoll-Gewinde -- es gibt hier nichts, was nicht an jede Kurbel passt. */
+pedale:[
+ {id:"pe-stamp1",  n:"Crankbrothers Stamp 1",          m:"Crankbrothers", typ:"Flat",  sys:"", e:E(1,4,4,3,5,5,2), g:347, p:60},
+ {id:"pe-chester", n:"Race Face Chester",              m:"Race Face",     typ:"Flat",  sys:"", e:E(1,4,4,3,5,5,2), g:340, p:60},
+ {id:"pe-oneupc",  n:"OneUp Components Composite",     m:"OneUp",         typ:"Flat",  sys:"", e:E(1,4,4,3,5,5,2), g:355, p:59},
+ {id:"pe-gr500",   n:"Shimano PD-GR500",               m:"Shimano",       typ:"Flat",  sys:"", e:E(1,4,3,2,3,3,1), g:533, p:45},
+ {id:"pe-oneupa",  n:"OneUp Components Aluminum",      m:"OneUp",         typ:"Flat",  sys:"", e:E(1,5,5,5,4,4,2), g:355, p:149},
+ {id:"pe-stamp7",  n:"Crankbrothers Stamp 7",          m:"Crankbrothers", typ:"Flat",  sys:"", e:E(1,5,5,5,4,4,2), g:350, p:160},
+ {id:"pe-atlas",   n:"Race Face Atlas",                m:"Race Face",     typ:"Flat",  sys:"", e:E(1,5,5,5,4,4,2), g:375, p:150},
+ {id:"pe-vault",   n:"DMR Vault",                      m:"DMR",           typ:"Flat",  sys:"", e:E(0,4,5,5,5,5,2), g:440, p:135},
+ {id:"pe-mx80",    n:"Shimano Saint PD-MX80",          m:"Shimano",       typ:"Flat",  sys:"", e:E(0,3,5,5,4,4,1), g:455, p:120},
+ {id:"pe-dagga",   n:"Chromag Dagga",                  m:"Chromag",       typ:"Flat",  sys:"", e:E(0,3,5,5,3,3,1), g:480, p:179},
+ {id:"pe-ae03",    n:"HT AE03",                        m:"HT",            typ:"Flat",  sys:"", e:E(1,5,5,4,4,4,2), g:380, p:115},
+ {id:"pe-m520",    n:"Shimano PD-M520",                m:"Shimano",       typ:"Klick", sys:"SPD", e:E(4,4,2,1,0,0,0), g:380, p:40},
+ {id:"pe-m8100",   n:"Shimano XT PD-M8100",            m:"Shimano",       typ:"Klick", sys:"SPD", e:E(5,4,2,1,0,0,0), g:342, p:110},
+ {id:"pe-m9100",   n:"Shimano XTR PD-M9100",           m:"Shimano",       typ:"Klick", sys:"SPD", e:E(5,3,1,0,0,0,0), g:310, p:220},
+ {id:"pe-m8120",   n:"Shimano XT PD-M8120",            m:"Shimano",       typ:"Klick", sys:"SPD", e:E(3,5,5,4,1,1,0), g:428, p:140},
+ {id:"pe-m821",    n:"Shimano Saint PD-M821",          m:"Shimano",       typ:"Klick", sys:"SPD", e:E(1,4,5,5,1,1,0), g:553, p:130},
+ {id:"pe-egg3",    n:"Crankbrothers Eggbeater 3",      m:"Crankbrothers", typ:"Klick", sys:"Crankbrothers", e:E(5,3,1,0,0,0,0), g:260, p:110},
+ {id:"pe-candy3",  n:"Crankbrothers Candy 3",          m:"Crankbrothers", typ:"Klick", sys:"Crankbrothers", e:E(5,4,2,1,0,0,0), g:290, p:110},
+ {id:"pe-mallete", n:"Crankbrothers Mallet E",         m:"Crankbrothers", typ:"Klick", sys:"Crankbrothers", e:E(3,5,5,4,1,1,0), g:430, p:150},
+ {id:"pe-time8",   n:"Time Speciale 8",                m:"Time",          typ:"Klick", sys:"Time", e:E(3,5,5,3,1,1,0), g:400, p:150},
+ {id:"pe-trial",   n:"Trial-Pedal Magnesium",          m:"Trial",         typ:"Flat",  sys:"", e:E(0,0,0,0,2,1,5), g:330, p:60}
+],
+
+/* Griffe: Lock-on wird mit Klemmringen fest, Push-on nur aufgeschoben --
+   leichter, verdreht sich aber bei Naesse. */
+griffe:[
+ {id:"gr-elitepro", n:"ODI Elite Pro Lock-On",         m:"ODI",       bef:"Lock-on", mat:"Gummi",  e:E(3,5,5,4,3,3,1), g:110, p:30},
+ {id:"gr-ruffian",  n:"ODI Ruffian Lock-On",           m:"ODI",       bef:"Lock-on", mat:"Gummi",  e:E(1,4,4,4,5,5,2), g:120, p:28},
+ {id:"gr-ge1",      n:"Ergon GE1 Evo",                 m:"Ergon",     bef:"Lock-on", mat:"Gummi",  e:E(2,5,5,4,3,3,1), g:110, p:35},
+ {id:"gr-ga3",      n:"Ergon GA3",                     m:"Ergon",     bef:"Lock-on", mat:"Gummi · ergonomisch", e:E(4,5,4,2,2,2,1), g:125, p:30},
+ {id:"gr-sqlab70x", n:"SQlab 70X",                     m:"SQlab",     bef:"Lock-on", mat:"Gummi · ergonomisch", e:E(4,5,3,1,1,1,0), g:180, p:45},
+ {id:"gr-deathgrip",n:"DMR DeathGrip",                 m:"DMR",       bef:"Lock-on", mat:"Gummi",  e:E(1,4,5,5,4,4,1), g:115, p:28},
+ {id:"gr-halfnelson",n:"Race Face Half Nelson Lock-On",m:"Race Face", bef:"Lock-on", mat:"Gummi",  e:E(1,5,5,4,3,3,1), g:110, p:30},
+ {id:"gr-squarewave",n:"Chromag Squarewave XL",        m:"Chromag",   bef:"Lock-on", mat:"Gummi",  e:E(1,4,5,5,4,4,1), g:130, p:35},
+ {id:"gr-traction", n:"Renthal Traction Lock-On",      m:"Renthal",   bef:"Lock-on", mat:"Gummi",  e:E(1,4,5,5,3,3,1), g:115, p:30},
+ {id:"gr-fatpaw",   n:"Wolf Tooth Fat Paw",            m:"Wolf Tooth",bef:"Lock-on", mat:"Gummi",  e:E(1,4,5,5,3,3,1), g:120, p:30},
+ {id:"gr-loam",     n:"PNW Loam Grip",                 m:"PNW",       bef:"Lock-on", mat:"Gummi",  e:E(1,5,5,4,3,3,1), g:115, p:30},
+ {id:"gr-chunky",   n:"ESI Chunky",                    m:"ESI",       bef:"Push-on", mat:"Silikon",e:E(5,4,3,2,2,2,1), g:50,  p:26},
+ {id:"gr-trial",    n:"Trial-Griffe · Push-on",        m:"Trial",     bef:"Push-on", mat:"Gummi",  e:E(0,0,0,0,2,1,5), g:90,  p:15}
 ]
 };
 
 /* ═══════════ 3 · Slots ═══════════ */
 
 const SLOTS = [
-  {k:"rahmen",     label:"Rahmen",        gew:3,   grp:"Rahmen",    anteil:.30},
+  {k:"rahmen",     label:"Rahmen",        gew:3,   grp:"Rahmen",    anteil:.28},
   {k:"gabel",      label:"Federgabel",    gew:3,   grp:"Fahrwerk",  anteil:.13},
   {k:"daempfer",   label:"Dämpfer",       gew:2,   grp:"Fahrwerk",  anteil:.06},
-  {k:"laufraeder", label:"Laufradsatz",   gew:2,   grp:"Laufräder", anteil:.13},
+  {k:"laufraeder", label:"Laufradsatz",   gew:2,   grp:"Laufräder", anteil:.125},
   {k:"reifenVR",   label:"Reifen vorn",   gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen"},
   {k:"reifenHR",   label:"Reifen hinten", gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen"},
   {k:"schalthebel",label:"Schalthebel",   gew:0.5, grp:"Antrieb",   anteil:.015},
@@ -1632,11 +1776,14 @@ const SLOTS = [
   {k:"kassette",   label:"Kassette",      gew:1,   grp:"Antrieb",   anteil:.035},
   {k:"kette",      label:"Kette",         gew:0.5, grp:"Antrieb",   anteil:.015},
   {k:"kurbel",     label:"Kurbel",        gew:1,   grp:"Antrieb",   anteil:.04},
+  {k:"innenlager", label:"Innenlager",    gew:0,   grp:"Antrieb",   anteil:.01},
   {k:"bremsen",    label:"Bremsen",       gew:2,   grp:"Bremsen",   anteil:.08},
   {k:"lenker",     label:"Lenker",        gew:1,   grp:"Cockpit",   anteil:.025},
   {k:"vorbau",     label:"Vorbau",        gew:1,   grp:"Cockpit",   anteil:.015},
-  {k:"stuetze",    label:"Sattelstütze",  gew:1,   grp:"Sitz",      anteil:.06},
-  {k:"sattel",     label:"Sattel",        gew:0.5, grp:"Sitz",      anteil:.02}
+  {k:"stuetze",    label:"Sattelstütze",  gew:1,   grp:"Sitz",      anteil:.05},
+  {k:"sattel",     label:"Sattel",        gew:0.5, grp:"Sitz",      anteil:.02},
+  {k:"pedale",     label:"Pedale",        gew:0.5, grp:"Kontakt",   anteil:.02},
+  {k:"griffe",     label:"Griffe",        gew:0.3, grp:"Kontakt",   anteil:.005}
 ];
 /* Ein Thema je Baugruppe, mit einem Satz dazu, was es am Rad entscheidet.
    Vorher lagen Rahmen, Gabel und Daempfer unter einer Ueberschrift -- drei
@@ -1646,10 +1793,11 @@ const GRUPPEN = [
   {n:"Fahrwerk",  t:"Federweg vorn und hinten. Muss zur Freigabe des Rahmens passen."},
   {n:"Laufräder", t:"Freilauf, Maulweite und Systemgewicht."},
   {n:"Reifen",    t:"Breite, Grip und Freiraum im Rahmen."},
-  {n:"Antrieb",   t:"Schaltung und Kurbel — Freilauftyp und Kettenlinie müssen stimmen."},
+  {n:"Antrieb",   t:"Schaltung, Kurbel und Innenlager — Freilauftyp, Kettenlinie und Tretlager müssen stimmen."},
   {n:"Bremsen",   t:"Kolbenzahl und Scheibengröße."},
   {n:"Cockpit",   t:"Lenker und Vorbau. Die Klemmung muss zueinander passen."},
-  {n:"Sitz",      t:"Sattelstütze und Sattel."}
+  {n:"Sitz",      t:"Sattelstütze und Sattel."},
+  {n:"Kontakt",   t:"Pedale und Griffe — die Stellen, an denen du das Rad spürst."}
 ];
 const quelleOf = s => s.quelle || s.k;
 const slotOf = k => SLOTS.find(x => x.k === k);
@@ -1664,7 +1812,28 @@ function rohTeil(q, id){
   if(!INDEX[q]){ INDEX[q] = new Map(); for(const t of katalog(q)) INDEX[q].set(t.id, t); }
   return INDEX[q].get(id) || null;
 }
-const slug = x => String(x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9.]+/g, "");
+/* "+" wird "plus": vorher ergaben "Select+" und "Select" denselben Kurznamen,
+   und die einfache Select-Ausfuehrung war nicht waehlbar. */
+const slug = x => String(x).toLowerCase().replace(/\+/g, "plus").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9.]+/g, "");
+const slugAlt = x => String(x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9.]+/g, "");
+/* Gespeicherte Aufbauten aus der Zeit davor: ein mehrdeutiger alter Kurzname
+   meinte immer die erste passende Ausfuehrung (also Select+). Laeuft einmal. */
+function kurznamenUmstellen(){
+  for(const m in builds) for(const k in builds[m]){
+    const id = builds[m][k], s = slotOf(k);
+    if(typeof id !== "string" || id.indexOf("|") < 0 || !s) continue;
+    const teile = id.split("|"), sl = teile[1].split("~");
+    const basis = K[quelleOf(s)] && K[quelleOf(s)].find(t => t.id === teile[0]);
+    if(!basis || !basis.v) continue;
+    let neu = false;
+    basis.v.forEach((d, i) => {
+      if(sl[i] == null) return;
+      const alt = d.o.filter(o => slugAlt(o.w) === sl[i]);
+      if(alt.length && slug(alt[0].w) !== sl[i]){ sl[i] = slug(alt[0].w); neu = true; }
+    });
+    if(neu) builds[m][k] = teile[0] + "|" + sl.join("~");
+  }
+}
 const VARIANTEN = new Map();
 function varianteNachIndex(basis, wahl){
   if(!basis || !basis.v) return basis;
@@ -1775,6 +1944,7 @@ function optionPasst(slotKey, d, o, b){
     case "Vorderachse": { const g = b.gabel ? findeTeil("gabel", b.gabel) : null; return g ? s.va === g.va : null; }
     case "Steuerrohr": return r ? s.schaft === r.schaft : null;
     case "Hub": return r && r.einsteck > 0 ? s.einbau <= r.einsteck : null;
+    case "Gehäuse": return r && r.bb ? s.gehaeuse.indexOf(r.bb) >= 0 : null;
     case "Klemmung": {
       const x = slotKey === "lenker" ? (b.vorbau ? findeTeil("vorbau", b.vorbau) : null)
                                      : (b.lenker ? findeTeil("lenker", b.lenker) : null);
@@ -1819,7 +1989,8 @@ function entfaellt(b, slotKey){
 const START = {
   rahmen:"f-stumpy", gabel:"g-pike", daempfer:"d-deluxe|ultimate~190x45m", laufraeder:"w-newmen|microspline",
   reifenVR:"t-kryptotal", reifenHR:"t-dhr2", schalthebel:"sh-xt", schaltwerk:"sw-xt", kassette:"ka-xt", kette:"ke-m8100", kurbel:"k-xt",
-  bremsen:"b-xt", lenker:"l-race", vorbau:"v-race", stuetze:"s-fox349", sattel:"sa-ergon"
+  bremsen:"b-xt", lenker:"l-race", vorbau:"v-race", stuetze:"s-fox349", sattel:"sa-ergon",
+  innenlager:"il-mt800", pedale:"pe-oneupa", griffe:"gr-ge1"
 };
 const PLAN_START = {budget:0, fahrer:0, mSchalt:"", mBrems:"", mFed:"", prio:"pl"};
 /* Was ein gebrauchtes Rad wert ist, haengt an vier Dingen: was neu drin steckt,
@@ -1866,7 +2037,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260923-1855';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260924-0002';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -1912,6 +2083,7 @@ function laden(){
       const alt = localStorage.getItem("mtb.markt");
       if(alt){ const q = JSON.parse(alt); if(q && typeof q.alter === "number") jahrWahl.markt = AKTUELL - Math.round(q.alter); }
     }
+    if(localStorage.getItem("mtb.slugv") !== "2"){ kurznamenUmstellen(); localStorage.setItem("mtb.slugv", "2"); }
     const eg = localStorage.getItem("mtb.eigene");
     if(eg){ const q = JSON.parse(eg); if(q && typeof q === "object" && !Array.isArray(q)) eigene = q; INDEX = {}; }
     const zg = localStorage.getItem("mtb.zu");
@@ -1984,7 +2156,8 @@ function pruefe(b){
   const rahmen = t.rahmen, gabel = t.gabel, daempfer = t.daempfer, laufraeder = t.laufraeder,
         reifenVR = t.reifenVR, reifenHR = t.reifenHR, kurbel = t.kurbel,
         schalthebel = t.schalthebel, schaltwerk = t.schaltwerk, kassette = t.kassette, kette = t.kette,
-        bremsen = t.bremsen, lenker = t.lenker, vorbau = t.vorbau, stuetze = t.stuetze;
+        bremsen = t.bremsen, lenker = t.lenker, vorbau = t.vorbau, stuetze = t.stuetze,
+        innenlager = t.innenlager;
 
   if(sel.length > 1){
     const mp = mixPaar(sel);
@@ -2073,7 +2246,9 @@ function pruefe(b){
       if(reifen.breite > maxBreite)
         out.push(F(`Reifen ${pos} zu breit`, slotKey, [slotKey, quelle],
           `<code>${reifen.breite} mm</code> auf <code>max. ${maxBreite} mm</code> Freiraum. Bei Einfederung und Schlamm schleift das — im Hinterbau bremst es dich schlagartig aus.`));
-      else if(maxBreite - reifen.breite < 3)
+      /* Trial-Rahmen und -Gabeln sind um den 2,5-Zoll-Trialreifen herum
+         gebaut -- knapp ist dort der Normalzustand, kein Befund. */
+      else if(maxBreite - reifen.breite < 3 && !(rahmen && rahmen.e && rahmen.e.trial >= 4 && reifen.e && reifen.e.trial >= 4))
         out.push(W(`Wenig Freiraum am Reifen ${pos}`, slotKey, [slotKey, quelle],
           `<code>${reifen.breite} mm</code> bei <code>${maxBreite} mm</code> Freigabe lassen ${maxBreite - reifen.breite} mm Luft. Trocken geht das, bei Matsch setzt es sich zu.`));
     }
@@ -2145,14 +2320,46 @@ function pruefe(b){
       `<code>${kurbel.kb} Zähne</code> bei einer Freigabe von <code>${schaltwerk.maxKB}</code>. Auf dem größten Ritzel wird die Kette knapp und das Schaltwerk steht auf Anschlag.`));
   if(rahmen && kurbel){
     const soll = sollKettenlinie(rahmen, schaltwerk);
-    if(soll != null && Math.abs(kurbel.kl - soll) > 1.5){
-      const lvl = Math.abs(kurbel.kl - soll) > 3 ? F : W;
+    /* Singlespeed (Dirt, Slope): das Ritzel sitzt auf Spacern und wird zur
+       Kurbel hin ausgerichtet -- zwei, drei Millimeter gleicht man dort aus,
+       ohne dass etwas schraeg laeuft. */
+    const ss = kassette && kassette.gaenge === 1;
+    const dKl = soll != null ? Math.abs(kurbel.kl - soll) : 0;
+    if(ss && dKl > 1 && dKl <= 3.5)
+      out.push(H("Ritzel mit Spacern ausrichten","kurbel",["rahmen","kurbel"],
+        `Die Kurbel liefert <code>${kurbel.kl} mm</code> Kettenlinie, der Hinterbau <code>${rahmen.ha}</code> steht für rund <code>${soll} mm</code>. Beim Singlespeed wird das Ritzel mit Spacern auf die Linie des Kettenblatts gesetzt — beim Einbau mit einem Lineal prüfen.`));
+    if(soll != null && dKl > (ss ? 3.5 : 1.5)){
+      const lvl = dKl > (ss ? 6 : 3) ? F : W;
       out.push(lvl("Kettenlinie stimmt nicht","kurbel",["rahmen","kurbel","schaltwerk"],
         `Der Hinterbau <code>${rahmen.ha}</code>${schaltwerk && schaltwerk.iface === "T-Type" ? " mit Transmission" : ""} verlangt <code>${soll} mm</code> Kettenlinie, die Kurbel liefert <code>${kurbel.kl} mm</code>. Die Kette läuft dauerhaft schräg: Rasseln, Abwurf, sichtbarer Verschleiß nach wenigen hundert Kilometern.`));
     }
-    const bbTxt = {BSA73:"BSA 73 mm (geschraubt)", BSA68:"BSA 68 mm (geschraubt)", PF92:"PressFit 92 mm (eingepresst)"}[rahmen.bb] || rahmen.bb;
-    out.push(H("Passendes Innenlager mitbestellen","kurbel",["rahmen","kurbel"],
-      `<code>${bbTxt}</code> trifft auf eine <code>${kurbel.iface}</code>-Welle. Passt zusammen, aber nur mit dem richtigen Lager — und das liegt bei den meisten Kurbeln nicht bei (25–90 €).`));
+    if(!innenlager){
+      const gibt = K.innenlager.some(il => il.welle === kurbel.iface &&
+        (il.v ? il.v[0].o.some(o => o.s.gehaeuse.indexOf(rahmen.bb) >= 0) : il.gehaeuse.indexOf(rahmen.bb) >= 0));
+      out.push(H("Passendes Innenlager mitbestellen","innenlager",["rahmen","kurbel"],
+        `<code>${bbName(rahmen.bb)}</code> trifft auf eine <code>${kurbel.iface}</code>-Welle. ${gibt
+          ? "Passt zusammen, aber nur mit dem richtigen Lager — und das liegt bei den meisten Kurbeln nicht bei (25–120 €). Im Slot Innenlager stehen die passenden."
+          : "Dafür steht kein Lager im Katalog — solche Kombinationen gehen meist nur mit einem Adapterlager. Beim Rahmen- oder Kurbelhersteller nachfragen, bevor du bestellst."}`));
+    }
+  }
+  /* Innenlager: sitzt es im Rahmen, und nimmt es die Welle der Kurbel auf? */
+  if(innenlager && rahmen && rahmen.bb && innenlager.gehaeuse.indexOf(rahmen.bb) < 0)
+    out.push(F("Innenlager passt nicht ins Tretlagergehäuse","innenlager",["rahmen","innenlager"],
+      `Der Rahmen hat <code>${bbName(rahmen.bb)}</code>, das Lager ist für <code>${innenlager.gehaeuse.map(bbName).join(" / ")}</code> gebaut. Geschraubte und eingepresste Lager lassen sich nicht gegeneinander tauschen, und die Gehäusebreite muss stimmen.`));
+  if(innenlager && kurbel && kurbel.iface !== innenlager.welle)
+    out.push(F("Kurbelwelle passt nicht ins Innenlager","innenlager",["kurbel","innenlager"],
+      `<code>${kurbel.n}</code> hat eine <code>${kurbel.iface}</code>-Welle, <code>${innenlager.n}</code> nimmt <code>${innenlager.welle}</code> auf. Die Welle geht entweder gar nicht durch oder sitzt mit Spiel.`));
+  else if(innenlager && kurbel && kurbel.iface === "DUB" && rahmen){
+    const wide = kurbel.kl >= 55;
+    if(wide && /^PF/.test(rahmen.bb) && !innenlager.breit)
+      out.push(W("DUB-Wide-Kurbel braucht das Wide-Lager","innenlager",["kurbel","innenlager"],
+        `<code>${kurbel.n}</code> ist eine DUB-Wide-Kurbel (55 mm Kettenlinie). SRAM sieht dafür im Pressfit-Rahmen das eigene <code>CL55 MTB Wide</code>-Lager vor, nicht das normale DUB-MTB-Lager.`));
+    else if(!wide && innenlager.breit)
+      out.push(W("Wide-Lager zu einer normalen DUB-Kurbel","innenlager",["kurbel","innenlager"],
+        `<code>${innenlager.n}</code> ist für DUB-Wide-Kurbeln mit 55 mm Kettenlinie gebaut. Zu <code>${kurbel.n}</code> (${kurbel.kl} mm) gehört das normale DUB-MTB-Lager.`));
+    else if(wide && /^BSA/.test(rahmen.bb))
+      out.push(H("Wide-Spacer fürs DUB-Lager","innenlager",["kurbel","innenlager"],
+        `Für die DUB-Wide-Kurbel im geschraubten Gehäuse bleibt das Lager dasselbe — SRAM liefert dafür ein eigenes Spacer-Kit (rund 5 €). Beim Einbau die Wide-Anordnung verwenden.`));
   }
   if(hat("trial") && sel.length === 1 && kassette && kassette.gaenge > 1)
     out.push(W("Kein Trial-Antrieb","kassette",["kassette"],
@@ -2236,7 +2443,7 @@ function bewerte(b){
     const teil = b[s.k] ? findeTeil(s.k, b[s.k]) : null;
     if(!teil) continue;
     teile++; gewicht += teil.g || 0; preis += preisVon(teil);
-    if(!teil.e) continue;
+    if(!teil.e || !s.gew) continue;                  /* Innenlager: zaehlt nicht zum Charakter */
     const eig = eignung(teil);
     sum += eig * s.gew; gew += s.gew;
     if(eig < schwachV){ schwachV = eig; schwach = {slot:s, teil:teil, eig:eig}; }
@@ -2366,7 +2573,10 @@ const MASSE = {
   lenker:     {hart:["klemm"], weich:{breite:["mm Breite",20], rise:["mm Rise",10]}},
   vorbau:     {hart:["klemm"], weich:{laenge:["mm Länge",10]}},
   stuetze:    {hart:["d","hub"], weich:{einbau:["mm Einstecktiefe",15]}},
-  sattel:     {hart:[], weich:{}}
+  sattel:     {hart:[], weich:{}},
+  innenlager: {hart:["welle"], weich:{}},
+  pedale:     {hart:["typ","sys"], weich:{}},
+  griffe:     {hart:["bef"], weich:{}}
 };
 
 /* Liefert null, wenn das Teil nicht als Ersatz taugt -- sonst die Liste der
@@ -2443,14 +2653,14 @@ function qualMap(slotKey){
   let gMin = Infinity, gMax = 0, pMin = Infinity, pMax = 0;
   for(const t of liste){
     gMin = Math.min(gMin, t.g||0); gMax = Math.max(gMax, t.g||0);
-    pMin = Math.min(pMin, t.p||0); pMax = Math.max(pMax, t.p||0);
+    pMin = Math.min(pMin, grundpreis(t)); pMax = Math.max(pMax, grundpreis(t));
   }
   const wunsch = markenWunsch(slotKey), m = {};
   for(const t of liste){
     let q = eignung(t) * 20;
     if(wunsch) q += (t.m === wunsch) ? 30 : -18;
     const gN = gMax > gMin ? (gMax - (t.g||0))/(gMax - gMin) : .5;
-    const pN = pMax > pMin ? (pMax - (t.p||0))/(pMax - pMin) : .5;
+    const pN = pMax > pMin ? (pMax - grundpreis(t))/(pMax - pMin) : .5;
     if(plan.prio === "leicht") q += gN * 22;
     if(plan.prio === "pl")     q += pN * 22;
     if(plan.prio === "robust") q += robustN(t, slotKey, gMin, gMax) * 22;
@@ -2460,8 +2670,8 @@ function qualMap(slotKey){
 }
 
 /* Reihenfolge nach Abhängigkeit: erst was andere Teile festlegt. */
-const BAUFOLGE = ["rahmen","daempfer","gabel","kassette","schaltwerk","schalthebel","kette","kurbel","laufraeder",
-                  "reifenVR","reifenHR","bremsen","lenker","vorbau","stuetze","sattel"];
+const BAUFOLGE = ["rahmen","daempfer","gabel","kassette","schaltwerk","schalthebel","kette","kurbel","innenlager","laufraeder",
+                  "reifenVR","reifenHR","bremsen","lenker","vorbau","stuetze","sattel","pedale","griffe"];
 
 function generiere(){
   const b = {};
@@ -2480,19 +2690,27 @@ function generiere(){
   for(const k of BAUFOLGE){
     if(entfaellt(b, k)) continue;
     const s = slotOf(k), ziel = budget * anteilVon(k);
-    const vorher = echteFehler(b);
+    const vorher = bilanz(b);
+    const rr = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
     let beste = null, besteS = -1e9, ersatz = null, ersatzS = -1e9;
     const liste = kandidaten(k, b);
     for(const t of liste){
+      /* Die Kassette kommt vor dem Schaltwerk. Eine T-Type-Kassette verlangt
+         aber Transmission und damit UDH -- ohne UDH am Rahmen bliebe danach
+         kein Schaltwerk, das passt. */
+      if(k === "kassette" && t.tType && !udhDa(rr)) continue;
       const probe = {...b}; probe[k] = t.id;
-      const neu = echteFehler(probe);
+      const neu = bilanz(probe);
       let score = quals[k][basisVon(t.id)];
-      if(ziel > 0 && t.p){
-        const q = t.p / ziel;
+      if(ziel > 0 && preisVon(t)){
+        const q = preisVon(t) / ziel;
         score += q > 1 ? -Math.min(50, (q-1)*60) : -Math.min(12, (1-q)*18);
       }
-      if(neu <= vorher){ if(score > besteS){ besteS = score; beste = t; } }
-      else if(score - (neu - vorher)*40 > ersatzS){ ersatzS = score - (neu - vorher)*40; ersatz = t; }
+      /* Warnungen sind kein Ausschluss, aber ein Abstrich: lieber das Teil, das
+         ohne Kompromiss passt. */
+      score -= Math.max(0, neu.w - vorher.w) * 14;
+      if(neu.f <= vorher.f){ if(score > besteS){ besteS = score; beste = t; } }
+      else if(score - (neu.f - vorher.f)*40 > ersatzS){ ersatzS = score - (neu.f - vorher.f)*40; ersatz = t; }
     }
     b[k] = (beste || ersatz || liste[0]).id;
     if(k === "rahmen") for(const s2 of SLOTS) if(entfaellt(b, s2.k)) b[s2.k] = null;
@@ -2502,6 +2720,18 @@ function generiere(){
   return b;
 }
 
+/* Was schon feststeht: Fehler und Warnungen, deren beteiligte Teile alle
+   gewaehlt sind. Hinweise zaehlen nicht. */
+function bilanz(b){
+  let f = 0, w = 0;
+  for(const x of pruefe(b)){
+    if(x.level === "hinweis") continue;
+    if(!x.slots.every(k => !SLOTS.some(s => s.k === k) || b[k] || entfaellt(b, k))) continue;
+    if(x.level === "fehler") f++; else w++;
+  }
+  return {f:f, w:w};
+}
+const udhDa = r => !!r && !!(r.udh || (r.udhAb && jahrAktiv() >= r.udhAb));
 const summe = b => { let p = 0; for(const s of SLOTS){ if(entfaellt(b,s.k)) continue;
   const t = b[s.k] ? findeTeil(s.k, b[s.k]) : null; if(t) p += preisVon(t); } return p; };
 
@@ -2509,18 +2739,19 @@ function budgetPass(b, budget, quals){
   let wache = 0;
   /* zu teuer: den Tausch nehmen, der pro gespartem Euro am wenigsten Qualität kostet */
   while(summe(b) > budget && wache++ < 80){
-    const basis = echteFehler(b);
+    const basis = bilanz(b);
     let best = null, bestKosten = Infinity;
     for(const s of SLOTS){
       if(entfaellt(b, s.k) || !b[s.k]) continue;
       const jetzt = findeTeil(s.k, b[s.k]);
       for(const t of kandidaten(s.k, b)){
-        if(basisVon(t.id) === basisVon(jetzt.id) || (t.p||0) >= (jetzt.p||0)) continue;
+        if(basisVon(t.id) === basisVon(jetzt.id) || preisVon(t) >= preisVon(jetzt)) continue;
         if(eignung(jetzt) - eignung(t) > 1.5) continue;   /* keine Disziplin verraten */
         const probe = {...b}; probe[s.k] = t.id;
-        if(echteFehler(probe) > basis) continue;
+        const nb = bilanz(probe);
+        if(nb.f > basis.f) continue;
         const spart = preisVon(jetzt) - preisVon(t);
-        const kosten = (quals[s.k][basisVon(jetzt.id)] - quals[s.k][basisVon(t.id)]) / spart;
+        const kosten = (quals[s.k][basisVon(jetzt.id)] - quals[s.k][basisVon(t.id)] + Math.max(0, nb.w - basis.w) * 14) / spart;
         if(kosten < bestKosten){ bestKosten = kosten; best = {k:s.k, id:t.id}; }
       }
     }
@@ -2530,7 +2761,7 @@ function budgetPass(b, budget, quals){
   /* Luft übrig: den Tausch nehmen, der pro Euro am meisten bringt */
   wache = 0;
   while(summe(b) < budget * 0.93 && wache++ < 80){
-    const basis = echteFehler(b), rest = budget - summe(b);
+    const basis = bilanz(b), rest = budget - summe(b);
     let best = null, bestNutzen = 0;
     for(const s of SLOTS){
       if(entfaellt(b, s.k) || !b[s.k]) continue;
@@ -2540,7 +2771,8 @@ function budgetPass(b, budget, quals){
         const mehr = preisVon(t) - preisVon(jetzt);
         if(mehr <= 0 || mehr > rest) continue;
         const probe = {...b}; probe[s.k] = t.id;
-        if(echteFehler(probe) > basis) continue;
+        const nb = bilanz(probe);
+        if(nb.f > basis.f || nb.w > basis.w) continue;
         const gewinn = quals[s.k][basisVon(t.id)] - quals[s.k][basisVon(jetzt.id)];
         if(gewinn <= 0) continue;
         const nutzen = gewinn / mehr;
@@ -2563,7 +2795,7 @@ function budgetPass(b, budget, quals){
    laesst die Shopsuche ins Leere laufen. Fuer die Suche bleibt der Teil davor. */
 function suchName(teil){
   let n = String(teil.n).split(" · ")[0].trim();
-  n = n.replace(/\s*\((?:Mullet|Hardtail[^)]*|Dirt|Doppelbr[^)]*)\)\s*/gi, " ");
+  n = n.replace(/\s*\([^)]*\)\s*/g, " ").split(" / ")[0];   /* "Eagle 70 / S1000": der erste Name reicht */
   return n.replace(/\s+/g, " ").trim();
 }
 function shopLink(shop, teil){
@@ -2583,12 +2815,12 @@ const shopsAn = () => SHOPS.filter(sh => aff.an[sh.id]);
 
 function affHtml(teil, kompakt){
   const liste = shopsAn();
-  const fe = feedEintrag(teil);
+  const fe = angebote(teil).find(a => a.l);
   /* Der Feed liefert den fertigen Deeplink auf das Produkt selbst. Der ist
      jeder Suchseite ueberlegen: er landet direkt auf dem Artikel und traegt
      die Provisionskennung bereits. */
-  const direkt = fe && fe.url
-    ? `<a class="shop bez" href="${esc(fe.url)}" target="_blank" rel="sponsored nofollow noopener"><span class="pkt"></span>Zum Produkt</a>`
+  const direkt = fe
+    ? `<a class="shop bez" href="${esc(fe.l)}" target="_blank" rel="sponsored nofollow noopener"><span class="pkt"></span>${esc(fe.s === "Dein Feed" ? "Zum Produkt" : fe.s)}</a>`
     : "";
   if(!liste.length) return direkt ? `<span class="shops"><span class="werbung">Anzeige</span>${direkt}</span>` : "";
   const bezahlt = liste.some(shopVerdient);
@@ -2606,14 +2838,98 @@ function affHtml(teil, kompakt){
   </span>`;
 }
 
-/* ═══════════ Produktfeed ═══════════
-   Der Feed kommt als CSV aus dem Partnerkonto. Er ist zu gross fuer den
-   Geraetespeicher -- bike-components allein liefert sechsstellig viele Zeilen.
-   Deshalb wird die Datei in Stuecken gelesen, jede Zeile sofort gegen unsere
-   rund neunzig Teilenamen geprueft und nur der beste Treffer behalten.
-   Am Ende stehen neunzig Eintraege im Speicher, nicht hunderttausend. */
+/* ═══════════ Live-Preise ═══════════
+   preise.json schreibt eine GitHub Action alle sechs Stunden aus den
+   Produktfeeds der Partnershops (tools/preise.py): je Teil die Angebote mit
+   Preis, UVP, Versand, Lager und Direktlink. preisverlauf.json haelt je Tag
+   den guenstigsten Preis. Beides liegt neben der App -- die Feed-Adressen mit
+   dem persoenlichen Schluessel stehen nur im Secret des Repos, nie hier. */
+let live = {stand:"", shops:[], teile:{}};
+let verlauf = {};
+const ANGEBOTE = new Map();                   /* je Teil-Id, geleert bei neuen Preisen */
+const preiseNeu = () => ANGEBOTE.clear();
+let liveZeit = 0;
+function liveLaden(){
+  liveZeit = Date.now();
+  const holen = u => fetch(u, {cache:"no-cache"}).then(r => r.ok ? r.json() : null).catch(() => null);
+  Promise.all([holen("preise.json"), holen("preisverlauf.json")]).then(([p, v]) => {
+    if(v && typeof v === "object" && !Array.isArray(v)) verlauf = v;
+    if(!p || !p.teile || typeof p.teile !== "object" || Array.isArray(p.teile)) return;
+    live = {stand:String(p.stand || ""), shops:Array.isArray(p.shops) ? p.shops : [], teile:p.teile};
+    preiseNeu();
+    zeichne();
+  });
+}
+const hatLive = () => Object.keys(live.teile).length > 0 || Object.keys(feed.treffer || {}).length > 0;
 
-const feedEintrag = teil => feed.treffer[teil.basisId || teil.id] || null;
+/* Welche Ausfuehrung ein Angebot meint, steht in seinem Namen: "Super Deluxe
+   Select+" ist nicht der Ultimate. Nur Wahlen mit echtem Preisunterschied
+   zaehlen -- Federweg oder Einbaumass aendern den Preis nicht, und Shops
+   fuehren sie oft unter einem Artikel. Nennt der Name keine Ausfuehrung, gilt
+   die Vorgabe des Eintrags. */
+const optNorm = x => " " + normal(String(x).replace(/\+/g, " plus ")) + " ";
+function angebotPasst(name, t){
+  if(!t.v || !t.wahl) return true;
+  const n = optNorm(name);
+  return t.v.every((d, i) => {
+    if(!d.o.some(o => Math.abs(o.p) >= 20)) return true;
+    let nr = -1, len = 0;
+    d.o.forEach((o, j) => { const w = optNorm(o.w); if(n.indexOf(w) >= 0 && w.length > len){ nr = j; len = w.length; } });
+    return (nr < 0 ? d.d : nr) === t.wahl[i];
+  });
+}
+/* Alle Angebote fuer genau diese Ausfuehrung, je Shop das guenstigste.
+   Lieferbares zuerst, dann nach Preis. */
+function angebote(t){
+  if(!t) return [];
+  const hit = ANGEBOTE.get(t.id);
+  if(hit) return hit;
+  const id = t.basisId || t.id, roh = [];
+  const l = live.teile[id];
+  /* Die Daten stammen aus fremden Feeds: Links und Bilder nur ueber https,
+     alles andere wird leer -- auch wenn preise.py das schon so filtert. */
+  const https = x => (typeof x === "string" && /^https:\/\//i.test(x)) ? x : "";
+  if(Array.isArray(l)) for(const a of l)
+    if(a && a.p > 0 && a.s && angebotPasst(a.n || "", t))
+      roh.push({s:String(a.s), p:+a.p, u:+a.u || null, v:(a.v == null ? null : +a.v), l:https(a.l), b:https(a.b),
+                n:String(a.n || ""), a:(a.a === 0 || a.a === 1) ? a.a : null});
+  const fe = (feed.treffer || {})[id];
+  if(fe && fe.preis > 0 && angebotPasst(fe.name || "", t))
+    roh.push({s:"Dein Feed", p:+fe.preis, u:+fe.uvp || null, v:null, l:https(fe.url), b:https(fe.bild), n:String(fe.name || ""), a:null});
+  const jeShop = {};
+  for(const a of roh){
+    const alt = jeShop[a.s];
+    if(!alt || (alt.a === 0 && a.a !== 0) || ((alt.a === 0) === (a.a === 0) && a.p < alt.p)) jeShop[a.s] = a;
+  }
+  const out = Object.keys(jeShop).map(k => jeShop[k])
+    .sort((x, y) => (x.a === 0 ? 1 : 0) - (y.a === 0 ? 1 : 0) || x.p - y.p);
+  ANGEBOTE.set(t.id, out);
+  return out;
+}
+/* Gerechnet wird nur mit Lieferbarem -- ein Preis, zu dem man nicht kaufen
+   kann, ist keiner. Ausverkaufte Angebote stehen trotzdem in der Liste. */
+const bestesAngebot = t => angebote(t).find(a => a.a !== 0) || null;
+/* Rabatt nur gegen die UVP, die der Shop im Feed mitliefert -- nie gegen
+   unseren Katalogrichtpreis. Unter 5 Prozent ist es kein Angebot. */
+const rabatt = a => (a && a.u > a.p) ? Math.round((1 - a.p / a.u) * 100) : 0;
+const tagVor = n => new Date(Date.now() - n * 864e5).toISOString().slice(0, 10);
+/* 30-Tage-Tief: mindestens eine Woche Verlauf, der Preis war in den 30 Tagen
+   davor schon hoeher, und kein Tag davor war guenstiger. Der Verlauf gilt je
+   Modell ueber alle Ausfuehrungen -- deshalb ist die Aussage nur vorsichtiger,
+   nie falsch: was unter dem Modelltief liegt, liegt auch unter dem eigenen. */
+function tief30(t, a){
+  const r = verlauf[t.basisId || t.id];
+  if(!a || !Array.isArray(r)) return false;
+  const von = tagVor(30), heute = tagVor(0);
+  const alt = r.filter(x => Array.isArray(x) && x[0] >= von && x[0] < heute).map(x => +x[1]).filter(x => x > 0);
+  return alt.length >= 7 && a.p <= Math.min.apply(null, alt) && a.p < Math.max.apply(null, alt);
+}
+const liveStand = () => {
+  const d = live.stand ? new Date(live.stand) : feed.stand ? new Date(feed.stand) : null;
+  return d && !isNaN(d) ? d.toLocaleString("de-DE", {day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit"}) + " Uhr" : "";
+};
+const shopZahl = () => live.shops.filter(s => s && s.treffer > 0).length;
+
 /* Ein Rahmen aus einem aelteren Modelljahr kostet weniger: das Vorjahresmodell
    im Abverkauf rund 15 Prozent, ab zwei Jahren ist er praktisch nur noch
    gebraucht zu haben und folgt der Restwertkurve. Im Angebotsmodus bleibt der
@@ -2626,49 +2942,135 @@ function jahrFaktor(teil){
   if(alter === 1) return 0.85;
   return restwertFaktor(alter);
 }
-const grundpreis = teil => { const f = feedEintrag(teil); return (f && f.preis != null) ? f.preis : (teil.p || 0); };
-const preisVon = teil => Math.round(grundpreis(teil) * jahrFaktor(teil));
+/* Mit Live-Preis rechnet der ganze Aufbau mit dem guenstigsten lieferbaren
+   Angebot, sonst mit dem Richtpreis aus dem Katalog. */
+const grundpreis = teil => { const a = bestesAngebot(teil); return a ? a.p : (teil.p || 0); };
+const preisVon = teil => { const g = grundpreis(teil), f = jahrFaktor(teil); return f === 1 ? g : Math.round(g * f); };
+
+/* Preisangaben fuer Liste und Detail. Rabatt nur, wenn der Preis der
+   Ladenpreis ist -- beim Vorjahresrahmen steht dort ein Schaetzwert. */
+function preisZusatz(t){
+  const a = bestesAngebot(t);
+  if(!a && angebote(t).length) return `<span class="opt-g">bei ${angebote(t).length === 1 ? esc(angebote(t)[0].s) : angebote(t).length + " Shops"} nicht lieferbar</span>`;
+  if(!a || jahrFaktor(t) !== 1) return "";
+  const r = rabatt(a), n = angebote(t).length;
+  return (r >= 5 ? `<span class="sale" title="gegenüber der UVP laut Shop">Sale −${r} %</span>` : "")
+       + (tief30(t, a) ? `<span class="tief" title="Günstigster Preis der letzten 30 Tage">30-Tage-Tief</span>` : "")
+       + (r >= 5 ? `<span class="opt-g">UVP <s>${eurG(a.u)}</s></span>` : "")
+       + `<span class="opt-g">${n > 1 ? n + " Shops" : esc(a.s)}</span>`;
+}
 
 function normal(x){
   return String(x).toLowerCase()
     .replace(/[×x]\s?(\d)/g, " $1").replace(/[^a-z0-9äöüß]+/g, " ").replace(/\s+/g, " ").trim();
 }
-function alleTeile(){
-  const out = [];
-  for(const k in K) for(const t of K[k]) out.push(t);
-  return out;
-}
 /* Zerlegt eine CSV-Zeile und achtet dabei auf Anfuehrungszeichen -- Produktnamen
-   enthalten regelmaessig Kommas und Semikolons. */
+   enthalten regelmaessig Kommas und Semikolons. Ein Anfuehrungszeichen oeffnet
+   nur am Feldanfang; mitten im Feld ist es ein Zoll-Zeichen ("29\"") und bleibt
+   stehen, wie beim csv-Modul in Python. Endet die Zeile in einem offenen Feld,
+   geht der Datensatz in der naechsten Zeile weiter (out.offen). */
 function csvZeile(z, tr){
-  const out = []; let f = "", inQ = false;
+  const out = []; let f = "", inQ = false, anfang = true;
   for(let i = 0; i < z.length; i++){
     const c = z[i];
-    if(c === '"'){ if(inQ && z[i+1] === '"'){ f += '"'; i++; } else inQ = !inQ; }
-    else if(c === tr && !inQ){ out.push(f); f = ""; }
-    else f += c;
+    if(inQ){
+      if(c === '"'){ if(z[i+1] === '"'){ f += '"'; i++; } else inQ = false; }
+      else f += c;
+    }
+    else if(c === '"' && anfang){ inQ = true; anfang = false; }
+    else if(c === tr){ out.push(f); f = ""; anfang = true; }
+    else { f += c; anfang = false; }
   }
   out.push(f);
+  out.offen = inQ;
   return out;
 }
 const SPALTEN = {
   name:  ["product_name","merchant_product_name","productname","name","title"],
   bild:  ["merchant_image_url","aw_image_url","image_url","large_image","merchant_thumb_url"],
   preis: ["search_price","display_price","price","store_price","aw_price"],
-  link:  ["aw_deep_link","merchant_deep_link","deep_link","aw_product_link","product_url"]
+  uvp:   ["rrp_price","rrp","price_old","old_price","was_price","base_price_amount"],
+  link:  ["aw_deep_link","deep_link","aw_product_link","merchant_deep_link","product_url"],
+  kat:   ["merchant_category","category_name","product_type","category","merchant_product_category_path"]
 };
 function spalteFinden(kopf, kandidaten){
   for(const k of kandidaten){ const i = kopf.indexOf(k); if(i >= 0) return i; }
   return -1;
 }
+const zahl = x => {
+  let s = String(x == null ? "" : x).replace(/EUR|€/g, "").trim();
+  if(!s) return NaN;
+  s = (s.indexOf(",") >= 0 && s.indexOf(".") >= 0) ? s.replace(/\./g, "").replace(",", ".") : s.replace(",", ".");
+  const v = parseFloat(s);
+  return v > 0 ? v : NaN;
+};
 
+/* Zuordnung einer Feedzeile zu einem Katalogteil -- dieselben Regeln wie in
+   tools/preise.py, damit Hand-Import und Live-Preise dasselbe finden:
+   alle langen Namensteile muessen drinstehen, kurze Kennungen ("XT", "Fox 36")
+   als ganzes Wort, Bandbreiten ("10-45") exakt; Zubehoer und Ersatzteile
+   fliegen raus, die Teileart muss im Namen oder in der Shop-Kategorie stehen,
+   und bei mehreren Treffern gewinnt der spezifischste Katalogname. */
+const FREMD = ["decal","sticker","aufkleber","service","dichtung","ersatz","spare","schraube","bolt",
+  "buchse","bushing","werkzeug","abdeckung","protector","schutzfolie","fender","kappe","gebraucht","b ware","gutschein"];
+const ART = {
+  rahmen:["rahmen","frame","chassis"], gabel:["gabel","fork"], daempfer:["dämpfer","daempfer","shock","federbein"],
+  laufraeder:["laufrad","wheel"], schalthebel:["schalthebel","trigger","shifter","pod","controller","schaltgriff"],
+  schaltwerk:["schaltwerk","derailleur"], kassette:["kassette","cassette"], kette:["kette","chain"],
+  kurbel:["kurbel","crank"], bremsen:["bremse","brake"], vorbau:["vorbau","stem"],
+  stuetze:["stütze","stuetze","seatpost","dropper","post"], sattel:["sattel","saddle"],
+  innenlager:["innenlager","tretlager","bottom bracket"], pedale:["pedal"], griffe:["griff","grip"]
+};
+function feedZiele(){
+  const out = [];
+  for(const k in K) for(const t of K[k]){
+    if(t.m === "Generisch" || t.m === "Trial") continue;
+    const name = suchName(t), wo = normal(name).split(" ");
+    const w = wo.filter(x => x.length >= 3);
+    if(!w.length) continue;
+    const sp = [], belegt = [];
+    name.replace(/(^|[^\d.])(\d{1,2})\s*[-–]\s*(\d{2})(?!\d)/g, (m, v, a, b, off) => {
+      sp.push(" " + a + " " + b + " "); belegt.push([off + v.length, off + m.length]); return m; });
+    const kz = wo.filter(x => x.length <= 2 && /^[a-zäöüß]+$/.test(x));
+    name.replace(/(^|[^\w.,])(\d{1,2})(?![\w.,])/g, (m, v, z, off) => {
+      const i = off + v.length;
+      if(!belegt.some(([a, b]) => i >= a && i < b)) kz.push(z);
+      return m; });
+    const nn = normal(name);
+    out.push({id:t.id, w:w, k:kz, sp:sp, p:t.p || 0, art:ART[k] || null,
+              erlaubt:FREMD.filter(f => nn.indexOf(f) >= 0), menge:new Set(w.concat(kz, sp))});
+  }
+  return out;
+}
+function zeileZiele(nachMarke, nm, kat, preis){
+  const n = normal(nm), wort = " " + n + " ", kn = normal(kat || "");
+  const passend = [];
+  for(const erst in nachMarke){
+    if(n.indexOf(erst) < 0) continue;
+    for(const z of nachMarke[erst]){
+      if(!z.w.every(w => n.indexOf(w) >= 0)) continue;
+      if(!z.k.every(k => wort.indexOf(" " + k + " ") >= 0)) continue;
+      if(!z.sp.every(s => wort.indexOf(s) >= 0)) continue;
+      if(FREMD.some(f => z.erlaubt.indexOf(f) < 0 && n.indexOf(f) >= 0)) continue;
+      if(z.art && !z.art.some(a => n.indexOf(a) >= 0 || kn.indexOf(a) >= 0)) continue;
+      passend.push(z);
+    }
+  }
+  const teilmenge = (a, b) => a.size < b.size && [...a].every(x => b.has(x));
+  return passend.filter(z => !passend.some(z2 => teilmenge(z.menge, z2.menge)))
+                .filter(z => !z.p || (preis >= 0.3 * z.p && preis <= 1.8 * z.p));
+}
+
+/* ═══════════ Produktfeed von Hand ═══════════
+   Wer selbst einen Feed aus dem Partnerkonto hat, kann ihn hier laden. Er ist
+   zu gross fuer den Geraetespeicher -- bike-components allein liefert
+   sechsstellig viele Zeilen. Deshalb wird die Datei in Stuecken gelesen, jede
+   Zeile sofort zugeordnet und nur der beste Treffer je Teil behalten. */
 function feedEinlesen(datei, fertig){
-  const ziele = alleTeile().map(t => {
-    const w = normal(suchName(t)).split(" ").filter(x => x.length >= 3);
-    return {id:t.id, w:w, name:suchName(t)};
-  }).filter(z => z.w.length);
+  const ziele = feedZiele(), nachMarke = {};
+  for(const z of ziele) (nachMarke[z.w[0]] = nachMarke[z.w[0]] || []).push(z);
   const beste = {};
-  let rest = "", kopf = null, tr = ",", iN = -1, iB = -1, iP = -1, iL = -1, zeilen = 0, pos = 0;
+  let rest = "", haengt = "", kopf = null, tr = ",", iN = -1, iB = -1, iP = -1, iL = -1, iU = -1, iK = -1, zeilen = 0, pos = 0;
   const STUECK = 4 * 1024 * 1024;
   const balken = document.getElementById("feed-balken");
 
@@ -2688,46 +3090,45 @@ function feedEinlesen(datei, fertig){
     leser.readAsText(datei.slice(pos, pos + STUECK));
   }
   function verarbeite(z){
+    if(haengt){ z = haengt + "\n" + z; haengt = ""; }
     if(!z) return;
     if(!kopf){
-      tr = (z.split("\t").length > z.split(",").length) ? "\t"
-         : (z.split(";").length > z.split(",").length) ? ";" : ",";
-      kopf = csvZeile(z, tr).map(x => x.replace(/^\ufeff/, "").trim().toLowerCase());
+      const zaehl = c => z.split(c).length;
+      tr = [",", ";", "\t", "|"].reduce((a, c) => zaehl(c) > zaehl(a) ? c : a, ",");
+      kopf = csvZeile(z, tr).map(x => x.replace(/^﻿/, "").trim().toLowerCase());
       iN = spalteFinden(kopf, SPALTEN.name); iB = spalteFinden(kopf, SPALTEN.bild);
       iP = spalteFinden(kopf, SPALTEN.preis); iL = spalteFinden(kopf, SPALTEN.link);
+      iU = spalteFinden(kopf, SPALTEN.uvp); iK = spalteFinden(kopf, SPALTEN.kat);
       return;
     }
-    zeilen++;
     const f = csvZeile(z, tr);
-    const nm = iN >= 0 ? f[iN] : "";
-    if(!nm) return;
-    const n = normal(nm);
-    for(const zi of ziele){
-      let passt = true;
-      for(const w of zi.w) if(n.indexOf(w) < 0){ passt = false; break; }
-      if(!passt) continue;
+    if(f.offen){ if(z.length < 200000) haengt = z; return; }   /* Zeilenumbruch in einem Feld */
+    zeilen++;
+    const nm = iN >= 0 ? (f[iN] || "").trim() : "";
+    const preis = iP >= 0 ? zahl(f[iP]) : NaN;
+    if(!nm || isNaN(preis)) return;
+    for(const zi of zeileZiele(nachMarke, nm, iK >= 0 ? f[iK] : "", preis)){
       /* Bei mehreren Treffern den kuerzesten Namen nehmen: das ist meist das
          Produkt selbst und nicht ein Set oder Zubehoer dazu. */
       const alt = beste[zi.id];
-      if(alt && alt.len <= nm.length) continue;
-      beste[zi.id] = {
-        len: nm.length, name: nm,
-        bild: iB >= 0 ? (f[iB]||"").trim() : "",
-        preis: iP >= 0 ? parseFloat(String(f[iP]).replace(",", ".")) : NaN,
-        url: iL >= 0 ? (f[iL]||"").trim() : ""
-      };
+      if(alt && (alt.name.length < nm.length || (alt.name.length === nm.length && alt.preis <= preis))) continue;
+      const uvp = iU >= 0 ? zahl(f[iU]) : NaN;
+      beste[zi.id] = {name:nm, preis:preis, uvp:(uvp > preis) ? uvp : null,
+        bild: iB >= 0 ? (f[iB]||"").trim() : "", url: iL >= 0 ? (f[iL]||"").trim() : ""};
     }
   }
   function abschluss(){
     if(rest) verarbeite(rest);
+    if(haengt){ const h = haengt; haengt = ""; verarbeite(h + '"'); }
     const treffer = {};
     for(const id in beste){
       const b = beste[id];
-      if(!/^https:\/\//i.test(b.bild || "")) b.bild = "";      /* nur sichere Bildquellen */
-      if(!/^https?:\/\//i.test(b.url || "")) b.url = "";
-      treffer[id] = {bild:b.bild, preis:isNaN(b.preis)?null:b.preis, url:b.url, name:b.name};
+      if(!/^https:\/\//i.test(b.bild || "")) b.bild = "";      /* nur sichere Quellen */
+      if(!/^https:\/\//i.test(b.url || "")) b.url = "";
+      treffer[id] = {bild:b.bild, preis:Math.round(b.preis * 100) / 100, uvp:b.uvp, url:b.url, name:b.name.slice(0, 140)};
     }
     feed = {treffer:treffer, stand:Date.now(), quelle:datei.name, zeilen:zeilen};
+    preiseNeu();
     sichern();
     fertig({anzahl:Object.keys(treffer).length, zeilen:zeilen, spalten:{name:iN>=0, bild:iB>=0, preis:iP>=0, link:iL>=0}});
   }
@@ -2807,32 +3208,85 @@ function eigenLoeschen(slotKey, id){
 function oeffneDetail(slotKey, teilId){
   const t = findeTeil(slotKey, teilId);
   if(!t) return;
-  const fe = feedEintrag(t);
   const specs = specsVon(slotKey, t);
+  const lst = angebote(t), a = bestesAngebot(t) || lst[0] || null, lieferbar = !!bestesAngebot(t);
+  const bild = (lst.find(x => x.b) || {}).b || "";
+  const jf = jahrFaktor(t) !== 1;
+  const r = lieferbar ? rabatt(a) : 0;
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${slotOf(slotKey).label}</span>${esc(t.n)}</h3>${zuBtn}</div>
     <div class="sheet-b">
-      ${fe && fe.bild
-        ? `<img class="feed-gross" src="${esc(fe.bild)}" alt="${esc(t.n)}" loading="lazy">
-           <p class="hint" style="margin:8px 0 12px">Produktbild aus deinem Partner-Feed${fe.preis != null
-             ? ` · <span class="livepreis">${eur(fe.preis)}</span> beim Shop` : ""}.</p>`
-        : `<p class="hint" style="margin:0 0 12px">Kein Produktbild — dieses Teil steckt noch nicht in
-           deinem Produktfeed. Über die Shoplinks unten siehst du es beim Händler.</p>`}
+      ${bild ? `<img class="feed-gross" src="${esc(bild)}" alt="${esc(t.n)}" loading="lazy" onerror="this.remove()">
+           <p class="hint" style="margin:8px 0 12px">Produktbild aus dem Shop-Feed.</p>` : ""}
+      ${a ? `<div class="pv">
+        <div class="pv-kopf">
+          <span class="pv-p${lieferbar ? "" : " aus"}">${lieferbar && lst.filter(x => x.a !== 0).length > 1 ? "<small>ab</small> " : ""}${eurG(a.p)}</span>
+          ${lieferbar ? "" : `<span class="pv-uvp">Gerade nirgends lieferbar — die App rechnet mit dem Richtpreis ${eur(preisVon(t))}.</span>`}
+          ${r >= 5 ? `<span class="sale">Sale −${r} %</span>` : ""}${lieferbar && tief30(t, a) ? `<span class="tief">30-Tage-Tief</span>` : ""}
+          ${r >= 5 ? `<span class="pv-uvp">statt UVP <s>${eurG(a.u)}</s></span>` : ""}
+          ${jf ? `<span class="pv-uvp">Ladenpreis. Für Modelljahr ${jahrAktiv()} rechnet die App mit ${eur(preisVon(t))}.</span>` : ""}
+        </div>
+        <div class="pv-liste">${lst.map(x => angebotZeile(x)).join("")}</div>
+        ${verlaufSvg(t)}
+        <p class="pv-recht">${liveStand() ? "Stand " + liveStand() + " · " : ""}Preise inkl. MwSt., zzgl. Versand, wenn nicht anders
+          angegeben. Preis und Verfügbarkeit können sich seither geändert haben — es gilt der Preis im Shop.
+          „UVP“ ist die unverbindliche Preisempfehlung des Herstellers, wie der Shop sie angibt.
+          ${t.v && t.v.some(d => d.o.some(o => Math.abs(o.p) >= 20)) ? "Die Angebote gelten für die gewählte Ausführung, soweit der Shop sie im Artikelnamen nennt — im Shop gegenprüfen." : ""}
+          <span class="werbung">Anzeige</span> Kaufst du über einen Shop-Link, bekommt Dreambuild eine Provision; dein Preis ändert sich nicht.</p>
+      </div>` : `<p class="hint" style="margin:0 0 12px">${hatLive()
+          ? "Für dieses Teil hat gerade kein Partnershop ein Angebot. Der Preis unten ist der Richtpreis aus dem Katalog."
+          : "Noch keine Live-Preise geladen. Der Preis unten ist der Richtpreis aus dem Katalog (UVP-Niveau)."}</p>`}
       <dl style="margin:0 0 4px">
         <div class="dspec"><dt>Daten</dt><dd>
           <span class="specs" style="margin-top:0">${specs.map(c => `<span class="chip">${esc(c)}</span>`).join("")}</span>
         </dd></div>
         <div class="dspec"><dt>Gewicht</dt><dd>${t.g} g</dd></div>
-        <div class="dspec"><dt>${fe && fe.preis != null ? "Preis" : "Richtpreis"}</dt>
-          <dd${fe && fe.preis != null ? ' class="livepreis"' : ""}>${eur(preisVon(t))}</dd></div>
+        ${a ? "" : `<div class="dspec"><dt>Richtpreis</dt><dd>${eur(preisVon(t))}</dd></div>`}
         ${t.m ? `<div class="dspec"><dt>Marke</dt><dd>${esc(t.m)}</dd></div>` : ""}
       </dl>
-      <p class="hint" style="margin:10px 0 0">Beim Shop ansehen:</p>
+      <p class="hint" style="margin:10px 0 0">In den Shops suchen:</p>
       ${affHtml(t)}
       ${build[slotKey] === t.id ? "" :
         `<div style="margin-top:12px"><button class="btn wide" data-einbau="${slotKey}|${t.id}">Einbauen</button></div>`}
       ${t.eigen ? `<div style="margin-top:10px"><button class="btn ghost wide" data-eigenweg="${slotKey}|${t.id}">Eigenes Teil löschen</button></div>` : ""}
     </div>`);
+}
+const eurG = n => n.toLocaleString("de-DE", {minimumFractionDigits:n % 1 ? 2 : 0, maximumFractionDigits:2}) + " €";
+function angebotZeile(a){
+  const r = rabatt(a);
+  const vs = a.v === 0 ? "versandkostenfrei" : a.v > 0 ? "+ " + eurG(a.v) + " Versand" : "zzgl. Versand";
+  return `<div class="angebot">
+    <div class="an-l"><b>${esc(a.s)}</b>${a.n ? `<span class="an-n">${esc(a.n)}</span>` : ""}
+      <span class="an-m">${a.a === 0 ? '<span class="aus">nicht lieferbar</span> · ' : a.a === 1 ? "lieferbar · " : ""}${vs}</span></div>
+    <div class="an-r"><span class="an-p">${eurG(a.p)}</span>
+      ${r >= 5 ? `<span class="sale">−${r} %</span>` : ""}${a.u > a.p ? `<span class="opt-g">UVP <s>${eurG(a.u)}</s></span>` : ""}
+      ${a.l ? `<a class="shop bez" href="${esc(a.l)}" target="_blank" rel="sponsored nofollow noopener"><span class="pkt"></span>Zum Shop</a>` : ""}</div>
+  </div>`;
+}
+/* Preisverlauf der letzten 90 Tage: guenstigstes Angebot je Tag. Eine Linie,
+   Tief und Hoch beschriftet -- genug, um zu sehen, ob gerade ein guter Moment ist. */
+function verlaufSvg(t){
+  const r = (verlauf[t.basisId || t.id] || []).filter(x => Array.isArray(x) && x[0] >= tagVor(90) && +x[1] > 0);
+  if(r.length < 2) return "";
+  const W = 300, H = 86, pl = 4, pr = 4, pt = 14, pb = 28;
+  const t0 = Date.parse(r[0][0]), t1 = Date.parse(r[r.length - 1][0]) || t0 + 1;
+  const ps = r.map(x => +x[1]), lo = Math.min.apply(null, ps), hi = Math.max.apply(null, ps);
+  const X = d => pl + (W - pl - pr) * ((Date.parse(d) - t0) / Math.max(1, t1 - t0));
+  const Y = v => hi === lo ? (pt + H - pb) / 2 : pt + (H - pt - pb) * (1 - (v - lo) / (hi - lo));
+  const pts = r.map(x => X(x[0]).toFixed(1) + "," + Y(+x[1]).toFixed(1)).join(" ");
+  const iLo = ps.indexOf(lo), iHi = ps.indexOf(hi);
+  const tag = d => d.slice(8, 10) + "." + d.slice(5, 7) + ".";
+  const anker = x => x < W * 0.2 ? "start" : x > W * 0.8 ? "end" : "middle";
+  return `<figure class="pv-verlauf">
+    <figcaption>Preisverlauf · günstigstes Angebot je Tag${t.v && t.v.some(d => d.o.some(o => Math.abs(o.p) >= 20)) ? ", alle Ausführungen" : ""}</figcaption>
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Preisverlauf von ${esc(eurG(ps[0]))} bis ${esc(eurG(ps[ps.length - 1]))}">
+      <polyline points="${pts}" fill="none" stroke="var(--anod)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="${X(r[r.length - 1][0]).toFixed(1)}" cy="${Y(ps[ps.length - 1]).toFixed(1)}" r="3.2" fill="var(--anod)"/>
+      ${hi !== lo ? `<text x="${X(r[iHi][0]).toFixed(1)}" y="${(Y(hi) - 4).toFixed(1)}" text-anchor="${anker(X(r[iHi][0]))}">${esc(eurG(hi))}</text>
+      <text x="${X(r[iLo][0]).toFixed(1)}" y="${(Y(lo) + 12).toFixed(1)}" text-anchor="${anker(X(r[iLo][0]))}">${esc(eurG(lo))}</text>` : ""}
+      <text x="${pl}" y="${H - 2}" text-anchor="start" class="ax">${tag(r[0][0])}</text>
+      <text x="${W - pr}" y="${H - 2}" text-anchor="end" class="ax">${tag(r[r.length - 1][0])}</text>
+    </svg></figure>`;
 }
 
 /* ═══════════ Anzeigehilfen ═══════════ */
@@ -2979,7 +3433,8 @@ function filterAnwenden(){
     /* Wer sucht, sucht ueber alles -- sonst findet man den Rahmen nicht, den
        man meint, nur weil die Gabel nicht passt. */
     const filterOk = wr.length || filterAlle || !passendDa || el.dataset.passt === "1" || el.classList.contains("sel");
-    el.hidden = !(treffer && filterOk);
+    const markeOk = !markeWahl || el.dataset.m === markeWahl;
+    el.hidden = !(treffer && filterOk && markeOk);
     if(!el.hidden) n++;
   });
   const tr = document.getElementById("treffer");
@@ -3024,6 +3479,9 @@ function specsVon(slotKey, t){
     case "lenker": c.push(t.klemm + " mm Klemmung", t.breite + " mm", t.rise + " mm Rise"); break;
     case "vorbau": c.push(t.klemm + " mm Klemmung", t.laenge + " mm"); break;
     case "stuetze": c.push(t.d + " mm", t.hub ? t.hub + " mm Hub" : "starr", "Einbau " + t.einbau + " mm"); break;
+    case "innenlager": c.push(t.gehaeuse.map(bbName).join(" / "), t.welle === "Hollowtech II" ? "24 mm (Hollowtech II)" : t.welle === "DUB" ? "DUB 28,99 mm" : t.welle, t.breit ? "Wide · CL55" : null); break;
+    case "pedale": c.push(t.typ === "Klick" ? "Klick · " + t.sys : "Flat", t.g + " g/Paar"); break;
+    case "griffe": c.push(t.bef, t.mat); break;
     default: break;
   }
   return c.filter(Boolean);
@@ -3194,7 +3652,7 @@ function zeichne(){
         <span class="slot-n ${t ? "" : "empty"}">${t ? esc(t.n) : "Teil wählen …"}</span>
         ${chips ? `<span class="specs">${chips}</span>` : ""}
         ${kachelZusatz(s.k, t)}
-        <span class="slot-r">${t ? `<span class="p">${eur(preisVon(t))}</span><span class="g">${t.g} g</span>` : `<span class="g">offen</span>`}</span>
+        <span class="slot-r">${t ? kachelPreis(t) : `<span class="g">offen</span>`}</span>
       </button>${t ? varLeiste(s.k, t) : ""}`;
     }).join("");
     /* Der Punkt am Thema fasst zusammen, was darin steckt: roter Konflikt,
@@ -3222,8 +3680,9 @@ function zeichne(){
     Freilauftyp, Scheibenaufnahme. Damit rechnet die Prüfung, und die sind je Modell dokumentiert.<br>
     <b>Was Richtwert ist:</b> Geometriezahlen (Radstand, Lenkwinkel, Sitzrohr), Einstecktiefen,
     Reifenfreiheiten und Gewichte. Sie stehen für die Modellklasse, nicht datenblattgenau für jeden
-    Jahrgang. Preise liegen auf UVP-Niveau und sind kein Angebot — außer du hast einen Produktfeed
-    geladen, dann stehen dort die Preise deines Partnershops.<br>
+    Jahrgang.<br>
+    <b>Preise:</b> Führt ein Partnershop das Teil, rechnet die App mit dem günstigsten lieferbaren Angebot
+    (inkl. MwSt., zzgl. Versand; Stand im Reiter Deals). Sonst steht dort ein Richtpreis auf UVP-Niveau — kein Angebot.<br>
     <b>Vor dem Kauf</b> gegen das Datenblatt deines Rahmens prüfen. Trial-Maße sind auf Mod 20/19″,
     Street 24″ und Stock 26″ vereinfacht.</p>`;
 
@@ -3241,7 +3700,7 @@ function zeichne(){
   $("upgrades").innerHTML = top.length ? top.map(v => `
     <div class="up">
       <div><div class="up-n">${esc(v.teil.n)}</div>
-        <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${Math.abs(v.mehr)} € · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div></div>
+        <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div></div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
         <span class="delta">+${v.d}</span>
         <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Einbauen</button>
@@ -3275,11 +3734,79 @@ function zeichne(){
   $("b-fin").textContent = r.funde.length;
   $("b-fin").className = "badge" + (nF ? " rot" : "");
   $("b-up").textContent = top.length + spar.length;
+
+  const dl = dealsListe(), dPass = dl.filter(x => x.passt);
+  const zeigD = (dealFilter === "alle" ? dl : dPass).slice(0, 40);
+  $("deals").innerHTML = !hatLive()
+    ? `<p class="empty-note">Noch keine Live-Preise. Sobald die Partnershops angebunden sind, stehen hier alle
+        reduzierten Teile, die in deinen Aufbau passen — mit Rabatt gegenüber der UVP und dem 30-Tage-Tief.
+        Bis dahin rechnet die App mit Richtpreisen auf UVP-Niveau.</p>`
+    : `<div class="deal-kopf"><span>${liveStand() ? "Stand " + liveStand() : "Preise aus deinem Feed"}${shopZahl() ? " · " + shopZahl() + (shopZahl() === 1 ? " Shop" : " Shops") : ""}</span>
+         <span class="werbung">Anzeige</span></div>
+       <div class="filt deal-filt">
+         <button data-dfilt="passend" aria-pressed="${dealFilter !== "alle"}">Passt zu deinem Aufbau · ${dPass.length}</button>
+         <button data-dfilt="alle" aria-pressed="${dealFilter === "alle"}">Alle · ${dl.length}</button></div>
+       ${zeigD.length ? zeigD.map(dealHtml).join("")
+         : `<p class="empty-note">${dealFilter === "alle" ? "Gerade ist kein Teil aus dem Katalog reduziert."
+             : "Gerade ist nichts reduziert, das in deinen Aufbau passt. Unter „Alle“ stehen die übrigen Angebote."}</p>`}
+       <p class="pv-recht">Rabatt gegenüber der UVP laut Shop, ab 10 %. 30-Tage-Tief: günstigster Preis der
+         letzten 30 Tage. Preise inkl. MwSt., zzgl. Versand; es gilt der Preis im Shop. Kaufst du über einen
+         Shop-Link, bekommt Dreambuild eine Provision — dein Preis ändert sich nicht.</p>`;
+  $("b-deal").textContent = dPass.length;
+  $("b-deal").className = "badge" + (dPass.some(x => x.verbaut) ? " gruen" : "");
   document.body.dataset.view = view;
   Array.prototype.forEach.call(document.querySelectorAll(".tabs [data-view]"),
     b => b.setAttribute("aria-selected", String(b.dataset.view === view)));
   auswahlInsBild();
 }
+
+/* Kachelpreis: mit Rabatt-Plakette, wenn ein Shop das Teil gerade reduziert hat */
+function kachelPreis(t){
+  const a = bestesAngebot(t), r = (a && jahrFaktor(t) === 1) ? rabatt(a) : 0;
+  return `<span class="p${a ? " live" : ""}">${a && jahrFaktor(t) === 1 ? eurG(a.p) : eur(preisVon(t))}</span>${r >= 5 ? `<span class="sale-mini">−${r} %</span>` : ""}<span class="g">${t.g} g</span>`;
+}
+/* ═══════════ Deals ═══════════
+   Was gerade reduziert ist -- zuerst dein verbautes Teil, dann was in den
+   Aufbau passt, dann nach Rabatt. Ab 10 % gegenueber der UVP laut Shop oder
+   beim 30-Tage-Tief. Nur lieferbare Angebote. */
+let dealFilter = "passend";
+function dealsListe(){
+  const out = [];
+  if(!hatLive()) return out;
+  const basisF = harteFehler(build);
+  for(const s of SLOTS){
+    if(entfaellt(build, s.k)) continue;
+    const jetzt = build[s.k] ? findeTeil(s.k, build[s.k]) : null;
+    const jb = jetzt ? basisVon(jetzt.id) : null;
+    for(const t0 of kandidaten(s.k, build)){
+      const t = (jb && basisVon(t0.id) === jb) ? jetzt : t0;
+      const a = bestesAngebot(t);
+      if(!a || a.a === 0) continue;
+      const r = rabatt(a), tf = tief30(t, a);
+      if(r < 10 && !tf) continue;
+      const verbaut = !!jb && basisVon(t.id) === jb;
+      let passt = verbaut;
+      if(!verbaut){ const probe = {...build}; probe[s.k] = t.id; passt = harteFehler(probe) <= basisF; }
+      out.push({slot:s, teil:t, a:a, r:r, tief:tf, passt:passt, verbaut:verbaut});
+    }
+  }
+  return out.sort((x, y) => (y.verbaut - x.verbaut) || (y.passt - x.passt) || (y.r - x.r) || (x.a.p - y.a.p));
+}
+const dealHtml = x => `<div class="deal${x.passt ? "" : " nein"}">
+  <div class="deal-l">
+    <span class="deal-k">${x.slot.label}${x.verbaut ? " · <b>dein Teil</b>" : ""}</span>
+    <span class="deal-n">${esc(x.teil.n)}</span>
+    <span class="deal-s">${esc(x.a.s)}${x.passt ? "" : " · passt nicht zum Aufbau"}</span>
+    <span class="deal-t">${x.r >= 5 ? `<span class="sale">Sale −${x.r} %</span>` : ""}${x.tief ? `<span class="tief">30-Tage-Tief</span>` : ""}</span>
+  </div>
+  <div class="deal-r">
+    <span class="deal-p">${eurG(x.a.p)}</span>
+    ${x.a.u > x.a.p ? `<span class="opt-g">UVP <s>${eurG(x.a.u)}</s></span>` : ""}
+    ${!x.verbaut && x.passt ? `<button class="btn sm" data-einbau="${x.slot.k}|${x.teil.id}">Einbauen</button>` : ""}
+    ${x.a.l ? `<a class="shop bez" href="${esc(x.a.l)}" target="_blank" rel="sponsored nofollow noopener"><span class="pkt"></span>Zum Shop</a>` : ""}
+    <button class="btn ghost sm" data-detail="${x.slot.k}|${x.teil.id}">Preise</button>
+  </div>
+</div>`;
 
 function upgrades(r){
   const vor = [];
@@ -3332,7 +3859,7 @@ document.addEventListener("touchstart", e => {
 document.addEventListener("touchmove", e => {
   if(!gesperrt || e.touches.length !== 1) return;
   const dx = e.touches[0].clientX - wischX, dy = e.touches[0].clientY - wischY;
-  if(Math.abs(dx) > Math.abs(dy) && e.target.closest(".jl-reihe")) return;
+  if(Math.abs(dx) > Math.abs(dy) && e.target.closest(".jl-reihe, .marken, .sortier, .deal-filt")) return;
   const liste = e.target.closest(".sheet-b");
   if(!liste || liste.scrollHeight <= liste.clientHeight + 1){ e.preventDefault(); return; }
   const oben = liste.scrollTop <= 0, unten = liste.scrollTop + liste.clientHeight >= liste.scrollHeight - 1;
@@ -3355,7 +3882,7 @@ function oeffneSlot(slotKey){
   /* Neues Blatt, frische Suche. Beim Rahmen startet der Filter auf "Alle":
      wer einen Rahmen sucht, will alle sehen und nicht nur die zwei, zu denen
      die jetzige Gabel zufaellig passt. */
-  if(offenerSlot !== slotKey){ suchText = ""; filterAlle = slotKey === "rahmen" || !nurPassende; }
+  if(offenerSlot !== slotKey){ suchText = ""; markeWahl = ""; filterAlle = slotKey === "rahmen" || !nurPassende; }
   offenerSlot = slotKey;
   const basis = bewerte(build);
   const wunsch = markenWunsch(slotKey);
@@ -3401,16 +3928,19 @@ function oeffneSlot(slotKey){
     const dtag = istSel ? `<span class="tag n">verbaut</span>`
                : d > 0 ? `<span class="tag ok">+${d}</span>` : d < 0 ? `<span class="tag no">${d}</span>` : "";
     const mtag = (wunsch && t.m === wunsch) ? `<span class="tag m">${esc(wunsch)}</span>` : "";
-    const fe = feedEintrag(t);
+    const lst = angebote(t), a = bestesAngebot(t), jf = jahrFaktor(t) !== 1;
+    const bild = (lst.find(x => x.b) || {}).b || "";
     const pNeu = grundpreis(t), pJetzt = preisVon(t);
     const stark = t.e ? DID.filter(dd => (t.e[dd] || 0) >= 4).map(dLang) : [];
     const such = suchIndex([t.n, t.m || "", specsVon(slotKey, t).join(" "), t.seit || "", stark.join(" "), suchExtras(t), wahlText(t), t.eigen ? "eigen eigenes" : ""]);
-    return {gut:gut, sel:istSel, sort:[rang, -d], html:`
-      <div class="opt ${istSel ? "sel" : ""}" data-passt="${gut ? 1 : 0}" data-such="${esc(such)}">
-        <div><div class="opt-n">${fe && fe.bild ? `<img class="feedbild" src="${esc(fe.bild)}" alt="" loading="lazy">` : ""}${esc(t.n)} ${tag} ${dtag} ${mtag}${t.eigen ? ` <span class="tag m">eigen</span>` : ""}</div>
+    return {gut:gut, sel:istSel, sort:[rang, -d], m:t.m || "", html:`
+      <div class="opt ${istSel ? "sel" : ""}" data-passt="${gut ? 1 : 0}" data-such="${esc(such)}"
+        data-m="${esc(t.m || "")}" data-p="${pJetzt}" data-g="${t.g || 0}" data-r="${a && !jf ? rabatt(a) : 0}">
+        <div><div class="opt-n">${bild ? `<img class="feedbild" src="${esc(bild)}" alt="" loading="lazy" onerror="this.remove()">` : ""}${esc(t.n)} ${tag} ${dtag} ${mtag}${t.eigen ? ` <span class="tag m">eigen</span>` : ""}</div>
           <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}${t.seit ? `<span class="chip">seit ${t.seit}</span>` : ""}</div>${wahlZeile(t)}</div>
-        <div class="opt-r"><span class="opt-p${fe && fe.preis != null ? " livepreis" : ""}">${eur(pJetzt)}</span>
-          ${pJetzt !== pNeu ? `<span class="opt-g"><s>${eur(pNeu)}</s> neu</span>` : ""}<span class="opt-g">${t.g} g</span>
+        <div class="opt-r"><span class="opt-p${a && !jf ? " livepreis" : ""}">${a && !jf ? (lst.filter(x => x.a !== 0).length > 1 ? "<small>ab</small> " : "") + eurG(a.p) : eur(pJetzt)}</span>
+          ${preisZusatz(t)}
+          ${jf ? `<span class="opt-g"><s>${eur(pNeu)}</s> neu</span>` : ""}<span class="opt-g">${t.g} g</span>
           <button class="btn ghost sm" data-detail="${slotKey}|${t.id}">Ansehen</button>
           ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">Einbauen</button>`}</div>
         ${gruende}
@@ -3419,6 +3949,12 @@ function oeffneSlot(slotKey){
   });
   karten.sort((a,b) => a.sort[0] - b.sort[0] || a.sort[1] - b.sort[1]);
   const passend = karten.filter(k => k.gut || k.sel);
+  /* Marken wie bei einem Preisvergleich: die haeufigsten zuerst */
+  const marken = {};
+  for(const k of karten) if(k.m) marken[k.m] = (marken[k.m] || 0) + 1;
+  const mListe = Object.keys(marken).sort((x, y) => marken[y] - marken[x] || x.localeCompare(y, "de"));
+  if(markeWahl && !marken[markeWahl]) markeWahl = "";
+  const mitRabatt = karten.some(k => /data-r="[1-9]/.test(k.html));
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">Bauteil wählen</span>${s.label}</h3>
       ${build[slotKey] ? `<button class="btn ghost sm" data-leeren="${slotKey}">Leeren</button>` : ""}${zuBtn}</div>
@@ -3441,13 +3977,36 @@ function oeffneSlot(slotKey){
         <button data-filt="0" aria-pressed="${filterAlle}">Alle · ${karten.length}</button>
         <span class="treffer" id="treffer"></span>
       </div>
-      ${karten.map(k => k.html).join("")}
+      <div class="sortier" role="group" aria-label="Sortieren">
+        ${[["empfohlen","Empfohlen"],["preis","Preis"],["gewicht","Gewicht"]].concat(mitRabatt ? [["rabatt","Rabatt"]] : [])
+          .map(([k, l]) => `<button data-sort="${k}" aria-pressed="${sortWahl === k}">${l}</button>`).join("")}
+      </div>
+      ${mListe.length > 2 ? `<div class="marken" role="group" aria-label="Marke">
+        <button data-mfilt="" aria-pressed="${!markeWahl}">Alle Marken</button>
+        ${mListe.map(m => `<button data-mfilt="${esc(m)}" aria-pressed="${markeWahl === m}">${esc(m)} <span>${marken[m]}</span></button>`).join("")}
+      </div>` : ""}
+      <div id="opt-liste">${karten.map(k => k.html).join("")}</div>
       <p class="empty-note" id="keine-treffer" hidden>Nichts gefunden. Weniger Wörter oder anders schreiben — „rock“ findet RockShox, „ohlins“ findet Öhlins.</p>
       <div class="eigen-box"><span><b>Nicht dabei?</b> Leg das Teil selbst an. Geprüft wird es mit den Maßen
         eines Teils, das genauso gebaut ist.</span>
         <button class="btn ghost sm" data-eigen="${slotKey}">Eigenes Teil anlegen</button></div>
     </div>`);
+  sortieren();
   filterAnwenden();
+}
+/* Sortieren ordnet nur die Karten im Blatt um -- nichts wird neu berechnet. */
+let sortWahl = "empfohlen", markeWahl = "";
+function sortieren(){
+  const box = document.getElementById("opt-liste");
+  if(!box) return;
+  const els = Array.prototype.slice.call(box.children);
+  els.forEach((el, i) => { if(el.dataset.i == null) el.dataset.i = i; });
+  const k = sortWahl, num = (el, f) => +el.dataset[f] || 0;
+  els.sort((a, b) => k === "preis" ? num(a, "p") - num(b, "p") || num(a, "i") - num(b, "i")
+    : k === "gewicht" ? (num(a, "g") || 1e9) - (num(b, "g") || 1e9) || num(a, "i") - num(b, "i")
+    : k === "rabatt" ? num(b, "r") - num(a, "r") || num(a, "p") - num(b, "p")
+    : num(a, "i") - num(b, "i"));
+  els.forEach(el => box.appendChild(el));
 }
 
 function oeffneDisz(){
@@ -3656,7 +4215,14 @@ function oeffneMenu(){
     <div class="sheet-b">
       ${status}
 
-      <div class="grp-h"><h2>Produktfeed</h2><div class="rule"></div></div>
+      <div class="grp-h"><h2>Live-Preise</h2><div class="rule"></div></div>
+      <p class="hint" style="margin:0 0 14px">${Object.keys(live.teile).length
+        ? `<b>${Object.keys(live.teile).length} Teile mit Shop-Angebot</b> aus ${shopZahl()} ${shopZahl() === 1 ? "Shop" : "Shops"}, Stand ${liveStand()}.
+           Die Preise werden alle sechs Stunden aus den Produktfeeds der Partnershops erneuert.`
+        : `Noch keine Live-Preise. Die App holt sie von selbst, sobald die Feeds der Partnershops hinterlegt sind —
+           bis dahin rechnet sie mit Richtpreisen auf UVP-Niveau.`}</p>
+
+      <div class="grp-h"><h2>Produktfeed von Hand</h2><div class="rule"></div></div>
       <div class="feedbox ${anz ? "voll" : ""}">
         <p class="z" style="margin:0 0 9px">${anz
           ? `<b>${anz} Teile mit echtem Produktbild.</b> Aus <code>${esc(feed.quelle)}</code>,
@@ -3749,6 +4315,22 @@ document.addEventListener("click", e => {
   const le = T("[data-leeren]");
   if(le){ build[le.dataset.leeren] = null; sichern(); schliesse(); zeichne(); return; }
 
+  const df = T("[data-dfilt]");
+  if(df){ dealFilter = df.dataset.dfilt; zeichne(); return; }
+  const so = T("[data-sort]");
+  if(so){
+    sortWahl = so.dataset.sort;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-sort]"),
+      b => b.setAttribute("aria-pressed", String(b.dataset.sort === sortWahl)));
+    sortieren(); return;
+  }
+  const mf = T("[data-mfilt]");
+  if(mf){
+    markeWahl = mf.dataset.mfilt;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-mfilt]"),
+      b => b.setAttribute("aria-pressed", String(b.dataset.mfilt === markeWahl)));
+    filterAnwenden(); return;
+  }
   const fi = T("[data-filt]");
   if(fi){
     filterAlle = fi.dataset.filt === "0";
@@ -3821,7 +4403,7 @@ document.addEventListener("click", e => {
   if(T("[data-fotowahl]")){ fotoZiel = {art:"rad"}; const i = $("foto-in"); if(i) i.click(); return; }
 
   if(T("[data-feedwahl]")){ const i = $("feed-in"); if(i) i.click(); return; }
-  if(T("[data-feedweg]")){ feed = {treffer:{}, stand:0, quelle:"", zeilen:0}; sichern(); zeichne(); oeffneMenu(); return; }
+  if(T("[data-feedweg]")){ feed = {treffer:{}, stand:0, quelle:"", zeilen:0}; preiseNeu(); sichern(); zeichne(); oeffneMenu(); return; }
   const sa = T("[data-shopan]");
   if(sa){ aff.an[sa.dataset.shopan] = !aff.an[sa.dataset.shopan]; sichern(); zeichne(); oeffneMenu(); return; }
   if(T("[data-fotoweg]")){ fotos[modus] = null; sichern(); zeichne(); return; }
@@ -3908,7 +4490,12 @@ function start(daten){
     build = builds[modus];
   }
   zeichne();
+  liveLaden();
 }
+/* Zurueck in der App nach mehr als einer halben Stunde: frische Preise holen */
+document.addEventListener("visibilitychange", () => {
+  if(!document.hidden && Date.now() - liveZeit > 30 * 60e3) liveLaden();
+});
 try{
   if(window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(start);
   else start(null);

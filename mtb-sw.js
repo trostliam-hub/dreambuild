@@ -11,7 +11,7 @@
    Die Google-Schriften werden beim ersten Start mitgecacht. Vor dem ersten
    Online-Start greift die Systemschrift aus dem Fallback-Stack -- die App ist
    dann lesbar, nur nicht in Archivo. */
-var CACHE = 'dreambuild-20260923-1855';
+var CACHE = 'dreambuild-20260924-0002';
 var ASSETS = [
   './',
   './index.html',
@@ -51,6 +51,21 @@ self.addEventListener('fetch', function(e){
   var eigen = url.origin === self.location.origin;
   var fremd = FREMD.indexOf(url.origin) >= 0;
   if(!eigen && !fremd) return;
+
+  /* Preise (preise.json, preisverlauf.json): Netz zuerst. Ein Preis von
+     gestern ist schlechter als keiner -- der Cache springt nur ein, wenn das
+     Netz weg ist. Eine 404 (noch keine Preise) wird nicht gecacht. */
+  if(eigen && /\.json$/.test(url.pathname)){
+    e.respondWith(caches.open(CACHE).then(function(c){
+      return fetch(req, {cache:"no-cache"}).then(function(res){
+        if(res && res.ok) c.put(req, res.clone());
+        return res;
+      }).catch(function(){
+        return c.match(req).then(function(hit){ return hit || new Response("", {status:504}); });
+      });
+    }));
+    return;
+  }
 
   e.respondWith(caches.open(CACHE).then(function(c){
     return c.match(req).then(function(hit){
