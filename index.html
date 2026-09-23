@@ -568,6 +568,23 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .legal{font-size:12px;color:var(--ink-3);line-height:1.6;border-top:1px solid var(--line-soft);
   padding-top:14px;margin:4px 0 0}
 .legal b{color:var(--ink-2)}
+
+/* ── Ausführung an der Kachel ── */
+.varleiste{gap:10px}
+.var-z{display:grid;grid-template-columns:92px minmax(0,1fr);gap:4px 10px;align-items:center;min-width:0}
+.var-z .jl-h{grid-column:2}
+.grp .jahrleiste + .slot{border-top:1px solid var(--line-soft)}
+.jl-reihe button.nein{border-color:color-mix(in srgb,var(--bad) 55%,transparent);color:var(--bad)}
+.jl-reihe button.nein[aria-pressed="true"]{background:var(--bad);color:#fff;border-color:transparent}
+.jl-h.no{color:var(--bad);font-weight:600}
+.wahl{font-size:11.5px;font-weight:650;color:var(--anod);margin-top:6px}
+.eigen-box{border:1px dashed var(--line);border-radius:var(--r);padding:13px 14px;display:flex;flex-direction:column;
+  gap:9px;align-items:flex-start;font-size:13px;line-height:1.45;color:var(--ink-2);margin-top:8px}
+.eigen-box b{color:var(--ink)}
+.fld select{font-size:16px;padding:10px 12px;border-radius:12px;border:1px solid transparent;background:var(--surface-2);
+  color:var(--ink);width:100%;font-family:var(--f-sans);min-width:0}
+.fld select:focus{border-color:var(--anod);outline:none}
+@media (max-width:380px){.var-z{grid-template-columns:minmax(0,1fr)}.var-z .jl-h{grid-column:1}}
 </style>
 <style>
 /* Grundlage, die sonst die Plattform stellt und hier selbst kommen muss.
@@ -711,6 +728,149 @@ function mixPaar(s){
   return {min:min, paar:paar};
 }
 
+/* ═══════════ 2a · Ausführungen ═══════════
+   Ein Modell steht einmal im Katalog. Was es davon zu kaufen gibt -- Federweg,
+   Kartusche, Einbaumaß, Freilauf, Scheiben, Durchmesser, Hub, Rise, Länge --
+   hängt als Dimension daran und wird an der Kachel gewählt. So stehen nicht
+   zwölf fast gleiche Einträge untereinander, und trotzdem ist jede echte
+   Kombination wählbar.
+
+   Preis und Gewicht eines Eintrags gelten für seine Grundausführung; eine
+   Option trägt nur den Abstand dazu (p in €, g in Gramm). Bei Kartusche und
+   Ausführung ist die Grundausführung die erste Option, sonst die Vorgabe. */
+const o_ = (w, n, s, x) => ({w:w, n:n, s:s || null, p:(x && x.p) || 0, g:(x && x.g) || 0,
+  h:(x && x.h) || "", kurz:(x && x.kurz) || ""});
+const dim = (k, o, std) => { const i = o.findIndex(x => x.w === std); return {k:k, o:o, d:i < 0 ? 0 : i}; };
+
+function FW(wege, std){ return dim("Federweg", wege.map(x => o_(x, x + " mm", {travel:x})), std); }
+function KA(liste, std){ return dim("Kartusche", liste.map(([n, h, p, g]) => o_(n, n, null, {p:p, g:g, h:h})), std == null ? liste[0][0] : std); }
+function AU(liste, std){ return dim("Ausführung", liste.map(([n, p, g, h]) => o_(n, n, null, {p:p, g:g, h:h})), std == null ? liste[0][0] : std); }
+const MASSTYP = {T:"Trunnion", M:"Metric"};
+function massVon(c){ const m = /^([\d.]+)x([\d.]+)([TM])$/.exec(c); return {el:+m[1], hub:+m[2], typ:MASSTYP[m[3]]}; }
+function EM(liste, std){ return dim("Einbaumaß", liste.map(c => { const m = massVon(c); return o_(c, m.el + "×" + m.hub + " " + m.typ, m); }), std); }
+const FL_HINW = {"HG":"Shimano bis 11-fach, SRAM NX/SX, Eagle 70 Transmission",
+  "Micro Spline":"Shimano 12-fach", "XD":"SRAM Eagle und Transmission ab GX / Eagle 90"};
+function FL(std){ return dim("Freilauf", ["HG", "Micro Spline", "XD"].map(f =>
+  o_(f, f, {freilauf:f}, {h:FL_HINW[f] + " · beim Kauf wählen oder später tauschen (40–110 €)", kurz:f.replace(" ", "-") + "-Freilauf"})), std); }
+const SCHEIBEN = {
+  Shimano:[[160,160],[180,160],[180,180],[203,180],[203,203],[220,203]],
+  SRAM:[[160,160],[180,160],[180,180],[200,180],[200,200],[220,200],[220,220]],
+  sonst:[[160,160],[180,160],[180,180],[203,180],[203,203],[220,203]]
+};
+function SCH(marke, sV, sH){
+  let l = SCHEIBEN[marke] || SCHEIBEN.sonst;
+  if(!l.some(x => x[0] === sV && x[1] === sH)) l = l.concat([[sV, sH]]).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const d = (v, h) => v - sV + h - sH;
+  return dim("Scheiben", l.map(([v, h]) => o_(v + "/" + h, v + "/" + h + " mm", {sV:v, sH:h},
+    {g:Math.round(d(v, h) * 0.6), p:Math.round(d(v, h) * 0.2), kurz:"Scheiben " + v + "/" + h})), sV + "/" + sH);
+}
+function DM(ds, std){ return dim("Durchmesser", ds.map(d => o_(d, d + " mm", {d:d}, {kurz:"Ø " + d})), std); }
+function HU(hube, std, plus, gpm){ return dim("Hub", hube.map(h => o_(h, h + " mm", {hub:h, einbau:h + plus},
+  {g:Math.round((h - std) * (gpm || 1.1)), kurz:h + " mm Hub"})), std); }
+function RI(rs, std){ return dim("Rise", rs.map(r => o_(r, r + " mm", {rise:r}, {kurz:r + " mm Rise"})), std); }
+function KM(ks, std){ return dim("Klemmung", ks.map(k => o_(k, String(k).replace(".", ",") + " mm", {klemm:k}, {kurz:"Klemmung " + String(k).replace(".", ",")})), std); }
+function LA(ls, std){ return dim("Länge", ls.map(l => o_(l, String(l).replace(".", ",") + " mm", {laenge:l}, {g:Math.round((l - std) * 1.2)})), std); }
+function KL(ls, std){ return dim("Kurbellänge", ls.map(l => o_(l, l + " mm", {laenge:l})), std); }
+function KB(zs, std){ return dim("Kettenblatt", zs.map(z => o_(z, z + " Z.", {kb:z})), std); }
+
+/* Kartuschen je Gabelfamilie. Erste Zeile = Grundausführung des Eintrags;
+   Preis und Gewicht der anderen als Abstand dazu. Die Modelljahre stehen
+   dabei, weil eine Kartusche fast immer an eine Generation gebunden ist --
+   wer ein gebrauchtes Rad eintraegt, erkennt sie daran. */
+const KART = {
+  zebUlt:[["Charger 3.2 RC2","ab Modelljahr 2027 · neues Chassis mit LinearXL-Luftfeder und einstellbarem Durchschlagschutz (ABO)",0,0],
+          ["Charger 3.1 RC2","Modelljahr 2025–26 · DebonAir+",-100,-150],
+          ["Charger 3 RC2","Modelljahr 2023–24 · erste Generation mit ButterCups",-200,-130],
+          ["Charger 2.1 RC2","Modelljahr 2021–22 · Vorgängergeneration",-350,-100]],
+  lyrikUlt:[["Charger 3.2 RC2","ab Modelljahr 2027 · neues Chassis mit LinearXL-Luftfeder und ABO",0,0],
+            ["Charger 3.1 RC2","Modelljahr 2025–26 · DebonAir+",-100,-200],
+            ["Charger 3 RC2","Modelljahr 2023–24",-180,-180],
+            ["Charger 2.1 RC2","Modelljahr 2020–22 · Vorgängergeneration",-330,-150]],
+  boxxerUlt:[["Charger 3.2 RC2","ab Modelljahr 2027 · LinearXL-Luftfeder",0,0],
+             ["Charger 3 RC2","Modelljahr 2024–26 · 38-mm-Chassis",-120,-40],
+             ["Charger 2.1 RC2","bis Modelljahr 2023 · 35-mm-Chassis",-350,-150]],
+  pikeUlt:[["Charger 3.1 RC2","Modelljahr 2025–26 · DebonAir+",0,0],
+           ["Charger 3 RC2","Modelljahr 2023–24",-80,15],
+           ["Charger 2.1 RC2","Modelljahr 2020–22 · Vorgängergeneration",-250,40]],
+  sel31:[["Charger 3.1 RC2","Modelljahr 2025–26",0,0],
+         ["Charger 3 RC2","Modelljahr 2023–24",-60,15]],
+  sid:[["Charger Race Day 2","ab Modelljahr 2024",0,0],
+       ["Charger Race Day","Modelljahr 2021–23",-100,20]],
+  fox36:[["GRIP X2","ab Modelljahr 2024 · das Abfahrts-Maximum, alles einstellbar",0,0],
+         ["GRIP X","ab Modelljahr 2024 · rund 120 g leichter, seit 2026 ohne Lockout",-80,-120],
+         ["GRIP2","Modelljahr 2020–23",-200,-40],
+         ["FIT4","bis Modelljahr 2019",-350,-80]],
+  fox36pe:[["GRIP X2","ab Modelljahr 2024",0,0],
+           ["GRIP X","ab Modelljahr 2024 · leichter",-60,-120],
+           ["GRIP2","Modelljahr 2021–23",-150,-40]],
+  fox36sl:[["GRIP X2","ab Modelljahr 2026",0,0],
+           ["GRIP X","ab Modelljahr 2026 · rund 120 g leichter",-60,-120]],
+  fox38:[["GRIP X2","ab Modelljahr 2024",0,0],
+         ["GRIP2","Modelljahr 2021–23",-200,-30]],
+  fox40:[["GRIP X2","ab Modelljahr 2025",0,0],
+         ["GRIP2","bis Modelljahr 2024",-200,-50]],
+  fox34:[["GRIP X","Modelljahr 2024–25",0,0],
+         ["GRIP2","Modelljahr 2021–23",-120,20],
+         ["FIT4","bis Modelljahr 2020",-250,-20]],
+  fox34sl:[["GRIP SL","ab Modelljahr 2026 · leichteste Variante",0,0],
+           ["GRIP","ab Modelljahr 2026 · einfacher und günstiger",-150,70]],
+  fox32:[["GRIP SL","ab Modelljahr 2022",0,0],
+         ["FIT4","bis Modelljahr 2021",-150,20]]
+};
+
+/* Einbaumaße, in denen es die Dämpfer gibt. Die Rahmen im Katalog verlangen
+   genau diese Maße -- jedes davon ist in mindestens einer Liste. */
+const EINBAU = {
+  xc:["165x45T","185x45T","185x50T","190x45T","190x50T","190x45M","210x50M"],
+  trail:["185x45T","185x50T","185x55T","190x45T","190x50T","190x45M","205x60T","205x65T","210x50M","210x55T","230x60M","230x65M"],
+  enduro:["185x55T","205x60T","205x62.5T","205x65T","210x55T","230x60M","230x62.5M","230x65M","250x70M","250x75M"],
+  coil:["205x60T","205x65T","210x55T","225x75T","230x60M","230x65M","250x70M","250x75M"]
+};
+EINBAU.trailEnduro = [...new Set(EINBAU.trail.concat(EINBAU.enduro))];
+
+function GB(id, n, m, x){
+  const t = {id:id, n:n, m:m, travel:x.std, schaft:x.schaft || "tapered", va:x.va || "110x15", lr:x.lr || ["29","27.5"],
+             offset:x.off || 44, maxReifen:x.mr || 66, maxScheibeVR:x.ms || 203, e:x.e, g:x.g, p:x.p};
+  const v = [];
+  if(x.ka) v.push(KA(typeof x.ka === "string" ? KART[x.ka] : x.ka, x.kaStd));
+  if(x.fw && x.fw.length > 1) v.push(FW(x.fw, x.std));
+  if(v.length) t.v = v;
+  return t;
+}
+function DP(id, n, m, x){
+  const t = {id:id, n:n, m:m, ...massVon(x.std), e:x.e, g:x.g, p:x.p};
+  t.v = [];
+  if(x.au) t.v.push(AU(x.au, x.auStd));
+  t.v.push(EM(typeof x.em === "string" ? EINBAU[x.em] : x.em, x.std));
+  return t;
+}
+function ST(id, n, m, x){
+  const t = {id:id, n:n, m:m, d:x.d, hub:x.hub || 0, einbau:(x.hub || 0) + x.plus, e:x.e, g:x.g, p:x.p};
+  t.v = [DM(x.ds || ["30.9","31.6","34.9"], x.d)];
+  if(x.hube && x.hube.length > 1) t.v.push(HU(x.hube, x.hub, x.plus, x.gpm));
+  return t;
+}
+function LK(id, n, m, x){
+  const t = {id:id, n:n, m:m, klemm:x.klemm, breite:x.breite, rise:x.rise, e:x.e, g:x.g, p:x.p};
+  const v = [];
+  if(x.ks) v.push(KM(x.ks, x.klemm));
+  if(x.rs) v.push(RI(x.rs, x.rise));
+  if(v.length) t.v = v;
+  return t;
+}
+function VB(id, n, m, x){
+  const t = {id:id, n:n, m:m, klemm:x.klemm, laenge:x.laenge, e:x.e, g:x.g, p:x.p};
+  if(x.ls) t.v = [LA(x.ls, x.laenge)];
+  return t;
+}
+/* Trimm-Stufen der Dämpfer */
+const TR = {
+  rs3:[["Ultimate",0,0,"Topmodell · alle Einstellungen"],["Select+",-160,15,"mittlere Stufe"],["Select",-230,25,"Basis"]],
+  rs2:[["Ultimate",0,0,"Topmodell"],["Select+",-150,15,"mittlere Stufe"]],
+  fox3:[["Factory",0,0,"Kashima, alle Einstellungen"],["Performance Elite",-120,0,"gleiche Dämpfung, ohne Kashima"],["Performance",-210,20,"weniger Einstellungen"]],
+  fox2:[["Factory",0,0,"Kashima"],["Performance Elite",-160,0,"ohne Kashima"]]
+};
+
 /* ═══════════ 2 · Katalog ═══════════
    m = Marke · e = Eignung 0–5 je Disziplin [xc, trail, enduro, dh, dirt, slope, trial]
    g = Gramm · p = Richtpreis € */
@@ -826,154 +986,221 @@ rahmen:[
  {id:"f-czar", n:"Czar Ion 20", m:"Czar", seit:2022, geo:{rs:1005,ks:352,lw:72,sw:72,sr:0,ta:-50}, fb:{h:"#101418",a:"#ff2d55"}, lrV:"20", lrH:"19", maxGabel:0, schaft:"gerade", ha:"116x10", bb:"BSA68", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:160, udh:false, klSoll:43, felgenbremse:true, daempfer:null, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1420, p:649}
 ],
 gabel:[
- {id:"g-sid", n:"RockShox SID SL Ultimate 110", m:"RockShox", travel:110, schaft:"tapered", va:"110x15", lr:["29"],
-  offset:44, maxReifen:60, maxScheibeVR:180, fb:{u:"#101215",s:"#c9ccd1"}, e:E(5,2,0,0,0,0,0), g:1330, p:1049},
- {id:"g-35", n:"RockShox 35 Gold RL 140", m:"RockShox", travel:140, schaft:"tapered", va:"110x15", lr:["29","27.5"],
-  offset:44, maxReifen:64, maxScheibeVR:203, fb:{u:"#16181c",s:"#c9a227"}, e:E(2,4,2,0,0,0,0), g:2150, p:429},
- {id:"g-fox34", n:"Fox 34 Factory 130", m:"Fox", travel:130, schaft:"tapered", va:"110x15", lr:["29"],
-  offset:44, maxReifen:62, maxScheibeVR:203, fb:{u:"#0e1013",s:"#c19a4b"}, e:E(4,5,1,0,0,0,0), g:1790, p:1199},
- {id:"g-pike", n:"RockShox Pike Ultimate 140", m:"RockShox", travel:140, schaft:"tapered", va:"110x15", lr:["29","27.5"],
-  offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#14161a",s:"#cfd2d6"}, e:E(2,5,3,0,0,0,0), g:1980, p:999},
- {id:"g-yari", n:"RockShox Yari RC 160", m:"RockShox", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"],
-  offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#17191d",s:"#b9bcc1"}, e:E(0,3,4,2,0,0,0), g:2380, p:549},
- {id:"g-rhythm", n:"Fox 36 Rhythm 160", m:"Fox", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"],
-  offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#0e1013",s:"#20232a"}, e:E(0,3,5,2,0,0,0), g:2210, p:849},
- {id:"g-z1", n:"Marzocchi Bomber Z1 160", m:"Marzocchi", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"],
-  offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#a81f1c",s:"#cfd2d6"}, e:E(0,3,5,3,0,0,0), g:2260, p:699},
- {id:"g-fox36", n:"Fox 36 Factory GRIP X 160", m:"Fox", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"],
-  offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#0e1013",s:"#c19a4b"}, e:E(0,3,5,2,0,0,0), g:2090, p:1349},
- {id:"g-lyrik", n:"RockShox Lyrik Ultimate 160", m:"RockShox", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"],
-  offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#14161a",s:"#cfd2d6"}, e:E(0,3,5,2,0,0,0), g:2180, p:1099},
- {id:"g-zeb", n:"RockShox ZEB Ultimate 180", m:"RockShox", travel:180, schaft:"tapered", va:"110x15", lr:["29","27.5"],
-  offset:44, maxReifen:71, maxScheibeVR:220, fb:{u:"#14161a",s:"#cfd2d6"}, e:E(0,1,5,4,0,0,0), g:2530, p:1199},
- {id:"g-boxxer", n:"RockShox BoXXer Ultimate 200 · Doppelbrücke", m:"RockShox", travel:200, schaft:"dc", va:"110x20", lr:["29","27.5"],
-  offset:56, maxReifen:71, maxScheibeVR:220, fb:{u:"#14161a",s:"#cfd2d6"}, e:E(0,0,0,5,0,0,0), g:2850, p:1599},
- {id:"g-pikedj", n:"RockShox Pike DJ 100", m:"RockShox", travel:100, schaft:"tapered", va:"110x20", lr:["26"],
-  offset:42, maxReifen:62, maxScheibeVR:180, fb:{u:"#14161a",s:"#cfd2d6"}, e:E(0,0,0,0,5,5,1), g:2050, p:549},
- {id:"g-bomberdj", n:"Marzocchi Bomber DJ 100", m:"Marzocchi", travel:100, schaft:"tapered", va:"110x20", lr:["26"],
-  offset:42, maxReifen:62, maxScheibeVR:180, fb:{u:"#a81f1c",s:"#cfd2d6"}, e:E(0,0,0,0,5,4,1), g:2180, p:449},
- {id:"g-circus", n:"Manitou Circus Expert 100 · 1 1/8″ gerade", m:"Manitou", travel:100, schaft:"gerade", va:"110x20", lr:["26"],
-  offset:41, maxReifen:60, maxScheibeVR:180, fb:{u:"#141a20",s:"#c9ccd1"}, e:E(0,0,0,0,5,4,1), g:2250, p:389},
+ /* ── RockShox ── */
+ GB("g-sid",        "RockShox SID SL Ultimate", "RockShox", {lr:["29"], fw:[100,110], std:110, mr:60, ms:180, ka:"sid", e:E(5,2,0,0,0,0,0), g:1330, p:1049}),
+ GB("g-sidult",     "RockShox SID Ultimate", "RockShox", {lr:["29"], fw:[110,120], std:120, mr:61, ms:180, ka:"sid", e:E(5,3,0,0,0,0,0), g:1500, p:1149}),
+ GB("g-sidselp",    "RockShox SID Select+ · Charger RL", "RockShox", {lr:["29"], fw:[110,120], std:120, mr:61, ms:180, e:E(5,3,0,0,0,0,0), g:1570, p:849}),
+ GB("g-sidsel",     "RockShox SID Select · Rush RL", "RockShox", {lr:["29"], fw:[110,120], std:120, mr:61, ms:180, e:E(4,3,0,0,0,0,0), g:1620, p:699}),
+ GB("g-reba",       "RockShox Reba RL", "RockShox", {lr:["29"], fw:[100,110,120], std:100, mr:60, ms:180, e:E(4,2,0,0,0,0,0), g:1700, p:499}),
+ GB("g-recon",      "RockShox Recon Gold RL", "RockShox", {fw:[100,120,130,140,150], std:130, mr:61, e:E(3,4,1,0,0,0,0), g:1990, p:399}),
+ GB("g-judy",       "RockShox Judy Silver TK", "RockShox", {fw:[100,110,120,130], std:120, mr:60, ms:180, e:E(3,3,0,0,0,0,0), g:2250, p:279}),
+ GB("g-35",         "RockShox 35 Gold RL", "RockShox", {fw:[120,130,140,150,160], std:140, mr:64, e:E(2,4,2,0,0,0,0), g:2150, p:429}),
+ GB("g-psylo",      "RockShox Psylo Gold RC", "RockShox", {fw:[140,150,160], std:150, e:E(1,5,4,1,0,0,0), g:2100, p:649}),
+ GB("g-revelation", "RockShox Revelation RC", "RockShox", {fw:[120,130,140,150], std:150, e:E(1,5,3,0,0,0,0), g:2250, p:489}),
+ GB("g-pike",       "RockShox Pike Ultimate", "RockShox", {fw:[120,130,140], std:140, ka:"pikeUlt", e:E(2,5,3,0,0,0,0), g:1890, p:1049}),
+ GB("g-pikesp",     "RockShox Pike Select+", "RockShox", {fw:[120,130,140], std:140, ka:"sel31", e:E(2,5,3,0,0,0,0), g:1950, p:849}),
+ GB("g-pikesel",    "RockShox Pike Select · Charger RC", "RockShox", {fw:[120,130,140], std:140, e:E(2,5,3,0,0,0,0), g:1780, p:699}),
+ GB("g-pikebase",   "RockShox Pike · Rush RC", "RockShox", {fw:[120,130,140], std:140, e:E(2,4,2,0,0,0,0), g:1850, p:549}),
+ GB("g-yari",       "RockShox Yari RC", "RockShox", {fw:[150,160,170], std:160, e:E(0,3,4,2,0,0,0), g:2380, p:549}),
+ GB("g-lyrik",      "RockShox Lyrik Ultimate", "RockShox", {fw:[140,150,160,170], std:160, ka:"lyrikUlt", e:E(0,4,5,2,0,0,0), g:2270, p:1299}),
+ GB("g-lyrikselect","RockShox Lyrik Select+", "RockShox", {fw:[140,150,160], std:160, ka:"sel31", e:E(0,3,5,2,0,0,0), g:2120, p:899}),
+ GB("g-lyriksel",   "RockShox Lyrik Select · Charger RC", "RockShox", {fw:[140,150,160], std:160, e:E(0,3,5,2,0,0,0), g:1930, p:749}),
+ GB("g-lyrikbase",  "RockShox Lyrik · Rush RC", "RockShox", {fw:[140,150,160], std:160, e:E(0,3,4,1,0,0,0), g:2000, p:649}),
+ GB("g-zeb",        "RockShox ZEB Ultimate", "RockShox", {fw:[150,160,170,180,190], std:180, mr:71, ms:220, ka:"zebUlt", e:E(0,1,5,4,0,0,0), g:2550, p:1349}),
+ GB("g-zebselect",  "RockShox ZEB Select+", "RockShox", {fw:[150,160,170,180,190], std:170, mr:71, ms:220, ka:"sel31", e:E(0,2,5,4,0,0,0), g:2380, p:949}),
+ GB("g-zebsel",     "RockShox ZEB Select · Charger RC", "RockShox", {fw:[150,160,170,180,190], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2310, p:799}),
+ GB("g-zebbase",    "RockShox ZEB · Rush RC", "RockShox", {fw:[150,160,170,180,190], std:170, mr:71, ms:220, e:E(0,2,4,3,0,0,0), g:2350, p:699}),
+ GB("g-domain",     "RockShox Domain RC", "RockShox", {fw:[160,170,180], std:180, mr:71, ms:220, e:E(0,1,4,4,0,0,0), g:2750, p:439}),
+ GB("g-boxxer",     "RockShox BoXXer Ultimate · Doppelbrücke", "RockShox", {schaft:"dc", va:"110x20", fw:[180,190,200], std:200, off:56, mr:71, ms:220, ka:"boxxerUlt", e:E(0,0,0,5,0,0,0), g:2850, p:1799}),
+ GB("g-boxxerselect","RockShox BoXXer Select · Charger RC · Doppelbrücke", "RockShox", {schaft:"dc", va:"110x20", fw:[180,190,200], std:200, off:56, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2980, p:999}),
+ GB("g-pikedj",     "RockShox Pike DJ", "RockShox", {lr:["26"], va:"110x20", fw:[100], std:100, off:42, mr:62, ms:180, e:E(0,0,0,0,5,5,1), g:2050, p:549}),
+ /* ── Fox ── */
+ GB("g-fox32sc",    "Fox 32 Step-Cast Factory", "Fox", {lr:["29"], fw:[100], std:100, mr:58, ms:180, ka:"fox32", e:E(5,1,0,0,0,0,0), g:1260, p:1099}),
+ GB("g-fox32scp",   "Fox 32 Step-Cast Performance · GRIP", "Fox", {lr:["29"], fw:[100], std:100, mr:58, ms:180, e:E(5,1,0,0,0,0,0), g:1390, p:849}),
+ GB("g-fox34slf",   "Fox 34 SL Factory", "Fox", {lr:["29"], fw:[110,120,130], std:130, mr:61, ka:"fox34sl", e:E(5,5,1,0,0,0,0), g:1475, p:1199}),
+ GB("g-fox34slpe",  "Fox 34 SL Performance Elite", "Fox", {lr:["29"], fw:[110,120,130], std:130, mr:61, ka:"fox34sl", e:E(5,5,1,0,0,0,0), g:1490, p:999}),
+ GB("g-fox34slp",   "Fox 34 SL Performance · GRIP", "Fox", {lr:["29"], fw:[110,120,130], std:130, mr:61, e:E(4,4,1,0,0,0,0), g:1550, p:849}),
+ GB("g-fox34sc",    "Fox 34 Step-Cast Factory · FIT4", "Fox", {lr:["29"], fw:[120], std:120, mr:61, ms:180, e:E(5,4,0,0,0,0,0), g:1560, p:1249}),
+ GB("g-fox34",      "Fox 34 Factory", "Fox", {lr:["29","27.5"], fw:[120,130,140,150], std:130, mr:62, ka:"fox34", e:E(4,5,1,0,0,0,0), g:1790, p:1199}),
+ GB("g-fox34perf",  "Fox 34 Performance · GRIP", "Fox", {fw:[120,130,140,150], std:140, mr:62, e:E(3,5,1,0,0,0,0), g:1850, p:849}),
+ GB("g-fox36slf",   "Fox 36 SL Factory", "Fox", {lr:["29"], fw:[120,130,140], std:140, mr:64, ka:"fox36sl", kaStd:"GRIP X", e:E(3,5,3,0,0,0,0), g:1915, p:1349}),
+ GB("g-fox36slpe",  "Fox 36 SL Performance Elite", "Fox", {lr:["29"], fw:[120,130,140], std:140, mr:64, ka:"fox36sl", kaStd:"GRIP X", e:E(3,5,3,0,0,0,0), g:1930, p:1149}),
+ GB("g-fox36slp",   "Fox 36 SL Performance · GRIP", "Fox", {lr:["29"], fw:[120,130,140], std:140, mr:64, e:E(2,5,3,0,0,0,0), g:1880, p:899}),
+ GB("g-fox36",      "Fox 36 Factory", "Fox", {fw:[140,150,160,170], std:160, ka:"fox36", kaStd:"GRIP X", e:E(0,3,5,2,0,0,0), g:2210, p:1429}),
+ GB("g-fox36pe",    "Fox 36 Performance Elite", "Fox", {fw:[140,150,160], std:160, ka:"fox36pe", e:E(0,3,5,2,0,0,0), g:2230, p:1199}),
+ GB("g-fox36perf",  "Fox 36 Performance · GRIP", "Fox", {fw:[140,150,160], std:160, e:E(0,4,5,2,0,0,0), g:2180, p:899}),
+ GB("g-rhythm",     "Fox 36 Rhythm · GRIP", "Fox", {fw:[150,160], std:160, e:E(0,3,5,2,0,0,0), g:2210, p:849}),
+ GB("g-fox38",      "Fox 38 Factory", "Fox", {fw:[160,170,180], std:170, mr:71, ms:220, ka:"fox38", e:E(0,2,5,4,0,0,0), g:2530, p:1549}),
+ GB("g-fox38pe",    "Fox 38 Performance Elite", "Fox", {fw:[160,170,180], std:170, mr:71, ms:220, ka:"fox38", e:E(0,2,5,4,0,0,0), g:2580, p:1299}),
+ GB("g-fox38perf",  "Fox 38 Performance · GRIP", "Fox", {fw:[160,170,180], std:180, mr:71, ms:220, e:E(0,1,5,4,0,0,0), g:2620, p:999}),
+ GB("g-fox40",      "Fox 40 Factory · Doppelbrücke", "Fox", {schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:220, ka:"fox40", e:E(0,0,0,5,0,0,0), g:2900, p:1899}),
+ GB("g-fox40perf",  "Fox 40 Performance · Doppelbrücke", "Fox", {schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2950, p:1399}),
+ GB("g-fox831",     "Fox 831 Performance", "Fox", {lr:["26","27.5"], va:"110x20", fw:[100], std:100, off:41, mr:62, e:E(0,0,0,0,5,4,1), g:1990, p:899}),
+ /* ── Marzocchi ── */
+ GB("g-z2",         "Marzocchi Bomber Z2 · Rail", "Marzocchi", {fw:[130,140,150], std:140, mr:64, e:E(2,5,2,0,0,0,0), g:2050, p:499}),
+ GB("g-z1",         "Marzocchi Bomber Z1 · GRIP", "Marzocchi", {fw:[150,160,170,180], std:160, e:E(0,3,5,3,0,0,0), g:2260, p:699}),
+ GB("g-z1coil",     "Marzocchi Bomber Z1 Coil · GRIP", "Marzocchi", {fw:[150,160,170,180], std:170, e:E(0,2,5,4,0,0,0), g:2550, p:749}),
+ GB("g-bomber58",   "Marzocchi Bomber 58 · Doppelbrücke", "Marzocchi", {schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2980, p:1599}),
+ GB("g-bomberdj",   "Marzocchi Bomber DJ", "Marzocchi", {lr:["26"], va:"110x20", fw:[100], std:100, off:42, mr:62, ms:180, e:E(0,0,0,0,5,4,1), g:2180, p:449}),
+ /* ── Öhlins, Formula, Manitou, DVO, Cane Creek, EXT, DT Swiss, MRP ── */
+ GB("g-rxf34",      "Öhlins RXF34 m.2", "Öhlins", {lr:["29"], fw:[120,130,140], std:130, mr:62, e:E(4,5,2,0,0,0,0), g:1790, p:1149}),
+ GB("g-rxf36",      "Öhlins RXF36 m.2 Air", "Öhlins", {fw:[150,160,170], std:160, e:E(0,3,5,2,0,0,0), g:2150, p:1249}),
+ GB("g-rxf36coil",  "Öhlins RXF36 m.2 Coil", "Öhlins", {fw:[150,160,170], std:160, e:E(0,2,5,3,0,0,0), g:2400, p:1349}),
+ GB("g-rxf38",      "Öhlins RXF38 m.2", "Öhlins", {fw:[160,170,180], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2540, p:1399}),
+ GB("g-dh38",       "Öhlins DH38 m.1 · Doppelbrücke", "Öhlins", {schaft:"dc", va:"110x20", fw:[200], std:200, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2950, p:2199}),
+ GB("g-selva",      "Formula Selva R", "Formula", {fw:[150,160,170,180], std:160, e:E(0,3,5,2,0,0,0), g:2150, p:849}),
+ GB("g-selvav",     "Formula Selva V · Coil", "Formula", {fw:[160,170,180], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2450, p:1049}),
+ GB("g-belva",      "Formula Belva · Doppelbrücke", "Formula", {schaft:"dc", va:"110x20", fw:[200], std:200, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2800, p:1799}),
+ GB("g-markhor",    "Manitou Markhor", "Manitou", {lr:["29"], fw:[100,120], std:100, mr:60, ms:180, e:E(4,3,0,0,0,0,0), g:1750, p:449}),
+ GB("g-machete",    "Manitou Machete", "Manitou", {fw:[130,140,150], std:140, mr:64, e:E(2,5,2,0,1,1,0), g:1880, p:499}),
+ GB("g-mattoc",     "Manitou Mattoc Pro", "Manitou", {fw:[140,150,160,170], std:160, e:E(0,3,5,2,0,0,0), g:2090, p:849}),
+ GB("g-mezzer",     "Manitou Mezzer Pro", "Manitou", {fw:[150,160,170,180], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2480, p:999}),
+ GB("g-dorado",     "Manitou Dorado Pro · Doppelbrücke", "Manitou", {schaft:"dc", va:"110x20", fw:[203], std:203, off:48, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2870, p:1999}),
+ GB("g-circus",     "Manitou Circus Expert · 1 1/8″ gerade", "Manitou", {schaft:"gerade", lr:["26"], va:"110x20", fw:[100], std:100, off:41, mr:60, ms:180, e:E(0,0,0,0,5,4,1), g:2250, p:389}),
+ GB("g-sapphire",   "DVO Sapphire D1", "DVO", {lr:["29"], fw:[130,140,150], std:140, mr:64, e:E(2,5,3,0,0,0,0), g:1930, p:849}),
+ GB("g-diamond",    "DVO Diamond D1", "DVO", {fw:[150,160,170], std:160, e:E(0,3,5,2,0,0,0), g:2200, p:999}),
+ GB("g-onyx",       "DVO Onyx D1 · Doppelbrücke", "DVO", {schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:3050, p:1699}),
+ GB("g-helm",       "Cane Creek Helm MKII Air", "Cane Creek", {fw:[140,150,160,170], std:160, e:E(0,3,5,2,0,0,0), g:2280, p:899}),
+ GB("g-helmcoil",   "Cane Creek Helm MKII Coil", "Cane Creek", {fw:[150,160,170], std:160, e:E(0,2,5,3,0,0,0), g:2470, p:949}),
+ GB("g-era",        "EXT Era V2.1", "EXT", {fw:[150,160,170], std:160, e:E(0,3,5,3,0,0,0), g:2300, p:1649}),
+ GB("g-f535",       "DT Swiss F 535 One", "DT Swiss", {fw:[150,160], std:160, e:E(1,5,4,1,0,0,0), g:2000, p:1099}),
+ GB("g-f232",       "DT Swiss F 232 One", "DT Swiss", {lr:["29"], fw:[100], std:100, mr:58, ms:180, e:E(5,1,0,0,0,0,0), g:1390, p:1049}),
+ GB("g-ribbon",     "MRP Ribbon Air", "MRP", {fw:[150,160,170], std:160, e:E(0,3,5,2,0,0,0), g:2150, p:999}),
+ /* ── Suntour, X-Fusion ── */
+ GB("g-xcr",        "SR Suntour XCR 32 Air", "SR Suntour", {fw:[100,120], std:100, mr:58, ms:180, e:E(3,2,0,0,0,0,0), g:1950, p:229}),
+ GB("g-axon",       "SR Suntour Axon34 Werx", "SR Suntour", {lr:["29"], fw:[110,120,130], std:120, mr:61, e:E(4,4,1,0,0,0,0), g:1650, p:699}),
+ GB("g-zeron",      "SR Suntour Zeron35", "SR Suntour", {fw:[140,150,160], std:150, e:E(1,4,3,0,0,0,0), g:2100, p:549}),
+ GB("g-durolux",    "SR Suntour Durolux38 R2C2", "SR Suntour", {fw:[160,170,180], std:170, mr:71, ms:220, e:E(0,2,5,3,0,0,0), g:2420, p:749}),
+ GB("g-rux",        "SR Suntour Rux38 · Doppelbrücke", "SR Suntour", {schaft:"dc", va:"110x20", fw:[200], std:200, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:3100, p:1299}),
+ GB("g-sweep",      "X-Fusion Sweep", "X-Fusion", {lr:["29"], fw:[130,140,150], std:140, mr:64, e:E(1,4,2,0,0,0,0), g:2000, p:449}),
+ GB("g-trace",      "X-Fusion Trace 36 HLR", "X-Fusion", {fw:[150,160,170], std:160, e:E(0,3,5,2,0,0,0), g:2260, p:649}),
+ /* ── Trial ── */
  {id:"g-trial26", n:"Starrgabel Trial 26″ Alu", m:"Trial", travel:0, schaft:"gerade", va:"100x20", lr:["26"],
-  offset:32, maxReifen:64, maxScheibeVR:180, felgenbremse:true, fb:{u:"#2a2f35",s:"#2a2f35"}, e:E(0,0,0,0,1,0,5), g:780, p:189},
+  offset:32, maxReifen:64, maxScheibeVR:180, felgenbremse:true, e:E(0,0,0,0,1,0,5), g:780, p:189},
+ {id:"g-trial24", n:"Starrgabel Trial 24″", m:"Trial", travel:0, schaft:"gerade", va:"100x20", lr:["24"],
+  offset:30, maxReifen:64, maxScheibeVR:180, felgenbremse:true, e:E(0,0,0,0,1,0,5), g:740, p:179},
  {id:"g-trial20", n:"Starrgabel Trial Mod 20″", m:"Trial", travel:0, schaft:"gerade", va:"100x20", lr:["20"],
-  offset:28, maxReifen:64, maxScheibeVR:160, felgenbremse:true, fb:{u:"#2a2f35",s:"#2a2f35"}, e:E(0,0,0,0,0,0,5), g:690, p:169},
- {id:"g-fox32sc", n:"Fox 32 Step-Cast Factory 100", m:"Fox", travel:100, schaft:"tapered", va:"110x15", lr:["29"], offset:44, maxReifen:58, maxScheibeVR:180, fb:{u:"#0e1013",s:"#c19a4b"}, e:E(5,1,0,0,0,0,0), g:1260, p:1099},
- {id:"g-sidult", n:"RockShox SID Ultimate 120", m:"RockShox", travel:120, schaft:"tapered", va:"110x15", lr:["29"], offset:44, maxReifen:61, maxScheibeVR:180, fb:{u:"#101215",s:"#c9ccd1"}, e:E(5,3,0,0,0,0,0), g:1500, p:1149},
- {id:"g-fox34sc", n:"Fox 34 Step-Cast Factory 120", m:"Fox", travel:120, schaft:"tapered", va:"110x15", lr:["29"], offset:44, maxReifen:61, maxScheibeVR:180, fb:{u:"#0e1013",s:"#c19a4b"}, e:E(5,4,0,0,0,0,0), g:1560, p:1249},
- {id:"g-revelation", n:"RockShox Revelation RC 150", m:"RockShox", travel:150, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#17191d",s:"#b9bcc1"}, e:E(1,5,3,0,0,0,0), g:2250, p:489},
- {id:"g-z2", n:"Marzocchi Bomber Z2 140", m:"Marzocchi", travel:140, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:64, maxScheibeVR:203, fb:{u:"#a81f1c",s:"#cfd2d6"}, e:E(2,5,2,0,0,0,0), g:2050, p:499},
- {id:"g-fox36perf", n:"Fox 36 Performance 160", m:"Fox", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#0e1013",s:"#20232a"}, e:E(0,4,5,2,0,0,0), g:2180, p:899},
- {id:"g-lyrikselect", n:"RockShox Lyrik Select+ 160", m:"RockShox", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#14161a",s:"#b9bcc1"}, e:E(0,3,5,2,0,0,0), g:2220, p:749},
- {id:"g-helm", n:"Cane Creek Helm MKII Air 160", m:"Cane Creek", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#1a1c1f",s:"#cfd2d6"}, e:E(0,3,5,2,0,0,0), g:2280, p:899},
- {id:"g-selva", n:"Formula Selva R 160", m:"Formula", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#16181c",s:"#c9ccd1"}, e:E(0,3,5,2,0,0,0), g:2150, p:849},
- {id:"g-trace", n:"X-Fusion Trace 36 HLR 160", m:"X-Fusion", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#16181c",s:"#c9ccd1"}, e:E(0,3,5,2,0,0,0), g:2260, p:649},
- {id:"g-diamond", n:"DVO Diamond D1 160", m:"DVO", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#16181c",s:"#3fb3c0"}, e:E(0,3,5,2,0,0,0), g:2200, p:999},
- {id:"g-mattoc", n:"Manitou Mattoc Pro 160", m:"Manitou", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#141a20",s:"#c9ccd1"}, e:E(0,3,5,2,0,0,0), g:2090, p:849},
- {id:"g-rxf36", n:"Öhlins RXF36 m.2 Air 160", m:"Öhlins", travel:160, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:66, maxScheibeVR:203, fb:{u:"#16181c",s:"#d9a441"}, e:E(0,3,5,2,0,0,0), g:2150, p:1249},
- {id:"g-fox38", n:"Fox 38 Factory GRIP X2 170", m:"Fox", travel:170, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:71, maxScheibeVR:220, fb:{u:"#0e1013",s:"#c19a4b"}, e:E(0,2,5,4,0,0,0), g:2530, p:1549},
- {id:"g-fox38perf", n:"Fox 38 Performance 180", m:"Fox", travel:180, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:71, maxScheibeVR:220, fb:{u:"#0e1013",s:"#20232a"}, e:E(0,1,5,4,0,0,0), g:2620, p:999},
- {id:"g-zebselect", n:"RockShox ZEB Select+ 170", m:"RockShox", travel:170, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:71, maxScheibeVR:220, fb:{u:"#14161a",s:"#b9bcc1"}, e:E(0,2,5,4,0,0,0), g:2560, p:899},
- {id:"g-domain", n:"RockShox Domain RC 180", m:"RockShox", travel:180, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:71, maxScheibeVR:220, fb:{u:"#17191d",s:"#b9bcc1"}, e:E(0,1,4,4,0,0,0), g:2750, p:439},
- {id:"g-mezzer", n:"Manitou Mezzer Pro 170", m:"Manitou", travel:170, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:71, maxScheibeVR:220, fb:{u:"#141a20",s:"#c9ccd1"}, e:E(0,2,5,4,0,0,0), g:2480, p:999},
- {id:"g-rxf38", n:"Öhlins RXF38 m.2 170", m:"Öhlins", travel:170, schaft:"tapered", va:"110x15", lr:["29","27.5"], offset:44, maxReifen:71, maxScheibeVR:220, fb:{u:"#16181c",s:"#d9a441"}, e:E(0,2,5,4,0,0,0), g:2540, p:1399},
- {id:"g-fox40", n:"Fox 40 Factory 203 · Doppelbrücke", m:"Fox", travel:203, schaft:"dc", va:"110x20", lr:["29","27.5"], offset:52, maxReifen:71, maxScheibeVR:220, fb:{u:"#0e1013",s:"#c19a4b"}, e:E(0,0,0,5,0,0,0), g:2900, p:1899},
- {id:"g-boxxerselect", n:"RockShox BoXXer Select 200 · Doppelbrücke", m:"RockShox", travel:200, schaft:"dc", va:"110x20", lr:["29","27.5"], offset:56, maxReifen:71, maxScheibeVR:220, fb:{u:"#14161a",s:"#b9bcc1"}, e:E(0,0,0,5,0,0,0), g:2980, p:999},
- {id:"g-dh38", n:"Öhlins DH38 m.1 200 · Doppelbrücke", m:"Öhlins", travel:200, schaft:"dc", va:"110x20", lr:["29","27.5"], offset:52, maxReifen:71, maxScheibeVR:220, fb:{u:"#16181c",s:"#d9a441"}, e:E(0,0,0,5,0,0,0), g:2950, p:2199},
- {id:"g-onyx", n:"DVO Onyx D1 203 · Doppelbrücke", m:"DVO", travel:203, schaft:"dc", va:"110x20", lr:["29","27.5"], offset:52, maxReifen:71, maxScheibeVR:220, fb:{u:"#16181c",s:"#3fb3c0"}, e:E(0,0,0,5,0,0,0), g:3050, p:1699},
- {id:"g-dorado", n:"Manitou Dorado Pro 203 · Doppelbrücke", m:"Manitou", travel:203, schaft:"dc", va:"110x20", lr:["29","27.5"], offset:48, maxReifen:71, maxScheibeVR:220, fb:{u:"#141a20",s:"#c9ccd1"}, e:E(0,0,0,5,0,0,0), g:2870, p:1999},
- {id:"g-trial24", n:"Starrgabel Trial 24″", m:"Trial", travel:0, schaft:"gerade", va:"100x20", lr:["24"], offset:30, maxReifen:64, maxScheibeVR:180, felgenbremse:true, fb:{u:"#2a2f35",s:"#2a2f35"}, e:E(0,0,0,0,1,0,5), g:740, p:179}
+  offset:28, maxReifen:64, maxScheibeVR:160, felgenbremse:true, e:E(0,0,0,0,0,0,5), g:690, p:169}
 ],
 daempfer:[
- {id:"d-sidluxe", n:"RockShox SIDLuxe Ultimate", m:"RockShox", el:185, hub:50, typ:"Trunnion", fb:"#c9ccd1", e:E(5,2,0,0,0,0,0), g:250, p:499},
- {id:"d-deluxe", n:"RockShox Deluxe Select+", m:"RockShox", el:210, hub:55, typ:"Trunnion", fb:"#1a1d21", e:E(2,5,3,0,0,0,0), g:490, p:279},
- {id:"d-dps", n:"Fox Float DPS Performance", m:"Fox", el:210, hub:55, typ:"Trunnion", fb:"#c19a4b", e:E(3,5,3,0,0,0,0), g:460, p:369},
- {id:"d-sd210", n:"RockShox Super Deluxe Ultimate", m:"RockShox", el:210, hub:55, typ:"Trunnion", fb:"#1a1d21", e:E(2,5,3,0,0,0,0), g:470, p:549},
- {id:"d-fx210", n:"Fox Float X Factory", m:"Fox", el:210, hub:55, typ:"Trunnion", fb:"#c19a4b", e:E(1,5,4,0,0,0,0), g:490, p:649},
- {id:"d-vivid205", n:"RockShox Vivid Air Ultimate", m:"RockShox", el:205, hub:65, typ:"Trunnion", fb:"#1a1d21", e:E(0,3,5,3,0,0,0), g:560, p:699},
- {id:"d-sd230", n:"RockShox Super Deluxe Coil", m:"RockShox", el:230, hub:65, typ:"Metric", fb:"#1a1d21", e:E(0,2,5,5,0,0,0), g:700, p:599},
- {id:"d-fx2", n:"Fox Float X2 Factory", m:"Fox", el:230, hub:65, typ:"Metric", fb:"#c19a4b", e:E(0,2,5,5,0,0,0), g:620, p:799},
- {id:"d-slope", n:"RockShox Deluxe Ultimate 190×45", m:"RockShox", el:190, hub:45, typ:"Metric", fb:"#1a1d21", e:E(0,1,0,0,2,5,0), g:410, p:459},
- {id:"d-sidluxe190", n:"RockShox SIDLuxe Ultimate 190×45", m:"RockShox", el:190, hub:45, typ:"Trunnion", fb:"#c9ccd1", e:E(5,3,0,0,0,0,0), g:255, p:519},
- {id:"d-dps190", n:"Fox Float DPS Factory 190×45", m:"Fox", el:190, hub:45, typ:"Trunnion", fb:"#c19a4b", e:E(5,3,0,0,0,0,0), g:270, p:549},
- {id:"d-dps190s", n:"Fox Float DPS Performance 190×45", m:"Fox", el:190, hub:45, typ:"Trunnion", fb:"#1a1d21", e:E(4,4,0,0,0,0,0), g:285, p:349},
- {id:"d-sd190", n:"RockShox Super Deluxe Ultimate 190×50", m:"RockShox", el:190, hub:50, typ:"Trunnion", fb:"#1a1d21", e:E(4,5,1,0,0,0,0), g:380, p:549},
- {id:"d-deluxe205", n:"RockShox Deluxe Select+ 205×60", m:"RockShox", el:205, hub:60, typ:"Trunnion", fb:"#1a1d21", e:E(2,5,3,0,0,0,0), g:480, p:299},
- {id:"d-sd205", n:"RockShox Super Deluxe Ultimate 205×60", m:"RockShox", el:205, hub:60, typ:"Trunnion", fb:"#1a1d21", e:E(2,5,4,0,0,0,0), g:470, p:569},
- {id:"d-fx205", n:"Fox Float X Factory 205×60", m:"Fox", el:205, hub:60, typ:"Trunnion", fb:"#c19a4b", e:E(1,5,4,0,0,0,0), g:495, p:679},
- {id:"d-x2-205", n:"Fox Float X2 Factory 205×65", m:"Fox", el:205, hub:65, typ:"Trunnion", fb:"#c19a4b", e:E(0,3,5,3,0,0,0), g:625, p:829},
- {id:"d-sdcoil205", n:"RockShox Super Deluxe Coil Ultimate 205×65", m:"RockShox", el:205, hub:65, typ:"Trunnion", fb:"#1a1d21", e:E(0,2,5,4,0,0,0), g:720, p:629},
- {id:"d-bomber210", n:"Marzocchi Bomber CR 210×55", m:"Marzocchi", el:210, hub:55, typ:"Trunnion", fb:"#a81f1c", e:E(0,4,5,2,0,0,0), g:710, p:399},
- {id:"d-topaz210", n:"DVO Topaz T3 Air 210×55", m:"DVO", el:210, hub:55, typ:"Trunnion", fb:"#3fb3c0", e:E(1,5,4,0,0,0,0), g:510, p:549},
- {id:"d-ttx2air", n:"Öhlins TTX2 Air 230×65", m:"Öhlins", el:230, hub:65, typ:"Metric", fb:"#d9a441", e:E(0,3,5,4,0,0,0), g:610, p:1099},
- {id:"d-ttx22m", n:"Öhlins TTX22m Coil 230×65", m:"Öhlins", el:230, hub:65, typ:"Metric", fb:"#d9a441", e:E(0,1,5,5,0,0,0), g:760, p:1199},
- {id:"d-kitsuma", n:"Cane Creek Kitsuma Coil 230×65", m:"Cane Creek", el:230, hub:65, typ:"Metric", fb:"#1a1c1f", e:E(0,1,5,5,0,0,0), g:740, p:749},
- {id:"d-storia", n:"EXT Storia V3 230×65", m:"EXT", el:230, hub:65, typ:"Metric", fb:"#c8102e", e:E(0,1,5,5,0,0,0), g:790, p:1349},
- {id:"d-dhx2", n:"Fox DHX2 Factory Coil 230×65", m:"Fox", el:230, hub:65, typ:"Metric", fb:"#c19a4b", e:E(0,1,5,5,0,0,0), g:780, p:899},
- {id:"d-vivid230", n:"RockShox Vivid Ultimate 230×65", m:"RockShox", el:230, hub:65, typ:"Metric", fb:"#1a1d21", e:E(0,2,5,5,0,0,0), g:620, p:739},
- {id:"d-dhx250", n:"Fox DHX2 Factory Coil 250×75", m:"Fox", el:250, hub:75, typ:"Metric", fb:"#c19a4b", e:E(0,0,1,5,0,0,0), g:860, p:949},
- {id:"d-vivid250", n:"RockShox Vivid Coil Ultimate 250×75", m:"RockShox", el:250, hub:75, typ:"Metric", fb:"#1a1d21", e:E(0,0,1,5,0,0,0), g:880, p:779},
- {id:"d-ttx250", n:"Öhlins TTX22m Coil 250×75", m:"Öhlins", el:250, hub:75, typ:"Metric", fb:"#d9a441", e:E(0,0,1,5,0,0,0), g:900, p:1249},
- {id:"d-sidluxe185", n:"RockShox SIDLuxe Ultimate 185×45", m:"RockShox", el:185, hub:45, typ:"Trunnion", fb:"#c9ccd1", e:E(5,3,0,0,0,0,0), g:250, p:519},
- {id:"d-dps185", n:"Fox Float DPS Factory 185×45", m:"Fox", el:185, hub:45, typ:"Trunnion", fb:"#c19a4b", e:E(5,3,0,0,0,0,0), g:265, p:549}
+ /* ── RockShox ── */
+ DP("d-sidluxe",  "RockShox SIDLuxe", "RockShox", {au:TR.rs2, em:"xc", std:"185x50T", e:E(5,2,0,0,0,0,0), g:250, p:499}),
+ DP("d-deluxe",   "RockShox Deluxe", "RockShox", {au:TR.rs3, em:"trail", std:"210x55T", e:E(3,5,3,0,2,4,0), g:440, p:459}),
+ DP("d-sd",       "RockShox Super Deluxe", "RockShox", {au:TR.rs3, em:"trailEnduro", std:"210x55T", e:E(2,5,4,1,1,2,0), g:470, p:599}),
+ DP("d-sdcoil",   "RockShox Super Deluxe Coil", "RockShox", {au:TR.rs2, em:"coil", std:"230x65M", e:E(0,2,5,5,1,2,0), g:700, p:629}),
+ DP("d-vivid",    "RockShox Vivid Air", "RockShox", {au:TR.rs2, em:"enduro", std:"205x65T", e:E(0,3,5,4,0,1,0), g:560, p:739}),
+ DP("d-vividcoil","RockShox Vivid Coil", "RockShox", {au:TR.rs2, em:"coil", std:"250x75M", e:E(0,0,2,5,0,0,0), g:880, p:779}),
+ /* ── Fox ── */
+ DP("d-floatsl",  "Fox Float SL", "Fox", {au:TR.fox3, em:"xc", std:"185x50T", e:E(5,3,0,0,0,0,0), g:230, p:549}),
+ DP("d-dps",      "Fox Float DPS", "Fox", {au:TR.fox3, em:"trail", std:"210x55T", e:E(4,5,2,0,0,1,0), g:300, p:549}),
+ DP("d-floatx",   "Fox Float X", "Fox", {au:TR.fox3, em:"trailEnduro", std:"210x55T", e:E(1,5,5,2,0,1,0), g:490, p:679}),
+ DP("d-x2",       "Fox Float X2", "Fox", {au:TR.fox2, em:"enduro", std:"230x65M", e:E(0,3,5,4,0,0,0), g:620, p:849}),
+ DP("d-dhx",      "Fox DHX Coil", "Fox", {au:TR.fox3, em:"coil", std:"230x65M", e:E(0,3,5,4,1,2,0), g:700, p:699}),
+ DP("d-dhx2",     "Fox DHX2 Coil", "Fox", {au:TR.fox2, em:"coil", std:"230x65M", e:E(0,1,5,5,0,0,0), g:780, p:899}),
+ /* ── Weitere ── */
+ DP("d-bomberair","Marzocchi Bomber Air", "Marzocchi", {em:"trailEnduro", std:"210x55T", e:E(1,5,4,1,0,0,0), g:480, p:379}),
+ DP("d-bomber210","Marzocchi Bomber CR Coil", "Marzocchi", {em:"coil", std:"210x55T", e:E(0,4,5,2,1,2,0), g:710, p:399}),
+ DP("d-ttx1",     "Öhlins TTX1 Air", "Öhlins", {em:"trail", std:"210x55T", e:E(2,5,4,0,0,0,0), g:450, p:849}),
+ DP("d-ttx2air",  "Öhlins TTX2 Air", "Öhlins", {em:"enduro", std:"230x65M", e:E(0,3,5,4,0,0,0), g:610, p:1099}),
+ DP("d-ttx22m",   "Öhlins TTX22m.2 Coil", "Öhlins", {em:"coil", std:"230x65M", e:E(0,1,5,5,0,0,0), g:760, p:1199}),
+ DP("d-dbair",    "Cane Creek DBAir IL", "Cane Creek", {em:"trailEnduro", std:"210x55T", e:E(1,5,5,2,0,0,0), g:520, p:749}),
+ DP("d-dbcoil",   "Cane Creek DBCoil IL", "Cane Creek", {em:"coil", std:"230x65M", e:E(0,2,5,5,0,0,0), g:720, p:799}),
+ DP("d-kitsumaair","Cane Creek Kitsuma Air", "Cane Creek", {em:"enduro", std:"205x60T", e:E(1,5,5,2,0,0,0), g:520, p:649}),
+ DP("d-kitsuma",  "Cane Creek Kitsuma Coil", "Cane Creek", {em:"coil", std:"230x65M", e:E(0,1,5,5,0,0,0), g:740, p:749}),
+ DP("d-topaz210", "DVO Topaz T3 Air", "DVO", {em:"trail", std:"210x55T", e:E(1,5,4,0,0,0,0), g:510, p:549}),
+ DP("d-jade",     "DVO Jade X Coil", "DVO", {em:"coil", std:"230x65M", e:E(0,2,5,5,0,0,0), g:690, p:749}),
+ DP("d-storia",   "EXT Storia V3 Coil", "EXT", {em:"coil", std:"230x65M", e:E(0,1,5,5,0,0,0), g:790, p:1349}),
+ DP("d-aria",     "EXT Aria V2 Coil", "EXT", {em:"trail", std:"210x55T", e:E(1,5,5,2,0,1,0), g:560, p:1099}),
+ DP("d-elevensix","Push ElevenSix Coil", "Push", {em:"coil", std:"230x65M", e:E(0,2,5,5,0,0,0), g:850, p:1399}),
+ DP("d-mod",      "Formula Mod Coil", "Formula", {em:"coil", std:"230x65M", e:E(0,2,5,4,0,0,0), g:720, p:899}),
+ DP("d-mara",     "Manitou Mara Pro Air", "Manitou", {em:"trailEnduro", std:"230x65M", e:E(1,5,5,2,0,0,0), g:520, p:549}),
+ DP("d-h3c",      "X-Fusion H3C Coil", "X-Fusion", {em:"coil", std:"230x65M", e:E(0,2,4,4,0,1,0), g:760, p:449}),
+ DP("d-triair",   "SR Suntour TriAir 2", "SR Suntour", {em:"trail", std:"210x55T", e:E(2,4,2,0,0,0,0), g:470, p:349}),
+ DP("d-r232",     "DT Swiss R 232 One", "DT Swiss", {em:"xc", std:"185x50T", e:E(5,2,0,0,0,0,0), g:240, p:599})
 ],
 laufraeder:[
  {id:"w-dtm1900", n:"DT Swiss M 1900 Spline 30", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"HG",
-  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#3a3f45", e:E(3,5,3,0,0,0,0), g:2050, p:379},
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#3a3f45", e:E(3,5,3,0,0,0,0), g:2050, p:379, v:[FL("HG")]},
  {id:"w-hunt", n:"Hunt Trail Wide V2", m:"Hunt", lrV:"29", lrH:"29", iw:29, freilauf:"XD",
-  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#2b2f34", e:E(4,5,3,0,0,0,0), g:1830, p:429},
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#2b2f34", e:E(4,5,3,0,0,0,0), g:1830, p:429, v:[FL("XD")]},
  {id:"w-dtxm1700", n:"DT Swiss XM 1700 Spline 30", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline",
-  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#3a3f45", e:E(3,5,4,0,0,0,0), g:1850, p:549},
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#3a3f45", e:E(3,5,4,0,0,0,0), g:1850, p:549, v:[FL("Micro Spline")]},
  {id:"w-newmen", n:"Newmen Evolution SL A.30", m:"Newmen", lrV:"29", lrH:"29", iw:30, freilauf:"HG",
-  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:110, fb:"#1c1f24", fbn:"#2b2f34", e:E(4,5,2,0,0,0,0), g:1680, p:599},
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:110, fb:"#1c1f24", fbn:"#2b2f34", e:E(4,5,2,0,0,0,0), g:1680, p:599, v:[FL("HG")]},
  {id:"w-dtex", n:"DT Swiss EX 1700 Spline", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"XD",
-  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#3a3f45", e:E(1,4,5,3,0,0,0), g:1950, p:749},
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#3a3f45", e:E(1,4,5,3,0,0,0), g:1950, p:749, v:[FL("XD")]},
  {id:"w-hope", n:"Hope Fortus 30 · Pro 5", m:"Hope", lrV:"29", lrH:"29", iw:30, freilauf:"XD",
-  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#16181c", fbn:"#6b4fa8", e:E(2,5,5,2,0,0,0), g:1890, p:899},
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#16181c", fbn:"#6b4fa8", e:E(2,5,5,2,0,0,0), g:1890, p:899, v:[FL("XD")]},
  {id:"w-dt1501", n:"DT Swiss XM 1501 Spline One", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline",
-  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#b0b6bc", e:E(4,5,3,0,0,0,0), g:1750, p:999},
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#b0b6bc", e:E(4,5,3,0,0,0,0), g:1750, p:999, v:[FL("Micro Spline")]},
  {id:"w-reserve", n:"Reserve 30 SL Carbon", m:"Reserve", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline",
-  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#101214", fbn:"#2b2f34", e:E(5,5,3,0,0,0,0), g:1560, p:1499},
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#101214", fbn:"#2b2f34", e:E(5,5,3,0,0,0,0), g:1560, p:1499, v:[FL("Micro Spline")]},
  {id:"w-mulletdt", n:"DT Swiss XM 1700 · Mullet 29/27.5", m:"DT Swiss", lrV:"29", lrH:"27.5", iw:30, freilauf:"Micro Spline",
-  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#3a3f45", e:E(0,3,5,3,0,0,0), g:1880, p:599},
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#3a3f45", e:E(0,3,5,3,0,0,0), g:1880, p:599, v:[FL("Micro Spline")]},
  {id:"w-cbmullet", n:"Crankbrothers Synthesis E11 · Mullet", m:"Crankbrothers", lrV:"29", lrH:"27.5", iw:30, freilauf:"XD",
-  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#1c1f24", fbn:"#b8860b", e:E(0,3,5,3,0,0,0), g:1810, p:1899},
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#1c1f24", fbn:"#b8860b", e:E(0,3,5,3,0,0,0), g:1810, p:1899, v:[FL("XD")]},
  {id:"w-sb15", n:"Spank 359 Super Boost · 15 mm VA", m:"Spank", lrV:"29", lrH:"27.5", iw:30, freilauf:"HG",
-  va:"110x15", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#14171b", fbn:"#2b2f34", e:E(0,1,4,5,0,0,0), g:2080, p:529},
+  va:"110x15", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#14171b", fbn:"#2b2f34", e:E(0,1,4,5,0,0,0), g:2080, p:529, v:[FL("HG")]},
  {id:"w-spankSB", n:"Spank 359 Vibrocore DH · 20 mm VA", m:"Spank", lrV:"29", lrH:"27.5", iw:30, freilauf:"HG",
-  va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#14171b", fbn:"#2b2f34", e:E(0,0,2,5,0,0,0), g:2180, p:549},
+  va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#14171b", fbn:"#2b2f34", e:E(0,0,2,5,0,0,0), g:2180, p:549, v:[FL("HG")]},
  {id:"w-dirt26", n:"Spank Spike Race 33 · 26″ Dirt", m:"Spank", lrV:"26", lrH:"26", iw:33, freilauf:"HG",
-  va:"110x20", ha:"142x12", naben:"6-Loch", maxSys:140, fb:"#14171b", fbn:"#2b2f34", e:E(0,0,0,0,5,5,1), g:2050, p:479},
+  va:"110x20", ha:"142x12", naben:"6-Loch", maxSys:140, fb:"#14171b", fbn:"#2b2f34", e:E(0,0,0,0,5,5,1), g:2050, p:479, v:[FL("HG")]},
  {id:"w-trial26", n:"Trial Stock 26″ · Felgenflanke gezahnt", m:"Trial", lrV:"26", lrH:"26", iw:30, freilauf:"Trial (Ritzel fest)",
   va:"100x20", ha:"135x10", naben:"6-Loch", maxSys:130, felgenbremse:true, fb:"#2a2f35", fbn:"#2b2f34", e:E(0,0,0,0,1,0,5), g:1950, p:699},
  {id:"w-trialmod", n:"Trial Mod 20/19″ · Felgenflanke gezahnt", m:"Trial", lrV:"20", lrH:"19", iw:32, freilauf:"Trial (Ritzel fest)",
   va:"100x20", ha:"116x10", naben:"6-Loch", maxSys:130, felgenbremse:true, fb:"#2a2f35", fbn:"#2b2f34", e:E(0,0,0,0,0,0,5), g:1680, p:659},
- {id:"w-stansflow", n:"Stan's Flow MK4", m:"Stan's", lrV:"29", lrH:"29", iw:29, freilauf:"HG", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#16181c", fbn:"#2b2f34", e:E(2,5,4,1,0,0,0), g:1900, p:549},
- {id:"w-newmenphase", n:"Newmen Phase 30", m:"Newmen", lrV:"29", lrH:"29", iw:30, freilauf:"HG", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#1c1f24", fbn:"#2b2f34", e:E(3,5,4,0,0,0,0), g:1790, p:699},
- {id:"w-bontline", n:"Bontrager Line Elite 30", m:"Bontrager", lrV:"29", lrH:"29", iw:29, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:125, fb:"#16181c", fbn:"#3a3f45", e:E(3,5,4,0,0,0,0), g:1820, p:899},
- {id:"w-crossmax", n:"Mavic Crossmax XL", m:"Mavic", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#3a3f45", e:E(2,5,5,1,0,0,0), g:1880, p:899},
- {id:"w-rovalcontrol", n:"Roval Control SL Carbon", m:"Roval", lrV:"29", lrH:"29", iw:29, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:115, fb:"#101214", fbn:"#2b2f34", e:E(5,4,1,0,0,0,0), g:1290, p:1899},
- {id:"w-dtxmc1200", n:"DT Swiss XMC 1200 Spline", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#101214", fbn:"#3a3f45", e:E(5,5,3,0,0,0,0), g:1450, p:1999},
- {id:"w-reservehd", n:"Reserve 30 HD Carbon", m:"Reserve", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:135, fb:"#101214", fbn:"#2b2f34", e:E(1,4,5,3,0,0,0), g:1780, p:1699},
- {id:"w-huntend", n:"Hunt Enduro Wide V2", m:"Hunt", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#2b2f34", e:E(1,4,5,2,0,0,0), g:1930, p:599},
- {id:"w-raceturb", n:"Race Face Turbine R 30", m:"Race Face", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#16181c", fbn:"#2b2f34", e:E(2,5,5,2,0,0,0), g:1900, p:749},
- {id:"w-racenext", n:"Race Face Next R 31 Carbon", m:"Race Face", lrV:"29", lrH:"29", iw:31, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#101214", fbn:"#2b2f34", e:E(2,5,5,2,0,0,0), g:1680, p:1499},
- {id:"w-rovaltrav", n:"Roval Traverse SL II Carbon", m:"Roval", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#101214", fbn:"#2b2f34", e:E(1,5,5,2,0,0,0), g:1590, p:1799},
- {id:"w-dtexc1501", n:"DT Swiss EXC 1501 Spline One", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#101214", fbn:"#3a3f45", e:E(1,4,5,3,0,0,0), g:1750, p:1799},
- {id:"w-i9enduro", n:"Industry Nine Enduro S", m:"Industry Nine", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:135, fb:"#16181c", fbn:"#c8102e", e:E(0,4,5,3,0,0,0), g:1950, p:1299},
- {id:"w-e13grappler", n:"e*thirteen Grappler Alloy", m:"e*thirteen", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:140, fb:"#16181c", fbn:"#2b2f34", e:E(0,3,5,4,0,0,0), g:2080, p:649},
- {id:"w-mulletex", n:"DT Swiss EX 1700 · Mullet 29/27.5", m:"DT Swiss", lrV:"29", lrH:"27.5", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#3a3f45", e:E(0,3,5,3,0,0,0), g:1960, p:649},
- {id:"w-mulletnew", n:"Newmen Evolution · Mullet 29/27.5", m:"Newmen", lrV:"29", lrH:"27.5", iw:30, freilauf:"HG", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#1c1f24", fbn:"#2b2f34", e:E(0,3,5,2,0,0,0), g:1840, p:679},
- {id:"w-dtsb1700", n:"DT Swiss XM 1700 · Super Boost 29", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline", va:"110x15", ha:"157x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#3a3f45", e:E(2,5,4,1,0,0,0), g:1950, p:679},
- {id:"w-hopesb", n:"Hope Fortus 30 · Super Boost", m:"Hope", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"157x12", naben:"6-Loch", maxSys:135, fb:"#16181c", fbn:"#6b4fa8", e:E(1,5,5,2,0,0,0), g:1980, p:949},
- {id:"w-dtfr29", n:"DT Swiss FR 1950 Classic 29", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"HG", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#16181c", fbn:"#3a3f45", e:E(0,0,2,5,0,0,0), g:2240, p:629},
- {id:"w-dtfr275", n:"DT Swiss FR 1950 Classic 27.5", m:"DT Swiss", lrV:"27.5", lrH:"27.5", iw:30, freilauf:"HG", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#16181c", fbn:"#3a3f45", e:E(0,0,2,5,0,0,0), g:2180, p:629},
- {id:"w-deemax29", n:"Mavic Deemax DH 29", m:"Mavic", lrV:"29", lrH:"29", iw:30, freilauf:"HG", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#16181c", fbn:"#f0c419", e:E(0,0,2,5,0,0,0), g:2150, p:899},
- {id:"w-e13lg1", n:"e*thirteen LG1 Race Carbon 29", m:"e*thirteen", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#101214", fbn:"#2b2f34", e:E(0,0,2,5,0,0,0), g:1990, p:1599},
- {id:"w-spankdh275", n:"Spank 359 Vibrocore 27.5 DH", m:"Spank", lrV:"27.5", lrH:"27.5", iw:30, freilauf:"HG", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#14171b", fbn:"#2b2f34", e:E(0,0,2,5,0,0,0), g:2120, p:529},
+ {id:"w-stansflow", n:"Stan's Flow MK4", m:"Stan's", lrV:"29", lrH:"29", iw:29, freilauf:"HG", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#16181c", fbn:"#2b2f34", e:E(2,5,4,1,0,0,0), g:1900, p:549, v:[FL("HG")]},
+ {id:"w-newmenphase", n:"Newmen Phase 30", m:"Newmen", lrV:"29", lrH:"29", iw:30, freilauf:"HG", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#1c1f24", fbn:"#2b2f34", e:E(3,5,4,0,0,0,0), g:1790, p:699, v:[FL("HG")]},
+ {id:"w-bontline", n:"Bontrager Line Elite 30", m:"Bontrager", lrV:"29", lrH:"29", iw:29, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:125, fb:"#16181c", fbn:"#3a3f45", e:E(3,5,4,0,0,0,0), g:1820, p:899, v:[FL("Micro Spline")]},
+ {id:"w-crossmax", n:"Mavic Crossmax XL", m:"Mavic", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#3a3f45", e:E(2,5,5,1,0,0,0), g:1880, p:899, v:[FL("Micro Spline")]},
+ {id:"w-rovalcontrol", n:"Roval Control SL Carbon", m:"Roval", lrV:"29", lrH:"29", iw:29, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:115, fb:"#101214", fbn:"#2b2f34", e:E(5,4,1,0,0,0,0), g:1290, p:1899, v:[FL("Micro Spline")]},
+ {id:"w-dtxmc1200", n:"DT Swiss XMC 1200 Spline", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#101214", fbn:"#3a3f45", e:E(5,5,3,0,0,0,0), g:1450, p:1999, v:[FL("Micro Spline")]},
+ {id:"w-reservehd", n:"Reserve 30 HD Carbon", m:"Reserve", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:135, fb:"#101214", fbn:"#2b2f34", e:E(1,4,5,3,0,0,0), g:1780, p:1699, v:[FL("Micro Spline")]},
+ {id:"w-huntend", n:"Hunt Enduro Wide V2", m:"Hunt", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#2b2f34", e:E(1,4,5,2,0,0,0), g:1930, p:599, v:[FL("XD")]},
+ {id:"w-raceturb", n:"Race Face Turbine R 30", m:"Race Face", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#16181c", fbn:"#2b2f34", e:E(2,5,5,2,0,0,0), g:1900, p:749, v:[FL("XD")]},
+ {id:"w-racenext", n:"Race Face Next R 31 Carbon", m:"Race Face", lrV:"29", lrH:"29", iw:31, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#101214", fbn:"#2b2f34", e:E(2,5,5,2,0,0,0), g:1680, p:1499, v:[FL("XD")]},
+ {id:"w-rovaltrav", n:"Roval Traverse SL II Carbon", m:"Roval", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#101214", fbn:"#2b2f34", e:E(1,5,5,2,0,0,0), g:1590, p:1799, v:[FL("XD")]},
+ {id:"w-dtexc1501", n:"DT Swiss EXC 1501 Spline One", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#101214", fbn:"#3a3f45", e:E(1,4,5,3,0,0,0), g:1750, p:1799, v:[FL("XD")]},
+ {id:"w-i9enduro", n:"Industry Nine Enduro S", m:"Industry Nine", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:135, fb:"#16181c", fbn:"#c8102e", e:E(0,4,5,3,0,0,0), g:1950, p:1299, v:[FL("XD")]},
+ {id:"w-e13grappler", n:"e*thirteen Grappler Alloy", m:"e*thirteen", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:140, fb:"#16181c", fbn:"#2b2f34", e:E(0,3,5,4,0,0,0), g:2080, p:649, v:[FL("XD")]},
+ {id:"w-mulletex", n:"DT Swiss EX 1700 · Mullet 29/27.5", m:"DT Swiss", lrV:"29", lrH:"27.5", iw:30, freilauf:"XD", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#3a3f45", e:E(0,3,5,3,0,0,0), g:1960, p:649, v:[FL("XD")]},
+ {id:"w-mulletnew", n:"Newmen Evolution · Mullet 29/27.5", m:"Newmen", lrV:"29", lrH:"27.5", iw:30, freilauf:"HG", va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#1c1f24", fbn:"#2b2f34", e:E(0,3,5,2,0,0,0), g:1840, p:679, v:[FL("HG")]},
+ {id:"w-dtsb1700", n:"DT Swiss XM 1700 · Super Boost 29", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline", va:"110x15", ha:"157x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#3a3f45", e:E(2,5,4,1,0,0,0), g:1950, p:679, v:[FL("Micro Spline")]},
+ {id:"w-hopesb", n:"Hope Fortus 30 · Super Boost", m:"Hope", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x15", ha:"157x12", naben:"6-Loch", maxSys:135, fb:"#16181c", fbn:"#6b4fa8", e:E(1,5,5,2,0,0,0), g:1980, p:949, v:[FL("XD")]},
+ {id:"w-dtfr29", n:"DT Swiss FR 1950 Classic 29", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"HG", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#16181c", fbn:"#3a3f45", e:E(0,0,2,5,0,0,0), g:2240, p:629, v:[FL("HG")]},
+ {id:"w-dtfr275", n:"DT Swiss FR 1950 Classic 27.5", m:"DT Swiss", lrV:"27.5", lrH:"27.5", iw:30, freilauf:"HG", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#16181c", fbn:"#3a3f45", e:E(0,0,2,5,0,0,0), g:2180, p:629, v:[FL("HG")]},
+ {id:"w-deemax29", n:"Mavic Deemax DH 29", m:"Mavic", lrV:"29", lrH:"29", iw:30, freilauf:"HG", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#16181c", fbn:"#f0c419", e:E(0,0,2,5,0,0,0), g:2150, p:899, v:[FL("HG")]},
+ {id:"w-e13lg1", n:"e*thirteen LG1 Race Carbon 29", m:"e*thirteen", lrV:"29", lrH:"29", iw:30, freilauf:"XD", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#101214", fbn:"#2b2f34", e:E(0,0,2,5,0,0,0), g:1990, p:1599, v:[FL("XD")]},
+ {id:"w-spankdh275", n:"Spank 359 Vibrocore 27.5 DH", m:"Spank", lrV:"27.5", lrH:"27.5", iw:30, freilauf:"HG", va:"110x20", ha:"157x12", naben:"6-Loch", maxSys:150, fb:"#14171b", fbn:"#2b2f34", e:E(0,0,2,5,0,0,0), g:2120, p:529, v:[FL("HG")]},
  {id:"w-dirt26qr", n:"Spank Spike 26″ · 135×10", m:"Spank", lrV:"26", lrH:"26", iw:30, freilauf:"HG", va:"110x20", ha:"135x10", naben:"6-Loch", maxSys:140, fb:"#14171b", fbn:"#2b2f34", e:E(0,0,0,0,5,4,1), g:2010, p:449},
  {id:"w-street24", n:"Spank Spike 24″ Street", m:"Spank", lrV:"24", lrH:"24", iw:30, freilauf:"HG", va:"100x20", ha:"135x10", naben:"6-Loch", maxSys:140, felgenbremse:true, fb:"#14171b", fbn:"#2b2f34", e:E(0,0,0,0,4,2,4), g:1880, p:469},
- {id:"w-trial24", n:"Trial 24″ · Felgenflanke gezahnt", m:"Trial", lrV:"24", lrH:"24", iw:31, freilauf:"Trial (Ritzel fest)", va:"100x20", ha:"135x10", naben:"6-Loch", maxSys:130, felgenbremse:true, fb:"#2a2f35", fbn:"#2b2f34", e:E(0,0,0,0,1,0,5), g:1870, p:679}
+ {id:"w-trial24", n:"Trial 24″ · Felgenflanke gezahnt", m:"Trial", lrV:"24", lrH:"24", iw:31, freilauf:"Trial (Ritzel fest)", va:"100x20", ha:"135x10", naben:"6-Loch", maxSys:130, felgenbremse:true, fb:"#2a2f35", fbn:"#2b2f34", e:E(0,0,0,0,1,0,5), g:1870, p:679},
+ {id:"w-dtex1501", n:"DT Swiss EX 1501 Spline One 30", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, e:E(1,5,5,3,0,0,0), g:1870, p:999, v:[FL("XD")]},
+ {id:"w-dtex27", n:"DT Swiss EX 1700 Spline 27.5", m:"DT Swiss", lrV:"27.5", lrH:"27.5", iw:30, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, e:E(1,4,5,3,0,0,0), g:1850, p:749, v:[FL("XD")]},
+ {id:"w-roval", n:"Roval Traverse Alloy 350", m:"Roval", lrV:"29", lrH:"29", iw:30, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:120, e:E(2,5,4,1,0,0,0), g:1990, p:649, v:[FL("XD")]},
+ {id:"w-xtwheel", n:"Shimano XT WH-M8120 Trail", m:"Shimano", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline",
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, e:E(2,5,4,1,0,0,0), g:1850, p:699},
+ {id:"w-weareone", n:"We Are One Union · Hydra", m:"We Are One", lrV:"29", lrH:"29", iw:30, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(1,5,5,3,0,0,0), g:1800, p:1999, v:[FL("XD")]},
+ {id:"w-zipp", n:"Zipp 3Zero Moto", m:"Zipp", lrV:"29", lrH:"29", iw:30, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(1,4,5,4,0,0,0), g:1850, p:1999, v:[FL("XD")]},
+ {id:"w-i9trail", n:"Industry Nine Hydra Trail 300", m:"Industry Nine", lrV:"29", lrH:"29", iw:30, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:120, e:E(3,5,4,1,0,0,0), g:1750, p:1499, v:[FL("XD")]},
+ {id:"w-duroc", n:"Sun Ringlé Duroc 30 Expert", m:"Sun Ringlé", lrV:"29", lrH:"29", iw:30, freilauf:"HG",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(1,4,5,3,0,0,0), g:2050, p:399, v:[FL("HG")]},
+ {id:"w-synthalloy", n:"Crankbrothers Synthesis Alloy Enduro", m:"Crankbrothers", lrV:"29", lrH:"29", iw:31, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(1,4,5,3,0,0,0), g:2050, p:799, v:[FL("XD")]},
+ {id:"w-horizon", n:"Nukeproof Horizon V2", m:"Nukeproof", lrV:"29", lrH:"29", iw:30, freilauf:"HG",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:125, e:E(1,5,5,2,0,0,0), g:1950, p:549, v:[FL("HG")]},
+ {id:"w-hope35", n:"Hope Fortus 35W · Pro 5", m:"Hope", lrV:"29", lrH:"29", iw:35, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(0,4,5,4,0,0,0), g:2050, p:949, v:[FL("XD")]},
+ {id:"w-hopemx", n:"Hope Fortus 30 · Mullet 29/27.5", m:"Hope", lrV:"29", lrH:"27.5", iw:30, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(0,4,5,4,0,0,0), g:1880, p:899, v:[FL("XD")]},
+ {id:"w-hope27", n:"Hope Fortus 30 · 27.5", m:"Hope", lrV:"27.5", lrH:"27.5", iw:30, freilauf:"XD",
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(1,4,5,4,0,0,0), g:1800, p:899, v:[FL("XD")]}
 ],
 reifen:[
  {id:"t-rekon", n:"Maxxis Rekon Race 2.35", m:"Maxxis", groessen:["29","27.5"], breite:60, iw:[23,30], grip:1.5, e:E(5,2,0,0,0,0,0), g:690, p:64},
@@ -1022,7 +1249,38 @@ reifen:[
  {id:"t-ibex", n:"Onza Ibex 2.4 TRC", m:"Onza", groessen:["29","27.5"], breite:61, iw:[25,32], grip:4, e:E(0,3,5,3,0,0,0), g:1130, p:59},
  {id:"t-dth24", n:"Maxxis DTH 24×2.3 · Street", m:"Maxxis", groessen:["24"], breite:58, iw:[25,35], grip:2.5, e:E(0,0,0,0,4,3,4), g:700, p:42},
  {id:"t-hookworm", n:"Maxxis Hookworm 26×2.5 · Street", m:"Maxxis", groessen:["26","24"], breite:63, iw:[25,38], grip:2, e:E(0,0,0,0,4,2,4), g:1150, p:44},
- {id:"t-monty24", n:"Monty Eagle Claw 24×2.5 · Trial", m:"Monty", groessen:["24"], breite:63, iw:[28,38], grip:5, e:E(0,0,0,0,1,0,5), g:1180, p:56}
+ {id:"t-monty24", n:"Monty Eagle Claw 24×2.5 · Trial", m:"Monty", groessen:["24"], breite:63, iw:[28,38], grip:5, e:E(0,0,0,0,1,0,5), g:1180, p:56},
+ {id:"t-dhf25", n:"Maxxis Minion DHF 2.5 WT EXO+", m:"Maxxis", groessen:["29","27.5"], breite:63, iw:[30,35], grip:4.5, e:E(0,4,5,4,0,1,0), g:1150, p:79},
+ {id:"t-dhf23", n:"Maxxis Minion DHF 2.3 EXO", m:"Maxxis", groessen:["29","27.5","26"], breite:58, iw:[21,30], grip:4, e:E(2,5,4,1,0,1,0), g:850, p:69},
+ {id:"t-hr3", n:"Maxxis High Roller III 2.4 EXO+", m:"Maxxis", groessen:["29","27.5"], breite:61, iw:[25,35], grip:4.5, e:E(0,4,5,3,0,1,0), g:1150, p:79},
+ {id:"t-rekon24", n:"Maxxis Rekon 2.4 EXO", m:"Maxxis", groessen:["29","27.5"], breite:61, iw:[25,35], grip:3, e:E(3,5,3,0,0,1,0), g:850, p:69},
+ {id:"t-ikon", n:"Maxxis Ikon 2.35 EXO", m:"Maxxis", groessen:["29","27.5"], breite:59, iw:[21,30], grip:2, e:E(5,3,0,0,0,0,0), g:700, p:64},
+ {id:"t-shorty", n:"Maxxis Shorty 2.4 WT EXO", m:"Maxxis", groessen:["29","27.5"], breite:61, iw:[30,35], grip:4.5, e:E(0,3,4,4,0,0,0), g:1100, p:79},
+ {id:"t-assegaiexo", n:"Maxxis Assegai 2.5 WT EXO", m:"Maxxis", groessen:["29","27.5"], breite:63, iw:[30,35], grip:5, e:E(0,4,5,4,0,0,0), g:1100, p:79},
+ {id:"t-grifter", n:"Maxxis Grifter 26×2.3 · Dirt", m:"Maxxis", groessen:["26"], breite:58, iw:[21,35], grip:1.5, e:E(0,0,0,0,5,5,1), g:700, p:45},
+ {id:"t-tacky", n:"Schwalbe Tacky Chan 2.4 Super Trail", m:"Schwalbe", groessen:["29","27.5"], breite:62, iw:[25,35], grip:4.5, e:E(0,4,5,3,0,0,0), g:1150, p:79},
+ {id:"t-shredda", n:"Schwalbe Shredda 2.5 Radial Gravity", m:"Schwalbe", groessen:["29","27.5"], breite:63, iw:[28,35], grip:4.5, e:E(0,3,5,4,0,0,0), g:1300, p:85},
+ {id:"t-rockrazor", n:"Schwalbe Rock Razor 2.35 Super Trail", m:"Schwalbe", groessen:["29","27.5"], breite:60, iw:[23,35], grip:2.5, e:E(1,4,4,1,0,1,0), g:950, p:65},
+ {id:"t-thunder", n:"Schwalbe Thunder Burt 2.25 Super Race", m:"Schwalbe", groessen:["29"], breite:57, iw:[21,30], grip:1, e:E(5,1,0,0,0,0,0), g:590, p:62},
+ {id:"t-tabletop", n:"Schwalbe Table Top 26×2.25 · Dirt", m:"Schwalbe", groessen:["26"], breite:57, iw:[21,35], grip:1.5, e:E(0,0,0,0,5,4,0), g:600, p:39},
+ {id:"t-kryptotaldh", n:"Continental Kryptotal-F 2.4 Downhill", m:"Continental", groessen:["29","27.5"], breite:61, iw:[25,32], grip:5, e:E(0,1,4,5,0,1,0), g:1350, p:79},
+ {id:"t-xynotaltrail", n:"Continental Xynotal 2.4 Trail", m:"Continental", groessen:["29","27.5"], breite:61, iw:[25,32], grip:3.5, e:E(2,5,3,0,0,0,0), g:950, p:69},
+ {id:"t-ruban", n:"Continental Ruban 2.3", m:"Continental", groessen:["29","27.5"], breite:58, iw:[21,30], grip:3, e:E(2,4,2,0,1,1,0), g:850, p:39},
+ {id:"t-crossking", n:"Continental Cross King 2.3", m:"Continental", groessen:["29","27.5"], breite:58, iw:[21,30], grip:2.5, e:E(4,4,1,0,0,0,0), g:700, p:49},
+ {id:"t-groundcontrol", n:"Specialized Ground Control GRID T7 2.35", m:"Specialized", groessen:["29","27.5"], breite:60, iw:[23,32], grip:3, e:E(3,5,3,0,0,0,0), g:900, p:55},
+ {id:"t-wildrear", n:"Michelin Wild Enduro Rear 2.4", m:"Michelin", groessen:["29","27.5"], breite:61, iw:[25,35], grip:4, e:E(0,4,5,3,0,0,0), g:1250, p:79},
+ {id:"t-forceam2", n:"Michelin Force AM2 2.4", m:"Michelin", groessen:["29","27.5"], breite:61, iw:[25,35], grip:3.5, e:E(2,5,3,0,0,0,0), g:950, p:59},
+ {id:"t-agarro", n:"Vittoria Agarro 2.35", m:"Vittoria", groessen:["29","27.5"], breite:60, iw:[23,32], grip:3.5, e:E(3,5,3,0,0,0,0), g:900, p:64},
+ {id:"t-mota", n:"Vittoria Mota 2.4", m:"Vittoria", groessen:["29","27.5"], breite:61, iw:[25,35], grip:5, e:E(0,3,5,4,0,0,0), g:1150, p:69},
+ {id:"t-scorpionenduro", n:"Pirelli Scorpion Enduro S 2.4", m:"Pirelli", groessen:["29","27.5"], breite:61, iw:[25,35], grip:4, e:E(0,4,5,3,0,0,0), g:1100, p:75},
+ {id:"t-scorpiontrail", n:"Pirelli Scorpion Trail M 2.4", m:"Pirelli", groessen:["29","27.5"], breite:61, iw:[25,35], grip:3.5, e:E(2,5,3,0,0,0,0), g:950, p:69},
+ {id:"t-vigilante", n:"WTB Vigilante 2.5 Tough", m:"WTB", groessen:["29","27.5"], breite:64, iw:[28,35], grip:4.5, e:E(0,4,5,3,0,0,0), g:1250, p:69},
+ {id:"t-trailboss", n:"WTB Trail Boss 2.4 Light", m:"WTB", groessen:["29","27.5"], breite:61, iw:[25,35], grip:3, e:E(2,5,3,0,0,0,0), g:1000, p:59},
+ {id:"t-newton", n:"Goodyear Newton MTF 2.5", m:"Goodyear", groessen:["29","27.5"], breite:63, iw:[28,35], grip:4.5, e:E(0,4,5,4,0,0,0), g:1200, p:69},
+ {id:"t-escape", n:"Goodyear Escape 2.35", m:"Goodyear", groessen:["29","27.5"], breite:60, iw:[23,32], grip:3, e:E(3,5,2,0,0,0,0), g:850, p:55},
+ {id:"t-grappler", n:"e*thirteen Grappler 2.5 Endurance", m:"e*thirteen", groessen:["29","27.5"], breite:63, iw:[28,35], grip:4.5, e:E(0,4,5,4,0,0,0), g:1250, p:69},
+ {id:"t-hellkat", n:"Kenda Hellkat 2.4 AGC", m:"Kenda", groessen:["29","27.5"], breite:61, iw:[25,35], grip:4, e:E(0,4,5,3,0,0,0), g:1150, p:60},
+ {id:"t-smallblock", n:"Kenda Small Block 8 26×2.1", m:"Kenda", groessen:["26"], breite:53, iw:[19,30], grip:1.5, e:E(1,0,0,0,4,3,0), g:580, p:29}
 ],
 schalthebel:[
  {id:"sh-deore11", n:"Shimano Deore SL-M5100", m:"Shimano", gaenge:11, iface:"Shimano", fb:"#8a9096", e:E(4,4,2,0,1,1,0), g:120, p:35},
@@ -1041,7 +1299,15 @@ schalthebel:[
  {id:"sh-x01", n:"SRAM X01 Eagle Trigger", m:"SRAM", gaenge:12, iface:"Eagle", fb:"#1a1c1f", e:E(4,5,5,2,0,0,0), g:118, p:119},
  {id:"sh-xx1", n:"SRAM XX1 Eagle Trigger", m:"SRAM", gaenge:12, iface:"Eagle", fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:112, p:169},
  {id:"sh-e90", n:"SRAM Eagle 90 Transmission Trigger", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:130, p:99},
- {id:"sh-xxsl", n:"SRAM XX SL Eagle AXS Pod", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:65, p:249}
+ {id:"sh-xxsl", n:"SRAM XX SL Eagle AXS Pod", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:65, p:249},
+ {id:"sh-xxt", n:"SRAM XX Eagle AXS Pod", m:"SRAM", gaenge:12, iface:"T-Type", e:E(4,5,5,2,0,0,0), g:68, p:229},
+ {id:"sh-e70", n:"SRAM Eagle 70 Transmission Trigger", m:"SRAM", gaenge:12, iface:"T-Type", e:E(2,5,4,2,0,0,0), g:135, p:69},
+ {id:"sh-xtrdi2", n:"Shimano XTR Di2 SW-M9250", m:"Shimano", gaenge:12, iface:"Shimano Di2", e:E(5,5,4,1,0,0,0), g:60, p:199},
+ {id:"sh-cues11", n:"Shimano CUES U8000 11-fach", m:"Shimano", gaenge:11, iface:"Shimano", e:E(3,4,2,0,1,1,0), g:125, p:39},
+ {id:"sh-deore10", n:"Shimano Deore SL-M4100 10-fach", m:"Shimano", gaenge:10, iface:"Shimano", e:E(3,4,1,0,1,1,0), g:120, p:25},
+ {id:"sh-cues9", n:"Shimano CUES U4000 9-fach", m:"Shimano", gaenge:9, iface:"Shimano", e:E(3,3,1,0,1,1,0), g:125, p:19},
+ {id:"sh-advent9", n:"microSHIFT Advent 9-fach Trigger", m:"microSHIFT", gaenge:9, iface:"Shimano", e:E(3,3,1,0,1,1,0), g:130, p:25},
+ {id:"sh-box9", n:"Box Prime 9 Trigger", m:"Box", gaenge:9, iface:"Box", e:E(3,4,3,1,1,1,0), g:110, p:79}
 ],
 schaltwerk:[
  {id:"sw-deore11", n:"Shimano Deore RD-M5100 SGS", m:"Shimano", gaenge:11, iface:"Shimano", maxRitzel:51, maxKB:34, udhPflicht:false, fb:"#8a9096", e:E(4,4,2,0,1,1,0), g:320, p:45},
@@ -1061,7 +1327,14 @@ schaltwerk:[
  {id:"sw-xx1", n:"SRAM XX1 Eagle", m:"SRAM", gaenge:12, iface:"Eagle", maxRitzel:52, maxKB:36, udhPflicht:false, fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:265, p:379},
  {id:"sw-e90", n:"SRAM Eagle 90 Transmission", m:"SRAM", gaenge:12, iface:"T-Type", maxRitzel:52, maxKB:38, udhPflicht:true, fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:486, p:229},
  {id:"sw-e70", n:"SRAM Eagle 70 Transmission", m:"SRAM", gaenge:12, iface:"T-Type", maxRitzel:52, maxKB:38, udhPflicht:true, fb:"#1a1c1f", e:E(3,5,4,2,0,0,0), g:510, p:169},
- {id:"sw-xxsl", n:"SRAM XX SL Eagle Transmission", m:"SRAM", gaenge:12, iface:"T-Type", maxRitzel:52, maxKB:38, udhPflicht:true, fb:"#c9a227", e:E(5,5,5,2,0,0,0), g:398, p:749}
+ {id:"sw-xxsl", n:"SRAM XX SL Eagle Transmission", m:"SRAM", gaenge:12, iface:"T-Type", maxRitzel:52, maxKB:38, udhPflicht:true, fb:"#c9a227", e:E(5,5,5,2,0,0,0), g:398, p:749},
+ {id:"sw-xxt", n:"SRAM XX Eagle Transmission", m:"SRAM", gaenge:12, iface:"T-Type", maxRitzel:52, maxKB:38, udhPflicht:true, e:E(4,5,5,2,0,0,0), g:453, p:649},
+ {id:"sw-xtrdi2", n:"Shimano XTR Di2 RD-M9250", m:"Shimano", gaenge:12, iface:"Shimano Di2", maxRitzel:51, maxKB:38, udhPflicht:false, e:E(5,5,4,1,0,0,0), g:415, p:629},
+ {id:"sw-cues11", n:"Shimano CUES U8000 11-fach", m:"Shimano", gaenge:11, iface:"Shimano", maxRitzel:50, maxKB:38, udhPflicht:false, e:E(3,4,2,0,1,1,0), g:330, p:69},
+ {id:"sw-deore10", n:"Shimano Deore RD-M5120 SGS 10-fach", m:"Shimano", gaenge:10, iface:"Shimano", maxRitzel:46, maxKB:34, udhPflicht:false, e:E(3,4,2,0,1,1,0), g:320, p:39},
+ {id:"sw-cues9", n:"Shimano CUES U4000 9-fach", m:"Shimano", gaenge:9, iface:"Shimano", maxRitzel:46, maxKB:36, udhPflicht:false, e:E(3,3,1,0,1,1,0), g:320, p:29},
+ {id:"sw-advent9", n:"microSHIFT Advent 9-fach", m:"microSHIFT", gaenge:9, iface:"Shimano", maxRitzel:46, maxKB:38, udhPflicht:false, e:E(3,3,1,0,1,1,0), g:330, p:39},
+ {id:"sw-box9", n:"Box Prime 9 X-Wide", m:"Box", gaenge:9, iface:"Box", maxRitzel:50, maxKB:38, udhPflicht:false, e:E(3,4,3,1,1,1,0), g:300, p:139}
 ],
 kassette:[
  {id:"ka-ss",      n:"Singlespeed-Ritzel 18 Z.", m:"Generisch", gaenge:1, freilauf:"HG", spanne:[18,18], fb:"#aeb4ba", e:E(0,0,0,1,5,5,1), g:60, p:19},
@@ -1073,7 +1346,7 @@ kassette:[
  {id:"ka-slx",     n:"Shimano SLX CS-M7100 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], fb:"#aeb4ba", e:E(4,5,4,1,1,1,0), g:534, p:99},
  {id:"ka-xt",      n:"Shimano XT CS-M8100 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], fb:"#aeb4ba", e:E(5,5,4,1,1,1,0), g:470, p:149},
  {id:"ka-gx",      n:"SRAM XG-1275 GX Eagle 10-52", m:"SRAM", gaenge:12, freilauf:"XD", spanne:[10,52], fb:"#aeb4ba", e:E(4,5,4,1,1,1,0), g:452, p:179},
- {id:"ka-xs1275",  n:"SRAM XS-1275 Transmission 10-52", m:"SRAM", gaenge:12, freilauf:"XD", spanne:[10,52], fb:"#aeb4ba", e:E(3,5,5,2,0,0,0), g:445, p:229},
+ {id:"ka-xs1275",  n:"SRAM XS-1275 GX / Eagle 90 Transmission 10-52", m:"SRAM", gaenge:12, freilauf:"XD", tType:true, spanne:[10,52], fb:"#aeb4ba", e:E(3,5,5,2,0,0,0), g:445, p:229},
  {id:"ka-xtr",     n:"Shimano XTR CS-M9100 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], fb:"#b9bec4", e:E(5,4,3,1,0,0,0), g:367, p:349},
  {id:"ka-cues", n:"Shimano CUES CS-LG400 11-48", m:"Shimano", gaenge:10, freilauf:"HG", spanne:[11,48], fb:"#aeb4ba", e:E(4,4,1,0,1,1,0), g:530, p:45},
  {id:"ka-advent", n:"microSHIFT Advent X 11-48", m:"microSHIFT", gaenge:10, freilauf:"HG", spanne:[11,48], fb:"#aeb4ba", e:E(3,4,2,0,1,1,0), g:545, p:52},
@@ -1083,7 +1356,20 @@ kassette:[
  {id:"ka-helix", n:"e*thirteen Helix Race 9-50", m:"e*thirteen", gaenge:12, freilauf:"XD", spanne:[9,50], fb:"#aeb4ba", e:E(3,5,4,1,0,0,0), g:490, p:199},
  {id:"ka-x01", n:"SRAM XG-1295 X01 Eagle 10-52", m:"SRAM", gaenge:12, freilauf:"XD", spanne:[10,52], fb:"#aeb4ba", e:E(4,5,5,2,0,0,0), g:372, p:299},
  {id:"ka-xx1", n:"SRAM XG-1299 XX1 Eagle 10-52", m:"SRAM", gaenge:12, freilauf:"XD", spanne:[10,52], fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:355, p:449},
- {id:"ka-xs1297", n:"SRAM XS-1297 Transmission 10-52", m:"SRAM", gaenge:12, freilauf:"XD", spanne:[10,52], fb:"#c9a227", e:E(5,5,5,2,0,0,0), g:378, p:489}
+ {id:"ka-xs1297", n:"SRAM XS-1297 XX Transmission 10-52", m:"SRAM", gaenge:12, freilauf:"XD", tType:true, spanne:[10,52], fb:"#c9a227", e:E(5,5,5,2,0,0,0), g:378, p:489},
+ {id:"ka-xs1270", n:"SRAM XS-1270 Eagle 70 / S1000 Transmission 10-52", m:"SRAM", gaenge:12, freilauf:"HG", tType:true, spanne:[10,52], e:E(2,5,4,2,0,0,0), g:556, p:199},
+ {id:"ka-xs1295", n:"SRAM XS-1295 X0 Transmission 10-52", m:"SRAM", gaenge:12, freilauf:"XD", tType:true, spanne:[10,52], e:E(4,5,5,2,0,0,0), g:386, p:429},
+ {id:"ka-xs1299", n:"SRAM XS-1299 XX SL Transmission 10-52", m:"SRAM", gaenge:12, freilauf:"XD", tType:true, spanne:[10,52], e:E(5,5,4,1,0,0,0), g:350, p:599},
+ {id:"ka-sx", n:"SRAM PG-1210 SX Eagle 11-50", m:"SRAM", gaenge:12, freilauf:"HG", spanne:[11,50], e:E(2,3,2,0,1,1,0), g:700, p:49},
+ {id:"ka-xtr9200", n:"Shimano XTR CS-M9200 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], e:E(5,5,3,1,0,0,0), g:369, p:399},
+ {id:"ka-xtr945", n:"Shimano XTR CS-M9200 9-45", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[9,45], e:E(5,4,2,0,0,0,0), g:327, p:399},
+ {id:"ka-xt45", n:"Shimano XT CS-M8100 10-45", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,45], e:E(5,4,3,1,0,0,0), g:443, p:139},
+ {id:"ka-slx45", n:"Shimano SLX CS-M7100 10-45", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,45], e:E(4,4,3,1,0,0,0), g:494, p:89},
+ {id:"ka-cues11", n:"Shimano CUES CS-LG700 11-50 · 11-fach", m:"Shimano", gaenge:11, freilauf:"HG", spanne:[11,50], e:E(3,4,2,0,1,1,0), g:600, p:79},
+ {id:"ka-deore10", n:"Shimano Deore CS-M4100 11-46 · 10-fach", m:"Shimano", gaenge:10, freilauf:"HG", spanne:[11,46], e:E(3,4,1,0,1,1,0), g:500, p:49},
+ {id:"ka-cues9", n:"Shimano CUES CS-LG300 11-46 · 9-fach", m:"Shimano", gaenge:9, freilauf:"HG", spanne:[11,46], e:E(3,3,1,0,1,1,0), g:590, p:35},
+ {id:"ka-advent9", n:"microSHIFT Advent 11-46 · 9-fach", m:"microSHIFT", gaenge:9, freilauf:"HG", spanne:[11,46], e:E(3,3,1,0,1,1,0), g:520, p:39},
+ {id:"ka-box9", n:"Box Prime 9 X-Wide 11-50 · 9-fach", m:"Box", gaenge:9, freilauf:"HG", spanne:[11,50], e:E(3,4,3,1,1,1,0), g:440, p:99}
 ],
 kette:[
  {id:"ke-ss",      n:"Singlespeed-Kette 1/8″", m:"Generisch", gaenge:1, iface:"", fb:"#aeb4ba", e:E(0,0,0,1,5,5,3), g:320, p:14},
@@ -1095,146 +1381,205 @@ kette:[
  {id:"ke-m7100",   n:"Shimano CN-M7100 12-fach", m:"Shimano", gaenge:12, iface:"", fb:"#aeb4ba", e:E(4,5,4,1,1,1,0), g:252, p:36},
  {id:"ke-m8100",   n:"Shimano CN-M8100 12-fach", m:"Shimano", gaenge:12, iface:"", fb:"#aeb4ba", e:E(5,5,4,1,1,1,0), g:252, p:42},
  {id:"ke-m9100",   n:"Shimano CN-M9100 12-fach", m:"Shimano", gaenge:12, iface:"", fb:"#b9bec4", e:E(5,4,3,1,0,0,0), g:242, p:55},
- {id:"ke-flattop", n:"SRAM Eagle Transmission Flattop", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#aeb4ba", e:E(3,5,5,2,0,0,0), g:285, p:69},
+ {id:"ke-flattop", n:"SRAM GX / Eagle 90 / Eagle 70 Transmission Flattop", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#aeb4ba", e:E(3,5,5,2,0,0,0), g:285, p:69},
  {id:"ke-lg500", n:"Shimano CN-LG500 10/11-fach", m:"Shimano", gaenge:10, iface:"", fb:"#aeb4ba", e:E(4,4,2,1,2,2,0), g:295, p:22},
  {id:"ke-kmcx12", n:"KMC X12 12-fach", m:"KMC", gaenge:12, iface:"", fb:"#aeb4ba", e:E(4,5,4,1,1,1,0), g:258, p:27},
  {id:"ke-kmcx12sl", n:"KMC X12 SL DLC 12-fach", m:"KMC", gaenge:12, iface:"", fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:240, p:79},
  {id:"ke-connex", n:"Connex 12SX 12-fach", m:"Connex", gaenge:12, iface:"", fb:"#aeb4ba", e:E(4,5,4,1,1,1,0), g:262, p:45},
  {id:"ke-x01", n:"SRAM X01 Eagle 12-fach", m:"SRAM", gaenge:12, iface:"", fb:"#aeb4ba", e:E(4,5,5,2,0,0,0), g:259, p:59},
  {id:"ke-xx1", n:"SRAM XX1 Eagle 12-fach", m:"SRAM", gaenge:12, iface:"", fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:248, p:89},
- {id:"ke-flattopx0", n:"SRAM X0 Transmission Flattop", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#aeb4ba", e:E(4,5,5,2,0,0,0), g:278, p:89}
+ {id:"ke-flattopx0", n:"SRAM X0 Transmission Flattop", m:"SRAM", gaenge:12, iface:"T-Type", fb:"#aeb4ba", e:E(4,5,5,2,0,0,0), g:278, p:89},
+ {id:"ke-flattopxx", n:"SRAM XX Transmission Flattop", m:"SRAM", gaenge:12, iface:"T-Type", e:E(4,5,5,2,0,0,0), g:270, p:99},
+ {id:"ke-flattopsl", n:"SRAM XX SL Transmission Flattop · hohl", m:"SRAM", gaenge:12, iface:"T-Type", e:E(5,5,4,1,0,0,0), g:245, p:129},
+ {id:"ke-kmcx11", n:"KMC X11 11-fach", m:"KMC", gaenge:11, iface:"", e:E(3,4,2,0,1,1,0), g:255, p:29},
+ {id:"ke-kmcx10", n:"KMC X10 10-fach", m:"KMC", gaenge:10, iface:"", e:E(3,4,2,1,2,2,0), g:270, p:22},
+ {id:"ke-kmcx9", n:"KMC X9 9-fach", m:"KMC", gaenge:9, iface:"", e:E(3,3,1,0,1,1,0), g:290, p:18},
+ {id:"ke-hg53", n:"Shimano CN-HG53 9-fach", m:"Shimano", gaenge:9, iface:"", e:E(3,3,1,0,1,1,0), g:295, p:15},
+ {id:"ke-box9", n:"Box Prime 9 Kette", m:"Box", gaenge:9, iface:"", e:E(3,4,3,1,1,1,0), g:280, p:29}
 ],
 kurbel:[
- {id:"k-nx", n:"SRAM NX Eagle DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,4,3,1,0,0,0), g:780, p:99},
- {id:"k-slx", n:"Shimano SLX M7100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#b9bec4", e:E(3,5,4,1,0,0,0), g:680, p:149},
- {id:"k-race", n:"Race Face Aeffect R · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(3,5,4,2,1,1,0), g:720, p:129},
- {id:"k-gx", n:"SRAM GX Eagle DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(4,5,4,1,0,0,0), g:650, p:179},
- {id:"k-xt", n:"Shimano XT M8100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#b9bec4", e:E(4,5,4,1,0,0,0), g:620, p:199},
- {id:"k-x0t", n:"SRAM X0 Eagle Transmission DUB", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:590, p:399},
- {id:"k-hope", n:"Hope Evo Crank 170 · 30 mm", m:"Hope", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#6b4fa8", e:E(3,5,5,3,2,2,1), g:610, p:399},
- {id:"k-xtr", n:"Shimano XTR M9100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#c5cad0", e:E(5,4,3,0,0,0,0), g:530, p:449},
- {id:"k-nextSB", n:"Race Face Next R · Super Boost", m:"Race Face", iface:"30 mm", kl:56.5, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(0,1,4,5,0,0,0), g:520, p:449},
+ {id:"k-nx", n:"SRAM NX Eagle DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,4,3,1,0,0,0), g:780, p:99, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-slx", n:"Shimano SLX M7100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#b9bec4", e:E(3,5,4,1,0,0,0), g:680, p:149, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
+ {id:"k-race", n:"Race Face Aeffect R · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(3,5,4,2,1,1,0), g:720, p:129, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-gx", n:"SRAM GX Eagle DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(4,5,4,1,0,0,0), g:650, p:179, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-xt", n:"Shimano XT M8100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#b9bec4", e:E(4,5,4,1,0,0,0), g:620, p:199, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
+ {id:"k-x0t", n:"SRAM X0 Eagle Transmission DUB", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:590, p:399, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-hope", n:"Hope Evo Crank · 30 mm", m:"Hope", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#6b4fa8", e:E(3,5,5,3,2,2,1), g:610, p:399, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-xtr", n:"Shimano XTR M9100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#c5cad0", e:E(5,4,3,0,0,0,0), g:530, p:449, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
+ {id:"k-nextSB", n:"Race Face Next R · Super Boost", m:"Race Face", iface:"30 mm", kl:56.5, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(0,1,4,5,0,0,0), g:520, p:449, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-dirt", n:"Race Face Ride 170 · 25 Z. Dirt", m:"Race Face", iface:"30 mm", kl:49, kb:25, laenge:170, gaenge:1, fb:"#16181c", e:E(0,0,0,1,5,5,1), g:820, p:99},
  {id:"k-trial", n:"Trial-Kurbel 170 · Freilauf 18 Z.", m:"Trial", iface:"ISIS", kl:47, kb:18, laenge:170, gaenge:1, fb:"#2a2f35", e:E(0,0,0,0,1,0,5), g:940, p:289},
  {id:"k-trialmod", n:"Trial Mod Kurbel 165 · Freilauf 18 Z.", m:"Trial", iface:"ISIS", kl:43, kb:18, laenge:165, gaenge:1, fb:"#2a2f35", e:E(0,0,0,0,0,0,5), g:890, p:279},
- {id:"k-deore", n:"Shimano Deore M6100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#8a9096", e:E(3,5,3,1,0,0,0), g:720, p:89},
- {id:"k-saint", n:"Shimano Saint M820", m:"Shimano", iface:"Hollowtech II", kl:52, kb:34, laenge:170, gaenge:10, fb:"#7f868d", e:E(0,1,4,5,4,4,0), g:790, p:229},
- {id:"k-zee", n:"Shimano Zee M645", m:"Shimano", iface:"Hollowtech II", kl:52, kb:34, laenge:170, gaenge:10, fb:"#8a9096", e:E(0,1,3,5,5,5,0), g:830, p:149},
- {id:"k-stylo", n:"SRAM Stylo 6K DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,4,3,1,1,1,0), g:700, p:129},
- {id:"k-descendant", n:"Truvativ Descendant 6K DUB", m:"Truvativ", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(2,5,5,3,2,2,0), g:680, p:169},
- {id:"k-x01", n:"SRAM X01 Eagle DUB Carbon", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(4,5,5,2,0,0,0), g:490, p:349},
- {id:"k-xx1", n:"SRAM XX1 Eagle DUB Carbon", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:175, gaenge:12, fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:460, p:479},
- {id:"k-atlas", n:"Race Face Atlas 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(1,5,5,4,3,3,0), g:760, p:249},
- {id:"k-nextsl", n:"Race Face Next SL Carbon", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:175, gaenge:12, fb:"#101214", e:E(5,5,3,0,0,0,0), g:430, p:549},
- {id:"k-eewings", n:"Cane Creek eeWings Titan", m:"Cane Creek", iface:"30 mm", kl:52, kb:32, laenge:175, gaenge:12, fb:"#b9bec4", e:E(3,5,5,3,2,2,0), g:400, p:999},
- {id:"k-praxis", n:"Praxis Girder Carbon", m:"Praxis", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#101214", e:E(3,5,4,1,0,0,0), g:560, p:399},
- {id:"k-hopesb", n:"Hope Evo Super Boost 170", m:"Hope", iface:"30 mm", kl:56.5, kb:32, laenge:170, gaenge:12, fb:"#6b4fa8", e:E(0,1,4,5,0,0,0), g:620, p:449},
- {id:"k-saintsb", n:"Shimano Saint M820 Super Boost", m:"Shimano", iface:"Hollowtech II", kl:56.5, kb:34, laenge:165, gaenge:10, fb:"#7f868d", e:E(0,0,3,5,2,2,0), g:840, p:249}
+ {id:"k-deore", n:"Shimano Deore M6100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#8a9096", e:E(3,5,3,1,0,0,0), g:720, p:89, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
+ {id:"k-saint", n:"Shimano Saint M820", m:"Shimano", iface:"Hollowtech II", kl:52, kb:34, laenge:170, gaenge:10, fb:"#7f868d", e:E(0,1,4,5,4,4,0), g:790, p:229, v:[KL([165, 170, 175],170), KB([32, 34, 36],34)]},
+ {id:"k-zee", n:"Shimano Zee M645", m:"Shimano", iface:"Hollowtech II", kl:52, kb:34, laenge:170, gaenge:10, fb:"#8a9096", e:E(0,1,3,5,5,5,0), g:830, p:149, v:[KL([165, 170, 175],170), KB([32, 34, 36],34)]},
+ {id:"k-stylo", n:"SRAM Stylo 6K DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,4,3,1,1,1,0), g:700, p:129, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-descendant", n:"Truvativ Descendant 6K DUB", m:"Truvativ", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(2,5,5,3,2,2,0), g:680, p:169, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-x01", n:"SRAM X01 Eagle DUB Carbon", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(4,5,5,2,0,0,0), g:490, p:349, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-xx1", n:"SRAM XX1 Eagle DUB Carbon", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:175, gaenge:12, fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:460, p:479, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
+ {id:"k-atlas", n:"Race Face Atlas 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(1,5,5,4,3,3,0), g:760, p:249, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-nextsl", n:"Race Face Next SL Carbon", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:175, gaenge:12, fb:"#101214", e:E(5,5,3,0,0,0,0), g:430, p:549, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
+ {id:"k-eewings", n:"Cane Creek eeWings Titan", m:"Cane Creek", iface:"30 mm", kl:52, kb:32, laenge:175, gaenge:12, fb:"#b9bec4", e:E(3,5,5,3,2,2,0), g:400, p:999, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
+ {id:"k-praxis", n:"Praxis Girder Carbon", m:"Praxis", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#101214", e:E(3,5,4,1,0,0,0), g:560, p:399, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-hopesb", n:"Hope Evo · Super Boost", m:"Hope", iface:"30 mm", kl:56.5, kb:32, laenge:170, gaenge:12, fb:"#6b4fa8", e:E(0,1,4,5,0,0,0), g:620, p:449, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-saintsb", n:"Shimano Saint M820 Super Boost", m:"Shimano", iface:"Hollowtech II", kl:56.5, kb:34, laenge:165, gaenge:10, fb:"#7f868d", e:E(0,0,3,5,2,2,0), g:840, p:249, v:[KL([165, 170, 175],165), KB([32, 34, 36],34)]},
+ {id:"k-gxt", n:"SRAM GX Eagle Transmission DUB", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,0,0,0), g:690, p:229, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-e90", n:"SRAM Eagle 90 Transmission DUB", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,0,0,0), g:740, p:159, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-e70", n:"SRAM Eagle 70 Transmission DUB", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, e:E(2,5,4,2,0,0,0), g:790, p:119, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-xxt", n:"SRAM XX Eagle Transmission DUB Carbon", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, e:E(4,5,5,2,0,0,0), g:520, p:699, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-xxsl", n:"SRAM XX SL Eagle Transmission DUB Carbon", m:"SRAM", iface:"DUB", kl:55, kb:34, laenge:170, gaenge:12, e:E(5,5,3,0,0,0,0), g:460, p:799, v:[KL([165, 170, 175],170), KB([30, 32, 34],34)]},
+ {id:"k-sx", n:"SRAM SX Eagle PowerSpline", m:"SRAM", iface:"PowerSpline", kl:52, kb:32, laenge:170, gaenge:12, e:E(2,3,2,0,0,0,0), g:900, p:59, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-deore11", n:"Shimano Deore M5100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:11, e:E(3,4,2,0,1,1,0), g:780, p:69, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
+ {id:"k-cues", n:"Shimano CUES FC-U6000 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:170, gaenge:10, e:E(3,4,1,0,1,1,0), g:800, p:49, v:[KL([165, 170, 175],170), KB([32, 34, 36],32)]},
+ {id:"k-turbine", n:"Race Face Turbine · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,1,1,0), g:650, p:229, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-era", n:"Race Face Era Carbon · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, e:E(4,5,5,2,0,0,0), g:420, p:699, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-desccarbon", n:"Truvativ Descendant Carbon DUB", m:"Truvativ", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,1,1,0), g:520, p:279, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]}
 ],
 bremsen:[
- {id:"b-deore", n:"Shimano Deore M6120 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:180, mount:"Center Lock", fb:"#8a9096", e:E(1,5,4,2,3,3,0), g:1210, p:149},
- {id:"b-level", n:"SRAM Level Silver · 2 Kolben", m:"SRAM", kolben:2, sV:180, sH:160, mount:"6-Loch", fb:"#16181c", e:E(5,3,0,0,1,1,0), g:700, p:199},
- {id:"b-mt5", n:"Magura MT5 · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c8102e", e:E(1,5,5,4,2,2,1), g:1150, p:199},
- {id:"b-zee", n:"Shimano Zee BR-M640 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:160, mount:"Center Lock", fb:"#8a9096", e:E(0,2,4,4,5,5,1), g:1020, p:239},
+ {id:"b-deore", n:"Shimano Deore M6120 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:180, mount:"Center Lock", fb:"#8a9096", e:E(1,5,4,2,3,3,0), g:1210, p:149, v:[SCH("Shimano",180,180)]},
+ {id:"b-level", n:"SRAM Level Silver · 2 Kolben", m:"SRAM", kolben:2, sV:180, sH:160, mount:"6-Loch", fb:"#16181c", e:E(5,3,0,0,1,1,0), g:700, p:199, v:[SCH("SRAM",180,160)]},
+ {id:"b-mt5", n:"Magura MT5 · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c8102e", e:E(1,5,5,4,2,2,1), g:1150, p:199, v:[SCH("Magura",203,180)]},
+ {id:"b-zee", n:"Shimano Zee BR-M640 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:160, mount:"Center Lock", fb:"#8a9096", e:E(0,2,4,4,5,5,1), g:1020, p:239, v:[SCH("Shimano",180,160)]},
  {id:"b-hs33", n:"Magura HS33 Raceline · Felgenbremse", m:"Magura", kolben:2, sV:0, sH:0, mount:"Felge", fb:"#c8102e", e:E(0,0,0,0,1,0,5), g:620, p:229},
- {id:"b-slx", n:"Shimano SLX M7120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", fb:"#8a9096", e:E(2,5,5,3,2,2,0), g:1140, p:279},
- {id:"b-mt7", n:"Magura MT7 Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c8102e", e:E(1,4,5,5,2,2,1), g:1090, p:349},
- {id:"b-xt", n:"Shimano XT M8120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", fb:"#7f868d", e:E(2,5,5,4,2,2,0), g:1060, p:379},
- {id:"b-maven", n:"SRAM Maven Silver · 4 Kolben", m:"SRAM", kolben:4, sV:220, sH:200, mount:"6-Loch", fb:"#16181c", e:E(0,2,5,5,1,1,0), g:1280, p:399},
- {id:"b-trp", n:"TRP DH-R Evo · 4 Kolben", m:"TRP", kolben:4, sV:203, sH:203, mount:"6-Loch", fb:"#1a1c1f", e:E(0,2,5,5,1,1,0), g:1180, p:419},
- {id:"b-code", n:"SRAM Code RSC · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1150, p:439},
- {id:"b-saint", n:"Shimano Saint M820 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:203, mount:"Center Lock", fb:"#7f868d", e:E(0,1,4,5,4,4,0), g:1220, p:499},
- {id:"b-hopeE4", n:"Hope Tech 4 E4 · 4 Kolben", m:"Hope", kolben:4, sV:180, sH:180, mount:"6-Loch", fb:"#6b4fa8", e:E(2,5,5,3,3,3,2), g:1040, p:549},
+ {id:"b-slx", n:"Shimano SLX M7120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", fb:"#8a9096", e:E(2,5,5,3,2,2,0), g:1140, p:279, v:[SCH("Shimano",203,180)]},
+ {id:"b-mt7", n:"Magura MT7 Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c8102e", e:E(1,4,5,5,2,2,1), g:1090, p:349, v:[SCH("Magura",203,180)]},
+ {id:"b-xt", n:"Shimano XT M8120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", fb:"#7f868d", e:E(2,5,5,4,2,2,0), g:1060, p:379, v:[SCH("Shimano",203,180)]},
+ {id:"b-maven", n:"SRAM Maven Silver · 4 Kolben", m:"SRAM", kolben:4, sV:220, sH:200, mount:"6-Loch", fb:"#16181c", e:E(0,2,5,5,1,1,0), g:1280, p:399, v:[SCH("SRAM",220,200)]},
+ {id:"b-trp", n:"TRP DH-R Evo · 4 Kolben", m:"TRP", kolben:4, sV:203, sH:203, mount:"6-Loch", fb:"#1a1c1f", e:E(0,2,5,5,1,1,0), g:1180, p:419, v:[SCH("TRP",203,203)]},
+ {id:"b-code", n:"SRAM Code RSC · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1150, p:439, v:[SCH("SRAM",200,180)]},
+ {id:"b-saint", n:"Shimano Saint M820 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:203, mount:"Center Lock", fb:"#7f868d", e:E(0,1,4,5,4,4,0), g:1220, p:499, v:[SCH("Shimano",203,203)]},
+ {id:"b-hopeE4", n:"Hope Tech 4 E4 · 4 Kolben", m:"Hope", kolben:4, sV:180, sH:180, mount:"6-Loch", fb:"#6b4fa8", e:E(2,5,5,3,3,3,2), g:1040, p:549, v:[SCH("Hope",180,180)]},
  {id:"b-hopetrial", n:"Hope Tech 4 Trial Zone · Scheibe", m:"Hope", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#6b4fa8", e:E(0,0,0,0,2,1,4), g:840, p:549},
- {id:"b-hopeV4", n:"Hope Tech 4 V4 · 4 Kolben", m:"Hope", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#6b4fa8", e:E(0,3,5,5,2,2,1), g:1120, p:599},
- {id:"b-xtr2", n:"Shimano XTR M9100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", fb:"#b9bec4", e:E(5,3,0,0,1,1,0), g:780, p:599},
- {id:"b-deore2", n:"Shimano Deore M6100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", fb:"#8a9096", e:E(5,3,0,0,1,1,0), g:720, p:99},
- {id:"b-g2", n:"SRAM G2 RS · 4 Kolben", m:"SRAM", kolben:4, sV:180, sH:180, mount:"6-Loch", fb:"#16181c", e:E(2,5,4,1,2,2,0), g:1090, p:219},
- {id:"b-db8", n:"SRAM DB8 · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,4,2,2,0), g:1180, p:179},
- {id:"b-codebronze", n:"SRAM Code Bronze Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1160, p:279},
- {id:"b-levelult", n:"SRAM Level Ultimate · 4 Kolben", m:"SRAM", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#c9a227", e:E(4,5,3,0,1,1,0), g:860, p:449},
- {id:"b-mttrail", n:"Magura MT Trail Sport", m:"Magura", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#c8102e", e:E(2,5,4,1,2,2,0), g:1120, p:229},
- {id:"b-mt8", n:"Magura MT8 Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c8102e", e:E(2,5,5,3,2,2,1), g:980, p:449},
- {id:"b-hopex2", n:"Hope Tech 4 X2 · 2 Kolben", m:"Hope", kolben:2, sV:180, sH:160, mount:"6-Loch", fb:"#6b4fa8", e:E(5,4,1,0,2,2,2), g:820, p:479},
- {id:"b-trailevo", n:"TRP Trail EVO · 4 Kolben", m:"TRP", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#1a1c1f", e:E(1,5,5,3,2,2,0), g:1130, p:239},
- {id:"b-slate", n:"TRP Slate EVO · 4 Kolben", m:"TRP", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#1a1c1f", e:E(3,5,4,1,2,2,0), g:1020, p:199},
- {id:"b-cura4", n:"Formula Cura 4 · 4 Kolben", m:"Formula", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#16181c", e:E(1,5,5,3,2,2,0), g:1080, p:329},
- {id:"b-dominion", n:"Hayes Dominion A4 · 4 Kolben", m:"Hayes", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1150, p:499},
- {id:"b-maxima", n:"Trickstuff Maxima · 4 Kolben", m:"Trickstuff", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c9a227", e:E(0,3,5,5,1,1,0), g:980, p:1490},
- {id:"b-xtr4", n:"Shimano XTR M9120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", fb:"#b9bec4", e:E(2,5,5,4,2,2,0), g:980, p:749}
+ {id:"b-hopeV4", n:"Hope Tech 4 V4 · 4 Kolben", m:"Hope", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#6b4fa8", e:E(0,3,5,5,2,2,1), g:1120, p:599, v:[SCH("Hope",203,180)]},
+ {id:"b-xtr2", n:"Shimano XTR M9100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", fb:"#b9bec4", e:E(5,3,0,0,1,1,0), g:780, p:599, v:[SCH("Shimano",180,160)]},
+ {id:"b-deore2", n:"Shimano Deore M6100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", fb:"#8a9096", e:E(5,3,0,0,1,1,0), g:720, p:99, v:[SCH("Shimano",180,160)]},
+ {id:"b-g2", n:"SRAM G2 RS · 4 Kolben", m:"SRAM", kolben:4, sV:180, sH:180, mount:"6-Loch", fb:"#16181c", e:E(2,5,4,1,2,2,0), g:1090, p:219, v:[SCH("SRAM",180,180)]},
+ {id:"b-db8", n:"SRAM DB8 · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,4,2,2,0), g:1180, p:179, v:[SCH("SRAM",200,180)]},
+ {id:"b-codebronze", n:"SRAM Code Bronze Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1160, p:279, v:[SCH("SRAM",200,180)]},
+ {id:"b-levelult", n:"SRAM Level Ultimate · 4 Kolben", m:"SRAM", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#c9a227", e:E(4,5,3,0,1,1,0), g:860, p:449, v:[SCH("SRAM",180,160)]},
+ {id:"b-mttrail", n:"Magura MT Trail Sport", m:"Magura", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#c8102e", e:E(2,5,4,1,2,2,0), g:1120, p:229, v:[SCH("Magura",180,160)]},
+ {id:"b-mt8", n:"Magura MT8 Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c8102e", e:E(2,5,5,3,2,2,1), g:980, p:449, v:[SCH("Magura",203,180)]},
+ {id:"b-hopex2", n:"Hope Tech 4 X2 · 2 Kolben", m:"Hope", kolben:2, sV:180, sH:160, mount:"6-Loch", fb:"#6b4fa8", e:E(5,4,1,0,2,2,2), g:820, p:479, v:[SCH("Hope",180,160)]},
+ {id:"b-trailevo", n:"TRP Trail EVO · 4 Kolben", m:"TRP", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#1a1c1f", e:E(1,5,5,3,2,2,0), g:1130, p:239, v:[SCH("TRP",203,180)]},
+ {id:"b-slate", n:"TRP Slate EVO · 4 Kolben", m:"TRP", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#1a1c1f", e:E(3,5,4,1,2,2,0), g:1020, p:199, v:[SCH("TRP",180,160)]},
+ {id:"b-cura4", n:"Formula Cura 4 · 4 Kolben", m:"Formula", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#16181c", e:E(1,5,5,3,2,2,0), g:1080, p:329, v:[SCH("Formula",203,180)]},
+ {id:"b-dominion", n:"Hayes Dominion A4 · 4 Kolben", m:"Hayes", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1150, p:499, v:[SCH("Hayes",203,180)]},
+ {id:"b-maxima", n:"Trickstuff Maxima · 4 Kolben", m:"Trickstuff", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c9a227", e:E(0,3,5,5,1,1,0), g:980, p:1490, v:[SCH("Trickstuff",203,180)]},
+ {id:"b-xtr4", n:"Shimano XTR M9120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", fb:"#b9bec4", e:E(2,5,5,4,2,2,0), g:980, p:749, v:[SCH("Shimano",203,180)]},
+ {id:"b-mt4", n:"Magura MT4 · 4 Kolben", m:"Magura", kolben:4, sV:180, sH:180, mount:"6-Loch", e:E(1,5,4,1,2,2,0), g:1180, p:159, v:[SCH("Magura",180,180)]},
+ {id:"b-mtsport", n:"Magura MT Sport · 2 Kolben", m:"Magura", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(4,3,0,0,1,1,0), g:800, p:99, v:[SCH("Magura",180,160)]},
+ {id:"b-mt8sl", n:"Magura MT8 SL · 2 Kolben", m:"Magura", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(5,2,0,0,0,0,0), g:540, p:399, v:[SCH("Magura",180,160)]},
+ {id:"b-gustav", n:"Magura Gustav Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:203, mount:"6-Loch", e:E(0,2,4,5,1,1,0), g:1250, p:499, v:[SCH("Magura",203,203)]},
+ {id:"b-mavenult", n:"SRAM Maven Ultimate · 4 Kolben", m:"SRAM", kolben:4, sV:220, sH:200, mount:"6-Loch", e:E(0,2,5,5,0,0,0), g:1220, p:599, v:[SCH("SRAM",220,200)]},
+ {id:"b-mavenbronze", n:"SRAM Maven Bronze · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:200, mount:"6-Loch", e:E(0,3,5,5,1,1,0), g:1300, p:299, v:[SCH("SRAM",200,200)]},
+ {id:"b-motive", n:"SRAM Motive Silver · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", e:E(1,5,5,3,2,2,0), g:1150, p:249, v:[SCH("SRAM",200,180)]},
+ {id:"b-motivebronze", n:"SRAM Motive Bronze · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", e:E(1,5,4,2,2,2,0), g:1180, p:189, v:[SCH("SRAM",200,180)]},
+ {id:"b-codeult", n:"SRAM Code Ultimate Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:200, mount:"6-Loch", e:E(0,4,5,5,2,2,0), g:1100, p:549, v:[SCH("SRAM",200,200)]},
+ {id:"b-codesilver", n:"SRAM Code Silver Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", e:E(0,4,5,5,2,2,0), g:1130, p:349, v:[SCH("SRAM",200,180)]},
+ {id:"b-levelbronze", n:"SRAM Level Bronze · 2 Kolben", m:"SRAM", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(4,3,0,0,1,1,0), g:720, p:139, v:[SCH("SRAM",180,160)]},
+ {id:"b-xt2", n:"Shimano XT M8100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", e:E(5,4,1,0,1,1,0), g:740, p:229, v:[SCH("Shimano",180,160)]},
+ {id:"b-slx2", n:"Shimano SLX M7100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", e:E(5,4,1,0,1,1,0), g:760, p:159, v:[SCH("Shimano",180,160)]},
+ {id:"b-mt420", n:"Shimano MT420 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:180, mount:"Center Lock", e:E(1,4,3,1,2,2,0), g:1200, p:99, v:[SCH("Shimano",180,180)]},
+ {id:"b-mt200", n:"Shimano MT200 · 2 Kolben", m:"Shimano", kolben:2, sV:160, sH:160, mount:"Center Lock", e:E(3,2,0,0,2,2,0), g:880, p:59, v:[SCH("Shimano",160,160)]},
+ {id:"b-cura2", n:"Formula Cura 2 · 2 Kolben", m:"Formula", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(5,4,1,0,2,2,0), g:700, p:189, v:[SCH("Formula",180,160)]},
+ {id:"b-dominiont4", n:"Hayes Dominion T4 · 4 Kolben", m:"Hayes", kolben:4, sV:203, sH:180, mount:"6-Loch", e:E(1,5,5,3,2,2,0), g:1080, p:399, v:[SCH("Hayes",203,180)]},
+ {id:"b-direttissima", n:"Trickstuff Direttissima · 4 Kolben", m:"Trickstuff", kolben:4, sV:203, sH:180, mount:"6-Loch", e:E(1,5,5,4,1,1,0), g:940, p:1190, v:[SCH("Trickstuff",203,180)]},
+ {id:"b-piccola", n:"Trickstuff Piccola · 2 Kolben", m:"Trickstuff", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(5,4,1,0,0,0,0), g:640, p:849, v:[SCH("Trickstuff",180,160)]}
 ],
 lenker:[
- {id:"l-funn", n:"Funn Fatboy 35 · 780 mm", m:"Funn", klemm:35, breite:780, rise:20, fb:"#16181c", e:E(1,4,4,3,2,2,0), g:330, p:39},
- {id:"l-dirt", n:"Dartmoor Wire 780 · 35 mm Rise", m:"Dartmoor", klemm:31.8, breite:780, rise:35, fb:"#16181c", e:E(0,1,2,3,5,5,2), g:340, p:49},
- {id:"l-renthal", n:"Renthal Fatbar Lite 31.8", m:"Renthal", klemm:31.8, breite:760, rise:10, fb:"#b8860b", e:E(4,5,3,1,2,2,1), g:290, p:79},
- {id:"l-trial", n:"Trial-Lenker 740 · 100 mm Rise", m:"Trial", klemm:31.8, breite:740, rise:100, fb:"#2a2f35", e:E(0,0,0,0,2,1,5), g:390, p:89},
- {id:"l-race", n:"Race Face Turbine R 35", m:"Race Face", klemm:35, breite:780, rise:20, fb:"#1a1c1f", e:E(2,5,5,3,2,2,0), g:315, p:99},
- {id:"l-newmen", n:"Newmen Advanced SL 318.10 Carbon", m:"Newmen", klemm:31.8, breite:760, rise:10, fb:"#101214", e:E(5,3,1,0,0,0,0), g:195, p:149},
- {id:"l-oneup", n:"OneUp Carbon Handlebar 35", m:"OneUp", klemm:35, breite:800, rise:20, fb:"#101214", e:E(1,4,5,5,2,2,0), g:220, p:159},
- {id:"l-fatbar35", n:"Renthal Fatbar 35 · 800 mm", m:"Renthal", klemm:35, breite:800, rise:30, fb:"#b8860b", e:E(0,4,5,4,3,3,1), g:320, p:109},
- {id:"l-integra", n:"Renthal Fatbar Carbon 35 · 800 mm", m:"Renthal", klemm:35, breite:800, rise:20, fb:"#101214", e:E(1,5,5,3,2,2,0), g:225, p:179},
- {id:"l-burgtec", n:"Burgtec Ride Wide Enduro 35 · 800 mm", m:"Burgtec", klemm:35, breite:800, rise:30, fb:"#16181c", e:E(0,4,5,5,3,3,1), g:340, p:79},
- {id:"l-deity", n:"Deity Blacklabel 800 · 35", m:"Deity", klemm:35, breite:800, rise:25, fb:"#16181c", e:E(0,4,5,4,3,3,1), g:325, p:89},
- {id:"l-chromag", n:"Chromag Fubars OSX 35 · 800 mm", m:"Chromag", klemm:35, breite:800, rise:25, fb:"#16181c", e:E(0,4,5,4,4,4,2), g:330, p:99},
- {id:"l-spike", n:"Spank Spike 800 Vibrocore · 31.8", m:"Spank", klemm:31.8, breite:800, rise:30, fb:"#14171b", e:E(0,3,5,5,4,4,1), g:340, p:79},
- {id:"l-oozy", n:"Spank Oozy Trail 780 Vibrocore · 35", m:"Spank", klemm:35, breite:780, rise:25, fb:"#14171b", e:E(1,5,4,2,3,3,1), g:305, p:89},
- {id:"l-vector", n:"Syntace Vector Carbon 780 · 31.8", m:"Syntace", klemm:31.8, breite:780, rise:12, fb:"#101214", e:E(4,5,3,0,1,1,0), g:205, p:159},
- {id:"l-horizon", n:"Nukeproof Horizon Carbon 800 · 35", m:"Nukeproof", klemm:35, breite:800, rise:25, fb:"#101214", e:E(1,4,5,4,2,2,0), g:235, p:139},
- {id:"l-title", n:"Title AR 35 · 800 mm", m:"Title", klemm:35, breite:800, rise:30, fb:"#16181c", e:E(0,4,5,4,3,3,1), g:315, p:99},
- {id:"l-pnw", n:"PNW Range 35 · 800 mm", m:"PNW", klemm:35, breite:800, rise:38, fb:"#16181c", e:E(0,3,5,4,4,4,2), g:345, p:69},
- {id:"l-ergon", n:"Ergon HB2 Comp 780 · 31.8", m:"Ergon", klemm:31.8, breite:780, rise:20, fb:"#1a1c1f", e:E(3,5,3,0,1,1,0), g:300, p:59}
+ /* Breite = volle Ausgangsbreite; kürzen geht immer, verlängern nie. */
+ LK("l-race",      "Race Face Turbine R 35", "Race Face", {klemm:35, breite:800, rise:20, rs:[10,20,40], e:E(2,5,5,3,2,2,0), g:315, p:99}),
+ LK("l-atlas",     "Race Face Atlas 35", "Race Face", {klemm:35, breite:820, rise:20, rs:[12,20,38], e:E(0,4,5,5,3,3,1), g:330, p:89}),
+ LK("l-next",      "Race Face Next R 35 Carbon", "Race Face", {klemm:35, breite:800, rise:20, rs:[10,20,35], e:E(3,5,5,2,1,1,0), g:220, p:179}),
+ LK("l-sixc",      "Race Face SixC 35 Carbon", "Race Face", {klemm:35, breite:820, rise:20, rs:[10,20,35], e:E(0,3,5,5,1,1,0), g:245, p:219}),
+ LK("l-era",       "Race Face Era Carbon 35", "Race Face", {klemm:35, breite:800, rise:20, rs:[20,40], e:E(1,5,5,3,1,1,0), g:230, p:199}),
+ LK("l-aeffect",   "Race Face Aeffect R 35", "Race Face", {klemm:35, breite:780, rise:20, rs:[20,35], e:E(2,5,4,1,2,2,0), g:330, p:59}),
+ LK("l-chester",   "Race Face Chester 35", "Race Face", {klemm:35, breite:780, rise:35, rs:[8,35], e:E(1,4,4,3,3,3,1), g:340, p:49}),
+ LK("l-fatbar35",  "Renthal Fatbar 35", "Renthal", {klemm:35, breite:800, rise:30, rs:[10,20,30,40], e:E(0,4,5,4,3,3,1), g:320, p:109}),
+ LK("l-integra",   "Renthal Fatbar Carbon 35", "Renthal", {klemm:35, breite:800, rise:20, rs:[10,20,30,40], e:E(1,5,5,3,2,2,0), g:225, p:179}),
+ LK("l-renthal",   "Renthal Fatbar Lite 31,8", "Renthal", {klemm:31.8, breite:760, rise:10, rs:[10,20,30,38], e:E(4,5,3,1,2,2,1), g:290, p:79}),
+ LK("l-oneup",     "OneUp Carbon Handlebar 35", "OneUp", {klemm:35, breite:800, rise:20, rs:[20,35], e:E(1,4,5,5,2,2,0), g:220, p:159}),
+ LK("l-oneupalu",  "OneUp Aluminium Handlebar 35", "OneUp", {klemm:35, breite:800, rise:20, rs:[20,35], e:E(1,4,5,4,2,2,0), g:330, p:79}),
+ LK("l-deity",     "Deity Blacklabel 800", "Deity", {klemm:35, breite:800, rise:25, rs:[15,25,38], e:E(0,4,5,4,3,3,1), g:325, p:89}),
+ LK("l-skywire",   "Deity Skywire Carbon 35", "Deity", {klemm:35, breite:800, rise:25, rs:[15,25], e:E(1,5,5,3,1,1,0), g:250, p:159}),
+ LK("l-ridgeline", "Deity Ridgeline 35", "Deity", {klemm:35, breite:800, rise:15, rs:[15,25], e:E(1,5,4,2,2,2,0), g:330, p:79}),
+ LK("l-highside",  "Deity Highside 35", "Deity", {klemm:35, breite:800, rise:50, rs:[50,80], e:E(0,2,3,3,5,5,2), g:380, p:89}),
+ LK("l-burgtec",   "Burgtec Ride Wide Enduro 35", "Burgtec", {klemm:35, breite:800, rise:30, rs:[15,30], e:E(0,4,5,5,3,3,1), g:340, p:79}),
+ LK("l-burgcarbon","Burgtec Ride High Carbon 35", "Burgtec", {klemm:35, breite:800, rise:30, e:E(0,4,5,4,2,2,0), g:270, p:199}),
+ LK("l-chromag",   "Chromag Fubars OSX 35", "Chromag", {klemm:35, breite:800, rise:25, e:E(0,4,5,4,4,4,2), g:330, p:99}),
+ LK("l-spike",     "Spank Spike 800 Vibrocore", "Spank", {klemm:31.8, ks:[31.8,35], breite:800, rise:30, rs:[15,30,50], e:E(0,3,5,5,4,4,1), g:340, p:79}),
+ LK("l-oozy",      "Spank Oozy Trail 780 Vibrocore 35", "Spank", {klemm:35, breite:780, rise:25, e:E(1,5,4,2,3,3,1), g:305, p:89}),
+ LK("l-horizon",   "Nukeproof Horizon Carbon 35", "Nukeproof", {klemm:35, breite:800, rise:25, e:E(1,4,5,4,2,2,0), g:235, p:139}),
+ LK("l-horizonalu","Nukeproof Horizon V2 35", "Nukeproof", {klemm:35, breite:800, rise:20, rs:[20,38], e:E(1,5,5,3,2,2,0), g:330, p:59}),
+ LK("l-samhill",   "Nukeproof Sam Hill Enduro 35", "Nukeproof", {klemm:35, breite:800, rise:38, rs:[20,38], e:E(0,3,5,5,3,3,1), g:340, p:69}),
+ LK("l-title",     "Title AR 35", "Title", {klemm:35, breite:800, rise:30, e:E(0,4,5,4,3,3,1), g:315, p:99}),
+ LK("l-pnw",       "PNW Range 35", "PNW", {klemm:35, breite:800, rise:38, rs:[25,38], e:E(0,3,5,4,4,4,2), g:345, p:69}),
+ LK("l-hopecarbon","Hope Carbon Handlebar 35", "Hope", {klemm:35, breite:800, rise:20, rs:[20,35], e:E(1,5,5,3,2,2,0), g:240, p:179}),
+ LK("l-hopealu",   "Hope Alloy Handlebar 35", "Hope", {klemm:35, breite:800, rise:20, rs:[20,35], e:E(1,5,5,3,2,2,1), g:330, p:89}),
+ LK("l-enve",      "ENVE M7 Handlebar 35", "ENVE", {klemm:35, breite:800, rise:25, rs:[25,50], e:E(1,5,5,4,1,1,0), g:240, p:229}),
+ LK("l-havoc",     "Easton Havoc 35 Carbon", "Easton", {klemm:35, breite:800, rise:20, rs:[20,35], e:E(1,5,5,3,1,1,0), g:250, p:159}),
+ LK("l-havocalu",  "Easton Havoc 35 Alu", "Easton", {klemm:35, breite:800, rise:20, rs:[20,35], e:E(1,5,5,3,2,2,0), g:320, p:79}),
+ LK("l-descendant","Truvativ Descendant 35", "Truvativ", {klemm:35, breite:780, rise:25, rs:[10,25], e:E(1,5,4,2,2,2,0), g:320, p:59}),
+ LK("l-hussefelt", "Truvativ Hussefelt 31,8", "Truvativ", {klemm:31.8, breite:760, rise:20, rs:[20,40], e:E(0,3,4,3,4,4,1), g:380, p:39}),
+ LK("l-newmen",    "Newmen Advanced SL 318.10 Carbon", "Newmen", {klemm:31.8, breite:760, rise:10, e:E(5,3,1,0,0,0,0), g:195, p:149}),
+ LK("l-newmenevo", "Newmen Evolution 35.20", "Newmen", {klemm:35, breite:780, rise:20, e:E(2,5,4,1,1,1,0), g:300, p:79}),
+ LK("l-vector",    "Syntace Vector Carbon 780", "Syntace", {klemm:31.8, breite:780, rise:12, e:E(4,5,3,0,1,1,0), g:205, p:159}),
+ LK("l-sqlab",     "SQlab 3OX Carbon 12°", "SQlab", {klemm:31.8, ks:[31.8,35], breite:780, rise:15, e:E(3,5,3,0,0,0,0), g:270, p:139}),
+ LK("l-ergon",     "Ergon HB2 Comp 780", "Ergon", {klemm:31.8, breite:780, rise:20, e:E(3,5,3,0,1,1,0), g:300, p:59}),
+ LK("l-funn",      "Funn Fatboy 35", "Funn", {klemm:35, breite:780, rise:20, e:E(1,4,4,3,2,2,0), g:330, p:39}),
+ LK("l-dirt",      "Dartmoor Wire", "Dartmoor", {klemm:31.8, breite:780, rise:35, e:E(0,1,2,3,5,5,2), g:340, p:49}),
+ LK("l-trial",     "Trial-Lenker 740 · 100 mm Rise", "Trial", {klemm:31.8, breite:740, rise:100, e:E(0,0,0,0,2,1,5), g:390, p:89})
 ],
+
 vorbau:[
- {id:"v-dirt", n:"Dartmoor Stream · 45 mm", m:"Dartmoor", klemm:31.8, laenge:45, fb:"#16181c", e:E(0,1,2,2,5,5,2), g:160, p:39},
- {id:"v-renthal", n:"Renthal Apex · 40 mm", m:"Renthal", klemm:31.8, laenge:40, fb:"#b8860b", e:E(3,5,4,2,3,3,1), g:145, p:69},
- {id:"v-race", n:"Race Face Turbine R · 50 mm", m:"Race Face", klemm:35, laenge:50, fb:"#1a1c1f", e:E(3,5,4,2,1,1,0), g:140, p:79},
- {id:"v-oneup", n:"OneUp Stem · 35 mm", m:"OneUp", klemm:35, laenge:35, fb:"#16181c", e:E(1,4,5,4,2,2,0), g:130, p:79},
- {id:"v-syncros", n:"Syncros Fraser · 60 mm", m:"Syncros", klemm:31.8, laenge:60, fb:"#16181c", e:E(5,2,0,0,0,0,0), g:120, p:89},
- {id:"v-trial", n:"Trial-Vorbau 150 · 30° Rise", m:"Trial", klemm:31.8, laenge:150, fb:"#2a2f35", e:E(0,0,0,0,2,1,5), g:210, p:99},
- {id:"v-dc", n:"Doppelbrücken-Vorbau direkt · 50 mm", m:"Generisch", klemm:35, laenge:50, fb:"#16181c", e:E(0,0,0,5,0,0,0), g:170, p:129},
- {id:"v-burgtec", n:"Burgtec Enduro MK3 · 42,5 mm", m:"Burgtec", klemm:35, laenge:42, fb:"#16181c", e:E(1,5,5,4,3,3,1), g:155, p:79},
- {id:"v-copperhead", n:"Deity Copperhead · 35 mm", m:"Deity", klemm:35, laenge:35, fb:"#16181c", e:E(1,4,5,4,3,3,1), g:140, p:99},
- {id:"v-ranger", n:"Chromag Ranger V2 · 50 mm", m:"Chromag", klemm:35, laenge:50, fb:"#16181c", e:E(2,5,4,2,3,3,2), g:165, p:109},
- {id:"v-split", n:"Spank Split 35 · 43 mm", m:"Spank", klemm:35, laenge:43, fb:"#14171b", e:E(1,5,5,3,3,3,1), g:150, p:59},
- {id:"v-megaforce", n:"Syntace Megaforce 2 · 50 mm", m:"Syntace", klemm:31.8, laenge:50, fb:"#16181c", e:E(3,5,4,1,2,2,1), g:135, p:69},
- {id:"v-hopeam", n:"Hope AM · 35 mm", m:"Hope", klemm:35, laenge:35, fb:"#6b4fa8", e:E(1,4,5,4,3,3,2), g:130, p:109},
- {id:"v-horizonv", n:"Nukeproof Horizon · 40 mm", m:"Nukeproof", klemm:35, laenge:40, fb:"#16181c", e:E(2,5,5,3,3,3,1), g:145, p:49},
- {id:"v-thomson", n:"Thomson Elite X4 · 50 mm", m:"Thomson", klemm:31.8, laenge:50, fb:"#16181c", e:E(3,5,4,2,2,2,1), g:140, p:99},
- {id:"v-i9a35", n:"Industry Nine A35 · 40 mm", m:"Industry Nine", klemm:35, laenge:40, fb:"#c8102e", e:E(1,5,5,3,3,3,1), g:125, p:159},
- {id:"v-titlev", n:"Title ATM · 35 mm", m:"Title", klemm:35, laenge:35, fb:"#16181c", e:E(1,4,5,4,3,3,1), g:135, p:89},
- {id:"v-dc50", n:"Doppelbrücken-Vorbau direkt · 40 mm", m:"Generisch", klemm:35, laenge:40, fb:"#16181c", e:E(0,0,0,5,0,0,0), g:165, p:119},
- {id:"v-trial150", n:"Trial-Vorbau 135 · 25° Rise", m:"Trial", klemm:31.8, laenge:135, fb:"#2a2f35", e:E(0,0,0,0,2,1,5), g:200, p:89}
+ VB("v-race",      "Race Face Turbine R 35", "Race Face", {klemm:35, laenge:50, ls:[32,40,50], e:E(3,5,4,2,1,1,0), g:140, p:79}),
+ VB("v-atlas",     "Race Face Atlas 35", "Race Face", {klemm:35, laenge:50, ls:[32,50,65], e:E(1,4,5,5,3,3,1), g:155, p:69}),
+ VB("v-aeffect",   "Race Face Aeffect R 35", "Race Face", {klemm:35, laenge:50, ls:[40,50,60], e:E(3,5,4,1,1,1,0), g:160, p:39}),
+ VB("v-chester",   "Race Face Chester 35", "Race Face", {klemm:35, laenge:35, ls:[35,50], e:E(1,4,4,3,3,3,1), g:165, p:45}),
+ VB("v-renthal",   "Renthal Apex 31,8", "Renthal", {klemm:31.8, laenge:40, ls:[33,40,50,60], e:E(3,5,4,2,3,3,1), g:145, p:69}),
+ VB("v-renthal35", "Renthal Apex 35", "Renthal", {klemm:35, laenge:40, ls:[33,40,50], e:E(2,5,5,3,3,3,1), g:140, p:79}),
+ VB("v-oneup",     "OneUp Stem", "OneUp", {klemm:35, laenge:35, ls:[35,50], e:E(1,4,5,4,2,2,0), g:130, p:79}),
+ VB("v-burgtec",   "Burgtec Enduro MK3 35", "Burgtec", {klemm:35, laenge:42.5, ls:[35,42.5,50], e:E(1,5,5,4,3,3,1), g:155, p:79}),
+ VB("v-copperhead","Deity Copperhead 35", "Deity", {klemm:35, laenge:35, ls:[35,50], e:E(1,4,5,4,3,3,1), g:140, p:99}),
+ VB("v-ranger",    "Chromag Ranger V2 35", "Chromag", {klemm:35, laenge:50, ls:[40,50], e:E(2,5,4,2,3,3,2), g:165, p:109}),
+ VB("v-split",     "Spank Split 35", "Spank", {klemm:35, laenge:43, e:E(1,5,5,3,3,3,1), g:150, p:59}),
+ VB("v-hopeam",    "Hope AM Stem 35", "Hope", {klemm:35, laenge:35, ls:[35,50], e:E(1,4,5,4,3,3,2), g:130, p:109}),
+ VB("v-hopexc",    "Hope XC Stem 31,8", "Hope", {klemm:31.8, laenge:70, ls:[50,60,70,80,90], e:E(5,3,0,0,0,0,0), g:130, p:99}),
+ VB("v-horizonv",  "Nukeproof Horizon 35", "Nukeproof", {klemm:35, laenge:40, ls:[40,50], e:E(2,5,5,3,3,3,1), g:145, p:49}),
+ VB("v-i9a35",     "Industry Nine A35", "Industry Nine", {klemm:35, laenge:40, ls:[40,50], e:E(1,5,5,3,3,3,1), g:125, p:159}),
+ VB("v-titlev",    "Title ATM 35", "Title", {klemm:35, laenge:35, e:E(1,4,5,4,3,3,1), g:135, p:89}),
+ VB("v-descendant","Truvativ Descendant 35", "Truvativ", {klemm:35, laenge:50, ls:[40,50,60], e:E(2,5,4,2,2,2,0), g:170, p:49}),
+ VB("v-megaforce", "Syntace Megaforce 2", "Syntace", {klemm:31.8, laenge:50, ls:[40,50,60,70], e:E(3,5,4,1,2,2,1), g:135, p:69}),
+ VB("v-thomson",   "Thomson Elite X4", "Thomson", {klemm:31.8, laenge:50, ls:[50,60,70,80,90], e:E(3,5,4,2,2,2,1), g:140, p:99}),
+ VB("v-syncros",   "Syncros Fraser", "Syncros", {klemm:31.8, laenge:60, ls:[60,70,80], e:E(5,2,0,0,0,0,0), g:120, p:89}),
+ VB("v-dirt",      "Dartmoor Stream", "Dartmoor", {klemm:31.8, laenge:45, e:E(0,1,2,2,5,5,2), g:160, p:39}),
+ {id:"v-dc", n:"Doppelbrücken-Vorbau direkt", m:"Generisch", klemm:35, laenge:50, e:E(0,0,0,5,0,0,0), g:170, p:129, v:[LA([40,45,50], 50)]},
+ {id:"v-trial", n:"Trial-Vorbau · 30° Rise", m:"Trial", klemm:31.8, laenge:150, e:E(0,0,0,0,2,1,5), g:210, p:99, v:[LA([135,150,165], 150)]}
 ],
+
 stuetze:[
- {id:"s-dirt", n:"Dirt-Stütze starr kurz 250 mm", m:"Generisch", d:"31.6", hub:0, einbau:85, fb:"#16181c", e:E(1,0,0,2,5,5,3), g:190, p:29},
- {id:"s-starr309", n:"Carbon-Stütze starr 400 mm", m:"Generisch", d:"30.9", hub:0, einbau:110, fb:"#101214", e:E(5,1,0,1,3,3,2), g:220, p:129},
- {id:"s-starr316", n:"Carbon-Stütze starr 400 mm", m:"Generisch", d:"31.6", hub:0, einbau:110, fb:"#101214", e:E(5,1,0,1,3,3,2), g:220, p:129},
- {id:"s-starr349", n:"Carbon-Stütze starr 400 mm", m:"Generisch", d:"34.9", hub:0, einbau:110, fb:"#101214", e:E(5,1,0,1,3,3,2), g:230, p:129},
- {id:"s-bx309", n:"Brand-X Ascend 150 mm", m:"Brand-X", d:"30.9", hub:150, einbau:200, fb:"#16181c", e:E(3,5,4,0,0,0,0), g:680, p:129},
- {id:"s-bx316", n:"Brand-X Ascend XL 170 mm", m:"Brand-X", d:"31.6", hub:170, einbau:220, fb:"#16181c", e:E(2,5,5,0,0,0,0), g:690, p:139},
- {id:"s-bx349", n:"Brand-X Ascend 150 mm", m:"Brand-X", d:"34.9", hub:150, einbau:200, fb:"#16181c", e:E(3,5,4,0,0,0,0), g:700, p:149},
- {id:"s-oneup180", n:"OneUp Dropper V3 180 mm", m:"OneUp", d:"31.6", hub:180, einbau:225, fb:"#16181c", e:E(2,5,5,0,0,0,0), g:595, p:229},
- {id:"s-oneup210", n:"OneUp Dropper V3 210 mm", m:"OneUp", d:"31.6", hub:210, einbau:255, fb:"#16181c", e:E(1,5,5,0,0,0,0), g:630, p:239},
- {id:"s-bikeyoke", n:"BikeYoke Revive 3.0 185 mm", m:"BikeYoke", d:"31.6", hub:185, einbau:230, fb:"#16181c", e:E(2,5,5,0,0,0,0), g:620, p:399},
- {id:"s-fox349", n:"Fox Transfer Factory 175 mm", m:"Fox", d:"34.9", hub:175, einbau:235, fb:"#c19a4b", e:E(2,5,5,0,0,0,0), g:640, p:429},
- {id:"s-reverb309", n:"RockShox Reverb AXS 150 mm", m:"RockShox", d:"30.9", hub:150, einbau:215, fb:"#16181c", e:E(3,5,4,0,0,0,0), g:800, p:849},
- {id:"s-oneup150", n:"OneUp Dropper V3 150 mm", m:"OneUp", d:"31.6", hub:150, einbau:195, fb:"#16181c", e:E(3,5,4,0,0,0,0), g:560, p:219},
- {id:"s-oneup240", n:"OneUp Dropper V3 240 mm", m:"OneUp", d:"31.6", hub:240, einbau:290, fb:"#16181c", e:E(0,4,5,0,0,0,0), g:665, p:249},
- {id:"s-oneup309", n:"OneUp Dropper V3 180 mm", m:"OneUp", d:"30.9", hub:180, einbau:225, fb:"#16181c", e:E(2,5,5,0,0,0,0), g:590, p:229},
- {id:"s-oneup349", n:"OneUp Dropper V3 210 mm", m:"OneUp", d:"34.9", hub:210, einbau:255, fb:"#16181c", e:E(1,5,5,0,0,0,0), g:640, p:239},
- {id:"s-loam", n:"PNW Loam 170 mm", m:"PNW", d:"31.6", hub:170, einbau:215, fb:"#16181c", e:E(2,5,5,0,0,0,0), g:620, p:199},
- {id:"s-rainier", n:"PNW Rainier 150 mm", m:"PNW", d:"30.9", hub:150, einbau:195, fb:"#16181c", e:E(3,5,4,0,0,0,0), g:600, p:169},
- {id:"s-highline", n:"Crankbrothers Highline 3 · 170 mm", m:"Crankbrothers", d:"31.6", hub:170, einbau:220, fb:"#1c1f24", e:E(2,5,5,0,0,0,0), g:645, p:279},
- {id:"s-resolve", n:"Wolf Tooth Resolve 200 mm", m:"Wolf Tooth", d:"31.6", hub:200, einbau:250, fb:"#16181c", e:E(1,5,5,0,0,0,0), g:610, p:349},
- {id:"s-lev", n:"KS Lev Integra 150 mm", m:"KS", d:"31.6", hub:150, einbau:200, fb:"#16181c", e:E(3,5,4,0,0,0,0), g:590, p:229},
- {id:"s-tellis", n:"SDG Tellis 170 mm", m:"SDG", d:"31.6", hub:170, einbau:220, fb:"#16181c", e:E(2,5,5,0,0,0,0), g:630, p:189},
- {id:"s-divine", n:"BikeYoke Divine 160 mm", m:"BikeYoke", d:"31.6", hub:160, einbau:205, fb:"#16181c", e:E(3,5,5,0,0,0,0), g:580, p:299},
- {id:"s-revive213", n:"BikeYoke Revive 3.0 213 mm", m:"BikeYoke", d:"31.6", hub:213, einbau:258, fb:"#16181c", e:E(0,4,5,0,0,0,0), g:660, p:429},
- {id:"s-transfersl", n:"Fox Transfer SL 100 mm", m:"Fox", d:"31.6", hub:100, einbau:150, fb:"#c19a4b", e:E(5,3,1,0,0,0,0), g:330, p:399},
- {id:"s-transfer309", n:"Fox Transfer Factory 150 mm", m:"Fox", d:"30.9", hub:150, einbau:205, fb:"#c19a4b", e:E(3,5,4,0,0,0,0), g:610, p:419},
- {id:"s-reverb316", n:"RockShox Reverb AXS 170 mm", m:"RockShox", d:"31.6", hub:170, einbau:235, fb:"#16181c", e:E(2,5,5,0,0,0,0), g:820, p:849},
- {id:"s-reverb349", n:"RockShox Reverb AXS 200 mm", m:"RockShox", d:"34.9", hub:200, einbau:265, fb:"#16181c", e:E(1,5,5,0,0,0,0), g:860, p:879},
- {id:"s-turbiner", n:"Race Face Turbine R 170 mm", m:"Race Face", d:"31.6", hub:170, einbau:218, fb:"#16181c", e:E(2,5,5,0,0,0,0), g:625, p:269}
+ ST("s-oneup",    "OneUp Dropper V3", "OneUp", {d:"31.6", hub:180, hube:[90,120,150,180,210,240], plus:45, e:E(2,5,5,0,0,0,0), g:595, p:229}),
+ ST("s-bikeyoke", "BikeYoke Revive 3.0", "BikeYoke", {d:"31.6", hub:185, hube:[125,160,185,213], plus:45, e:E(2,5,5,0,0,0,0), g:620, p:399}),
+ ST("s-divine",   "BikeYoke Divine", "BikeYoke", {d:"31.6", hub:160, hube:[125,160,185], plus:45, e:E(3,5,5,0,0,0,0), g:580, p:299}),
+ ST("s-fox",      "Fox Transfer Factory", "Fox", {d:"34.9", hub:175, hube:[125,150,175,200], plus:60, e:E(2,5,5,0,0,0,0), g:640, p:429}),
+ ST("s-transfersl","Fox Transfer SL", "Fox", {d:"31.6", ds:["30.9","31.6"], hub:100, hube:[75,100,125], plus:50, e:E(5,3,1,0,0,0,0), g:330, p:399}),
+ ST("s-reverb",   "RockShox Reverb AXS", "RockShox", {d:"31.6", hub:170, hube:[100,125,150,170,200], plus:65, e:E(2,5,5,0,0,0,0), g:820, p:849}),
+ ST("s-reverbst", "RockShox Reverb Stealth", "RockShox", {d:"31.6", hub:175, hube:[125,150,175,200], plus:65, e:E(3,5,5,0,0,0,0), g:590, p:299}),
+ ST("s-loam",     "PNW Loam", "PNW", {d:"31.6", hub:170, hube:[125,150,170,200], plus:45, e:E(2,5,5,0,0,0,0), g:620, p:199}),
+ ST("s-rainier",  "PNW Rainier Gen 4", "PNW", {d:"30.9", hub:150, hube:[125,150,170,200], plus:45, e:E(3,5,4,0,0,0,0), g:600, p:169}),
+ ST("s-highline", "Crankbrothers Highline 3", "Crankbrothers", {d:"31.6", hub:170, hube:[100,125,150,170], plus:50, e:E(2,5,5,0,0,0,0), g:645, p:279}),
+ ST("s-resolve",  "Wolf Tooth Resolve", "Wolf Tooth", {d:"31.6", hub:200, hube:[125,160,200], plus:50, e:E(1,5,5,0,0,0,0), g:610, p:349}),
+ ST("s-lev",      "KS Lev Integra", "KS", {d:"31.6", ds:["30.9","31.6"], hub:150, hube:[125,150,175], plus:50, e:E(3,5,4,0,0,0,0), g:590, p:229}),
+ ST("s-rage",     "KS Rage-i", "KS", {d:"31.6", ds:["30.9","31.6"], hub:150, hube:[125,150,170], plus:55, e:E(3,5,4,0,0,0,0), g:620, p:199}),
+ ST("s-tellis",   "SDG Tellis", "SDG", {d:"31.6", hub:170, hube:[125,150,170], plus:50, e:E(2,5,5,0,0,0,0), g:630, p:189}),
+ ST("s-turbiner", "Race Face Turbine R Dropper", "Race Face", {d:"31.6", hub:170, hube:[100,125,150,170,200], plus:48, e:E(2,5,5,0,0,0,0), g:625, p:269}),
+ ST("s-aeffect",  "Race Face Aeffect R Dropper", "Race Face", {d:"31.6", hub:150, hube:[100,125,150,170], plus:50, e:E(3,5,4,0,0,0,0), g:650, p:149}),
+ ST("s-9point8",  "9point8 Fall Line R", "9point8", {d:"31.6", hub:175, hube:[125,150,175,200], plus:50, e:E(2,5,5,0,0,0,0), g:600, p:349}),
+ ST("s-bx",       "Brand-X Ascend II", "Brand-X", {d:"31.6", hub:150, hube:[120,150,170], plus:50, e:E(3,5,4,0,0,0,0), g:680, p:129}),
+ ST("s-tranzx",   "TranzX JD-YSP18", "TranzX", {d:"31.6", ds:["30.9","31.6"], hub:150, hube:[100,125,150,170], plus:55, e:E(3,4,3,0,0,0,0), g:650, p:89}),
+ ST("s-starr",    "Carbon-Stütze starr 400 mm", "Generisch", {d:"31.6", ds:["27.2","30.9","31.6","34.9"], plus:110, e:E(5,1,0,1,3,3,2), g:220, p:129}),
+ ST("s-p6",       "Syntace P6 Carbon HiFlex", "Syntace", {d:"31.6", ds:["27.2","30.9","31.6"], plus:100, e:E(5,1,0,0,1,1,0), g:200, p:199}),
+ ST("s-dirt",     "Dirt-Stütze starr kurz 250 mm", "Generisch", {d:"31.6", ds:["27.2","30.9","31.6"], plus:85, e:E(1,0,0,2,5,5,3), g:190, p:29})
 ],
 sattel:[
  {id:"sa-dirt", n:"Dirt-Sattel schmal · Slim", m:"Generisch", fb:"#16181c", e:E(0,0,1,4,5,5,3), g:190, p:39},
@@ -1250,7 +1595,21 @@ sattel:[
  {id:"sa-scoop", n:"Fabric Scoop Radius Elite", m:"Fabric", fb:"#1a1c1f", e:E(4,5,3,0,2,2,0), g:280, p:59},
  {id:"sa-dimension", n:"Prologo Dimension NDR", m:"Prologo", fb:"#1a1c1f", e:E(4,5,3,0,1,1,0), g:245, p:99},
  {id:"sa-slr", n:"Selle Italia SLR Boost Superflow", m:"Selle Italia", fb:"#101214", e:E(5,3,1,0,0,0,0), g:180, p:169},
- {id:"sa-sm10", n:"Ergon SM10 Enduro Comp", m:"Ergon", fb:"#1a1c1f", e:E(2,5,5,3,2,2,0), g:255, p:109}
+ {id:"sa-sm10", n:"Ergon SM10 Enduro Comp", m:"Ergon", fb:"#1a1c1f", e:E(2,5,5,3,2,2,0), g:255, p:109},
+ {id:"sa-sqlab611", n:"SQlab 611 Ergowave Active 2.1", m:"SQlab", e:E(4,5,3,0,1,1,0), g:280, p:119},
+ {id:"sa-ergonpro", n:"Ergon SM Pro", m:"Ergon", e:E(4,5,4,1,1,1,0), g:230, p:149},
+ {id:"sa-ergonendpro", n:"Ergon SM Enduro Pro Titanium", m:"Ergon", e:E(2,5,5,3,1,1,0), g:220, p:179},
+ {id:"sa-koda", n:"WTB Koda Cromoly", m:"WTB", e:E(2,5,4,1,1,1,0), g:330, p:59},
+ {id:"sa-terra", n:"Fizik Terra Alpaca X5", m:"Fizik", e:E(2,5,4,0,0,0,0), g:300, p:69},
+ {id:"sa-argo", n:"Fizik Terra Argo X3", m:"Fizik", e:E(3,5,4,0,0,0,0), g:280, p:99},
+ {id:"sa-modelx", n:"Selle Italia Model X Superflow", m:"Selle Italia", e:E(3,4,3,0,1,1,0), g:270, p:59},
+ {id:"sa-arvada", n:"Bontrager Arvada Comp", m:"Bontrager", e:E(3,5,3,0,1,1,0), g:260, p:69},
+ {id:"sa-phenom", n:"Specialized Phenom Comp", m:"Specialized", e:E(4,5,3,0,0,0,0), g:250, p:99},
+ {id:"sa-radar", n:"SDG Radar Cro-Mo", m:"SDG", e:E(1,5,5,3,2,2,1), g:290, p:69},
+ {id:"sa-lynx", n:"Chromag Lynx DT", m:"Chromag", e:E(1,5,5,3,2,2,1), g:300, p:99},
+ {id:"sa-smp", n:"Selle SMP Well M1", m:"Selle SMP", e:E(3,4,2,0,0,0,0), g:300, p:159},
+ {id:"sa-lines", n:"Fabric Line-S Elite", m:"Fabric", e:E(4,4,2,0,0,0,0), g:250, p:79},
+ {id:"sa-pivotal", n:"Pivotal-Sattel Slim · Dirt", m:"Generisch", e:E(0,0,1,2,5,5,2), g:230, p:39}
 ]
 };
 
@@ -1289,11 +1648,152 @@ const GRUPPEN = [
 ];
 const quelleOf = s => s.quelle || s.k;
 const slotOf = k => SLOTS.find(x => x.k === k);
+/* Die Id eines Teils traegt seine Ausfuehrung mit: "g-zeb|charger3.2rc2~170"
+   heisst ZEB Ultimate mit Charger 3.2 und 170 mm. Ohne Zusatz gilt die
+   Vorgabe. Gespeichert werden Kurznamen statt Positionen, damit ein neuer
+   Federweg in der Liste keine gespeicherten Aufbauten verschiebt. */
+let eigene = {};                          /* selbst angelegte Teile je Katalogliste */
+const katalog = q => (eigene[q] && eigene[q].length) ? K[q].concat(eigene[q]) : K[q];
+let INDEX = {};
+function rohTeil(q, id){
+  if(!INDEX[q]){ INDEX[q] = new Map(); for(const t of katalog(q)) INDEX[q].set(t.id, t); }
+  return INDEX[q].get(id) || null;
+}
+const slug = x => String(x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9.]+/g, "");
+const VARIANTEN = new Map();
+function varianteNachIndex(basis, wahl){
+  if(!basis || !basis.v) return basis;
+  const w = basis.v.map((d, i) => (wahl && wahl[i] >= 0 && wahl[i] < d.o.length) ? wahl[i] : d.d);
+  const id = basis.id + "|" + basis.v.map((d, i) => slug(d.o[w[i]].w)).join("~");
+  let t = VARIANTEN.get(id);
+  if(t) return t;
+  t = {...basis, id:id, basisId:basis.id, wahl:w};
+  const zus = [];
+  basis.v.forEach((d, i) => {
+    const o = d.o[w[i]];
+    if(o.s) Object.assign(t, o.s);
+    t.p = (t.p || 0) + o.p;
+    t.g = (t.g || 0) + o.g;
+    if(d.o.length > 1) zus.push(o.kurz || o.n);
+  });
+  t.n = basis.n + (zus.length ? " · " + zus.join(" · ") : "");
+  VARIANTEN.set(id, t);
+  return t;
+}
+/* Frueher stand jede Groesse als eigener Eintrag im Katalog. Deren Ids liegen
+   noch in gespeicherten Aufbauten und zeigen jetzt auf Modell + Ausfuehrung. */
+const ALIAS_ROH = {
+  "d-deluxe":["d-deluxe", {"Ausführung":"Select+", "Einbaumaß":"210x55T"}],
+  "d-dps":["d-dps", {"Ausführung":"Performance", "Einbaumaß":"210x55T"}],
+  "d-sd210":["d-sd", {"Ausführung":"Ultimate", "Einbaumaß":"210x55T"}],
+  "d-fx210":["d-floatx", {"Ausführung":"Factory", "Einbaumaß":"210x55T"}],
+  "d-vivid205":["d-vivid", {"Ausführung":"Ultimate", "Einbaumaß":"205x65T"}],
+  "d-sd230":["d-sdcoil", {"Ausführung":"Ultimate", "Einbaumaß":"230x65M"}],
+  "d-fx2":["d-x2", {"Ausführung":"Factory", "Einbaumaß":"230x65M"}],
+  "d-slope":["d-deluxe", {"Ausführung":"Ultimate", "Einbaumaß":"190x45M"}],
+  "d-sidluxe190":["d-sidluxe", {"Ausführung":"Ultimate", "Einbaumaß":"190x45T"}],
+  "d-dps190":["d-dps", {"Ausführung":"Factory", "Einbaumaß":"190x45T"}],
+  "d-dps190s":["d-dps", {"Ausführung":"Performance", "Einbaumaß":"190x45T"}],
+  "d-sd190":["d-sd", {"Ausführung":"Ultimate", "Einbaumaß":"190x50T"}],
+  "d-deluxe205":["d-deluxe", {"Ausführung":"Select+", "Einbaumaß":"205x60T"}],
+  "d-sd205":["d-sd", {"Ausführung":"Ultimate", "Einbaumaß":"205x60T"}],
+  "d-fx205":["d-floatx", {"Ausführung":"Factory", "Einbaumaß":"205x60T"}],
+  "d-x2-205":["d-x2", {"Ausführung":"Factory", "Einbaumaß":"205x65T"}],
+  "d-sdcoil205":["d-sdcoil", {"Ausführung":"Ultimate", "Einbaumaß":"205x65T"}],
+  "d-vivid230":["d-vivid", {"Ausführung":"Ultimate", "Einbaumaß":"230x65M"}],
+  "d-dhx250":["d-dhx2", {"Ausführung":"Factory", "Einbaumaß":"250x75M"}],
+  "d-vivid250":["d-vividcoil", {"Ausführung":"Ultimate", "Einbaumaß":"250x75M"}],
+  "d-ttx250":["d-ttx22m", {"Einbaumaß":"250x75M"}],
+  "d-sidluxe185":["d-sidluxe", {"Ausführung":"Ultimate", "Einbaumaß":"185x45T"}],
+  "d-dps185":["d-dps", {"Ausführung":"Factory", "Einbaumaß":"185x45T"}],
+  "s-starr309":["s-starr", {"Durchmesser":"30.9"}], "s-starr316":["s-starr", {"Durchmesser":"31.6"}],
+  "s-starr349":["s-starr", {"Durchmesser":"34.9"}],
+  "s-bx309":["s-bx", {"Durchmesser":"30.9", "Hub":150}], "s-bx316":["s-bx", {"Durchmesser":"31.6", "Hub":170}],
+  "s-bx349":["s-bx", {"Durchmesser":"34.9", "Hub":150}],
+  "s-oneup180":["s-oneup", {"Durchmesser":"31.6", "Hub":180}], "s-oneup210":["s-oneup", {"Durchmesser":"31.6", "Hub":210}],
+  "s-oneup150":["s-oneup", {"Durchmesser":"31.6", "Hub":150}], "s-oneup240":["s-oneup", {"Durchmesser":"31.6", "Hub":240}],
+  "s-oneup309":["s-oneup", {"Durchmesser":"30.9", "Hub":180}], "s-oneup349":["s-oneup", {"Durchmesser":"34.9", "Hub":210}],
+  "s-fox349":["s-fox", {"Durchmesser":"34.9", "Hub":175}], "s-transfer309":["s-fox", {"Durchmesser":"30.9", "Hub":150}],
+  "s-reverb309":["s-reverb", {"Durchmesser":"30.9", "Hub":150}], "s-reverb316":["s-reverb", {"Durchmesser":"31.6", "Hub":170}],
+  "s-reverb349":["s-reverb", {"Durchmesser":"34.9", "Hub":200}],
+  "s-revive213":["s-bikeyoke", {"Durchmesser":"31.6", "Hub":213}],
+  "v-dc50":["v-dc", {"Länge":40}], "v-trial150":["v-trial", {"Länge":135}]
+};
+let ALIAS = null;
+function aliasId(id){
+  id = String(id);
+  if(id.indexOf("|") >= 0) return id;
+  if(!ALIAS){
+    ALIAS = {};
+    for(const alt in ALIAS_ROH){
+      const bid = ALIAS_ROH[alt][0], w = ALIAS_ROH[alt][1];
+      let basis = null;
+      for(const q in K){ basis = K[q].find(t => t.id === bid); if(basis) break; }
+      ALIAS[alt] = (!basis || !basis.v) ? bid : bid + "|" + basis.v.map(d => {
+        const o = d.o.find(x => String(x.w) === String(w[d.k])) || d.o[d.d];
+        return slug(o.w);
+      }).join("~");
+    }
+  }
+  return ALIAS[id] || id;
+}
+const basisVon = id => aliasId(id).split("|")[0];
 const findeTeil = (slotKey, id) => {
   const s = slotOf(slotKey);
-  if(!s) return null;
-  return K[quelleOf(s)].find(t => t.id === id) || null;
+  if(!s || !id) return null;
+  const voll = aliasId(id).split("|");
+  const basis = rohTeil(quelleOf(s), voll[0]);
+  if(!basis || !basis.v) return basis;
+  const sl = voll[1] ? voll[1].split("~") : [];
+  return varianteNachIndex(basis, basis.v.map((d, i) => sl[i] == null ? -1 : d.o.findIndex(o => slug(o.w) === sl[i])));
 };
+
+/* Passt eine Option zum restlichen Aufbau? true / false, null = keine Aussage */
+function optionPasst(slotKey, d, o, b){
+  const s = o.s;
+  if(!s) return null;
+  const r = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
+  switch(d.k){
+    case "Federweg": return r && r.maxGabel > 0 ? s.travel <= r.maxGabel : null;
+    case "Einbaumaß": return r && r.daempfer ? s.el === r.daempfer.el && s.hub === r.daempfer.hub && s.typ === r.daempfer.typ : null;
+    case "Freilauf": {
+      const ka = b.kassette && !entfaellt(b, "kassette") ? findeTeil("kassette", b.kassette) : null;
+      return ka ? s.freilauf === ka.freilauf : null;
+    }
+    case "Scheiben": {
+      const g = b.gabel ? findeTeil("gabel", b.gabel) : null;
+      if(!g && !r) return null;
+      return (!g || s.sV <= g.maxScheibeVR) && (!r || s.sH <= r.maxScheibeHR);
+    }
+    case "Durchmesser": return r && r.stuetze ? parseFloat(s.d) === r.stuetze : null;
+    case "Hub": return r && r.einsteck > 0 ? s.einbau <= r.einsteck : null;
+    case "Klemmung": {
+      const x = slotKey === "lenker" ? (b.vorbau ? findeTeil("vorbau", b.vorbau) : null)
+                                     : (b.lenker ? findeTeil("lenker", b.lenker) : null);
+      return x ? s.klemm === x.klemm : null;
+    }
+  }
+  return null;
+}
+/* Die Ausfuehrung, die zum Aufbau passt: die Vorgabe, wenn sie passt, sonst
+   bei Federweg, Hub und Scheiben die groesste passende, sonst die erste. */
+const GROESSTE = {Federweg:"travel", Hub:"hub", Scheiben:"sV"};
+function besteVariante(slotKey, basis, b){
+  return varianteNachIndex(basis, basis.v.map(d => {
+    if(d.o.length < 2 || optionPasst(slotKey, d, d.o[d.d], b) !== false) return d.d;
+    let best = -1;
+    d.o.forEach((o, j) => {
+      if(optionPasst(slotKey, d, o, b) !== true) return;
+      const f = GROESSTE[d.k];
+      if(best < 0 || (f && o.s[f] > d.o[best].s[f])) best = j;
+    });
+    return best < 0 ? d.d : best;
+  }));
+}
+/* Alle Teile eines Slots, jedes in der Ausfuehrung, die zum Aufbau passt */
+function kandidaten(slotKey, b){
+  return katalog(quelleOf(slotOf(slotKey))).map(t => t.v ? besteVariante(slotKey, t, b) : t);
+}
 function entfaellt(b, slotKey){
   const r = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
   if(r && r.ohne && r.ohne.indexOf(slotKey) >= 0) return true;
@@ -1358,7 +1858,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260923-1335';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260923-1805';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -1404,6 +1904,8 @@ function laden(){
       const alt = localStorage.getItem("mtb.markt");
       if(alt){ const q = JSON.parse(alt); if(q && typeof q.alter === "number") jahrWahl.markt = AKTUELL - Math.round(q.alter); }
     }
+    const eg = localStorage.getItem("mtb.eigene");
+    if(eg){ const q = JSON.parse(eg); if(q && typeof q === "object" && !Array.isArray(q)) eigene = q; INDEX = {}; }
     const zg = localStorage.getItem("mtb.zu");
     if(zg){ const q = JSON.parse(zg); if(q && typeof q === "object") zuGeklappt = q; }
     const fd = localStorage.getItem("mtb.feed");
@@ -1433,6 +1935,7 @@ function sichern(){
     localStorage.setItem("mtb.modus", modus);
     localStorage.setItem("mtb.feed", JSON.stringify(feed));
     localStorage.setItem("mtb.zu", JSON.stringify(zuGeklappt));
+    localStorage.setItem("mtb.eigene", JSON.stringify(eigene));
     localStorage.setItem("mtb.jahr", JSON.stringify(jahrWahl));
     localStorage.setItem("mtb.sel", JSON.stringify(sel));
     localStorage.setItem("mtb.plan", JSON.stringify(plan));
@@ -1535,7 +2038,9 @@ function pruefe(b){
   if(kassette && laufraeder && laufraeder.freilauf !== kassette.freilauf){
     const tr = kassette.freilauf.indexOf("Trial") === 0 || laufraeder.freilauf.indexOf("Trial") === 0;
     out.push(F("Freilaufkörper passt nicht zur Kassette","laufraeder",["laufraeder","kassette"],
-      `Der Laufradsatz hat <code>${laufraeder.freilauf}</code>, die Kassette braucht <code>${kassette.freilauf}</code>. ${tr ? "Bei Trial sitzt der Freilauf in der Kurbel, die Nabe trägt ein festes Ritzel — anderes Bauprinzip, kein Tauschteil." : "Bei DT Swiss, Hope und Newmen ist der Freilaufkörper einzeln tauschbar (60–110 €) — muss aber bewusst mitbestellt werden."}`));
+      `Der Laufradsatz hat <code>${laufraeder.freilauf}</code>, die Kassette braucht <code>${kassette.freilauf}</code>. ${tr ? "Bei Trial sitzt der Freilauf in der Kurbel, die Nabe trägt ein festes Ritzel — anderes Bauprinzip, kein Tauschteil." : (laufraeder.v && laufraeder.v.some(d => d.k === "Freilauf"))
+        ? "Diesen Laufradsatz gibt es auch mit " + kassette.freilauf + "-Freilauf — direkt unter dem Laufradsatz umstellen."
+        : "Bei DT Swiss, Hope und Newmen ist der Freilaufkörper einzeln tauschbar (60–110 €) — muss aber bewusst mitbestellt werden."}`));
   }
   if(laufraeder && (hat("enduro") || hat("dh") || hat("dirt") || hat("slope")) && laufraeder.maxSys < 120)
     out.push(W("Laufradsatz nicht für diesen Einsatz freigegeben","laufraeder",["laufraeder"],
@@ -1600,6 +2105,16 @@ function pruefe(b){
   if(kette && schaltwerk && kette.iface && kette.iface !== schaltwerk.iface)
     out.push(F("Kette passt nicht zum Schaltwerk","kette",["kette","schaltwerk"],
       `<code>${kette.n}</code> ist eine Flattop-Kette und läuft nur in einer Transmission. Am <code>${schaltwerk.iface}</code>-Schaltwerk hat sie die falsche Form.`));
+  /* Transmission hat eigene Ritzelprofile: T-Type-Kassette nur mit
+     T-Type-Schaltwerk, und andersherum. XS-1270 passt dabei auf HG. */
+  if(schaltwerk && kassette && kassette.gaenge > 1){
+    if(schaltwerk.iface === "T-Type" && !kassette.tType)
+      out.push(F("Transmission braucht eine T-Type-Kassette","kassette",["schaltwerk","kassette"],
+        `Das Transmission-Schaltwerk schaltet nur auf den eigenen T-Type-Kassetten sauber (XS-1270 bis XS-1299). <code>${kassette.n}</code> hat die ältere Zahnform.`));
+    else if(schaltwerk.iface !== "T-Type" && kassette.tType)
+      out.push(F("T-Type-Kassette nur mit Transmission","kassette",["schaltwerk","kassette"],
+        `<code>${kassette.n}</code> läuft nur mit Transmission-Schaltwerk und Flattop-Kette. Am <code>${schaltwerk.iface}</code>-Schaltwerk schaltet sie nicht sauber.`));
+  }
   if(kette && schaltwerk && !kette.iface && schaltwerk.iface === "T-Type")
     out.push(F("Transmission braucht die Flattop-Kette","kette",["kette","schaltwerk"],
       `SRAM Transmission läuft ausschließlich mit der eigenen Flattop-Kette. Eine normale 12-fach-Kette greift in die Ritzel nicht richtig ein.`));
@@ -1826,7 +2341,7 @@ const MASSE = {
   reifenHR:   {hart:[], weich:{breite:["mm Breite",3], grip:["Grip",1]}},
   schalthebel:{hart:["iface","gaenge"], weich:{}},
   schaltwerk: {hart:["iface","gaenge","udhPflicht"], weich:{maxRitzel:["Z. max.",2], maxKB:["Z. vorn",4]}},
-  kassette:   {hart:["freilauf","gaenge"], weich:{}},
+  kassette:   {hart:["freilauf","gaenge","tType"], weich:{}},
   kette:      {hart:["gaenge","iface"], weich:{}},
   kurbel:     {hart:["kl","gaenge","iface"], weich:{kb:["Zähne",2], laenge:["mm Länge",5]}},
   bremsen:    {hart:["mount","kolben"], weich:{sV:["mm Scheibe vorn",23], sH:["mm Scheibe hinten",23]}},
@@ -1858,8 +2373,8 @@ function guenstigere(slotKey, b){
   if(!jetzt || entfaellt(b, slotKey)) return [];
   const basis = harteFehler(b), preis = preisVon(jetzt);
   const out = [];
-  for(const kand of K[quelleOf(slotOf(slotKey))]){
-    if(kand.id === jetzt.id) continue;
+  for(const kand of kandidaten(slotKey, b)){
+    if(basisVon(kand.id) === basisVon(jetzt.id)) continue;
     const spart = preis - preisVon(kand);
     if(spart < Math.max(8, preis * 0.05)) continue;      /* unter 5 % lohnt der Tausch nicht */
     const ab = massGleich(slotKey, jetzt, kand);
@@ -1906,7 +2421,7 @@ function robustN(t, slotKey, gMin, gMax){
 }
 /* Qualität eines Teils ohne Preisbezug — Grundlage aller Tauschentscheidungen */
 function qualMap(slotKey){
-  const liste = K[quelleOf(slotOf(slotKey))];
+  const liste = katalog(quelleOf(slotOf(slotKey)));
   let gMin = Infinity, gMax = 0, pMin = Infinity, pMax = 0;
   for(const t of liste){
     gMin = Math.min(gMin, t.g||0); gMax = Math.max(gMax, t.g||0);
@@ -1949,10 +2464,11 @@ function generiere(){
     const s = slotOf(k), ziel = budget * anteilVon(k);
     const vorher = echteFehler(b);
     let beste = null, besteS = -1e9, ersatz = null, ersatzS = -1e9;
-    for(const t of K[quelleOf(s)]){
+    const liste = kandidaten(k, b);
+    for(const t of liste){
       const probe = {...b}; probe[k] = t.id;
       const neu = echteFehler(probe);
-      let score = quals[k][t.id];
+      let score = quals[k][basisVon(t.id)];
       if(ziel > 0 && t.p){
         const q = t.p / ziel;
         score += q > 1 ? -Math.min(50, (q-1)*60) : -Math.min(12, (1-q)*18);
@@ -1960,7 +2476,7 @@ function generiere(){
       if(neu <= vorher){ if(score > besteS){ besteS = score; beste = t; } }
       else if(score - (neu - vorher)*40 > ersatzS){ ersatzS = score - (neu - vorher)*40; ersatz = t; }
     }
-    b[k] = (beste || ersatz || K[quelleOf(s)][0]).id;
+    b[k] = (beste || ersatz || liste[0]).id;
     if(k === "rahmen") for(const s2 of SLOTS) if(entfaellt(b, s2.k)) b[s2.k] = null;
   }
 
@@ -1980,13 +2496,13 @@ function budgetPass(b, budget, quals){
     for(const s of SLOTS){
       if(entfaellt(b, s.k) || !b[s.k]) continue;
       const jetzt = findeTeil(s.k, b[s.k]);
-      for(const t of K[quelleOf(s)]){
-        if(t.id === jetzt.id || (t.p||0) >= (jetzt.p||0)) continue;
+      for(const t of kandidaten(s.k, b)){
+        if(basisVon(t.id) === basisVon(jetzt.id) || (t.p||0) >= (jetzt.p||0)) continue;
         if(eignung(jetzt) - eignung(t) > 1.5) continue;   /* keine Disziplin verraten */
         const probe = {...b}; probe[s.k] = t.id;
         if(echteFehler(probe) > basis) continue;
         const spart = preisVon(jetzt) - preisVon(t);
-        const kosten = (quals[s.k][jetzt.id] - quals[s.k][t.id]) / spart;
+        const kosten = (quals[s.k][basisVon(jetzt.id)] - quals[s.k][basisVon(t.id)]) / spart;
         if(kosten < bestKosten){ bestKosten = kosten; best = {k:s.k, id:t.id}; }
       }
     }
@@ -2001,13 +2517,13 @@ function budgetPass(b, budget, quals){
     for(const s of SLOTS){
       if(entfaellt(b, s.k) || !b[s.k]) continue;
       const jetzt = findeTeil(s.k, b[s.k]);
-      for(const t of K[quelleOf(s)]){
-        if(t.id === jetzt.id) continue;
+      for(const t of kandidaten(s.k, b)){
+        if(basisVon(t.id) === basisVon(jetzt.id)) continue;
         const mehr = preisVon(t) - preisVon(jetzt);
         if(mehr <= 0 || mehr > rest) continue;
         const probe = {...b}; probe[s.k] = t.id;
         if(echteFehler(probe) > basis) continue;
-        const gewinn = quals[s.k][t.id] - quals[s.k][jetzt.id];
+        const gewinn = quals[s.k][basisVon(t.id)] - quals[s.k][basisVon(jetzt.id)];
         if(gewinn <= 0) continue;
         const nutzen = gewinn / mehr;
         if(nutzen > bestNutzen){ bestNutzen = nutzen; best = {k:s.k, id:t.id}; }
@@ -2079,7 +2595,7 @@ function affHtml(teil, kompakt){
    rund neunzig Teilenamen geprueft und nur der beste Treffer behalten.
    Am Ende stehen neunzig Eintraege im Speicher, nicht hunderttausend. */
 
-const feedEintrag = teil => feed.treffer[teil.id] || null;
+const feedEintrag = teil => feed.treffer[teil.basisId || teil.id] || null;
 /* Ein Rahmen aus einem aelteren Modelljahr kostet weniger: das Vorjahresmodell
    im Abverkauf rund 15 Prozent, ab zwei Jahren ist er praktisch nur noch
    gebraucht zu haben und folgt der Restwertkurve. Im Angebotsmodus bleibt der
@@ -2200,6 +2716,71 @@ function feedEinlesen(datei, fertig){
   stueck();
 }
 
+/* ═══════════ Eigene Teile ═══════════
+   Kein Katalog kennt alles. Was fehlt, legt man selbst an: Name, Preis,
+   Gewicht -- und fuer die Pruefung die Masse eines Teils, das genauso gebaut
+   ist. Gespeichert wird auf dem Geraet, wie die Aufbauten. */
+const MASSDIM = ["Federweg","Einbaumaß","Freilauf","Scheiben","Durchmesser","Hub","Rise","Klemmung","Länge","Kurbellänge","Kettenblatt"];
+function oeffneEigen(slotKey){
+  const s = slotOf(slotKey), cur = build[slotKey] ? findeTeil(slotKey, build[slotKey]) : null;
+  const liste = kandidaten(slotKey, build)
+    .map(t0 => (cur && basisVon(t0.id) === basisVon(cur.id)) ? cur : t0)
+    .filter(t => !t.eigen);
+  zeigeSheet(`
+    <div class="sheet-h"><h3><span class="sub">${esc(s.label)}</span>Eigenes Teil anlegen</h3>${zuBtn}</div>
+    <div class="sheet-b">
+      <p class="hint" style="margin:0 0 14px">Für alles, was nicht im Katalog steht. Unter <b>Maße wie</b> wählst du
+        ein Teil, das genauso gebaut ist — gleiche Achse, gleiche Klemmung, gleiches Einbaumaß. Mit diesen Maßen prüft
+        die App dein Teil.</p>
+      <div class="fld"><label for="eg-n">Name</label><input id="eg-n" type="text" autocomplete="off" placeholder="z. B. Intend Edge 170"></div>
+      <div class="fld"><label for="eg-m">Marke</label><input id="eg-m" type="text" autocomplete="off" placeholder="z. B. Intend"></div>
+      <div class="fld"><label for="eg-p">Preis in €</label><input id="eg-p" type="number" inputmode="numeric" min="0" placeholder="0"></div>
+      <div class="fld"><label for="eg-g">Gewicht in g</label><input id="eg-g" type="number" inputmode="numeric" min="0" placeholder="0"></div>
+      <div class="fld"><label for="eg-v">Maße wie</label><select id="eg-v">${liste.map(t =>
+        `<option value="${esc(t.id)}"${cur && t === cur ? " selected" : ""}>${esc(t.n)}</option>`).join("")}</select></div>
+      <p class="hint" id="eg-fehler" hidden style="color:var(--bad);margin:-6px 0 12px">Bitte einen Namen eintragen.</p>
+      <button class="btn wide" data-eigenspeichern="${slotKey}">Anlegen und einbauen</button>
+    </div>`);
+}
+function eigenSpeichern(slotKey){
+  const q = quelleOf(slotOf(slotKey));
+  const name = ($("eg-n").value || "").trim();
+  if(!name){ $("eg-fehler").hidden = false; $("eg-n").focus(); return; }
+  const vorlage = findeTeil(slotKey, $("eg-v").value);
+  if(!vorlage) return;
+  const t = {};
+  for(const f in vorlage)
+    if(["id","n","m","p","g","v","wahl","basisId","seit","eigen"].indexOf(f) < 0) t[f] = vorlage[f];
+  t.id = "x-" + Date.now().toString(36);
+  t.n = name;
+  t.m = ($("eg-m").value || "").trim() || "Eigenes Teil";
+  t.p = Math.max(0, Math.round(parseFloat($("eg-p").value) || 0));
+  t.g = Math.max(0, Math.round(parseFloat($("eg-g").value) || 0));
+  t.eigen = true;
+  /* Masse bleiben waehlbar wie bei der Vorlage -- Federweg, Einbaumass,
+     Freilauf, Hub. Kartusche und Ausfuehrung nicht: die gehoeren zur Vorlage,
+     nicht zum eigenen Teil. */
+  const basis = rohTeil(q, vorlage.basisId || vorlage.id);
+  if(basis && basis.v){
+    const v = [];
+    basis.v.forEach((d, i) => { if(MASSDIM.indexOf(d.k) >= 0 && d.o.length > 1) v.push({...d, d:vorlage.wahl[i]}); });
+    if(v.length) t.v = v;
+  }
+  (eigene[q] = eigene[q] || []).push(t);
+  INDEX = {};
+  build[slotKey] = t.id;
+  sichern(); schliesse(); zeichne();
+  zeigeToast("„" + name + "“ angelegt und eingebaut.");
+}
+function eigenLoeschen(slotKey, id){
+  const q = quelleOf(slotOf(slotKey));
+  eigene[q] = (eigene[q] || []).filter(t => t.id !== id);
+  INDEX = {};
+  for(const m in builds) for(const k in builds[m]) if(builds[m][k] && basisVon(builds[m][k]) === id) builds[m][k] = null;
+  build = builds[modus];
+  sichern(); schliesse(); zeichne();
+}
+
 /* ═══════════ Bauteil-Detailansicht ═══════════
    Gezeigt wird ein echtes Produktbild aus dem Partner-Feed -- oder keins.
    Selbst gezeichnete Ersatzgrafiken gibt es hier bewusst nicht: sie sehen
@@ -2232,6 +2813,7 @@ function oeffneDetail(slotKey, teilId){
       ${affHtml(t)}
       ${build[slotKey] === t.id ? "" :
         `<div style="margin-top:12px"><button class="btn wide" data-einbau="${slotKey}|${t.id}">Einbauen</button></div>`}
+      ${t.eigen ? `<div style="margin-top:10px"><button class="btn ghost wide" data-eigenweg="${slotKey}|${t.id}">Eigenes Teil löschen</button></div>` : ""}
     </div>`);
 }
 
@@ -2242,7 +2824,7 @@ const ACHSE = {"110x15":"Boost 110×15", "100x15":"100×15", "110x20":"DH 110×2
 const achsName = a => ACHSE[a] || a;
 /* Welche Kassetten auf welchen Freilaufkoerper passen -- die Frage, an der
    die meisten Laufradkaeufe scheitern. */
-const FREILAUF_FUER = {"HG":"Shimano bis 11-fach, SRAM NX, Sunrace", "Micro Spline":"Shimano 12-fach",
+const FREILAUF_FUER = {"HG":"Shimano bis 11-fach, SRAM NX/SX, Eagle 70", "Micro Spline":"Shimano 12-fach",
   "XD":"SRAM Eagle und Transmission", "Trial (Ritzel fest)":"festes Trial-Ritzel"};
 
 function jahrKnoepfe(){
@@ -2266,6 +2848,48 @@ function jahrLeiste(){
   } else h = "Legt fest, wie alt der Rahmen ist — und damit seinen Preis.";
   return `<div class="jahrleiste"><span class="jl-k">Modelljahr</span>
     <div class="jl-reihe">${jahrKnoepfe()}</div><span class="jl-h">${h}</span></div>`;
+}
+
+/* Ausfuehrung an der Kachel: je Dimension eine Reihe Knoepfe. Was nicht zum
+   Aufbau passt, ist rot umrandet -- waehlbar bleibt es trotzdem, etwa fuer
+   den Umbau, der erst noch kommt. */
+const MEHRZAHL = {"Federweg":"Federwege", "Kartusche":"Kartuschen", "Ausführung":"Ausführungen",
+  "Einbaumaß":"Einbaumaße", "Freilauf":"Freiläufe", "Scheiben":"Scheibengrößen", "Durchmesser":"Durchmesser",
+  "Hub":"Hublängen", "Rise":"Rise-Höhen", "Klemmung":"Klemmungen", "Länge":"Längen",
+  "Kurbellänge":"Kurbellängen", "Kettenblatt":"Kettenblätter"};
+function wahlZeile(t){
+  const d = (t.v || []).filter(x => x.o.length > 1);
+  return d.length ? `<div class="wahl">Wählbar: ${d.map(x => x.o.length + " " + MEHRZAHL[x.k]).join(" · ")}</div>` : "";
+}
+const wahlText = t => t.v ? t.v.map(d => d.o.map(o => o.n + " " + o.h).join(" ")).join(" ") : "";
+function varLeiste(slotKey, t){
+  if(!t.v || !t.wahl) return "";
+  const zeilen = t.v.map((d, i) => {
+    if(d.o.length < 2) return "";
+    const gew = d.o[t.wahl[i]];
+    const ok = d.o.map(o => optionPasst(slotKey, d, o, build));
+    /* Passt die gewaehlte nicht, steht darunter, welche passen wuerden */
+    const passend = d.o.filter((o, j) => ok[j] === true).map(o => o.n);
+    const hinweis = ok[t.wahl[i]] === false && passend.length
+      ? `<span class="jl-h no">Passend für deinen Aufbau: ${esc(passend.slice(0, 4).join(", "))}${passend.length > 4 ? " …" : ""}</span>`
+      : gew.h ? `<span class="jl-h">${esc(gew.h)}</span>` : "";
+    return `<div class="var-z"><span class="jl-k">${esc(d.k)}</span>
+      <div class="jl-reihe">${d.o.map((o, j) =>
+        `<button data-var="${slotKey}|${i}|${j}" aria-pressed="${j === t.wahl[i]}"${ok[j] === false ? ' class="nein" title="passt nicht zum Aufbau"' : ""}>${esc(o.n)}</button>`
+      ).join("")}</div>${hinweis}</div>`;
+  }).join("");
+  return zeilen ? `<div class="jahrleiste varleiste">${zeilen}</div>` : "";
+}
+
+/* Lange Reihen scrollen seitlich -- die gewaehlte Option soll sichtbar sein,
+   nicht irgendwo rechts ausserhalb. */
+function auswahlInsBild(){
+  Array.prototype.forEach.call(document.querySelectorAll("#aufbau .jl-reihe"), r => {
+    const b = r.querySelector('[aria-pressed="true"]');
+    if(!b) return;
+    const d = b.getBoundingClientRect().left - r.getBoundingClientRect().left;
+    if(d < 0 || d + b.offsetWidth > r.clientWidth) r.scrollLeft += d - 12;
+  });
 }
 
 /* Zusatzzeilen fuer Kacheln, bei denen Chips nicht reichen */
@@ -2318,6 +2942,7 @@ function suchExtras(t){
   if(t.hub > 0 && t.d) x.push("dropper variostütze absenkbar");
   if(t.hub === 0 && t.d) x.push("starr");
   if(t.kolben) x.push(t.kolben + " kolben " + t.kolben + "kolben");
+  if(t.tType) x.push("t-type ttype transmission");
   if(t.typ === "Metric" && t.el >= 230) x.push("coil stahlfeder");
   if(/Coil/i.test(t.n || "")) x.push("stahlfeder");
   return x.join(" ");
@@ -2372,7 +2997,7 @@ function specsVon(slotKey, t){
     case "schaltwerk": c.push(t.gaenge + "-fach", t.iface, "bis " + t.maxRitzel + " Z.",
       "max. " + t.maxKB + " Z. vorn", t.udhPflicht ? "UDH nötig" : null); break;
     case "kassette": c.push(t.gaenge === 1 ? "Singlespeed" : t.gaenge + "-fach",
-      t.spanne[0] + "–" + t.spanne[1] + " Z.", t.freilauf); break;
+      t.spanne[0] + "–" + t.spanne[1] + " Z.", t.freilauf, t.tType ? "T-Type" : null); break;
     case "kette": c.push(t.gaenge === 1 ? "Singlespeed" : t.gaenge + "-fach", t.iface || "Standard"); break;
     case "kurbel": c.push(t.iface, "Kettenlinie " + t.kl, t.kb + " Z.", t.laenge + " mm"); break;
     case "bremsen": c.push(t.mount === "Felge" ? "Felgenbremse" : t.kolben + " Kolben",
@@ -2551,7 +3176,7 @@ function zeichne(){
         ${chips ? `<span class="specs">${chips}</span>` : ""}
         ${kachelZusatz(s.k, t)}
         <span class="slot-r">${t ? `<span class="p">${eur(preisVon(t))}</span><span class="g">${t.g} g</span>` : `<span class="g">offen</span>`}</span>
-      </button>`;
+      </button>${t ? varLeiste(s.k, t) : ""}`;
     }).join("");
     /* Der Punkt am Thema fasst zusammen, was darin steckt: roter Konflikt,
        gelbe Einschränkung, grün wenn vollständig und sauber. */
@@ -2634,6 +3259,7 @@ function zeichne(){
   document.body.dataset.view = view;
   Array.prototype.forEach.call(document.querySelectorAll(".tabs [data-view]"),
     b => b.setAttribute("aria-selected", String(b.dataset.view === view)));
+  auswahlInsBild();
 }
 
 function upgrades(r){
@@ -2641,8 +3267,8 @@ function upgrades(r){
   for(const s of SLOTS){
     if(entfaellt(build, s.k)) continue;
     const jetzt = build[s.k] ? findeTeil(s.k, build[s.k]) : null;
-    for(const kand of K[quelleOf(s)]){
-      if(jetzt && kand.id === jetzt.id) continue;
+    for(const kand of kandidaten(s.k, build)){
+      if(jetzt && basisVon(kand.id) === basisVon(jetzt.id)) continue;
       const probe = {...build}; probe[s.k] = kand.id;
       const pr = bewerte(probe);
       const d = pr.gesamt - r.gesamt;
@@ -2714,14 +3340,19 @@ function oeffneSlot(slotKey){
   offenerSlot = slotKey;
   const basis = bewerte(build);
   const wunsch = markenWunsch(slotKey);
-  const karten = K[quelleOf(s)].map(t => {
+  /* Das verbaute Modell erscheint in der Ausfuehrung, die verbaut ist --
+     alle anderen in der, die zum Aufbau passt. */
+  const curT = build[slotKey] ? findeTeil(slotKey, build[slotKey]) : null;
+  const curB = curT ? basisVon(curT.id) : null;
+  const karten = kandidaten(slotKey, build).map(t0 => {
+    const t = (curB && basisVon(t0.id) === curB) ? curT : t0;
     const probe = {...build}; probe[slotKey] = t.id;
     const pr = bewerte(probe);
     const eigene = pr.funde.filter(f => f.slots.indexOf(slotKey) >= 0);
     const fehler = eigene.filter(f => f.level === "fehler");
     const warn = eigene.filter(f => f.level === "warnung" && f.titel.indexOf("Modelljahr") < 0);
     const d = pr.gesamt - basis.gesamt;
-    const istSel = t.id === build[slotKey];
+    const istSel = !!curB && basisVon(t.id) === curB;
     let tag, gut, rang, gruende;
 
     if(slotKey === "rahmen"){
@@ -2754,11 +3385,11 @@ function oeffneSlot(slotKey){
     const fe = feedEintrag(t);
     const pNeu = grundpreis(t), pJetzt = preisVon(t);
     const stark = t.e ? DID.filter(dd => (t.e[dd] || 0) >= 4).map(dLang) : [];
-    const such = suchIndex([t.n, t.m || "", specsVon(slotKey, t).join(" "), t.seit || "", stark.join(" "), suchExtras(t)]);
+    const such = suchIndex([t.n, t.m || "", specsVon(slotKey, t).join(" "), t.seit || "", stark.join(" "), suchExtras(t), wahlText(t), t.eigen ? "eigen eigenes" : ""]);
     return {gut:gut, sel:istSel, sort:[rang, -d], html:`
       <div class="opt ${istSel ? "sel" : ""}" data-passt="${gut ? 1 : 0}" data-such="${esc(such)}">
-        <div><div class="opt-n">${fe && fe.bild ? `<img class="feedbild" src="${esc(fe.bild)}" alt="" loading="lazy">` : ""}${esc(t.n)} ${tag} ${dtag} ${mtag}</div>
-          <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}${t.seit ? `<span class="chip">seit ${t.seit}</span>` : ""}</div></div>
+        <div><div class="opt-n">${fe && fe.bild ? `<img class="feedbild" src="${esc(fe.bild)}" alt="" loading="lazy">` : ""}${esc(t.n)} ${tag} ${dtag} ${mtag}${t.eigen ? ` <span class="tag m">eigen</span>` : ""}</div>
+          <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}${t.seit ? `<span class="chip">seit ${t.seit}</span>` : ""}</div>${wahlZeile(t)}</div>
         <div class="opt-r"><span class="opt-p${fe && fe.preis != null ? " livepreis" : ""}">${eur(pJetzt)}</span>
           ${pJetzt !== pNeu ? `<span class="opt-g"><s>${eur(pNeu)}</s> neu</span>` : ""}<span class="opt-g">${t.g} g</span>
           <button class="btn ghost sm" data-detail="${slotKey}|${t.id}">Ansehen</button>
@@ -2793,6 +3424,9 @@ function oeffneSlot(slotKey){
       </div>
       ${karten.map(k => k.html).join("")}
       <p class="empty-note" id="keine-treffer" hidden>Nichts gefunden. Weniger Wörter oder anders schreiben — „rock“ findet RockShox, „ohlins“ findet Öhlins.</p>
+      <div class="eigen-box"><span><b>Nicht dabei?</b> Leg das Teil selbst an. Geprüft wird es mit den Maßen
+        eines Teils, das genauso gebaut ist.</span>
+        <button class="btn ghost sm" data-eigen="${slotKey}">Eigenes Teil anlegen</button></div>
     </div>`);
   filterAnwenden();
 }
@@ -3067,6 +3701,24 @@ document.addEventListener("click", e => {
 
   const dt = T("[data-detail]");
   if(dt){ const q = dt.dataset.detail.split("|"); oeffneDetail(q[0], q[1]); return; }
+
+  const va = T("[data-var]");
+  if(va){
+    const q = va.dataset.var.split("|"), sk = q[0];
+    const cur = build[sk] ? findeTeil(sk, build[sk]) : null;
+    if(cur && cur.v){
+      const w = cur.wahl.slice(); w[+q[1]] = +q[2];
+      build[sk] = varianteNachIndex(rohTeil(quelleOf(slotOf(sk)), cur.basisId), w).id;
+      sichern(); zeichne();
+    }
+    return;
+  }
+  const eg = T("[data-eigen]");
+  if(eg){ oeffneEigen(eg.dataset.eigen); return; }
+  const egs = T("[data-eigenspeichern]");
+  if(egs){ eigenSpeichern(egs.dataset.eigenspeichern); return; }
+  const egw = T("[data-eigenweg]");
+  if(egw){ const q = egw.dataset.eigenweg.split("|"); eigenLoeschen(q[0], q[1]); return; }
 
   const ein = T("[data-einbau]");
   if(ein){
