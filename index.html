@@ -96,7 +96,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
   .bars{grid-column:auto;grid-template-columns:1fr;gap:6px}
 }
 
-.wrap{max-width:1180px;margin:0 auto;padding:14px 14px 100px;display:grid;gap:16px}
+.wrap{max-width:1180px;margin:0 auto;padding:14px 14px 100px;display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
 @media (min-width:820px){.wrap{grid-template-columns:minmax(0,1fr) 336px;align-items:start;padding-bottom:40px}}
 
 /* Einstieg in den Assistenten */
@@ -173,7 +173,7 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 .empty-note{font-size:12.5px;color:var(--ink-3);line-height:1.5;padding:4px 0;margin:0}
 
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--surface);
-  border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 58px;
   padding-bottom:env(safe-area-inset-bottom,0px)}
 .tabs button{padding:11px 4px 12px;display:flex;align-items:center;justify-content:center;gap:5px;
   font-size:11.5px;font-weight:600;color:var(--ink-3)}
@@ -291,6 +291,33 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-we
 
 
 /* ── Bauteilbilder und PNG-Ausgabe ── */
+
+/* Jeder Behaelter auf dem Weg zur Kachel muss schrumpfen duerfen. Flex- und
+   Grid-Kinder haben sonst min-width:auto und wachsen mit ihrem Inhalt mit. */
+#aufbau,#panel,.grp,.grp-inhalt,.jahrleiste,.jl-reihe,.slot,.mk,.card,.opt,.sheet-b{min-width:0}
+.jl-reihe{max-width:100%}
+.chip{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+
+/* ── Aktualisieren ── */
+.tab-upd{position:relative;flex-direction:column;gap:1px;padding:7px 2px 8px!important;
+  border-left:1px solid var(--line-soft)}
+.tab-upd span{font-size:10px}
+.tab-upd.dreht svg{animation:dreh .8s linear infinite}
+@keyframes dreh{to{transform:rotate(360deg)}}
+.upd-punkt{position:absolute;top:7px;right:13px;width:8px;height:8px;border-radius:50%;
+  background:var(--bad);box-shadow:0 0 0 2px var(--surface)}
+.tab-upd.neu{color:var(--anod)}
+.upd-leiste{position:fixed;left:12px;right:12px;z-index:46;bottom:calc(58px + env(safe-area-inset-bottom,0px));
+  max-width:560px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 12px;
+  background:var(--anod-soft);color:var(--anod);border:1px solid var(--anod);border-radius:12px;
+  box-shadow:var(--shadow);font-size:12.5px;line-height:1.4}
+.upd-leiste span{flex:1;min-width:0}
+.toast{position:fixed;left:12px;right:12px;z-index:70;bottom:calc(66px + env(safe-area-inset-bottom,0px));
+  max-width:420px;margin:0 auto;padding:11px 14px;border-radius:11px;background:var(--ink);color:var(--surface);
+  font-size:13px;line-height:1.4;box-shadow:var(--shadow);text-align:center}
+@media (min-width:820px){ .upd-leiste{bottom:16px} .toast{bottom:20px} }
+.app-stand{display:flex;flex-direction:column;align-items:center;gap:6px;margin:18px 0 4px}
+.app-stand span{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3)}
 
 /* ── Suche, Modelljahr, Laufrad-Zeilen ── */
 .suche{position:sticky;top:0;z-index:3;background:var(--surface);padding:0 0 4px}
@@ -549,7 +576,17 @@ img{max-width:100%}
   <button role="tab" data-view="aufbau" aria-selected="true">Aufbau <span class="badge" id="b-auf">0</span></button>
   <button role="tab" data-view="befunde" aria-selected="false">Befunde <span class="badge" id="b-fin">0</span></button>
   <button role="tab" data-view="upgrades" aria-selected="false">Upgrades <span class="badge" id="b-up">0</span></button>
+  <button class="tab-upd" data-aktualisieren="1" aria-label="App aktualisieren">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/></svg>
+    <span>Update</span><i class="upd-punkt" id="upd-punkt" hidden></i>
+  </button>
 </nav>
+
+<div class="upd-leiste" id="upd-leiste" hidden>
+  <span><b>Neue Version verfügbar.</b> Deine Aufbauten bleiben erhalten.</span>
+  <button class="btn sm" data-aktualisieren="1">Aktualisieren</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <input type="file" id="foto-in" accept="image/*" hidden>
 <input type="file" id="feed-in" accept=".csv,.txt,text/csv,text/plain" hidden>
@@ -1239,6 +1276,10 @@ const leerBau = () => { const o = {}; for(const s of SLOTS) o[s.k] = null; retur
 let builds = {traum:{...START}, real:leerBau(), markt:leerBau()};
 let modus = "traum";
 let zuGeklappt = {};
+/* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
+   ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
+const APP_VERSION = '20260923-1307';   /* wird beim Veroeffentlichen gestempelt */
+let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
 const AKTUELL = new Date().getFullYear();
@@ -2457,7 +2498,11 @@ function zeichne(){
     Jahrgang. Preise liegen auf UVP-Niveau und sind kein Angebot — außer du hast einen Produktfeed
     geladen, dann stehen dort die Preise deines Partnershops.<br>
     <b>Vor dem Kauf</b> gegen das Datenblatt deines Rahmens prüfen. Trial-Maße sind auf Mod 20/19″,
-    Street 24″ und Stock 26″ vereinfacht.</p>`;
+    Street 24″ und Stock 26″ vereinfacht.</p>
+    <div class="app-stand">
+      <button class="btn ghost" data-aktualisieren="1">${updateDa ? "Neue Version laden" : "App aktualisieren"}</button>
+      <span>Version vom ${versionText(APP_VERSION)}</span>
+    </div>`;
 
   const rang = {fehler:0, warnung:1, hinweis:2};
   const sortiert = r.funde.slice().sort((a,b) => rang[a.level] - rang[b.level]);
@@ -2508,7 +2553,7 @@ function zeichne(){
   $("b-fin").className = "badge" + (nF ? " rot" : "");
   $("b-up").textContent = top.length + spar.length;
   document.body.dataset.view = view;
-  Array.prototype.forEach.call(document.querySelectorAll(".tabs button"),
+  Array.prototype.forEach.call(document.querySelectorAll(".tabs [data-view]"),
     b => b.setAttribute("aria-selected", String(b.dataset.view === view)));
 }
 
@@ -2992,6 +3037,8 @@ document.addEventListener("click", e => {
   if(T("[data-fotoweg]")){ fotos[modus] = null; sichern(); zeichne(); return; }
   if(T("[data-spick]")){ oeffneSpick(); return; }
 
+  if(T("[data-aktualisieren]")){ appAktualisieren(); return; }
+
   const v = T("[data-view]");
   if(v){ view = v.dataset.view; zeichne(); window.scrollTo({top:0, behavior:"smooth"}); return; }
   if(T("[data-reset]")){
@@ -3075,43 +3122,113 @@ try{
   else start(null);
 }catch(e){ start(null); }
 
-/* ═══════════ 12 · Selbstaktualisierung ═══════════
-   Die App soll sich ohne Zutun erneuern. Dafuer greifen drei Dinge ineinander:
+/* ═══════════ 12 · Aktualisieren ═══════════
+   Neue Fassungen werden im Hintergrund erkannt, aber erst geladen, wenn man den
+   Knopf drueckt -- so springt die App nie mitten im Bauen um.
 
-   1. updateViaCache:"none" — der Browser darf das Worker-Skript selbst nie aus
-      seinem HTTP-Cache beantworten, sonst merkt er eine neue Fassung tagelang nicht.
-   2. Der Worker ruft skipWaiting(). Eine neue Fassung wartet also nicht, bis alle
-      Tabs zu sind, sondern uebernimmt sofort.
-   3. Die Uebernahme loest controllerchange aus -> wir laden die Seite einmal neu.
-      Die Bedingung hatteController schliesst die Erstinstallation aus: dort
-      wechselt der Controller von "keiner" auf "einer", und ein Neuladen waere
-      nur ein Flackern ohne Grund.
+   Erkannt wird ueber einen Versionsvergleich: im Worker-Skript steht der
+   Stempel der letzten Veroeffentlichung, hier in APP_VERSION der Stempel dieser
+   Seite. Das Skript wird dabei am Browser-Cache vorbei geholt; genau dieser
+   Cache hat beim Testen schon einmal eine alte Fassung ausgeliefert, obwohl
+   der Server die neue hatte.
 
-   Geprueft wird beim Start, bei jeder Rueckkehr in die App und stuendlich. */
+   Beim Aktualisieren werden die App-Caches geleert und die Seite unter einer
+   neuen Adresse geladen. Der Umweg ueber die Adresse ist Absicht: iOS haelt
+   Home-Bildschirm-Apps sonst gern auf dem alten Stand fest. Aufbauten, Fotos
+   und Einstellungen liegen im localStorage und bleiben unberuehrt. */
+function versionText(v){
+  const m = /^(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})$/.exec(v || "");
+  return m ? m[3] + "." + m[2] + "." + m[1] + ", " + m[4] + ":" + m[5] + " Uhr" : "Entwicklungsstand";
+}
+function zeigeToast(txt, ms){
+  const t = $("toast"); if(!t) return;
+  t.textContent = txt; t.hidden = false;
+  clearTimeout(zeigeToast.z); zeigeToast.z = setTimeout(() => { t.hidden = true; }, ms || 3200);
+}
+function zeigeUpdate(){
+  const l = $("upd-leiste"), p = $("upd-punkt"), k = document.querySelector(".tab-upd");
+  if(l) l.hidden = !updateDa;
+  if(p) p.hidden = !updateDa;
+  if(k) k.classList.toggle("neu", updateDa);
+  Array.prototype.forEach.call(document.querySelectorAll(".app-stand .btn"),
+    x => { x.textContent = updateDa ? "Neue Version laden" : "App aktualisieren"; });
+}
+async function serverVersion(){
+  const txt = await fetch("mtb-sw.js?pruef=" + Date.now(), {cache:"no-store"}).then(r => {
+    if(!r.ok) throw new Error("HTTP " + r.status);
+    return r.text();
+  });
+  const m = /var CACHE = 'dreambuild-([^']+)'/.exec(txt);
+  return m ? m[1] : null;
+}
+async function updatePruefen(){
+  if(APP_VERSION === "entwicklung") return;
+  try{
+    const v = await serverVersion();
+    updateDa = !!v && v !== APP_VERSION;
+    zeigeUpdate();
+  }catch(e){ /* offline -- dann eben beim naechsten Mal */ }
+}
+async function appAktualisieren(){
+  const knopf = document.querySelector(".tab-upd");
+  if(knopf) knopf.classList.add("dreht");
+  let v = null;
+  try{ v = await serverVersion(); }
+  catch(e){
+    if(knopf) knopf.classList.remove("dreht");
+    zeigeToast("Kein Netz — die App läuft weiter offline. Später nochmal versuchen.");
+    return;
+  }
+  if(v && v === APP_VERSION){
+    if(knopf) knopf.classList.remove("dreht");
+    updateDa = false; zeigeUpdate();
+    zeigeToast("Du hast die neueste Version (" + versionText(APP_VERSION) + ").");
+    return;
+  }
+  try{
+    sessionStorage.setItem("mtb.frisch", v || "");
+    if(window.caches){ const ks = await caches.keys(); await Promise.all(ks.map(k => caches.delete(k))); }
+    const reg = navigator.serviceWorker ? await navigator.serviceWorker.getRegistration() : null;
+    if(reg){ try{ await reg.update(); }catch(e){} }
+  }catch(e){}
+  location.replace(location.pathname + "?v=" + encodeURIComponent(v || Date.now()));
+}
+
 try{
+  /* Nachgeschaut wird beim Start, bei jeder Rueckkehr in die App und stuendlich --
+     unabhaengig davon, ob sich der Worker registrieren liess. Der Vergleich
+     braucht ihn nicht, und ohne diese Trennung bliebe der Hinweis stumm, sobald
+     die Registrierung einmal scheitert. */
+  let swReg = null;
+  const schau = function(){
+    if(swReg) swReg.update().catch(function(){});
+    updatePruefen();
+  };
   if("serviceWorker" in navigator && window.top === window.self
      && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")
      && document.querySelector('link[rel="manifest"]')){
-
-    var hatteController = !!navigator.serviceWorker.controller;
-    var laedtNeu = false;
-    navigator.serviceWorker.addEventListener("controllerchange", function(){
-      if(!hatteController || laedtNeu) return;
-      laedtNeu = true;
-      location.reload();
-    });
-
     window.addEventListener("load", function(){
       navigator.serviceWorker.register("mtb-sw.js", {updateViaCache:"none"}).then(function(reg){
-        var schau = function(){ try{ reg.update(); }catch(e){} };
-        schau();
-        document.addEventListener("visibilitychange", function(){
-          if(document.visibilityState === "visible") schau();
-        });
-        setInterval(schau, 3600000);
+        swReg = reg;
+        reg.update().catch(function(){});
+        /* Uebernimmt ein neuer Worker, wird nur der Hinweis gezeigt --
+           geladen wird erst auf Knopfdruck. */
+        navigator.serviceWorker.addEventListener("controllerchange", function(){ updatePruefen(); });
       }).catch(function(){});
     });
   }
+  window.addEventListener("load", updatePruefen);
+  document.addEventListener("visibilitychange", function(){
+    if(document.visibilityState === "visible") schau();
+  });
+  setInterval(schau, 3600000);
+  /* Nach dem Aktualisieren: Bescheid geben und die Adresse wieder aufraeumen */
+  const frisch = sessionStorage.getItem("mtb.frisch");
+  if(frisch !== null){
+    sessionStorage.removeItem("mtb.frisch");
+    setTimeout(() => zeigeToast("Aktualisiert — Version vom " + versionText(APP_VERSION) + "."), 400);
+  }
+  if(/[?&]v=/.test(location.search)) history.replaceState(null, "", location.pathname);
 }catch(e){}
 </script>
 </body>

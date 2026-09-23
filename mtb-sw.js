@@ -11,7 +11,7 @@
    Die Google-Schriften werden beim ersten Start mitgecacht. Vor dem ersten
    Online-Start greift die Systemschrift aus dem Fallback-Stack -- die App ist
    dann lesbar, nur nicht in Archivo. */
-var CACHE = 'dreambuild-20260922-2316';
+var CACHE = 'dreambuild-20260923-1307';
 var ASSETS = [
   './',
   './index.html',
@@ -24,7 +24,12 @@ var ASSETS = [
 var FREMD = ['https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
 
 self.addEventListener('install', function(e){
-  e.waitUntil(caches.open(CACHE).then(function(c){ return c.addAll(ASSETS); })
+  /* cache:"reload" -- sonst fuellt der Browser den neuen App-Cache aus seinem
+     eigenen HTTP-Cache, und direkt nach einer Veroeffentlichung landet darin
+     noch die alte Seite. */
+  e.waitUntil(caches.open(CACHE).then(function(c){
+      return c.addAll(ASSETS.map(function(u){ return new Request(u, {cache:"reload"}); }));
+    })
     .then(function(){
       /* Sofort uebernehmen statt zu warten, bis alle Tabs zu sind. Die Seite
          laedt sich daraufhin selbst einmal neu -- so sieht der Nutzer immer die
@@ -49,7 +54,7 @@ self.addEventListener('fetch', function(e){
 
   e.respondWith(caches.open(CACHE).then(function(c){
     return c.match(req).then(function(hit){
-      var netz = fetch(req).then(function(res){
+      var netz = fetch(req, eigen ? {cache:"no-cache"} : undefined).then(function(res){
         if(res && (res.ok || res.type === 'opaque')) c.put(req, res.clone());
         return res;
       }).catch(function(){ return hit; });

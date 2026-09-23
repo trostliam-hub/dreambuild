@@ -52,6 +52,7 @@ rem das Worker-Skript nicht, der Browser sieht keine neue Fassung, und die App
 rem bliebe auf der alten haengen.
 for /f "delims=" %%v in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmm"') do set "STAMP=%%v"
 powershell -NoProfile -Command "(Get-Content -Raw 'mtb-sw.js') -replace \"var CACHE = '[^']*'\", \"var CACHE = 'dreambuild-%STAMP%'\" | Set-Content -NoNewline -Encoding UTF8 'mtb-sw.js'"
+powershell -NoProfile -Command "(Get-Content -Raw -Encoding UTF8 'index.html') -replace \"const APP_VERSION = '[^']*'\", \"const APP_VERSION = '%STAMP%'\" | Set-Content -NoNewline -Encoding UTF8 'index.html'"
 echo Version: %STAMP%
 
 git add -A
