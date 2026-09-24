@@ -2217,7 +2217,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260924-2210';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260924-2224';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -2245,7 +2245,7 @@ function impressumHtml(){
       ? "<b>Impressum unvollständig.</b> Es fehlt: " + f.map(k => BETREIBER_FELDER.find(x => x[0] === k)[1]).join(", ") + ". Einstellungen → Impressum-Angaben."
       : "Die Angaben zum Anbieter werden gerade vervollständigt."}</div>` : ""}
     <h4>Angaben gemäß § 5 DDG</h4>
-    <p>${[b.name, b.strasse, b.ort].filter(Boolean).map(esc).join("<br>") || "—"}</p>
+    <p>${[b.name, b.zusatz, b.strasse, b.ort].filter(Boolean).map(esc).join("<br>") || "—"}</p>
     <h4>Kontakt</h4>
     <p>${b.email ? `E-Mail: <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ""}${b.email && b.telefon ? "<br>" : ""}${b.telefon ? "Telefon: " + esc(b.telefon) : ""}${!b.email && !b.telefon ? "—" : ""}</p>
     ${b.ustid ? `<h4>Umsatzsteuer-Identifikationsnummer</h4><p>gemäß § 27a Umsatzsteuergesetz: ${esc(b.ustid)}</p>` : ""}
@@ -2259,7 +2259,7 @@ function impressumHtml(){
 }
 function datenschutzHtml(){
   const b = betreiber();
-  const verantw = [b.name, b.strasse, b.ort].filter(Boolean).map(esc).join(", ");
+  const verantw = [b.name, b.zusatz, b.strasse, b.ort].filter(Boolean).map(esc).join(", ");
   return `<p><b>Kurz gesagt:</b> Dreambuild hat kein Konto, keine Anmeldung, keine Analyse- oder Tracking-Werkzeuge und
       setzt keine Cookies. Was du eingibst, bleibt auf deinem Gerät.</p>
     <h4>1. Verantwortlicher</h4>
@@ -3270,7 +3270,8 @@ function suchName(teil){
 let linksServer = {netz:{}, teile:{}, betreiber:{}};
 /* Angaben fuer Impressum und Datenschutz. Kommen wie die Links aus links.json;
    lokal Eingetragenes gilt auf diesem Geraet sofort. */
-const BETREIBER_FELDER = [["name", "Vor- und Nachname"], ["strasse", "Straße und Hausnummer"], ["ort", "PLZ und Ort"],
+const BETREIBER_FELDER = [["name", "Vor- und Nachname"], ["zusatz", "Adresszusatz — z. B. c/o Impressum-Service"],
+  ["strasse", "Straße und Hausnummer"], ["ort", "PLZ und Ort"],
   ["email", "E-Mail"], ["telefon", "Telefon — zweiter schneller Kontaktweg"], ["ustid", "USt-IdNr. — nur wenn vorhanden"]];
 let betreiberLokal = {};
 function betreiber(){
