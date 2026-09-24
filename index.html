@@ -263,7 +263,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
   .bars{grid-column:auto;grid-template-columns:1fr;gap:7px}
 }
 
-.wrap{max-width:1180px;margin:0 auto;padding:16px 16px calc(var(--tabs-h) + 40px + env(safe-area-inset-bottom,0px));
+.wrap{max-width:1180px;margin:0 auto;padding:16px 16px calc(var(--tabs-h) + 30px + var(--tabs-unten));
   display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
 @media (min-width:820px){.wrap{grid-template-columns:minmax(0,1fr) 340px;align-items:start;padding-bottom:48px}}
 
@@ -344,7 +344,10 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .empty-note{font-size:13px;color:var(--ink-3);line-height:1.5;padding:4px 0;margin:0}
 
 /* ── Tableiste: schwebt, Glas, Icons ueber der Beschriftung ── */
-.tabs{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:45;
+/* Abstand der Leiste zum unteren Rand: auf dem iPhone knapp ueber dem Home-Balken
+   (Schutzzone minus 14 px), ohne Schutzzone 10 px. */
+:root{--tabs-unten:max(10px, calc(env(safe-area-inset-bottom,0px) - 14px))}
+.tabs{position:fixed;left:12px;right:12px;bottom:var(--tabs-unten);z-index:45;
   max-width:520px;margin:0 auto;height:var(--tabs-h);padding:6px;border-radius:22px;
   background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);
   border:1px solid var(--hair);box-shadow:var(--shadow-hoch);
@@ -466,7 +469,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 
 /* ── Aktualisieren: Hinweis ploppt auf, sobald es eine neue Version gibt ── */
 .upd-pop{position:fixed;left:12px;right:12px;z-index:50;
-  bottom:calc(var(--tabs-h) + 22px + env(safe-area-inset-bottom,0px));
+  bottom:calc(var(--tabs-h) + 12px + var(--tabs-unten));
   max-width:520px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 10px 12px 12px;
   background:var(--surface);color:var(--ink);border:1px solid color-mix(in srgb,var(--anod) 40%,transparent);border-radius:20px;
   box-shadow:var(--shadow-hoch),0 0 0 4px color-mix(in srgb,var(--anod) 10%,transparent);animation:plopp .5s var(--feder)}
@@ -482,7 +485,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 @media (max-width:399px){.upd-pop .ic{display:none}}
 .btn.laedt{opacity:.6;pointer-events:none}
 @keyframes dreh{to{transform:rotate(360deg)}}
-.toast{position:fixed;left:12px;right:12px;z-index:70;bottom:calc(var(--tabs-h) + 22px + env(safe-area-inset-bottom,0px));
+.toast{position:fixed;left:12px;right:12px;z-index:70;bottom:calc(var(--tabs-h) + 12px + var(--tabs-unten));
   max-width:420px;margin:0 auto;padding:12px 16px;border-radius:999px;background:var(--ink);color:var(--surface);
   font-size:13px;font-weight:600;line-height:1.4;box-shadow:var(--shadow-hoch);text-align:center;animation:plopp .4s var(--feder)}
 @media (min-width:820px){ .upd-pop{bottom:20px} .toast{bottom:24px} }
@@ -2217,7 +2220,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260924-2306';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260924-2315';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
