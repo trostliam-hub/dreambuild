@@ -43,8 +43,8 @@ Angebot; ohne Angebot mit dem Richtpreis aus dem Katalog.
 
 ## Technik
 
-Eine einzelne HTML-Datei, kein Framework, kein Server, keine Abhängigkeiten
-außer den Google-Schriften. Der Aufbau liegt im `localStorage` des Geräts und
+Eine einzelne HTML-Datei, kein Framework, kein Server, keine Verbindung zu
+Dritten — auch die Schriften liegen im Repo. Der Aufbau liegt im `localStorage` des Geräts und
 verlässt es nicht. Als PWA installierbar und offline lauffähig.
 
     index.html                    die gesamte App
@@ -55,7 +55,8 @@ verlässt es nicht. Als PWA installierbar und offline lauffähig.
     .github/workflows/preise.yml  startet preise.py alle sechs Stunden
     preise.json                   Angebote je Teil (von der Action geschrieben)
     preisverlauf.json             günstigster Preis je Teil und Tag
-    links.json                    eigene Affiliate-Links je Teil und Netzwerk-IDs
+    links.json                    Affiliate-Links, Netzwerk-IDs, Impressum-Angaben
+    fonts/                        Schriften (lokal, SIL Open Font License)
 
 Lokal: `index.html` per Doppelklick öffnen. Offline-Cache und
 Homescreen-Installation brauchen `https://`.
@@ -83,11 +84,17 @@ Jede Veroeffentlichung stempelt einen neuen Cache-Namen in `mtb-sw.js` -- sonst
 saehe der Browser keine Aenderung am Worker und die App bliebe auf der alten
 Fassung stehen.
 
+## Betreiber-Modus
+
+App einmal mit `#betreiber` am Ende der Adresse öffnen. Dann stehen unter ⋮
+die Prüfliste bis zur Veröffentlichung, die Impressum-Angaben, Affiliate-Links,
+Netzwerk-IDs und Feeds. Normale Nutzer sehen davon nichts.
+
 ## Eigene Affiliate-Links
 
 Jedes Teil kann Links bekommen, die direkt auf die Produktseite führen statt
 zur Shopsuche. In der App: Einstellungen → Affiliate-Links → *Link-Verwaltung
-an*, dann bei einem Teil *Ansehen* und den Link einfügen — einen Awin-Link,
+an* (bzw. Betreiber-Modus), dann bei einem Teil *Ansehen* und den Link einfügen — einen Awin-Link,
 einen Amazon-Link oder die nackte Produktseite; die macht die App mit
 Publisher- und Advertiser-ID selbst zum Awin-Link. Der Shop wird am Link
 erkannt.

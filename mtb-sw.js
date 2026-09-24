@@ -8,10 +8,9 @@
    fliegt alles Aeltere raus, deshalb kann die App nicht auf einer alten Fassung
    festhaengen.
 
-   Die Google-Schriften werden beim ersten Start mitgecacht. Vor dem ersten
-   Online-Start greift die Systemschrift aus dem Fallback-Stack -- die App ist
-   dann lesbar, nur nicht in Archivo. */
-var CACHE = 'dreambuild-20260924-1918';
+   Die Schriften liegen in fonts/ und werden mit der App vorab gecacht -- keine
+   Verbindung zu Google, auch nicht beim ersten Start. */
+var CACHE = 'dreambuild-20260924-2210';
 var ASSETS = [
   './',
   './index.html',
@@ -19,9 +18,13 @@ var ASSETS = [
   './icon-180.png',
   './icon-192.png',
   './icon-512.png',
-  './icon-mask.png'
+  './icon-mask.png',
+  './fonts/inter-400-800-latin.woff2',
+  './fonts/ibmplexmono-400-latin.woff2',
+  './fonts/ibmplexmono-500-latin.woff2',
+  './fonts/ibmplexmono-600-latin.woff2'
 ];
-var FREMD = ['https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
+var FREMD = [];                /* nichts von fremden Servern -- Schriften liegen in fonts/ */
 
 self.addEventListener('install', function(e){
   /* cache:"reload" -- sonst fuellt der Browser den neuen App-Cache aus seinem

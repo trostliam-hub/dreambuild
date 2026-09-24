@@ -15,8 +15,82 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" sizes="192x192">
 <title>Dreambuild</title>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400..800&display=swap">
+<!-- Schriften liegen im eigenen Ordner: kein Aufruf bei Google, keine IP-Adresse an Dritte.
+     Lizenz: SIL Open Font License, siehe fonts/OFL-*.txt -->
+<style>
+/* IBM Plex Mono 400 latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/ibmplexmono-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* IBM Plex Mono 400 latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/ibmplexmono-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* IBM Plex Mono 500 latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/ibmplexmono-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* IBM Plex Mono 500 latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/ibmplexmono-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* IBM Plex Mono 600 latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/ibmplexmono-600-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* IBM Plex Mono 600 latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/ibmplexmono-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Inter 400 800 latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url(fonts/inter-400-800-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* Inter 400 800 latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url(fonts/inter-400-800-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
 <style>
 /* Schriften: auf dem iPhone die Systemschrift (SF Pro) -- sieht nativ aus und
    braucht kein Netz. Anderswo Inter. Mono nur noch fuer Messwerte und Codes. */
@@ -150,6 +224,17 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .prof-akt{display:flex;flex-wrap:wrap;gap:6px}
 .prof-neu{margin-top:6px}
 .btn.rot{background:var(--bad);color:#fff;border-color:transparent}
+.recht-links{display:block;margin-top:10px}
+.recht-links button{font:inherit;color:var(--anod);font-weight:700;padding:4px 0;text-decoration:underline;text-underline-offset:2px}
+.recht h4{font-size:14px;margin:18px 0 6px}
+.recht p{font-size:13.5px;line-height:1.55;margin:0 0 8px;color:var(--ink-2)}
+.recht a{color:var(--anod);overflow-wrap:anywhere}
+.recht .fehlt{border:1px solid var(--bad);color:var(--bad);border-radius:var(--r);padding:10px 12px;font-size:13px;margin:0 0 12px}
+.check{display:flex;flex-direction:column;gap:6px;margin:0 0 6px}
+.check-z{display:grid;grid-template-columns:22px minmax(0,1fr);gap:2px 8px;font-size:13px;align-items:start}
+.check-z i{font-style:normal;font-weight:800;text-align:center}
+.check-z i.ok{color:var(--gut)} .check-z i.no{color:var(--bad)} .check-z i.hand{color:var(--warn)}
+.check-z span{color:var(--ink-3);font-size:12px;grid-column:2}
 
 /* ── Wertungskarte ── */
 .bar{padding:10px 16px 0}
@@ -2132,7 +2217,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260924-1918';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260924-2210';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -2148,6 +2233,102 @@ let feed = {treffer:{}, stand:0, quelle:"", zeilen:0};
 let fotos = {traum:null, real:null, markt:null};
 let build = builds[modus];
 const setzeBau = o => { builds[modus] = o; build = o; };
+/* ═══════════ Impressum und Datenschutz ═══════════
+   Die Datenschutzerklaerung beschreibt genau das, was diese App tut -- nicht
+   mehr und nicht weniger. Wer etwas an der App aendert, das Daten an Dritte
+   schickt (Analyse, Schriften, Einbettungen), muss sie hier nachziehen.
+   Entwurf, keine Rechtsberatung: vor dem Markteintritt pruefen lassen. */
+const RECHT_STAND = "24.09.2026";
+function impressumHtml(){
+  const b = betreiber(), f = impressumFehlt();
+  return `${f.length ? `<div class="fehlt">${linkVerwaltung
+      ? "<b>Impressum unvollständig.</b> Es fehlt: " + f.map(k => BETREIBER_FELDER.find(x => x[0] === k)[1]).join(", ") + ". Einstellungen → Impressum-Angaben."
+      : "Die Angaben zum Anbieter werden gerade vervollständigt."}</div>` : ""}
+    <h4>Angaben gemäß § 5 DDG</h4>
+    <p>${[b.name, b.strasse, b.ort].filter(Boolean).map(esc).join("<br>") || "—"}</p>
+    <h4>Kontakt</h4>
+    <p>${b.email ? `E-Mail: <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ""}${b.email && b.telefon ? "<br>" : ""}${b.telefon ? "Telefon: " + esc(b.telefon) : ""}${!b.email && !b.telefon ? "—" : ""}</p>
+    ${b.ustid ? `<h4>Umsatzsteuer-Identifikationsnummer</h4><p>gemäß § 27a Umsatzsteuergesetz: ${esc(b.ustid)}</p>` : ""}
+    <h4>Affiliate-Links</h4>
+    <p>Dreambuild finanziert sich über Provisionen. Shop-Links, die mit „Anzeige“ markiert sind, sind Affiliate-Links:
+      Kaufst du nach einem Klick etwas, bekommt Dreambuild vom Shop eine Provision. Dein Preis ändert sich dadurch nicht.
+      ${amazonAktiv() ? "Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}</p>
+    <h4>Preise und Angaben</h4>
+    <p>Preise stammen aus den Produktdaten der Partnershops und stehen mit Zeitstempel; maßgeblich ist der Preis im Shop.
+      Technische Daten und Kompatibilitätsprüfungen sind sorgfältig recherchiert, ersetzen aber nicht das Datenblatt des Herstellers.</p>`;
+}
+function datenschutzHtml(){
+  const b = betreiber();
+  const verantw = [b.name, b.strasse, b.ort].filter(Boolean).map(esc).join(", ");
+  return `<p><b>Kurz gesagt:</b> Dreambuild hat kein Konto, keine Anmeldung, keine Analyse- oder Tracking-Werkzeuge und
+      setzt keine Cookies. Was du eingibst, bleibt auf deinem Gerät.</p>
+    <h4>1. Verantwortlicher</h4>
+    <p>${verantw || "siehe Impressum"}${b.email ? `, E-Mail: <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ""}</p>
+    <h4>2. Bereitstellung der App (Hosting)</h4>
+    <p>Die App wird über GitHub Pages ausgeliefert, einen Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street,
+      San Francisco, CA 94107, USA. Beim Aufruf verarbeitet GitHub die technisch nötigen Verbindungsdaten, insbesondere
+      deine IP-Adresse, um die Seite auszuliefern und den Dienst abzusichern. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f
+      DSGVO; unser berechtigtes Interesse ist die sichere und stabile Bereitstellung der App. Für die Übermittlung in die
+      USA stützt sich GitHub auf das EU-US Data Privacy Framework. Details:
+      <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
+    <h4>3. Speicherung auf deinem Gerät</h4>
+    <p>Deine Profile, Aufbauten, Fotos und Einstellungen speichert die App im lokalen Speicher deines Browsers
+      (localStorage); für den Offline-Betrieb legt sie Programmdateien im Browser-Cache ab. Diese Daten verlassen dein
+      Gerät nicht, wir erhalten sie nicht. Das ist für die von dir gewünschte Funktion unbedingt erforderlich
+      (§ 25 Abs. 2 Nr. 2 TDDDG). Löschen kannst du sie jederzeit über „Dieses Profil zurücksetzen“ oder indem du die
+      Websitedaten in deinem Browser löschst.</p>
+    <h4>4. Schriftarten und Preise</h4>
+    <p>Schriftarten und Preisdaten werden vom selben Server geladen wie die App. Es gibt keine Verbindung zu Google Fonts
+      oder anderen Schriftdiensten.</p>
+    <h4>5. Produktbilder</h4>
+    <p>Zeigt die App zu einem Teil ein Produktbild eines Shops, lädt dein Browser dieses Bild direkt vom Server des Shops
+      oder seines Partnernetzwerks. Dabei wird deine IP-Adresse an diesen Server übertragen. Rechtsgrundlage ist
+      Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist, dir das Produkt so zu zeigen, wie der Shop es anbietet.</p>
+    <h4>6. Affiliate-Links</h4>
+    <p>Mit „Anzeige“ markierte Links führen über ein Partnernetzwerk zum Shop. Die App selbst übermittelt dabei keine Daten
+      über dich und setzt keine Cookies. Erst mit dem Klick verlässt du die App; ab dann verarbeiten das Partnernetzwerk
+      und der Shop Daten nach ihren eigenen Datenschutzhinweisen, etwa ein Cookie, das den Kauf der Provision zuordnet.
+      Partnernetzwerke: Awin AG, Eichhornstraße 3, 10785 Berlin
+      (<a href="https://www.awin.com/de/datenschutzerklarung" target="_blank" rel="noopener">Datenschutz</a>)${amazonAktiv()
+      ? `; Amazon Europe Core S.à r.l., 38 avenue John F. Kennedy, L-1855 Luxemburg
+        (<a href="https://www.amazon.de/gp/help/customer/display.html?nodeId=201909010" target="_blank" rel="noopener">Datenschutz</a>)` : ""}.</p>
+    <h4>7. Kontakt</h4>
+    <p>Schreibst du uns eine E-Mail, verarbeiten wir deine Angaben, um deine Anfrage zu beantworten
+      (Art. 6 Abs. 1 lit. b oder f DSGVO), und löschen sie, wenn sie nicht mehr gebraucht werden.</p>
+    <h4>8. Deine Rechte</h4>
+    <p>Du hast das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der
+      Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf Grundlage
+      berechtigter Interessen (Art. 21). Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren
+      (Art. 77 DSGVO), etwa bei der Behörde deines Bundeslands.</p>
+    <p style="color:var(--ink-3)">Stand: ${RECHT_STAND}</p>`;
+}
+function oeffneRecht(art){
+  const imp = art === "impressum";
+  zeigeSheet(`
+    <div class="sheet-h"><h3><span class="sub">Rechtliches</span>${imp ? "Impressum" : "Datenschutz"}</h3>${zuBtn}</div>
+    <div class="sheet-b recht">
+      ${imp ? impressumHtml() : datenschutzHtml()}
+      <div class="lk-knoepfe" style="margin-top:14px"><button class="btn ghost sm" data-recht="${imp ? "datenschutz" : "impressum"}">${imp ? "Datenschutz" : "Impressum"}</button></div>
+    </div>`);
+}
+/* Pruefliste bis zur Veroeffentlichung -- nur im Betreiber-Modus */
+function marktCheckHtml(){
+  const f = impressumFehlt();
+  const awinShops = shopsAn().filter(sh => sh.netz === "awin");
+  const ohneMid = awinShops.filter(sh => !midVon(sh.id)).map(sh => sh.name);
+  const zeilen = [
+    [f.length ? "no" : "ok", "Impressum vollständig", f.length ? "Fehlt: " + f.map(k => BETREIBER_FELDER.find(x => x[0] === k)[1]).join(", ") : ""],
+    [netzWert("awinId") ? "ok" : "no", "Awin Publisher-ID", netzWert("awinId") ? "" : "Unten unter Netzwerk eintragen"],
+    [ohneMid.length ? "no" : "ok", "Advertiser-IDs der Shops", ohneMid.length ? "Fehlt für: " + ohneMid.join(", ") : ""],
+    [linksOffen() ? "no" : "ok", "Alles veröffentlicht", linksOffen() ? "links.json speichern, dann App-veroeffentlichen.cmd" : ""],
+    [Object.keys(live.teile).length ? "ok" : "no", "Live-Preise laufen", Object.keys(live.teile).length ? "" : "Feed-Adressen ins GitHub-Secret PREIS_FEEDS"],
+    ["hand", "Impressum und Datenschutz prüfen lassen", "Entwurf, keine Rechtsberatung — z. B. IT-Rechtskanzlei oder Händlerbund"],
+    ["hand", "Einnahmen steuerlich klären", "Gewerbe und Kleinunternehmerregelung mit Finanzamt oder Steuerberater"]
+  ];
+  return `<div class="check">${zeilen.map(([st, t, h]) => `<div class="check-z"><i class="${st}">${st === "ok" ? "✓" : st === "no" ? "✗" : "!"}</i>
+    <b>${esc(t)}</b>${h ? `<span>${esc(h)}</span>` : ""}</div>`).join("")}</div>`;
+}
+
 /* ═══════════ Profile ═══════════
    Traumrad, Mein Rad und Angebot haben nichts miteinander zu tun: wer vom
    Downhill-Rad traeumt, faehrt deshalb noch lange keins. Jeder Modus hat
@@ -2318,6 +2499,8 @@ function laden(){
     const lk = localStorage.getItem("mtb.links");
     if(lk){ const q = JSON.parse(lk); if(q && q.teile && typeof q.teile === "object") linksLokal = {teile:q.teile}; }
     linkVerwaltung = localStorage.getItem("mtb.linkadmin") === "1";
+    const bt = localStorage.getItem("mtb.betreiber");
+    if(bt){ const q = JSON.parse(bt); if(q && typeof q === "object") betreiberLokal = q; }
     const fd = localStorage.getItem("mtb.feed");
     if(fd){ const q = JSON.parse(fd); if(q && q.treffer) feed = q; }
     const ft = localStorage.getItem("mtb.fotos");
@@ -2370,6 +2553,7 @@ function sichern(){
     localStorage.setItem("mtb.feed", JSON.stringify(feed));
     localStorage.setItem("mtb.links", JSON.stringify(linksLokal));
     localStorage.setItem("mtb.linkadmin", linkVerwaltung ? "1" : "0");
+    localStorage.setItem("mtb.betreiber", JSON.stringify(betreiberLokal));
     localStorage.setItem("mtb.zu", JSON.stringify(zuGeklappt));
     localStorage.setItem("mtb.eigene", JSON.stringify(eigene));
     localStorage.setItem("mtb.jahr", JSON.stringify(jahrWahl));
@@ -3083,7 +3267,21 @@ function suchName(teil){
    gilt sofort auf diesem Geraet und kommt mit "links.json speichern" und dem
    Veroeffentlichen-Skript zu allen. Die Netzwerk-IDs gehen mit -- sie stehen
    in jedem Affiliate-Link ohnehin offen. */
-let linksServer = {netz:{}, teile:{}};
+let linksServer = {netz:{}, teile:{}, betreiber:{}};
+/* Angaben fuer Impressum und Datenschutz. Kommen wie die Links aus links.json;
+   lokal Eingetragenes gilt auf diesem Geraet sofort. */
+const BETREIBER_FELDER = [["name", "Vor- und Nachname"], ["strasse", "Straße und Hausnummer"], ["ort", "PLZ und Ort"],
+  ["email", "E-Mail"], ["telefon", "Telefon — zweiter schneller Kontaktweg"], ["ustid", "USt-IdNr. — nur wenn vorhanden"]];
+let betreiberLokal = {};
+function betreiber(){
+  const sv = linksServer.betreiber || {}, o = {};
+  for(const [k] of BETREIBER_FELDER){
+    const lo = betreiberLokal[k];
+    o[k] = String((lo != null && String(lo).trim() !== "" ? lo : sv[k]) || "").replace(/\s+/g, " ").trim().slice(0, 120);
+  }
+  return o;
+}
+const impressumFehlt = () => ["name", "strasse", "ort", "email"].filter(k => !betreiber()[k]);
 let linksLokal = {teile:{}};
 let linkVerwaltung = false;
 const httpsNur = x => (typeof x === "string" && /^https:\/\/[^\s"'<>\\]+$/i.test(x.trim())) ? x.trim() : "";
@@ -3188,7 +3386,7 @@ const kurzUrl = u => { try{ const x = new URL(u); return x.hostname.replace(/^ww
 function linkEditor(t){
   const id = t.basisId || t.id, lst = eigeneLinks(t);
   return `<div class="lk-box">
-    <div class="lk-kopf"><b>Deine Affiliate-Links</b><span>Link-Verwaltung</span></div>
+    <div class="lk-kopf"><b>Deine Affiliate-Links</b><span>Betreiber-Modus</span></div>
     ${lst.length ? lst.map((x, i) => `<div class="lk-z">
         <span class="lk-s">${esc(x.s)}</span>
         <a class="lk-u" href="${esc(linkZiel(x.l))}" target="_blank" rel="noopener">${esc(kurzUrl(x.l))}</a>
@@ -3237,7 +3435,7 @@ function linksGesamt(){
   for(const id of ids){ const l = eigeneLinksId(id); if(l.length) teile[id] = l; }
   const mid = {};
   for(const sh of SHOPS) if(midVon(sh.id)) mid[sh.id] = midVon(sh.id);
-  return {stand:new Date().toISOString().slice(0, 19) + "Z",
+  return {stand:new Date().toISOString().slice(0, 19) + "Z", betreiber:betreiber(),
           netz:{awinId:netzWert("awinId"), amazonTag:netzWert("amazonTag"), mid:mid}, teile:teile};
 }
 function linksOffen(){
@@ -3248,6 +3446,8 @@ function linksOffen(){
   const snv = sv.netz || {};
   if(g.netz.awinId !== String(snv.awinId || "") || g.netz.amazonTag !== String(snv.amazonTag || "") ||
      JSON.stringify(g.netz.mid) !== JSON.stringify(snv.mid || {})) n++;
+  const sb = sv.betreiber || {};
+  if(BETREIBER_FELDER.some(([k]) => g.betreiber[k] !== String(sb[k] || "").trim())) n++;
   return n;
 }
 function linksSpeichernDatei(){
@@ -3270,6 +3470,7 @@ function linksLaden(datei){
       if(n.awinId) aff.awinId = String(n.awinId);
       if(n.amazonTag) aff.amazonTag = String(n.amazonTag);
       if(n.mid && typeof n.mid === "object") aff.mid = Object.assign({}, aff.mid, n.mid);
+      if(d.betreiber && typeof d.betreiber === "object") for(const [k] of BETREIBER_FELDER) if(d.betreiber[k]) betreiberLokal[k] = String(d.betreiber[k]);
       sichern(); zeichne(); oeffneMenu();
       zeigeToast(Object.keys(t).length + " Teile mit Link geladen.");
     }catch(e){ alert("Das ist keine links.json von Dreambuild."); }
@@ -3301,7 +3502,8 @@ function liveLaden(){
     if(lk && typeof lk === "object" && lk.teile && typeof lk.teile === "object"){
       const t = {};
       for(const id in lk.teile){ const l = saubereLinks(lk.teile[id]); if(l.length) t[id] = l; }
-      linksServer = {netz:(lk.netz && typeof lk.netz === "object") ? lk.netz : {}, teile:t};
+      linksServer = {netz:(lk.netz && typeof lk.netz === "object") ? lk.netz : {}, teile:t,
+                     betreiber:(lk.betreiber && typeof lk.betreiber === "object") ? lk.betreiber : {}};
       if(!p || !p.teile) zeichne();
     }
     if(!p || !p.teile || typeof p.teile !== "object" || Array.isArray(p.teile)) return;
@@ -4146,7 +4348,8 @@ function zeichne(){
     (inkl. MwSt., zzgl. Versand; Stand im Reiter Deals). Sonst steht dort ein Richtpreis auf UVP-Niveau — kein Angebot.<br>
     <b>Links:</b> Shop-Knöpfe mit Punkt führen direkt zum Produkt, die mit Lupe zur Suche im Shop. Mit „Anzeige“
     markierte Links bringen Dreambuild eine Provision; dein Preis ändert sich nicht.${amazonAktiv() ? " Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}<br>
-    <b>Vor dem Kauf</b> gegen das Datenblatt deines Rahmens prüfen. Trial-Maße sind auf Mod 20/19″,
+    <b>Vor dem Kauf</b> gegen das Datenblatt deines Rahmens prüfen.
+    <span class="recht-links"><button data-recht="impressum">Impressum</button> · <button data-recht="datenschutz">Datenschutz</button></span> Trial-Maße sind auf Mod 20/19″,
     Street 24″ und Stock 26″ vereinfacht.</p>`;
 
   const rang = {fehler:0, warnung:1, hinweis:2};
@@ -4711,9 +4914,17 @@ function oeffneMenu(){
         : `<span class="nz" style="text-align:right">über Tag</span>`}
     </div>`;
 
-  zeigeSheet(`
-    <div class="sheet-h"><h3><span class="sub">Einstellungen</span>Affiliate &amp; Profil</h3>${zuBtn}</div>
-    <div class="sheet-b">
+
+  /* Alles, was nur der Betreiber braucht: Pruefliste bis zur Veroeffentlichung,
+     Impressum-Angaben, Links, Feeds, Netzwerk-IDs. */
+  const betreiberHtml = () => `
+      <div class="grp-h" style="margin-top:18px"><h2>Betreiber</h2><div class="rule"></div></div>
+      ${marktCheckHtml()}
+      <div class="grp-h" style="margin-top:14px"><h2>Impressum-Angaben</h2><div class="rule"></div></div>
+      <p class="hint" style="margin:0 0 8px">Pflicht nach § 5 DDG, sobald die App Geld verdient. Wird mit
+        „links.json speichern“ veröffentlicht — öffentlich wie jedes Impressum.</p>
+      ${BETREIBER_FELDER.map(([k, l]) => `<div class="fld"><label for="bt-${k}">${l}</label>
+        <input id="bt-${k}" data-betreiber="${k}" value="${esc(betreiber()[k])}" autocomplete="off" maxlength="120"></div>`).join("")}
       ${status}
 
       <div class="grp-h"><h2>Live-Preise</h2><div class="rule"></div></div>
@@ -4745,11 +4956,10 @@ function oeffneMenu(){
           ${offen ? offen + (offen === 1 ? " Änderung ist" : " Änderungen sind") + " nur auf diesem Gerät — noch nicht veröffentlicht."
                   : "Alles veröffentlicht — alle sehen dieselben Links."}</div>
         <div class="lk-knoepfe">
-          <button class="btn ${linkVerwaltung ? "" : "ghost"} sm" data-lkadmin="1" aria-pressed="${linkVerwaltung}">Link-Verwaltung ${linkVerwaltung ? "an" : "aus"}</button>
           <button class="btn ghost sm" data-lkexport="1">links.json speichern</button>
           <button class="btn ghost sm" data-lkimport="1">links.json laden</button>
         </div>
-        <p class="hint" style="margin:8px 0 10px">Ist die Link-Verwaltung an, steht bei jedem Teil unter „Ansehen“ ein Feld für
+        <p class="hint" style="margin:8px 0 10px">Im Betreiber-Modus steht bei jedem Teil unter „Ansehen“ ein Feld für
           deinen Link. Einfügen kannst du einen Awin-Link, einen Amazon-Link oder einfach die Produktseite eines Shops —
           die macht die App mit deiner Publisher- und Advertiser-ID selbst zum Awin-Link.<br>
           <b>Für alle online:</b> „links.json speichern“ (landet in Downloads), dann <code>App-veroeffentlichen.cmd</code>
@@ -4777,6 +4987,19 @@ function oeffneMenu(){
         Ich trage sie nicht für dich ein: eine falsche Nummer führt ins Leere oder schreibt
         deinen Umsatz einem fremden Konto gut.</p>
 
+      <p class="legal">
+        <b>Kennzeichnung.</b> Sobald ein Link Provision bringt, steht neben der Shopzeile „Anzeige“ — § 5a Abs. 4
+        UWG verlangt das vor dem Klick, nicht erst im Impressum. Alle Links tragen
+        <code>rel="sponsored nofollow noopener"</code>.<br><br>
+        <b>Preisangaben.</b> Live-Preise stehen mit Stand, inkl. MwSt. und zzgl. Versand; ohne Angebot steht ein
+        Richtpreis auf UVP-Niveau. Die PAngV verlangt bei konkreten Preisen neben einem Kauflink Aktualität und den
+        Gesamtpreis — deshalb der Stand und der Hinweis, dass der Preis im Shop gilt.
+        ${amazonAktiv() ? "<br><br><b>Amazon.</b> Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}
+      </p>
+      <div style="margin:12px 0 4px"><button class="btn ghost wide" data-lkadmin="1">Betreiber-Modus ausschalten</button></div>`;
+  zeigeSheet(`
+    <div class="sheet-h"><h3><span class="sub">Einstellungen</span>${linkVerwaltung ? "App &amp; Betrieb" : "App &amp; Profil"}</h3>${zuBtn}</div>
+    <div class="sheet-b">
       <div class="grp-h" style="margin-top:14px"><h2>Fahrer &amp; Budget</h2><div class="rule"></div></div>
       <div class="fld"><label for="m-fahrer">Fahrergewicht in kg — gilt für alle Profile, prüft die Laufrad-Freigabe</label>
         <input id="m-fahrer" type="number" inputmode="numeric" min="0" max="180" value="${plan.fahrer || ""}" placeholder="leer = Prüfung aus" data-plan="fahrer"></div>
@@ -4790,15 +5013,14 @@ function oeffneMenu(){
       </div>
 
       <div style="margin:10px 0 2px"><button class="btn ghost wide" data-reset="1">Dieses Profil zurücksetzen</button></div>
-      <p class="legal">
-        <b>Kennzeichnung.</b> Sobald ein Link Provision bringt, steht neben der Shopzeile „Anzeige“ — § 5a Abs. 4
-        UWG verlangt das vor dem Klick, nicht erst im Impressum. Alle Links tragen
-        <code>rel="sponsored nofollow noopener"</code>.<br><br>
-        <b>Preisangaben.</b> Live-Preise stehen mit Stand, inkl. MwSt. und zzgl. Versand; ohne Angebot steht ein
-        Richtpreis auf UVP-Niveau. Die PAngV verlangt bei konkreten Preisen neben einem Kauflink Aktualität und den
-        Gesamtpreis — deshalb der Stand und der Hinweis, dass der Preis im Shop gilt.
-        ${amazonAktiv() ? "<br><br><b>Amazon.</b> Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}
-      </p>
+      <div class="grp-h" style="margin-top:14px"><h2>Rechtliches</h2><div class="rule"></div></div>
+      <div class="lk-knoepfe" style="margin:0 0 6px">
+        <button class="btn ghost sm" data-recht="impressum">Impressum</button>
+        <button class="btn ghost sm" data-recht="datenschutz">Datenschutz</button>
+      </div>
+      <p class="legal">Mit „Anzeige“ markierte Shop-Links bringen Dreambuild eine Provision; dein Preis ändert sich nicht.
+        ${amazonAktiv() ? "Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}</p>
+      ${linkVerwaltung ? betreiberHtml() : ""}
     </div>`);
 }
 
@@ -4843,7 +5065,9 @@ document.addEventListener("click", e => {
   if(lkn){ linkSpeichern(lkn.dataset.lkneu); return; }
   const lkw = T("[data-lkweg]");
   if(lkw){ const q = lkw.dataset.lkweg.split("|"); linkLoeschen(q[0], +q[1]); if(!detailOffen || !$("lk-url")) oeffneMenu(); return; }
-  if(T("[data-lkadmin]")){ linkVerwaltung = !linkVerwaltung; sichern(); oeffneMenu(); return; }
+  if(T("[data-lkadmin]")){ linkVerwaltung = !linkVerwaltung; sichern(); zeichne(); oeffneMenu(); return; }
+  const rc = T("[data-recht]");
+  if(rc){ oeffneRecht(rc.dataset.recht); return; }
   if(T("[data-lkexport]")){ linksSpeichernDatei(); return; }
   if(T("[data-lkimport]")){ const i = $("links-in"); if(i) i.click(); return; }
   const df = T("[data-dfilt]");
@@ -4976,6 +5200,8 @@ const wizOffen = () => !!$("modal").querySelector(".steps");
 document.addEventListener("input", e => {
   const su = e.target.closest("[data-suche]");
   if(su){ suchText = su.value; filterAnwenden(); return; }
+  const bf = e.target.closest("[data-betreiber]");
+  if(bf){ betreiberLokal[bf.dataset.betreiber] = bf.value; sichern(); return; }
   const pn = e.target.closest("[data-profname]");
   if(pn){
     const p = profile[modus].find(x => x.id === pn.dataset.profname);
@@ -5051,6 +5277,11 @@ try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({b
 
 function start(daten){
   laden();
+  if(/^#betreiber$/i.test(location.hash)){
+    linkVerwaltung = true; sichern();
+    try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
+    setTimeout(() => zeigeToast("Betreiber-Modus an — unter ⋮ stehen Impressum, Links und Netzwerk."), 400);
+  }
   if(daten && daten.builds){
     builds = daten.builds; modus = daten.modus || modus; 
     fotos = daten.fotos || fotos;
