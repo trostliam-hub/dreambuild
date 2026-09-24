@@ -127,6 +127,30 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
   .modus-in button[aria-pressed="true"]{background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.15)}
 }
 
+/* ── Profile je Modus ── */
+.profile{padding:6px 16px 0}
+.profile-in{max-width:1180px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;align-items:center;padding:1px 0}
+.profile-in::-webkit-scrollbar{display:none}
+.pchip{flex:none;display:flex;align-items:center;gap:6px;padding:6px 12px;min-height:32px;border-radius:999px;
+  border:1px solid var(--hair);background:var(--surface);font-size:12.5px;font-weight:650;color:var(--ink-2);max-width:62vw}
+.pchip .pn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pchip[aria-pressed="true"]{background:var(--anod-soft);color:var(--anod);border-color:transparent}
+.pchip[aria-pressed="true"]::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--anod);flex:none}
+.pchip.neu{color:var(--anod)}
+.pchip.rand{padding:6px 10px;color:var(--ink-3)}
+.prof{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:12px 13px;border:1px solid var(--hair);
+  border-radius:var(--r);background:var(--surface)}
+.prof.akt{border-color:var(--anod);background:var(--anod-soft)}
+.prof-w{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-width:0}
+.prof-w b{font-size:15px;overflow-wrap:anywhere}
+.prof-w span{font-size:12px;color:var(--ink-3)}
+.prof-in{width:100%;min-width:0;background:var(--surface-2);border:1px solid var(--anod);border-radius:12px;
+  padding:10px 12px;font:inherit;font-size:15px;font-weight:650;color:var(--ink)}
+.prof-akt{display:flex;flex-wrap:wrap;gap:6px}
+.prof-neu{margin-top:6px}
+.btn.rot{background:var(--bad);color:#fff;border-color:transparent}
+
 /* ── Wertungskarte ── */
 .bar{padding:10px 16px 0}
 .bar-in{max-width:1180px;margin:0 auto;padding:14px 16px;display:grid;gap:12px 12px;
@@ -694,6 +718,7 @@ img{max-width:100%}
     <button data-modus="markt" aria-pressed="false">Angebot</button>
   </div>
 </div>
+<div class="profile"><div class="profile-in" id="profile" role="group" aria-label="Profile"></div></div>
 
 <div class="bar">
   <div class="bar-in">
@@ -1889,8 +1914,8 @@ const slugAlt = x => String(x).toLowerCase().normalize("NFD").replace(/[\u0300-\
 /* Gespeicherte Aufbauten aus der Zeit davor: ein mehrdeutiger alter Kurzname
    meinte immer die erste passende Ausfuehrung (also Select+). Laeuft einmal. */
 function kurznamenUmstellen(){
-  for(const m in builds) for(const k in builds[m]){
-    const id = builds[m][k], s = slotOf(k);
+  for(const bau of alleBauten()) for(const k in bau){
+    const id = bau[k], s = slotOf(k);
     if(typeof id !== "string" || id.indexOf("|") < 0 || !s) continue;
     const teile = id.split("|"), sl = teile[1].split("~");
     const basis = K[quelleOf(s)] && K[quelleOf(s)].find(t => t.id === teile[0]);
@@ -1901,7 +1926,7 @@ function kurznamenUmstellen(){
       const alt = d.o.filter(o => slugAlt(o.w) === sl[i]);
       if(alt.length && slug(alt[0].w) !== sl[i]){ sl[i] = slug(alt[0].w); neu = true; }
     });
-    if(neu) builds[m][k] = teile[0] + "|" + sl.join("~");
+    if(neu) bau[k] = teile[0] + "|" + sl.join("~");
   }
 }
 const VARIANTEN = new Map();
@@ -2107,7 +2132,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260924-1638';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260924-1918';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -2123,7 +2148,139 @@ let feed = {treffer:{}, stand:0, quelle:"", zeilen:0};
 let fotos = {traum:null, real:null, markt:null};
 let build = builds[modus];
 const setzeBau = o => { builds[modus] = o; build = o; };
-function wechsle(m){ builds[modus] = build; modus = m; build = builds[modus]; }
+/* ═══════════ Profile ═══════════
+   Traumrad, Mein Rad und Angebot haben nichts miteinander zu tun: wer vom
+   Downhill-Rad traeumt, faehrt deshalb noch lange keins. Jeder Modus hat
+   darum eigene Profile, beliebig viele, und jedes Profil hat alles, was ein
+   Rad ausmacht: Teile, Disziplinen, Budget und Wuensche aus dem Assistenten,
+   Modelljahr, Foto -- und im Angebotsmodus Zustand, Verschleiss und Preis.
+   Nur das Fahrergewicht gilt ueberall: das ist der Fahrer, nicht das Rad.
+
+   Die globalen Variablen (build, sel, plan, markt, jahrWahl, fotos) bleiben
+   die Arbeitskopie des aktiven Profils. Beim Wechsel wird zurueckgeschrieben
+   und das neue Profil geladen -- so muss kein anderer Teil der App wissen,
+   dass es Profile gibt. Fotos liegen je Profil in einem eigenen Speicherfach:
+   ist der Speicher voll, geht ein Foto verloren, nie ein Aufbau. */
+const MODI = ["traum", "real", "markt"];
+const MODUS_NAME = {traum:"Traumrad", real:"Mein Rad", markt:"Angebot"};
+let profile = {traum:[], real:[], markt:[]};
+let aktivId = {traum:"", real:"", markt:""};
+const neueId = () => "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const jahrStart = m => m === "markt" ? AKTUELL - 3 : AKTUELL;
+function profilLeer(m){
+  const {fahrer, ...pl} = PLAN_START;
+  return {id:neueId(), name:"", build:leerBau(), sel:["trail"], plan:pl,
+          jahr:jahrStart(m), markt:m === "markt" ? JSON.parse(JSON.stringify(MARKT_START)) : null};
+}
+const aktivesProfil = m => { m = m || modus; return profile[m].find(x => x.id === aktivId[m]) || profile[m][0]; };
+const fotoFach = id => "mtb.foto." + id;
+/* Arbeitskopie -> Profil */
+function profilZurueck(m){
+  m = m || modus;
+  const p = aktivesProfil(m);
+  if(!p) return;
+  p.build = m === modus ? build : builds[m];
+  p.jahr = jahrWahl[m];
+  if(m === modus){
+    p.sel = sel.slice();
+    const {fahrer, ...rest} = plan;                /* Fahrergewicht gehoert keinem Rad */
+    p.plan = rest;
+    if(m === "markt") p.markt = JSON.parse(JSON.stringify(markt));
+  }
+}
+/* Profil -> Arbeitskopie */
+function profilHolen(m){
+  m = m || modus;
+  const p = aktivesProfil(m);
+  aktivId[m] = p.id;
+  builds[m] = {...leerBau(), ...(p.build || {})};
+  p.build = builds[m];
+  jahrWahl[m] = p.jahr || jahrStart(m);
+  let f = null;
+  try{ f = localStorage.getItem(fotoFach(p.id)); }catch(e){}
+  fotos[m] = f || null;
+  if(m === modus){
+    build = builds[m];
+    sel = (Array.isArray(p.sel) ? p.sel : []).filter(x => DID.indexOf(x) >= 0);
+    if(!sel.length) sel = ["trail"];
+    plan = {...PLAN_START, ...(p.plan || {}), fahrer:plan.fahrer || 0};
+    if(m === "markt") markt = {...MARKT_START, ...(p.markt || {}), verschleiss:{...((p.markt || {}).verschleiss || {})}};
+  }
+}
+function wechsle(m){
+  builds[modus] = build;
+  profilZurueck(modus);
+  modus = m;
+  profilHolen(m);
+}
+function profilWechseln(id){
+  if(id === aktivId[modus]) return;
+  profilZurueck(modus);
+  aktivId[modus] = id;
+  profilHolen(modus);
+  view = "aufbau";
+  sichern(); zeichne();
+}
+function profilNeu(kopieVon){
+  profilZurueck(modus);
+  const q = kopieVon ? profile[modus].find(x => x.id === kopieVon) : null;
+  const p = q ? JSON.parse(JSON.stringify({...q, id:neueId(), name:q.name ? q.name + " (Kopie)" : ""})) : profilLeer(modus);
+  if(q){ try{ const f = localStorage.getItem(fotoFach(q.id)); if(f) localStorage.setItem(fotoFach(p.id), f); }catch(e){} }
+  profile[modus].push(p);
+  aktivId[modus] = p.id;
+  profilHolen(modus);
+  view = "aufbau";
+  sichern(); zeichne();
+}
+function profilLoeschen(id){
+  if(profile[modus].length < 2) return;
+  profilZurueck(modus);
+  profile[modus] = profile[modus].filter(x => x.id !== id);
+  try{ localStorage.removeItem(fotoFach(id)); }catch(e){}
+  if(aktivId[modus] === id) aktivId[modus] = profile[modus][0].id;
+  profilHolen(modus);
+  sichern(); zeichne();
+}
+/* Anzeigename: selbst vergeben, sonst Rahmen, sonst Disziplin */
+function profilName(p, m){
+  if(p.name) return p.name;
+  const r = p.build && p.build.rahmen ? findeTeil("rahmen", p.build.rahmen) : null;
+  if(r) return String(r.n).split(" · ")[0];
+  const d = (p.sel || []).filter(x => DID.indexOf(x) >= 0);
+  const leer = !p.build || !Object.keys(p.build).some(k => p.build[k]);
+  return leer ? "Neues " + (m === "markt" ? "Angebot" : "Rad") : d.map(dName).join(" + ") || MODUS_NAME[m];
+}
+/* Alle Aufbauten aller Profile -- fuer Umstellungen, die ueberall greifen muessen */
+function alleBauten(){
+  const out = [];
+  for(const m of MODI){ for(const p of profile[m]) if(p.build) out.push(p.build); if(builds[m]) out.push(builds[m]); }
+  if(build) out.push(build);
+  return [...new Set(out)];
+}
+/* Aus der Zeit vor den Profilen: ein Aufbau je Modus, Disziplinen fuer alle
+   gemeinsam. Mein Rad und Angebot bekommen die Disziplin, fuer die ihr Rahmen
+   gebaut ist -- sonst stuende dort weiter die des Traumrads. */
+function profileAusAlt(altSel, altPlan, altFotos){
+  for(const m of MODI){
+    const p = profilLeer(m);
+    p.build = {...leerBau(), ...(builds[m] || {})};
+    p.jahr = jahrWahl[m] || jahrStart(m);
+    /* Budget und Markenwuensche kamen aus dem Traumrad-Assistenten -- sie
+       bleiben beim Traumrad. Die anderen Raeder fangen davon frei an. */
+    const {fahrer, ...rest} = altPlan;
+    p.sel = m === "traum" ? altSel.slice() : ["trail"];
+    p.plan = m === "traum" ? rest : {...PLAN_START, fahrer:undefined};
+    delete p.plan.fahrer;
+    if(m === "markt") p.markt = JSON.parse(JSON.stringify(markt));
+    if(m !== "traum" && p.build.rahmen){
+      const r = findeTeil("rahmen", p.build.rahmen);
+      if(r && r.e) p.sel = [DID.slice().sort((a, b) => (r.e[b] || 0) - (r.e[a] || 0))[0]];
+    }
+    if(altFotos && altFotos[m]){ try{ localStorage.setItem(fotoFach(p.id), altFotos[m]); }catch(e){} }
+    profile[m] = [p];
+    aktivId[m] = p.id;
+  }
+}
 let sel = ["trail"];
 let plan = {...PLAN_START};
 let markt = {...MARKT_START};
@@ -2164,7 +2321,7 @@ function laden(){
     const fd = localStorage.getItem("mtb.feed");
     if(fd){ const q = JSON.parse(fd); if(q && q.treffer) feed = q; }
     const ft = localStorage.getItem("mtb.fotos");
-    if(ft){ const p = JSON.parse(ft); if(p && typeof p === "object") fotos = {traum:p.traum||null, real:p.real||null}; }
+    if(ft){ const p = JSON.parse(ft); if(p && typeof p === "object") fotos = {traum:p.traum||null, real:p.real||null, markt:p.markt||null}; }
     build = builds[modus];
     const s = localStorage.getItem("mtb.sel");
     if(s){ const p = JSON.parse(s); if(Array.isArray(p)) sel = p.filter(x => DID.indexOf(x) >= 0); }
@@ -2173,6 +2330,21 @@ function laden(){
     if(mk){ const q = JSON.parse(mk); if(q && typeof q === "object") markt = {...MARKT_START, ...q, verschleiss:{...(q.verschleiss||{})}}; }
     const pl = localStorage.getItem("mtb.plan");
     if(pl){ const p = JSON.parse(pl); if(p && typeof p === "object") plan = {...PLAN_START, ...p}; }
+    const fa = localStorage.getItem("mtb.fahrer");
+    if(fa != null && !isNaN(+fa)) plan.fahrer = +fa;
+    /* Profile: vorhanden -> laden, sonst aus den alten Einzelwerten anlegen */
+    const pr = localStorage.getItem("mtb.profile");
+    const q = pr ? JSON.parse(pr) : null;
+    if(q && q.liste && MODI.every(m => Array.isArray(q.liste[m]) && q.liste[m].length)){
+      for(const m of MODI) profile[m] = q.liste[m].filter(x => x && x.id).map(x => ({...profilLeer(m), ...x}));
+      for(const m of MODI) aktivId[m] = (q.aktiv && q.aktiv[m]) || profile[m][0].id;
+      if(MODI.indexOf(q.modus) >= 0) modus = q.modus;
+    } else {
+      profileAusAlt(sel, plan, fotos);
+      try{ localStorage.removeItem("mtb.fotos"); }catch(e){}
+    }
+    for(const m of MODI) if(m !== modus) profilHolen(m);
+    profilHolen(modus);
     const a = localStorage.getItem("mtb.aff");
     if(a){
       const q = JSON.parse(a);
@@ -2180,10 +2352,19 @@ function laden(){
         aff = {...AFF_START, ...q, mid:{...(q.mid||{})}, an:{...AFF_START.an, ...(q.an||{})}};
     }
   }catch(e){ /* privates Fenster oder blockierter Speicher */ }
+  /* Ohne Speicher (oder bei kaputtem Stand) trotzdem mit Profilen starten */
+  if(MODI.some(m => !profile[m].length)){
+    profileAusAlt(sel, plan, null);
+    for(const m of MODI) if(m !== modus) profilHolen(m);
+    profilHolen(modus);
+  }
 }
 function sichern(){
   try{
     builds[modus] = build;
+    profilZurueck(modus);
+    localStorage.setItem("mtb.profile", JSON.stringify({v:1, modus:modus, aktiv:aktivId, liste:profile}));
+    localStorage.setItem("mtb.fahrer", String(plan.fahrer || 0));
     localStorage.setItem("mtb.builds", JSON.stringify(builds));
     localStorage.setItem("mtb.modus", modus);
     localStorage.setItem("mtb.feed", JSON.stringify(feed));
@@ -2197,12 +2378,18 @@ function sichern(){
     localStorage.setItem("mtb.markt", JSON.stringify(markt));
     localStorage.setItem("mtb.aff", JSON.stringify(aff));
   }catch(e){}
-  try{
-    localStorage.setItem("mtb.fotos", JSON.stringify(fotos));
-  }catch(e){
-    /* Bilderspeicher voll: lieber das Foto verwerfen als den ganzen Aufbau verlieren */
-    fotos[modus] = null;
-    try{ localStorage.setItem("mtb.fotos", JSON.stringify(fotos)); }catch(e2){}
+  /* Fotos je Profil im eigenen Fach. Speicher voll: lieber das Foto verwerfen
+     als den ganzen Aufbau verlieren. */
+  for(const m of MODI){
+    const p = aktivesProfil(m);
+    if(!p) continue;
+    try{
+      if(fotos[m]) localStorage.setItem(fotoFach(p.id), fotos[m]);
+      else localStorage.removeItem(fotoFach(p.id));
+    }catch(e){
+      fotos[m] = null;
+      try{ localStorage.removeItem(fotoFach(p.id)); }catch(e2){}
+    }
   }
 }
 
@@ -3460,8 +3647,7 @@ function eigenLoeschen(slotKey, id){
   const q = quelleOf(slotOf(slotKey));
   eigene[q] = (eigene[q] || []).filter(t => t.id !== id);
   INDEX = {};
-  for(const m in builds) for(const k in builds[m]) if(builds[m][k] && basisVon(builds[m][k]) === id) builds[m][k] = null;
-  build = builds[modus];
+  for(const bau of alleBauten()) for(const k in bau) if(bau[k] && basisVon(bau[k]) === id) bau[k] = null;
   sichern(); schliesse(); zeichne();
 }
 
@@ -3793,6 +3979,13 @@ function zeichne(){
 
   Array.prototype.forEach.call(document.querySelectorAll(".modus-in button"),
     b => b.setAttribute("aria-pressed", String(b.dataset.modus === modus)));
+  $("profile").innerHTML = profile[modus].map(p =>
+      `<button class="pchip" data-profil="${p.id}" aria-pressed="${p.id === aktivId[modus]}"><span class="pn">${esc(profilName(p, modus))}</span></button>`).join("")
+    + `<button class="pchip neu" data-profneu="1" aria-label="Neues Profil für ${MODUS_NAME[modus]}">+ Neu</button>`
+    + `<button class="pchip rand" data-profile="1" aria-label="Profile verwalten"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>`;
+  const pa = $("profile").querySelector('[aria-pressed="true"]');
+  if(pa){ const box = $("profile"), l = pa.offsetLeft, r = l + pa.offsetWidth;
+    if(l < box.scrollLeft || r > box.scrollLeft + box.clientWidth) box.scrollLeft = Math.max(0, l - 16); }
 
   /* ── Angebotsbewertung ── */
   let marktkarte = "";
@@ -4142,7 +4335,7 @@ function zeigeSheet(html){
   const f = $("modal").querySelector(".btn, input, .dis, .qopt, .iconbtn");
   if(f) f.focus();
 }
-function schliesse(){ $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; }
+function schliesse(){ $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; profUmbenennen = null; profLoeschFrage = null; }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 
@@ -4277,6 +4470,43 @@ function sortieren(){
     : k === "rabatt" ? num(b, "r") - num(a, "r") || num(a, "p") - num(b, "p")
     : num(a, "i") - num(b, "i"));
   els.forEach(el => box.appendChild(el));
+}
+
+/* ── Profile verwalten ── */
+let profUmbenennen = null, profLoeschFrage = null;
+function oeffneProfile(){
+  const liste = profile[modus];
+  zeigeSheet(`
+    <div class="sheet-h"><h3><span class="sub">${MODUS_NAME[modus]}</span>Profile</h3>${zuBtn}</div>
+    <div class="sheet-b">
+      <p class="hint" style="margin:0 0 6px">Jedes Profil ist ein eigenes Rad: eigene Teile, Disziplinen, Budget,
+        Modelljahr${modus === "markt" ? ", Zustand, Preis" : ""} und Foto. Traumrad, Mein Rad und Angebot sind
+        voneinander getrennt — nur dein Fahrergewicht gilt überall.</p>
+      ${liste.map(profilZeile).join("")}
+      <div class="prof-neu"><button class="btn wide" data-profneu="1">Neues Profil</button></div>
+    </div>`);
+  const i = $("modal").querySelector(".prof-in");
+  if(i){ i.focus(); i.select(); }
+}
+function profilZeile(p){
+  const akt = p.id === aktivId[modus];
+  const teile = p.build ? SLOTS.filter(x => p.build[x.k]).length : 0;
+  const d = (p.sel || []).filter(x => DID.indexOf(x) >= 0).map(dName).join(" + ");
+  return `<div class="prof${akt ? " akt" : ""}">
+    ${profUmbenennen === p.id
+      ? `<input class="prof-in" data-profname="${p.id}" value="${esc(p.name || "")}" maxlength="40"
+           placeholder="${esc(profilName({...p, name:""}, modus))}" aria-label="Name des Profils">`
+      : `<button class="prof-w" data-profil="${p.id}"><b>${esc(profilName(p, modus))}</b>
+           <span>${esc(d)} · ${teile} ${teile === 1 ? "Teil" : "Teile"}${akt ? " · gerade offen" : ""}</span></button>`}
+    <div class="prof-akt">
+      ${profUmbenennen === p.id ? `<button class="btn sm" data-profnameok="1">Fertig</button>`
+                                : `<button class="btn ghost sm" data-profumb="${p.id}">Umbenennen</button>`}
+      <button class="btn ghost sm" data-profkopie="${p.id}">Kopieren</button>
+      ${profile[modus].length > 1 ? (profLoeschFrage === p.id
+          ? `<button class="btn sm rot" data-profweg="${p.id}">Wirklich löschen</button>`
+          : `<button class="btn ghost sm" data-profwegfrage="${p.id}">Löschen</button>`) : ""}
+    </div>
+  </div>`;
 }
 
 function oeffneDisz(){
@@ -4547,10 +4777,10 @@ function oeffneMenu(){
         Ich trage sie nicht für dich ein: eine falsche Nummer führt ins Leere oder schreibt
         deinen Umsatz einem fremden Konto gut.</p>
 
-      <div class="grp-h" style="margin-top:14px"><h2>Profil</h2><div class="rule"></div></div>
-      <div class="fld"><label for="m-fahrer">Fahrergewicht in kg — prüft die Laufrad-Freigabe</label>
+      <div class="grp-h" style="margin-top:14px"><h2>Fahrer &amp; Budget</h2><div class="rule"></div></div>
+      <div class="fld"><label for="m-fahrer">Fahrergewicht in kg — gilt für alle Profile, prüft die Laufrad-Freigabe</label>
         <input id="m-fahrer" type="number" inputmode="numeric" min="0" max="180" value="${plan.fahrer || ""}" placeholder="leer = Prüfung aus" data-plan="fahrer"></div>
-      <div class="fld"><label for="m-budget">Budget in € — leer heißt ohne Grenze</label>
+      <div class="fld"><label for="m-budget">Budget in € — nur für dieses Profil, leer heißt ohne Grenze</label>
         <input id="m-budget" type="number" inputmode="numeric" min="0" step="50" value="${plan.budget || ""}" placeholder="leer = ohne Grenze" data-plan="budget"></div>
 
       <div class="grp-h" style="margin-top:14px"><h2>App</h2><div class="rule"></div></div>
@@ -4559,7 +4789,7 @@ function oeffneMenu(){
         <span>Version vom ${versionText(APP_VERSION)}</span>
       </div>
 
-      <div style="margin:10px 0 2px"><button class="btn ghost wide" data-reset="1">Alles zurücksetzen</button></div>
+      <div style="margin:10px 0 2px"><button class="btn ghost wide" data-reset="1">Dieses Profil zurücksetzen</button></div>
       <p class="legal">
         <b>Kennzeichnung.</b> Sobald ein Link Provision bringt, steht neben der Shopzeile „Anzeige“ — § 5a Abs. 4
         UWG verlangt das vor dem Klick, nicht erst im Impressum. Alle Links tragen
@@ -4696,6 +4926,23 @@ document.addEventListener("click", e => {
     sichern(); zeichne(); return;
   }
 
+  const pw = T("[data-profil]");
+  if(pw){ const imBlatt = !!pw.closest(".sheet"); profilWechseln(pw.dataset.profil); if(imBlatt) schliesse(); return; }
+  if(T("[data-profneu]")){
+    profilNeu(); schliesse();
+    zeigeToast("Neues " + MODUS_NAME[modus] + "-Profil. Fang beim Rahmen an" + (modus === "traum" ? " oder frag den Assistenten." : "."));
+    return;
+  }
+  if(T("[data-profile]")){ oeffneProfile(); return; }
+  const pu = T("[data-profumb]");
+  if(pu){ profUmbenennen = pu.dataset.profumb; profLoeschFrage = null; oeffneProfile(); return; }
+  if(T("[data-profnameok]")){ profUmbenennen = null; sichern(); zeichne(); oeffneProfile(); return; }
+  const pk = T("[data-profkopie]");
+  if(pk){ profilNeu(pk.dataset.profkopie); profUmbenennen = aktivId[modus]; oeffneProfile(); return; }
+  const pf = T("[data-profwegfrage]");
+  if(pf){ profLoeschFrage = pf.dataset.profwegfrage; profUmbenennen = null; oeffneProfile(); return; }
+  const pl2 = T("[data-profweg]");
+  if(pl2){ profilLoeschen(pl2.dataset.profweg); profLoeschFrage = null; oeffneProfile(); return; }
   const md = T("[data-modus]");
   if(md){
     if(md.dataset.modus !== modus){ wechsle(md.dataset.modus); view = "aufbau"; sichern(); zeichne(); }
@@ -4717,8 +4964,10 @@ document.addEventListener("click", e => {
   const v = T("[data-view]");
   if(v){ view = v.dataset.view; zeichne(); window.scrollTo({top:0, behavior:"smooth"}); return; }
   if(T("[data-reset]")){
-    setzeBau(modus === "real" ? leerBau() : {...START});
-    fotos[modus] = null; sel = ["trail"]; plan = {...PLAN_START};
+    setzeBau(modus === "traum" && profile.traum.length === 1 ? {...START} : leerBau());
+    fotos[modus] = null; sel = ["trail"]; plan = {...PLAN_START, fahrer:plan.fahrer};
+    if(modus === "markt") markt = JSON.parse(JSON.stringify(MARKT_START));
+    jahrWahl[modus] = jahrStart(modus);
     sichern(); schliesse(); zeichne(); return;
   }
 });
@@ -4727,6 +4976,12 @@ const wizOffen = () => !!$("modal").querySelector(".steps");
 document.addEventListener("input", e => {
   const su = e.target.closest("[data-suche]");
   if(su){ suchText = su.value; filterAnwenden(); return; }
+  const pn = e.target.closest("[data-profname]");
+  if(pn){
+    const p = profile[modus].find(x => x.id === pn.dataset.profname);
+    if(p){ p.name = pn.value.replace(/\s+/g, " ").trim().slice(0, 40); sichern(); zeichne(); }
+    return;
+  }
   if(e.target.id === "lk-url"){
     const u = httpsNur(e.target.value), sf = $("lk-shop");
     if(sf) sf.placeholder = u ? shopAusLink(u) + " — erkannt" : "Shop — wird am Link erkannt";
@@ -4783,7 +5038,12 @@ document.addEventListener("change", e => {
     fotoAufnehmen(e.target.files[0], fotoZiel); fotoZiel = null; e.target.value = "";
   }
 });
-document.addEventListener("keydown", e => { if(e.key === "Escape") schliesse(); });
+document.addEventListener("keydown", e => {
+  if(e.key === "Enter" && e.target.closest && e.target.closest("[data-profname]")){
+    profUmbenennen = null; sichern(); zeichne(); oeffneProfile(); return;
+  }
+  if(e.key === "Escape") schliesse();
+});
 $("btn-disz").addEventListener("click", oeffneDisz);
 $("btn-menu").addEventListener("click", oeffneMenu);
 

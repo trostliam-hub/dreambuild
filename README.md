@@ -25,6 +25,11 @@ mit XC-Bremsen ist fehlerfrei und trotzdem falsch gebaut.
 Downhill, Dirtjump, Slopestyle, Trial. Mischungen werden auf Machbarkeit
 geprüft — XC plus Downhill ergibt kein Rad, sondern zwei.
 
+**Profile.** Traumrad, Mein Rad und Angebot sind getrennt, und jeder Modus hat
+beliebig viele Profile: eigene Teile, Disziplinen, Budget, Markenwünsche,
+Modelljahr, Foto und (Angebot) Zustand und Preis. Nur das Fahrergewicht gilt
+für alle. Umschalten über die Leiste unter dem Modus-Umschalter.
+
 **Dreambuild-Assistent.** Sechs Schritte (Disziplin, Budget, Fahrergewicht,
 Markenwünsche, Priorität) und der Generator baut einen vollständigen,
 konfliktfreien Aufbau innerhalb des Budgets.
