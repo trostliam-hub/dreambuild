@@ -577,6 +577,25 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .shop:active{transform:scale(.97)}
 .shop:hover{color:var(--anod)}
 .shop.bez{color:var(--anod);border-color:transparent;background:var(--anod-soft)}
+.shop.such{color:var(--ink-2);background:transparent}
+.shop svg{flex:none;opacity:.75}
+/* Link-Verwaltung */
+.lk-box{margin-top:14px;border:1px dashed var(--line);border-radius:var(--r);padding:12px 13px;display:flex;flex-direction:column;gap:8px}
+.lk-kopf{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.lk-kopf span{font-size:10.5px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.lk-z{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 8px;align-items:center;padding:7px 0;border-top:1px solid var(--hair)}
+.lk-s{font-weight:700;font-size:13px;overflow-wrap:anywhere}
+.lk-u{grid-column:1;font-size:11.5px;color:var(--ink-3);overflow-wrap:anywhere}
+.lk-v{grid-column:1;font-size:11px;font-weight:700}
+.lk-v.ok{color:var(--gut)} .lk-v.aus{color:var(--warn)}
+.lk-z .btn{grid-column:2;grid-row:1 / span 3}
+.lk-neu{display:flex;flex-direction:column;gap:6px}
+.lk-neu input{width:100%;min-width:0;background:var(--surface-2);border:1px solid var(--hair);border-radius:12px;
+  padding:10px 12px;font:inherit;font-size:14px;color:var(--ink)}
+.lk-info.fehler{color:var(--bad)}
+.lk-knoepfe{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.lk-liste{margin:0 0 12px}
+.lk-liste summary{cursor:pointer;font-size:13px;font-weight:700;padding:6px 0}
 .shop .pkt{width:6px;height:6px;border-radius:50%;background:var(--gut);flex:none}
 .aff-status{font-size:12.5px;line-height:1.5;padding:11px 13px;border-radius:14px;margin-bottom:14px}
 .aff-status.ok{background:var(--gut-soft);color:var(--gut)}
@@ -746,6 +765,7 @@ img{max-width:100%}
 
 <input type="file" id="foto-in" accept="image/*" hidden>
 <input type="file" id="feed-in" accept=".csv,.txt,text/csv,text/plain" hidden>
+<input type="file" id="links-in" accept=".json,application/json" hidden>
 <div id="modal"></div>
 
 <script>
@@ -941,7 +961,11 @@ function LK(id, n, m, x){
 }
 function VB(id, n, m, x){
   const t = {id:id, n:n, m:m, klemm:x.klemm, laenge:x.laenge, e:x.e, g:x.g, p:x.p};
-  if(x.ls) t.v = [LA(x.ls, x.laenge)];
+  if(x.dm) t.dm = true;                         /* Direct Mount: nur fuer Doppelbrueckengabeln */
+  const v = [];
+  if(x.ks) v.push(KM(x.ks, x.klemm));
+  if(x.ls) v.push(LA(x.ls, x.laenge));
+  if(v.length) t.v = v;
   return t;
 }
 /* Trimm-Stufen der Dämpfer */
@@ -1605,7 +1629,12 @@ lenker:[
  LK("l-ergon",     "Ergon HB2 Comp 780", "Ergon", {klemm:31.8, breite:780, rise:20, e:E(3,5,3,0,1,1,0), g:300, p:59}),
  LK("l-funn",      "Funn Fatboy 35", "Funn", {klemm:35, breite:780, rise:20, e:E(1,4,4,3,2,2,0), g:330, p:39}),
  LK("l-dirt",      "Dartmoor Wire", "Dartmoor", {klemm:31.8, breite:780, rise:35, e:E(0,1,2,3,5,5,2), g:340, p:49}),
- LK("l-trial",     "Trial-Lenker 740 · 100 mm Rise", "Trial", {klemm:31.8, breite:740, rise:100, e:E(0,0,0,0,2,1,5), g:390, p:89})
+ LK("l-trial",     "Trial-Lenker 740 · 100 mm Rise", "Trial", {klemm:31.8, breite:740, rise:100, e:E(0,0,0,0,2,1,5), g:390, p:89}),
+ /* Sixpack Racing: Daten von sixpack-racing.com, Stand 2026-09-24 */
+ LK("l-sp805",    "Sixpack Millenium805", "Sixpack", {klemm:31.8, ks:[31.8,35], breite:805, rise:30, rs:[20,30], e:E(0,3,5,5,3,3,1), g:328, p:90}),
+ LK("l-sp785dj",  "Sixpack Millenium785 Dirt Edition", "Sixpack", {klemm:31.8, breite:785, rise:40, e:E(0,1,2,3,5,5,2), g:321, p:90}),
+ LK("l-spkami",   "Sixpack Kamikaze780", "Sixpack", {klemm:31.8, breite:780, rise:18, e:E(0,3,4,5,4,4,1), g:370, p:55}),
+ LK("l-spmenace", "Sixpack Menace725", "Sixpack", {klemm:31.8, breite:725, rise:25, e:E(1,4,3,1,4,4,1), g:350, p:46})
 ],
 
 vorbau:[
@@ -1630,8 +1659,18 @@ vorbau:[
  VB("v-thomson",   "Thomson Elite X4", "Thomson", {klemm:31.8, laenge:50, ls:[50,60,70,80,90], e:E(3,5,4,2,2,2,1), g:140, p:99}),
  VB("v-syncros",   "Syncros Fraser", "Syncros", {klemm:31.8, laenge:60, ls:[60,70,80], e:E(5,2,0,0,0,0,0), g:120, p:89}),
  VB("v-dirt",      "Dartmoor Stream", "Dartmoor", {klemm:31.8, laenge:45, e:E(0,1,2,2,5,5,2), g:160, p:39}),
- {id:"v-dc", n:"Doppelbrücken-Vorbau direkt", m:"Generisch", klemm:35, laenge:50, e:E(0,0,0,5,0,0,0), g:170, p:129, v:[LA([40,45,50], 50)]},
- {id:"v-trial", n:"Trial-Vorbau · 30° Rise", m:"Trial", klemm:31.8, laenge:150, e:E(0,0,0,0,2,1,5), g:210, p:99, v:[LA([135,150,165], 150)]}
+ {id:"v-dc", n:"Doppelbrücken-Vorbau direkt", m:"Generisch", dm:true, klemm:35, laenge:50, e:E(0,0,0,5,0,0,0), g:170, p:129, v:[LA([40,45,50], 50)]},
+ {id:"v-trial", n:"Trial-Vorbau · 30° Rise", m:"Trial", klemm:31.8, laenge:150, e:E(0,0,0,0,2,1,5), g:210, p:99, v:[LA([135,150,165], 150)]},
+ /* Sixpack Racing: Daten von sixpack-racing.com, Stand 2026-09-24 */
+ VB("v-spicr",     "Sixpack Millenium ICR Vorbau", "Sixpack", {klemm:35, laenge:35, ls:[35,50], e:E(1,4,5,5,3,3,1), g:134, p:150}),
+ VB("v-spmill",    "Sixpack Millenium Vorbau Your Part", "Sixpack", {klemm:35, laenge:45, ls:[35,45], e:E(1,4,5,5,3,3,1), g:133, p:130}),
+ VB("v-spvert35",  "Sixpack Vertic Vorbau 35", "Sixpack", {klemm:35, laenge:40, ls:[40,50,60], e:E(2,5,5,3,2,2,1), g:135, p:60}),
+ VB("v-spvert318", "Sixpack Vertic Vorbau 31.8", "Sixpack", {klemm:31.8, laenge:45, ls:[35,45,55], e:E(2,5,4,2,2,2,1), g:130, p:60}),
+ VB("v-spdj",      "Sixpack DJ Vorbau", "Sixpack", {klemm:31.8, laenge:31, e:E(0,1,2,2,5,5,2), g:105, p:120}),
+ VB("v-spmenace",  "Sixpack Menace Vorbau", "Sixpack", {klemm:31.8, laenge:70, e:E(3,4,2,1,3,3,1), g:128, p:45}),
+ VB("v-spdrmyp",   "Sixpack Millenium DRM Your Part · Direct Mount", "Sixpack", {dm:true, klemm:31.8, ks:[31.8,35], laenge:50, e:E(0,0,1,5,0,0,0), g:130, p:130}),
+ VB("v-spdrm",     "Sixpack Millenium DRM · Direct Mount", "Sixpack", {dm:true, klemm:31.8, laenge:45, e:E(0,0,1,5,0,0,0), g:134, p:130}),
+ VB("v-spkamidrm", "Sixpack Kamikaze DRM · Direct Mount", "Sixpack", {dm:true, klemm:31.8, laenge:50, ls:[45,50], e:E(0,0,1,5,0,0,0), g:142, p:96})
 ],
 
 stuetze:[
@@ -1656,7 +1695,12 @@ stuetze:[
  ST("s-tranzx",   "TranzX JD-YSP18", "TranzX", {d:"31.6", ds:["30.9","31.6"], hub:150, hube:[100,125,150,170], plus:55, e:E(3,4,3,0,0,0,0), g:650, p:89}),
  ST("s-starr",    "Carbon-Stütze starr 400 mm", "Generisch", {d:"31.6", ds:["27.2","30.9","31.6","34.9"], plus:110, e:E(5,1,0,1,3,3,2), g:220, p:129}),
  ST("s-p6",       "Syntace P6 Carbon HiFlex", "Syntace", {d:"31.6", ds:["27.2","30.9","31.6"], plus:100, e:E(5,1,0,0,1,1,0), g:200, p:199}),
- ST("s-dirt",     "Dirt-Stütze starr kurz 250 mm", "Generisch", {d:"31.6", ds:["27.2","30.9","31.6"], plus:85, e:E(1,0,0,2,5,5,3), g:190, p:29})
+ ST("s-dirt",     "Dirt-Stütze starr kurz 250 mm", "Generisch", {d:"31.6", ds:["27.2","30.9","31.6"], plus:85, e:E(1,0,0,2,5,5,3), g:190, p:29}),
+ /* Sixpack Racing: Daten von sixpack-racing.com, Stand 2026-09-24 */
+ {id:"s-spmenace", n:"Sixpack Menace Sattelstütze · starr", m:"Sixpack", d:"27.2", hub:0, einbau:90, e:E(2,1,1,2,4,4,2), g:300, p:37,
+  v:[dim("Durchmesser", [o_("27.2", "27,2 mm", {d:"27.2"}, {kurz:"Ø 27,2"}),
+      o_("30.9", "30,9 mm mit Sixpack-Adapter", {d:"30.9"}, {p:17, g:50, kurz:"Ø 30,9 mit Adapter",
+        h:"Sattelstützen-Adapter 27,2 → 30,9 mm von Sixpack (16,95 €, 50 g)"})], "27.2")]}
 ],
 sattel:[
  {id:"sa-dirt", n:"Dirt-Sattel schmal · Slim", m:"Generisch", fb:"#16181c", e:E(0,0,1,4,5,5,3), g:190, p:39},
@@ -1686,7 +1730,13 @@ sattel:[
  {id:"sa-lynx", n:"Chromag Lynx DT", m:"Chromag", e:E(1,5,5,3,2,2,1), g:300, p:99},
  {id:"sa-smp", n:"Selle SMP Well M1", m:"Selle SMP", e:E(3,4,2,0,0,0,0), g:300, p:159},
  {id:"sa-lines", n:"Fabric Line-S Elite", m:"Fabric", e:E(4,4,2,0,0,0,0), g:250, p:79},
- {id:"sa-pivotal", n:"Pivotal-Sattel Slim · Dirt", m:"Generisch", e:E(0,0,1,2,5,5,2), g:230, p:39}
+ {id:"sa-pivotal", n:"Pivotal-Sattel Slim · Dirt", m:"Generisch", e:E(0,0,1,2,5,5,2), g:230, p:39},
+ /* Sixpack Racing: Daten von sixpack-racing.com, Stand 2026-09-24 */
+ {id:"sa-spevo",    n:"Sixpack EVO Rail Ultra", m:"Sixpack", oval:"7×10", e:E(3,5,5,2,1,1,0), g:148, p:130},
+ {id:"sa-spmill",   n:"Sixpack Millenium Sattel", m:"Sixpack", e:E(0,3,4,5,3,3,1), g:241, p:50},
+ {id:"sa-spkami",   n:"Sixpack Kamikaze Sattel", m:"Sixpack", e:E(0,3,4,5,4,4,1), g:263, p:50},
+ {id:"sa-spmenace", n:"Sixpack Menace Sattel", m:"Sixpack", e:E(1,4,4,2,2,2,0), g:296, p:30},
+ {id:"sa-spdj",     n:"Sixpack DJ Sattel", m:"Sixpack", e:E(0,0,1,3,5,5,2), g:283, p:60}
 ],
 
 /* Gehaeuse und Wellen geprueft an den Produktdaten des Handels (Stand
@@ -1740,7 +1790,17 @@ pedale:[
  {id:"pe-candy3",  n:"Crankbrothers Candy 3",          m:"Crankbrothers", typ:"Klick", sys:"Crankbrothers", e:E(5,4,2,1,0,0,0), g:290, p:110},
  {id:"pe-mallete", n:"Crankbrothers Mallet E",         m:"Crankbrothers", typ:"Klick", sys:"Crankbrothers", e:E(3,5,5,4,1,1,0), g:430, p:150},
  {id:"pe-time8",   n:"Time Speciale 8",                m:"Time",          typ:"Klick", sys:"Time", e:E(3,5,5,3,1,1,0), g:400, p:150},
- {id:"pe-trial",   n:"Trial-Pedal Magnesium",          m:"Trial",         typ:"Flat",  sys:"", e:E(0,0,0,0,2,1,5), g:330, p:60}
+ {id:"pe-trial",   n:"Trial-Pedal Magnesium",          m:"Trial",         typ:"Flat",  sys:"", e:E(0,0,0,0,2,1,5), g:330, p:60},
+ /* Sixpack Racing: Daten von sixpack-racing.com, Stand 2026-09-24 */
+ {id:"pe-spmill4",  n:"Sixpack Millenium 4.0",  m:"Sixpack", typ:"Flat",  sys:"", e:E(0,4,5,5,4,4,1), g:375, p:120},
+ {id:"pe-spmillcf", n:"Sixpack Millenium CF",   m:"Sixpack", typ:"Flat",  sys:"", e:E(1,4,5,5,4,4,1), g:350, p:90},
+ {id:"pe-spkamipa", n:"Sixpack Kamikaze PA",    m:"Sixpack", typ:"Flat",  sys:"", e:E(1,4,5,4,5,5,2), g:370, p:60},
+ {id:"pe-spicon",   n:"Sixpack Icon 2.0",       m:"Sixpack", typ:"Flat",  sys:"", e:E(1,4,5,4,4,4,1), g:393, p:120},
+ {id:"pe-spmenace", n:"Sixpack Menace 3.0",     m:"Sixpack", typ:"Flat",  sys:"", e:E(1,4,4,3,4,4,1), g:426, p:70},
+ {id:"pe-spnet",    n:"Sixpack Network 3.0",    m:"Sixpack", typ:"Flat",  sys:"", e:E(1,3,2,1,4,4,1), g:326, p:65},
+ {id:"pe-spvertx",  n:"Sixpack Vertic X",       m:"Sixpack", typ:"Klick", sys:"SPD", e:E(2,5,5,3,1,1,0), g:408, p:140},
+ {id:"pe-spvertxti",n:"Sixpack Vertic X Ti",    m:"Sixpack", typ:"Klick", sys:"SPD", e:E(3,5,5,3,1,1,0), g:358, p:240},
+ {id:"pe-spmillx",  n:"Sixpack Millenium X",    m:"Sixpack", typ:"Klick", sys:"SPD", e:E(0,3,5,5,1,1,0), g:472, p:140}
 ],
 
 /* Griffe: Lock-on wird mit Klemmringen fest, Push-on nur aufgeschoben --
@@ -1758,7 +1818,17 @@ griffe:[
  {id:"gr-fatpaw",   n:"Wolf Tooth Fat Paw",            m:"Wolf Tooth",bef:"Lock-on", mat:"Gummi",  e:E(1,4,5,5,3,3,1), g:120, p:30},
  {id:"gr-loam",     n:"PNW Loam Grip",                 m:"PNW",       bef:"Lock-on", mat:"Gummi",  e:E(1,5,5,4,3,3,1), g:115, p:30},
  {id:"gr-chunky",   n:"ESI Chunky",                    m:"ESI",       bef:"Push-on", mat:"Silikon",e:E(5,4,3,2,2,2,1), g:50,  p:26},
- {id:"gr-trial",    n:"Trial-Griffe · Push-on",        m:"Trial",     bef:"Push-on", mat:"Gummi",  e:E(0,0,0,0,2,1,5), g:90,  p:15}
+ {id:"gr-trial",    n:"Trial-Griffe · Push-on",        m:"Trial",     bef:"Push-on", mat:"Gummi",  e:E(0,0,0,0,2,1,5), g:90,  p:15},
+ /* Sixpack Racing: Daten von sixpack-racing.com, Stand 2026-09-24 */
+ {id:"gr-spmillal", n:"Sixpack Millenium AL",       m:"Sixpack", bef:"Lock-on", mat:"Ø 31,5 mm", e:E(1,4,5,5,4,4,1), g:166, p:35},
+ {id:"gr-spdtrixal",n:"Sixpack D-Trix AL",          m:"Sixpack", bef:"Lock-on", mat:"Kraton · Ø 33 mm", e:E(1,4,5,5,4,4,1), g:145, p:29},
+ {id:"gr-spdtrixpa",n:"Sixpack D-Trix PA",          m:"Sixpack", bef:"Lock-on", mat:"Kraton · Ø 33 mm", e:E(1,4,5,5,4,4,1), g:137, p:20},
+ {id:"gr-spdtrixcf",n:"Sixpack D-Trix CF",          m:"Sixpack", bef:"Lock-on", mat:"Kraton · Ø 33 mm", e:E(1,4,5,5,4,4,1), g:135, p:30},
+ {id:"gr-spztrixal",n:"Sixpack Z-Trix AL",          m:"Sixpack", bef:"Lock-on", mat:"Kraton · Ø 28 mm", e:E(2,5,5,4,3,3,1), g:109, p:29},
+ {id:"gr-spztrixpa",n:"Sixpack Z-Trix PA",          m:"Sixpack", bef:"Lock-on", mat:"Kraton · Ø 28 mm", e:E(2,5,5,4,3,3,1), g:101, p:20},
+ {id:"gr-spztrixcf",n:"Sixpack Z-Trix CF",          m:"Sixpack", bef:"Lock-on", mat:"Kraton · Ø 28 mm", e:E(2,5,5,4,3,3,1), g:99,  p:30},
+ {id:"gr-spkorbi",  n:"Sixpack Korbi WHY NOT",      m:"Sixpack", bef:"Lock-on", mat:"D-Trix-Profil · Ø 33 mm", e:E(1,4,5,4,5,5,1), g:158, p:25},
+ {id:"gr-spruso",   n:"Sixpack Ruso Signature",     m:"Sixpack", bef:"Push-on", mat:"Pilzprofil · Ø 31,5 mm", e:E(0,2,3,3,5,5,4), g:180, p:20}
 ]
 };
 
@@ -2037,7 +2107,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260924-0002';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260924-1638';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -2088,6 +2158,9 @@ function laden(){
     if(eg){ const q = JSON.parse(eg); if(q && typeof q === "object" && !Array.isArray(q)) eigene = q; INDEX = {}; }
     const zg = localStorage.getItem("mtb.zu");
     if(zg){ const q = JSON.parse(zg); if(q && typeof q === "object") zuGeklappt = q; }
+    const lk = localStorage.getItem("mtb.links");
+    if(lk){ const q = JSON.parse(lk); if(q && q.teile && typeof q.teile === "object") linksLokal = {teile:q.teile}; }
+    linkVerwaltung = localStorage.getItem("mtb.linkadmin") === "1";
     const fd = localStorage.getItem("mtb.feed");
     if(fd){ const q = JSON.parse(fd); if(q && q.treffer) feed = q; }
     const ft = localStorage.getItem("mtb.fotos");
@@ -2114,6 +2187,8 @@ function sichern(){
     localStorage.setItem("mtb.builds", JSON.stringify(builds));
     localStorage.setItem("mtb.modus", modus);
     localStorage.setItem("mtb.feed", JSON.stringify(feed));
+    localStorage.setItem("mtb.links", JSON.stringify(linksLokal));
+    localStorage.setItem("mtb.linkadmin", linkVerwaltung ? "1" : "0");
     localStorage.setItem("mtb.zu", JSON.stringify(zuGeklappt));
     localStorage.setItem("mtb.eigene", JSON.stringify(eigene));
     localStorage.setItem("mtb.jahr", JSON.stringify(jahrWahl));
@@ -2157,7 +2232,7 @@ function pruefe(b){
         reifenVR = t.reifenVR, reifenHR = t.reifenHR, kurbel = t.kurbel,
         schalthebel = t.schalthebel, schaltwerk = t.schaltwerk, kassette = t.kassette, kette = t.kette,
         bremsen = t.bremsen, lenker = t.lenker, vorbau = t.vorbau, stuetze = t.stuetze,
-        innenlager = t.innenlager;
+        innenlager = t.innenlager, sattel = t.sattel;
 
   if(sel.length > 1){
     const mp = mixPaar(sel);
@@ -2387,6 +2462,17 @@ function pruefe(b){
   if(lenker && vorbau && lenker.klemm !== vorbau.klemm)
     out.push(F("Lenkerklemmung passt nicht zum Vorbau","vorbau",["lenker","vorbau"],
       `Lenker <code>${lenker.klemm} mm</code>, Vorbau <code>${vorbau.klemm} mm</code>. Ein 35er Lenker geht nicht in eine 31,8er Klemmung, und andersherum reißt es den Lenker heraus.`));
+  /* Direct-Mount-Vorbauten werden auf die obere Gabelbruecke geschraubt --
+     die gibt es nur an Doppelbrueckengabeln. */
+  if(gabel && vorbau && vorbau.dm && gabel.schaft !== "dc")
+    out.push(F("Direct-Mount-Vorbau braucht eine Doppelbrückengabel","vorbau",["gabel","vorbau"],
+      `<code>${vorbau.n}</code> wird auf die obere Gabelbrücke geschraubt. <code>${gabel.n}</code> hat nur eine Brücke — dafür braucht es einen Ahead-Vorbau, der den Gabelschaft klemmt.`));
+  if(gabel && vorbau && !vorbau.dm && gabel.schaft === "dc")
+    out.push(W("Ahead-Vorbau an der Doppelbrücke","vorbau",["gabel","vorbau"],
+      `Doppelbrückengabeln werden mit Direct-Mount-Vorbau gefahren, der auf der oberen Brücke sitzt. Ein Ahead-Vorbau braucht Gabelschaft über der oberen Brücke — der ist bei DH-Gabeln meist bündig gekürzt.`));
+  if(sattel && sattel.oval)
+    out.push(H("Ovalstreben am Sattel","sattel",["sattel","stuetze"],
+      `<code>${sattel.n}</code> hat <code>${sattel.oval} mm</code> Ovalstreben und passt laut Hersteller auf Sattelstützen mit Klemmung von oben. Die Stütze braucht Klemmschalen für Ovalstreben — bei vielen Dropper-Posts liegen sie bei, sonst beim Hersteller nachkaufen.`));
   if(gabel && vorbau && gabel.schaft === "dc" && vorbau.laenge > 60)
     out.push(H("Doppelbrücke mit langem Vorbau","vorbau",["gabel","vorbau"],
       `Doppelbrückengabeln werden mit kurzen Direktmontage-Vorbauten gefahren. Alles über 60 mm macht das Vorderrad träge und den Fahrer kopflastig.`));
@@ -2571,7 +2657,7 @@ const MASSE = {
   kurbel:     {hart:["kl","gaenge","iface"], weich:{kb:["Zähne",2], laenge:["mm Länge",5]}},
   bremsen:    {hart:["mount","kolben"], weich:{sV:["mm Scheibe vorn",23], sH:["mm Scheibe hinten",23]}},
   lenker:     {hart:["klemm"], weich:{breite:["mm Breite",20], rise:["mm Rise",10]}},
-  vorbau:     {hart:["klemm"], weich:{laenge:["mm Länge",10]}},
+  vorbau:     {hart:["klemm","dm"], weich:{laenge:["mm Länge",10]}},
   stuetze:    {hart:["d","hub"], weich:{einbau:["mm Einstecktiefe",15]}},
   sattel:     {hart:[], weich:{}},
   innenlager: {hart:["welle"], weich:{}},
@@ -2798,44 +2884,215 @@ function suchName(teil){
   n = n.replace(/\s*\([^)]*\)\s*/g, " ").split(" / ")[0];   /* "Eagle 70 / S1000": der erste Name reicht */
   return n.replace(/\s+/g, " ").trim();
 }
+/* ═══════════ Eigene Affiliate-Links ═══════════
+   Ein Suchlink laesst den Kaeufer im Shop noch einmal suchen -- auf dem Weg
+   springt die Haelfte ab. Deshalb kann jedes Teil einen oder mehrere eigene
+   Links bekommen, die direkt auf die Produktseite fuehren: ein Awin-Link, ein
+   Amazon-Link oder die nackte Produktseite, die die App dann mit Publisher-
+   und Advertiser-ID selbst zum Awin-Link macht.
+
+   Veroeffentlicht werden die Links ueber links.json im Repo: die App laedt sie
+   beim Start, wie die Preise. Was in der Link-Verwaltung eingetragen wird,
+   gilt sofort auf diesem Geraet und kommt mit "links.json speichern" und dem
+   Veroeffentlichen-Skript zu allen. Die Netzwerk-IDs gehen mit -- sie stehen
+   in jedem Affiliate-Link ohnehin offen. */
+let linksServer = {netz:{}, teile:{}};
+let linksLokal = {teile:{}};
+let linkVerwaltung = false;
+const httpsNur = x => (typeof x === "string" && /^https:\/\/[^\s"'<>\\]+$/i.test(x.trim())) ? x.trim() : "";
+const netzWert = k => String(aff[k] || (linksServer.netz || {})[k] || "").trim();
+const midVon = id => String(((aff.mid || {})[id]) || (((linksServer.netz || {}).mid || {})[id]) || "").trim();
+function hostVon(u){ try{ return new URL(u).hostname.replace(/^www\./, "").toLowerCase(); }catch(e){ return ""; } }
+const SHOP_DOMAINS = {bc:["bike-components.de"], b24:["bike24.de","bike24.com"], bd:["bike-discount.de"],
+  rose:["rosebikes.de","rosebikes.com"], amz:["amazon.de","amzn.to","amzn.eu"]};
+const WEITERE_SHOPS = {"sixpack-racing.com":"Sixpack Racing", "bike-mailorder.de":"Bike-Mailorder", "hibike.de":"HIBIKE",
+  "fahrrad.de":"fahrrad.de", "bikester.de":"Bikester", "mhw-bike.de":"MHW", "chainreactioncycles.com":"Chain Reaction",
+  "bike-discount.com":"Bike-Discount", "canyon.com":"Canyon", "radon-bikes.de":"Radon", "ebay.de":"eBay"};
+const hostPasst = (h, d) => h === d || h.slice(-(d.length + 1)) === "." + d;
+function shopVonHost(h){
+  for(const sh of SHOPS) if((SHOP_DOMAINS[sh.id] || []).some(d => hostPasst(h, d))) return sh;
+  return null;
+}
+/* Welcher Shop hinter einem Link steht -- auch hinter einem Awin-Tracking-Link,
+   der das Ziel im Parameter "ued" traegt oder nur die Advertiser-ID. */
+function shopAusLink(u){
+  let h = hostVon(u);
+  if(!h) return "Shop";
+  if(hostPasst(h, "awin1.com")){
+    try{
+      const q = new URL(u).searchParams;
+      const ziel = q.get("ued") || q.get("p");
+      if(ziel && hostVon(ziel)) h = hostVon(ziel);
+      else { const mid = q.get("awinmid") || q.get("mid"); const sh = SHOPS.find(x => mid && midVon(x.id) === mid); if(sh) return sh.name; }
+    }catch(e){}
+  }
+  const sh = shopVonHost(h);
+  if(sh) return sh.netz === "amazon" ? "Amazon" : sh.name;
+  for(const d in WEITERE_SHOPS) if(hostPasst(h, d)) return WEITERE_SHOPS[d];
+  return h;
+}
+/* Traegt der Link schon eine Provisionskennung? */
+function istAffiliate(u){
+  const h = hostVon(u);
+  if(["awin1.com","tidd.ly","amzn.to","amzn.eu","prf.hn","webgains.com","adtraction.com","adcell.de","tradedoubler.com"].some(d => hostPasst(h, d))) return true;
+  try{ const q = new URL(u).searchParams; return q.has("tag") || q.has("awinaffid"); }catch(e){ return false; }
+}
+/* Nackte Produktseite eines Awin-Shops -> Awin-Deeplink; Amazon -> Tag anhaengen.
+   Geht das nicht, bleibt der Link, wie er ist: er fuehrt trotzdem zum Produkt. */
+function linkZiel(u){
+  if(istAffiliate(u)) return u;
+  const sh = shopVonHost(hostVon(u));
+  if(sh && sh.netz === "awin" && netzWert("awinId") && midVon(sh.id))
+    return "https://www.awin1.com/cread.php?awinmid=" + encodeURIComponent(midVon(sh.id)) +
+           "&awinaffid=" + encodeURIComponent(netzWert("awinId")) + "&ued=" + encodeURIComponent(u);
+  if(sh && sh.netz === "amazon" && netzWert("amazonTag")){
+    try{ const x = new URL(u); x.searchParams.set("tag", netzWert("amazonTag")); return x.toString(); }catch(e){}
+  }
+  return u;
+}
+const linkVerdient = u => istAffiliate(linkZiel(u));
+const saubereLinks = l => (Array.isArray(l) ? l : [])
+  .map(x => ({s:String((x && x.s) || "").slice(0, 60), l:httpsNur(x && x.l)})).filter(x => x.l)
+  .map(x => ({s:x.s || shopAusLink(x.l), l:x.l}));
+/* Lokal Eingetragenes geht vor -- auch eine leere Liste: dann ist der Link
+   auf diesem Geraet geloescht, bis links.json neu veroeffentlicht ist. */
+function eigeneLinksId(id){
+  const lok = linksLokal.teile || {};
+  return saubereLinks(Object.prototype.hasOwnProperty.call(lok, id) ? lok[id] : (linksServer.teile || {})[id]);
+}
+const eigeneLinks = teil => eigeneLinksId(teil.basisId || teil.id);
+const amazonAktiv = () => !!netzWert("amazonTag") ||
+  Object.keys(Object.assign({}, linksServer.teile, linksLokal.teile)).some(id => eigeneLinksId(id).some(x => x.s === "Amazon"));
+
 function shopLink(shop, teil){
   const ziel = shop.suche.replace(/\{q\}/g, encodeURIComponent(suchName(teil)));
   if(shop.netz === "amazon")
-    return aff.amazonTag ? ziel + "&tag=" + encodeURIComponent(aff.amazonTag) : ziel;
-  const mid = (aff.mid || {})[shop.id];
-  if(shop.netz === "awin" && aff.awinId && mid)
-    return "https://www.awin1.com/cread.php?awinmid=" + encodeURIComponent(mid) +
-           "&awinaffid=" + encodeURIComponent(aff.awinId) +
+    return netzWert("amazonTag") ? ziel + "&tag=" + encodeURIComponent(netzWert("amazonTag")) : ziel;
+  if(shop.netz === "awin" && netzWert("awinId") && midVon(shop.id))
+    return "https://www.awin1.com/cread.php?awinmid=" + encodeURIComponent(midVon(shop.id)) +
+           "&awinaffid=" + encodeURIComponent(netzWert("awinId")) +
            "&ued=" + encodeURIComponent(ziel);
   return ziel;                                  /* unkonfiguriert: ehrlicher Direktlink */
 }
-const shopVerdient = sh => sh.netz === "amazon"
-  ? !!aff.amazonTag : !!(aff.awinId && (aff.mid || {})[sh.id]);
+const shopVerdient = sh => sh.netz === "amazon" ? !!netzWert("amazonTag") : !!(netzWert("awinId") && midVon(sh.id));
 const shopsAn = () => SHOPS.filter(sh => aff.an[sh.id]);
+const LUPE = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>`;
 
+/* Zuerst die Links, die direkt auf das Produkt fuehren: eigene, dann die aus
+   dem Produktfeed. Die Suche im Shop nur noch fuer Shops ohne Direktlink --
+   und mit Lupe, damit niemand eine Produktseite erwartet. */
 function affHtml(teil, kompakt){
-  const liste = shopsAn();
-  const fe = angebote(teil).find(a => a.l);
-  /* Der Feed liefert den fertigen Deeplink auf das Produkt selbst. Der ist
-     jeder Suchseite ueberlegen: er landet direkt auf dem Artikel und traegt
-     die Provisionskennung bereits. */
-  const direkt = fe
-    ? `<a class="shop bez" href="${esc(fe.l)}" target="_blank" rel="sponsored nofollow noopener"><span class="pkt"></span>${esc(fe.s === "Dein Feed" ? "Zum Produkt" : fe.s)}</a>`
-    : "";
-  if(!liste.length) return direkt ? `<span class="shops"><span class="werbung">Anzeige</span>${direkt}</span>` : "";
-  const bezahlt = liste.some(shopVerdient);
-  if(kompakt){
-    if(direkt) return direkt;
-    const sh = liste[0];
-    return `<a class="shop${shopVerdient(sh) ? " bez" : ""}" href="${shopLink(sh, teil)}"
-      target="_blank" rel="sponsored nofollow noopener">${shopVerdient(sh) ? '<span class="pkt"></span>' : ""}${esc(sh.name)}</a>`;
-  }
+  const direkt = [];
+  for(const x of eigeneLinks(teil)) if(!direkt.some(d => d.s === x.s)) direkt.push({s:x.s, l:linkZiel(x.l)});
+  for(const a of angebote(teil)) if(a.l && !direkt.some(d => d.s === a.s)) direkt.push({s:a.s === "Dein Feed" ? "Zum Produkt" : a.s, l:a.l});
+  const suche = shopsAn().filter(sh => !direkt.some(d => d.s === sh.name || (sh.netz === "amazon" && d.s === "Amazon")));
+  const knopf = d => `<a class="shop bez" href="${esc(d.l)}" target="_blank" rel="sponsored nofollow noopener" title="Direkt zum Produkt bei ${esc(d.s)}"><span class="pkt"></span>${esc(d.s)}</a>`;
+  const such = sh => `<a class="shop such" href="${esc(shopLink(sh, teil))}" target="_blank" rel="sponsored nofollow noopener" title="Bei ${esc(sh.name)} suchen">${LUPE}${esc(sh.name)}</a>`;
+  if(kompakt) return direkt.length ? knopf(direkt[0]) : (suche.length ? such(suche[0]) : "");
+  if(!direkt.length && !suche.length) return "";
   return `<span class="shops">
-    ${(bezahlt || direkt) ? `<span class="werbung" title="Provisions-Link">Anzeige</span>` : ""}
-    ${direkt}
-    ${liste.map(sh => `<a class="shop${shopVerdient(sh) ? " bez" : ""}" href="${shopLink(sh, teil)}"
-      target="_blank" rel="sponsored nofollow noopener">${shopVerdient(sh) ? '<span class="pkt"></span>' : ""}${esc(sh.name)}</a>`).join("")}
+    ${(direkt.length || suche.some(shopVerdient)) ? `<span class="werbung" title="Provisions-Link">Anzeige</span>` : ""}
+    ${direkt.map(knopf).join("")}${suche.map(such).join("")}
   </span>`;
+}
+
+/* Link-Kasten im Detailblatt -- nur in der Link-Verwaltung */
+const kurzUrl = u => { try{ const x = new URL(u); return x.hostname.replace(/^www\./, "") + (x.pathname.length > 1 ? x.pathname.slice(0, 34) + (x.pathname.length > 34 ? "…" : "") : ""); }catch(e){ return u.slice(0, 40); } };
+function linkEditor(t){
+  const id = t.basisId || t.id, lst = eigeneLinks(t);
+  return `<div class="lk-box">
+    <div class="lk-kopf"><b>Deine Affiliate-Links</b><span>Link-Verwaltung</span></div>
+    ${lst.length ? lst.map((x, i) => `<div class="lk-z">
+        <span class="lk-s">${esc(x.s)}</span>
+        <a class="lk-u" href="${esc(linkZiel(x.l))}" target="_blank" rel="noopener">${esc(kurzUrl(x.l))}</a>
+        <span class="lk-v ${linkVerdient(x.l) ? "ok" : "aus"}">${linkVerdient(x.l) ? "mit Provision" : "ohne Provision"}</span>
+        <button class="btn ghost sm" data-lkweg="${esc(id)}|${i}">Entfernen</button></div>`).join("")
+      : `<p class="hint" style="margin:0 0 4px">Noch kein eigener Link — der Knopf führt bis dahin zur Suche im Shop.</p>`}
+    <div class="lk-neu">
+      <input id="lk-url" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Link einfügen: Awin, Amazon oder Produktseite">
+      <input id="lk-shop" autocomplete="off" placeholder="Shop — wird am Link erkannt">
+      <button class="btn sm" data-lkneu="${esc(id)}">Link speichern</button>
+    </div>
+    <p class="hint lk-info" id="lk-info">Gilt für ${t.v ? "alle Ausführungen dieses Modells" : "dieses Teil"}. Gleicher Shop ersetzt den alten Link.
+      Für alle sichtbar nach Einstellungen → Affiliate-Links → links.json speichern und Veröffentlichen.</p>
+  </div>`;
+}
+let detailOffen = null;
+function linkSpeichern(id){
+  const feld = $("lk-url"), info = $("lk-info");
+  const u = httpsNur(feld ? feld.value : "");
+  if(!u){
+    if(info){ info.textContent = "Das ist kein vollständiger https-Link. Kopier ihn komplett aus der Adresszeile oder aus Awin/Amazon."; info.classList.add("fehler"); }
+    return;
+  }
+  const shop = (($("lk-shop") || {}).value || "").trim().slice(0, 60) || shopAusLink(u);
+  const liste = eigeneLinksId(id).filter(x => x.s !== shop).concat([{s:shop, l:u}]);
+  linksLokal.teile[id] = liste;
+  sichern(); zeichne();
+  if(detailOffen) oeffneDetail(detailOffen[0], detailOffen[1]);
+  const i2 = $("lk-info");
+  if(i2) i2.textContent = linkVerdient(u) ? "Gespeichert — der Link bringt Provision." :
+    "Gespeichert und führt direkt zum Produkt — aber ohne Provision: " + (shopVonHost(hostVon(u))
+      ? "für " + shop + " fehlt noch Publisher- oder Advertiser-ID (Einstellungen → Netzwerk)."
+      : "nimm den Affiliate-Link aus deinem Partnerkonto statt der nackten Produktseite.");
+}
+function linkLoeschen(id, i){
+  const liste = eigeneLinksId(id);
+  liste.splice(i, 1);
+  linksLokal.teile[id] = liste;
+  sichern(); zeichne();
+  if(detailOffen) oeffneDetail(detailOffen[0], detailOffen[1]);
+}
+/* Alle Links, lokal vor Server -- so wie sie veroeffentlicht werden */
+function linksGesamt(){
+  const teile = {};
+  const ids = Object.keys(Object.assign({}, linksServer.teile, linksLokal.teile)).sort();
+  for(const id of ids){ const l = eigeneLinksId(id); if(l.length) teile[id] = l; }
+  const mid = {};
+  for(const sh of SHOPS) if(midVon(sh.id)) mid[sh.id] = midVon(sh.id);
+  return {stand:new Date().toISOString().slice(0, 19) + "Z",
+          netz:{awinId:netzWert("awinId"), amazonTag:netzWert("amazonTag"), mid:mid}, teile:teile};
+}
+function linksOffen(){
+  const g = linksGesamt(), sv = linksServer;
+  let n = 0;
+  const ids = new Set(Object.keys(g.teile).concat(Object.keys(sv.teile || {})));
+  for(const id of ids) if(JSON.stringify(g.teile[id] || []) !== JSON.stringify(saubereLinks((sv.teile || {})[id]))) n++;
+  const snv = sv.netz || {};
+  if(g.netz.awinId !== String(snv.awinId || "") || g.netz.amazonTag !== String(snv.amazonTag || "") ||
+     JSON.stringify(g.netz.mid) !== JSON.stringify(snv.mid || {})) n++;
+  return n;
+}
+function linksSpeichernDatei(){
+  const blob = new Blob([JSON.stringify(linksGesamt(), null, 1)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "dreambuild-links.json";
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+function linksLaden(datei){
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const d = JSON.parse(r.result);
+      if(!d || typeof d.teile !== "object") throw new Error("teile");
+      const t = {};
+      for(const id in d.teile){ const l = saubereLinks(d.teile[id]); if(l.length) t[id] = l; }
+      linksLokal.teile = t;
+      const n = d.netz || {};
+      if(n.awinId) aff.awinId = String(n.awinId);
+      if(n.amazonTag) aff.amazonTag = String(n.amazonTag);
+      if(n.mid && typeof n.mid === "object") aff.mid = Object.assign({}, aff.mid, n.mid);
+      sichern(); zeichne(); oeffneMenu();
+      zeigeToast(Object.keys(t).length + " Teile mit Link geladen.");
+    }catch(e){ alert("Das ist keine links.json von Dreambuild."); }
+  };
+  r.readAsText(datei);
+}
+/* Name eines Teils zu seiner Id -- fuer die Linkliste */
+function teilName(id){
+  for(const k in K){ const t = K[k].find(x => x.id === id); if(t) return t.n; }
+  return id;
 }
 
 /* ═══════════ Live-Preise ═══════════
@@ -2852,8 +3109,14 @@ let liveZeit = 0;
 function liveLaden(){
   liveZeit = Date.now();
   const holen = u => fetch(u, {cache:"no-cache"}).then(r => r.ok ? r.json() : null).catch(() => null);
-  Promise.all([holen("preise.json"), holen("preisverlauf.json")]).then(([p, v]) => {
+  Promise.all([holen("preise.json"), holen("preisverlauf.json"), holen("links.json")]).then(([p, v, lk]) => {
     if(v && typeof v === "object" && !Array.isArray(v)) verlauf = v;
+    if(lk && typeof lk === "object" && lk.teile && typeof lk.teile === "object"){
+      const t = {};
+      for(const id in lk.teile){ const l = saubereLinks(lk.teile[id]); if(l.length) t[id] = l; }
+      linksServer = {netz:(lk.netz && typeof lk.netz === "object") ? lk.netz : {}, teile:t};
+      if(!p || !p.teile) zeichne();
+    }
     if(!p || !p.teile || typeof p.teile !== "object" || Array.isArray(p.teile)) return;
     live = {stand:String(p.stand || ""), shops:Array.isArray(p.shops) ? p.shops : [], teile:p.teile};
     preiseNeu();
@@ -3031,6 +3294,8 @@ function feedZiele(){
     const sp = [], belegt = [];
     name.replace(/(^|[^\d.])(\d{1,2})\s*[-–]\s*(\d{2})(?!\d)/g, (m, v, a, b, off) => {
       sp.push(" " + a + " " + b + " "); belegt.push([off + v.length, off + m.length]); return m; });
+    /* Versionsnummern ("Millenium 4.0") muessen stimmen, sonst bekaeme das Vorgaengermodell den Preis */
+    name.replace(/(^|[^\w.,])(\d)\.0(?!\d)/g, (m, v, z) => { sp.push(" " + z + " 0 "); return m; });
     const kz = wo.filter(x => x.length <= 2 && /^[a-zäöüß]+$/.test(x));
     name.replace(/(^|[^\w.,])(\d{1,2})(?![\w.,])/g, (m, v, z, off) => {
       const i = off + v.length;
@@ -3208,6 +3473,7 @@ function eigenLoeschen(slotKey, id){
 function oeffneDetail(slotKey, teilId){
   const t = findeTeil(slotKey, teilId);
   if(!t) return;
+  detailOffen = [slotKey, teilId];
   const specs = specsVon(slotKey, t);
   const lst = angebote(t), a = bestesAngebot(t) || lst[0] || null, lieferbar = !!bestesAngebot(t);
   const bild = (lst.find(x => x.b) || {}).b || "";
@@ -3244,8 +3510,9 @@ function oeffneDetail(slotKey, teilId){
         ${a ? "" : `<div class="dspec"><dt>Richtpreis</dt><dd>${eur(preisVon(t))}</dd></div>`}
         ${t.m ? `<div class="dspec"><dt>Marke</dt><dd>${esc(t.m)}</dd></div>` : ""}
       </dl>
-      <p class="hint" style="margin:10px 0 0">In den Shops suchen:</p>
+      <p class="hint" style="margin:10px 0 0">Zum Shop:</p>
       ${affHtml(t)}
+      ${linkVerwaltung ? linkEditor(t) : ""}
       ${build[slotKey] === t.id ? "" :
         `<div style="margin-top:12px"><button class="btn wide" data-einbau="${slotKey}|${t.id}">Einbauen</button></div>`}
       ${t.eigen ? `<div style="margin-top:10px"><button class="btn ghost wide" data-eigenweg="${slotKey}|${t.id}">Eigenes Teil löschen</button></div>` : ""}
@@ -3477,7 +3744,8 @@ function specsVon(slotKey, t){
     case "bremsen": c.push(t.mount === "Felge" ? "Felgenbremse" : t.kolben + " Kolben",
       t.mount === "Felge" ? "beidseitig" : t.sV + "/" + t.sH + " mm", t.mount); break;
     case "lenker": c.push(t.klemm + " mm Klemmung", t.breite + " mm", t.rise + " mm Rise"); break;
-    case "vorbau": c.push(t.klemm + " mm Klemmung", t.laenge + " mm"); break;
+    case "vorbau": c.push(t.klemm + " mm Klemmung", t.laenge + " mm", t.dm ? "Direct Mount" : null); break;
+    case "sattel": c.push(t.oval ? "Streben " + t.oval + " mm oval" : null); break;
     case "stuetze": c.push(t.d + " mm", t.hub ? t.hub + " mm Hub" : "starr", "Einbau " + t.einbau + " mm"); break;
     case "innenlager": c.push(t.gehaeuse.map(bbName).join(" / "), t.welle === "Hollowtech II" ? "24 mm (Hollowtech II)" : t.welle === "DUB" ? "DUB 28,99 mm" : t.welle, t.breit ? "Wide · CL55" : null); break;
     case "pedale": c.push(t.typ === "Klick" ? "Klick · " + t.sys : "Flat", t.g + " g/Paar"); break;
@@ -3683,6 +3951,8 @@ function zeichne(){
     Jahrgang.<br>
     <b>Preise:</b> Führt ein Partnershop das Teil, rechnet die App mit dem günstigsten lieferbaren Angebot
     (inkl. MwSt., zzgl. Versand; Stand im Reiter Deals). Sonst steht dort ein Richtpreis auf UVP-Niveau — kein Angebot.<br>
+    <b>Links:</b> Shop-Knöpfe mit Punkt führen direkt zum Produkt, die mit Lupe zur Suche im Shop. Mit „Anzeige“
+    markierte Links bringen Dreambuild eine Provision; dein Preis ändert sich nicht.${amazonAktiv() ? " Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}<br>
     <b>Vor dem Kauf</b> gegen das Datenblatt deines Rahmens prüfen. Trial-Maße sind auf Mod 20/19″,
     Street 24″ und Stock 26″ vereinfacht.</p>`;
 
@@ -3872,7 +4142,7 @@ function zeigeSheet(html){
   const f = $("modal").querySelector(".btn, input, .dis, .qopt, .iconbtn");
   if(f) f.focus();
 }
-function schliesse(){ $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; }
+function schliesse(){ $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 
@@ -4187,6 +4457,7 @@ function fotoAufnehmen(datei, ziel){
 }
 
 function oeffneMenu(){
+  detailOffen = null;
   const an = shopsAn(), verdienen = an.filter(shopVerdient);
   const anz = Object.keys(feed.treffer || {}).length;
   const status = !an.length
@@ -4197,7 +4468,7 @@ function oeffneMenu(){
     ? `<div class="aff-status aus"><b>${verdienen.length} von ${an.length} Shops verdienen.</b>
         Die übrigen verlinken direkt und bringen keine Provision — ihnen fehlt die Advertiser-ID.</div>`
     : `<div class="aff-status aus"><b>Noch keine Provision.</b> Die Links funktionieren, laufen aber am
-        Netzwerk vorbei. Es fehlt ${aff.awinId ? "die Advertiser-ID je Shop" : "deine Publisher-ID"}.</div>`;
+        Netzwerk vorbei. Es fehlt ${netzWert("awinId") ? "die Advertiser-ID je Shop" : "deine Publisher-ID"}.</div>`;
 
   const zeile = sh => `<div class="shopzeile" aria-pressed="${!!aff.an[sh.id]}">
       <button class="schalt" data-shopan="${sh.id}" aria-label="${esc(sh.name)} ein- oder ausschalten">
@@ -4206,7 +4477,7 @@ function oeffneMenu(){
       <span><span class="nm">${esc(sh.name)}</span>
         <span class="nz">${sh.netz === "awin" ? "Awin" : "Amazon PartnerNet"}${shopVerdient(sh) ? " · verdient" : ""}</span></span>
       ${sh.netz === "awin"
-        ? `<input data-mid="${sh.id}" value="${esc((aff.mid||{})[sh.id] || "")}" placeholder="ID" inputmode="numeric">`
+        ? `<input data-mid="${sh.id}" value="${esc(midVon(sh.id))}" placeholder="ID" inputmode="numeric">`
         : `<span class="nz" style="text-align:right">über Tag</span>`}
     </div>`;
 
@@ -4237,14 +4508,36 @@ function oeffneMenu(){
       <p class="hint" style="margin:-4px 0 14px">Die Bilder aus dem Feed sind zur Anzeige freigegeben —
         das ist der Unterschied zu Fotos, die man sich von einer Shopseite zieht.</p>
 
+      <div class="grp-h"><h2>Affiliate-Links</h2><div class="rule"></div></div>
+      ${(() => {
+        const g = linksGesamt(), n = Object.keys(g.teile).length, offen = linksOffen();
+        return `<div class="aff-status ${offen ? "aus" : "ok"}"><b>${n} ${n === 1 ? "Teil" : "Teile"} mit eigenem Link.</b>
+          ${offen ? offen + (offen === 1 ? " Änderung ist" : " Änderungen sind") + " nur auf diesem Gerät — noch nicht veröffentlicht."
+                  : "Alles veröffentlicht — alle sehen dieselben Links."}</div>
+        <div class="lk-knoepfe">
+          <button class="btn ${linkVerwaltung ? "" : "ghost"} sm" data-lkadmin="1" aria-pressed="${linkVerwaltung}">Link-Verwaltung ${linkVerwaltung ? "an" : "aus"}</button>
+          <button class="btn ghost sm" data-lkexport="1">links.json speichern</button>
+          <button class="btn ghost sm" data-lkimport="1">links.json laden</button>
+        </div>
+        <p class="hint" style="margin:8px 0 10px">Ist die Link-Verwaltung an, steht bei jedem Teil unter „Ansehen“ ein Feld für
+          deinen Link. Einfügen kannst du einen Awin-Link, einen Amazon-Link oder einfach die Produktseite eines Shops —
+          die macht die App mit deiner Publisher- und Advertiser-ID selbst zum Awin-Link.<br>
+          <b>Für alle online:</b> „links.json speichern“ (landet in Downloads), dann <code>App-veroeffentlichen.cmd</code>
+          doppelklicken. Das Skript nimmt die Datei mit.</p>
+        ${n ? `<details class="lk-liste"><summary>Alle Links anzeigen</summary>${Object.keys(g.teile).map(id => g.teile[id].map((x, i) =>
+            `<div class="lk-z"><span class="lk-s">${esc(teilName(id))}</span><a class="lk-u" href="${esc(linkZiel(x.l))}" target="_blank" rel="noopener">${esc(x.s)} · ${esc(kurzUrl(x.l))}</a>
+             <span class="lk-v ${linkVerdient(x.l) ? "ok" : "aus"}">${linkVerdient(x.l) ? "mit Provision" : "ohne Provision"}</span>
+             <button class="btn ghost sm" data-lkweg="${esc(id)}|${i}">Entfernen</button></div>`).join("")).join("")}</details>` : ""}`;
+      })()}
+
       <div class="grp-h"><h2>Netzwerk</h2><div class="rule"></div></div>
       <div class="fld"><label for="m-awin">Awin Publisher-ID</label>
-        <input id="m-awin" data-affnetz="awinId" value="${esc(aff.awinId)}" placeholder="z. B. 1234567" inputmode="numeric">
+        <input id="m-awin" data-affnetz="awinId" value="${esc(netzWert("awinId"))}" placeholder="z. B. 1234567" inputmode="numeric">
       </div>
       <p class="hint" style="margin:-6px 0 12px">Steht im Awin-Konto oben rechts neben deinem Namen.
         Ohne sie ist jeder Link nur ein normaler Shoplink.</p>
       <div class="fld"><label for="m-amz">Amazon PartnerNet — Tracking-ID</label>
-        <input id="m-amz" data-affnetz="amazonTag" value="${esc(aff.amazonTag)}" placeholder="z. B. deinname-21">
+        <input id="m-amz" data-affnetz="amazonTag" value="${esc(netzWert("amazonTag"))}" placeholder="z. B. deinname-21">
       </div>
 
       <div class="grp-h" style="margin-top:6px"><h2>Shops</h2><div class="rule"></div></div>
@@ -4271,9 +4564,10 @@ function oeffneMenu(){
         <b>Kennzeichnung.</b> Sobald ein Link Provision bringt, steht neben der Shopzeile „Anzeige“ — § 5a Abs. 4
         UWG verlangt das vor dem Klick, nicht erst im Impressum. Alle Links tragen
         <code>rel="sponsored nofollow noopener"</code>.<br><br>
-        <b>Preisangaben.</b> Die Preise hier sind Richtwerte auf UVP-Niveau, keine Live-Preise. Sobald du
-        konkrete Preise neben einem Kauflink zeigst, greift die PAngV: aktuell und als Gesamtpreis inkl. USt.
-        Dafür brauchst du den Produktfeed deines Partnerprogramms.
+        <b>Preisangaben.</b> Live-Preise stehen mit Stand, inkl. MwSt. und zzgl. Versand; ohne Angebot steht ein
+        Richtpreis auf UVP-Niveau. Die PAngV verlangt bei konkreten Preisen neben einem Kauflink Aktualität und den
+        Gesamtpreis — deshalb der Stand und der Hinweis, dass der Preis im Shop gilt.
+        ${amazonAktiv() ? "<br><br><b>Amazon.</b> Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}
       </p>
     </div>`);
 }
@@ -4315,6 +4609,13 @@ document.addEventListener("click", e => {
   const le = T("[data-leeren]");
   if(le){ build[le.dataset.leeren] = null; sichern(); schliesse(); zeichne(); return; }
 
+  const lkn = T("[data-lkneu]");
+  if(lkn){ linkSpeichern(lkn.dataset.lkneu); return; }
+  const lkw = T("[data-lkweg]");
+  if(lkw){ const q = lkw.dataset.lkweg.split("|"); linkLoeschen(q[0], +q[1]); if(!detailOffen || !$("lk-url")) oeffneMenu(); return; }
+  if(T("[data-lkadmin]")){ linkVerwaltung = !linkVerwaltung; sichern(); oeffneMenu(); return; }
+  if(T("[data-lkexport]")){ linksSpeichernDatei(); return; }
+  if(T("[data-lkimport]")){ const i = $("links-in"); if(i) i.click(); return; }
   const df = T("[data-dfilt]");
   if(df){ dealFilter = df.dataset.dfilt; zeichne(); return; }
   const so = T("[data-sort]");
@@ -4426,6 +4727,11 @@ const wizOffen = () => !!$("modal").querySelector(".steps");
 document.addEventListener("input", e => {
   const su = e.target.closest("[data-suche]");
   if(su){ suchText = su.value; filterAnwenden(); return; }
+  if(e.target.id === "lk-url"){
+    const u = httpsNur(e.target.value), sf = $("lk-shop");
+    if(sf) sf.placeholder = u ? shopAusLink(u) + " — erkannt" : "Shop — wird am Link erkannt";
+    return;
+  }
   const an = e.target.closest("[data-affnetz]");
   if(an){ aff[an.dataset.affnetz] = an.value.trim(); sichern(); zeichne(); return; }
   const md = e.target.closest("[data-mid]");
@@ -4469,6 +4775,9 @@ document.addEventListener("change", e => {
       oeffneMenu();
     });
     return;
+  }
+  if(e.target && e.target.id === "links-in" && e.target.files && e.target.files[0]){
+    const d = e.target.files[0]; e.target.value = ""; linksLaden(d); return;
   }
   if(e.target && e.target.id === "foto-in" && e.target.files && e.target.files[0]){
     fotoAufnehmen(e.target.files[0], fotoZiel); fotoZiel = null; e.target.value = "";

@@ -50,6 +50,7 @@ verlässt es nicht. Als PWA installierbar und offline lauffähig.
     .github/workflows/preise.yml  startet preise.py alle sechs Stunden
     preise.json                   Angebote je Teil (von der Action geschrieben)
     preisverlauf.json             günstigster Preis je Teil und Tag
+    links.json                    eigene Affiliate-Links je Teil und Netzwerk-IDs
 
 Lokal: `index.html` per Doppelklick öffnen. Offline-Cache und
 Homescreen-Installation brauchen `https://`.
@@ -76,6 +77,20 @@ nichts vom Home-Bildschirm loeschen, die Adresse bleibt gleich.
 Jede Veroeffentlichung stempelt einen neuen Cache-Namen in `mtb-sw.js` -- sonst
 saehe der Browser keine Aenderung am Worker und die App bliebe auf der alten
 Fassung stehen.
+
+## Eigene Affiliate-Links
+
+Jedes Teil kann Links bekommen, die direkt auf die Produktseite führen statt
+zur Shopsuche. In der App: Einstellungen → Affiliate-Links → *Link-Verwaltung
+an*, dann bei einem Teil *Ansehen* und den Link einfügen — einen Awin-Link,
+einen Amazon-Link oder die nackte Produktseite; die macht die App mit
+Publisher- und Advertiser-ID selbst zum Awin-Link. Der Shop wird am Link
+erkannt.
+
+Für alle sichtbar: *links.json speichern* (landet in Downloads) und
+`App-veroeffentlichen.cmd` doppelklicken. Das Skript nimmt die neueste
+`dreambuild-links.json` aus Downloads, prüft sie und veröffentlicht sie als
+`links.json`.
 
 ## Live-Preise einrichten
 

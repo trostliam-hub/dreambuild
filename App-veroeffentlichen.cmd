@@ -55,6 +55,10 @@ powershell -NoProfile -Command "(Get-Content -Raw 'mtb-sw.js') -replace \"var CA
 powershell -NoProfile -Command "(Get-Content -Raw -Encoding UTF8 'index.html') -replace \"const APP_VERSION = '[^']*'\", \"const APP_VERSION = '%STAMP%'\" | Set-Content -NoNewline -Encoding UTF8 'index.html'"
 echo Version: %STAMP%
 
+rem Affiliate-Links aus der App: "links.json speichern" legt dreambuild-links.json
+rem in Downloads ab. Die neueste Fassung wird geprueft und als links.json
+rem mitveroeffentlicht, die Downloads werden danach aufgeraeumt.
+powershell -NoProfile -Command "$d = Get-ChildItem -Path (Join-Path $env:USERPROFILE 'Downloads') -Filter 'dreambuild-links*.json' -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending; if(-not $d){ exit 0 }; try { $j = Get-Content -Raw -Encoding UTF8 $d[0].FullName | ConvertFrom-Json; if($null -eq $j.teile){ throw 'teile' }; Copy-Item -Force $d[0].FullName 'links.json'; $d | Remove-Item -Force; Write-Host ('Affiliate-Links uebernommen: ' + $d[0].Name) } catch { Write-Host 'WARNUNG: dreambuild-links.json ist beschaedigt und wurde NICHT uebernommen.'; exit 0 }"
 git add -A
 git diff --cached --quiet
 if not errorlevel 1 goto :kein_commit

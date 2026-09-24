@@ -54,7 +54,17 @@ def katalog():
                 tiefe -= 1
                 if tiefe == 0: break
             i += 1
-        p = re.findall(r'\bp:(\d+)', k[m.start():i])
+        # Ausfuehrungen (v:[...]) tragen eigene Aufpreise ("p:17" fuer einen
+        # Adapter) -- die gehoeren nicht zum Grundpreis und fliegen vorher raus.
+        obj = k[m.start():i]
+        while "v:[" in obj:
+            a = obj.index("v:["); t, j = 0, a + 2
+            while j < len(obj):
+                t += {"[": 1, "]": -1}.get(obj[j], 0)
+                if t == 0: break
+                j += 1
+            obj = obj[:a] + obj[j + 1:]
+        p = re.findall(r'\bp:(\d+)', obj)
         teile.append({"id": m.group(1), "n": m.group(2), "m": m.group(3),
                       "p": int(p[-1]) if p else 0, "b": bereich(m.start())})
     return teile
@@ -108,6 +118,9 @@ def ziele(teile):
         # Bandbreiten ("10-45") muessen passen -- sonst bekaeme die 10-45 den Preis der 10-51
         sp_re = r'(?<![\d.])(\d{1,2})\s*[-–]\s*(\d{2})(?!\d)'
         spannen = [" %s %s " % m for m in re.findall(sp_re, name)]
+        # Versionsnummern ("Millenium 4.0", "Revive 3.0") muessen stimmen --
+        # sonst bekaeme das Vorgaengermodell den Preis
+        spannen += [" %s 0 " % v for v in re.findall(r'(?<![\w.,])(\d)\.0(?!\d)', name)]
         belegt = [(m.start(), m.end()) for m in re.finditer(sp_re, name)]
         # Kurze Kennungen ("xt", "ii") und kurze Zahlen ("Fox 36", "Stamp 7",
         # "Eagle 70") muessen als ganzes Wort stehen -- sonst bekaeme der Stamp 1
