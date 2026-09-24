@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Live-Preise fuer Dreambuild.
+"""Live-Preise fuer CrankScore.
 
 Laeuft als GitHub Action (.github/workflows/preise.yml) alle sechs Stunden:
 laedt die Produktfeeds der Partnershops, ordnet jede Zeile einem Teil aus dem
@@ -163,7 +163,7 @@ def zahl(x):
 
 def oeffnen(quelle):
     if re.match(r'https?://', quelle, re.I):
-        req = urllib.request.Request(quelle, headers={"User-Agent": "Dreambuild-Preise/1.0"})
+        req = urllib.request.Request(quelle, headers={"User-Agent": "CrankScore-Preise/1.0"})
         roh = urllib.request.urlopen(req, timeout=300)
     else:
         roh = open(quelle, "rb")

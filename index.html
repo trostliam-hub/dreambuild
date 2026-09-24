@@ -11,10 +11,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Dreambuild">
+<meta name="apple-mobile-web-app-title" content="CrankScore">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png" sizes="192x192">
-<title>Dreambuild</title>
+<title>CrankScore</title>
 <!-- Schriften liegen im eigenen Ordner: kein Aufruf bei Google, keine IP-Adresse an Dritte.
      Lizenz: SIL Open Font License, siehe fonts/OFL-*.txt -->
 <style>
@@ -781,7 +781,7 @@ img{max-width:100%}
 <header class="top">
   <div class="top-in">
     <div class="kopf-links">
-      <span class="brand">Dream<i>build</i></span>
+      <span class="brand">Crank<i>Score</i></span>
       <button class="mini" id="mini" aria-label="Nach oben zur Wertung" tabindex="-1">
         <b id="mini-s">–</b><span id="mini-p">–</span>
       </button>
@@ -2217,7 +2217,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260924-2224';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260924-2258';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -2250,9 +2250,9 @@ function impressumHtml(){
     <p>${b.email ? `E-Mail: <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ""}${b.email && b.telefon ? "<br>" : ""}${b.telefon ? "Telefon: " + esc(b.telefon) : ""}${!b.email && !b.telefon ? "—" : ""}</p>
     ${b.ustid ? `<h4>Umsatzsteuer-Identifikationsnummer</h4><p>gemäß § 27a Umsatzsteuergesetz: ${esc(b.ustid)}</p>` : ""}
     <h4>Affiliate-Links</h4>
-    <p>Dreambuild finanziert sich über Provisionen. Shop-Links, die mit „Anzeige“ markiert sind, sind Affiliate-Links:
-      Kaufst du nach einem Klick etwas, bekommt Dreambuild vom Shop eine Provision. Dein Preis ändert sich dadurch nicht.
-      ${amazonAktiv() ? "Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}</p>
+    <p>CrankScore finanziert sich über Provisionen. Shop-Links, die mit „Anzeige“ markiert sind, sind Affiliate-Links:
+      Kaufst du nach einem Klick etwas, bekommt CrankScore vom Shop eine Provision. Dein Preis ändert sich dadurch nicht.
+      ${amazonAktiv() ? "Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}</p>
     <h4>Preise und Angaben</h4>
     <p>Preise stammen aus den Produktdaten der Partnershops und stehen mit Zeitstempel; maßgeblich ist der Preis im Shop.
       Technische Daten und Kompatibilitätsprüfungen sind sorgfältig recherchiert, ersetzen aber nicht das Datenblatt des Herstellers.</p>`;
@@ -2260,7 +2260,7 @@ function impressumHtml(){
 function datenschutzHtml(){
   const b = betreiber();
   const verantw = [b.name, b.zusatz, b.strasse, b.ort].filter(Boolean).map(esc).join(", ");
-  return `<p><b>Kurz gesagt:</b> Dreambuild hat kein Konto, keine Anmeldung, keine Analyse- oder Tracking-Werkzeuge und
+  return `<p><b>Kurz gesagt:</b> CrankScore hat kein Konto, keine Anmeldung, keine Analyse- oder Tracking-Werkzeuge und
       setzt keine Cookies. Was du eingibst, bleibt auf deinem Gerät.</p>
     <h4>1. Verantwortlicher</h4>
     <p>${verantw || "siehe Impressum"}${b.email ? `, E-Mail: <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ""}</p>
@@ -3084,7 +3084,7 @@ function sparPlan(b){
   return out.sort((a, c) => c.spart - a.spart);
 }
 
-/* ═══════════ 7 · Dreambuild-Generator ═══════════ */
+/* ═══════════ 7 · Traumrad-Generator ═══════════ */
 
 const MARKEN = {
   schalt:{slots:["schalthebel","schaltwerk","kassette","kette","kurbel"], opts:["Shimano","SRAM"], label:"Schaltung & Kurbel"},
@@ -3454,7 +3454,7 @@ function linksOffen(){
 function linksSpeichernDatei(){
   const blob = new Blob([JSON.stringify(linksGesamt(), null, 1)], {type:"application/json"});
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob); a.download = "dreambuild-links.json";
+  a.href = URL.createObjectURL(blob); a.download = "crankscore-links.json";
   document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
 }
@@ -3474,7 +3474,7 @@ function linksLaden(datei){
       if(d.betreiber && typeof d.betreiber === "object") for(const [k] of BETREIBER_FELDER) if(d.betreiber[k]) betreiberLokal[k] = String(d.betreiber[k]);
       sichern(); zeichne(); oeffneMenu();
       zeigeToast(Object.keys(t).length + " Teile mit Link geladen.");
-    }catch(e){ alert("Das ist keine links.json von Dreambuild."); }
+    }catch(e){ alert("Das ist keine links.json von CrankScore."); }
   };
   r.readAsText(datei);
 }
@@ -3887,7 +3887,7 @@ function oeffneDetail(slotKey, teilId){
           angegeben. Preis und Verfügbarkeit können sich seither geändert haben — es gilt der Preis im Shop.
           „UVP“ ist die unverbindliche Preisempfehlung des Herstellers, wie der Shop sie angibt.
           ${t.v && t.v.some(d => d.o.some(o => Math.abs(o.p) >= 20)) ? "Die Angebote gelten für die gewählte Ausführung, soweit der Shop sie im Artikelnamen nennt — im Shop gegenprüfen." : ""}
-          <span class="werbung">Anzeige</span> Kaufst du über einen Shop-Link, bekommt Dreambuild eine Provision; dein Preis ändert sich nicht.</p>
+          <span class="werbung">Anzeige</span> Kaufst du über einen Shop-Link, bekommt CrankScore eine Provision; dein Preis ändert sich nicht.</p>
       </div>` : `<p class="hint" style="margin:0 0 12px">${hatLive()
           ? "Für dieses Teil hat gerade kein Partnershop ein Angebot. Der Preis unten ist der Richtpreis aus dem Katalog."
           : "Noch keine Live-Preise geladen. Der Preis unten ist der Richtpreis aus dem Katalog (UVP-Niveau)."}</p>`}
@@ -4293,7 +4293,7 @@ function zeichne(){
 
   const cta = modus !== "traum" ? "" : `<button class="wiz-cta" data-wiz="0">
     <span class="ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 5.3L19 10l-5.1 1.7L12 17l-1.9-5.3L5 10l5.1-1.7z"/><path d="M19 15.5 19.8 18l2.2.8-2.2.8L19 22l-.8-2.4-2.2-.8 2.2-.8z"/></svg></span>
-    <span><b>Dreambuild-Assistent</b><span>${plan.budget > 0 ? "Budget " + eur(plan.budget) + " · nochmal rechnen" : "Budget, Marken, Fahrergewicht → fertiger Aufbau"}</span></span>
+    <span><b>Traumrad-Assistent</b><span>${plan.budget > 0 ? "Budget " + eur(plan.budget) + " · nochmal rechnen" : "Budget, Marken, Fahrergewicht → fertiger Aufbau"}</span></span>
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
   </button>`;
 
@@ -4348,7 +4348,7 @@ function zeichne(){
     <b>Preise:</b> Führt ein Partnershop das Teil, rechnet die App mit dem günstigsten lieferbaren Angebot
     (inkl. MwSt., zzgl. Versand; Stand im Reiter Deals). Sonst steht dort ein Richtpreis auf UVP-Niveau — kein Angebot.<br>
     <b>Links:</b> Shop-Knöpfe mit Punkt führen direkt zum Produkt, die mit Lupe zur Suche im Shop. Mit „Anzeige“
-    markierte Links bringen Dreambuild eine Provision; dein Preis ändert sich nicht.${amazonAktiv() ? " Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}<br>
+    markierte Links bringen CrankScore eine Provision; dein Preis ändert sich nicht.${amazonAktiv() ? " Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}<br>
     <b>Vor dem Kauf</b> gegen das Datenblatt deines Rahmens prüfen.
     <span class="recht-links"><button data-recht="impressum">Impressum</button> · <button data-recht="datenschutz">Datenschutz</button></span> Trial-Maße sind auf Mod 20/19″,
     Street 24″ und Stock 26″ vereinfacht.</p>`;
@@ -4418,7 +4418,7 @@ function zeichne(){
              : "Gerade ist nichts reduziert, das in deinen Aufbau passt. Unter „Alle“ stehen die übrigen Angebote."}</p>`}
        <p class="pv-recht">Rabatt gegenüber der UVP laut Shop, ab 10 %. 30-Tage-Tief: günstigster Preis der
          letzten 30 Tage. Preise inkl. MwSt., zzgl. Versand; es gilt der Preis im Shop. Kaufst du über einen
-         Shop-Link, bekommt Dreambuild eine Provision — dein Preis ändert sich nicht.</p>`;
+         Shop-Link, bekommt CrankScore eine Provision — dein Preis ändert sich nicht.</p>`;
   $("b-deal").textContent = dPass.length;
   $("b-deal").className = "badge" + (dPass.some(x => x.verbaut) ? " gruen" : "");
   document.body.dataset.view = view;
@@ -4824,7 +4824,7 @@ function oeffneWiz(step){
   }
 
   zeigeSheet(`
-    <div class="sheet-h"><h3><span class="sub">Dreambuild-Assistent</span>Schritt ${step+1} von ${N}</h3>${zuBtn}</div>
+    <div class="sheet-h"><h3><span class="sub">Traumrad-Assistent</span>Schritt ${step+1} von ${N}</h3>${zuBtn}</div>
     ${bahn}
     <div class="sheet-b">${body}</div>
     <div class="sheet-f">
@@ -4995,7 +4995,7 @@ function oeffneMenu(){
         <b>Preisangaben.</b> Live-Preise stehen mit Stand, inkl. MwSt. und zzgl. Versand; ohne Angebot steht ein
         Richtpreis auf UVP-Niveau. Die PAngV verlangt bei konkreten Preisen neben einem Kauflink Aktualität und den
         Gesamtpreis — deshalb der Stand und der Hinweis, dass der Preis im Shop gilt.
-        ${amazonAktiv() ? "<br><br><b>Amazon.</b> Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}
+        ${amazonAktiv() ? "<br><br><b>Amazon.</b> Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}
       </p>
       <div style="margin:12px 0 4px"><button class="btn ghost wide" data-lkadmin="1">Betreiber-Modus ausschalten</button></div>`;
   zeigeSheet(`
@@ -5019,8 +5019,8 @@ function oeffneMenu(){
         <button class="btn ghost sm" data-recht="impressum">Impressum</button>
         <button class="btn ghost sm" data-recht="datenschutz">Datenschutz</button>
       </div>
-      <p class="legal">Mit „Anzeige“ markierte Shop-Links bringen Dreambuild eine Provision; dein Preis ändert sich nicht.
-        ${amazonAktiv() ? "Als Amazon-Partner verdient Dreambuild an qualifizierten Verkäufen." : ""}</p>
+      <p class="legal">Mit „Anzeige“ markierte Shop-Links bringen CrankScore eine Provision; dein Preis ändert sich nicht.
+        ${amazonAktiv() ? "Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}</p>
       ${linkVerwaltung ? betreiberHtml() : ""}
     </div>`);
 }
@@ -5354,7 +5354,9 @@ async function serverVersion(){
     if(!r.ok) throw new Error("HTTP " + r.status);
     return r.text();
   });
-  const m = /var CACHE = 'dreambuild-([^']+)'/.exec(txt);
+  /* Der Cache-Praefix ist intern und bleibt "dreambuild-": aeltere installierte
+     Fassungen suchen genau danach und zeigen sonst kein Update mehr an. */
+  const m = /var CACHE = '(?:dreambuild|crankscore)-([^']+)'/.exec(txt);
   return m ? m[1] : null;
 }
 function updateWeg(){

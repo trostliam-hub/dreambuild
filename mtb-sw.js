@@ -1,4 +1,6 @@
-/* Service Worker fuer Dreambuild.
+/* Service Worker fuer CrankScore.
+   Der Cache-Praefix "dreambuild-" ist intern und bleibt -- aeltere Fassungen
+   erkennen Updates genau daran.
    Zweck: die App startet ohne Netz. Der gesamte Aufbau liegt im localStorage,
    die Logik in der HTML-Datei -- es gibt nichts, wofuer ein Server noetig waere.
 
@@ -10,7 +12,7 @@
 
    Die Schriften liegen in fonts/ und werden mit der App vorab gecacht -- keine
    Verbindung zu Google, auch nicht beim ersten Start. */
-var CACHE = 'dreambuild-20260924-2224';
+var CACHE = 'dreambuild-20260924-2258';
 var ASSETS = [
   './',
   './index.html',

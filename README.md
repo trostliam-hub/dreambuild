@@ -1,6 +1,6 @@
-# Dreambuild
+# CrankScore
 
-MTB-Konfigurator für den DACH-Raum. Baut Dreambuilds, prüft sie gegen Normmaße
+MTB-Konfigurator für den DACH-Raum. Baut Traumräder, prüft sie gegen Normmaße
 und Herstellerfreigaben, bewertet die Abstimmung und schlägt Upgrades vor.
 
 ## Was die App macht
@@ -30,7 +30,7 @@ beliebig viele Profile: eigene Teile, Disziplinen, Budget, Markenwünsche,
 Modelljahr, Foto und (Angebot) Zustand und Preis. Nur das Fahrergewicht gilt
 für alle. Umschalten über die Leiste unter dem Modus-Umschalter.
 
-**Dreambuild-Assistent.** Sechs Schritte (Disziplin, Budget, Fahrergewicht,
+**Traumrad-Assistent.** Sechs Schritte (Disziplin, Budget, Fahrergewicht,
 Markenwünsche, Priorität) und der Generator baut einen vollständigen,
 konfliktfreien Aufbau innerhalb des Budgets.
 
@@ -101,7 +101,7 @@ erkannt.
 
 Für alle sichtbar: *links.json speichern* (landet in Downloads) und
 `App-veroeffentlichen.cmd` doppelklicken. Das Skript nimmt die neueste
-`dreambuild-links.json` aus Downloads, prüft sie und veröffentlicht sie als
+`crankscore-links.json` aus Downloads, prüft sie und veröffentlicht sie als
 `links.json`.
 
 ## Live-Preise einrichten
