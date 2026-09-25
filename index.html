@@ -224,6 +224,9 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .prof-akt{display:flex;flex-wrap:wrap;gap:6px}
 .prof-neu{margin-top:6px}
 .btn.rot{background:var(--bad);color:#fff;border-color:transparent}
+.kombi{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 2px}
+.kombi span{font-size:12px;color:var(--ink-3)}
+.kombi .btn[aria-pressed="true"]{color:var(--anod);border-color:var(--anod)}
 .recht-links{display:block;margin-top:10px}
 .recht-links button{font:inherit;color:var(--anod);font-weight:700;padding:4px 0;text-decoration:underline;text-underline-offset:2px}
 .recht h4{font-size:14px;margin:18px 0 6px}
@@ -1118,7 +1121,7 @@ rahmen:[
   daempfer:{el:230,hub:65,typ:"Standard"}, geo:{rs:1255,ks:437,lw:63.5,sw:78,  sr:420,ta:22}, ohne:[], fb:{h:"#101216",a:"#c6ff00"}, e:E(0,2,5,4,0,0,0), g:3600, p:2699},
  {id:"f-metasx", n:"Commencal Meta SX · Mullet", m:"Commencal", seit:2022, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12",
   bb:"PF92", stuetze:34.9, einsteck:230, maxReifen:68, maxScheibeHR:220, udh:false,
-  daempfer:{el:230,hub:62.5,typ:"Standard"}, geo:{rs:1265,ks:440,lw:63,  sw:78,  sr:410,ta:20}, ohne:[], fb:{h:"#0f1115",a:"#ff4d00"}, e:E(0,1,4,5,0,0,0), g:3900, p:1999},
+  daempfer:{el:230,hub:62.5,typ:"Standard"}, geo:{rs:1265,ks:440,lw:63,  sw:78,  sr:410,ta:20}, ohne:[], fb:{h:"#0f1115",a:"#ff4d00"}, e:E(0,1,5,4,0,0,0), g:3900, p:1999},
  {id:"f-session", n:"Trek Session · Doppelbrücke", m:"Trek", seit:2023, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12",
   bb:"BSA83", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, udh:false,
   daempfer:{el:250,hub:72.5,typ:"Standard"}, geo:{rs:1290,ks:440,lw:62.5,sw:76,  sr:380,ta:18}, ohne:[], fb:{h:"#111318",a:"#e10600"}, e:E(0,0,1,5,0,0,0), g:4100, p:3499},
@@ -1428,8 +1431,8 @@ reifen:[
  {id:"t-nobbynic", n:"Schwalbe Nobby Nic 2.4 Super Ground", m:"Schwalbe", groessen:["29","27.5"], breite:60, iw:[25,30], grip:2.5, e:E(3,5,2,0,0,0,0), g:850, p:69},
  {id:"t-dhr2", n:"Maxxis Minion DHR II 2.4 EXO+", m:"Maxxis", groessen:["29","27.5","26"], breite:61, iw:[25,35], grip:3.5, e:E(1,5,5,3,2,2,0), g:1010, p:79},
  {id:"t-kryptotal", n:"Continental Kryptotal-F 2.4 Enduro", m:"Continental", groessen:["29","27.5"], breite:60, iw:[25,32], grip:4, e:E(0,4,5,4,0,0,0), g:1180, p:74},
- {id:"t-assegai", n:"Maxxis Assegai 2.5 WT EXO+", m:"Maxxis", groessen:["29","27.5"], breite:63, iw:[30,35], grip:4.5, e:E(0,3,5,5,0,0,0), g:1050, p:84},
- {id:"t-magicmary", n:"Schwalbe Magic Mary 2.4 Super Gravity", m:"Schwalbe", groessen:["29","27.5"], breite:60, iw:[25,30], grip:4.5, e:E(0,2,5,5,0,0,0), g:1250, p:89},
+ {id:"t-assegai", n:"Maxxis Assegai 2.5 WT EXO+", m:"Maxxis", groessen:["29","27.5"], breite:63, iw:[30,35], grip:4.5, e:E(0,3,5,4,0,0,0), g:1050, p:84},
+ {id:"t-magicmary", n:"Schwalbe Magic Mary 2.4 Super Gravity", m:"Schwalbe", groessen:["29","27.5"], breite:60, iw:[25,30], grip:4.5, e:E(0,2,5,4,0,0,0), g:1250, p:89},
  {id:"t-dhf", n:"Maxxis Minion DHF 2.5 WT DH Casing", m:"Maxxis", groessen:["29","27.5"], breite:63, iw:[30,35], grip:5, e:E(0,1,4,5,0,0,0), g:1300, p:79},
  {id:"t-dth", n:"Maxxis DTH 26×2.3 · Dirt", m:"Maxxis", groessen:["26"], breite:58, iw:[25,35], grip:2.5, e:E(0,0,0,0,5,5,1), g:760, p:42},
  {id:"t-holyroller", n:"Maxxis Holy Roller 26×2.4", m:"Maxxis", groessen:["26","24"], breite:60, iw:[25,35], grip:3, e:E(0,0,0,0,4,4,3), g:900, p:38},
@@ -1555,7 +1558,7 @@ schaltwerk:[
 kassette:[
  {id:"ka-ss",      n:"Singlespeed-Ritzel 18 Z.", m:"Generisch", gaenge:1, freilauf:"HG", spanne:[18,18], fb:"#aeb4ba", e:E(0,0,0,1,5,5,1), g:60, p:19},
  {id:"ka-trial",   n:"Trial-Ritzel 12 Z. fest", m:"Trial", gaenge:1, freilauf:"Trial (Ritzel fest)", spanne:[12,12], fb:"#2a2f35", e:E(0,0,0,0,1,0,5), g:70, p:29},
- {id:"ka-zee",     n:"Shimano HG500 11-28", m:"Shimano", gaenge:10, freilauf:"HG", spanne:[11,28], fb:"#aeb4ba", e:E(0,1,3,5,3,3,0), g:320, p:39},
+ {id:"ka-zee",     n:"Shimano HG500 11-28", m:"Shimano", gaenge:10, freilauf:"HG", spanne:[11,28], fb:"#aeb4ba", e:E(0,1,3,5,2,3,0), g:320, p:39},
  {id:"ka-deore11", n:"Shimano Deore CS-M5100 11-51", m:"Shimano", gaenge:11, freilauf:"HG", spanne:[11,51], fb:"#aeb4ba", e:E(4,4,2,0,1,1,0), g:623, p:59},
  {id:"ka-deore12", n:"Shimano Deore CS-M6100 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], fb:"#aeb4ba", e:E(3,5,3,1,1,1,0), g:593, p:79},
  {id:"ka-nx",      n:"SRAM PG-1230 NX Eagle 11-50", m:"SRAM", gaenge:12, freilauf:"HG", spanne:[11,50], fb:"#aeb4ba", e:E(3,4,3,1,1,1,0), g:615, p:79},
@@ -1566,7 +1569,7 @@ kassette:[
  {id:"ka-xtr",     n:"Shimano XTR CS-M9100 10-51", m:"Shimano", gaenge:12, freilauf:"Micro Spline", spanne:[10,51], fb:"#b9bec4", e:E(5,4,3,1,0,0,0), g:367, p:349},
  {id:"ka-cues", n:"Shimano CUES CS-LG400 11-48 · 10-fach", m:"Shimano", gaenge:10, freilauf:"HG", linkglide:true, spanne:[11,48], fb:"#aeb4ba", e:E(4,4,1,0,1,1,0), g:530, p:45},
  {id:"ka-advent", n:"microSHIFT Advent X 11-48", m:"microSHIFT", gaenge:10, freilauf:"HG", spanne:[11,48], fb:"#aeb4ba", e:E(3,4,2,0,1,1,0), g:545, p:52},
- {id:"ka-saint", n:"Shimano HG500 11-25 · Bikepark", m:"Shimano", gaenge:10, freilauf:"HG", spanne:[11,25], fb:"#aeb4ba", e:E(0,1,3,5,4,4,0), g:300, p:39},
+ {id:"ka-saint", n:"Shimano HG500 11-25 · Bikepark", m:"Shimano", gaenge:10, freilauf:"HG", spanne:[11,25], fb:"#aeb4ba", e:E(0,1,3,5,2,4,0), g:300, p:39},
  {id:"ka-sunrace", n:"Sunrace CSMZ90 11-50", m:"Sunrace", gaenge:12, freilauf:"HG", spanne:[11,50], fb:"#aeb4ba", e:E(3,4,3,1,1,1,0), g:580, p:69},
  {id:"ka-garbaruk", n:"Garbaruk 10-52 Alu", m:"Garbaruk", gaenge:12, freilauf:"XD", spanne:[10,52], fb:"#c9a227", e:E(4,5,4,1,0,0,0), g:356, p:399},
  {id:"ka-helix", n:"e*thirteen Helix Race 9-50", m:"e*thirteen", gaenge:12, freilauf:"XD", spanne:[9,50], fb:"#aeb4ba", e:E(3,5,4,1,0,0,0), g:490, p:199},
@@ -1747,7 +1750,7 @@ lenker:[
  LK("l-sp805",    "Sixpack Millenium805", "Sixpack", {klemm:31.8, ks:[31.8,35], breite:805, rise:30, rs:[20,30], e:E(0,3,5,5,3,3,1), g:328, p:90}),
  LK("l-sp785dj",  "Sixpack Millenium785 Dirt Edition", "Sixpack", {klemm:31.8, breite:785, rise:40, e:E(0,1,2,3,5,5,2), g:321, p:90}),
  LK("l-spkami",   "Sixpack Kamikaze780", "Sixpack", {klemm:31.8, breite:780, rise:18, e:E(0,3,4,5,4,4,1), g:370, p:55}),
- LK("l-spmenace", "Sixpack Menace725", "Sixpack", {klemm:31.8, breite:725, rise:25, e:E(1,4,3,1,4,4,1), g:350, p:46})
+ LK("l-spmenace", "Sixpack Menace725", "Sixpack", {klemm:31.8, breite:725, rise:25, e:E(1,2,1,0,4,4,1), g:350, p:46})
 ],
 
 vorbau:[
@@ -1780,7 +1783,7 @@ vorbau:[
  VB("v-spvert35",  "Sixpack Vertic Vorbau 35", "Sixpack", {klemm:35, laenge:40, ls:[40,50,60], e:E(2,5,5,3,2,2,1), g:135, p:60}),
  VB("v-spvert318", "Sixpack Vertic Vorbau 31.8", "Sixpack", {klemm:31.8, laenge:45, ls:[35,45,55], e:E(2,5,4,2,2,2,1), g:130, p:60}),
  VB("v-spdj",      "Sixpack DJ Vorbau", "Sixpack", {klemm:31.8, laenge:31, e:E(0,1,2,2,5,5,2), g:105, p:120}),
- VB("v-spmenace",  "Sixpack Menace Vorbau", "Sixpack", {klemm:31.8, laenge:70, e:E(3,4,2,1,3,3,1), g:128, p:45}),
+ VB("v-spmenace",  "Sixpack Menace Vorbau", "Sixpack", {klemm:31.8, laenge:70, e:E(3,2,1,0,2,2,1), g:128, p:45}),
  VB("v-spdrmyp",   "Sixpack Millenium DRM Your Part · Direct Mount", "Sixpack", {dm:true, klemm:31.8, ks:[31.8,35], laenge:50, e:E(0,0,1,5,0,0,0), g:130, p:130}),
  VB("v-spdrm",     "Sixpack Millenium DRM · Direct Mount", "Sixpack", {dm:true, klemm:31.8, laenge:45, e:E(0,0,1,5,0,0,0), g:134, p:130}),
  VB("v-spkamidrm", "Sixpack Kamikaze DRM · Direct Mount", "Sixpack", {dm:true, klemm:31.8, laenge:50, ls:[45,50], e:E(0,0,1,5,0,0,0), g:142, p:96})
@@ -2220,7 +2223,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260924-2315';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260925-1432';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -2697,9 +2700,12 @@ function pruefe(b){
           `<code>${reifen.breite} mm</code> auf <code>max. ${maxBreite} mm</code> Freiraum. Bei Einfederung und Schlamm schleift das — im Hinterbau bremst es dich schlagartig aus.`));
       /* Trial-Rahmen und -Gabeln sind um den 2,5-Zoll-Trialreifen herum
          gebaut -- knapp ist dort der Normalzustand, kein Befund. */
+      /* Die Freigabe des Herstellers enthaelt den noetigen Abstand schon (die
+         Norm verlangt Luft zum Rahmen). Genau an der Grenze ist also erlaubt --
+         nur bei Matsch wird es eng. Deshalb ein Hinweis, keine Warnung. */
       else if(maxBreite - reifen.breite < 3 && !(rahmen && rahmen.e && rahmen.e.trial >= 4 && reifen.e && reifen.e.trial >= 4))
-        out.push(W(`Wenig Freiraum am Reifen ${pos}`, slotKey, [slotKey, quelle],
-          `<code>${reifen.breite} mm</code> bei <code>${maxBreite} mm</code> Freigabe lassen ${maxBreite - reifen.breite} mm Luft. Trocken geht das, bei Matsch setzt es sich zu.`));
+        out.push(H(`Reifen ${pos} an der Freigabe`, slotKey, [slotKey, quelle],
+          `<code>${reifen.breite} mm</code> bei <code>${maxBreite} mm</code> Freigabe: passt laut Hersteller, der Mindestabstand ist in der Freigabe schon drin. Bei Matsch wird es trotzdem eng.`));
     }
     if(laufraeder && (laufraeder.iw < reifen.iw[0] || laufraeder.iw > reifen.iw[1]))
       out.push(W(`Felgenmaulweite passt nicht zum Reifen ${pos}`, slotKey, [slotKey,"laufraeder"],
@@ -3118,7 +3124,9 @@ function qualMap(slotKey){
   const wunsch = markenWunsch(slotKey), m = {};
   for(const t of liste){
     let q = eignung(t) * 20;
-    if(wunsch) q += (t.m === wunsch) ? 30 : -18;
+    /* Ein Markenwunsch gilt fuer Markenteile. Ein namenloses Singlespeed-Ritzel
+       oder Trial-Teil ist keine Gegenmarke -- das gibt es von Shimano gar nicht. */
+    if(wunsch && t.m !== "Generisch" && t.m !== "Trial") q += (t.m === wunsch) ? 30 : -18;
     const gN = gMax > gMin ? (gMax - (t.g||0))/(gMax - gMin) : .5;
     const pN = pMax > pMin ? (pMax - grundpreis(t))/(pMax - pMin) : .5;
     if(plan.prio === "leicht") q += gN * 22;
@@ -3130,8 +3138,25 @@ function qualMap(slotKey){
 }
 
 /* Reihenfolge nach Abhängigkeit: erst was andere Teile festlegt. */
+/* Der Vorbau vor dem Lenker: an der Doppelbrueckengabel ist er Direct Mount
+   und legt die Klemmung fest -- der Lenker richtet sich danach. */
 const BAUFOLGE = ["rahmen","daempfer","gabel","kassette","schaltwerk","schalthebel","kette","kurbel","innenlager","laufraeder",
-                  "reifenVR","reifenHR","bremsen","lenker","vorbau","stuetze","sattel","pedale","griffe"];
+                  "reifenVR","reifenHR","bremsen","vorbau","lenker","stuetze","sattel","pedale","griffe"];
+
+/* Disziplintreue: Wer ein Downhill-Rad will, bekommt Downhill-Teile -- nicht
+   das Enduro-Teil, nur weil es billiger ist. Je Slot kommen nur Teile in
+   Frage, die fuer die gewaehlten Disziplinen (fast) so gut taugen wie das
+   beste passende Teil. Rahmen und Fahrwerk ohne Abstrich; Laufraeder,
+   Reifen und Bremsen bei Downhill ebenso, weil dort Sicherheit dranhaengt;
+   sonst ein Punkt Luft. Reicht das Budget dafuer nicht, bleibt der Aufbau
+   richtig und die App sagt, was die Disziplin kostet. */
+/* Ab welchem Budget ein Fully die richtige Wahl ist -- nur fuer Disziplinen,
+   in denen es beides gibt. Bei gemischter Wahl zaehlt die hoechste Schwelle. */
+const FULLY_AB = {xc:5500, trail:4000};          /* guenstigster sauberer Fully-Aufbau im Katalog */
+const fullyAb = () => sel.some(d => !(d in FULLY_AB)) ? 0 : Math.max.apply(null, sel.map(d => FULLY_AB[d]));
+const TREUE_KERN = ["rahmen", "gabel", "daempfer"];
+const TREUE_GRAVITY = ["laufraeder", "reifenVR", "reifenHR", "bremsen"];
+const treueLuft = k => TREUE_KERN.indexOf(k) >= 0 || (hat("dh") && TREUE_GRAVITY.indexOf(k) >= 0) ? 0 : 1;
 
 function generiere(){
   const b = {};
@@ -3147,28 +3172,75 @@ function generiere(){
     return rest > 0 && rest < 1 ? mein / (1 - rest) : mein;
   };
 
+  const treue = {};
   for(const k of BAUFOLGE){
     if(entfaellt(b, k)) continue;
     const s = slotOf(k), ziel = budget * anteilVon(k);
     const vorher = bilanz(b);
     const rr = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
     let beste = null, besteS = -1e9, ersatz = null, ersatzS = -1e9;
-    const liste = kandidaten(k, b);
-    for(const t of liste){
-      /* Die Kassette kommt vor dem Schaltwerk. Eine T-Type-Kassette verlangt
-         aber Transmission und damit UDH -- ohne UDH am Rahmen bliebe danach
-         kein Schaltwerk, das passt. */
-      if(k === "kassette" && t.tType && !udhDa(rr)) continue;
-      const probe = {...b}; probe[k] = t.id;
-      const neu = bilanz(probe);
+    /* Die Kassette kommt vor dem Schaltwerk. Eine T-Type-Kassette verlangt
+       aber Transmission und damit UDH -- ohne UDH am Rahmen bliebe danach
+       kein Schaltwerk, das passt. */
+    const liste = kandidaten(k, b).filter(t => !(k === "kassette" && t.tType && !udhDa(rr))).map(t => grosseScheiben(k, t, b));
+    const bewertet = liste.map(t => { const probe = {...b}; probe[k] = t.id; return {t:t, neu:bilanz(probe)}; });
+    /* Treue-Schwelle: bestes Teil unter denen, die keinen neuen Fehler bringen */
+    /* gemessen an Teilen ohne neuen Fehler -- und, wenn es die gibt, auch ohne
+       neue Warnung: ein stimmiger Antrieb schlaegt ein besseres Einzelteil,
+       das nicht zum Rest passt */
+    const sauber = bewertet.filter(x => x.neu.f <= vorher.f);
+    const ganzSauber = sauber.filter(x => x.neu.w <= vorher.w && x.t.e);
+    const mitE = ganzSauber.length ? ganzSauber : (sauber.length ? sauber : bewertet).filter(x => x.t.e);
+    if(mitE.length){
+      const eMax = Math.max.apply(null, mitE.map(x => eignung(x.t)));
+      treue[k] = eMax - treueLuft(k) - 1e-9;
+    }
+    /* Die Kassette legt Gaenge und damit die Kurbel fest. Vorausschauen: gibt
+       es danach eine Kurbel, die ohne Fehler und Warnung passt? Sonst bleibt
+       am Ende nur ein Kompromiss -- etwa ein geschaltetes Ritzelpaket am
+       135-mm-Dirtrahmen, fuer das keine Kurbel die Kettenlinie trifft. */
+    if(k === "kassette" && !entfaellt(b, "kurbel")){
+      const kurbeln = kandidaten("kurbel", b), eK = Math.max.apply(null, kurbeln.filter(c => c.e).map(eignung));
+      const guteKurbeln = kurbeln.filter(c => !c.e || eignung(c) >= eK - 1 - 1e-9);
+      /* direkt an den Befunden zwischen Kurbel und Kassette gemessen -- die
+         Kettenlinie haengt auch am Schaltwerk, das noch fehlt, und zaehlt in
+         der Bilanz deshalb noch nicht mit */
+      const antrieb = pr => { let f = 0, w = 0;
+        for(const x of pruefe(pr)){
+          if(x.level === "hinweis" || (x.slots.indexOf("kurbel") < 0 && x.slots.indexOf("kassette") < 0)) continue;
+          if(x.level === "fehler") f++; else w++;
+        }
+        return {f:f, w:w}; };
+      for(const x of bewertet){
+        let bestW = Infinity;
+        for(const c of guteKurbeln){
+          const pr = {...b}; pr.kassette = x.t.id; pr.kurbel = c.id;
+          const z = antrieb(pr);
+          if(!z.f) bestW = Math.min(bestW, z.w);
+        }
+        x.folgeW = bestW;
+      }
+    }
+    for(const {t, neu, folgeW} of bewertet){
+      if(t.e && treue[k] != null && eignung(t) < treue[k]) continue;
       let score = quals[k][basisVon(t.id)];
+      /* Hardtail oder Fully: Bei XC und Trail ist beides richtig -- das Budget
+         entscheidet. Wer fuer Trail 6000 Euro ausgibt, will ein Fully und
+         keinen Alu-Hardtail mit Carbon-Laufraedern. */
+      if(k === "rahmen" && fullyAb() && t.maxGabel > 0){
+        const fully = !!t.daempfer;
+        if(budget >= fullyAb() && !fully) continue;
+        if(budget < fullyAb() && fully) score -= 45;
+      }
+      if(folgeW === Infinity) score -= 80;                       /* keine Kurbel ohne Fehler */
+      else if(folgeW != null) score -= folgeW * 35;
       if(ziel > 0 && preisVon(t)){
         const q = preisVon(t) / ziel;
         score += q > 1 ? -Math.min(50, (q-1)*60) : -Math.min(12, (1-q)*18);
       }
       /* Warnungen sind kein Ausschluss, aber ein Abstrich: lieber das Teil, das
          ohne Kompromiss passt. */
-      score -= Math.max(0, neu.w - vorher.w) * 14;
+      score -= Math.max(0, neu.w - vorher.w) * 35;
       if(neu.f <= vorher.f){ if(score > besteS){ besteS = score; beste = t; } }
       else if(score - (neu.f - vorher.f)*40 > ersatzS){ ersatzS = score - (neu.f - vorher.f)*40; ersatz = t; }
     }
@@ -3176,8 +3248,27 @@ function generiere(){
     if(k === "rahmen") for(const s2 of SLOTS) if(entfaellt(b, s2.k)) b[s2.k] = null;
   }
 
-  budgetPass(b, budget, quals);
+  budgetPass(b, budget, quals, treue);
   return b;
+}
+
+/* Enduro und Downhill bremsen mit grossen Scheiben: die groesste Ausfuehrung,
+   die Gabel und Rahmen freigeben -- vorn zuerst, dann hinten. */
+function grosseScheiben(k, t, b){
+  if(k !== "bremsen" || !(hat("enduro") || hat("dh")) || !t.v) return t;
+  const basis = rohTeil("bremsen", t.basisId || t.id);
+  const i = basis.v.findIndex(d => d.k === "Scheiben");
+  if(i < 0) return t;
+  const d = basis.v[i];
+  let best = -1;
+  d.o.forEach((o, j) => {
+    if(optionPasst("bremsen", d, o, b) === false) return;
+    if(best < 0 || o.s.sV > d.o[best].s.sV || (o.s.sV === d.o[best].s.sV && o.s.sH > d.o[best].s.sH)) best = j;
+  });
+  if(best < 0) return t;
+  const wahl = (t.wahl || basis.v.map(x => x.d)).slice();
+  wahl[i] = best;
+  return varianteNachIndex(basis, wahl);
 }
 
 /* Was schon feststeht: Fehler und Warnungen, deren beteiligte Teile alle
@@ -3195,7 +3286,8 @@ const udhDa = r => !!r && !!(r.udh || (r.udhAb && jahrAktiv() >= r.udhAb));
 const summe = b => { let p = 0; for(const s of SLOTS){ if(entfaellt(b,s.k)) continue;
   const t = b[s.k] ? findeTeil(s.k, b[s.k]) : null; if(t) p += preisVon(t); } return p; };
 
-function budgetPass(b, budget, quals){
+function budgetPass(b, budget, quals, treue){
+  treue = treue || {};
   let wache = 0;
   /* zu teuer: den Tausch nehmen, der pro gespartem Euro am wenigsten Qualität kostet */
   while(summe(b) > budget && wache++ < 80){
@@ -3204,14 +3296,19 @@ function budgetPass(b, budget, quals){
     for(const s of SLOTS){
       if(entfaellt(b, s.k) || !b[s.k]) continue;
       const jetzt = findeTeil(s.k, b[s.k]);
-      for(const t of kandidaten(s.k, b)){
+      for(const t of kandidaten(s.k, b).map(x => grosseScheiben(s.k, x, b))){
         if(basisVon(t.id) === basisVon(jetzt.id) || preisVon(t) >= preisVon(jetzt)) continue;
-        if(eignung(jetzt) - eignung(t) > 1.5) continue;   /* keine Disziplin verraten */
+        /* Gespart wird innerhalb der Wunschmarke, nicht an ihr vorbei */
+        const wu = markenWunsch(s.k);
+        if(wu && jetzt.m === wu && t.m !== wu) continue;
+        if(t.e && treue[s.k] != null && eignung(t) < treue[s.k]) continue;   /* keine Disziplin verraten */
         const probe = {...b}; probe[s.k] = t.id;
         const nb = bilanz(probe);
-        if(nb.f > basis.f) continue;
+        /* Sparen ja, aber nicht auf Kosten der Passung: lieber ueber Budget
+           als ein Teil, das eine Warnung ausloest. */
+        if(nb.f > basis.f || nb.w > basis.w) continue;
         const spart = preisVon(jetzt) - preisVon(t);
-        const kosten = (quals[s.k][basisVon(jetzt.id)] - quals[s.k][basisVon(t.id)] + Math.max(0, nb.w - basis.w) * 14) / spart;
+        const kosten = (quals[s.k][basisVon(jetzt.id)] - quals[s.k][basisVon(t.id)] + Math.max(0, nb.w - basis.w) * 35) / spart;
         if(kosten < bestKosten){ bestKosten = kosten; best = {k:s.k, id:t.id}; }
       }
     }
@@ -3226,7 +3323,7 @@ function budgetPass(b, budget, quals){
     for(const s of SLOTS){
       if(entfaellt(b, s.k) || !b[s.k]) continue;
       const jetzt = findeTeil(s.k, b[s.k]);
-      for(const t of kandidaten(s.k, b)){
+      for(const t of kandidaten(s.k, b).map(x => grosseScheiben(s.k, x, b))){
         if(basisVon(t.id) === basisVon(jetzt.id)) continue;
         const mehr = preisVon(t) - preisVon(jetzt);
         if(mehr <= 0 || mehr > rest) continue;
@@ -4717,6 +4814,7 @@ function profilZeile(p){
 }
 
 function oeffneDisz(){
+  if(sel.length > 1) kombiModus = true;
   const mp = sel.length > 1 ? mixPaar(sel) : {min:1, paar:null};
   const box = sel.length < 2 ? ""
     : mp.min < .15 ? `<div class="mixbox no"><b>Das gibt es nicht als ein Rad.</b> ${dLang(mp.paar[0])} und ${dLang(mp.paar[1])} teilen sich kaum ein Bauteil.</div>`
@@ -4725,16 +4823,22 @@ function oeffneDisz(){
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">Wofür baust du?</span>Disziplin</h3>${zuBtn}</div>
     <div class="sheet-b">
-      <p class="hint" style="margin-bottom:4px">Mehrere wählbar. Die App bewertet gegen den Mittelwert — und sagt dir, wenn die Mischung unmöglich ist.</p>
+      <p class="hint" style="margin-bottom:4px">Tipp an, wofür du fährst. Mischen geht über „Mehrere kombinieren“ — die App bewertet dann gegen den Mittelwert und sagt dir, wenn die Mischung unmöglich ist.</p>
       ${DISZ.map(d => `<button class="dis" data-d="${d.id}" aria-pressed="${sel.indexOf(d.id) >= 0}">
         <span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
         <span><span class="dis-n">${d.lang}</span><span class="dis-t">${d.txt}</span></span></button>`).join("")}
+      <div class="kombi"><button class="btn ghost sm" data-kombi="1" aria-pressed="${kombiModus}">${kombiModus ? "✓ Mehrere kombinieren" : "Mehrere kombinieren"}</button>
+        <span>${kombiModus ? "Tippen fügt hinzu oder nimmt weg." : "Tippen wählt genau diese Disziplin."}</span></div>
       ${box}
     </div>`);
 }
 
 /* ── Assistent ── */
 let wizStep = 0, wizErgebnis = null;
+/* Disziplin waehlen: standardmaessig genau eine. Mischen muss man bewusst
+   einschalten -- vorher landete ein Tipp auf Downhill neben dem voreingestellten
+   Trail, und heraus kam ein Enduro-Rad statt eines Downhillers. */
+let kombiModus = false;
 const BUDGETS = [1500, 2500, 3500, 5000, 7500, 11000];
 const GEWICHTE = [{v:65,l:"bis 70 kg"},{v:78,l:"70–85 kg"},{v:92,l:"85–100 kg"},{v:108,l:"über 100 kg"}];
 const PRIOS = [{v:"pl",n:"Preis-Leistung",s:"Das meiste Rad pro Euro"},
@@ -4748,12 +4852,16 @@ function oeffneWiz(step){
   let body = "", weiter = "Weiter", kannWeiter = true;
 
   if(step === 0){
+    if(sel.length > 1) kombiModus = true;
     const mp = sel.length > 1 ? mixPaar(sel) : {min:1, paar:null};
     body = `<p class="q">Wofür baust du?</p>
-      <p class="qs">Mehrere wählbar. Die App rechnet dann gegen den Mittelwert — und warnt, wenn die Mischung kein Rad ergibt.</p>
+      <p class="qs">Tipp an, wofür das Rad gebaut wird — der Assistent baut dann genau dafür: Downhill heißt DH-Rahmen,
+        Doppelbrücke, DH-Reifen. Mischen geht über „Mehrere kombinieren“.</p>
       ${DISZ.map(d => `<button class="dis" data-d="${d.id}" aria-pressed="${sel.indexOf(d.id) >= 0}">
         <span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
         <span><span class="dis-n">${d.lang}</span><span class="dis-t">${d.txt}</span></span></button>`).join("")}
+      <div class="kombi"><button class="btn ghost sm" data-kombi="1" aria-pressed="${kombiModus}">${kombiModus ? "✓ Mehrere kombinieren" : "Mehrere kombinieren"}</button>
+        <span>${kombiModus ? "Tippen fügt hinzu oder nimmt weg." : "Tippen wählt genau diese Disziplin."}</span></div>
       ${sel.length > 1 ? (mp.min < .15
         ? `<div class="mixbox no"><b>Das gibt es nicht als ein Rad.</b> ${dLang(mp.paar[0])} und ${dLang(mp.paar[1])} teilen sich kaum ein Bauteil.</div>`
         : mp.min < .40
@@ -5112,9 +5220,16 @@ document.addEventListener("click", e => {
   const d = T("[data-d]");
   if(d){
     const id = d.dataset.d, i = sel.indexOf(id);
-    if(i >= 0){ if(sel.length > 1) sel.splice(i, 1); } else sel.push(id);
+    if(!kombiModus) sel = [id];                               /* ein Tipp = genau diese Disziplin */
+    else if(i >= 0){ if(sel.length > 1) sel.splice(i, 1); } else sel.push(id);
     sel.sort((a,b) => DID.indexOf(a) - DID.indexOf(b));
     sichern(); zeichne();
+    if(wizOffen()) oeffneWiz(0); else oeffneDisz();
+    return;
+  }
+  if(T("[data-kombi]")){
+    kombiModus = !kombiModus;
+    if(!kombiModus && sel.length > 1){ sel = [sel[0]]; sichern(); zeichne(); }
     if(wizOffen()) oeffneWiz(0); else oeffneDisz();
     return;
   }
