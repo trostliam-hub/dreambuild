@@ -32,7 +32,12 @@ für alle. Umschalten über die Leiste unter dem Modus-Umschalter.
 
 **Traumrad-Assistent.** Sechs Schritte (Disziplin, Budget, Fahrergewicht,
 Markenwünsche, Priorität) und der Generator baut einen vollständigen,
-konfliktfreien Aufbau innerhalb des Budgets.
+konfliktfreien Aufbau innerhalb des Budgets — höchstens 100 € darüber. Reicht
+es nicht, nimmt er zuerst ein älteres Rahmen-Modelljahr (Vorjahr im
+Abverkauf, bis drei Jahre älter zum Gebrauchtpreis), dann einfachere
+Kleinteile. Rahmen, Gabel und Dämpfer bleiben immer echte Teile der
+Disziplin; geht es trotzdem nicht, sagt die App, was die Disziplin mindestens
+kostet.
 
 **Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
 mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut

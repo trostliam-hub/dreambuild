@@ -2223,7 +2223,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260925-1432';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260925-1506';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -3156,12 +3156,80 @@ const FULLY_AB = {xc:5500, trail:4000};          /* guenstigster sauberer Fully-
 const fullyAb = () => sel.some(d => !(d in FULLY_AB)) ? 0 : Math.max.apply(null, sel.map(d => FULLY_AB[d]));
 const TREUE_KERN = ["rahmen", "gabel", "daempfer"];
 const TREUE_GRAVITY = ["laufraeder", "reifenVR", "reifenHR", "bremsen"];
-const treueLuft = k => TREUE_KERN.indexOf(k) >= 0 || (hat("dh") && TREUE_GRAVITY.indexOf(k) >= 0) ? 0 : 1;
+/* lockern: 0 = ohne Abstrich; 1 = Laufraeder, Reifen, Bremsen, Cockpit eine
+   Stufe einfacher; 2 = die Kleinteile noch eine Stufe. Rahmen, Gabel und
+   Daempfer bleiben immer, was die Disziplin verlangt -- ein Downhiller mit
+   Enduro-Rahmen und Einfachbruecke ist kein guenstiger Downhiller, sondern
+   ein anderes Rad. Bei Downhill bleiben Laufraeder, Reifen und Bremsen
+   hoechstens eine Stufe darunter. Nur wenn das Budget sonst nicht haelt.
+   Bei gemischten Disziplinen ist der Rahmen ohnehin ein Kompromiss -- dort
+   darf er auf der letzten Stufe einen Punkt vom Mischideal abweichen, sonst
+   bliebe fuer XC + Trail nur das teure Downcountry-Fully. */
+const treueLuft = (k, lockern) => {
+  if(TREUE_KERN.indexOf(k) >= 0) return sel.length > 1 && lockern >= 2 ? 1 : 0;
+  const gravity = hat("dh") && TREUE_GRAVITY.indexOf(k) >= 0;
+  return (gravity ? 0 : 1) + Math.min(lockern || 0, gravity ? 1 : 2);
+};
 
+/* Das Budget ist eine Grenze: hoechstens 100 Euro darueber. Passt der saubere
+   Aufbau nicht, sucht der Assistent zuerst beim Modelljahr des Rahmens --
+   Vorjahresmodell im Abverkauf, aeltere Rahmen zum Gebrauchtpreis -- und erst
+   danach bei einfacheren Teilen, nie bei Rahmen und Fahrwerk. Was er davon
+   gebraucht hat, steht in generiereInfo und im Ergebnis des Assistenten. */
+const BUDGET_LUFT = 100;
+let generiereInfo = null, letzteTreue = {};
 function generiere(){
+  /* Der Assistent baut neu: Start beim aktuellen Modelljahr, egal welches Jahr
+     der letzte Aufbau hatte -- aeltere Jahre sind nur ein Hebel fuers Budget */
+  const jahrVorher = jahrWahl[modus], jahr0 = AKTUELL;
+  let best = null;
+  try{
+    if(!(plan.budget > 0)){
+      jahrWahl[modus] = jahr0;
+      const b = generiereKern(0);
+      generiereInfo = {jahr:jahr0, lockern:0, preis:summe(b), budget:0, grenze:Infinity, abstriche:[]};
+      return b;
+    }
+    const budget = plan.budget, grenze = budget + BUDGET_LUFT;
+    /* sparsam: der zweite Versuch je Stufe verteilt nur 70 % des Budgets auf
+       die Slots -- die Suche landet sonst gern bei teureren Kombinationen,
+       obwohl es guenstigere gibt */
+    for(const lockern of [0, 1, 2]) for(const sparsam of [1, 0.7]){
+      for(const y of [jahr0, jahr0 - 1, jahr0 - 2, jahr0 - 3]){
+        jahrWahl[modus] = y;
+        const b = generiereKern(lockern, sparsam);
+        const preis = summe(b);
+        const abstriche = lockern ? SLOTS.filter(sl => {
+          const t = b[sl.k] ? findeTeil(sl.k, b[sl.k]) : null, tr = letzteTreue[sl.k];
+          return t && t.e && tr && eignung(t) < tr.eMax - treueLuft(sl.k, 0) - 1e-9;
+        }).map(sl => sl.label) : [];
+        const kand = {b:b, jahr:y, lockern:lockern, preis:preis, budget:budget, grenze:grenze, abstriche:abstriche};
+        if(!best || preis < best.preis - 0.5) best = kand;
+        if(preis <= grenze){ generiereInfo = kand; return b; }
+      }
+    }
+    /* Passt nichts: den wirklich guenstigsten Aufbau suchen, damit die Ansage
+       "mindestens X Euro" stimmt -- mit anderer Budgetverteilung findet die
+       Suche oft eine billigere Kombination */
+    for(const sparsam of [1.5, 2.5]) for(const y of [jahr0, jahr0 - 1, jahr0 - 2, jahr0 - 3]){
+      jahrWahl[modus] = y;
+      const b = generiereKern(2, sparsam), preis = summe(b);
+      if(preis < best.preis - 0.5){
+        const abstriche = SLOTS.filter(sl => { const t = b[sl.k] ? findeTeil(sl.k, b[sl.k]) : null, tr = letzteTreue[sl.k];
+          return t && t.e && tr && eignung(t) < tr.eMax - treueLuft(sl.k, 0) - 1e-9; }).map(sl => sl.label);
+        best = {b:b, jahr:y, lockern:2, preis:preis, budget:budget, grenze:grenze, abstriche:abstriche};
+      }
+    }
+    generiereInfo = best;
+    return best.b;
+  } finally { jahrWahl[modus] = jahrVorher; }
+}
+
+function generiereKern(lockern, sparsam){
   const b = {};
   for(const s of SLOTS) b[s.k] = null;
-  const budget = plan.budget > 0 ? plan.budget : 3500;
+  const budget = plan.budget > 0 ? plan.budget : 3500, zielBudget = budget * (sparsam || 1);
+  letzteTreue = {};
   const quals = {};
   for(const s of SLOTS) quals[s.k] = qualMap(s.k);
 
@@ -3175,14 +3243,21 @@ function generiere(){
   const treue = {};
   for(const k of BAUFOLGE){
     if(entfaellt(b, k)) continue;
-    const s = slotOf(k), ziel = budget * anteilVon(k);
+    const s = slotOf(k), ziel = zielBudget * anteilVon(k);
     const vorher = bilanz(b);
     const rr = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
     let beste = null, besteS = -1e9, ersatz = null, ersatzS = -1e9;
     /* Die Kassette kommt vor dem Schaltwerk. Eine T-Type-Kassette verlangt
        aber Transmission und damit UDH -- ohne UDH am Rahmen bliebe danach
        kein Schaltwerk, das passt. */
-    const liste = kandidaten(k, b).filter(t => !(k === "kassette" && t.tType && !udhDa(rr))).map(t => grosseScheiben(k, t, b));
+    let liste = kandidaten(k, b).filter(t => !(k === "kassette" && t.tType && !udhDa(rr))).map(t => grosseScheiben(k, t, b));
+    /* An die Doppelbruecke gehoert ein Direct-Mount-Vorbau -- der Gabelschaft
+       endet dort buendig. Ein besseres Ahead-Modell hilft da nicht. */
+    const gg = b.gabel ? findeTeil("gabel", b.gabel) : null;
+    if(k === "vorbau" && gg && gg.schaft === "dc" && liste.some(t => t.dm)) liste = liste.filter(t => t.dm);
+    /* Aelteres Modelljahr nur fuer Rahmen, die es damals schon so gab */
+    const damals = t => !(t.seit && jahrAktiv() < t.seit);
+    if(k === "rahmen" && liste.some(damals)) liste = liste.filter(damals);
     const bewertet = liste.map(t => { const probe = {...b}; probe[k] = t.id; return {t:t, neu:bilanz(probe)}; });
     /* Treue-Schwelle: bestes Teil unter denen, die keinen neuen Fehler bringen */
     /* gemessen an Teilen ohne neuen Fehler -- und, wenn es die gibt, auch ohne
@@ -3193,7 +3268,8 @@ function generiere(){
     const mitE = ganzSauber.length ? ganzSauber : (sauber.length ? sauber : bewertet).filter(x => x.t.e);
     if(mitE.length){
       const eMax = Math.max.apply(null, mitE.map(x => eignung(x.t)));
-      treue[k] = eMax - treueLuft(k) - 1e-9;
+      treue[k] = eMax - treueLuft(k, lockern) - 1e-9;
+      letzteTreue[k] = {eMax:eMax};
     }
     /* Die Kassette legt Gaenge und damit die Kurbel fest. Vorausschauen: gibt
        es danach eine Kurbel, die ohne Fehler und Warnung passt? Sonst bleibt
@@ -3201,7 +3277,7 @@ function generiere(){
        135-mm-Dirtrahmen, fuer das keine Kurbel die Kettenlinie trifft. */
     if(k === "kassette" && !entfaellt(b, "kurbel")){
       const kurbeln = kandidaten("kurbel", b), eK = Math.max.apply(null, kurbeln.filter(c => c.e).map(eignung));
-      const guteKurbeln = kurbeln.filter(c => !c.e || eignung(c) >= eK - 1 - 1e-9);
+      const guteKurbeln = kurbeln.filter(c => !c.e || eignung(c) >= eK - treueLuft("kurbel", lockern) - 1e-9);
       /* direkt an den Befunden zwischen Kurbel und Kassette gemessen -- die
          Kettenlinie haengt auch am Schaltwerk, das noch fehlt, und zaehlt in
          der Bilanz deshalb noch nicht mit */
@@ -3211,16 +3287,32 @@ function generiere(){
           if(x.level === "fehler") f++; else w++;
         }
         return {f:f, w:w}; };
-      for(const x of bewertet){
-        let bestW = Infinity;
-        for(const c of guteKurbeln){
+      const folge = (x, kurb) => { let bestW = Infinity;
+        for(const c of kurb){
           const pr = {...b}; pr.kassette = x.t.id; pr.kurbel = c.id;
           const z = antrieb(pr);
           if(!z.f) bestW = Math.min(bestW, z.w);
         }
-        x.folgeW = bestW;
+        return bestW; };
+      for(const x of bewertet) x.folgeW = folge(x, guteKurbeln);
+      /* Bringt jede disziplintreue Kassette danach einen Kompromiss am Antrieb,
+         eine andere aber nicht, zaehlt der stimmige Antrieb mehr -- etwa am
+         Slope-Rahmen mit 135er Hinterbau, an dem keine DH-Kurbel die Kettenlinie
+         trifft. Dann zaehlen auch die uebrigen Kurbeln (mit kleinem Abzug), und
+         die Schwelle sinkt nur bis zur besten Kassette, die sauber aufgeht. */
+      const minW = arr => Math.min.apply(null, arr.map(x => x.folgeW));
+      const sauberK = bewertet.filter(x => x.t.e && x.neu.f <= vorher.f && x.neu.w <= vorher.w);
+      const treuK = sauberK.filter(x => treue[k] == null || eignung(x.t) >= treue[k]);
+      if(sauberK.length && minW(treuK) > 0){
+        const rest = kurbeln.filter(c => guteKurbeln.indexOf(c) < 0);
+        for(const x of sauberK) if(x.folgeW > 0) x.folgeW = Math.min(x.folgeW, folge(x, rest) + 0.5);
+      }
+      if(sauberK.length && minW(sauberK) < minW(treuK)){
+        const m = minW(sauberK);
+        treue[k] = Math.max.apply(null, sauberK.filter(x => x.folgeW === m).map(x => eignung(x.t))) - 1e-9;
       }
     }
+    const zul = [];
     for(const {t, neu, folgeW} of bewertet){
       if(t.e && treue[k] != null && eignung(t) < treue[k]) continue;
       let score = quals[k][basisVon(t.id)];
@@ -3238,10 +3330,21 @@ function generiere(){
         const q = preisVon(t) / ziel;
         score += q > 1 ? -Math.min(50, (q-1)*60) : -Math.min(12, (1-q)*18);
       }
-      /* Warnungen sind kein Ausschluss, aber ein Abstrich: lieber das Teil, das
-         ohne Kompromiss passt. */
-      score -= Math.max(0, neu.w - vorher.w) * 35;
-      if(neu.f <= vorher.f){ if(score > besteS){ besteS = score; beste = t; } }
+      zul.push({t:t, neu:neu, score:score, folgeW:folgeW});
+    }
+    /* Gibt es ein Teil, das ohne neue Warnung passt, kommt keins mit Warnung in
+       Frage -- auch kein besseres. Ein Ahead-Vorbau an der Doppelbruecke oder
+       eine Kurbel aus einer anderen Antriebswelt ist kein Upgrade. Bei der
+       Kassette zaehlt die Kurbel, die danach kommt, gleich mit. Sonst sind
+       Warnungen ein Abstrich, kein Ausschluss. */
+    const unsauber = x => x.neu.w > vorher.w || x.folgeW >= 1;
+    const sauberDa = zul.some(x => x.neu.f <= vorher.f && !unsauber(x));
+    for(const x of zul){
+      const t = x.t, neu = x.neu, score = x.score - Math.max(0, neu.w - vorher.w) * 35;
+      if(neu.f <= vorher.f){
+        if(sauberDa && unsauber(x)) continue;
+        if(score > besteS){ besteS = score; beste = t; }
+      }
       else if(score - (neu.f - vorher.f)*40 > ersatzS){ ersatzS = score - (neu.f - vorher.f)*40; ersatz = t; }
     }
     b[k] = (beste || ersatz || liste[0]).id;
@@ -4834,7 +4937,7 @@ function oeffneDisz(){
 }
 
 /* ── Assistent ── */
-let wizStep = 0, wizErgebnis = null;
+let wizStep = 0, wizErgebnis = null, wizInfo = null;
 /* Disziplin waehlen: standardmaessig genau eine. Mischen muss man bewusst
    einschalten -- vorher landete ein Tipp auf Downhill neben dem voreingestellten
    Trail, und heraus kam ein Enduro-Rad statt eines Downhillers. */
@@ -4906,15 +5009,45 @@ function oeffneWiz(step){
     weiter = "Aufbau rechnen";
   }
   else {
-    const b = wizErgebnis || (wizErgebnis = generiere());
+    /* Rechnen kann bei knappem Budget gut eine Sekunde dauern: erst die
+       Ansage zeigen, dann rechnen, dann das Ergebnis */
+    if(!wizErgebnis){
+      zeigeSheet(`<div class="sheet-h"><h3><span class="sub">Traumrad-Assistent</span>Schritt ${step+1} von ${N}</h3>${zuBtn}</div>
+        ${bahn}<div class="sheet-b"><p class="q">Rechne deinen Aufbau …</p>
+        <p class="qs">Passende Teile für ${esc(selNamen())}, im Budget von ${eur(plan.budget)} — wenn nötig mit einem
+          älteren Rahmen-Modelljahr.</p></div>`);
+      setTimeout(() => {
+        if(!wizOffen() || wizErgebnis || wizStep !== 5) return;
+        wizErgebnis = generiere(); wizInfo = generiereInfo;
+        oeffneWiz(5);
+      }, 40);
+      return;
+    }
+    const b = wizErgebnis, info = wizInfo || {};
+    /* Preise so zeigen, wie sie mit dem gewaehlten Rahmen-Modelljahr gelten */
+    const jahrVorher = jahrWahl[modus];
+    if(info.jahr) jahrWahl[modus] = info.jahr;
     const r = bewerte(b);
+    const rahmenT = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
+    const rahmenJetzt = rahmenT ? preisVon(rahmenT) : 0;
     const zeilen = SLOTS.filter(s => !entfaellt(b, s.k)).map(s => {
       const t = b[s.k] ? findeTeil(s.k, b[s.k]) : null;
-      return `<div class="erg"><span class="k">${s.label}</span>
+      return `<div class="erg"><span class="k">${s.label}${s.k === "rahmen" && info.jahr && info.jahr < AKTUELL ? " · Modelljahr " + info.jahr : ""}</span>
         <span class="n">${t ? esc(t.n) : "—"}</span>
         <span class="p">${t ? eur(preisVon(t)) : "—"}</span></div>`;
     }).join("");
+    jahrWahl[modus] = AKTUELL;
+    const rahmenNeu = rahmenT ? preisVon(rahmenT) : 0;
+    jahrWahl[modus] = jahrVorher;
+    const alterR = info.jahr ? AKTUELL - info.jahr : 0;
     const uebrig = plan.budget - r.preis;
+    const zuTeuer = !!info.grenze && r.preis > info.grenze, marken = plan.mSchalt || plan.mBrems || plan.mFed;
+    const abstriche = info.abstriche || [];
+    const kernTreu = !TREUE_KERN.some(k => abstriche.indexOf(slotOf(k).label) >= 0);
+    const abstricheText = n => abstriche.slice(0, n).join(", ") +
+      (abstriche.length > n ? " und " + (abstriche.length - n) + " weitere" : "");
+    const schonMit = [alterR > 0 ? `Rahmen-Modelljahr ${info.jahr} (${alterR === 1 ? "Abverkauf" : "Gebrauchtpreis"})` : "",
+      abstriche.length ? `einfacheren Teilen (${esc(abstricheText(3))})` : "", marken ? "deinen Wunschmarken" : ""].filter(Boolean);
     body = `<p class="q">Dein Aufbau</p>
       <p class="qs">${selNamen()} · ${plan.prio === "pl" ? "Preis-Leistung" : plan.prio === "leicht" ? "leicht" : "robust"}
         ${plan.mSchalt || plan.mBrems || plan.mFed ? "· " + [plan.mSchalt, plan.mBrems, plan.mFed].filter(Boolean).join(", ") : ""}</p>
@@ -4924,10 +5057,18 @@ function oeffneWiz(step){
         <div><b>${kg(r.gewicht)}</b><span>Gewicht</span></div>
       </div>
       ${zeilen}
-      ${uebrig < 0 ? `<div class="mixbox w" style="margin-top:12px"><b>Das Budget trägt diese Disziplin nicht.</b>
-          Für ${selNamen()} braucht es rund ${eur(r.preis)} — das ist keine Verhandlungssache, sondern
-          das, was Rahmen, Fahrwerk und Bremsen dort kosten. Der Aufbau bleibt richtig, statt auf
-          billigere Teile auszuweichen, die nicht zur Disziplin passen.</div>` : ""}
+      ${!zuTeuer && alterR > 0 ? `<div class="mixbox ok" style="margin-top:12px"><b>Rahmen als Modelljahr ${info.jahr}.</b>
+          ${alterR === 1 ? "Vorjahresmodell im Abverkauf" : "Älteres Modell, gerechnet zum Gebrauchtpreis"} —
+          ${eur(rahmenNeu - rahmenJetzt)} günstiger als neu. So bleibt der Aufbau im Budget${abstriche.length ? "" : ", ohne bei den Teilen nachzugeben"}.</div>` : ""}
+      ${!zuTeuer && abstriche.length ? `<div class="mixbox w" style="margin-top:12px"><b>Kleine Abstriche fürs Budget.</b>
+          ${esc(abstricheText(5))} ${abstriche.length === 1 ? "ist" : "sind"} eine Stufe einfacher, als es für
+          ${selNamen()} ideal wäre — sonst ginge es nicht unter ${eur(info.grenze)}.${kernTreu ? ` Rahmen, Gabel und Dämpfer
+          bleiben, was ${selNamen()} verlangt.` : ""}</div>` : ""}
+      ${zuTeuer ? `<div class="mixbox no" style="margin-top:12px"><b>${eur(plan.budget)} reichen für ${selNamen()} nicht.</b>
+          ${kernTreu ? `Mit Rahmen, Gabel und Dämpfer, die wirklich für ${selNamen()} gebaut sind, kostet der günstigste Aufbau`
+            : "Der günstigste Aufbau, der noch zur Mischung passt, kostet"}
+          ${eur(r.preis)}${schonMit.length ? " — schon mit " + schonMit.slice(0, -1).join(", ") + (schonMit.length > 1 ? " und " : "") + schonMit[schonMit.length - 1] : ""}.
+          Budget erhöhen${marken ? ", Wunschmarken auf „Egal“ stellen" : ""} oder eine andere Disziplin wählen.</div>` : ""}
       ${r.funde.filter(f => f.level === "fehler").length
         ? `<div class="mixbox no" style="margin-top:12px"><b>Mit Konflikt.</b> Der Katalog hat für diese Kombination aus Disziplin, Budget und Marken kein sauberes Teil. Nach dem Übernehmen siehst du im Reiter Befunde genau welches.</div>`
         : `<div class="mixbox ok" style="margin-top:12px"><b>Ohne harte Konflikte.</b> Alle Maße passen zueinander.</div>`}`;
@@ -5244,10 +5385,13 @@ document.addEventListener("click", e => {
 
   const wz = T("[data-wiz]");
   if(wz){ const n = +wz.dataset.wiz; if(n === 5) wizErgebnis = null; oeffneWiz(n); return; }
-  if(T("[data-wizneu]")){ wizErgebnis = null; oeffneWiz(5); return; }
+  if(T("[data-wizneu]")){ wizErgebnis = null; wizInfo = null; oeffneWiz(5); return; }
   if(T("[data-wizfertig]")){
-    if(wizErgebnis) setzeBau({...wizErgebnis});
-    wizErgebnis = null; view = "aufbau"; sichern(); schliesse(); zeichne();
+    if(wizErgebnis){
+      setzeBau({...wizErgebnis});
+      if(wizInfo && wizInfo.jahr) jahrWahl[modus] = wizInfo.jahr;   /* Rahmen-Modelljahr gleich mit */
+    }
+    wizErgebnis = null; wizInfo = null; view = "aufbau"; sichern(); schliesse(); zeichne();
     window.scrollTo({top:0, behavior:"smooth"}); return;
   }
 
