@@ -335,6 +335,28 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .ek-summe b{font-family:var(--f-head);font-size:19px;color:var(--ink);font-weight:800}
 .ek-knoepfe{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
 
+/* ── Federungsrechner ── */
+.fed-auf{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;
+  padding:11px 14px;background:var(--anod-soft);border-top:1px solid var(--line-soft);color:var(--anod)}
+.fed-auf b{display:block;font-size:13.5px;font-weight:750}
+.fed-auf span span{display:block;font-size:12px;color:var(--ink-3);font-weight:500;margin-top:1px}
+.fed-stil{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:6px 0 14px}
+.fed-karte{border:1px solid var(--hair);background:var(--surface-2);border-radius:16px;padding:13px 14px;margin-bottom:10px}
+.fed-kopf{display:flex;flex-direction:column;gap:1px;margin-bottom:8px}
+.fed-k{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.fed-n{font-size:14px;font-weight:650;line-height:1.3;overflow-wrap:anywhere}
+.fed-haupt{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 10px;align-items:baseline;padding:10px 12px;
+  border-radius:12px;background:var(--surface);margin-bottom:8px}
+.fed-wert{font-family:var(--f-head);font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--anod)}
+.fed-u{font-size:12.5px;color:var(--ink-3)}
+.fed-sag{grid-column:1 / -1;font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.fed-ds{display:flex;flex-direction:column;gap:2px;padding:8px 2px;border-top:1px solid var(--line-soft)}
+.fed-dk{font-size:12.5px;font-weight:750;color:var(--ink)}
+.fed-dz{font-size:13px;color:var(--ink-2);line-height:1.4}
+.fed-dz b{display:inline-block;min-width:78px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.fed-q{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 2px 0}
+.fed-warn{font-size:12.5px;color:var(--warn);margin:0 0 6px;line-height:1.4}
+
 .grp-h{display:flex;align-items:center;gap:9px;margin:0 2px 8px}
 .grp-h h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
 .grp-h .rule{flex:1;height:1px;background:var(--line-soft)}
@@ -2297,7 +2319,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260925-1945';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260925-2011';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -4623,6 +4645,210 @@ function oeffneBegriffe(){
     <div class="sheet-b">${BEGRIFFE.map(([k, t]) => `<div class="erk"><b>${k}</b>${t}</div>`).join("")}</div>`);
 }
 
+/* ═══════════ Federungsrechner ═══════════
+   Startwerte fuer Luftdruck und Druckstufe, aus den Tabellen der Hersteller
+   (Fox Owner's Manuals 2025, RockShox-Gabelaufkleber, fuer die LinearXL-Feder
+   ab Modelljahr 2027 die veroeffentlichten Werte 130 psi bei 165 lb und rund
+   137-140 psi bei 180 lb). Gabeln ohne eigene Tabelle bekommen den Wert ihrer
+   Klasse und sagen das dazu. Hinten: Luft rund Koerpergewicht in lb (Fox,
+   RockShox), Stahlfeder nach Last hinten x Uebersetzung / (Hub x Sag).
+   Gerechnet wird mit Fahrergewicht plus 4 kg Ausruestung.
+   Druckstufe als Klicks gegenueber der Grundeinstellung des Herstellers:
+   GRIP X2 5 HSC / 10 LSC von zu, GRIP X 10/10, Charger 3 und alle anderen Mitte. */
+const FED_TAB = {
+  fox32:[[125,100],[135,104],[145,108],[155,113],[165,117],[175,121],[185,125],[195,129],[205,133],[215,138],[225,142],[235,146],[245,150]],
+  fox34:[[125,64],[135,69],[145,74],[155,78],[165,83],[175,88],[185,92],[195,97],[205,102],[215,106],[225,111],[235,116],[245,120]],
+  fox36:[[125,66],[135,70],[145,74],[155,78],[165,82],[175,86],[185,89],[195,94],[205,99],[215,105],[225,109],[235,113],[245,117]],
+  fox36r:[[125,55],[135,59],[145,63],[155,67],[165,72],[175,76],[185,80],[195,85],[205,89],[215,93],[225,97],[235,102],[245,106]],
+  fox38:[[125,72],[135,76],[145,80],[155,84],[165,89],[175,93],[185,97],[195,102],[205,106],[215,110],[225,114],[235,119],[245,123]],
+  fox40:[[135,58],[165,70],[195,81.5],[230,94]],
+  pike:[[110,45],[130,50],[150,60],[170,70],[190,80],[210,90],[230,95]],
+  lyrik:[[110,45],[130,55],[150,65],[170,75],[190,85],[210,95],[230,100]],
+  zeb:[[130,41],[150,50],[170,58],[190,66],[210,74],[230,78]],
+  sid:[[130,45],[150,58],[170,70],[190,82],[210,93],[230,100]],
+  domain:[[130,41],[150,50],[170,66],[190,74],[210,82],[230,87]],
+  boxxer:[[110,90],[130,100],[150,120],[170,140],[190,160],[210,180],[230,190]],
+  recon:[[130,60],[150,78],[170,93],[190,110],[210,120]],
+  reba:[[90,51],[110,58],[130,70],[150,84],[170,97],[190,111],[210,117]],
+  linearxl:[[140,116],[165,130],[180,138],[200,149],[230,165]]
+};
+const FED_MAX = {fox36:120, fox36r:120, fox38:140, fox40:120, pike:163, lyrik:163, zeb:148, sid:150, domain:148,
+  boxxer:300, recon:205, reba:165, linearxl:300};
+const FED_NAME = {fox32:"Fox 32", fox34:"Fox 34", fox36:"Fox 36 FLOAT", fox36r:"Fox 36 Rhythm", fox38:"Fox 38", fox40:"Fox 40",
+  pike:"RockShox Pike", lyrik:"RockShox Lyrik", zeb:"RockShox ZEB", sid:"RockShox SID", domain:"RockShox Domain",
+  boxxer:"RockShox BoXXer", recon:"RockShox Recon", reba:"RockShox Reba", linearxl:"RockShox LinearXL (ab 2027)"};
+const FSTILE = [
+  {v:"locker",   n:"Entspannt",  t:"Touren, Komfort", psiV:0.95, psiH:0.95, klick:-1, sagV:20, sagH:30},
+  {v:"normal",   n:"Ausgewogen", t:"Trails aller Art", psiV:1,    psiH:1,    klick:0,  sagV:18, sagH:28},
+  {v:"aggressiv",n:"Aggressiv",  t:"Schnell, Bikepark", psiV:1.07, psiH:1.08, klick:1, sagV:15, sagH:25}
+];
+let fstil = "normal";
+try{ fstil = localStorage.getItem("mtb.fstil") || "normal"; }catch(e){}
+const stilVon = () => FSTILE.find(s => s.v === fstil) || FSTILE[1];
+const psiAus = (tab, lb) => {
+  const p = FED_TAB[tab];
+  if(lb <= p[0][0]) return p[0][1] + (lb - p[0][0]) * (p[1][1] - p[0][1]) / (p[1][0] - p[0][0]);
+  for(let i = 1; i < p.length; i++) if(lb <= p[i][0])
+    return p[i-1][1] + (lb - p[i-1][0]) * (p[i][1] - p[i-1][1]) / (p[i][0] - p[i-1][0]);
+  const a = p[p.length - 2], b = p[p.length - 1];
+  return b[1] + (lb - b[0]) * (b[1] - a[1]) / (b[0] - a[0]);
+};
+const wahlVon = (t, k) => { if(!t || !t.v || !t.wahl) return ""; const i = t.v.findIndex(d => d.k === k); return i >= 0 ? t.v[i].o[t.wahl[i]].n : ""; };
+/* Welche Tabelle, und ist sie die eigene des Herstellers? */
+function gabelTabelle(g){
+  const id = g.basisId || g.id, ka = wahlVon(g, "Kartusche");
+  const eigen = (tab) => ({tab:tab, eigen:true});
+  const klasse = (tab) => ({tab:tab, eigen:false});
+  if(/^g-fox32/.test(id)) return eigen("fox32");
+  if(/^g-fox34/.test(id)) return eigen("fox34");
+  if(id === "g-rhythm") return eigen("fox36r");
+  if(/^g-fox36/.test(id)) return eigen("fox36");
+  if(/^g-fox38/.test(id)) return eigen("fox38");
+  if(/^g-fox40/.test(id)) return eigen("fox40");
+  if(/^g-(lyrik|zeb)/.test(id) && /3\.2/.test(ka)) return eigen("linearxl");
+  if(/^g-lyrik/.test(id)) return eigen("lyrik");
+  if(/^g-zeb/.test(id)) return eigen("zeb");
+  if(/^g-pike/.test(id)) return eigen("pike");
+  if(/^g-sid/.test(id)) return eigen("sid");
+  if(id === "g-domain") return eigen("domain");
+  if(/^g-boxxer/.test(id)) return eigen("boxxer");
+  if(id === "g-recon") return eigen("recon");
+  if(id === "g-reba") return eigen("reba");
+  if(id === "g-judy") return klasse("recon");
+  if(/^g-(35|revelation|psylo)$/.test(id)) return klasse("pike");
+  if(id === "g-yari") return klasse("lyrik");
+  if(g.schaft === "dc") return klasse("fox40");
+  if(id === "g-fox831" || /Bomber DJ|Z2|Markhor|Circus|F 232|XCR|Axon|Sapphire|Sweep|RXF34/.test(g.n)) return klasse("fox34");
+  if(/38|Mezzer|Durolux/.test(g.n)) return klasse("fox38");
+  return klasse("fox36");
+}
+/* Welche Druckstufen-Regler hat die Gabel? hl = High- und Low-Speed, l = ein Knopf, lock = nur Lockout */
+function gabelRegler(g){
+  const s = wahlVon(g, "Kartusche") + " " + g.n;
+  if(/\bRL\b|\bTK\b|Race Day|XCR/.test(s)) return "lock";
+  if(/RC2|GRIP ?X2|GRIP2|GRIP X\b|R2C2|m\.[12]|\bD1\b|Helm|EXT|Mezzer|Dorado/.test(s)) return "hl";
+  return "l";
+}
+function gabelBasis(g){
+  const ka = wahlVon(g, "Kartusche") + " " + g.n;
+  if(/GRIP ?X2/.test(ka)) return {hsc:5, lsc:10, txt:"Fox: HSC 5, LSC 10 Klicks von ganz zu"};
+  if(/GRIP X\b/.test(ka)) return {hsc:10, lsc:10, txt:"Fox: HSC und LSC je 10 Klicks von ganz zu"};
+  if(/Charger/.test(ka)) return {txt:"RockShox: HSC und LSC in der Mitte"};
+  return {txt:"alle Druckstufen-Knöpfe in der Mitte"};
+}
+function daempferRegler(d){
+  if(/X2|DHX2|TTX2|TTX22|DB(Air|Coil)|Kitsuma|Storia|ElevenSix|Vivid|Jade|Mara|H3C|Mod Coil|Aria/.test(d.n)) return "hl";
+  if(/SIDLuxe|Float SL|DPS|R 232|TriAir|RockShox Deluxe/.test(d.n)) return "hebel";
+  return "l";
+}
+/* Ein Regler: Stellung als Text, ausgehend von der Grundeinstellung */
+function klickText(basis, d){
+  if(basis != null) return Math.max(0, basis - d) + " Klicks von ganz zu";
+  d = Math.max(-2, Math.min(2, d));        /* manche Knoepfe haben nur wenige Rasten -- nicht ueber den Anschlag */
+  if(!d) return "Mitte";
+  return "Mitte, dann " + Math.abs(d) + (Math.abs(d) === 1 ? " Klick " : " Klicks ") + (d > 0 ? "zu" : "auf");
+}
+/* Zwei Einstellungen: Abfahrt (ruppig, schnell) und Spruenge (Absprung und Landung) */
+function druckstufen(regler, basis, st, kg){
+  const w = (kg < 65 ? -1 : kg > 95 ? 1 : 0) + st.klick;
+  const prof = {abfahrt:{lsc:1 + w, hsc:-1 + w}, spruenge:{lsc:2 + w, hsc:2 + w}};
+  const out = {};
+  for(const k of ["abfahrt", "spruenge"]){
+    const p = prof[k];
+    if(regler === "hl") out[k] = [["LSC", klickText(basis.lsc, p.lsc)], ["HSC", klickText(basis.hsc, p.hsc)]];
+    else if(regler === "l") out[k] = [["Druckstufe", klickText(null, k === "abfahrt" ? p.lsc - 1 : p.lsc)]];
+    else if(regler === "hebel") out[k] = [["Hebel", k === "abfahrt" ? "offen" : "offen — für Sprünge den Druck um 5 % erhöhen"]];
+    else out[k] = [["Lockout", k === "abfahrt" ? "offen" : "offen — für Sprünge 5 psi mehr"]];
+  }
+  return out;
+}
+const barVon = psi => (psi / 14.5038).toLocaleString("de-DE", {maximumFractionDigits:1});
+function federRechnen(){
+  const st = stilVon(), kg = (plan.fahrer || 0) + 4, lb = kg * 2.20462;
+  const r = build.rahmen ? findeTeil("rahmen", build.rahmen) : null;
+  const g = build.gabel ? findeTeil("gabel", build.gabel) : null;
+  const d = build.daempfer && !entfaellt(build, "daempfer") ? findeTeil("daempfer", build.daempfer) : null;
+  const dh = !!(g && g.schaft === "dc");
+  const out = {kg:kg, st:st};
+  if(g && g.travel > 0){
+    const coil = /Coil/.test(g.n), tab = gabelTabelle(g), regler = gabelRegler(g), basis = gabelBasis(g);
+    const sag = dh ? st.sagV + 5 : st.sagV;
+    let psi = null, grenze = false, feder = null;
+    if(coil) feder = kg < 68 ? "weich (soft)" : kg < 86 ? "mittel (medium)" : kg < 100 ? "hart (firm)" : "extra hart (x-firm)";
+    else {
+      psi = Math.round(psiAus(tab.tab, lb) * st.psiV);
+      const max = FED_MAX[tab.tab];
+      if(max && psi > max){ psi = max; grenze = true; }
+    }
+    out.gabel = {t:g, coil:coil, psi:psi, feder:feder, grenze:grenze, tab:tab, sag:sag, sagMm:Math.round(g.travel * sag / 100),
+      regler:regler, basis:basis, ds:druckstufen(regler, basis, st, kg)};
+  }
+  if(d){
+    const coil = /Coil/.test(d.n), regler = daempferRegler(d);
+    const hinten = r && r.maxGabel ? r.maxGabel - (r.schaft === "dc" ? 3 : 10) : 140;
+    const lr = Math.max(2, Math.min(3.4, hinten / d.hub));
+    const sag = dh ? st.sagH + 3 : st.sagH;
+    let psi = null, rate = null, grenze = false;
+    if(coil){
+      const last = 0.65 * ((kg + (erg ? erg.gewicht / 1000 : 15)) - 4) * 2.20462;
+      rate = Math.round(last * lr / (d.hub / 25.4 * sag / 100) / 25) * 25;
+      if(rate < 250 || rate > 750) grenze = true;
+    } else {
+      psi = Math.round(lb * (0.6 + 0.4 * lr / 2.8) * st.psiH);
+      if(psi > 300){ psi = 300; grenze = true; }
+    }
+    out.daempfer = {t:d, coil:coil, psi:psi, rate:rate, grenze:grenze, lr:lr, hinten:hinten, sag:sag, sagMm:Math.round(d.hub * sag / 100 * 10) / 10,
+      regler:regler, ds:druckstufen(regler, {}, st, kg)};
+  }
+  return out;
+}
+function federKarte(titel, x){
+  const reihe = (lbl, zeilen) => `<div class="fed-ds"><span class="fed-dk">${lbl}</span>
+    ${zeilen.map(([k, v]) => `<span class="fed-dz"><b>${k}</b> ${esc(v)}</span>`).join("")}</div>`;
+  const haupt = x.coil
+    ? (x.rate ? `<b class="fed-wert">${x.rate} lbs/in</b><span class="fed-u">Federhärte</span>`
+              : `<b class="fed-wert">${x.feder}</b><span class="fed-u">Stahlfeder</span>`)
+    : `<b class="fed-wert">${x.psi} psi</b><span class="fed-u">${barVon(x.psi)} bar Luftdruck</span>`;
+  return `<div class="fed-karte">
+    <div class="fed-kopf"><span class="fed-k">${titel}</span><span class="fed-n">${esc(x.t.n)}</span></div>
+    <div class="fed-haupt">${haupt}<span class="fed-sag">Sag ${x.sag} % ≈ ${String(x.sagMm).replace(".", ",")} mm</span></div>
+    ${x.grenze ? `<p class="fed-warn">${x.coil ? "Außerhalb üblicher Federhärten — beim Hersteller nachfragen." : "Am Maximaldruck — mehr geht nicht. Sag messen; eventuell ein Volumen-Spacer weniger."}</p>` : ""}
+    ${reihe("Druckstufe Abfahrt", x.ds.abfahrt)}
+    ${reihe("Druckstufe Sprünge", x.ds.spruenge)}
+    <p class="fed-q">${x.tab ? (x.tab.eigen ? `Nach Herstellertabelle ${FED_NAME[x.tab.tab]}.` : `Keine Herstellertabelle im Katalog — Richtwert der Klasse (${FED_NAME[x.tab.tab]}).`) + " " : ""}${
+      x.basis ? "Grundeinstellung: " + x.basis.txt + "." : x.lr ? `Hinterbau-Übersetzung ≈ ${x.lr.toFixed(1).replace(".", ",")} (geschätzt aus ${x.hinten} mm Federweg und ${String(x.t.hub).replace(".", ",")} mm Hub).` : ""}</p>
+  </div>`;
+}
+function federErgebnisHtml(){
+  if(!(plan.fahrer > 0)) return `<p class="empty-note">Trag oben dein Gewicht ein — dann stehen hier Luftdruck und Druckstufen.</p>`;
+  const f = federRechnen();
+  if(!f.gabel && !f.daempfer) return `<p class="empty-note">In diesem Aufbau ist keine Federung eingetragen. Wähl zuerst eine Federgabel
+    ${modus === "traum" ? "" : "— oder trag ein, welche an deinem Rad ist"}.</p>`;
+  return (f.gabel ? federKarte("Federgabel", f.gabel) : "") + (f.daempfer ? federKarte("Dämpfer", f.daempfer) : "");
+}
+function oeffneFederung(){
+  const st = stilVon();
+  zeigeSheet(`
+    <div class="sheet-h"><h3><span class="sub">Federungsrechner</span>Fahrwerk einstellen</h3>${zuBtn}</div>
+    <div class="sheet-b">
+      <p class="qs">Startwerte für Luftdruck und Druckstufe deiner Gabel und deines Dämpfers — nach den Tabellen der Hersteller,
+        angepasst an Gewicht und Fahrstil.</p>
+      <div class="fld"><label for="f-gew">Dein Gewicht in kg — gerechnet wird mit 4 kg Ausrüstung dazu</label>
+        <input id="f-gew" type="number" inputmode="numeric" min="30" max="160" value="${plan.fahrer || ""}" placeholder="z. B. 78" data-plan="fahrer"></div>
+      <span class="mk-lab">Fahrstil</span>
+      <div class="fed-stil">${FSTILE.map(s => `<button class="qopt" data-fstil="${s.v}" aria-pressed="${s.v === st.v}">${s.n}<small>${s.t}</small></button>`).join("")}</div>
+      <div id="fed-erg">${federErgebnisHtml()}</div>
+      <div class="erk" style="margin-top:6px"><b>So stellst du es ein</b>
+        1. Luft mit einer Dämpferpumpe einfüllen, Gabel und Dämpfer danach ein paar Mal einfedern und nochmal messen.<br>
+        2. Sag prüfen: in Fahrposition aufs Rad stellen, der Gummiring am Standrohr zeigt, wie weit es einsinkt — das sollte ungefähr der Sag-Wert sein.<br>
+        3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks.<br>
+        4. <b style="display:inline">Abfahrt</b> ist für ruppige, schnelle Strecken, <b style="display:inline">Sprünge</b> für Bikepark und Absprünge — mehr Halt an der Kante, kein Durchschlagen bei der Landung.<br>
+        5. Die Zugstufe (Rebound) so, dass das Rad nach dem Einfedern zügig zurückkommt, ohne nachzuwippen.</div>
+      <p class="hint" style="margin-top:8px">Startwerte, keine Garantie: Die Tabelle auf deiner Gabel und das Handbuch haben Vorrang. Nie über den
+        Maximaldruck pumpen. Quelle: Fox Owner's Manuals 2025, RockShox-Luftdrucktabellen.</p>
+    </div>`);
+}
+
 /* ═══════════ Einkaufsliste ═══════════
    Alles, was im Aufbau steckt, mit Preis und Shop-Knopf -- der letzte Schritt
    nach dem Planen. Als Text kopierbar, etwa fuer die Werkstatt. */
@@ -4888,7 +5114,11 @@ function zeichne(){
         <span class="zahl">${voll}/${meine.length}</span>
         <svg class="pfeil" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <div class="grp-inhalt">${rows}${g.n === "Rahmen" ? jahrLeiste() : ""}</div>
+      <div class="grp-inhalt">${rows}${g.n === "Rahmen" ? jahrLeiste() : ""}${g.n === "Fahrwerk" && build.gabel &&
+        (findeTeil("gabel", build.gabel) || {}).travel > 0 ? `<button class="fed-auf" data-fed="1">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+          <span><b>Fahrwerk einstellen</b><span>Luftdruck und Druckstufe für dein Gewicht und deinen Fahrstil</span></span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>` : ""}</div>
     </section>`;
   }).join("") + `<p class="legal">
     <b>Was hier belastbar ist:</b> die Standards — Achsmaße, Steuerrohr, Tretlager, Stützendurchmesser,
@@ -5586,6 +5816,7 @@ function oeffneMenu(){
         <button class="btn ghost sm" data-hilfe="start">Einführung</button>
         <button class="btn ghost sm" data-hilfe="begriffe">Begriffe erklärt</button>
         <button class="btn ghost sm" data-hilfe="score">Was bedeuten die Zahlen?</button>
+        <button class="btn ghost sm" data-fed="1">Federungsrechner</button>
         <button class="btn ghost sm" data-hilfe="leit">${leitAus ? "Anleitung wieder zeigen" : "Anleitung ausblenden"}</button>
       </div>
       <div class="grp-h" style="margin-top:14px"><h2>Fahrer &amp; Budget</h2><div class="rule"></div></div>
@@ -5821,6 +6052,9 @@ document.addEventListener("click", e => {
     return;
   }
   if(T("[data-scorehilfe]")){ oeffneScoreHilfe(); return; }
+  if(T("[data-fed]")){ oeffneFederung(); return; }
+  const fs = T("[data-fstil]");
+  if(fs){ fstil = fs.dataset.fstil; try{ localStorage.setItem("mtb.fstil", fstil); }catch(e){} oeffneFederung(); return; }
   const hi = T("[data-hilfe]");
   if(hi){
     const w = hi.dataset.hilfe;
@@ -5890,6 +6124,7 @@ document.addEventListener("input", e => {
     sichern(); zeichne();
     const btn = $("modal").querySelector(".sheet-f .btn.wide");
     if(btn && wizOffen()) btn.disabled = !(plan[pl.dataset.plan] > 0);
+    if($("fed-erg")) $("fed-erg").innerHTML = federErgebnisHtml();     /* Federungsrechner live */
   }
 });
 document.addEventListener("change", e => {

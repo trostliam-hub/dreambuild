@@ -51,6 +51,19 @@ sauber passt, kommt nur sie in Frage (SRAM-Wunsch bei Downhill = SRAM GX DH
 oder X01 DH 7-fach). Wo die Marke nichts Passendes hat, etwa keine
 Dirt-Kurbel, steht das im Ergebnis.
 
+**Federungsrechner.** In der Gruppe Fahrwerk (und unter ⋮ → Hilfe): aus
+Fahrergewicht (+4 kg Ausrüstung) und Fahrstil (entspannt, ausgewogen,
+aggressiv) je Gabel und Dämpfer ein Luftdruck in psi/bar mit Sag-Ziel, bei
+Stahlfeder die Federhärte, dazu zwei Druckstufen-Einstellungen: *Abfahrt*
+(ruppig, schnell) und *Sprünge* (Absprung und Landung). Grundlage sind die
+Herstellertabellen (Fox Owner's Manuals 2025 für 32/34/36/38/40,
+RockShox-Tabellen für Pike, Lyrik, ZEB, SID, Domain, BoXXer, Recon, Reba,
+LinearXL ab Modelljahr 2027); Gabeln ohne eigene Tabelle bekommen den Wert
+ihrer Klasse und sagen das. Druckstufen als Klicks ab der Grundeinstellung des
+Herstellers (GRIP X2 5/10, GRIP X 10/10 von zu, sonst Mitte). Dämpfer: Luft
+rund Körpergewicht in lb, skaliert mit der geschätzten Hinterbau-Übersetzung;
+Stahlfeder = Last hinten × Übersetzung / (Hub × Sag).
+
 **Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
 mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut
 Shop, „30-Tage-Tief“ aus dem eigenen Preisverlauf, eine Verlaufskurve über
