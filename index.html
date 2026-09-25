@@ -282,6 +282,59 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .wiz-cta b{font-family:var(--f-head);font-size:16px;font-weight:750;display:block;letter-spacing:-.015em}
 .wiz-cta span{font-size:12px;opacity:.88;display:block;margin-top:1px;line-height:1.35}
 
+/* ── Leitkarte: Schritte je Modus, ein Knopf fuer den naechsten ── */
+.leit{background:linear-gradient(160deg,var(--surface) 0%,var(--surface-2) 100%);border:1px solid var(--hair);
+  border-radius:20px;padding:15px 14px 14px;margin-bottom:16px;box-shadow:var(--shadow)}
+.leit-kopf{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:0 2px}
+.leit-sub{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--anod);font-weight:800}
+.leit h2{font-family:var(--f-head);font-size:19px;font-weight:800;letter-spacing:-.02em;margin:2px 0 0;line-height:1.2}
+.leit-weg{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:var(--ink-3);flex:none;margin:-4px -4px 0 0}
+.leit-weg:hover{background:var(--surface-2);color:var(--ink)}
+.leit-t{font-size:13px;color:var(--ink-3);line-height:1.45;margin:6px 2px 10px}
+.leit-schritte{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.leit-s{width:100%;display:grid;grid-template-columns:26px minmax(0,1fr);gap:11px;align-items:start;text-align:left;
+  padding:8px;border-radius:13px;border:1px solid transparent}
+.leit-s:hover{background:var(--surface-2)}
+.leit-n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;
+  background:var(--sunk);color:var(--ink-3)}
+.leit-s.fertig .leit-n{background:var(--gut-soft);color:var(--gut)}
+.leit-s.jetzt{border-color:var(--anod);background:var(--anod-soft)}
+.leit-s.jetzt .leit-n{background:var(--anod);color:var(--on-anod)}
+.leit-x b{display:block;font-size:14px;font-weight:700;line-height:1.3;letter-spacing:-.005em}
+.leit-s.fertig .leit-x b{color:var(--ink-2)}
+.leit-x span{display:block;font-size:12.5px;color:var(--ink-3);line-height:1.4;margin-top:1px;overflow-wrap:anywhere}
+.leit-cta{margin-top:10px}
+.grp,.mk,.urteil,#c-find,#c-up,#c-kauf{scroll-margin-top:84px}
+
+/* ── Startauswahl ── */
+.start-wahl{display:flex;flex-direction:column;gap:8px}
+.start-opt{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;text-align:left;
+  padding:13px;border-radius:16px;border:1px solid var(--hair);background:var(--surface-2);width:100%}
+.start-opt:hover{border-color:var(--anod)}
+.so-ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--anod-soft);color:var(--anod)}
+.so-t b{display:block;font-size:15px;font-weight:750;letter-spacing:-.01em}
+.so-t span{display:block;font-size:12.5px;color:var(--ink-3);line-height:1.4;margin-top:2px}
+
+/* ── Erklaerblaetter (Score, Begriffe) ── */
+.erk{padding:11px 0;border-top:1px solid var(--line-soft);font-size:13px;color:var(--ink-2);line-height:1.5}
+.erk:first-child{border-top:none;padding-top:2px}
+.erk b{display:block;color:var(--ink);font-size:14px;margin-bottom:2px}
+.wie{grid-column:1 / -1;justify-self:start;font-size:12px;color:var(--anod);font-weight:650;padding:2px 0;margin-top:-4px}
+.slot-was{grid-column:1;font-size:12px;color:var(--ink-3);line-height:1.4}
+.was-das{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin:0 0 10px;padding:10px 12px;border-radius:12px;background:var(--anod-soft)}
+.was-das b{color:var(--anod)}
+
+/* ── Einkaufsliste ── */
+.ek{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line-soft)}
+.ek-k{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.ek-n{display:block;text-align:left;font-size:13.5px;font-weight:650;line-height:1.3;overflow-wrap:anywhere;padding:0;color:var(--ink)}
+.ek-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.ek-r .p{font-size:14px;font-weight:750}
+.ek-r .g{display:none}
+.ek-summe{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:4px 0 8px;font-size:13px;color:var(--ink-3)}
+.ek-summe b{font-family:var(--f-head);font-size:19px;color:var(--ink);font-weight:800}
+.ek-knoepfe{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+
 .grp-h{display:flex;align-items:center;gap:9px;margin:0 2px 8px}
 .grp-h h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
 .grp-h .rule{flex:1;height:1px;background:var(--line-soft)}
@@ -313,7 +366,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 
 .card{background:var(--surface);border:1px solid var(--hair);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
 .panel{display:flex;flex-direction:column;gap:16px}
-@media (min-width:820px){.panel{position:sticky;top:calc(env(safe-area-inset-top,0px) + 72px)}}
+@media (min-width:820px){.panel{position:sticky;top:calc(env(safe-area-inset-top,0px) + 72px)}
+  #c-kauf{order:5}}                               /* am breiten Bildschirm: Einkaufsliste zuletzt */
 
 .find{border-left:3px solid var(--line);padding:10px 0 10px 12px;display:flex;flex-direction:column;gap:5px}
 .find + .find{border-top:1px solid var(--line-soft)}
@@ -367,8 +421,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 @media (min-width:820px){.tabs{display:none}}
 @media (max-width:819px){
   body[data-view="aufbau"]   #panel{display:none}
-  body[data-view="befunde"]  #aufbau,body[data-view="befunde"]  #c-up,body[data-view="befunde"] #c-spar,body[data-view="befunde"] #c-deals{display:none}
-  body[data-view="upgrades"] #aufbau,body[data-view="upgrades"] #c-find,body[data-view="upgrades"] #c-deals{display:none}
+  body[data-view="befunde"]  #aufbau,body[data-view="befunde"]  #c-up,body[data-view="befunde"] #c-spar,body[data-view="befunde"] #c-deals,body[data-view="befunde"] #c-kauf{display:none}
+  body[data-view="upgrades"] #aufbau,body[data-view="upgrades"] #c-find,body[data-view="upgrades"] #c-deals,body[data-view="upgrades"] #c-kauf{display:none}
   body[data-view="deals"]    #aufbau,body[data-view="deals"]    #c-find,body[data-view="deals"] #c-up,body[data-view="deals"] #c-spar{display:none}
 }
 
@@ -759,6 +813,13 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .varleiste{gap:10px}
 .var-z{display:grid;grid-template-columns:92px minmax(0,1fr);gap:4px 10px;align-items:center;min-width:0}
 .var-z .jl-h{grid-column:2}
+.var-auf{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;
+  padding:10px 14px;background:var(--surface);border-top:1px solid var(--line-soft)}
+.var-auf:hover{background:var(--surface-2)}
+.va-k{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.va-w{font-size:12.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.va-a{font-size:12px;color:var(--anod);font-weight:700}
+.var-zu{align-self:flex-end;font-size:12.5px;color:var(--anod);font-weight:700;padding:4px 2px}
 .grp .jahrleiste + .slot{border-top:1px solid var(--line-soft)}
 .jl-reihe button.nein{border-color:color-mix(in srgb,var(--bad) 55%,transparent);color:var(--bad)}
 .jl-reihe button.nein[aria-pressed="true"]{background:var(--bad);color:#fff;border-color:transparent}
@@ -806,7 +867,7 @@ img{max-width:100%}
   <div class="modus-in" role="group" aria-label="Welches Rad">
     <button data-modus="traum" aria-pressed="true">Traumrad</button>
     <button data-modus="real" aria-pressed="false">Mein Rad</button>
-    <button data-modus="markt" aria-pressed="false">Angebot</button>
+    <button data-modus="markt" aria-pressed="false">Gebraucht</button>
   </div>
 </div>
 <div class="profile"><div class="profile-in" id="profile" role="group" aria-label="Profile"></div></div>
@@ -825,9 +886,10 @@ img{max-width:100%}
     <div class="verdict" id="verdict"></div>
     <div class="tot2"><b id="t-preis">–</b><span id="t-gew">–</span></div>
     <div class="bars">
-      <div class="bar-row"><span class="lbl">Technik</span><div class="track"><div class="fill" id="f-tech"></div></div><span class="num" id="n-tech">–</span></div>
-      <div class="bar-row"><span class="lbl">Charakter</span><div class="track"><div class="fill" id="f-char"></div></div><span class="num" id="n-char">–</span></div>
+      <div class="bar-row"><span class="lbl" title="Passen die Teile technisch zusammen?">Passform</span><div class="track"><div class="fill" id="f-tech"></div></div><span class="num" id="n-tech">–</span></div>
+      <div class="bar-row"><span class="lbl" title="Passen die Teile zu deiner Disziplin?">Einsatz</span><div class="track"><div class="fill" id="f-char"></div></div><span class="num" id="n-char">–</span></div>
     </div>
+    <button class="wie" data-scorehilfe="1">Was bedeuten die Zahlen?</button>
   </div>
 </div>
 
@@ -835,11 +897,15 @@ img{max-width:100%}
   <div id="aufbau"></div>
   <aside class="panel" id="panel">
     <div class="card" id="c-find">
-      <div class="grp-h" style="margin-bottom:2px"><h2>Befunde</h2><div class="rule"></div></div>
+      <div class="grp-h" style="margin-bottom:2px"><h2>Prüfung · passt alles zusammen?</h2><div class="rule"></div></div>
       <div id="findings"></div>
     </div>
+    <div class="card" id="c-kauf">
+      <div class="grp-h" style="margin-bottom:2px"><h2>Einkaufsliste</h2><div class="rule"></div></div>
+      <div id="einkauf"></div>
+    </div>
     <div class="card" id="c-deals">
-      <div class="grp-h" style="margin-bottom:2px"><h2>Deals</h2><div class="rule"></div></div>
+      <div class="grp-h" style="margin-bottom:2px"><h2>Gerade reduziert</h2><div class="rule"></div></div>
       <div id="deals"></div>
     </div>
     <div class="card" id="c-spar">
@@ -859,13 +925,13 @@ img{max-width:100%}
     Aufbau <span class="badge" id="b-auf">0</span></button>
   <button role="tab" data-view="befunde" aria-selected="false">
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.5s7.5-3.6 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 5.9 7.5 9.5 7.5 9.5z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg>
-    Befunde <span class="badge" id="b-fin">0</span></button>
+    Prüfung <span class="badge" id="b-fin">0</span></button>
   <button role="tab" data-view="upgrades" aria-selected="false">
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>
     Upgrades <span class="badge" id="b-up">0</span></button>
   <button role="tab" data-view="deals" aria-selected="false">
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.6" cy="7.6" r="1.4"/></svg>
-    Deals <span class="badge" id="b-deal">0</span></button>
+    Kaufen <span class="badge" id="b-deal">0</span></button>
 </nav>
 
 <!-- Ploppt auf, sobald eine neue Version veroeffentlicht ist -- wie in Valkr.
@@ -1959,25 +2025,25 @@ griffe:[
 /* ═══════════ 3 · Slots ═══════════ */
 
 const SLOTS = [
-  {k:"rahmen",     label:"Rahmen",        gew:3,   grp:"Rahmen",    anteil:.28},
-  {k:"gabel",      label:"Federgabel",    gew:3,   grp:"Fahrwerk",  anteil:.13},
-  {k:"daempfer",   label:"Dämpfer",       gew:2,   grp:"Fahrwerk",  anteil:.06},
-  {k:"laufraeder", label:"Laufradsatz",   gew:2,   grp:"Laufräder", anteil:.125},
-  {k:"reifenVR",   label:"Reifen vorn",   gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen"},
-  {k:"reifenHR",   label:"Reifen hinten", gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen"},
-  {k:"schalthebel",label:"Schalthebel",   gew:0.5, grp:"Antrieb",   anteil:.015},
-  {k:"schaltwerk", label:"Schaltwerk",    gew:1,   grp:"Antrieb",   anteil:.035},
-  {k:"kassette",   label:"Kassette",      gew:1,   grp:"Antrieb",   anteil:.035},
-  {k:"kette",      label:"Kette",         gew:0.5, grp:"Antrieb",   anteil:.015},
-  {k:"kurbel",     label:"Kurbel",        gew:1,   grp:"Antrieb",   anteil:.04},
-  {k:"innenlager", label:"Innenlager",    gew:0,   grp:"Antrieb",   anteil:.01},
-  {k:"bremsen",    label:"Bremsen",       gew:2,   grp:"Bremsen",   anteil:.08},
-  {k:"lenker",     label:"Lenker",        gew:1,   grp:"Cockpit",   anteil:.025},
-  {k:"vorbau",     label:"Vorbau",        gew:1,   grp:"Cockpit",   anteil:.015},
-  {k:"stuetze",    label:"Sattelstütze",  gew:1,   grp:"Sitz",      anteil:.05},
-  {k:"sattel",     label:"Sattel",        gew:0.5, grp:"Sitz",      anteil:.02},
-  {k:"pedale",     label:"Pedale",        gew:0.5, grp:"Kontakt",   anteil:.02},
-  {k:"griffe",     label:"Griffe",        gew:0.3, grp:"Kontakt",   anteil:.005}
+  {k:"rahmen",     label:"Rahmen",        gew:3,   grp:"Rahmen",    anteil:.28, was:"Das Herzstück. Legt Laufradgröße, Federweg und fast alle Maße fest — deshalb zuerst wählen."},
+  {k:"gabel",      label:"Federgabel",    gew:3,   grp:"Fahrwerk",  anteil:.13, was:"Die Federung vorn. Mehr Federweg (mm) schluckt mehr bergab, weniger ist leichter und klettert besser."},
+  {k:"daempfer",   label:"Dämpfer",       gew:2,   grp:"Fahrwerk",  anteil:.06, was:"Die Federung hinten, nur bei Fullys. Muss genau ins Einbaumaß des Rahmens passen."},
+  {k:"laufraeder", label:"Laufradsatz",   gew:2,   grp:"Laufräder", anteil:.125, was:"Felgen, Naben und Speichen. Die hintere Nabe (Freilauf) muss zur Kassette passen."},
+  {k:"reifenVR",   label:"Reifen vorn",   gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen", was:"Vorn zählt Grip in Kurven und beim Bremsen."},
+  {k:"reifenHR",   label:"Reifen hinten", gew:2,   grp:"Reifen",    anteil:.02, quelle:"reifen", was:"Hinten zählen Traktion beim Treten und Pannenschutz."},
+  {k:"schalthebel",label:"Schalthebel",   gew:0.5, grp:"Antrieb",   anteil:.015, was:"Der Hebel am Lenker, mit dem du schaltest. Muss zum Schaltwerk passen."},
+  {k:"schaltwerk", label:"Schaltwerk",    gew:1,   grp:"Antrieb",   anteil:.035, was:"Führt die Kette hinten von Gang zu Gang."},
+  {k:"kassette",   label:"Kassette",      gew:1,   grp:"Antrieb",   anteil:.035, was:"Die Zahnräder am Hinterrad. Bestimmt, wie viele Gänge du hast und wie leicht der leichteste ist."},
+  {k:"kette",      label:"Kette",         gew:0.5, grp:"Antrieb",   anteil:.015, was:"Verbindet Kurbel und Kassette. Muss zur Gangzahl passen."},
+  {k:"kurbel",     label:"Kurbel",        gew:1,   grp:"Antrieb",   anteil:.04, was:"Die Arme mit Kettenblatt, an denen die Pedale sitzen."},
+  {k:"innenlager", label:"Innenlager",    gew:0,   grp:"Antrieb",   anteil:.01, was:"Das Lager im Rahmen, in dem sich die Kurbel dreht. Muss zu Rahmen und Kurbelwelle passen."},
+  {k:"bremsen",    label:"Bremsen",       gew:2,   grp:"Bremsen",   anteil:.08, was:"Hebel, Bremssättel und Scheiben. Mehr Kolben und größere Scheiben bremsen kräftiger."},
+  {k:"lenker",     label:"Lenker",        gew:1,   grp:"Cockpit",   anteil:.025, was:"Breite und Höhe bestimmen, wie du auf dem Rad stehst und lenkst."},
+  {k:"vorbau",     label:"Vorbau",        gew:1,   grp:"Cockpit",   anteil:.015, was:"Verbindet Lenker und Gabel. Kürzer lenkt direkter."},
+  {k:"stuetze",    label:"Sattelstütze",  gew:1,   grp:"Sitz",      anteil:.05, was:"Hält den Sattel. Eine Variostütze senkt ihn per Knopfdruck für die Abfahrt."},
+  {k:"sattel",     label:"Sattel",        gew:0.5, grp:"Sitz",      anteil:.02, was:"Worauf du sitzt. Geschmackssache, auf langen Touren aber wichtig."},
+  {k:"pedale",     label:"Pedale",        gew:0.5, grp:"Kontakt",   anteil:.02, was:"Flatpedale für normale Schuhe oder Klickpedale, in die der Schuh einrastet."},
+  {k:"griffe",     label:"Griffe",        gew:0.3, grp:"Kontakt",   anteil:.005, was:"Die Griffe am Lenker — Dicke und Muster sind Geschmackssache."}
 ];
 /* Ein Thema je Baugruppe, mit einem Satz dazu, was es am Rad entscheidet.
    Vorher lagen Rahmen, Gabel und Daempfer unter einer Ueberschrift -- drei
@@ -2231,7 +2297,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260925-1538';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260925-1945';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -2357,7 +2423,7 @@ function marktCheckHtml(){
    dass es Profile gibt. Fotos liegen je Profil in einem eigenen Speicherfach:
    ist der Speicher voll, geht ein Foto verloren, nie ein Aufbau. */
 const MODI = ["traum", "real", "markt"];
-const MODUS_NAME = {traum:"Traumrad", real:"Mein Rad", markt:"Angebot"};
+const MODUS_NAME = {traum:"Traumrad", real:"Mein Rad", markt:"Gebrauchtrad"};
 let profile = {traum:[], real:[], markt:[]};
 let aktivId = {traum:"", real:"", markt:""};
 const neueId = () => "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -2628,7 +2694,7 @@ function pruefe(b){
     if(mp.min < .15) out.push(F("Diese Mischung gibt es nicht als ein Rad","",[],
       `<code>${dLang(mp.paar[0])}</code> und <code>${dLang(mp.paar[1])}</code> teilen sich praktisch kein Bauteil — andere Laufradgröße, anderer Federweg, andere Sitzposition. Zwei Räder, kein Kompromiss.`));
     else if(mp.min < .40) out.push(W("Weiter Spagat zwischen den Disziplinen","",[],
-      `<code>${dLang(mp.paar[0])}</code> und <code>${dLang(mp.paar[1])}</code> ziehen stark auseinander. Machbar, aber jedes Teil wird ein Kompromiss — der Charakter-Wert wird nie hoch. Das ist kein Fehler im Aufbau, sondern im Plan.`));
+      `<code>${dLang(mp.paar[0])}</code> und <code>${dLang(mp.paar[1])}</code> ziehen stark auseinander. Machbar, aber jedes Teil wird ein Kompromiss — der Einsatz-Wert wird nie hoch. Das ist kein Fehler im Aufbau, sondern im Plan.`));
   }
 
   if(rahmen && rahmen.seit && jahrAktiv() < rahmen.seit)
@@ -2942,6 +3008,8 @@ function echteFehler(b){
     f.slots.every(k => !SLOTS.some(s => s.k === k) || b[k] || entfaellt(b, k))).length;
 }
 
+/* Klartext statt Fachwort an den Befunden */
+const STUFE = {fehler:"passt nicht", warnung:"Kompromiss", hinweis:"Tipp"};
 function urteil(r){
   const zn = selNamen();
   /* Ein leeres Rad hat keinen Zustand, ueber den sich urteilen liesse. Vorher
@@ -2954,7 +3022,7 @@ function urteil(r){
   if(fehler === 1) return `<b>Ein harter Konflikt.</b> Der muss weg, bevor du bestellst.`;
   if(plan.budget > 0 && r.preis > plan.budget) return `<b>${eur(r.preis - plan.budget)} über Budget.</b> Technisch sauber, aber zu teuer.`;
   if(r.chara < 55 && r.schwach) return `Technisch sauber, aber uneinig: <b>${r.schwach.slot.label}</b> zieht in eine andere Richtung als ${zn}.`;
-  if(r.tech < 90) return `Fahrbar, mit Kompromissen. Die Befunde sagen welche.`;
+  if(r.tech < 90) return `Fahrbar, mit Kompromissen. Der Reiter Prüfung sagt, welche.`;
   if(r.chara >= 85) return `<b>Stimmig.</b> Alles zieht in Richtung ${zn}.`;
   return `Sauberer Aufbau für ${zn}.`;
 }
@@ -4233,8 +4301,21 @@ function wahlZeile(t){
   return d.length ? `<div class="wahl">Wählbar: ${d.map(x => x.o.length + " " + MEHRZAHL[x.k]).join(" · ")}</div>` : "";
 }
 const wahlText = t => t.v ? t.v.map(d => d.o.map(o => o.n + " " + o.h).join(" ")).join(" ") : "";
+/* Die Knopfreihen sind eingeklappt: eine Zeile sagt, welche Ausfuehrung
+   verbaut ist. Aufgeklappt wird auf Tippen -- oder von selbst, wenn die
+   gewaehlte Ausfuehrung nicht zum Aufbau passt. Vorher standen allein beim
+   Daempfer zwanzig Einbaumasse auf der Startseite. */
+const varOffen = {};
 function varLeiste(slotKey, t){
   if(!t.v || !t.wahl) return "";
+  const dims = t.v.map((d, i) => ({d:d, i:i})).filter(x => x.d.o.length > 1);
+  if(!dims.length) return "";
+  const falsch = dims.some(x => optionPasst(slotKey, x.d, x.d.o[t.wahl[x.i]], build) === false);
+  if(!varOffen[slotKey] && !falsch)
+    return `<button class="var-auf" data-varauf="${slotKey}" aria-expanded="false">
+      <span class="va-k">${dims.length === 1 ? esc(dims[0].d.k) : "Ausführung"}</span>
+      <span class="va-w">${esc(dims.map(x => x.d.o[t.wahl[x.i]].n).join(" · "))}</span>
+      <span class="va-a">ändern</span></button>`;
   const zeilen = t.v.map((d, i) => {
     if(d.o.length < 2) return "";
     const gew = d.o[t.wahl[i]];
@@ -4249,7 +4330,8 @@ function varLeiste(slotKey, t){
         `<button data-var="${slotKey}|${i}|${j}" aria-pressed="${j === t.wahl[i]}"${ok[j] === false ? ' class="nein" title="passt nicht zum Aufbau"' : ""}>${esc(o.n)}</button>`
       ).join("")}</div>${hinweis}</div>`;
   }).join("");
-  return zeilen ? `<div class="jahrleiste varleiste">${zeilen}</div>` : "";
+  return zeilen ? `<div class="jahrleiste varleiste">${zeilen}${falsch ? "" :
+    `<button class="var-zu" data-varauf="${slotKey}" aria-expanded="true">Fertig</button>`}</div>` : "";
 }
 
 /* Lange Reihen scrollen seitlich -- die gewaehlte Option soll sichtbar sein,
@@ -4398,6 +4480,231 @@ function slotLevel(funde, slotKey){
 
 let erg = null;
 
+/* ═══════════ Leitkarte: der naechste Schritt ═══════════
+   Wer zum ersten Mal ein Rad zusammenstellt, weiss nicht, wo anfangen. Die
+   Karte oben im Aufbau nennt die Schritte je Modus, hakt ab, was erledigt ist,
+   und hat genau einen Knopf fuer den naechsten Schritt. Ausblendbar; unter
+   Hilfe wieder einschaltbar. */
+let leitAus = false;
+try{ leitAus = localStorage.getItem("mtb.leit") === "aus"; }catch(e){}
+const HAKEN = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>`;
+const LEIT = {
+  traum:{sub:"Traumrad", h:"So baust du dein Rad",
+    t:"Stell ein Mountainbike aus Einzelteilen zusammen. Bei jedem Teil prüft die App, ob es passt, und rechnet Preis und Gewicht mit."},
+  real:{sub:"Mein Rad", h:"Dein Rad prüfen",
+    t:"Trag ein, was an deinem Rad verbaut ist. Die App zeigt, was nicht zusammenpasst und welches Upgrade sich lohnt."},
+  markt:{sub:"Gebrauchtrad", h:"Angebot prüfen",
+    t:"Rad in einer Anzeige gefunden? Teile und Preis eintragen — die App sagt, ob der Preis fair ist."}
+};
+function leitSchritte(r){
+  const fehl = r.funde.filter(f => f.level === "fehler").length, warn = r.funde.filter(f => f.level === "warnung").length;
+  /* Beim eigenen Rad und beim Angebot ist der Rahmen ein eigener Schritt */
+  const offen = SLOTS.filter(s => !entfaellt(build, s.k) && !build[s.k] && (modus === "traum" || s.k !== "rahmen")), nx = offen[0];
+  const offenTxt = offen.slice(0, 3).map(s => s.label).join(", ") + (offen.length > 3 ? " und " + (offen.length - 3) + " weitere" : "");
+  const zurListe = nx ? `data-slot="${nx.k}"` : `data-springe=".grp"`;
+  const pruefung = {t: modus === "real" ? "Prüfen, was nicht passt" : "Prüfen, ob alles passt",
+    fertig: r.teile > 0 && !fehl && !warn,
+    d: !r.teile ? "Sobald Teile drin sind, prüft die App Maße und Standards."
+      : fehl ? `${fehl} ${fehl === 1 ? "Konflikt" : "Konflikte"} — so passen die Teile nicht zusammen.`
+      : warn ? `${warn} ${warn === 1 ? "Kompromiss" : "Kompromisse"} — fahrbar, aber nicht ideal.`
+      : "Maße und Standards passen zusammen.",
+    act:`data-view="befunde"`, cta:"Zur Prüfung"};
+  if(modus === "traum") return [
+    {t:"Wofür und wie viel?", fertig: plan.budget > 0,
+     d: plan.budget > 0 ? `${esc(selNamen())} · Budget ${eur(plan.budget)} — tippen, um neu zu rechnen.`
+       : "Der Assistent fragt nach Disziplin, Budget und Wunschmarken und stellt dir ein passendes Rad zusammen.",
+     act:`data-wiz="0"`, cta:"Assistent starten"},
+    {t:"Teile ansehen und anpassen", fertig: !offen.length,
+     d: offen.length ? `Noch offen: ${offenTxt}.` : "Tippe ein Teil an, um es zu tauschen — die App zeigt dir, was passt.",
+     act: zurListe, cta: nx ? `${nx.label} wählen` : "Zur Teileliste"},
+    pruefung,
+    {t:"Teile kaufen", fertig:false,
+     d:`Einkaufsliste mit Shop-Links für alle Teile — ${eur(r.preis)} gesamt.`,
+     act:`data-view="deals"`, cta:"Zur Einkaufsliste"}
+  ];
+  if(modus === "real") return [
+    {t:"Rahmen eintragen", fertig: !!build.rahmen,
+     d: build.rahmen ? esc(findeTeil("rahmen", build.rahmen).n)
+       : "Er legt Laufradgröße und Maße fest und grenzt damit alles andere ein. Wo was am Rad steht, zeigt „Wo steht was am Rad?“.",
+     act:`data-slot="rahmen"`, cta:"Rahmen eintragen"},
+    {t:"Übrige Teile eintragen", fertig: !offen.length,
+     d: offen.length ? `Noch offen: ${offenTxt}. Was du nicht weißt, lässt du leer.` : "Alles eingetragen.",
+     act: zurListe, cta: nx ? `${nx.label} eintragen` : "Zur Teileliste"},
+    pruefung,
+    {t:"Lohnende Upgrades", fertig:false,
+     d:"Welcher Tausch dein Rad am meisten verbessert — und wo du bei gleichen Maßen sparst.",
+     act:`data-view="upgrades"`, cta:"Upgrades ansehen"}
+  ];
+  return [
+    {t:"Teile laut Anzeige eintragen", fertig: !!build.rahmen,
+     d: build.rahmen ? `${r.teile} von ${r.moeglich} Teilen eingetragen — je mehr, desto genauer.`
+       : "Mindestens den Rahmen, dazu was in der Anzeige steht: Gabel, Schaltung, Bremsen …",
+     act: build.rahmen ? zurListe : `data-slot="rahmen"`, cta: build.rahmen ? (nx ? `${nx.label} eintragen` : "Zur Teileliste") : "Rahmen eintragen"},
+    {t:"Alter, Zustand und Preis angeben", fertig: markt.preis > 0,
+     d: markt.preis > 0 ? `Gefordert: ${eur(markt.preis)}.` : "Modelljahr, Zustand, fällige Verschleißteile und den Preis aus der Anzeige.",
+     act:`data-springe=".mk"`, cta:"Angaben machen"},
+    {t:"Urteil lesen", fertig:false,
+     d:"Die App vergleicht den Preis mit dem, was die Teile gebraucht wert sind.",
+     act:`data-springe="${markt.preis > 0 && build.rahmen ? ".urteil" : ".mk"}"`, cta:"Zum Urteil"}
+  ];
+}
+function leitKarte(r){
+  if(leitAus) return "";
+  const k = LEIT[modus], st = leitSchritte(r), jetzt = st.findIndex(s => !s.fertig);
+  return `<section class="leit" aria-label="Anleitung">
+    <div class="leit-kopf"><div><span class="leit-sub">${k.sub}</span><h2>${k.h}</h2></div>
+      <button class="leit-weg" data-leitweg="1" aria-label="Anleitung ausblenden" title="Anleitung ausblenden">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <p class="leit-t">${k.t}</p>
+    <ol class="leit-schritte">${st.map((s, i) => `<li><button class="leit-s${s.fertig ? " fertig" : ""}${i === jetzt ? " jetzt" : ""}" ${s.act}>
+        <span class="leit-n">${s.fertig ? HAKEN : i + 1}</span>
+        <span class="leit-x"><b>${s.t}</b><span>${s.d}</span></span></button></li>`).join("")}</ol>
+    ${jetzt >= 0 ? `<button class="btn wide leit-cta" ${st[jetzt].act}>${st[jetzt].cta}</button>` : ""}
+  </section>`;
+}
+
+/* ═══════════ Startauswahl, Erklaerungen, Begriffe ═══════════ */
+const IC_RAD = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="m5.5 16.5 4-7h6l3 7M9.5 9.5l3 7h3M13 6h3"/></svg>`;
+function oeffneStart(){
+  try{ localStorage.setItem("mtb.start", "1"); }catch(e){}
+  const opt = (m, ic, t, d) => `<button class="start-opt" data-start="${m}"><span class="so-ic">${ic}</span>
+    <span class="so-t"><b>${t}</b><span>${d}</span></span></button>`;
+  zeigeSheet(`
+    <div class="sheet-h"><h3><span class="sub">Willkommen bei CrankScore</span>Was hast du vor?</h3>${zuBtn}</div>
+    <div class="sheet-b">
+      <p class="qs">CrankScore prüft, ob die Teile eines Mountainbikes zusammenpassen, und rechnet Preis und Gewicht mit.
+        Vorwissen brauchst du nicht: Die App erklärt jedes Teil und zeigt dir Schritt für Schritt, was als Nächstes kommt.</p>
+      <div class="start-wahl">
+        ${opt("traum", `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 5.3L19 10l-5.1 1.7L12 17l-1.9-5.3L5 10l5.1-1.7z"/><path d="M19 15.5 19.8 18l2.2.8-2.2.8L19 22l-.8-2.4-2.2-.8 2.2-.8z"/></svg>`,
+          "Neues Rad zusammenstellen", "Sag, wofür und wie viel — der Assistent stellt die Teile zusammen. Danach tauschst du, was du willst.")}
+        ${opt("real", IC_RAD, "Mein Rad eintragen", "Trag ein, was verbaut ist. Die App zeigt, was nicht passt und welches Upgrade sich lohnt.")}
+        ${opt("markt", `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.6" cy="7.6" r="1.4"/></svg>`,
+          "Gebrauchtrad prüfen", "Angebot gefunden? Teile und Preis eintragen — die App sagt, ob der Preis fair ist.")}
+      </div>
+      <button class="btn ghost wide" data-start="schauen" style="margin-top:12px">Erst mal umschauen</button>
+      <p class="hint" style="margin-top:12px">Alles bleibt auf deinem Gerät, ohne Konto. Diese Auswahl findest du jederzeit unter ⋮ → Hilfe.</p>
+    </div>`);
+}
+function oeffneScoreHilfe(){
+  zeigeSheet(`
+    <div class="sheet-h"><h3><span class="sub">So bewertet CrankScore</span>Was bedeuten die Zahlen?</h3>${zuBtn}</div>
+    <div class="sheet-b">
+      <div class="erk"><b>Score, 0 bis 100</b>Die Gesamtnote deines Aufbaus. Grün ab 85: stimmig. Gelb ab 60: fahrbar, mit Kompromissen.
+        Rot darunter: Da stimmt etwas Grundsätzliches nicht.</div>
+      <div class="erk"><b>Passform</b>Passen die Teile technisch zusammen — Achsen, Freilauf, Einbaumaße, Klemmungen, Gangzahlen?
+        Ein Konflikt heißt: So lässt sich das Rad nicht bauen. Welche es gibt, steht im Reiter Prüfung.</div>
+      <div class="erk"><b>Einsatz</b>Passen die Teile zu dem, was du fahren willst (${esc(selNamen())})? Ein Enduro-Rahmen mit
+        leichten XC-Bremsen passt technisch, bremst bergab aber zu schwach. Die Disziplin stellst du oben rechts um.</div>
+      <div class="erk"><b>Farben an den Teilen</b>Roter Rand: passt nicht zum Rest. Gelber Rand: Kompromiss. Grüner Punkt an einer
+        Gruppe: alles drin und sauber.</div>
+      <div class="erk"><b>Preis und Gewicht</b>Die Summe aller Teile. Hat ein Partnershop das Teil, zählt das günstigste lieferbare
+        Angebot, sonst ein Richtpreis auf UVP-Niveau.</div>
+    </div>`);
+}
+const BEGRIFFE = [
+  ["Hardtail / Fully", "Hardtail: nur vorn gefedert, leicht und günstig. Fully: vorn und hinten gefedert, mehr Kontrolle und Komfort im Gelände."],
+  ["Federweg", "Wie weit Gabel oder Dämpfer einfedern, in mm. XC um 100, Trail 120–150, Enduro 160–180, Downhill 200."],
+  ["Laufradgröße 29″ / 27,5″ / Mullet", "29″ rollt leichter über Hindernisse, 27,5″ ist wendiger. Mullet: vorn 29″, hinten 27,5″."],
+  ["Boost / Super Boost", "Nabenbreiten: vorn 110 mm, hinten 148 mm (Boost) oder 157 mm (Super Boost). Nabe und Rahmen müssen gleich sein."],
+  ["Freilauf (HG, Micro Spline, XD)", "Der Teil der Hinterradnabe, auf dem die Kassette sitzt. Shimano 12-fach braucht Micro Spline, SRAM Eagle XD, ältere und günstige Kassetten HG."],
+  ["Kettenlinie", "Wie weit das Kettenblatt von der Rahmenmitte entfernt ist. Stimmt sie nicht zum Hinterbau, läuft die Kette schräg und verschleißt schnell."],
+  ["UDH / Transmission", "UDH ist ein einheitliches Schaltauge. SRAM Transmission schraubt direkt an den Rahmen und braucht dafür UDH."],
+  ["Einbaumaß (Dämpfer)", "Länge × Hub des Dämpfers in mm, dazu Standard- oder Trunnion-Aufnahme. Muss exakt zum Rahmen passen."],
+  ["Doppelbrücke / Direct Mount", "Downhill-Gabeln haben zwei Brücken. Der Vorbau wird dann direkt auf die obere geschraubt (Direct Mount)."],
+  ["Klemmung 31,8 / 35", "Durchmesser des Lenkers in der Mitte. Lenker und Vorbau brauchen dasselbe Maß."],
+  ["Variostütze (Dropper)", "Sattelstütze, die sich per Hebel am Lenker absenkt — für die Abfahrt aus dem Weg."],
+  ["Maulweite", "Innenbreite der Felge. Breite Reifen brauchen breite Felgen, sonst liegt der Reifen schwammig."],
+  ["Kolben / Scheibe (Bremse)", "4 Kolben und große Scheiben (200 mm +) bremsen kräftiger und überhitzen später — wichtig bei langen Abfahrten."],
+  ["Innenlager (BSA, PressFit)", "BSA wird eingeschraubt, PressFit eingepresst. Das Lager muss zum Rahmen und zur Kurbelwelle (DUB, Hollowtech II, 30 mm) passen."]
+];
+function oeffneBegriffe(){
+  zeigeSheet(`
+    <div class="sheet-h"><h3><span class="sub">Hilfe</span>Begriffe erklärt</h3>${zuBtn}</div>
+    <div class="sheet-b">${BEGRIFFE.map(([k, t]) => `<div class="erk"><b>${k}</b>${t}</div>`).join("")}</div>`);
+}
+
+/* ═══════════ Einkaufsliste ═══════════
+   Alles, was im Aufbau steckt, mit Preis und Shop-Knopf -- der letzte Schritt
+   nach dem Planen. Als Text kopierbar, etwa fuer die Werkstatt. */
+function einkaufHtml(r){
+  const teile = SLOTS.filter(s => !entfaellt(build, s.k) && build[s.k]).map(s => ({s:s, t:findeTeil(s.k, build[s.k])})).filter(x => x.t);
+  if(!teile.length) return `<p class="empty-note">Noch keine Teile im Aufbau. Stell im Reiter Aufbau zuerst ein Rad zusammen —
+    am schnellsten mit dem Assistenten.</p>`;
+  const offen = SLOTS.filter(s => !entfaellt(build, s.k) && !build[s.k]).length;
+  const fehl = r.funde.filter(f => f.level === "fehler").length;
+  return `${fehl ? `<div class="mixbox no" style="margin-bottom:10px"><b>Erst klären, dann bestellen.</b>
+      ${fehl === 1 ? "Ein Teil passt" : fehl + " Teile passen"} nicht zum Rest. Was genau, steht im Reiter Prüfung.</div>` : ""}
+    <div class="ek-summe"><span>${teile.length} ${teile.length === 1 ? "Teil" : "Teile"}${offen ? ` · ${offen} noch offen` : ""}</span><b>${eur(r.preis)}</b></div>
+    ${teile.map(x => `<div class="ek">
+      <div><span class="ek-k">${x.s.label}</span><button class="ek-n" data-detail="${x.s.k}|${x.t.id}">${esc(x.t.n)}</button></div>
+      <div class="ek-r"><span>${kachelPreis(x.t)}</span>${affHtml(x.t, true)}</div></div>`).join("")}
+    <div class="ek-knoepfe"><button class="btn ghost sm" data-ekkopie="1">Liste kopieren</button></div>
+    <p class="pv-recht">Tippe einen Namen an für alle Angebote und den Preisverlauf. Vor dem Bestellen die Maße gegen das
+      Datenblatt deines Rahmens prüfen. Wer nicht selbst schraubt: Liste kopieren und in die Werkstatt mitnehmen.
+      <span class="werbung">Anzeige</span> Kaufst du über einen Shop-Link, bekommt CrankScore eine Provision; dein Preis ändert sich nicht.</p>`;
+}
+function einkaufText(){
+  const r = bewerte(build), p = profile[modus].find(x => x.id === aktivId[modus]);
+  const z = SLOTS.filter(s => !entfaellt(build, s.k) && build[s.k]).map(s => {
+    const t = findeTeil(s.k, build[s.k]);
+    return t ? `${s.label}: ${t.n} — ${eur(preisVon(t))}` : "";
+  }).filter(Boolean);
+  return [`CrankScore · ${p ? profilName(p, modus) : MODUS_NAME[modus]} · ${selNamen()}`, ""].concat(z,
+    ["", `Summe: ${eur(r.preis)} · ${kg(r.gewicht)}`]).join("\n");
+}
+function kopiere(txt){
+  const ok = () => zeigeToast("Einkaufsliste kopiert.");
+  const alt = () => { try{ const ta = document.createElement("textarea"); ta.value = txt; ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select();
+    const g = document.execCommand("copy"); ta.remove(); if(g) ok(); else zeigeToast("Kopieren ging nicht — bitte markieren und kopieren."); }catch(e){} };
+  try{ if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(ok, alt); return; } }catch(e){}
+  alt();
+}
+
+/* Vorschlaege (Upgrades, Sparen) kosten die meiste Rechenzeit beim Zeichnen:
+   jeder Kandidat jedes Slots wird einmal bewertet. Sichtbar sind sie nur im
+   Reiter Upgrades oder in der Seitenleiste am breiten Bildschirm -- sonst
+   rechnen sie kurz danach im Hintergrund, fuer die Zahl an der Tableiste. */
+let vorschlagTimer = 0;
+const breit = () => { try{ return window.matchMedia("(min-width:820px)").matches; }catch(e){ return false; } };
+function vorschlaegeZeichnen(){
+  vorschlagTimer = 0;
+  const r = bewerte(build);
+  const top = upgrades(r);
+  $("upgrades").innerHTML = top.length ? top.map(v => `
+    <div class="up">
+      <div><div class="up-n">${esc(v.teil.n)}</div>
+        <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+        <span class="delta">+${v.d}</span>
+        <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Einbauen</button>
+        ${affHtml(v.teil, true)}
+      </div>
+    </div>`).join("")
+    : `<p class="empty-note">Kein Tausch aus dem Katalog verbessert den Aufbau. Ab hier entscheidet der Fahrer, nicht das Teil.</p>`;
+
+  const spar = sparPlan(build);
+  const gesamtSpar = spar.reduce((a, x) => a + x.spart, 0);
+  $("sparen").innerHTML = spar.length
+    ? `<div class="sparkasten"><b>${eur(gesamtSpar)} liegen hier.</b>
+        <p>Gleiche Maße, gleiche Passform — nur billiger. Abweichungen stehen bei jedem Vorschlag dabei.</p></div>`
+      + spar.map(v => `<div class="spar">
+          <div>
+            <div class="spar-n">${esc(v.teil.n)}</div>
+            <div class="spar-s">${v.slot.label} · ${eur(preisVon(v.teil))} statt ${eur(preisVon(findeTeil(v.slot.k, build[v.slot.k])))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div>
+            ${v.ab.length ? `<div class="spar-ab">${esc(v.ab.join(" · "))}</div>` : ""}
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+            <span class="minus">−${eur(v.spart)}</span>
+            <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Tauschen</button>
+            ${affHtml(v.teil, true)}
+          </div>
+        </div>`).join("")
+    : `<p class="empty-note">Kein Teil lässt sich bei gleichen Maßen günstiger ersetzen. Der Aufbau
+       ist preislich schon sauber.</p>`;
+  $("b-up").textContent = top.length + spar.length;
+}
+
 function zeichne(){
   erg = bewerte(build);
   const r = erg;
@@ -4427,7 +4734,7 @@ function zeichne(){
     b => b.setAttribute("aria-pressed", String(b.dataset.modus === modus)));
   $("profile").innerHTML = profile[modus].map(p =>
       `<button class="pchip" data-profil="${p.id}" aria-pressed="${p.id === aktivId[modus]}"><span class="pn">${esc(profilName(p, modus))}</span></button>`).join("")
-    + `<button class="pchip neu" data-profneu="1" aria-label="Neues Profil für ${MODUS_NAME[modus]}">+ Neu</button>`
+    + `<button class="pchip neu" data-profneu="1" aria-label="Neues Profil für ${MODUS_NAME[modus]}">+ ${modus === "markt" ? "Weiteres Angebot" : "Weiteres Rad"}</button>`
     + `<button class="pchip rand" data-profile="1" aria-label="Profile verwalten"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>`;
   const pa = $("profile").querySelector('[aria-pressed="true"]');
   if(pa){ const box = $("profile"), l = pa.offsetLeft, r = l + pa.offsetWidth;
@@ -4458,7 +4765,7 @@ function zeichne(){
             ? ` — ${eur(markt.preis - m.wert)} darüber.`
             : markt.preis < m.wert ? ` — ${eur(m.wert - markt.preis)} darunter.` : "."}</div>
         ${nF ? `<div class="zeile"><b>Achtung:</b> ${nF === 1 ? "ein Teil passt" : nF + " Teile passen"} nicht
-          zusammen. Prüf im Reiter Befunde, ob das am Rad wirklich so verbaut ist — oder ob die Beschreibung
+          zusammen. Prüf im Reiter Prüfung, ob das am Rad wirklich so verbaut ist — oder ob die Beschreibung
           nicht stimmt.</div>` : ""}
       </div>`;
     }
@@ -4540,7 +4847,7 @@ function zeichne(){
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
   </button>`;
 
-  $("aufbau").innerHTML = marktkarte + fotokarte + leerHinweis + cta + GRUPPEN.map(g => {
+  $("aufbau").innerHTML = leitKarte(r) + marktkarte + fotokarte + (leitAus ? leerHinweis + cta : "") + GRUPPEN.map(g => {
     const meine = SLOTS.filter(s => s.grp === g.n && !entfaellt(build, s.k));
     if(!meine.length) return "";                       /* Thema ganz ohne Slot am Rahmen */
     const rows = SLOTS.filter(s => s.grp === g.n).map(s => {
@@ -4557,6 +4864,7 @@ function zeichne(){
       return `<button class="slot ${lvl || ""}" data-slot="${s.k}">
         <span class="slot-k">${label}</span>
         <span class="slot-n ${t ? "" : "empty"}">${t ? esc(t.n) : "Teil wählen …"}</span>
+        ${t ? "" : `<span class="slot-was">${esc(s.was)}</span>`}
         ${chips ? `<span class="specs">${chips}</span>` : ""}
         ${kachelZusatz(s.k, t)}
         <span class="slot-r">${t ? kachelPreis(t) : `<span class="g">offen</span>`}</span>
@@ -4589,7 +4897,7 @@ function zeichne(){
     Reifenfreiheiten und Gewichte. Sie stehen für die Modellklasse, nicht datenblattgenau für jeden
     Jahrgang.<br>
     <b>Preise:</b> Führt ein Partnershop das Teil, rechnet die App mit dem günstigsten lieferbaren Angebot
-    (inkl. MwSt., zzgl. Versand; Stand im Reiter Deals). Sonst steht dort ein Richtpreis auf UVP-Niveau — kein Angebot.<br>
+    (inkl. MwSt., zzgl. Versand; Stand im Reiter Kaufen). Sonst steht dort ein Richtpreis auf UVP-Niveau — kein Angebot.<br>
     <b>Links:</b> Shop-Knöpfe mit Punkt führen direkt zum Produkt, die mit Lupe zur Suche im Shop. Mit „Anzeige“
     markierte Links bringen CrankScore eine Provision; dein Preis ändert sich nicht.${amazonAktiv() ? " Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}<br>
     <b>Vor dem Kauf</b> gegen das Datenblatt deines Rahmens prüfen.
@@ -4600,50 +4908,23 @@ function zeichne(){
   const sortiert = r.funde.slice().sort((a,b) => rang[a.level] - rang[b.level]);
   $("findings").innerHTML = sortiert.length
     ? sortiert.map(f => `<div class="find ${f.level}">
-        <div class="find-t"><span class="pill">${f.level}</span>${esc(f.titel)}</div><p>${f.text}</p>
+        <div class="find-t"><span class="pill">${STUFE[f.level] || f.level}</span>${esc(f.titel)}</div><p>${f.text}</p>
         ${f.fixSlot ? `<div><button class="btn ghost sm" data-slot="${f.fixSlot}">Teil wechseln</button></div>` : ""}
       </div>`).join("")
     : `<div class="clean"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
        Keine Konflikte. Alle Maße passen.</div>`;
 
-  const top = upgrades(r);
-  $("upgrades").innerHTML = top.length ? top.map(v => `
-    <div class="up">
-      <div><div class="up-n">${esc(v.teil.n)}</div>
-        <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div></div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
-        <span class="delta">+${v.d}</span>
-        <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Einbauen</button>
-        ${affHtml(v.teil, true)}
-      </div>
-    </div>`).join("")
-    : `<p class="empty-note">Kein Tausch aus dem Katalog verbessert den Aufbau. Ab hier entscheidet der Fahrer, nicht das Teil.</p>`;
+  clearTimeout(vorschlagTimer);
+  if(view === "upgrades" || breit()) vorschlaegeZeichnen();
+  else vorschlagTimer = setTimeout(vorschlaegeZeichnen, 350);
 
-  const spar = sparPlan(build);
-  const gesamtSpar = spar.reduce((a, x) => a + x.spart, 0);
-  $("sparen").innerHTML = spar.length
-    ? `<div class="sparkasten"><b>${eur(gesamtSpar)} liegen hier.</b>
-        <p>Gleiche Maße, gleiche Passform — nur billiger. Abweichungen stehen bei jedem Vorschlag dabei.</p></div>`
-      + spar.map(v => `<div class="spar">
-          <div>
-            <div class="spar-n">${esc(v.teil.n)}</div>
-            <div class="spar-s">${v.slot.label} · ${eur(preisVon(v.teil))} statt ${eur(preisVon(findeTeil(v.slot.k, build[v.slot.k])))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div>
-            ${v.ab.length ? `<div class="spar-ab">${esc(v.ab.join(" · "))}</div>` : ""}
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
-            <span class="minus">−${eur(v.spart)}</span>
-            <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Tauschen</button>
-            ${affHtml(v.teil, true)}
-          </div>
-        </div>`).join("")
-    : `<p class="empty-note">Kein Teil lässt sich bei gleichen Maßen günstiger ersetzen. Der Aufbau
-       ist preislich schon sauber.</p>`;
+  $("c-kauf").hidden = modus === "markt";
+  if(modus !== "markt") $("einkauf").innerHTML = einkaufHtml(r);
 
   $("b-auf").textContent = r.teile + "/" + r.moeglich;
   const nF = r.funde.filter(f => f.level === "fehler").length;
   $("b-fin").textContent = r.funde.length;
   $("b-fin").className = "badge" + (nF ? " rot" : "");
-  $("b-up").textContent = top.length + spar.length;
 
   const dl = dealsListe(), dPass = dl.filter(x => x.passt);
   const zeigD = (dealFilter === "alle" ? dl : dPass).slice(0, 40);
@@ -4662,7 +4943,7 @@ function zeichne(){
        <p class="pv-recht">Rabatt gegenüber der UVP laut Shop, ab 10 %. 30-Tage-Tief: günstigster Preis der
          letzten 30 Tage. Preise inkl. MwSt., zzgl. Versand; es gilt der Preis im Shop. Kaufst du über einen
          Shop-Link, bekommt CrankScore eine Provision — dein Preis ändert sich nicht.</p>`;
-  $("b-deal").textContent = dPass.length;
+  $("b-deal").textContent = dPass.length; $("b-deal").hidden = !dPass.length;
   $("b-deal").className = "badge" + (dPass.some(x => x.verbaut) ? " gruen" : "");
   document.body.dataset.view = view;
   Array.prototype.forEach.call(document.querySelectorAll(".tabs [data-view]"),
@@ -4869,6 +5150,7 @@ function oeffneSlot(slotKey){
     <div class="sheet-h"><h3><span class="sub">Bauteil wählen</span>${s.label}</h3>
       ${build[slotKey] ? `<button class="btn ghost sm" data-leeren="${slotKey}">Leeren</button>` : ""}${zuBtn}</div>
     <div class="sheet-b">
+      <p class="was-das"><b>Was ist das?</b> ${esc(s.was)}${filterAlle ? "" : " Oben stehen nur Teile, die zu deinem Aufbau passen — „passt“ heißt: Maße und Standards stimmen."}</p>
       ${slotKey === "rahmen" ? jahrLeiste() : ""}
       ${(() => {
         const g = guenstigere(slotKey, build);
@@ -5116,7 +5398,7 @@ function oeffneWiz(step){
           ${esc(markeFehlt.join(", "))}: Von der gewünschten Marke passt hier kein Teil zum Rest des Aufbaus,
           deshalb die nächstbeste Wahl.</div>` : ""}
       ${r.funde.filter(f => f.level === "fehler").length
-        ? `<div class="mixbox no" style="margin-top:12px"><b>Mit Konflikt.</b> Der Katalog hat für diese Kombination aus Disziplin, Budget und Marken kein sauberes Teil. Nach dem Übernehmen siehst du im Reiter Befunde genau welches.</div>`
+        ? `<div class="mixbox no" style="margin-top:12px"><b>Mit Konflikt.</b> Der Katalog hat für diese Kombination aus Disziplin, Budget und Marken kein sauberes Teil. Nach dem Übernehmen siehst du im Reiter Prüfung genau welches.</div>`
         : `<div class="mixbox ok" style="margin-top:12px"><b>Ohne harte Konflikte.</b> Alle Maße passen zueinander.</div>`}`;
     weiter = "Übernehmen";
   }
@@ -5299,6 +5581,13 @@ function oeffneMenu(){
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">Einstellungen</span>${linkVerwaltung ? "App &amp; Betrieb" : "App &amp; Profil"}</h3>${zuBtn}</div>
     <div class="sheet-b">
+      <div class="grp-h" style="margin-top:14px"><h2>Hilfe</h2><div class="rule"></div></div>
+      <div class="lk-knoepfe" style="margin:0 0 6px">
+        <button class="btn ghost sm" data-hilfe="start">Einführung</button>
+        <button class="btn ghost sm" data-hilfe="begriffe">Begriffe erklärt</button>
+        <button class="btn ghost sm" data-hilfe="score">Was bedeuten die Zahlen?</button>
+        <button class="btn ghost sm" data-hilfe="leit">${leitAus ? "Anleitung wieder zeigen" : "Anleitung ausblenden"}</button>
+      </div>
       <div class="grp-h" style="margin-top:14px"><h2>Fahrer &amp; Budget</h2><div class="rule"></div></div>
       <div class="fld"><label for="m-fahrer">Fahrergewicht in kg — gilt für alle Profile, prüft die Laufrad-Freigabe</label>
         <input id="m-fahrer" type="number" inputmode="numeric" min="0" max="180" value="${plan.fahrer || ""}" placeholder="leer = Prüfung aus" data-plan="fahrer"></div>
@@ -5339,10 +5628,13 @@ document.addEventListener("click", e => {
     if(cur && cur.v){
       const w = cur.wahl.slice(); w[+q[1]] = +q[2];
       build[sk] = varianteNachIndex(rohTeil(quelleOf(slotOf(sk)), cur.basisId), w).id;
+      varOffen[sk] = true;                  /* offen lassen, bis "Fertig" */
       sichern(); zeichne();
     }
     return;
   }
+  const vau = T("[data-varauf]");
+  if(vau){ const sk = vau.dataset.varauf; if(varOffen[sk]) delete varOffen[sk]; else varOffen[sk] = true; zeichne(); return; }
   const eg = T("[data-eigen]");
   if(eg){ oeffneEigen(eg.dataset.eigen); return; }
   const egs = T("[data-eigenspeichern]");
@@ -5463,7 +5755,7 @@ document.addEventListener("click", e => {
   if(pw){ const imBlatt = !!pw.closest(".sheet"); profilWechseln(pw.dataset.profil); if(imBlatt) schliesse(); return; }
   if(T("[data-profneu]")){
     profilNeu(); schliesse();
-    zeigeToast("Neues " + MODUS_NAME[modus] + "-Profil. Fang beim Rahmen an" + (modus === "traum" ? " oder frag den Assistenten." : "."));
+    zeigeToast((modus === "markt" ? "Neues Angebot" : "Neues Rad") + " angelegt. Fang beim Rahmen an" + (modus === "traum" ? " oder frag den Assistenten." : "."));
     return;
   }
   if(T("[data-profile]")){ oeffneProfile(); return; }
@@ -5494,8 +5786,54 @@ document.addEventListener("click", e => {
   if(T("[data-updweg]")){ updateWeg(); return; }
   if(T("#mini")){ window.scrollTo({top:0, behavior:"smooth"}); return; }
 
+  /* body traegt selbst data-view (fuers CSS) -- nur echte Knoepfe zaehlen */
   const v = T("[data-view]");
-  if(v){ view = v.dataset.view; zeichne(); window.scrollTo({top:0, behavior:"smooth"}); return; }
+  if(v && v !== document.body){
+    view = v.dataset.view; zeichne();
+    /* Am breiten Bildschirm gibt es keine Tableiste -- dort zur Karte springen */
+    const karte = breit() && {befunde:"c-find", upgrades:"c-up", deals:"c-kauf"}[view];
+    if(karte && $(karte) && !$(karte).hidden) $(karte).scrollIntoView({behavior:"smooth", block:"start"});
+    else window.scrollTo({top:0, behavior:"smooth"});
+    return;
+  }
+
+  /* Startauswahl, Anleitung, Hilfe */
+  const stw = T("[data-start]");
+  if(stw){
+    const m = stw.dataset.start;
+    schliesse();
+    if(m === "schauen") return;
+    if(m !== modus) wechsle(m);
+    view = "aufbau"; sichern(); zeichne(); window.scrollTo(0, 0);
+    if(m === "traum") oeffneWiz(0);
+    return;
+  }
+  const sp = T("[data-springe]");
+  if(sp){
+    if(view !== "aufbau"){ view = "aufbau"; zeichne(); }
+    const el = document.querySelector(sp.dataset.springe);
+    if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+    return;
+  }
+  if(T("[data-leitweg]")){
+    leitAus = true; try{ localStorage.setItem("mtb.leit", "aus"); }catch(e){}
+    zeichne(); zeigeToast("Anleitung ausgeblendet. Unter ⋮ → Hilfe holst du sie zurück.");
+    return;
+  }
+  if(T("[data-scorehilfe]")){ oeffneScoreHilfe(); return; }
+  const hi = T("[data-hilfe]");
+  if(hi){
+    const w = hi.dataset.hilfe;
+    if(w === "start") oeffneStart();
+    else if(w === "begriffe") oeffneBegriffe();
+    else if(w === "score") oeffneScoreHilfe();
+    else if(w === "leit"){
+      leitAus = !leitAus; try{ localStorage.setItem("mtb.leit", leitAus ? "aus" : "an"); }catch(e){}
+      view = "aufbau"; zeichne(); oeffneMenu();
+    }
+    return;
+  }
+  if(T("[data-ekkopie]")){ kopiere(einkaufText()); return; }
   if(T("[data-reset]")){
     setzeBau(modus === "traum" && profile.traum.length === 1 ? {...START} : leerBau());
     fotos[modus] = null; sel = ["trail"]; plan = {...PLAN_START, fahrer:plan.fahrer};
@@ -5585,6 +5923,9 @@ $("btn-menu").addEventListener("click", oeffneMenu);
 try{ if(window.claude && window.claude.hot) window.claude.hot.snapshot(() => ({builds, modus, fotos, sel, plan, markt, aff, view})); }catch(e){}
 
 function start(daten){
+  /* Wer die App zum ersten Mal oeffnet, bekommt die Startauswahl */
+  let erstesMal = false;
+  try{ erstesMal = !localStorage.getItem("mtb.start") && !localStorage.getItem("mtb.builds"); }catch(e){}
   laden();
   if(/^#betreiber$/i.test(location.hash)){
     linkVerwaltung = true; sichern();
@@ -5600,6 +5941,7 @@ function start(daten){
   }
   zeichne();
   liveLaden();
+  if(erstesMal && !daten && !linkVerwaltung) setTimeout(() => { if(!$("modal").querySelector(".sheet")) oeffneStart(); }, 350);
 }
 /* Zurueck in der App nach mehr als einer halben Stunde: frische Preise holen */
 document.addEventListener("visibilitychange", () => {

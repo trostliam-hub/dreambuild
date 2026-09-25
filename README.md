@@ -17,9 +17,18 @@ Stützendurchmesser und Einstecktiefe, Systemgewicht gegen Laufrad-Freigabe,
 Innenlager gegen Tretlagergehäuse (BSA 68/73/83, PressFit 92/107, PF30,
 Spanish) und Kurbelwelle (DUB, Hollowtech II, 30 mm, PowerSpline, ISIS).
 
-**Zwei getrennte Werte.** *Technik* misst, ob es mechanisch zusammenpasst.
-*Charakter* misst, ob alle Teile in dieselbe Richtung ziehen — ein Enduro-Rahmen
+**Zwei getrennte Werte.** *Passform* misst, ob es mechanisch zusammenpasst.
+*Einsatz* misst, ob alle Teile in dieselbe Richtung ziehen — ein Enduro-Rahmen
 mit XC-Bremsen ist fehlerfrei und trotzdem falsch gebaut.
+
+**Für Einsteiger.** Beim ersten Öffnen fragt die App, was man vorhat (neues Rad,
+eigenes Rad, Gebrauchtrad). Oben im Aufbau führt eine Leitkarte Schritt für
+Schritt: je Modus drei bis vier Schritte, abgehakt, was erledigt ist, ein Knopf
+für den nächsten. Jedes Bauteil hat einen Satz „Was ist das?“, unter ⋮ → Hilfe
+stehen Einführung, Begriffe (Boost, Freilauf, Kettenlinie …) und die Erklärung
+der Wertung. Ausführungen (Einbaumaß, Federweg …) sind eingeklappt, bis man sie
+ändern will. Der Reiter *Kaufen* hat eine Einkaufsliste mit Shop-Knöpfen, als
+Text kopierbar für die Werkstatt.
 
 **Sieben Disziplinen,** einzeln oder gemischt: Cross Country, Trail, Enduro,
 Downhill, Dirtjump, Slopestyle, Trial. Mischungen werden auf Machbarkeit
@@ -45,7 +54,7 @@ Dirt-Kurbel, steht das im Ergebnis.
 **Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
 mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut
 Shop, „30-Tage-Tief“ aus dem eigenen Preisverlauf, eine Verlaufskurve über
-90 Tage und der Reiter *Deals*: alles, was gerade reduziert ist und in den
+90 Tage und der Reiter *Kaufen* (Einkaufsliste und Deals): alles, was gerade reduziert ist und in den
 eigenen Aufbau passt. Der Aufbau rechnet mit dem günstigsten lieferbaren
 Angebot; ohne Angebot mit dem Richtpreis aus dem Katalog.
 
