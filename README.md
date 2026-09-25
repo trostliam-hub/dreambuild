@@ -37,7 +37,10 @@ es nicht, nimmt er zuerst ein älteres Rahmen-Modelljahr (Vorjahr im
 Abverkauf, bis drei Jahre älter zum Gebrauchtpreis), dann einfachere
 Kleinteile. Rahmen, Gabel und Dämpfer bleiben immer echte Teile der
 Disziplin; geht es trotzdem nicht, sagt die App, was die Disziplin mindestens
-kostet.
+kostet. Markenwünsche sind verbindlich: gibt es von der Marke ein Teil, das
+sauber passt, kommt nur sie in Frage (SRAM-Wunsch bei Downhill = SRAM GX DH
+oder X01 DH 7-fach). Wo die Marke nichts Passendes hat, etwa keine
+Dirt-Kurbel, steht das im Ergebnis.
 
 **Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
 mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut
