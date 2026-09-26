@@ -60,8 +60,8 @@ Maße“ gibt es nur beim Planen. Beim eigenen Rad und beim Angebot folgt die
 Disziplin dem eingetragenen Rahmen.
 
 **Federungsrechner.** In der Gruppe Fahrwerk (und unter ⋮ → Hilfe): aus
-Fahrergewicht (+4 kg Ausrüstung) und Fahrstil (entspannt, ausgewogen,
-aggressiv) je Gabel und Dämpfer ein Luftdruck in psi/bar mit Sag-Ziel, bei
+Fahrergewicht (+4 kg Ausrüstung) und einem Fahrprofil aus fünf Fragen
+(Gelände, Tempo bergab, Sprünge, gewünschtes Gefühl, Anteil bergauf) je Gabel und Dämpfer ein Luftdruck in psi/bar mit Sag-Ziel, bei
 Stahlfeder die Federhärte, dazu zwei Druckstufen-Einstellungen: *Abfahrt*
 (ruppig, schnell) und *Sprünge* (Absprung und Landung). Grundlage sind die
 Herstellertabellen (Fox Owner's Manuals 2025 für 32/34/36/38/40,
@@ -70,7 +70,9 @@ LinearXL ab Modelljahr 2027); Gabeln ohne eigene Tabelle bekommen den Wert
 ihrer Klasse und sagen das. Druckstufen als Klicks ab der Grundeinstellung des
 Herstellers (GRIP X2 5/10, GRIP X 10/10 von zu, sonst Mitte). Dämpfer: Luft
 rund Körpergewicht in lb, skaliert mit der geschätzten Hinterbau-Übersetzung;
-Stahlfeder = Last hinten × Übersetzung / (Hub × Sag).
+Stahlfeder = Last hinten × Übersetzung / (Hub × Sag). Zu jeder Einstellung ein gezeichnetes Schema des
+Einstellrädchens (Zeiger, ein Strich je Klick), Link zur offiziellen
+Hersteller-Anleitung und optional das eigene Top-Cap-Foto mit markierten Knöpfen.
 
 **Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
 mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut

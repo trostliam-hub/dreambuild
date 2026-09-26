@@ -346,6 +346,39 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .fed-auf b{display:block;font-size:13.5px;font-weight:750}
 .fed-auf span span{display:block;font-size:12px;color:var(--ink-3);font-weight:500;margin-top:1px}
 .fed-stil{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:6px 0 14px}
+/* Fahrprofil-Fragen */
+.ff-kopf{margin:0 0 12px}
+.ff-opts{display:flex;flex-direction:column;gap:8px}
+.ff-opt{text-align:left;align-items:flex-start;padding:13px 14px}
+.ff-profil{border:1px solid var(--hair);background:var(--surface-2);border-radius:16px;padding:12px 14px;margin:0 0 12px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.ff-profil .specs{margin-top:2px}
+.ff-gruende{margin:2px 0 4px;padding-left:18px;font-size:12.5px;color:var(--ink-2);line-height:1.45}
+/* Schema des Einstellraedchens */
+.kn-block{margin-top:10px;padding-top:10px;border-top:1px solid var(--line-soft)}
+.kn-kopf{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.kn-kopf > b{font-size:12.5px;font-weight:750}
+.kn-reihe{display:flex;gap:10px;flex-wrap:wrap}
+.kn{margin:0;flex:1 1 130px;max-width:170px;display:flex;flex-direction:column;align-items:center}
+.kn svg{width:100%;max-width:150px;height:auto;display:block}
+.kn figcaption{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1px;margin-top:2px}
+.kn figcaption b{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.kn figcaption span{font-size:12px;color:var(--ink-3);line-height:1.35}
+.kn-geh{fill:var(--surface);stroke:var(--hair);stroke-width:1.5}
+.kn-knopf{fill:var(--surface-2);stroke:var(--ink-3);stroke-width:2}
+.kn-r{stroke:var(--ink-3);stroke-width:2;stroke-linecap:round;opacity:.55}
+.kn-t{stroke:var(--ink-2);stroke-width:2.4;stroke-linecap:round}
+.kn-t.blass{opacity:.3}
+.kn-t.stopp{stroke:var(--anod);stroke-width:3.2}
+.kn-z{stroke:var(--anod);stroke-width:5;stroke-linecap:round}
+.kn-zp{fill:var(--anod)}
+.kn-m{fill:var(--anod);font:700 10px var(--f-body,sans-serif);text-anchor:middle;dominant-baseline:middle}
+.kn-hin{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 0 0}
+.kn-hebel{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;margin-top:4px}
+.kn-hebel b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);min-width:70px}
+.kn-pos{padding:4px 10px;border-radius:999px;border:1px solid var(--hair);color:var(--ink-3);font-weight:650}
+.kn-pos.an{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
+.kn-hz{flex-basis:100%;font-size:12px;color:var(--ink-3);margin-top:2px}
 .fed-karte{border:1px solid var(--hair);background:var(--surface-2);border-radius:16px;padding:13px 14px;margin-bottom:10px}
 .fed-kopf{display:flex;flex-direction:column;gap:1px;margin-bottom:8px}
 .fed-k{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
@@ -2362,7 +2395,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260926-1713';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260926-1722';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -4743,14 +4776,55 @@ const FED_MAX = {fox36:120, fox36r:120, fox38:140, fox40:120, pike:163, lyrik:16
 const FED_NAME = {fox32:"Fox 32", fox34:"Fox 34", fox36:"Fox 36 FLOAT", fox36r:"Fox 36 Rhythm", fox38:"Fox 38", fox40:"Fox 40",
   pike:"RockShox Pike", lyrik:"RockShox Lyrik", zeb:"RockShox ZEB", sid:"RockShox SID", domain:"RockShox Domain",
   boxxer:"RockShox BoXXer", recon:"RockShox Recon", reba:"RockShox Reba", linearxl:"RockShox LinearXL (ab 2027)"};
-const FSTILE = [
-  {v:"locker",   n:"Entspannt",  t:"Touren, Komfort", psiV:0.95, psiH:0.95, klick:-1, sagV:20, sagH:30},
-  {v:"normal",   n:"Ausgewogen", t:"Trails aller Art", psiV:1,    psiH:1,    klick:0,  sagV:18, sagH:28},
-  {v:"aggressiv",n:"Aggressiv",  t:"Schnell, Bikepark", psiV:1.07, psiH:1.08, klick:1, sagV:15, sagH:25}
+/* Fahrprofil: Gewicht plus fuenf Fragen statt drei Stil-Knoepfen (Liams
+   Wunsch 2026-09-26: "individueller"). Jede Antwort verschiebt Luftdruck,
+   Sag und die Druckstufen um kleine, nachvollziehbare Schritte; Grundlage
+   bleibt die Herstellertabelle. Stufe je Antwort: -1 / 0 / +1 (Gelaende bis +2). */
+const FFRAGEN = [
+  {k:"gelaende", q:"Wo fährst du meistens?", h:"Das Gelände entscheidet, wie viel Halt und wie viel Grip das Fahrwerk braucht.",
+   o:[["wald","Waldwege & Touren","eher glatt, wenig Wurzeln",-1],["flow","Flowtrails","Anlieger, Wellen, kleine Sprünge",0],
+      ["ruppig","Ruppige Trails","Wurzeln, Steine, steile Stücke",1],["park","Bikepark & Downhill","große Sprünge, schnelle Strecken",2]]},
+  {k:"tempo", q:"Wie fährst du bergab?", h:"Wer schneller fährt, braucht mehr Halt, damit das Rad nicht wegtaucht.",
+   o:[["ruhig","Gemütlich","sicher ankommen",-1],["zuegig","Zügig","flott, aber mit Reserve",0],["schnell","Schnell","am Limit, auf Zeit",1]]},
+  {k:"spruenge", q:"Wie viel springst du?", h:"Sprünge und Drops brauchen Reserven gegen das Durchschlagen.",
+   o:[["nie","Kaum","die Räder bleiben am Boden",-1],["klein","Kleine Sprünge & Drops","bis etwa Kniehöhe",0],["gross","Große Sprünge & Drops","Bikepark, Tables, Drops",1]]},
+  {k:"gefuehl", q:"Wie soll sich das Fahrwerk anfühlen?", h:"Geschmackssache — die App passt Luft und Druckstufe daran an.",
+   o:[["weich","Weich & komfortabel","schluckt alles, darf schaukeln",-1],["mittel","Ausgewogen","von beidem etwas",0],["straff","Straff & direkt","viel Halt, du spürst den Boden",1]]},
+  {k:"bergauf", q:"Wie viel fährst du selbst bergauf?", h:"Viel Treten heißt: der Dämpfer soll weniger wippen.",
+   o:[["wenig","Wenig","Lift oder Shuttle",-1],["normal","Normal","gehört dazu",0],["viel","Viel","lange Touren, viele Höhenmeter",1]]}
 ];
-let fstil = "normal";
-try{ fstil = localStorage.getItem("mtb.fstil") || "normal"; }catch(e){}
-const stilVon = () => FSTILE.find(s => s.v === fstil) || FSTILE[1];
+let fprofil = {};
+try{ fprofil = JSON.parse(localStorage.getItem("mtb.fprofil") || "{}") || {}; }catch(e){ fprofil = {}; }
+let fschritt = 0, fFragenOffen = false;
+const fSichern = () => { try{ localStorage.setItem("mtb.fprofil", JSON.stringify(fprofil)); }catch(e){} };
+const fFertig = () => plan.fahrer > 0 && FFRAGEN.every(f => fprofil[f.k]);
+const fLv = k => { const f = FFRAGEN.find(x => x.k === k), o = f && f.o.find(x => x[0] === fprofil[k]); return o ? o[3] : 0; };
+const fKlemm = (v, a, b) => Math.max(a, Math.min(b, v));
+function stilVon(){
+  const g = fLv("gelaende"), t = fLv("tempo"), sp = fLv("spruenge"), f = fLv("gefuehl"), b = fLv("bergauf");
+  return {
+    psiV: fKlemm(1 + 0.03 * t + 0.03 * sp + 0.04 * f, 0.9, 1.12),
+    psiH: fKlemm(1 + 0.03 * t + 0.03 * sp + 0.04 * f + 0.02 * b, 0.9, 1.14),
+    sagV: Math.round(fKlemm(18 - 1.5 * f - (sp > 0 ? 1 : 0) - (t > 0 ? 1 : 0), 14, 22)),
+    sagH: Math.round(fKlemm(28 - 2 * f - (sp > 0 ? 1 : 0), 24, 32)),
+    klickL: fKlemm(f + t, -2, 2),
+    klickH: fKlemm(f + (sp > 0 ? 1 : 0) + (g >= 2 ? 1 : 0) - (g === 1 && f <= 0 ? 1 : 0), -2, 2),
+    bergauf: b
+  };
+}
+/* In Worten, was die Antworten bewirkt haben */
+function stilGruende(){
+  const g = fLv("gelaende"), t = fLv("tempo"), sp = fLv("spruenge"), f = fLv("gefuehl"), b = fLv("bergauf"), out = [];
+  if(f > 0) out.push("Straff gewünscht: mehr Luft, weniger Sag, Druckstufe zu.");
+  if(f < 0) out.push("Weich gewünscht: weniger Luft, mehr Sag, Druckstufe offener.");
+  if(t > 0) out.push("Schnell bergab: etwas mehr Luft, LSC zu — taucht beim Bremsen nicht weg.");
+  if(t < 0) out.push("Gemütlich: etwas weniger Luft, LSC offener — mehr Komfort.");
+  if(sp > 0) out.push("Große Sprünge: mehr Luft und HSC zu — schlägt bei der Landung nicht durch.");
+  if(g >= 2) out.push("Bikepark: HSC einen Klick zu für die harten Schläge.");
+  if(g === 1 && f <= 0) out.push("Ruppige Trails: HSC einen Klick offener — mehr Grip auf Wurzeln und Steinen.");
+  if(b > 0) out.push("Viel bergauf: Dämpfer hinten etwas straffer, wippt weniger.");
+  return out.length ? out : ["Alles im mittleren Bereich — die Werte der Herstellertabelle, unverändert."];
+}
 const psiAus = (tab, lb) => {
   const p = FED_TAB[tab];
   if(lb <= p[0][0]) return p[0][1] + (lb - p[0][0]) * (p[1][1] - p[0][1]) / (p[1][0] - p[0][0]);
@@ -4836,9 +4910,10 @@ function klickSkala(v, text){
   return `<span class="ks" role="img" aria-label="${esc(text)}"><span class="ks-e">zu</span><span class="ks-p">${punkte}</span><span class="ks-e">offen</span></span>`;
 }
 /* Zwei Einstellungen: Abfahrt (ruppig, schnell) und Spruenge (Absprung und Landung) */
-function druckstufen(regler, basis, st, kg){
-  const w = (kg < 65 ? -1 : kg > 95 ? 1 : 0) + st.klick;
-  const prof = {abfahrt:{lsc:1 + w, hsc:-1 + w}, spruenge:{lsc:2 + w, hsc:2 + w}};
+function druckstufen(regler, basis, st, kg, hinten){
+  const w = kg < 65 ? -1 : kg > 95 ? 1 : 0;
+  const wl = w + st.klickL + (hinten && st.bergauf > 0 ? 1 : 0), wh = w + st.klickH;
+  const prof = {abfahrt:{lsc:1 + wl, hsc:-1 + wh}, spruenge:{lsc:2 + wl, hsc:2 + wh}};
   const out = {};
   for(const k of ["abfahrt", "spruenge"]){
     const p = prof[k];
@@ -4887,7 +4962,7 @@ function federRechnen(){
       if(psi > 300){ psi = 300; grenze = true; }
     }
     out.daempfer = {t:d, coil:coil, psi:psi, rate:rate, grenze:grenze, lr:lr, hinten:hinten, sag:sag, sagMm:Math.round(d.hub * sag / 100 * 10) / 10,
-      regler:regler, ds:druckstufen(regler, {}, st, kg)};
+      regler:regler, ds:druckstufen(regler, {}, st, kg, true)};
   }
   return out;
 }
@@ -4906,7 +4981,55 @@ function federKarte(titel, x, slot){
     ${reihe("Druckstufe Sprünge", x.ds.spruenge)}
     <p class="fed-q">${x.tab ? (x.tab.eigen ? `Nach Herstellertabelle ${FED_NAME[x.tab.tab]}.` : `Keine Herstellertabelle im Katalog — Richtwert der Klasse (${FED_NAME[x.tab.tab]}).`) + " " : ""}${
       x.basis ? "Grundeinstellung: " + x.basis.txt + "." : x.lr ? `Hinterbau-Übersetzung ≈ ${x.lr.toFixed(1).replace(".", ",")} (geschätzt aus ${x.hinten} mm Federweg und ${String(x.t.hub).replace(".", ",")} mm Hub).` : ""}</p>
+    ${schemaBlock(x)}
     ${topCapBlock(slot, x)}
+  </div>`;
+}
+/* Gezeichnetes Schema des Einstellraedchens (Liams ausdrueckliche Ausnahme
+   vom 2026-09-26): Gehaeuse mit Klick-Strichen, Knopf, Zeiger. Keine
+   Nachbildung einer Marke. Ein Strich je Klick; "zu"-Anschlag bei bekannter
+   Grundeinstellung, sonst die Mitte. Die Gesamtzahl der Klicks ist meist
+   unbekannt -- die Striche laufen deshalb blass aus. */
+function knopfSchema(name, vis, text){
+  const M = 70, P = (grad, r) => { const a = grad * Math.PI / 180; return [(M + r * Math.sin(a)).toFixed(1), (M - r * Math.cos(a)).toFixed(1)]; };
+  const strich = (grad, r1, r2, kl) => { const [x1, y1] = P(grad, r1), [x2, y2] = P(grad, r2); return `<line class="${kl}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`; };
+  const STEP = 15;
+  let striche = "", zeiger, marke;
+  if(vis.vonZu != null){
+    const A0 = 60, n = vis.vonZu;
+    zeiger = A0 - n * STEP;
+    for(let i = 0; i <= n + 2; i++) striche += strich(A0 - i * STEP, i ? 40 : 37, 47, "kn-t" + (i > n ? " blass" : "") + (i ? "" : " stopp"));
+    const [lx, ly] = P(A0 + 13, 60);
+    marke = `<text class="kn-m" x="${lx}" y="${ly}">zu</text>`;
+  } else {
+    zeiger = vis.mitte * STEP;
+    for(let i = -3; i <= 3; i++) striche += strich(i * STEP, i ? 40 : 37, 47, "kn-t" + (Math.abs(i) > 2 ? " blass" : "") + (i ? "" : " stopp"));
+    const [lx, ly] = P(0, 60);
+    marke = `<text class="kn-m" x="${lx}" y="${ly}">Mitte</text>`;
+  }
+  const riffel = Array.from({length:16}, (_, i) => strich(i * 22.5, 27, 31, "kn-r")).join("");
+  const [zx, zy] = P(zeiger, 25);
+  return `<figure class="kn"><svg viewBox="0 0 140 140" role="img" aria-label="${esc(name + ": " + text)}">
+    <circle class="kn-geh" cx="${M}" cy="${M}" r="52"/>${striche}
+    <circle class="kn-knopf" cx="${M}" cy="${M}" r="31"/>${riffel}
+    <line class="kn-z" x1="${M}" y1="${M}" x2="${zx}" y2="${zy}"/><circle class="kn-zp" cx="${zx}" cy="${zy}" r="4.5"/>${marke}
+  </svg><figcaption><b>${esc(name)}</b><span>${esc(text)}</span></figcaption></figure>`;
+}
+function schemaBlock(x){
+  const zeilen = x.ds[tcAnsicht] || [];
+  const raeder = zeilen.filter(z => z[2]).map(z => knopfSchema(z[0], z[2], z[1])).join("");
+  const hebel = zeilen.filter(z => !z[2]).map(z => `<div class="kn-hebel"><b>${esc(z[0])}</b>
+    <span class="kn-pos an">offen</span><span class="kn-pos">Mitte</span><span class="kn-pos">zu</span>
+    ${z[1].indexOf("—") > 0 ? `<span class="kn-hz">${esc(z[1].split("—")[1].trim())}</span>` : ""}</div>`).join("");
+  if(!raeder && !hebel) return "";
+  return `<div class="kn-block">
+    <div class="kn-kopf"><b>So sieht es eingestellt aus</b>
+      <div class="tc-ansicht" role="group" aria-label="Einstellung zeigen">
+        <button data-tcansicht="abfahrt" aria-pressed="${tcAnsicht === "abfahrt"}">Abfahrt</button>
+        <button data-tcansicht="spruenge" aria-pressed="${tcAnsicht === "spruenge"}">Sprünge</button></div></div>
+    ${raeder ? `<div class="kn-reihe">${raeder}</div>` : ""}${hebel}
+    ${raeder ? `<p class="kn-hin">Schema, nicht dein echtes Top Cap. Ein Strich ist ein Klick, der Zeiger zeigt die Stellung —
+      am echten Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen.</p>` : ""}
   </div>`;
 }
 /* ═══ Wo sind die Knoepfe? (Liams Wahl 2026-09-26: beides) ═══
@@ -4967,9 +5090,7 @@ function topCapBlock(slot, x){
   }).join("");
   return `<div class="tc-block">
     ${offen.length ? `<p class="tc-hin">Tippe im Foto auf den Knopf „${esc(offen[0])}“.</p>`
-      : `<div class="tc-ansicht" role="group" aria-label="Einstellung zeigen">
-          <button data-tcansicht="abfahrt" aria-pressed="${tcAnsicht === "abfahrt"}">Abfahrt</button>
-          <button data-tcansicht="spruenge" aria-pressed="${tcAnsicht === "spruenge"}">Sprünge</button></div>`}
+      : `<p class="tc-h">Dein Foto — zeigt die Einstellung für ${tcAnsicht === "abfahrt" ? "Abfahrt" : "Sprünge"} (oben umschalten).</p>`}
     <div class="tc-bild${offen.length ? " markieren" : ""}"${offen.length ? ` data-tcmark="${slot}"` : ""}>
       <img src="${tc.img}" alt="Dein Foto">${marken}</div>
     <div class="tc-knoepfe">
@@ -4986,22 +5107,43 @@ function federErgebnisHtml(){
     ${modus === "traum" ? "" : "— oder trag ein, welche an deinem Rad ist"}.</p>`;
   return (f.gabel ? federKarte("Federgabel", f.gabel, "gabel") : "") + (f.daempfer ? federKarte("Dämpfer", f.daempfer, "daempfer") : "");
 }
+function federFrageHtml(){
+  const n = FFRAGEN.length + 1, i = fschritt;
+  const kopf = `<div class="ff-kopf"><span class="leit-sub">Frage ${i + 1} von ${n}</span>
+    <div class="leit-bahn"><i style="width:${Math.round(i / n * 100)}%"></i></div></div>`;
+  if(i === 0) return kopf + `<p class="q">Wie schwer bist du?</p>
+    <p class="qs">Ohne Ausrüstung — Helm, Schuhe und Rucksack rechnet die App mit 4 kg dazu.</p>
+    <div class="fld"><label for="f-gew">Gewicht in kg</label>
+      <input id="f-gew" type="number" inputmode="numeric" min="30" max="160" value="${plan.fahrer || ""}" placeholder="z. B. 78" data-plan="fahrer"></div>
+    <button class="btn wide" data-ffweiter="1"${plan.fahrer > 0 ? "" : " disabled"}>Weiter</button>`;
+  const f = FFRAGEN[i - 1];
+  return kopf + `<p class="q">${f.q}</p><p class="qs">${f.h}</p>
+    <div class="ff-opts">${f.o.map(o => `<button class="qopt ff-opt" data-ff="${f.k}|${o[0]}" aria-pressed="${fprofil[f.k] === o[0]}">${o[1]}<small>${o[2]}</small></button>`).join("")}</div>
+    <button class="btn ghost sm" data-ffzurueck="1" style="margin-top:12px">Zurück</button>`;
+}
 function oeffneFederung(){
-  const st = stilVon();
+  if(!fFertig() && !fFragenOffen){
+    fFragenOffen = true;
+    fschritt = !(plan.fahrer > 0) ? 0 : FFRAGEN.findIndex(f => !fprofil[f.k]) + 1;
+  }
+  if(fFragenOffen){
+    zeigeSheet(`<div class="sheet-h"><h3><span class="sub">Federungsrechner</span>Dein Fahrprofil</h3>${zuBtn}</div>
+      <div class="sheet-b">${federFrageHtml()}</div>`);
+    return;
+  }
+  const chips = [`<span class="chip">${plan.fahrer} kg</span>`].concat(FFRAGEN.map(f => {
+    const o = f.o.find(x => x[0] === fprofil[f.k]); return o ? `<span class="chip">${esc(o[1])}</span>` : ""; })).join("");
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">Federungsrechner</span>Fahrwerk einstellen</h3>${zuBtn}</div>
     <div class="sheet-b">
-      <p class="qs">Startwerte für Luftdruck und Druckstufe deiner Gabel und deines Dämpfers — nach den Tabellen der Hersteller,
-        angepasst an Gewicht und Fahrstil.</p>
-      <div class="fld"><label for="f-gew">Dein Gewicht in kg — gerechnet wird mit 4 kg Ausrüstung dazu</label>
-        <input id="f-gew" type="number" inputmode="numeric" min="30" max="160" value="${plan.fahrer || ""}" placeholder="z. B. 78" data-plan="fahrer"></div>
-      <span class="mk-lab">Fahrstil</span>
-      <div class="fed-stil">${FSTILE.map(s => `<button class="qopt" data-fstil="${s.v}" aria-pressed="${s.v === st.v}">${s.n}<small>${s.t}</small></button>`).join("")}</div>
+      <div class="ff-profil"><span class="leit-sub">Dein Fahrprofil</span><div class="specs">${chips}</div>
+        <ul class="ff-gruende">${stilGruende().map(g => `<li>${esc(g)}</li>`).join("")}</ul>
+        <button class="btn ghost sm" data-ffneu="1">Antworten ändern</button></div>
       <div id="fed-erg">${federErgebnisHtml()}</div>
       <div class="erk" style="margin-top:6px"><b>So stellst du es ein</b>
         1. Luft mit einer Dämpferpumpe einfüllen, Gabel und Dämpfer danach ein paar Mal einfedern und nochmal messen.<br>
         2. Sag prüfen: in Fahrposition aufs Rad stellen, der Gummiring am Standrohr zeigt, wie weit es einsinkt — das sollte ungefähr der Sag-Wert sein.<br>
-        3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks. In der Skala ist jeder Punkt ein Klick, der Strich die Mitte.<br>
+        3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks. Im Schema ist jeder Strich ein Klick.<br>
         4. <b style="display:inline">Abfahrt</b> ist für ruppige, schnelle Strecken, <b style="display:inline">Sprünge</b> für Bikepark und Absprünge — mehr Halt an der Kante, kein Durchschlagen bei der Landung.<br>
         5. Die Zugstufe (Rebound) so, dass das Rad nach dem Einfedern zügig zurückkommt, ohne nachzuwippen.</div>
       <p class="hint" style="margin-top:8px">Startwerte, keine Garantie: Die Tabelle auf deiner Gabel und das Handbuch haben Vorrang. Nie über den
@@ -6358,8 +6500,17 @@ document.addEventListener("click", e => {
   }
   const dz = T("[data-diszset]");
   if(dz){ sel = [dz.dataset.diszset]; sichern(); zeichne(); zeigeToast("Disziplin auf " + dLang(sel[0]) + " gestellt."); return; }
-  const fs = T("[data-fstil]");
-  if(fs){ fstil = fs.dataset.fstil; try{ localStorage.setItem("mtb.fstil", fstil); }catch(e){} oeffneFederung(); return; }
+  const ffa = T("[data-ff]");
+  if(ffa){
+    const q = ffa.dataset.ff.split("|");
+    fprofil[q[0]] = q[1]; fSichern();
+    fschritt++;
+    if(fschritt > FFRAGEN.length){ fFragenOffen = false; fschritt = 0; }
+    oeffneFederung(); return;
+  }
+  if(T("[data-ffweiter]")){ if(plan.fahrer > 0){ fschritt = 1; oeffneFederung(); } return; }
+  if(T("[data-ffzurueck]")){ fschritt = Math.max(0, fschritt - 1); oeffneFederung(); return; }
+  if(T("[data-ffneu]")){ fFragenOffen = true; fschritt = 0; oeffneFederung(); return; }
   const hi = T("[data-hilfe]");
   if(hi){
     const w = hi.dataset.hilfe;
@@ -6430,6 +6581,8 @@ document.addEventListener("input", e => {
     const btn = $("modal").querySelector(".sheet-f .btn.wide");
     if(btn && wizOffen()) btn.disabled = !(plan[pl.dataset.plan] > 0);
     if($("fed-erg")) $("fed-erg").innerHTML = federErgebnisHtml();     /* Federungsrechner live */
+    const ffw = $("modal").querySelector("[data-ffweiter]");
+    if(ffw) ffw.disabled = !(plan.fahrer > 0);
   }
 });
 document.addEventListener("change", e => {
