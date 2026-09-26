@@ -361,6 +361,18 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .fed-dz b{display:inline-block;min-width:78px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .fed-q{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 2px 0}
 .fed-warn{font-size:12.5px;color:var(--warn);margin:0 0 6px;line-height:1.4}
+.fed-dz{display:grid;grid-template-columns:78px minmax(0,1fr);gap:0 6px;align-items:start}
+.fed-dz > span{display:flex;flex-direction:column;gap:5px;min-width:0}
+/* Klick-Skala: ein Punkt je Klick, links "zu", rechts "offen" */
+.ks{display:flex;align-items:center;gap:7px;margin:1px 0 5px}
+.ks-e{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.ks-p{display:flex;align-items:center;gap:4px;flex-wrap:wrap;flex:1}
+.ks-p i{width:10px;height:10px;border-radius:50%;background:var(--sunk);box-shadow:inset 0 0 0 1px var(--hair)}
+.ks-p i.an{background:var(--anod);box-shadow:none}
+.ks-p i.mehr{width:4px;height:4px;background:var(--ink-3);opacity:.45;box-shadow:none}
+.ks-p i.mitte{width:3px;height:16px;border-radius:2px;background:var(--ink-3);box-shadow:none;margin:0 2px}
+.ks-p i.mitte.an{background:var(--anod)}
+.ks-p i.halt{width:3px;height:16px;border-radius:2px;background:var(--anod);box-shadow:none}
 
 .grp-h{display:flex;align-items:center;gap:9px;margin:0 2px 8px}
 .grp-h h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
@@ -2329,7 +2341,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260926-1635';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260926-1657';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -4781,6 +4793,27 @@ function klickText(basis, d){
   if(!d) return "Mitte";
   return "Mitte, dann " + Math.abs(d) + (Math.abs(d) === 1 ? " Klick " : " Klicks ") + (d > 0 ? "zu" : "auf");
 }
+/* Dasselbe als Klick-Skala: ein Punkt je Klick, gezaehlt von "ganz zu"
+   (bekannte Grundeinstellung) oder von der Mitte aus. Die Gesamtzahl der
+   Klicks kennen wir bei den meisten Knoepfen nicht -- deshalb laeuft die
+   Skala offen aus, statt ein erfundenes Ende zu zeigen. Liams Wahl vom
+   2026-09-26 statt gezeichneter Marken-Raedchen. */
+function klickVis(basis, d){
+  if(basis != null) return {vonZu:Math.max(0, basis - d)};
+  return {mitte:Math.max(-2, Math.min(2, d))};
+}
+function klickSkala(v, text){
+  if(!v) return "";
+  const an = '<i class="an"></i>', aus = '<i></i>', mehr = '<i class="mehr"></i><i class="mehr"></i>';
+  let punkte;
+  if(v.vonZu != null) punkte = (v.vonZu ? an.repeat(v.vonZu) : '<i class="halt"></i>') + aus + mehr;
+  else {
+    const seite = (n, richtung) => [1, 2].map(i => i <= n ? an : aus)[richtung > 0 ? "reverse" : "slice"]().join("");
+    punkte = mehr + seite(v.mitte > 0 ? v.mitte : 0, 1) + '<i class="mitte' + (v.mitte ? "" : " an") + '"></i>'
+           + seite(v.mitte < 0 ? -v.mitte : 0, -1) + mehr;
+  }
+  return `<span class="ks" role="img" aria-label="${esc(text)}"><span class="ks-e">zu</span><span class="ks-p">${punkte}</span><span class="ks-e">offen</span></span>`;
+}
 /* Zwei Einstellungen: Abfahrt (ruppig, schnell) und Spruenge (Absprung und Landung) */
 function druckstufen(regler, basis, st, kg){
   const w = (kg < 65 ? -1 : kg > 95 ? 1 : 0) + st.klick;
@@ -4788,8 +4821,10 @@ function druckstufen(regler, basis, st, kg){
   const out = {};
   for(const k of ["abfahrt", "spruenge"]){
     const p = prof[k];
-    if(regler === "hl") out[k] = [["LSC", klickText(basis.lsc, p.lsc)], ["HSC", klickText(basis.hsc, p.hsc)]];
-    else if(regler === "l") out[k] = [["Druckstufe", klickText(null, k === "abfahrt" ? p.lsc - 1 : p.lsc)]];
+    if(regler === "hl") out[k] = [["LSC", klickText(basis.lsc, p.lsc), klickVis(basis.lsc, p.lsc)],
+                                  ["HSC", klickText(basis.hsc, p.hsc), klickVis(basis.hsc, p.hsc)]];
+    else if(regler === "l"){ const dl = k === "abfahrt" ? p.lsc - 1 : p.lsc;
+      out[k] = [["Druckstufe", klickText(null, dl), klickVis(null, dl)]]; }
     else if(regler === "hebel") out[k] = [["Hebel", k === "abfahrt" ? "offen" : "offen — für Sprünge den Druck um 5 % erhöhen"]];
     else out[k] = [["Lockout", k === "abfahrt" ? "offen" : "offen — für Sprünge 5 psi mehr"]];
   }
@@ -4837,7 +4872,7 @@ function federRechnen(){
 }
 function federKarte(titel, x){
   const reihe = (lbl, zeilen) => `<div class="fed-ds"><span class="fed-dk">${lbl}</span>
-    ${zeilen.map(([k, v]) => `<span class="fed-dz"><b>${k}</b> ${esc(v)}</span>`).join("")}</div>`;
+    ${zeilen.map(([k, v, vis]) => `<span class="fed-dz"><b>${k}</b><span>${esc(v)}${klickSkala(vis, k + ": " + v)}</span></span>`).join("")}</div>`;
   const haupt = x.coil
     ? (x.rate ? `<b class="fed-wert">${x.rate} lbs/in</b><span class="fed-u">Federhärte</span>`
               : `<b class="fed-wert">${x.feder}</b><span class="fed-u">Stahlfeder</span>`)
@@ -4874,7 +4909,7 @@ function oeffneFederung(){
       <div class="erk" style="margin-top:6px"><b>So stellst du es ein</b>
         1. Luft mit einer Dämpferpumpe einfüllen, Gabel und Dämpfer danach ein paar Mal einfedern und nochmal messen.<br>
         2. Sag prüfen: in Fahrposition aufs Rad stellen, der Gummiring am Standrohr zeigt, wie weit es einsinkt — das sollte ungefähr der Sag-Wert sein.<br>
-        3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks.<br>
+        3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks. In der Skala ist jeder Punkt ein Klick, der Strich die Mitte.<br>
         4. <b style="display:inline">Abfahrt</b> ist für ruppige, schnelle Strecken, <b style="display:inline">Sprünge</b> für Bikepark und Absprünge — mehr Halt an der Kante, kein Durchschlagen bei der Landung.<br>
         5. Die Zugstufe (Rebound) so, dass das Rad nach dem Einfedern zügig zurückkommt, ohne nachzuwippen.</div>
       <p class="hint" style="margin-top:8px">Startwerte, keine Garantie: Die Tabelle auf deiner Gabel und das Handbuch haben Vorrang. Nie über den
