@@ -304,6 +304,11 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .leit-s.fertig .leit-x b{color:var(--ink-2)}
 .leit-x span{display:block;font-size:12.5px;color:var(--ink-3);line-height:1.4;margin-top:1px;overflow-wrap:anywhere}
 .leit-cta{margin-top:10px}
+.leit-bahn{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;margin:10px 2px 0}
+.leit-bahn i{display:block;height:100%;border-radius:999px;background:var(--anod);transition:width .5s var(--feder)}
+.leit.geschafft{border-color:var(--gut)}
+.leit.geschafft .leit-sub{color:var(--gut)}
+.leit.geschafft .leit-bahn i{background:var(--gut)}
 .grp,.mk,.urteil,#c-find,#c-up,#c-kauf{scroll-margin-top:84px}
 
 /* ── Startauswahl ── */
@@ -412,6 +417,11 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .up-n{font-size:14px;font-weight:650;line-height:1.3;overflow-wrap:anywhere}
 .up-s{font-size:11.5px;color:var(--ink-3);margin-top:3px}
 .delta{color:var(--gut);font-weight:800;font-size:13px}
+.up-kopf{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--anod);font-weight:800;padding:12px 0 2px}
+.up-kopf:first-child{padding-top:2px}
+.up-kopf + .up{border-top:none}
+.up-statt{font-size:12px;color:var(--ink-3);margin-top:2px;line-height:1.35}
+.up-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
 .btn{background:var(--anod);color:var(--on-anod);border-radius:12px;padding:9px 16px;font-size:13px;
   font-weight:700;white-space:nowrap;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .btn:hover{background:var(--anod-2)}
@@ -930,13 +940,13 @@ img{max-width:100%}
       <div class="grp-h" style="margin-bottom:2px"><h2>Gerade reduziert</h2><div class="rule"></div></div>
       <div id="deals"></div>
     </div>
+    <div class="card" id="c-up">
+      <div class="grp-h" style="margin-bottom:2px"><h2>Was dein Rad besser macht</h2><div class="rule"></div></div>
+      <div id="upgrades"></div>
+    </div>
     <div class="card" id="c-spar">
       <div class="grp-h" style="margin-bottom:2px"><h2>Günstiger, gleiche Maße</h2><div class="rule"></div></div>
       <div id="sparen"></div>
-    </div>
-    <div class="card" id="c-up">
-      <div class="grp-h" style="margin-bottom:2px"><h2>Lohnende Upgrades</h2><div class="rule"></div></div>
-      <div id="upgrades"></div>
     </div>
   </aside>
 </main>
@@ -2319,7 +2329,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260926-1610';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260926-1635';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -2746,8 +2756,9 @@ function pruefe(b){
   if(rahmen){
     if(!rahmen.daempfer && daempfer) out.push(F("Dieser Rahmen hat keine Dämpferaufnahme","daempfer",["rahmen","daempfer"],
       `<code>${rahmen.n}</code> ist hinten ungefedert. Den Dämpfer aus dem Aufbau nehmen.`));
-    else if(rahmen.daempfer && !daempfer) out.push(F("Dämpfer fehlt","daempfer",["daempfer"],
-      `Der Rahmen braucht <code>${massTxt(rahmen.daempfer)}</code>.`));
+    /* Ein fehlender Daempfer ist kein Konflikt, nur noch nicht eingetragen --
+       "Aufbau unvollstaendig" nennt ihn. Vorher stand beim eigenen Rad nach
+       dem Rahmen sofort "Ein harter Konflikt" da. */
     else if(rahmen.daempfer && daempfer){
       if(daempfer.el !== rahmen.daempfer.el || daempfer.typ !== rahmen.daempfer.typ)
         out.push(F("Dämpfer-Einbaumaß passt nicht","daempfer",["rahmen","daempfer"],
@@ -3041,7 +3052,8 @@ function urteil(r){
     : `Noch keine Teile gewählt.`;
   const fehler = r.funde.filter(f => f.level === "fehler").length;
   if(fehler > 1) return `<b>${fehler} Teile passen nicht zusammen.</b> So fährt das Rad nicht.`;
-  if(fehler === 1) return `<b>Ein harter Konflikt.</b> Der muss weg, bevor du bestellst.`;
+  if(fehler === 1) return modus === "traum" ? `<b>Ein harter Konflikt.</b> Der muss weg, bevor du bestellst.`
+    : `<b>Ein harter Konflikt.</b> Prüf, ob das am Rad wirklich so verbaut ist.`;
   if(plan.budget > 0 && r.preis > plan.budget) return `<b>${eur(r.preis - plan.budget)} über Budget.</b> Technisch sauber, aber zu teuer.`;
   if(r.chara < 55 && r.schwach) return `Technisch sauber, aber uneinig: <b>${r.schwach.slot.label}</b> zieht in eine andere Richtung als ${zn}.`;
   if(r.tech < 90) return `Fahrbar, mit Kompromissen. Der Reiter Prüfung sagt, welche.`;
@@ -3170,8 +3182,14 @@ function massGleich(slotKey, jetzt, kand){
 
 /* Guenstigere Teile, die dasselbe Mass halten und keinen neuen Konflikt bringen. */
 function guenstigere(slotKey, b){
+  /* Sparen gibt es nur beim Planen: am eigenen Rad und beim Angebot sind die
+     Teile schon gekauft -- "tausch deine Fox 36 gegen eine billigere" ist dort
+     kein Rat. Und ein Teil mit Konflikt wird erst repariert, nicht billiger
+     in derselben falschen Groesse ersetzt. */
+  if(modus !== "traum") return [];
   const jetzt = b[slotKey] ? findeTeil(slotKey, b[slotKey]) : null;
   if(!jetzt || entfaellt(b, slotKey)) return [];
+  if(pruefe(b).some(f => f.level === "fehler" && f.slots.indexOf(slotKey) >= 0)) return [];
   const basis = harteFehler(b), preis = preisVon(jetzt);
   const out = [];
   for(const kand of kandidaten(slotKey, b)){
@@ -4560,7 +4578,7 @@ function leitSchritte(r){
      act: zurListe, cta: nx ? `${nx.label} eintragen` : "Zur Teileliste"},
     pruefung,
     {t:"Lohnende Upgrades", fertig:false,
-     d:"Welcher Tausch dein Rad am meisten verbessert — und wo du bei gleichen Maßen sparst.",
+     d:"Was sich kostenlos umstellen lässt und welcher Kauf dein Rad wirklich besser macht.",
      act:`data-view="upgrades"`, cta:"Upgrades ansehen"}
   ];
   return [
@@ -4576,17 +4594,26 @@ function leitSchritte(r){
      act:`data-springe="${markt.preis > 0 && build.rahmen ? ".urteil" : ".mk"}"`, cta:"Zum Urteil"}
   ];
 }
+/* Geschafft-Moment: wenn alles bis auf den letzten Schritt erledigt ist */
+const LEIT_FERTIG = {
+  traum:{h:"Dein Rad ist fertig geplant", t:"Alle Teile gewählt, alles passt zusammen. Jetzt nur noch bestellen — oder weiter feilen."},
+  real:{h:"Dein Rad ist geprüft", t:"Alles eingetragen, nichts passt schlecht zusammen. Schau dir an, welches Upgrade sich wirklich lohnt."},
+  markt:{h:"Die Rechnung steht", t:"Teile und Preis sind drin. Das Urteil zeigt, ob das Angebot fair ist."}
+};
 function leitKarte(r){
   if(leitAus) return "";
-  const k = LEIT[modus], st = leitSchritte(r), jetzt = st.findIndex(s => !s.fertig);
-  return `<section class="leit" aria-label="Anleitung">
-    <div class="leit-kopf"><div><span class="leit-sub">${k.sub}</span><h2>${k.h}</h2></div>
+  const st = leitSchritte(r), jetzt = st.findIndex(s => !s.fertig);
+  const erledigt = st.filter(s => s.fertig).length, geschafft = jetzt === st.length - 1;
+  const k = geschafft ? {...LEIT[modus], ...LEIT_FERTIG[modus]} : LEIT[modus];
+  return `<section class="leit${geschafft ? " geschafft" : ""}" aria-label="Anleitung">
+    <div class="leit-kopf"><div><span class="leit-sub">${LEIT[modus].sub} · ${erledigt} von ${st.length} erledigt</span><h2>${k.h}</h2></div>
       <button class="leit-weg" data-leitweg="1" aria-label="Anleitung ausblenden" title="Anleitung ausblenden">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="leit-bahn" role="progressbar" aria-valuemin="0" aria-valuemax="${st.length}" aria-valuenow="${erledigt}"><i style="width:${Math.round(erledigt / st.length * 100)}%"></i></div>
     <p class="leit-t">${k.t}</p>
-    <ol class="leit-schritte">${st.map((s, i) => `<li><button class="leit-s${s.fertig ? " fertig" : ""}${i === jetzt ? " jetzt" : ""}" ${s.act}>
+    ${geschafft ? "" : `<ol class="leit-schritte">${st.map((s, i) => `<li><button class="leit-s${s.fertig ? " fertig" : ""}${i === jetzt ? " jetzt" : ""}" ${s.act}>
         <span class="leit-n">${s.fertig ? HAKEN : i + 1}</span>
-        <span class="leit-x"><b>${s.t}</b><span>${s.d}</span></span></button></li>`).join("")}</ol>
+        <span class="leit-x"><b>${s.t}</b><span>${s.d}</span></span></button></li>`).join("")}</ol>`}
     ${jetzt >= 0 ? `<button class="btn wide leit-cta" ${st[jetzt].act}>${st[jetzt].cta}</button>` : ""}
   </section>`;
 }
@@ -4902,20 +4929,34 @@ const breit = () => { try{ return window.matchMedia("(min-width:820px)").matches
 function vorschlaegeZeichnen(){
   vorschlagTimer = 0;
   const r = bewerte(build);
-  const top = upgrades(r);
-  $("upgrades").innerHTML = top.length ? top.map(v => `
-    <div class="up">
-      <div><div class="up-n">${esc(v.teil.n)}</div>
-        <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div></div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
-        <span class="delta">+${v.d}</span>
-        <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Einbauen</button>
-        ${affHtml(v.teil, true)}
-      </div>
-    </div>`).join("")
-    : `<p class="empty-note">Kein Tausch aus dem Katalog verbessert den Aufbau. Ab hier entscheidet der Fahrer, nicht das Teil.</p>`;
+  const u = upgrades(r);
+  const statt = v => `<div class="up-statt">statt ${esc(v.jetzt.n)}</div>`;
+  const kopf = t => `<div class="up-kopf">${t}</div>`;
+  $("upgrades").innerHTML = !u.anzahl
+    ? `<p class="empty-note">${r.teile ? "Kein Teil aus dem Katalog macht deinen Aufbau besser, ohne ein Rückschritt zu sein. Ab hier entscheidet der Fahrer, nicht das Teil."
+        : "Trag zuerst Teile ein — dann stehen hier Upgrades für genau dein Rad."}</p>`
+    : (u.einstellen.length ? kopf("Kostenlos: nur umstellen") + u.einstellen.map(v => `
+      <div class="up">
+        <div><div class="up-n">${esc(v.slot.label)}: ${esc(v.aenderung.join(", "))}</div>
+          <div class="up-s">Dasselbe Teil, andere Einstellung — so passt es zu deinem Rahmen. Kein Kauf nötig.</div></div>
+        <div class="up-r"><button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Übernehmen</button></div>
+      </div>`).join("") : "")
+    + (u.ersatz.length ? kopf("Passt nicht — Ersatz in derselben Klasse") + u.ersatz.map(v => `
+      <div class="up">
+        <div><div class="up-n">${esc(v.teil.n)}</div>${statt(v)}
+          <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))}</div></div>
+        <div class="up-r"><button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Einbauen</button>${affHtml(v.teil, true)}</div>
+      </div>`).join("") : "")
+    + (u.upgrades.length ? kopf("Echte Upgrades — besser als dein Teil") + u.upgrades.map(v => `
+      <div class="up">
+        <div><div class="up-n">${esc(v.teil.n)}</div>${statt(v)}
+          <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div></div>
+        <div class="up-r"><span class="delta">+${v.d} Punkte</span>
+          <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">Einbauen</button>${affHtml(v.teil, true)}</div>
+      </div>`).join("") : "");
 
   const spar = sparPlan(build);
+  $("c-spar").hidden = modus !== "traum";
   const gesamtSpar = spar.reduce((a, x) => a + x.spart, 0);
   $("sparen").innerHTML = spar.length
     ? `<div class="sparkasten"><b>${eur(gesamtSpar)} liegen hier.</b>
@@ -4934,7 +4975,7 @@ function vorschlaegeZeichnen(){
         </div>`).join("")
     : `<p class="empty-note">Kein Teil lässt sich bei gleichen Maßen günstiger ersetzen. Der Aufbau
        ist preislich schon sauber.</p>`;
-  $("b-up").textContent = top.length + spar.length;
+  $("b-up").textContent = u.anzahl + spar.length;
 }
 
 function zeichne(){
@@ -5079,7 +5120,7 @@ function zeichne(){
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
   </button>`;
 
-  $("aufbau").innerHTML = leitKarte(r) + marktkarte + fotokarte + (leitAus ? leerHinweis + cta : "") + GRUPPEN.map(g => {
+  $("aufbau").innerHTML = diszHinweis() + leitKarte(r) + marktkarte + fotokarte + (leitAus ? leerHinweis + cta : "") + GRUPPEN.map(g => {
     const meine = SLOTS.filter(s => s.grp === g.n && !entfaellt(build, s.k));
     if(!meine.length) return "";                       /* Thema ganz ohne Slot am Rahmen */
     const rows = SLOTS.filter(s => s.grp === g.n).map(s => {
@@ -5112,7 +5153,10 @@ function zeichne(){
     }
     const voll = meine.filter(sl => build[sl.k]).length;
     if(!stand && voll === meine.length) stand = "fertig";
-    const zu = !!zuGeklappt[g.n];
+    /* Leerer eigener Aufbau: erst der Rahmen, der Rest wartet eingeklappt --
+       19 leere Zeilen auf einmal ueberfordern, und der Rahmen grenzt alles ein */
+    const fokusRahmen = modus !== "traum" && !build.rahmen && g.n !== "Rahmen";
+    const zu = zuGeklappt[g.n] === 1 || (fokusRahmen && zuGeklappt[g.n] !== 0);
     return `<section class="grp ${stand}${zu ? " eingeklappt" : ""}">
       <button class="grp-kopf" data-thema="${esc(g.n)}" aria-expanded="${!zu}">
         <span class="punkt"></span>
@@ -5154,8 +5198,10 @@ function zeichne(){
   if(view === "upgrades" || breit()) vorschlaegeZeichnen();
   else vorschlagTimer = setTimeout(vorschlaegeZeichnen, 350);
 
-  $("c-kauf").hidden = modus === "markt";
-  if(modus !== "markt") $("einkauf").innerHTML = einkaufHtml(r);
+  /* Einkaufsliste nur beim Traumrad -- am eigenen Rad und beim Angebot
+     hat man die Teile schon */
+  $("c-kauf").hidden = modus !== "traum";
+  if(modus === "traum") $("einkauf").innerHTML = einkaufHtml(r);
 
   $("b-auf").textContent = r.teile + "/" + r.moeglich;
   const nF = r.funde.filter(f => f.level === "fehler").length;
@@ -5235,26 +5281,102 @@ const dealHtml = x => `<div class="deal${x.passt ? "" : " nein"}">
   </div>
 </div>`;
 
+/* Dasselbe Teil in der Ausfuehrung, die zum Aufbau passt -- die aktuelle
+   Wahl bleibt, wo sie passt. null, wenn nichts zu aendern ist. */
+function passendeAusfuehrung(slotKey, t, b){
+  if(!t || !t.v || !t.wahl) return null;
+  const basis = rohTeil(quelleOf(slotOf(slotKey)), t.basisId || t.id);
+  if(!basis || !basis.v) return null;
+  const w = basis.v.map((d, i) => {
+    const cur = t.wahl[i];
+    if(d.o.length < 2 || optionPasst(slotKey, d, d.o[cur], b) !== false) return cur;
+    let best = -1;
+    d.o.forEach((o, j) => {
+      if(optionPasst(slotKey, d, o, b) !== true) return;
+      const f = GROESSTE[d.k];
+      if(best < 0 || (f && o.s[f] > d.o[best].s[f])) best = j;
+    });
+    return best < 0 ? cur : best;
+  });
+  const v = varianteNachIndex(basis, w);
+  if(v.id === t.id) return null;
+  v.aenderung = basis.v.map((d, i) => w[i] !== t.wahl[i] ? d.k + " " + d.o[t.wahl[i]].n + " → " + d.o[w[i]].n : "").filter(Boolean);
+  return v;
+}
+/* Wofuer ein Rahmen gebaut ist: die Disziplin mit der hoechsten Eignung,
+   bei Gleichstand die aktuell gewaehlte. null, wenn er ueberall gleich taugt. */
+function rahmenDisziplin(r){
+  if(!r || !r.e) return null;
+  const max = Math.max.apply(null, DID.map(d => r.e[d] || 0));
+  if(max < 4) return null;
+  const beste = DID.filter(d => (r.e[d] || 0) === max);
+  return sel.length === 1 && beste.indexOf(sel[0]) >= 0 ? sel[0] : beste[0];
+}
+/* Hinweis, wenn Rahmen und gewaehlte Disziplin nicht zusammengehoeren */
+function diszHinweis(){
+  if(modus === "traum" || !build.rahmen) return "";
+  const r = findeTeil("rahmen", build.rahmen), d = rahmenDisziplin(r);
+  if(!d || sel.some(x => (r.e[x] || 0) >= 4)) return "";
+  return `<div class="mixbox w" style="margin-bottom:14px"><b>Dein Rahmen ist für ${dLang(d)} gebaut,</b> die App bewertet
+    gerade nach ${esc(selNamen())}. Dann gelten gute ${dLang(d)}-Teile als unpassend.
+    <div style="margin-top:8px"><button class="btn sm" data-diszset="${d}">Auf ${dLang(d)} umstellen</button></div></div>`;
+}
+/* Vorschlaege fuer einen bestehenden Aufbau, in drei Sorten:
+   - einstellen: dasselbe Teil, andere Ausfuehrung loest einen Konflikt
+     (Gabel auf 140 mm stellen statt eine andere Gabel kaufen)
+   - ersatz: das Teil passt nicht und laesst sich nicht umstellen -- Ersatz
+     in derselben Klasse, nicht der billigste
+   - upgrades: ein besseres Teil. Besser heisst: mindestens so hochwertig
+     (Katalogpreis als Stufe) UND die Wertung steigt. Vorher reichte die
+     Wertung allein, und fuer eine Fox 38 am Trailrad stand eine Gabel fuer
+     ein Drittel des Preises als "Upgrade" da.
+   Leere Plaetze sind kein Upgrade, und am eigenen Rad ist ein neuer Rahmen
+   ein neues Rad. */
 function upgrades(r){
-  const vor = [];
+  const einstellen = [], ersatz = [], vor = [];
+  const fehlerAn = (res, k) => res.funde.filter(f => f.level === "fehler" && f.slots.indexOf(k) >= 0).length;
   for(const s of SLOTS){
-    if(entfaellt(build, s.k)) continue;
-    const jetzt = build[s.k] ? findeTeil(s.k, build[s.k]) : null;
+    if(entfaellt(build, s.k) || !build[s.k]) continue;
+    if(s.k === "rahmen" && modus !== "traum") continue;
+    const jetzt = findeTeil(s.k, build[s.k]);
+    if(!jetzt) continue;
+    const fJetzt = fehlerAn(r, s.k);
+    if(fJetzt){
+      const pa = passendeAusfuehrung(s.k, jetzt, build);
+      if(pa){
+        const probe = {...build}; probe[s.k] = pa.id;
+        const pr = bewerte(probe);
+        if(fehlerAn(pr, s.k) < fJetzt){ einstellen.push({slot:s, teil:pa, jetzt:jetzt, d:pr.gesamt - r.gesamt, aenderung:pa.aenderung}); continue; }
+      }
+    }
+    const qJetzt = grundpreis(jetzt);
+    let besterErsatz = null;
     for(const kand of kandidaten(s.k, build)){
-      if(jetzt && basisVon(kand.id) === basisVon(jetzt.id)) continue;
+      if(basisVon(kand.id) === basisVon(jetzt.id)) continue;
       const probe = {...build}; probe[s.k] = kand.id;
       const pr = bewerte(probe);
       const d = pr.gesamt - r.gesamt;
-      if(d <= 0) continue;
+      if(harteFehler(probe) > harteFehler(build)) continue;
+      const qK = grundpreis(kand);
+      const eintrag = {slot:s, teil:kand, jetzt:jetzt, d:d, mehr:preisVon(kand) - preisVon(jetzt), gd:(kand.g || 0) - (jetzt.g || 0)};
+      if(fJetzt){
+        /* Ersatz: behebt den Konflikt; unter denen das Teil, das der
+           jetzigen Klasse am naechsten kommt */
+        if(fehlerAn(pr, s.k) >= fJetzt) continue;
+        const abstand = Math.abs(Math.log((qK || 1) / (qJetzt || 1))) - (d > 0 ? d / 1000 : 0);
+        if(!besterErsatz || abstand < besterErsatz.abstand) besterErsatz = {...eintrag, abstand:abstand};
+        continue;
+      }
+      if(d <= 0 || qK < qJetzt * 0.95) continue;                 /* kein Rueckschritt als Upgrade */
       if(plan.budget > 0 && pr.preis > plan.budget && pr.preis > r.preis) continue;
-      vor.push({slot:s, teil:kand, d:d, mehr:preisVon(kand) - (jetzt ? preisVon(jetzt) : 0),
-                gd:(kand.g||0) - (jetzt ? jetzt.g||0 : 0)});
+      vor.push(eintrag);
     }
+    if(besterErsatz) ersatz.push(besterErsatz);
   }
-  vor.sort((a,b) => b.d - a.d || a.mehr - b.mehr);
+  vor.sort((a, b) => b.d - a.d || a.mehr - b.mehr);
   const gesehen = {}, top = [];
   for(const v of vor){ if(gesehen[v.slot.k]) continue; gesehen[v.slot.k] = 1; top.push(v); if(top.length === 5) break; }
-  return top;
+  return {einstellen:einstellen, ersatz:ersatz, upgrades:top, anzahl:einstellen.length + ersatz.length + top.length};
 }
 
 /* ═══════════ 10 · Schubladen ═══════════ */
@@ -5855,12 +5977,19 @@ function oeffneMenu(){
 
 /* ═══════════ 11 · Verdrahtung ═══════════ */
 
+/* "slot|teil-id": nur am ERSTEN Strich trennen -- die Id einer Ausfuehrung
+   traegt selbst einen ("g-fox36|gripx~140"). Vorher wurde dort getrennt, und
+   jedes "Einbauen" aus dem Picker, den Upgrades oder den Deals baute das Teil
+   in der Standard-Ausfuehrung ein: die passend gewaehlte 140-mm-Gabel kam als
+   160-mm-Gabel an, der Konflikt war da, und die Upgrades schlugen eine
+   schlechtere Gabel vor. */
+const slotUndTeil = x => { const i = x.indexOf("|"); return [x.slice(0, i), x.slice(i + 1)]; };
 document.addEventListener("click", e => {
   const T = q => e.target.closest(q);
   if(T("[data-zu]") || (e.target.classList && e.target.classList.contains("scrim"))){ schliesse(); return; }
 
   const dt = T("[data-detail]");
-  if(dt){ const q = dt.dataset.detail.split("|"); oeffneDetail(q[0], q[1]); return; }
+  if(dt){ const q = slotUndTeil(dt.dataset.detail); oeffneDetail(q[0], q[1]); return; }
 
   const va = T("[data-var]");
   if(va){
@@ -5881,14 +6010,24 @@ document.addEventListener("click", e => {
   const egs = T("[data-eigenspeichern]");
   if(egs){ eigenSpeichern(egs.dataset.eigenspeichern); return; }
   const egw = T("[data-eigenweg]");
-  if(egw){ const q = egw.dataset.eigenweg.split("|"); eigenLoeschen(q[0], q[1]); return; }
+  if(egw){ const q = slotUndTeil(egw.dataset.eigenweg); eigenLoeschen(q[0], q[1]); return; }
 
   const ein = T("[data-einbau]");
   if(ein){
-    const p = ein.dataset.einbau.split("|");
+    const p = slotUndTeil(ein.dataset.einbau);
     build[p[0]] = p[1];
-    if(p[0] === "rahmen") for(const s of SLOTS) if(entfaellt(build, s.k)) build[s.k] = null;
-    sichern(); schliesse(); zeichne(); return;
+    let hinweis = "";
+    if(p[0] === "rahmen"){
+      for(const s of SLOTS) if(entfaellt(build, s.k)) build[s.k] = null;
+      /* Am eigenen Rad und beim Angebot bestimmt der Rahmen die Disziplin --
+         sonst bewertet die App einen Downhiller nach Trail-Massstaeben und
+         empfiehlt Trail-Teile als "Upgrade" */
+      const d = modus !== "traum" ? rahmenDisziplin(findeTeil("rahmen", p[1])) : null;
+      if(d && sel.join() !== d){ sel = [d]; hinweis = "Disziplin auf " + dLang(d) + " gestellt — passend zu deinem Rahmen."; }
+    }
+    sichern(); schliesse(); zeichne();
+    if(hinweis) zeigeToast(hinweis);
+    return;
   }
   const le = T("[data-leeren]");
   if(le){ build[le.dataset.leeren] = null; sichern(); schliesse(); zeichne(); return; }
@@ -5930,7 +6069,9 @@ document.addEventListener("click", e => {
   const th = T("[data-thema]");
   if(th){
     const n = th.dataset.thema;
-    if(zuGeklappt[n]) delete zuGeklappt[n]; else zuGeklappt[n] = 1;
+    /* nach dem, was man sieht: offen -> zu (1), zu -> ausdruecklich offen (0);
+       0 schlaegt auch das automatische Einklappen am leeren eigenen Rad */
+    zuGeklappt[n] = th.getAttribute("aria-expanded") === "true" ? 1 : 0;
     sichern(); zeichne(); return;
   }
 
@@ -6063,6 +6204,8 @@ document.addEventListener("click", e => {
   }
   if(T("[data-scorehilfe]")){ oeffneScoreHilfe(); return; }
   if(T("[data-fed]")){ oeffneFederung(); return; }
+  const dz = T("[data-diszset]");
+  if(dz){ sel = [dz.dataset.diszset]; sichern(); zeichne(); zeigeToast("Disziplin auf " + dLang(sel[0]) + " gestellt."); return; }
   const fs = T("[data-fstil]");
   if(fs){ fstil = fs.dataset.fstil; try{ localStorage.setItem("mtb.fstil", fstil); }catch(e){} oeffneFederung(); return; }
   const hi = T("[data-hilfe]");

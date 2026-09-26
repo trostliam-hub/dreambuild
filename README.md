@@ -51,6 +51,14 @@ sauber passt, kommt nur sie in Frage (SRAM-Wunsch bei Downhill = SRAM GX DH
 oder X01 DH 7-fach). Wo die Marke nichts Passendes hat, etwa keine
 Dirt-Kurbel, steht das im Ergebnis.
 
+**Upgrades, die wirklich welche sind.** Drei Sorten: *kostenlos umstellen*
+(dasselbe Teil in der passenden Ausführung, etwa Federweg 160 → 140 mm),
+*Ersatz* (das Teil passt nicht — Ersatz in derselben Preisklasse) und *echte
+Upgrades* (mindestens so hochwertig UND besser bewertet). Leere Plätze sind kein
+Upgrade; am eigenen Rad ist ein neuer Rahmen keins, und „Günstiger, gleiche
+Maße“ gibt es nur beim Planen. Beim eigenen Rad und beim Angebot folgt die
+Disziplin dem eingetragenen Rahmen.
+
 **Federungsrechner.** In der Gruppe Fahrwerk (und unter ⋮ → Hilfe): aus
 Fahrergewicht (+4 kg Ausrüstung) und Fahrstil (entspannt, ausgewogen,
 aggressiv) je Gabel und Dämpfer ein Luftdruck in psi/bar mit Sag-Ziel, bei
