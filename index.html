@@ -6,8 +6,8 @@
 <meta name="description" content="MTB-Konfigurator: Traumaufbauten bauen, Kompatibilitaet pruefen, Upgrades finden.">
 <meta name="robots" content="noindex">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#f1f3f5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#090d10" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#000000">
+<script>try{if(localStorage.getItem("mtb.design")==="hell")document.documentElement.dataset.theme="light";}catch(e){}</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -99,45 +99,36 @@
   --f-head:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,"Segoe UI",system-ui,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
 
-  --ground:#f1f3f5; --surface:#ffffff; --surface-2:#f4f6f8; --sunk:#e3e8ec;
-  --ink:#0d1317; --ink-2:#4a5761; --ink-3:#7d8a95;
-  --line:#dfe4e8; --line-soft:#eaeef1; --hair:rgba(13,19,23,.07);
-  --anod:#0a8593; --anod-2:#076f7b; --anod-3:#0b5f8a; --anod-soft:#e0f3f5; --on-anod:#ffffff;
-  --gut:#16804d; --gut-soft:#dff3e8;
-  --warn:#9a6205; --warn-soft:#fbefd8;
-  --bad:#c0302c; --bad-soft:#fbe3e2;
-  --glass:rgba(241,243,245,.78);
-  --shadow:0 1px 2px rgba(13,19,23,.05),0 8px 24px -12px rgba(13,19,23,.16);
-  --shadow-hoch:0 2px 6px rgba(13,19,23,.06),0 22px 48px -18px rgba(13,19,23,.32);
+  /* OLED-Schwarz mit knalligem Lila-Blau: Standard seit 2026-09-26 (Liams
+     Wunsch). Echtes Schwarz spart auf OLED-Displays Strom; die Akzente sind
+     bewusst gesaettigt. Hell gibt es unter Einstellungen -> Design. */
+  --ground:#000000; --surface:#0b0a12; --surface-2:#13111f; --sunk:#1e1b30;
+  --ink:#f7f5ff; --ink-2:#c6c1e4; --ink-3:#8a84ad;
+  --line:#26223d; --line-soft:#18152a; --hair:rgba(168,140,255,.16);
+  --anod:#a47bff; --anod-2:#c2a6ff; --anod-3:#4d8dff; --anod-soft:rgba(140,92,255,.18); --on-anod:#0c0420;
+  --grad:linear-gradient(135deg,#8a4dff 0%,#5b5bff 50%,#2f8cff 100%);
+  --gut:#2ef29a; --gut-soft:rgba(46,242,154,.14);
+  --warn:#ffbe2e; --warn-soft:rgba(255,190,46,.15);
+  --bad:#ff4f7b; --bad-soft:rgba(255,79,123,.16);
+  --glass:rgba(0,0,0,.74);
+  --shadow:0 0 0 1px rgba(140,92,255,.07),0 10px 30px -16px rgba(0,0,0,.95);
+  --shadow-hoch:0 2px 10px rgba(0,0,0,.7),0 24px 60px -22px rgba(110,70,255,.45);
   --r:16px; --r-s:12px;
   --tabs-h:62px;
   --feder:cubic-bezier(.2,.9,.3,1.15);
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --ground:#090d10; --surface:#12181c; --surface-2:#182026; --sunk:#222c33;
-    --ink:#eef3f6; --ink-2:#a3b1ba; --ink-3:#6f808b;
-    --line:#26323a; --line-soft:#1d262c; --hair:rgba(255,255,255,.07);
-    --anod:#3ec1cf; --anod-2:#6ad3de; --anod-3:#2f8fd0; --anod-soft:#0f2f36; --on-anod:#041417;
-    --gut:#4fcf8c; --gut-soft:#0f2d1f;
-    --warn:#eab04a; --warn-soft:#30240f;
-    --bad:#ff7a72; --bad-soft:#3a1716;
-    --glass:rgba(9,13,16,.72);
-    --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 30px -14px rgba(0,0,0,.9);
-    --shadow-hoch:0 2px 8px rgba(0,0,0,.5),0 24px 60px -20px rgba(0,0,0,.95);
-  }
-}
-:root[data-theme="dark"]{
-  --ground:#090d10; --surface:#12181c; --surface-2:#182026; --sunk:#222c33;
-  --ink:#eef3f6; --ink-2:#a3b1ba; --ink-3:#6f808b;
-  --line:#26323a; --line-soft:#1d262c; --hair:rgba(255,255,255,.07);
-  --anod:#3ec1cf; --anod-2:#6ad3de; --anod-3:#2f8fd0; --anod-soft:#0f2f36; --on-anod:#041417;
-  --gut:#4fcf8c; --gut-soft:#0f2d1f;
-  --warn:#eab04a; --warn-soft:#30240f;
-  --bad:#ff7a72; --bad-soft:#3a1716;
-  --glass:rgba(9,13,16,.72);
-  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 30px -14px rgba(0,0,0,.9);
-  --shadow-hoch:0 2px 8px rgba(0,0,0,.5),0 24px 60px -20px rgba(0,0,0,.95);
+:root[data-theme="light"]{
+  --ground:#f3f2f8; --surface:#ffffff; --surface-2:#f5f4fa; --sunk:#e6e3f1;
+  --ink:#0f0c1d; --ink-2:#4b4668; --ink-3:#7e7a99;
+  --line:#e0ddee; --line-soft:#eceaf5; --hair:rgba(40,20,90,.08);
+  --anod:#6d3dff; --anod-2:#5528e6; --anod-3:#1f6fe5; --anod-soft:#ede6ff; --on-anod:#ffffff;
+  --grad:linear-gradient(135deg,#7a3dff 0%,#4f4fff 50%,#1f7fff 100%);
+  --gut:#12805a; --gut-soft:#dcf4e9;
+  --warn:#9a6205; --warn-soft:#fbefd8;
+  --bad:#c42a52; --bad-soft:#fbe2ea;
+  --glass:rgba(243,242,248,.8);
+  --shadow:0 1px 2px rgba(20,10,60,.05),0 8px 24px -12px rgba(20,10,60,.16);
+  --shadow-hoch:0 2px 6px rgba(20,10,60,.06),0 22px 48px -18px rgba(60,30,160,.3);
 }
 *{box-sizing:border-box}
 /* clip statt hidden: hidden macht html und body zu Scrollbehaeltern, und dann
@@ -167,7 +158,7 @@ body.klein .top{border-bottom-color:var(--hair)}
 .kopf-links > *{grid-area:1 / 1;transition:opacity .2s,transform .25s var(--feder)}
 .brand{font-family:var(--f-head);font-weight:800;font-size:21px;letter-spacing:-.035em;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brand i{font-style:normal;color:var(--anod)}
+.brand i{font-style:normal;color:var(--anod);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .mini{display:flex;align-items:center;gap:8px;justify-self:start;padding:4px 11px 4px 4px;border-radius:999px;
   background:var(--surface);box-shadow:var(--shadow);font-size:13px;font-weight:700;white-space:nowrap;
   opacity:0;transform:translateY(8px) scale(.94);pointer-events:none}
@@ -273,8 +264,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 /* Einstieg in den Assistenten */
 .wiz-cta{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:center;
   width:100%;text-align:left;color:#fff;border-radius:20px;padding:14px 15px;margin-bottom:16px;
-  background:linear-gradient(135deg,#0a8593 0%,#0b6f9a 55%,#2a4fa8 100%);
-  box-shadow:0 12px 28px -14px rgba(10,133,147,.9);position:relative;overflow:hidden}
+  background:var(--grad);
+  box-shadow:0 12px 30px -12px rgba(120,70,255,.8);position:relative;overflow:hidden}
 .wiz-cta::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.22),transparent 55%);pointer-events:none}
 .wiz-cta:hover{filter:brightness(1.06)}
 .wiz-cta .ic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
@@ -372,7 +363,12 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .kn-t.stopp{stroke:var(--anod);stroke-width:3.2}
 .kn-z{stroke:var(--anod);stroke-width:5;stroke-linecap:round}
 .kn-zp{fill:var(--anod)}
-.kn-m{fill:var(--anod);font:700 10px var(--f-body,sans-serif);text-anchor:middle;dominant-baseline:middle}
+.kn-m{fill:var(--anod);font:700 10px var(--f-sans);text-anchor:middle;dominant-baseline:middle}
+.kn-n{fill:var(--ink-3);font:600 8.5px var(--f-sans);text-anchor:middle;dominant-baseline:central}
+.kn-n.klein{font-size:7.5px}
+.kn-n.basis{fill:var(--ink);font-weight:800}
+.kn-n.an{fill:var(--anod);font-weight:800;font-size:10.5px}
+.kn-n.klein.an{font-size:9px}
 .kn-hin{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 0 0}
 /* Top Cap mit LSC im HSC-Ring */
 .tcs{margin:0;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
@@ -502,9 +498,9 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .up-kopf + .up{border-top:none}
 .up-statt{font-size:12px;color:var(--ink-3);margin-top:2px;line-height:1.35}
 .up-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
-.btn{background:var(--anod);color:var(--on-anod);border-radius:12px;padding:9px 16px;font-size:13px;
+.btn{background:var(--grad);color:#fff;border-radius:12px;padding:9px 16px;font-size:13px;
   font-weight:700;white-space:nowrap;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
-.btn:hover{background:var(--anod-2)}
+.btn:hover{filter:brightness(1.12)}
 .btn:disabled{opacity:.4;cursor:default}
 .btn.ghost{background:var(--surface-2);color:var(--anod);border:1px solid var(--hair)}
 .btn.ghost:hover{background:var(--anod-soft)}
@@ -644,7 +640,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
   box-shadow:var(--shadow-hoch),0 0 0 4px color-mix(in srgb,var(--anod) 10%,transparent);animation:plopp .5s var(--feder)}
 @keyframes plopp{0%{opacity:0;transform:translateY(26px) scale(.9)}100%{opacity:1;transform:none}}
 .upd-pop .ic{width:40px;height:40px;border-radius:13px;flex:none;display:grid;place-items:center;
-  color:#fff;background:linear-gradient(135deg,#0a8593,#2a4fa8)}
+  color:#fff;background:var(--grad)}
 .upd-pop .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;line-height:1.3}
 .upd-pop .tx b{font-family:var(--f-head);font-size:14px;font-weight:750;letter-spacing:-.01em}
 .upd-pop .tx span{font-size:12px;color:var(--ink-3)}
@@ -2409,7 +2405,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260926-1733';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260926-1837';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -4821,8 +4817,8 @@ function stilVon(){
     psiH: fKlemm(1 + 0.03 * t + 0.03 * sp + 0.04 * f + 0.02 * b, 0.9, 1.14),
     sagV: Math.round(fKlemm(18 - 1.5 * f - (sp > 0 ? 1 : 0) - (t > 0 ? 1 : 0), 14, 22)),
     sagH: Math.round(fKlemm(28 - 2 * f - (sp > 0 ? 1 : 0), 24, 32)),
-    klickL: fKlemm(f + t, -2, 2),
-    klickH: fKlemm(f + (sp > 0 ? 1 : 0) + (g >= 2 ? 1 : 0) - (g === 1 && f <= 0 ? 1 : 0), -2, 2),
+    stL: f + 0.8 * t,
+    stH: f + (sp > 0 ? 1 : sp < 0 ? -0.5 : 0) + (g >= 2 ? 1 : 0) - (g === 1 && f <= 0 ? 1 : 0),
     bergauf: b
   };
 }
@@ -4837,6 +4833,9 @@ function stilGruende(){
   if(g >= 2) out.push("Bikepark: HSC einen Klick zu für die harten Schläge.");
   if(g === 1 && f <= 0) out.push("Ruppige Trails: HSC einen Klick offener — mehr Grip auf Wurzeln und Steinen.");
   if(b > 0) out.push("Viel bergauf: Dämpfer hinten etwas straffer, wippt weniger.");
+  const kg = (plan.fahrer || 0) + 4;
+  if(kg >= 95) out.push("Schwerer als der Durchschnitt: Druckstufen ein Stück fester — sonst sackt das Fahrwerk durch.");
+  if(kg > 0 && kg <= 65) out.push("Leichter als der Durchschnitt: Druckstufen ein Stück offener — sonst arbeitet das Fahrwerk nicht.");
   return out.length ? out : ["Alles im mittleren Bereich — die Werte der Herstellertabelle, unverändert."];
 }
 const psiAus = (tab, lb) => {
@@ -4883,59 +4882,61 @@ function gabelRegler(g){
   if(/RC2|GRIP ?X2|GRIP2|GRIP X\b|R2C2|m\.[12]|\bD1\b|Helm|EXT|Mezzer|Dorado/.test(s)) return "hl";
   return "l";
 }
-function gabelBasis(g){
-  const ka = wahlVon(g, "Kartusche") + " " + g.n;
-  if(/GRIP ?X2/.test(ka)) return {hsc:5, lsc:10, txt:"Fox: HSC 5, LSC 10 Klicks von ganz zu"};
-  if(/GRIP X\b/.test(ka)) return {hsc:10, lsc:10, txt:"Fox: HSC und LSC je 10 Klicks von ganz zu"};
-  if(/Charger/.test(ka)) return {txt:"RockShox: HSC und LSC in der Mitte"};
-  return {txt:"alle Druckstufen-Knöpfe in der Mitte"};
+/* Echte Klickzahlen und Grundeinstellungen je Kartusche (recherchiert
+   2026-09-26): Fox GRIP X2 LSC 18 / HSC 8, GRIP X LSC 16 / HSC 15 (ganz zu =
+   Lockout), GRIP SL 3 Stufen (ENDURO-Test 2025); GRIP2 LSC 16 / HSC 8
+   (Fox-Tuning-Guide); Grundeinstellung Fox laut Owner's Manual 2025.
+   RockShox Charger 3 und 3.1 RC2: LSC 15, HSC 5, Start in der Mitte
+   (RockShox-FAQ, sram.com). Mit bekanntem Bereich rechnet der Rechner in
+   echten Klicks; sonst ab der Mitte. */
+function gabelDaten(g){
+  const s = wahlVon(g, "Kartusche") + " " + g.n, typ = gabelRegler(g);
+  if(/GRIP ?X2/.test(s)) return {typ:"hl", lsc:{n:18, base:10}, hsc:{n:8, base:5},
+    txt:"Fox GRIP X2: LSC 18 Klicks, HSC 8 Klicks. Grundeinstellung (0) laut Fox: LSC 10, HSC 5 ab ganz zu"};
+  if(/GRIP X\b/.test(s)) return {typ:"hl", lsc:{n:16, base:10}, hsc:{n:15, base:10, min:1},
+    txt:"Fox GRIP X: LSC 16, HSC 15 Klicks — ganz zu ist der Lockout. Grundeinstellung (0) laut Fox: je 10 ab ganz zu"};
+  if(/GRIP2/.test(s)) return {typ:"hl", lsc:{n:16, base:10}, hsc:{n:8, base:5},
+    txt:"Fox GRIP2: LSC 16, HSC 8 Klicks. Grundeinstellung (0) laut Fox: LSC 10, HSC 5 ab ganz zu"};
+  if(/Charger 3(\.1)? RC2/.test(s)) return {typ:"hl", lsc:{n:15, base:8}, hsc:{n:5, base:3},
+    txt:"RockShox Charger 3: LSC 15, HSC 5 Klicks. Grundeinstellung (0) laut RockShox: beide in der Mitte"};
+  return {typ:typ, lsc:null, hsc:null,
+    txt:typ === "hl" ? "Klickzahl dieser Kartusche ist nicht bekannt — gezählt wird ab der Mitte" : "Gezählt wird ab der Mitte"};
 }
 function daempferRegler(d){
   if(/X2|DHX2|TTX2|TTX22|DB(Air|Coil)|Kitsuma|Storia|ElevenSix|Vivid|Jade|Mara|H3C|Mod Coil|Aria/.test(d.n)) return "hl";
   if(/SIDLuxe|Float SL|DPS|R 232|TriAir|RockShox Deluxe/.test(d.n)) return "hebel";
   return "l";
 }
-/* Ein Regler: Stellung als Text, ausgehend von der Grundeinstellung */
-function klickText(basis, d){
-  if(basis != null) return Math.max(0, basis - d) + " Klicks von ganz zu";
-  d = Math.max(-2, Math.min(2, d));        /* manche Knoepfe haben nur wenige Rasten -- nicht ueber den Anschlag */
-  if(!d) return "Mitte";
-  return "Mitte, dann " + Math.abs(d) + (Math.abs(d) === 1 ? " Klick " : " Klicks ") + (d > 0 ? "zu" : "auf");
-}
-/* Dasselbe als Klick-Skala: ein Punkt je Klick, gezaehlt von "ganz zu"
-   (bekannte Grundeinstellung) oder von der Mitte aus. Die Gesamtzahl der
-   Klicks kennen wir bei den meisten Knoepfen nicht -- deshalb laeuft die
-   Skala offen aus, statt ein erfundenes Ende zu zeigen. Liams Wahl vom
-   2026-09-26 statt gezeichneter Marken-Raedchen. */
-function klickVis(basis, d){
-  if(basis != null) return {vonZu:Math.max(0, basis - d)};
-  return {mitte:Math.max(-2, Math.min(2, d))};
-}
-function klickSkala(v, text){
-  if(!v) return "";
-  const an = '<i class="an"></i>', aus = '<i></i>', mehr = '<i class="mehr"></i><i class="mehr"></i>';
-  let punkte;
-  if(v.vonZu != null) punkte = (v.vonZu ? an.repeat(v.vonZu) : '<i class="halt"></i>') + aus + mehr;
-  else {
-    const seite = (n, richtung) => [1, 2].map(i => i <= n ? an : aus)[richtung > 0 ? "reverse" : "slice"]().join("");
-    punkte = mehr + seite(v.mitte > 0 ? v.mitte : 0, 1) + '<i class="mitte' + (v.mitte ? "" : " an") + '"></i>'
-           + seite(v.mitte < 0 ? -v.mitte : 0, -1) + mehr;
+/* Druckstufe in Schritten (+ = fester). Ein Schritt sind 12 % des
+   Einstellbereichs, mindestens ein Klick -- so bedeutet "+1" am 18-Klick-LSC
+   dasselbe wie am 5-Klick-HSC. Grundlage (0) ist die Herstellerempfehlung;
+   verschoben wird nach Gewicht (je 15 kg ueber/unter 80 kg ein Schritt),
+   Fahrprofil und Einsatz:
+   - Abfahrt: LSC +0,5 (Halt beim Bremsen), HSC -0,5 (Grip auf Wurzeln)
+   - Spruenge: LSC +1,5 (Halt an der Kante), HSC +1,5 (nicht durchschlagen) */
+const relText = r => r === 0 ? "Grundeinstellung" : r > 0 ? "+" + r + " fester" : "−" + (-r) + " weicher";
+function knopfWert(name, info, stufen){
+  if(info){
+    const schritt = Math.max(1, Math.round(info.n * 0.12));
+    const pos = Math.max(info.min || 0, Math.min(info.n, info.base - Math.round(stufen * schritt)));
+    const rel = info.base - pos;
+    return [name, `${pos} Klicks ab ganz zu · ${relText(rel)}`,
+      {n:info.n, base:info.base, pos:pos, min:info.min || 0, kurz:`${pos} ab zu (${rel > 0 ? "+" + rel : rel < 0 ? "−" + (-rel) : "0"})`}];
   }
-  return `<span class="ks" role="img" aria-label="${esc(text)}"><span class="ks-e">zu</span><span class="ks-p">${punkte}</span><span class="ks-e">offen</span></span>`;
+  const rel = Math.max(-2, Math.min(2, Math.round(stufen)));
+  return [name, rel ? `Mitte, dann ${Math.abs(rel)} ${Math.abs(rel) === 1 ? "Klick" : "Klicks"} ${rel > 0 ? "zu" : "auf"} · ${relText(rel)}` : "Mitte · Grundeinstellung",
+    {mitte:rel, kurz:rel ? "Mitte " + (rel > 0 ? "+" : "−") + Math.abs(rel) : "Mitte"}];
 }
-/* Zwei Einstellungen: Abfahrt (ruppig, schnell) und Spruenge (Absprung und Landung) */
-function druckstufen(regler, basis, st, kg, hinten){
-  const w = kg < 65 ? -1 : kg > 95 ? 1 : 0;
-  const wl = w + st.klickL + (hinten && st.bergauf > 0 ? 1 : 0), wh = w + st.klickH;
-  const prof = {abfahrt:{lsc:1 + wl, hsc:-1 + wh}, spruenge:{lsc:2 + wl, hsc:2 + wh}};
+function druckstufen(daten, st, kg, hinten){
+  const wkg = (kg - 80) / 15;
+  const L = wkg + st.stL + (hinten && st.bergauf > 0 ? 1 : 0), H = wkg + st.stH;
+  const prof = {abfahrt:{l:L + 0.5, h:H - 0.5}, spruenge:{l:L + 1.5, h:H + 1.5}};
   const out = {};
   for(const k of ["abfahrt", "spruenge"]){
     const p = prof[k];
-    if(regler === "hl") out[k] = [["LSC", klickText(basis.lsc, p.lsc), klickVis(basis.lsc, p.lsc)],
-                                  ["HSC", klickText(basis.hsc, p.hsc), klickVis(basis.hsc, p.hsc)]];
-    else if(regler === "l"){ const dl = k === "abfahrt" ? p.lsc - 1 : p.lsc;
-      out[k] = [["Druckstufe", klickText(null, dl), klickVis(null, dl)]]; }
-    else if(regler === "hebel") out[k] = [["Hebel", k === "abfahrt" ? "offen" : "offen — für Sprünge den Druck um 5 % erhöhen"]];
+    if(daten.typ === "hl") out[k] = [knopfWert("LSC", daten.lsc, p.l), knopfWert("HSC", daten.hsc, p.h)];
+    else if(daten.typ === "l") out[k] = [knopfWert("Druckstufe", null, k === "abfahrt" ? p.l - 0.5 : p.l)];
+    else if(daten.typ === "hebel") out[k] = [["Hebel", k === "abfahrt" ? "offen" : "offen — für Sprünge den Druck um 5 % erhöhen"]];
     else out[k] = [["Lockout", k === "abfahrt" ? "offen" : "offen — für Sprünge 5 psi mehr"]];
   }
   return out;
@@ -4949,7 +4950,7 @@ function federRechnen(){
   const dh = !!(g && g.schaft === "dc");
   const out = {kg:kg, st:st};
   if(g && g.travel > 0){
-    const coil = /Coil/.test(g.n), tab = gabelTabelle(g), regler = gabelRegler(g), basis = gabelBasis(g);
+    const coil = /Coil/.test(g.n), tab = gabelTabelle(g), daten = gabelDaten(g), regler = daten.typ, basis = {txt:daten.txt};
     const sag = dh ? st.sagV + 5 : st.sagV;
     let psi = null, grenze = false, feder = null;
     if(coil) feder = kg < 68 ? "weich (soft)" : kg < 86 ? "mittel (medium)" : kg < 100 ? "hart (firm)" : "extra hart (x-firm)";
@@ -4959,7 +4960,7 @@ function federRechnen(){
       if(max && psi > max){ psi = max; grenze = true; }
     }
     out.gabel = {t:g, coil:coil, psi:psi, feder:feder, grenze:grenze, tab:tab, sag:sag, sagMm:Math.round(g.travel * sag / 100),
-      regler:regler, basis:basis, ds:druckstufen(regler, basis, st, kg)};
+      regler:regler, basis:basis, ds:druckstufen(daten, st, kg)};
   }
   if(d){
     const coil = /Coil/.test(d.n), regler = daempferRegler(d);
@@ -4976,13 +4977,13 @@ function federRechnen(){
       if(psi > 300){ psi = 300; grenze = true; }
     }
     out.daempfer = {t:d, coil:coil, psi:psi, rate:rate, grenze:grenze, lr:lr, hinten:hinten, sag:sag, sagMm:Math.round(d.hub * sag / 100 * 10) / 10,
-      regler:regler, ds:druckstufen(regler, {}, st, kg, true)};
+      regler:regler, ds:druckstufen({typ:regler}, st, kg, true)};
   }
   return out;
 }
 function federKarte(titel, x, slot){
   const reihe = (lbl, zeilen) => `<div class="fed-ds"><span class="fed-dk">${lbl}</span>
-    ${zeilen.map(([k, v, vis]) => `<span class="fed-dz"><b>${k}</b><span>${esc(v)}${klickSkala(vis, k + ": " + v)}</span></span>`).join("")}</div>`;
+    ${zeilen.map(([k, v]) => `<span class="fed-dz"><b>${k}</b><span>${esc(v)}</span></span>`).join("")}</div>`;
   const haupt = x.coil
     ? (x.rate ? `<b class="fed-wert">${x.rate} lbs/in</b><span class="fed-u">Federhärte</span>`
               : `<b class="fed-wert">${x.feder}</b><span class="fed-u">Stahlfeder</span>`)
@@ -4994,81 +4995,76 @@ function federKarte(titel, x, slot){
     ${reihe("Druckstufe Abfahrt", x.ds.abfahrt)}
     ${reihe("Druckstufe Sprünge", x.ds.spruenge)}
     <p class="fed-q">${x.tab ? (x.tab.eigen ? `Nach Herstellertabelle ${FED_NAME[x.tab.tab]}.` : `Keine Herstellertabelle im Katalog — Richtwert der Klasse (${FED_NAME[x.tab.tab]}).`) + " " : ""}${
-      x.basis ? "Grundeinstellung: " + x.basis.txt + "." : x.lr ? `Hinterbau-Übersetzung ≈ ${x.lr.toFixed(1).replace(".", ",")} (geschätzt aus ${x.hinten} mm Federweg und ${String(x.t.hub).replace(".", ",")} mm Hub).` : ""}</p>
+      x.basis ? x.basis.txt + "." : x.lr ? `Hinterbau-Übersetzung ≈ ${x.lr.toFixed(1).replace(".", ",")} (geschätzt aus ${x.hinten} mm Federweg und ${String(x.t.hub).replace(".", ",")} mm Hub).` : ""}</p>
     ${schemaBlock(x, slot)}
     ${topCapBlock(slot, x)}
   </div>`;
 }
 /* Gezeichnetes Schema des Einstellraedchens (Liams ausdrueckliche Ausnahme
-   vom 2026-09-26): Gehaeuse mit Klick-Strichen, Knopf, Zeiger. Keine
-   Nachbildung einer Marke. Ein Strich je Klick; "zu"-Anschlag bei bekannter
-   Grundeinstellung, sonst die Mitte. Die Gesamtzahl der Klicks ist meist
-   unbekannt -- die Striche laufen deshalb blass aus. */
-function knopfSchema(name, vis, text){
-  const M = 70, P = (grad, r) => { const a = grad * Math.PI / 180; return [(M + r * Math.sin(a)).toFixed(1), (M - r * Math.cos(a)).toFixed(1)]; };
+   vom 2026-09-26): Gehaeuse, Klick-Striche mit Zahlen wie am Original --
+   0 ist die Grundeinstellung, + Richtung zu (fester), - Richtung offen.
+   Bei bekannter Klickzahl die ganze Skala ueber 270 Grad, ganz zu am
+   Ende im Uhrzeigersinn; sonst -3 bis +3 um die Mitte. */
+const relZahl = r => r > 0 ? "+" + r : r < 0 ? "−" + (-r) : "0";
+function skalaSvg(vis, P, o){
   const strich = (grad, r1, r2, kl) => { const [x1, y1] = P(grad, r1), [x2, y2] = P(grad, r2); return `<line class="${kl}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`; };
-  const STEP = 15;
-  let striche = "", zeiger, marke;
-  if(vis.vonZu != null){
-    const A0 = 60, n = vis.vonZu;
-    zeiger = A0 - n * STEP;
-    for(let i = 0; i <= n + 2; i++) striche += strich(A0 - i * STEP, i ? 40 : 37, 47, "kn-t" + (i > n ? " blass" : "") + (i ? "" : " stopp"));
-    const [lx, ly] = P(A0 + 13, 60);
-    marke = `<text class="kn-m" x="${lx}" y="${ly}">zu</text>`;
+  const zahl = (grad, txt, kl) => { const [x, y] = P(grad, o.rZahl); return `<text class="${kl}" x="${x}" y="${y}">${txt}</text>`; };
+  let svg = "", winkel;
+  if(vis.n != null){
+    const st = 270 / vis.n, w = pos => 135 - pos * st, dicht = vis.n > 10;
+    winkel = w(vis.pos);
+    for(let pos = 0; pos <= vis.n; pos++){
+      const rel = vis.base - pos, basis = rel === 0, zeiger = pos === vis.pos;
+      svg += strich(w(pos), basis ? o.rStopp : o.r1, o.r2, o.kl + (basis ? " stopp" : "") + (pos < vis.min ? " blass" : ""));
+      if(!dicht || rel % 2 === 0 || pos === vis.n || zeiger)
+        svg += zahl(w(pos), relZahl(rel), o.zk + (zeiger ? " an" : basis ? " basis" : ""));
+    }
   } else {
-    zeiger = vis.mitte * STEP;
-    for(let i = -3; i <= 3; i++) striche += strich(i * STEP, i ? 40 : 37, 47, "kn-t" + (Math.abs(i) > 2 ? " blass" : "") + (i ? "" : " stopp"));
-    const [lx, ly] = P(0, 60);
-    marke = `<text class="kn-m" x="${lx}" y="${ly}">Mitte</text>`;
+    const st = 22;
+    winkel = vis.mitte * st;
+    for(let r = -3; r <= 3; r++){
+      svg += strich(r * st, r ? o.r1 : o.rStopp, o.r2, o.kl + (r ? "" : " stopp") + (Math.abs(r) > 2 ? " blass" : ""));
+      svg += zahl(r * st, relZahl(r), o.zk + (r === vis.mitte ? " an" : r === 0 ? " basis" : ""));
+    }
   }
-  const riffel = Array.from({length:16}, (_, i) => strich(i * 22.5, 27, 31, "kn-r")).join("");
-  const [zx, zy] = P(zeiger, 25);
-  return `<figure class="kn"><svg viewBox="0 0 140 140" role="img" aria-label="${esc(name + ": " + text)}">
-    <circle class="kn-geh" cx="${M}" cy="${M}" r="52"/>${striche}
-    <circle class="kn-knopf" cx="${M}" cy="${M}" r="31"/>${riffel}
-    <line class="kn-z" x1="${M}" y1="${M}" x2="${zx}" y2="${zy}"/><circle class="kn-zp" cx="${zx}" cy="${zy}" r="4.5"/>${marke}
+  return {svg:svg, winkel:winkel};
+}
+const PolarVon = M => (grad, r) => { const a = grad * Math.PI / 180; return [(M + r * Math.sin(a)).toFixed(1), (M - r * Math.cos(a)).toFixed(1)]; };
+function knopfSchema(name, vis, text){
+  const M = 80, P = PolarVon(M);
+  const strich = (grad, r1, r2, kl) => { const [x1, y1] = P(grad, r1), [x2, y2] = P(grad, r2); return `<line class="${kl}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`; };
+  const sk = skalaSvg(vis, P, {r1:50, r2:58, rStopp:47, rZahl:67, kl:"kn-t", zk:"kn-n"});
+  const riffel = Array.from({length:16}, (_, i) => strich(i * 22.5, 36, 41, "kn-r")).join("");
+  const [zx, zy] = P(sk.winkel, 33);
+  return `<figure class="kn"><svg viewBox="0 0 160 160" role="img" aria-label="${esc(name + ": " + text)}">
+    <circle class="kn-geh" cx="${M}" cy="${M}" r="77"/>${sk.svg}
+    <circle class="kn-knopf" cx="${M}" cy="${M}" r="41"/>${riffel}
+    <line class="kn-z" x1="${M}" y1="${M}" x2="${zx}" y2="${zy}"/><circle class="kn-zp" cx="${zx}" cy="${zy}" r="5"/>
   </svg><figcaption><b>${esc(name)}</b><span>${esc(text)}</span></figcaption></figure>`;
 }
 /* Ein Top Cap wie in echt: LSC sitzt IM HSC-Knopf. Bestaetigt fuer Fox
-   GRIP X2 ("outer blue knob HSC, inner black knob LSC"; LSC-Einsteller wird
-   in den HSC-Einsteller montiert) und RockShox Charger 3 ("HSC-Markierung
-   am Top Cap, LSC-Markierung auf dem HSC-Knopf"). Grosser Ring aussen = HSC
-   mit Strichen am Top Cap, kleiner Knopf innen = LSC mit Strichen auf dem
-   HSC-Ring. Gezeichnet im Stil der Einzelraedchen, keine Markennachbildung. */
+   GRIP X2 (aeusserer Knopf HSC, innerer LSC, LSC im HSC-Einsteller montiert)
+   und RockShox Charger 3 (HSC-Markierung am Top Cap, LSC-Markierung auf dem
+   HSC-Knopf). Zahlen wie am Original, je Knopf eine eigene Skala. */
 function topCapSchema(lsc, hsc){
-  const M = 90, P = (grad, r) => { const a = grad * Math.PI / 180; return [(M + r * Math.sin(a)).toFixed(1), (M - r * Math.cos(a)).toFixed(1)]; };
+  const M = 110, P = PolarVon(M);
   const strich = (grad, r1, r2, kl) => { const [x1, y1] = P(grad, r1), [x2, y2] = P(grad, r2); return `<line class="${kl}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`; };
-  /* Striche und Zeigerwinkel fuer einen Knopf; A0 = Anschlag "zu" */
-  const skala = (vis, step, r1, r2, rStopp, kl) => {
-    let svg = "", winkel;
-    if(vis.vonZu != null){
-      const A0 = 60, n = vis.vonZu;
-      winkel = A0 - n * step;
-      for(let i = 0; i <= n + 2; i++) svg += strich(A0 - i * step, i ? r1 : rStopp, r2, kl + (i > n ? " blass" : "") + (i ? "" : " stopp"));
-    } else {
-      winkel = vis.mitte * step;
-      for(let i = -3; i <= 3; i++) svg += strich(i * step, i ? r1 : rStopp, r2, kl + (Math.abs(i) > 2 ? " blass" : "") + (i ? "" : " stopp"));
-    }
-    return {svg:svg, winkel:winkel};
-  };
-  const h = skala(hsc[2], 16, 63, 71, 60, "kn-t");
-  const l = skala(lsc[2], 15, 34, 41, 32, "kn-t tcs-lt");
-  const riffelH = Array.from({length:24}, (_, i) => strich(i * 15, 52, 57, "kn-r")).join("");
-  const riffelL = Array.from({length:12}, (_, i) => strich(i * 30, 24, 28, "kn-r")).join("");
-  const [hx1, hy1] = P(h.winkel, 43), [hx2, hy2] = P(h.winkel, 57);
-  const [lx, ly] = P(l.winkel, 22);
-  const hMarke = hsc[2].vonZu != null ? P(60 + 14, 81) : P(0, 81);
-  return `<figure class="tcs"><svg viewBox="0 0 180 180" role="img" aria-label="${esc("HSC: " + hsc[1] + ", LSC: " + lsc[1])}">
-      <circle class="kn-geh" cx="${M}" cy="${M}" r="76"/>${h.svg}
-      <circle class="tcs-hsc" cx="${M}" cy="${M}" r="57"/>${riffelH}${l.svg}
-      <line class="kn-z" x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}"/>
-      <circle class="tcs-lsc" cx="${M}" cy="${M}" r="28"/>${riffelL}
-      <line class="tcs-lz" x1="${M}" y1="${M}" x2="${lx}" y2="${ly}"/><circle class="tcs-lp" cx="${lx}" cy="${ly}" r="4"/>
-      <text class="kn-m" x="${hMarke[0]}" y="${hMarke[1]}">${hsc[2].vonZu != null ? "zu" : "Mitte"}</text>
+  const h = skalaSvg(hsc[2], P, {r1:82, r2:90, rStopp:79, rZahl:99, kl:"kn-t", zk:"kn-n"});
+  const l = skalaSvg(lsc[2], P, {r1:42, r2:49, rStopp:40, rZahl:57, kl:"kn-t tcs-lt", zk:"kn-n klein"});
+  const riffelH = Array.from({length:28}, (_, i) => strich(i * (360 / 28), 67, 73, "kn-r")).join("");
+  const riffelL = Array.from({length:12}, (_, i) => strich(i * 30, 29, 34, "kn-r")).join("");
+  const [hx1, hy1] = P(h.winkel, 63), [hx2, hy2] = P(h.winkel, 74), [hpx, hpy] = P(h.winkel, 68);
+  const [lx, ly] = P(l.winkel, 26);
+  return `<figure class="tcs"><svg viewBox="0 0 220 220" role="img" aria-label="${esc("HSC: " + hsc[1] + ", LSC: " + lsc[1])}">
+      <circle class="kn-geh" cx="${M}" cy="${M}" r="107"/>${h.svg}
+      <circle class="tcs-hsc" cx="${M}" cy="${M}" r="74"/>${riffelH}${l.svg}
+      <line class="kn-z" x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}"/><circle class="kn-zp" cx="${hpx}" cy="${hpy}" r="4.5"/>
+      <circle class="tcs-lsc" cx="${M}" cy="${M}" r="34"/>${riffelL}
+      <line class="tcs-lz" x1="${M}" y1="${M}" x2="${lx}" y2="${ly}"/><circle class="tcs-lp" cx="${lx}" cy="${ly}" r="4.5"/>
     </svg>
     <figcaption>
-      <span class="tcs-l"><i class="hsc"></i><span><b>HSC</b> — großer Ring außen<br>${esc(hsc[1])}</span></span>
-      <span class="tcs-l"><i class="lsc"></i><span><b>LSC</b> — kleiner Knopf innen<br>${esc(lsc[1])}</span></span>
+      <span class="tcs-l"><i class="hsc"></i><span><b>HSC</b> — großer Ring außen, äußere Zahlen<br>${esc(hsc[1])}</span></span>
+      <span class="tcs-l"><i class="lsc"></i><span><b>LSC</b> — kleiner Knopf innen, innere Zahlen<br>${esc(lsc[1])}</span></span>
     </figcaption></figure>`;
 }
 function schemaBlock(x, slot){
@@ -5091,8 +5087,8 @@ function schemaBlock(x, slot){
     ${raeder ? `<p class="kn-hin">${topCap ? (bekannt
         ? "So sitzen die Knöpfe bei Fox und RockShox: der kleine LSC-Knopf steckt im großen HSC-Ring. "
         : `So sitzen die Knöpfe bei Fox und RockShox — bei ${esc(x.t.m)} kann es anders aussehen, die Anleitung zeigt es. `) : ""}Schema, nicht dein
-      echtes Top Cap. Ein Strich ist ein Klick, der kräftige Strich ist ${topCap || zeilen.some(z => z[2] && z[2].vonZu != null) ? "„ganz zu“ bzw. die Mitte" : "die Mitte"}.
-      Am echten Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen.</p>` : ""}
+      echtes Top Cap. Ein Strich ist ein Klick. <b>0</b> ist die Grundeinstellung des Herstellers, <b>+</b> heißt fester (Richtung zu),
+      <b>−</b> weicher (Richtung offen). Am echten Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen.</p>` : ""}
   </div>`;
 }
 /* ═══ Wo sind die Knoepfe? (Liams Wahl 2026-09-26: beides) ═══
@@ -5142,11 +5138,10 @@ function topCapBlock(slot, x){
     <span class="tc-h">Fotografier die Oberseite ${teilName} mit den Einstellrädchen — die App schreibt die Einstellung direkt ins Bild. Das Foto bleibt auf deinem Handy.</span></div>`;
   const offen = knoepfe.filter(k => !(tc.marks && tc.marks[k]));
   const werte = {};
-  for(const z of x.ds[tcAnsicht]) werte[z[0]] = z[1];
+  for(const z of x.ds[tcAnsicht]) werte[z[0]] = z[2] && z[2].kurz ? z[2].kurz : z[1];
   /* Kurz, damit dicht beieinander liegende Knoepfe (GRIP X2: HSC und LSC
      uebereinander) sich nicht verdecken; der zweite steht ueber dem Punkt */
-  const kurz = v => !v ? "" : v.replace(/^(\d+) Klicks? von ganz zu$/, "$1 von zu")
-    .replace(/^Mitte, dann (\d+) Klicks? (zu|auf)$/, "Mitte +$1 $2").replace(/^offen.*$/, "offen");
+  const kurz = v => !v ? "" : v.replace(/^offen.*$/, "offen");
   const marken = knoepfe.filter(k => tc.marks && tc.marks[k]).map((k, i) => {
     const m = tc.marks[k], seite = (m.x < 0.3 ? " links" : m.x > 0.7 ? " rechts" : "") + (i % 2 ? " oben" : "");
     return `<span class="tc-m${seite}" style="left:${(m.x * 100).toFixed(1)}%;top:${(m.y * 100).toFixed(1)}%"><i></i><span>${esc(k)}${werte[k] ? " · " + esc(kurz(werte[k])) : ""}</span></span>`;
@@ -5206,9 +5201,17 @@ function oeffneFederung(){
       <div class="erk" style="margin-top:6px"><b>So stellst du es ein</b>
         1. Luft mit einer Dämpferpumpe einfüllen, Gabel und Dämpfer danach ein paar Mal einfedern und nochmal messen.<br>
         2. Sag prüfen: in Fahrposition aufs Rad stellen, der Gummiring am Standrohr zeigt, wie weit es einsinkt — das sollte ungefähr der Sag-Wert sein.<br>
-        3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks. Im Schema ist jeder Strich ein Klick.<br>
+        3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks. Im Schema ist jeder Strich ein Klick, die Zahl sagt, wie weit von der Grundeinstellung.<br>
         4. <b style="display:inline">Abfahrt</b> ist für ruppige, schnelle Strecken, <b style="display:inline">Sprünge</b> für Bikepark und Absprünge — mehr Halt an der Kante, kein Durchschlagen bei der Landung.<br>
         5. Die Zugstufe (Rebound) so, dass das Rad nach dem Einfedern zügig zurückkommt, ohne nachzuwippen.</div>
+      <div class="erk"><b>Nach der ersten Fahrt nachstellen</b>
+        Immer nur eine Sache ändern, 1–2 Klicks pro Runde, auf derselben Teststrecke.<br>
+        · Taucht beim Bremsen und in Anliegern tief ein → <b style="display:inline">LSC</b> 2 Klicks zu.<br>
+        · Schlägt bei Sprüngen oder Drops durch → <b style="display:inline">HSC</b> 1–2 Klicks zu, reicht das nicht: 5 % mehr Luft.<br>
+        · Hart und bockig auf Wurzeln und Steinen → <b style="display:inline">HSC</b> 1 Klick auf.<br>
+        · Wenig Grip in Kurven, fühlt sich stumpf an → <b style="display:inline">LSC</b> 1–2 Klicks auf.<br>
+        · Nutzt nie den ganzen Federweg (O-Ring) → 5 % weniger Luft.<br>
+        · Dämpfer wippt beim Treten → hinten <b style="display:inline">LSC</b> zu oder den Hebel auf die mittlere Stellung.</div>
       <p class="hint" style="margin-top:8px">Startwerte, keine Garantie: Die Tabelle auf deiner Gabel und das Handbuch haben Vorrang. Nie über den
         Maximaldruck pumpen. Quelle: Fox Owner's Manuals 2025, RockShox-Luftdrucktabellen.</p>
     </div>`);
@@ -6293,6 +6296,10 @@ function oeffneMenu(){
       <div class="fld"><label for="m-budget">Budget in € — nur für dieses Profil, leer heißt ohne Grenze</label>
         <input id="m-budget" type="number" inputmode="numeric" min="0" step="50" value="${plan.budget || ""}" placeholder="leer = ohne Grenze" data-plan="budget"></div>
 
+      <div class="grp-h" style="margin-top:14px"><h2>Design</h2><div class="rule"></div></div>
+      <div class="filt" style="margin:0 0 6px">
+        <button data-design="oled" aria-pressed="${document.documentElement.dataset.theme !== "light"}">OLED-Schwarz</button>
+        <button data-design="hell" aria-pressed="${document.documentElement.dataset.theme === "light"}">Hell</button></div>
       <div class="grp-h" style="margin-top:14px"><h2>App</h2><div class="rule"></div></div>
       <div class="app-stand">
         <button class="btn ghost sm" data-aktualisieren="1">${updateDa ? "Neue Version laden" : "Nach Update suchen"}</button>
@@ -6539,6 +6546,14 @@ document.addEventListener("click", e => {
     return;
   }
   if(T("[data-scorehilfe]")){ oeffneScoreHilfe(); return; }
+  const dsg = T("[data-design]");
+  if(dsg){
+    const hell = dsg.dataset.design === "hell";
+    if(hell) document.documentElement.dataset.theme = "light"; else delete document.documentElement.dataset.theme;
+    try{ localStorage.setItem("mtb.design", hell ? "hell" : "oled"); }catch(e){}
+    const m = document.querySelector('meta[name="theme-color"]'); if(m) m.content = hell ? "#f3f2f8" : "#000000";
+    oeffneMenu(); return;
+  }
   if(T("[data-fed]")){ oeffneFederung(); return; }
   const tcf = T("[data-tcfoto]");
   if(tcf){ fotoZiel = {art:"topcap", slot:tcf.dataset.tcfoto}; const i = $("foto-in"); if(i) i.click(); return; }
