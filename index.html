@@ -2319,7 +2319,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260925-2011';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260926-1610';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -3288,6 +3288,12 @@ const treueLuft = (k, lockern) => {
    danach bei einfacheren Teilen, nie bei Rahmen und Fahrwerk. Was er davon
    gebraucht hat, steht in generiereInfo und im Ergebnis des Assistenten. */
 const BUDGET_LUFT = 100;
+/* Guenstigster disziplintreuer Aufbau je Disziplin, gemessen mit dem
+   Pruefstand am 2026-09-25 (ohne Markenwunsch), auf 50 Euro aufgerundet.
+   Nur fuer die Orientierung im Assistenten -- die echte Rechnung macht
+   generiere(). Bei gemischter Wahl zaehlt der hoechste Wert. */
+const MINDEST = {xc:2350, trail:1850, enduro:2600, dh:4700, dirt:1650, slope:2550, trial:1800};
+const mindestPreis = () => Math.max.apply(null, sel.map(d => MINDEST[d] || 0));
 let generiereInfo = null, letzteTreue = {};
 function generiere(){
   /* Der Assistent baut neu: Start beim aktuellen Modelljahr, egal welches Jahr
@@ -5521,7 +5527,9 @@ function oeffneWiz(step){
         ? `<div class="mixbox no"><b>Das gibt es nicht als ein Rad.</b> ${dLang(mp.paar[0])} und ${dLang(mp.paar[1])} teilen sich kaum ein Bauteil.</div>`
         : mp.min < .40
         ? `<div class="mixbox w"><b>Weiter Spagat.</b> ${dLang(mp.paar[0])} und ${dLang(mp.paar[1])} ziehen auseinander.</div>`
-        : `<div class="mixbox ok"><b>Das lässt sich bauen.</b></div>`) : ""}`;
+        : `<div class="mixbox ok"><b>Das lässt sich bauen.</b></div>`) : ""}
+      <p class="was-das" style="margin-top:12px"><b>Unsicher?</b> Nimm <b style="color:inherit">Trail</b> — das Allround-Rad für
+        Touren mit Abfahrten, bergauf und bergab. Passt für die meisten, die einfach im Wald fahren wollen.</p>`;
   }
   else if(step === 1){
     body = `<p class="q">Was darf es kosten?</p>
@@ -5529,7 +5537,9 @@ function oeffneWiz(step){
       <div class="qgrid">${BUDGETS.map(v => `<button class="qopt" data-budget="${v}" aria-pressed="${plan.budget === v}">${eur(v)}</button>`).join("")}</div>
       <div class="fld" style="margin-top:12px"><label for="w-budget">Eigener Betrag in €</label>
         <input id="w-budget" type="number" inputmode="numeric" min="400" step="50" value="${plan.budget || ""}" placeholder="z. B. 4200" data-plan="budget"></div>
-      <p class="hint">Unter 1.200 € wird es eng: allein Rahmen, Gabel und Laufräder fressen den Großteil.</p>`;
+      <p class="was-das" style="margin-top:12px"><b>Was ist realistisch?</b> Ein Aufbau aus Neuteilen für ${esc(selNamen())}
+        kostet ab etwa ${eur(mindestPreis())} — mit älterem Rahmen und einfachen Teilen. Darunter sagt dir der Assistent,
+        was fehlt, statt ein falsches Rad zu bauen.</p>`;
     kannWeiter = plan.budget > 0;
   }
   else if(step === 2){
