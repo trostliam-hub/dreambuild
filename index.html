@@ -374,6 +374,20 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .kn-zp{fill:var(--anod)}
 .kn-m{fill:var(--anod);font:700 10px var(--f-body,sans-serif);text-anchor:middle;dominant-baseline:middle}
 .kn-hin{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 0 0}
+/* Top Cap mit LSC im HSC-Ring */
+.tcs{margin:0;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+.tcs svg{width:100%;max-width:220px;height:auto;display:block}
+.tcs-hsc{fill:var(--anod-soft);stroke:var(--anod);stroke-width:2.5}
+.tcs-lsc{fill:var(--surface);stroke:var(--ink-2);stroke-width:2.2}
+.tcs-lt{stroke:var(--ink)}
+.tcs-lz{stroke:var(--ink);stroke-width:5;stroke-linecap:round}
+.tcs-lp{fill:var(--ink)}
+.tcs figcaption{display:flex;flex-direction:column;gap:6px;width:100%;max-width:300px}
+.tcs-l{display:grid;grid-template-columns:14px minmax(0,1fr);gap:8px;align-items:start;font-size:12.5px;color:var(--ink-2);line-height:1.4}
+.tcs-l > i{width:12px;height:12px;border-radius:50%;margin-top:3px}
+.tcs-l > i.hsc{background:var(--anod)}
+.tcs-l > i.lsc{background:var(--ink)}
+.tcs-l b{font-size:12px;letter-spacing:.04em}
 .kn-hebel{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;margin-top:4px}
 .kn-hebel b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);min-width:70px}
 .kn-pos{padding:4px 10px;border-radius:999px;border:1px solid var(--hair);color:var(--ink-3);font-weight:650}
@@ -2395,7 +2409,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260926-1722';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260926-1733';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -4981,7 +4995,7 @@ function federKarte(titel, x, slot){
     ${reihe("Druckstufe Sprünge", x.ds.spruenge)}
     <p class="fed-q">${x.tab ? (x.tab.eigen ? `Nach Herstellertabelle ${FED_NAME[x.tab.tab]}.` : `Keine Herstellertabelle im Katalog — Richtwert der Klasse (${FED_NAME[x.tab.tab]}).`) + " " : ""}${
       x.basis ? "Grundeinstellung: " + x.basis.txt + "." : x.lr ? `Hinterbau-Übersetzung ≈ ${x.lr.toFixed(1).replace(".", ",")} (geschätzt aus ${x.hinten} mm Federweg und ${String(x.t.hub).replace(".", ",")} mm Hub).` : ""}</p>
-    ${schemaBlock(x)}
+    ${schemaBlock(x, slot)}
     ${topCapBlock(slot, x)}
   </div>`;
 }
@@ -5015,9 +5029,55 @@ function knopfSchema(name, vis, text){
     <line class="kn-z" x1="${M}" y1="${M}" x2="${zx}" y2="${zy}"/><circle class="kn-zp" cx="${zx}" cy="${zy}" r="4.5"/>${marke}
   </svg><figcaption><b>${esc(name)}</b><span>${esc(text)}</span></figcaption></figure>`;
 }
-function schemaBlock(x){
+/* Ein Top Cap wie in echt: LSC sitzt IM HSC-Knopf. Bestaetigt fuer Fox
+   GRIP X2 ("outer blue knob HSC, inner black knob LSC"; LSC-Einsteller wird
+   in den HSC-Einsteller montiert) und RockShox Charger 3 ("HSC-Markierung
+   am Top Cap, LSC-Markierung auf dem HSC-Knopf"). Grosser Ring aussen = HSC
+   mit Strichen am Top Cap, kleiner Knopf innen = LSC mit Strichen auf dem
+   HSC-Ring. Gezeichnet im Stil der Einzelraedchen, keine Markennachbildung. */
+function topCapSchema(lsc, hsc){
+  const M = 90, P = (grad, r) => { const a = grad * Math.PI / 180; return [(M + r * Math.sin(a)).toFixed(1), (M - r * Math.cos(a)).toFixed(1)]; };
+  const strich = (grad, r1, r2, kl) => { const [x1, y1] = P(grad, r1), [x2, y2] = P(grad, r2); return `<line class="${kl}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`; };
+  /* Striche und Zeigerwinkel fuer einen Knopf; A0 = Anschlag "zu" */
+  const skala = (vis, step, r1, r2, rStopp, kl) => {
+    let svg = "", winkel;
+    if(vis.vonZu != null){
+      const A0 = 60, n = vis.vonZu;
+      winkel = A0 - n * step;
+      for(let i = 0; i <= n + 2; i++) svg += strich(A0 - i * step, i ? r1 : rStopp, r2, kl + (i > n ? " blass" : "") + (i ? "" : " stopp"));
+    } else {
+      winkel = vis.mitte * step;
+      for(let i = -3; i <= 3; i++) svg += strich(i * step, i ? r1 : rStopp, r2, kl + (Math.abs(i) > 2 ? " blass" : "") + (i ? "" : " stopp"));
+    }
+    return {svg:svg, winkel:winkel};
+  };
+  const h = skala(hsc[2], 16, 63, 71, 60, "kn-t");
+  const l = skala(lsc[2], 15, 34, 41, 32, "kn-t tcs-lt");
+  const riffelH = Array.from({length:24}, (_, i) => strich(i * 15, 52, 57, "kn-r")).join("");
+  const riffelL = Array.from({length:12}, (_, i) => strich(i * 30, 24, 28, "kn-r")).join("");
+  const [hx1, hy1] = P(h.winkel, 43), [hx2, hy2] = P(h.winkel, 57);
+  const [lx, ly] = P(l.winkel, 22);
+  const hMarke = hsc[2].vonZu != null ? P(60 + 14, 81) : P(0, 81);
+  return `<figure class="tcs"><svg viewBox="0 0 180 180" role="img" aria-label="${esc("HSC: " + hsc[1] + ", LSC: " + lsc[1])}">
+      <circle class="kn-geh" cx="${M}" cy="${M}" r="76"/>${h.svg}
+      <circle class="tcs-hsc" cx="${M}" cy="${M}" r="57"/>${riffelH}${l.svg}
+      <line class="kn-z" x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}"/>
+      <circle class="tcs-lsc" cx="${M}" cy="${M}" r="28"/>${riffelL}
+      <line class="tcs-lz" x1="${M}" y1="${M}" x2="${lx}" y2="${ly}"/><circle class="tcs-lp" cx="${lx}" cy="${ly}" r="4"/>
+      <text class="kn-m" x="${hMarke[0]}" y="${hMarke[1]}">${hsc[2].vonZu != null ? "zu" : "Mitte"}</text>
+    </svg>
+    <figcaption>
+      <span class="tcs-l"><i class="hsc"></i><span><b>HSC</b> — großer Ring außen<br>${esc(hsc[1])}</span></span>
+      <span class="tcs-l"><i class="lsc"></i><span><b>LSC</b> — kleiner Knopf innen<br>${esc(lsc[1])}</span></span>
+    </figcaption></figure>`;
+}
+function schemaBlock(x, slot){
   const zeilen = x.ds[tcAnsicht] || [];
-  const raeder = zeilen.filter(z => z[2]).map(z => knopfSchema(z[0], z[2], z[1])).join("");
+  const lscZ = zeilen.find(z => z[0] === "LSC" && z[2]), hscZ = zeilen.find(z => z[0] === "HSC" && z[2]);
+  const topCap = slot === "gabel" && lscZ && hscZ;
+  const bekannt = /^(Fox|RockShox|Marzocchi)$/.test(x.t.m);
+  const raeder = topCap ? topCapSchema(lscZ, hscZ)
+    : zeilen.filter(z => z[2]).map(z => knopfSchema(z[0], z[2], z[1])).join("");
   const hebel = zeilen.filter(z => !z[2]).map(z => `<div class="kn-hebel"><b>${esc(z[0])}</b>
     <span class="kn-pos an">offen</span><span class="kn-pos">Mitte</span><span class="kn-pos">zu</span>
     ${z[1].indexOf("—") > 0 ? `<span class="kn-hz">${esc(z[1].split("—")[1].trim())}</span>` : ""}</div>`).join("");
@@ -5028,8 +5088,11 @@ function schemaBlock(x){
         <button data-tcansicht="abfahrt" aria-pressed="${tcAnsicht === "abfahrt"}">Abfahrt</button>
         <button data-tcansicht="spruenge" aria-pressed="${tcAnsicht === "spruenge"}">Sprünge</button></div></div>
     ${raeder ? `<div class="kn-reihe">${raeder}</div>` : ""}${hebel}
-    ${raeder ? `<p class="kn-hin">Schema, nicht dein echtes Top Cap. Ein Strich ist ein Klick, der Zeiger zeigt die Stellung —
-      am echten Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen.</p>` : ""}
+    ${raeder ? `<p class="kn-hin">${topCap ? (bekannt
+        ? "So sitzen die Knöpfe bei Fox und RockShox: der kleine LSC-Knopf steckt im großen HSC-Ring. "
+        : `So sitzen die Knöpfe bei Fox und RockShox — bei ${esc(x.t.m)} kann es anders aussehen, die Anleitung zeigt es. `) : ""}Schema, nicht dein
+      echtes Top Cap. Ein Strich ist ein Klick, der kräftige Strich ist ${topCap || zeilen.some(z => z[2] && z[2].vonZu != null) ? "„ganz zu“ bzw. die Mitte" : "die Mitte"}.
+      Am echten Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen.</p>` : ""}
   </div>`;
 }
 /* ═══ Wo sind die Knoepfe? (Liams Wahl 2026-09-26: beides) ═══
