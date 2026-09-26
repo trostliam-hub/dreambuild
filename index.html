@@ -361,6 +361,27 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .fed-dz b{display:inline-block;min-width:78px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .fed-q{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 2px 0}
 .fed-warn{font-size:12.5px;color:var(--warn);margin:0 0 6px;line-height:1.4}
+/* Wo sind die Knoepfe: Herstellerlink und eigenes Top-Cap-Foto */
+.tc-block{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line-soft)}
+.tc-t{font-size:12.5px;font-weight:750}
+.tc-link{font-size:12.5px;color:var(--anod);font-weight:650;text-decoration:none}
+.tc-link.aus{color:var(--ink-3);font-weight:500}
+.tc-h{font-size:11.5px;color:var(--ink-3);line-height:1.45}
+.tc-hin{font-size:13px;color:var(--anod);font-weight:750;margin:0}
+.tc-bild{position:relative;width:100%;border-radius:12px;overflow:hidden;background:var(--sunk);touch-action:manipulation}
+.tc-bild img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+.tc-bild.markieren{cursor:crosshair;outline:2px dashed var(--anod);outline-offset:-2px}
+.tc-m{position:absolute;transform:translate(-50%,-50%);pointer-events:none}
+.tc-m i{display:block;width:18px;height:18px;border-radius:50%;border:3px solid #fff;background:var(--anod);box-shadow:0 0 0 2px rgba(0,0,0,.45)}
+.tc-m > span{position:absolute;left:50%;top:22px;transform:translateX(-50%);white-space:nowrap;background:rgba(8,12,16,.88);
+  color:#fff;font-size:11.5px;font-weight:700;padding:4px 7px;border-radius:8px;line-height:1.3;text-align:center}
+.tc-m.oben > span{top:auto;bottom:22px}
+.tc-m.links > span{left:0;transform:none;text-align:left}
+.tc-m.rechts > span{left:auto;right:0;transform:none;text-align:right}
+.tc-knoepfe{display:flex;gap:6px;flex-wrap:wrap}
+.tc-ansicht{display:flex;gap:6px}
+.tc-ansicht button{padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:700;border:1px solid var(--hair);background:var(--surface);color:var(--ink-2)}
+.tc-ansicht button[aria-pressed="true"]{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
 .fed-dz{display:grid;grid-template-columns:78px minmax(0,1fr);gap:0 6px;align-items:start}
 .fed-dz > span{display:flex;flex-direction:column;gap:5px;min-width:0}
 /* Klick-Skala: ein Punkt je Klick, links "zu", rechts "offen" */
@@ -2341,7 +2362,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260926-1657';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260926-1713';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -2541,7 +2562,7 @@ function profilLoeschen(id){
   if(profile[modus].length < 2) return;
   profilZurueck(modus);
   profile[modus] = profile[modus].filter(x => x.id !== id);
-  try{ localStorage.removeItem(fotoFach(id)); }catch(e){}
+  try{ localStorage.removeItem(fotoFach(id)); ["gabel", "daempfer"].forEach(k => localStorage.removeItem("mtb.topcap." + id + "." + k)); }catch(e){}
   if(aktivId[modus] === id) aktivId[modus] = profile[modus][0].id;
   profilHolen(modus);
   sichern(); zeichne();
@@ -4870,7 +4891,7 @@ function federRechnen(){
   }
   return out;
 }
-function federKarte(titel, x){
+function federKarte(titel, x, slot){
   const reihe = (lbl, zeilen) => `<div class="fed-ds"><span class="fed-dk">${lbl}</span>
     ${zeilen.map(([k, v, vis]) => `<span class="fed-dz"><b>${k}</b><span>${esc(v)}${klickSkala(vis, k + ": " + v)}</span></span>`).join("")}</div>`;
   const haupt = x.coil
@@ -4885,6 +4906,77 @@ function federKarte(titel, x){
     ${reihe("Druckstufe Sprünge", x.ds.spruenge)}
     <p class="fed-q">${x.tab ? (x.tab.eigen ? `Nach Herstellertabelle ${FED_NAME[x.tab.tab]}.` : `Keine Herstellertabelle im Katalog — Richtwert der Klasse (${FED_NAME[x.tab.tab]}).`) + " " : ""}${
       x.basis ? "Grundeinstellung: " + x.basis.txt + "." : x.lr ? `Hinterbau-Übersetzung ≈ ${x.lr.toFixed(1).replace(".", ",")} (geschätzt aus ${x.hinten} mm Federweg und ${String(x.t.hub).replace(".", ",")} mm Hub).` : ""}</p>
+    ${topCapBlock(slot, x)}
+  </div>`;
+}
+/* ═══ Wo sind die Knoepfe? (Liams Wahl 2026-09-26: beides) ═══
+   1. Link zur offiziellen Anleitung des Herstellers -- dort sind die echten
+      Raedchen abgebildet. Fremde Produktfotos kommen nicht ins Repo.
+   2. Eigenes Foto vom Top Cap: einmal auf jeden Knopf tippen, dann steht die
+      Einstellung direkt im Bild. Bleibt nur auf dem Geraet. */
+const HANDBUCH = {
+  fox3234:["Fox-Anleitung 32/34", "https://tech.ridefox.com/bike/owners-manuals/2978/fork--2025-32mm--or-34mm-(including-step-cast-and-taper-cast)"],
+  fox3638:["Fox-Anleitung 36/38", "https://tech.ridefox.com/bike/owners-manuals/2979/fork--2025-36mm-or-38mm"],
+  fox40:["Fox-Anleitung 40", "https://tech.ridefox.com/bike/owners-manuals/2980/fork--2025-40mm"],
+  foxX2:["Fox-Anleitung Float X2", "https://tech.ridefox.com/bike/owners-manuals/2984/shock--2025-float-x2"],
+  foxFloat:["Fox-Anleitung Float", "https://tech.ridefox.com/bike/owners-manuals/2982/shock--2025-float"],
+  charger:["RockShox-Anleitung Charger 3", "https://www.sram.com/en/rockshox/rockshox-technology/charger-3-setup"],
+  rsGuide:["RockShox-Einstellanleitung (PDF)", "https://www.sram.com/globalassets/document-hierarchy/tuning-manuals/suspension-setup-and-tuning-guide-english.pdf"]
+};
+function handbuchVon(slot, t){
+  const id = t.basisId || t.id, s = wahlVon(t, "Kartusche") + " " + t.n;
+  if(slot === "gabel"){
+    if(/^g-fox(32|34|831)/.test(id)) return HANDBUCH.fox3234;
+    if(/^g-fox(36|38)|^g-rhythm/.test(id)) return HANDBUCH.fox3638;
+    if(/^g-fox40/.test(id)) return HANDBUCH.fox40;
+    if(t.m === "RockShox") return /Charger/.test(s) ? HANDBUCH.charger : HANDBUCH.rsGuide;
+    return null;
+  }
+  if(/Float X2/.test(t.n)) return HANDBUCH.foxX2;
+  if(/Fox Float|DPS/.test(t.n)) return HANDBUCH.foxFloat;
+  if(t.m === "RockShox") return HANDBUCH.rsGuide;
+  return null;
+}
+const KNOEPFE = {hl:["LSC", "HSC"], l:["Druckstufe"], hebel:["Hebel"], lock:["Lockout"]};
+const tcFach = slot => "mtb.topcap." + (aktivId[modus] || "x") + "." + slot;
+function tcLaden(slot){ try{ const v = localStorage.getItem(tcFach(slot)); return v ? JSON.parse(v) : null; }catch(e){ return null; } }
+function tcSpeichern(slot, d){
+  try{ if(d) localStorage.setItem(tcFach(slot), JSON.stringify(d)); else localStorage.removeItem(tcFach(slot)); return true; }
+  catch(e){ zeigeToast("Kein Platz mehr auf dem Gerät — entferne ein anderes Foto."); return false; }
+}
+let tcAnsicht = "abfahrt";
+function topCapBlock(slot, x){
+  if(!slot) return "";
+  const hb = handbuchVon(slot, x.t), tc = tcLaden(slot), knoepfe = KNOEPFE[x.regler] || [];
+  const teilName = slot === "gabel" ? "deiner Gabel" : "deines Dämpfers";
+  const link = hb ? `<a class="tc-link" href="${esc(hb[1])}" target="_blank" rel="noopener">Echtes Bild der Rädchen: ${esc(hb[0])} ↗</a>`
+                  : `<span class="tc-link aus">Welcher Knopf wo sitzt, zeigt die Anleitung ${teilName}.</span>`;
+  if(!tc) return `<div class="tc-block"><b class="tc-t">Wo sind die Knöpfe?</b>${link}
+    <button class="btn ghost sm" data-tcfoto="${slot}">Eigenes Foto markieren</button>
+    <span class="tc-h">Fotografier die Oberseite ${teilName} mit den Einstellrädchen — die App schreibt die Einstellung direkt ins Bild. Das Foto bleibt auf deinem Handy.</span></div>`;
+  const offen = knoepfe.filter(k => !(tc.marks && tc.marks[k]));
+  const werte = {};
+  for(const z of x.ds[tcAnsicht]) werte[z[0]] = z[1];
+  /* Kurz, damit dicht beieinander liegende Knoepfe (GRIP X2: HSC und LSC
+     uebereinander) sich nicht verdecken; der zweite steht ueber dem Punkt */
+  const kurz = v => !v ? "" : v.replace(/^(\d+) Klicks? von ganz zu$/, "$1 von zu")
+    .replace(/^Mitte, dann (\d+) Klicks? (zu|auf)$/, "Mitte +$1 $2").replace(/^offen.*$/, "offen");
+  const marken = knoepfe.filter(k => tc.marks && tc.marks[k]).map((k, i) => {
+    const m = tc.marks[k], seite = (m.x < 0.3 ? " links" : m.x > 0.7 ? " rechts" : "") + (i % 2 ? " oben" : "");
+    return `<span class="tc-m${seite}" style="left:${(m.x * 100).toFixed(1)}%;top:${(m.y * 100).toFixed(1)}%"><i></i><span>${esc(k)}${werte[k] ? " · " + esc(kurz(werte[k])) : ""}</span></span>`;
+  }).join("");
+  return `<div class="tc-block">
+    ${offen.length ? `<p class="tc-hin">Tippe im Foto auf den Knopf „${esc(offen[0])}“.</p>`
+      : `<div class="tc-ansicht" role="group" aria-label="Einstellung zeigen">
+          <button data-tcansicht="abfahrt" aria-pressed="${tcAnsicht === "abfahrt"}">Abfahrt</button>
+          <button data-tcansicht="spruenge" aria-pressed="${tcAnsicht === "spruenge"}">Sprünge</button></div>`}
+    <div class="tc-bild${offen.length ? " markieren" : ""}"${offen.length ? ` data-tcmark="${slot}"` : ""}>
+      <img src="${tc.img}" alt="Dein Foto">${marken}</div>
+    <div class="tc-knoepfe">
+      <button class="btn ghost sm" data-tcneu="${slot}">Neu markieren</button>
+      <button class="btn ghost sm" data-tcfoto="${slot}">Anderes Foto</button>
+      <button class="btn ghost sm" data-tcweg="${slot}">Foto entfernen</button></div>
+    ${link}
   </div>`;
 }
 function federErgebnisHtml(){
@@ -4892,7 +4984,7 @@ function federErgebnisHtml(){
   const f = federRechnen();
   if(!f.gabel && !f.daempfer) return `<p class="empty-note">In diesem Aufbau ist keine Federung eingetragen. Wähl zuerst eine Federgabel
     ${modus === "traum" ? "" : "— oder trag ein, welche an deinem Rad ist"}.</p>`;
-  return (f.gabel ? federKarte("Federgabel", f.gabel) : "") + (f.daempfer ? federKarte("Dämpfer", f.daempfer) : "");
+  return (f.gabel ? federKarte("Federgabel", f.gabel, "gabel") : "") + (f.daempfer ? federKarte("Dämpfer", f.daempfer, "daempfer") : "");
 }
 function oeffneFederung(){
   const st = stilVon();
@@ -5855,6 +5947,10 @@ function fotoAufnehmen(datei, ziel){
       c.getContext("2d").drawImage(bild, 0, 0, c.width, c.height);
       let daten = c.toDataURL("image/jpeg", 0.72);
       if(daten.length > 1400000) daten = c.toDataURL("image/jpeg", 0.5);
+      if(wohin.art === "topcap"){
+        if(tcSpeichern(wohin.slot, {img:daten, marks:{}}) && $("fed-erg")) $("fed-erg").innerHTML = federErgebnisHtml();
+        return;
+      }
       fotos[modus] = daten;
       sichern();
       /* Beides neu zeichnen: die Schublade zeigt das Bild, die Liste dahinter
@@ -6239,6 +6335,27 @@ document.addEventListener("click", e => {
   }
   if(T("[data-scorehilfe]")){ oeffneScoreHilfe(); return; }
   if(T("[data-fed]")){ oeffneFederung(); return; }
+  const tcf = T("[data-tcfoto]");
+  if(tcf){ fotoZiel = {art:"topcap", slot:tcf.dataset.tcfoto}; const i = $("foto-in"); if(i) i.click(); return; }
+  const tcw = T("[data-tcweg]");
+  if(tcw){ tcSpeichern(tcw.dataset.tcweg, null); $("fed-erg").innerHTML = federErgebnisHtml(); return; }
+  const tcn = T("[data-tcneu]");
+  if(tcn){ const d = tcLaden(tcn.dataset.tcneu); if(d){ d.marks = {}; tcSpeichern(tcn.dataset.tcneu, d); } $("fed-erg").innerHTML = federErgebnisHtml(); return; }
+  const tca = T("[data-tcansicht]");
+  if(tca){ tcAnsicht = tca.dataset.tcansicht; $("fed-erg").innerHTML = federErgebnisHtml(); return; }
+  const tcm = T("[data-tcmark]");
+  if(tcm){
+    const slot = tcm.dataset.tcmark, d = tcLaden(slot), x = federRechnen()[slot];
+    const offen = d && x ? (KNOEPFE[x.regler] || []).filter(k => !(d.marks && d.marks[k])) : [];
+    if(offen.length){
+      const r = tcm.getBoundingClientRect();
+      d.marks = d.marks || {};
+      d.marks[offen[0]] = {x:Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)), y:Math.max(0, Math.min(1, (e.clientY - r.top) / r.height))};
+      tcSpeichern(slot, d);
+      $("fed-erg").innerHTML = federErgebnisHtml();
+    }
+    return;
+  }
   const dz = T("[data-diszset]");
   if(dz){ sel = [dz.dataset.diszset]; sichern(); zeichne(); zeigeToast("Disziplin auf " + dLang(sel[0]) + " gestellt."); return; }
   const fs = T("[data-fstil]");
