@@ -110,6 +110,7 @@
   --gut:#2ef29a; --gut-soft:rgba(46,242,154,.14);
   --warn:#ffbe2e; --warn-soft:rgba(255,190,46,.15);
   --bad:#ff4f7b; --bad-soft:rgba(255,79,123,.16);
+  --fester:#9a6bff; --weicher:#0fa0bd;      /* per dataviz-Validator gegen #0b0a12 geprueft */
   --glass:rgba(0,0,0,.74);
   --shadow:0 0 0 1px rgba(140,92,255,.07),0 10px 30px -16px rgba(0,0,0,.95);
   --shadow-hoch:0 2px 10px rgba(0,0,0,.7),0 24px 60px -22px rgba(110,70,255,.45);
@@ -126,6 +127,7 @@
   --gut:#12805a; --gut-soft:#dcf4e9;
   --warn:#9a6205; --warn-soft:#fbefd8;
   --bad:#c42a52; --bad-soft:#fbe2ea;
+  --fester:#6d3dff; --weicher:#0a8aa8;      /* per dataviz-Validator gegen #ffffff geprueft */
   --glass:rgba(243,242,248,.8);
   --shadow:0 1px 2px rgba(20,10,60,.05),0 8px 24px -12px rgba(20,10,60,.16);
   --shadow-hoch:0 2px 6px rgba(20,10,60,.06),0 22px 48px -18px rgba(60,30,160,.3);
@@ -349,41 +351,42 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .kn-block{margin-top:10px;padding-top:10px;border-top:1px solid var(--line-soft)}
 .kn-kopf{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .kn-kopf > b{font-size:12.5px;font-weight:750}
-.kn-reihe{display:flex;gap:10px;flex-wrap:wrap}
-.kn{margin:0;flex:1 1 130px;max-width:170px;display:flex;flex-direction:column;align-items:center}
-.kn svg{width:100%;max-width:150px;height:auto;display:block}
-.kn figcaption{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1px;margin-top:2px}
-.kn figcaption b{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
-.kn figcaption span{font-size:12px;color:var(--ink-3);line-height:1.35}
-.kn-geh{fill:var(--surface);stroke:var(--hair);stroke-width:1.5}
-.kn-knopf{fill:var(--surface-2);stroke:var(--ink-3);stroke-width:2}
-.kn-r{stroke:var(--ink-3);stroke-width:2;stroke-linecap:round;opacity:.55}
-.kn-t{stroke:var(--ink-2);stroke-width:2.4;stroke-linecap:round}
-.kn-t.blass{opacity:.3}
-.kn-t.stopp{stroke:var(--anod);stroke-width:3.2}
-.kn-z{stroke:var(--anod);stroke-width:5;stroke-linecap:round}
-.kn-zp{fill:var(--anod)}
-.kn-m{fill:var(--anod);font:700 10px var(--f-sans);text-anchor:middle;dominant-baseline:middle}
-.kn-n{fill:var(--ink-3);font:600 8.5px var(--f-sans);text-anchor:middle;dominant-baseline:central}
-.kn-n.klein{font-size:7.5px}
-.kn-n.basis{fill:var(--ink);font-weight:800}
-.kn-n.an{fill:var(--anod);font-weight:800;font-size:10.5px}
-.kn-n.klein.an{font-size:9px}
 .kn-hin{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 0 0}
-/* Top Cap mit LSC im HSC-Ring */
-.tcs{margin:0;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
-.tcs svg{width:100%;max-width:220px;height:auto;display:block}
-.tcs-hsc{fill:var(--anod-soft);stroke:var(--anod);stroke-width:2.5}
-.tcs-lsc{fill:var(--surface);stroke:var(--ink-2);stroke-width:2.2}
-.tcs-lt{stroke:var(--ink)}
-.tcs-lz{stroke:var(--ink);stroke-width:5;stroke-linecap:round}
-.tcs-lp{fill:var(--ink)}
-.tcs figcaption{display:flex;flex-direction:column;gap:6px;width:100%;max-width:300px}
-.tcs-l{display:grid;grid-template-columns:14px minmax(0,1fr);gap:8px;align-items:start;font-size:12.5px;color:var(--ink-2);line-height:1.4}
-.tcs-l > i{width:12px;height:12px;border-radius:50%;margin-top:3px}
-.tcs-l > i.hsc{background:var(--anod)}
-.tcs-l > i.lsc{background:var(--ink)}
-.tcs-l b{font-size:12px;letter-spacing:.04em}
+/* Knopf-Kacheln: grosse Zahl + gerade Skala */
+.kk-reihe{display:flex;flex-direction:column;gap:10px}
+.kk{border:1px solid var(--hair);background:var(--surface);border-radius:16px;padding:12px 14px 12px}
+.kk-kopf{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center}
+.kk-ic{width:34px;height:34px;display:block}
+.kk-ic-g{fill:var(--surface-2);stroke:var(--hair);stroke-width:1.5}
+.kk-ic-r{fill:var(--sunk);stroke:var(--ink-3);stroke-width:1.5}
+.kk-ic-r.an{fill:color-mix(in srgb,var(--anod) 35%,transparent);stroke:var(--anod);stroke-width:2.5}
+.kk-ic-m{fill:var(--surface-2);stroke:var(--ink-3);stroke-width:1.5}
+.kk-ic-m.an{fill:var(--anod);stroke:var(--anod)}
+.kk-name{display:flex;flex-direction:column;line-height:1.25}
+.kk-name b{font-size:15px;font-weight:800;letter-spacing:.02em}
+.kk-name span{font-size:12px;color:var(--ink-3)}
+.kk-delta{font-size:12px;font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap;border:1px solid var(--hair);color:var(--ink-2)}
+.kk-delta.fester{color:var(--fester);border-color:var(--fester);background:color-mix(in srgb,var(--fester) 14%,transparent)}
+.kk-delta.weicher{color:var(--weicher);border-color:var(--weicher);background:color-mix(in srgb,var(--weicher) 14%,transparent)}
+.kk-wert{display:flex;align-items:baseline;gap:8px;margin:10px 0 4px}
+.kk-wert b{font-family:var(--f-head);font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.kk-wert span{font-size:13px;color:var(--ink-2);font-weight:600}
+.mt{padding:26px 10px 0}
+.mt-bahn{position:relative;height:10px;border-radius:999px;background:var(--sunk)}
+.mt-fill{position:absolute;top:0;bottom:0;border-radius:999px}
+.mt-fill.fester{background:var(--fester)} .mt-fill.weicher{background:var(--weicher)} .mt-fill.null{display:none}
+.mt-t{position:absolute;top:50%;width:2px;height:6px;margin-left:-1px;transform:translateY(-50%);background:var(--ink-3);opacity:.55;border-radius:1px}
+.mt-t.null{height:18px;width:3px;margin-left:-1.5px;background:var(--ink);opacity:1}
+.mt-m{position:absolute;top:50%;width:22px;height:22px;margin-left:-11px;transform:translateY(-50%);border-radius:50%;
+  background:var(--ink);border:4px solid var(--surface);box-shadow:0 0 0 2px var(--ink)}
+.mt-m.fester{background:var(--fester);box-shadow:0 0 0 2px var(--fester)} .mt-m.weicher{background:var(--weicher);box-shadow:0 0 0 2px var(--weicher)}
+.mt-m > span{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:var(--ink);white-space:nowrap}
+.mt-zahlen{position:relative;height:18px;margin-top:8px}
+.mt-z{position:absolute;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.mt-z.null{color:var(--ink);font-weight:800}
+.mt-enden{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);margin:2px -10px 0}
+.kk-tun{margin:10px 0 0;padding:9px 11px;border-radius:12px;background:var(--surface-2);font-size:13px;color:var(--ink-2);line-height:1.4}
+.kk-tun b{color:var(--ink)}
 .kn-hebel{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;margin-top:4px}
 .kn-hebel b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);min-width:70px}
 .kn-pos{padding:4px 10px;border-radius:999px;border:1px solid var(--hair);color:var(--ink-3);font-weight:650}
@@ -2405,7 +2408,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260926-1837';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260926-1853';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -5000,95 +5003,83 @@ function federKarte(titel, x, slot){
     ${topCapBlock(slot, x)}
   </div>`;
 }
-/* Gezeichnetes Schema des Einstellraedchens (Liams ausdrueckliche Ausnahme
-   vom 2026-09-26): Gehaeuse, Klick-Striche mit Zahlen wie am Original --
-   0 ist die Grundeinstellung, + Richtung zu (fester), - Richtung offen.
-   Bei bekannter Klickzahl die ganze Skala ueber 270 Grad, ganz zu am
-   Ende im Uhrzeigersinn; sonst -3 bis +3 um die Mitte. */
+/* Einstellung je Knopf als Kachel. Der dataviz-Skill sagt fuer "ein Wert in
+   einem Bereich": grosse Zahl plus gerade Skala (Meter), kein Rundinstrument --
+   am vollen Kreis mit 18 Zahlen war die Stellung schwer abzulesen (Liam,
+   2026-09-26). Links offen (-, weicher), rechts zu (+, fester), 0 = Grund-
+   einstellung des Herstellers. Farbe nur zusaetzlich zum Text: Lila fester,
+   Cyan weicher -- per Validator des Skills geprueft (OLED und hell: alle
+   Checks bestanden, auch Farbschwaeche). */
 const relZahl = r => r > 0 ? "+" + r : r < 0 ? "−" + (-r) : "0";
-function skalaSvg(vis, P, o){
-  const strich = (grad, r1, r2, kl) => { const [x1, y1] = P(grad, r1), [x2, y2] = P(grad, r2); return `<line class="${kl}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`; };
-  const zahl = (grad, txt, kl) => { const [x, y] = P(grad, o.rZahl); return `<text class="${kl}" x="${x}" y="${y}">${txt}</text>`; };
-  let svg = "", winkel;
+const WO = {hsc:"großer Ring außen", lsc:"kleiner Knopf innen", knopf:"Druckstufen-Knopf"};
+/* Kleines Symbol: welcher Knopf am Top Cap gemeint ist */
+function woIcon(wo){
+  const ring = wo === "hsc" ? " an" : "", mitte = wo === "lsc" || wo === "knopf" ? " an" : "";
+  return `<svg class="kk-ic" viewBox="0 0 40 40" aria-hidden="true">
+    <circle class="kk-ic-g" cx="20" cy="20" r="18"/>
+    ${wo === "knopf" ? "" : `<circle class="kk-ic-r${ring}" cx="20" cy="20" r="13"/>`}
+    <circle class="kk-ic-m${mitte}" cx="20" cy="20" r="${wo === "knopf" ? 11 : 6.5}"/></svg>`;
+}
+function knopfKachel(name, wo, vis){
+  let lo, hi, wert, gross, einheit, tun;
   if(vis.n != null){
-    const st = 270 / vis.n, w = pos => 135 - pos * st, dicht = vis.n > 10;
-    winkel = w(vis.pos);
-    for(let pos = 0; pos <= vis.n; pos++){
-      const rel = vis.base - pos, basis = rel === 0, zeiger = pos === vis.pos;
-      svg += strich(w(pos), basis ? o.rStopp : o.r1, o.r2, o.kl + (basis ? " stopp" : "") + (pos < vis.min ? " blass" : ""));
-      if(!dicht || rel % 2 === 0 || pos === vis.n || zeiger)
-        svg += zahl(w(pos), relZahl(rel), o.zk + (zeiger ? " an" : basis ? " basis" : ""));
-    }
+    lo = -(vis.n - vis.base); hi = vis.base; wert = vis.base - vis.pos;
+    gross = String(vis.pos); einheit = vis.pos === 1 ? "Klick ab ganz zu" : "Klicks ab ganz zu";
+    tun = vis.pos === 0 ? "Ganz zu drehen&nbsp;↻ — fertig."
+      : `Ganz zu drehen&nbsp;↻, dann <b>${vis.pos} ${vis.pos === 1 ? "Klick" : "Klicks"}</b> zurück&nbsp;↺`;
   } else {
-    const st = 22;
-    winkel = vis.mitte * st;
-    for(let r = -3; r <= 3; r++){
-      svg += strich(r * st, r ? o.r1 : o.rStopp, o.r2, o.kl + (r ? "" : " stopp") + (Math.abs(r) > 2 ? " blass" : ""));
-      svg += zahl(r * st, relZahl(r), o.zk + (r === vis.mitte ? " an" : r === 0 ? " basis" : ""));
-    }
+    lo = -3; hi = 3; wert = vis.mitte;
+    gross = wert ? relZahl(wert) : "Mitte"; einheit = wert ? (Math.abs(wert) === 1 ? "Klick ab der Mitte" : "Klicks ab der Mitte") : "";
+    tun = !wert ? "Auf die Mitte stellen — fertig."
+      : `Auf die Mitte stellen, dann <b>${Math.abs(wert)} ${Math.abs(wert) === 1 ? "Klick" : "Klicks"} ${wert > 0 ? "zu&nbsp;↻" : "auf&nbsp;↺"}</b>`;
   }
-  return {svg:svg, winkel:winkel};
-}
-const PolarVon = M => (grad, r) => { const a = grad * Math.PI / 180; return [(M + r * Math.sin(a)).toFixed(1), (M - r * Math.cos(a)).toFixed(1)]; };
-function knopfSchema(name, vis, text){
-  const M = 80, P = PolarVon(M);
-  const strich = (grad, r1, r2, kl) => { const [x1, y1] = P(grad, r1), [x2, y2] = P(grad, r2); return `<line class="${kl}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`; };
-  const sk = skalaSvg(vis, P, {r1:50, r2:58, rStopp:47, rZahl:67, kl:"kn-t", zk:"kn-n"});
-  const riffel = Array.from({length:16}, (_, i) => strich(i * 22.5, 36, 41, "kn-r")).join("");
-  const [zx, zy] = P(sk.winkel, 33);
-  return `<figure class="kn"><svg viewBox="0 0 160 160" role="img" aria-label="${esc(name + ": " + text)}">
-    <circle class="kn-geh" cx="${M}" cy="${M}" r="77"/>${sk.svg}
-    <circle class="kn-knopf" cx="${M}" cy="${M}" r="41"/>${riffel}
-    <line class="kn-z" x1="${M}" y1="${M}" x2="${zx}" y2="${zy}"/><circle class="kn-zp" cx="${zx}" cy="${zy}" r="5"/>
-  </svg><figcaption><b>${esc(name)}</b><span>${esc(text)}</span></figcaption></figure>`;
-}
-/* Ein Top Cap wie in echt: LSC sitzt IM HSC-Knopf. Bestaetigt fuer Fox
-   GRIP X2 (aeusserer Knopf HSC, innerer LSC, LSC im HSC-Einsteller montiert)
-   und RockShox Charger 3 (HSC-Markierung am Top Cap, LSC-Markierung auf dem
-   HSC-Knopf). Zahlen wie am Original, je Knopf eine eigene Skala. */
-function topCapSchema(lsc, hsc){
-  const M = 110, P = PolarVon(M);
-  const strich = (grad, r1, r2, kl) => { const [x1, y1] = P(grad, r1), [x2, y2] = P(grad, r2); return `<line class="${kl}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`; };
-  const h = skalaSvg(hsc[2], P, {r1:82, r2:90, rStopp:79, rZahl:99, kl:"kn-t", zk:"kn-n"});
-  const l = skalaSvg(lsc[2], P, {r1:42, r2:49, rStopp:40, rZahl:57, kl:"kn-t tcs-lt", zk:"kn-n klein"});
-  const riffelH = Array.from({length:28}, (_, i) => strich(i * (360 / 28), 67, 73, "kn-r")).join("");
-  const riffelL = Array.from({length:12}, (_, i) => strich(i * 30, 29, 34, "kn-r")).join("");
-  const [hx1, hy1] = P(h.winkel, 63), [hx2, hy2] = P(h.winkel, 74), [hpx, hpy] = P(h.winkel, 68);
-  const [lx, ly] = P(l.winkel, 26);
-  return `<figure class="tcs"><svg viewBox="0 0 220 220" role="img" aria-label="${esc("HSC: " + hsc[1] + ", LSC: " + lsc[1])}">
-      <circle class="kn-geh" cx="${M}" cy="${M}" r="107"/>${h.svg}
-      <circle class="tcs-hsc" cx="${M}" cy="${M}" r="74"/>${riffelH}${l.svg}
-      <line class="kn-z" x1="${hx1}" y1="${hy1}" x2="${hx2}" y2="${hy2}"/><circle class="kn-zp" cx="${hpx}" cy="${hpy}" r="4.5"/>
-      <circle class="tcs-lsc" cx="${M}" cy="${M}" r="34"/>${riffelL}
-      <line class="tcs-lz" x1="${M}" y1="${M}" x2="${lx}" y2="${ly}"/><circle class="tcs-lp" cx="${lx}" cy="${ly}" r="4.5"/>
-    </svg>
-    <figcaption>
-      <span class="tcs-l"><i class="hsc"></i><span><b>HSC</b> — großer Ring außen, äußere Zahlen<br>${esc(hsc[1])}</span></span>
-      <span class="tcs-l"><i class="lsc"></i><span><b>LSC</b> — kleiner Knopf innen, innere Zahlen<br>${esc(lsc[1])}</span></span>
-    </figcaption></figure>`;
+  const art = wert > 0 ? "fester" : wert < 0 ? "weicher" : "null";
+  const delta = wert > 0 ? relZahl(wert) + " fester" : wert < 0 ? relZahl(wert) + " weicher" : "Grundeinstellung";
+  const pct = r => ((r - lo) / (hi - lo) * 100).toFixed(2);
+  const dicht = hi - lo > 12;
+  let striche = "", zahlen = "";
+  for(let r = lo; r <= hi; r++){
+    striche += `<i class="mt-t${r === 0 ? " null" : ""}" style="left:${pct(r)}%"></i>`;
+    if(r !== wert && (!dicht || r % 2 === 0 || r === lo || r === hi))
+      zahlen += `<span class="mt-z${r === 0 ? " null" : ""}" style="left:${pct(r)}%">${relZahl(r)}</span>`;
+  }
+  const von = Math.min(0, wert), bis = Math.max(0, wert);
+  return `<div class="kk" role="group" aria-label="${esc(name + ": " + gross + " " + einheit + ", " + delta)}">
+    <div class="kk-kopf">${woIcon(wo)}<span class="kk-name"><b>${esc(name)}</b><span>${WO[wo]}</span></span>
+      <span class="kk-delta ${art}">${delta}</span></div>
+    <div class="kk-wert"><b>${gross}</b><span>${einheit}</span></div>
+    <div class="mt">
+      <div class="mt-bahn">
+        <i class="mt-fill ${art}" style="left:${pct(von)}%;width:${(pct(bis) - pct(von)).toFixed(2)}%"></i>${striche}
+        <b class="mt-m ${art}" style="left:${pct(wert)}%"><span>${relZahl(wert)}</span></b>
+      </div>
+      <div class="mt-zahlen">${zahlen}</div>
+      <div class="mt-enden"><span>− offen · weicher</span><span>zu · fester +</span></div>
+    </div>
+    <p class="kk-tun">${tun}</p>
+  </div>`;
 }
 function schemaBlock(x, slot){
   const zeilen = x.ds[tcAnsicht] || [];
   const lscZ = zeilen.find(z => z[0] === "LSC" && z[2]), hscZ = zeilen.find(z => z[0] === "HSC" && z[2]);
   const topCap = slot === "gabel" && lscZ && hscZ;
   const bekannt = /^(Fox|RockShox|Marzocchi)$/.test(x.t.m);
-  const raeder = topCap ? topCapSchema(lscZ, hscZ)
-    : zeilen.filter(z => z[2]).map(z => knopfSchema(z[0], z[2], z[1])).join("");
+  const raeder = topCap ? knopfKachel("HSC", "hsc", hscZ[2]) + knopfKachel("LSC", "lsc", lscZ[2])
+    : zeilen.filter(z => z[2]).map(z => knopfKachel(z[0], "knopf", z[2])).join("");
   const hebel = zeilen.filter(z => !z[2]).map(z => `<div class="kn-hebel"><b>${esc(z[0])}</b>
-    <span class="kn-pos an">offen</span><span class="kn-pos">Mitte</span><span class="kn-pos">zu</span>
+    <span class="kn-pos an">offen</span>${z[0] === "Lockout" ? `<span class="kn-pos">gesperrt</span>` : `<span class="kn-pos">Mitte</span><span class="kn-pos">zu</span>`}
     ${z[1].indexOf("—") > 0 ? `<span class="kn-hz">${esc(z[1].split("—")[1].trim())}</span>` : ""}</div>`).join("");
   if(!raeder && !hebel) return "";
   return `<div class="kn-block">
-    <div class="kn-kopf"><b>So sieht es eingestellt aus</b>
+    <div class="kn-kopf"><b>So stellst du die Knöpfe</b>
       <div class="tc-ansicht" role="group" aria-label="Einstellung zeigen">
         <button data-tcansicht="abfahrt" aria-pressed="${tcAnsicht === "abfahrt"}">Abfahrt</button>
         <button data-tcansicht="spruenge" aria-pressed="${tcAnsicht === "spruenge"}">Sprünge</button></div></div>
-    ${raeder ? `<div class="kn-reihe">${raeder}</div>` : ""}${hebel}
+    ${raeder ? `<div class="kk-reihe">${raeder}</div>` : ""}${hebel}
     ${raeder ? `<p class="kn-hin">${topCap ? (bekannt
-        ? "So sitzen die Knöpfe bei Fox und RockShox: der kleine LSC-Knopf steckt im großen HSC-Ring. "
-        : `So sitzen die Knöpfe bei Fox und RockShox — bei ${esc(x.t.m)} kann es anders aussehen, die Anleitung zeigt es. `) : ""}Schema, nicht dein
-      echtes Top Cap. Ein Strich ist ein Klick. <b>0</b> ist die Grundeinstellung des Herstellers, <b>+</b> heißt fester (Richtung zu),
-      <b>−</b> weicher (Richtung offen). Am echten Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen.</p>` : ""}
+        ? "Bei Fox und RockShox sitzt der kleine LSC-Knopf im großen HSC-Ring — das Symbol zeigt, welcher gemeint ist. "
+        : `Bei Fox und RockShox sitzt der LSC-Knopf im HSC-Ring — bei ${esc(x.t.m)} kann es anders aussehen, die Anleitung zeigt es. `) : ""}<b>0</b> ist
+      die Grundeinstellung des Herstellers. Nach rechts wird es fester (+), nach links weicher (−).</p>` : ""}
   </div>`;
 }
 /* ═══ Wo sind die Knoepfe? (Liams Wahl 2026-09-26: beides) ═══
