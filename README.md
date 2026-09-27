@@ -130,6 +130,12 @@ Jede Veroeffentlichung stempelt einen neuen Cache-Namen in `mtb-sw.js` -- sonst
 saehe der Browser keine Aenderung am Worker und die App bliebe auf der alten
 Fassung stehen.
 
+**Ohne PC:** Die Action *Veroeffentlichen* (`.github/workflows/veroeffentlichen.yml`)
+stempelt bei jedem Push auf `main` automatisch und laesst Pages neu bauen --
+dasselbe wie das Skript. Was schon gestempelt ankommt (vom PC-Skript), bleibt
+unberuehrt; die Live-Preise loesen sie nicht aus. Von Hand: auf GitHub unter
+Actions -> Veroeffentlichen -> *Run workflow*, geht auch am Handy.
+
 ## Betreiber-Modus
 
 App einmal mit `#betreiber` am Ende der Adresse öffnen. Dann stehen unter ⋮

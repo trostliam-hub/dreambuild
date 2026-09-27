@@ -1,0 +1,88 @@
+# Veroeffentlichen fuer CrankScore.
+#
+# Macht bei jedem Push auf main das, was App-veroeffentlichen.cmd auf dem PC
+# macht: Cache-Name in mtb-sw.js und APP_VERSION in index.html bekommen einen
+# neuen Stempel (Berliner Zeit), dann baut GitHub Pages neu. Ohne den Stempel
+# saehe die installierte App keine neue Fassung.
+#
+# - Pushes, die schon gestempelt sind (etwa vom PC-Skript), bleiben unberuehrt.
+# - Die Live-Preise aendern nur preise.json und loesen das hier nicht aus.
+# - Ein Push mit dem Action-Token startet keine Workflows -- der eigene
+#   Stempel-Commit loest sich also nicht selbst wieder aus.
+# - "Run workflow" auf GitHub stempelt und veroeffentlicht von Hand, auch vom
+#   Handy aus.
+name: Veroeffentlichen
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - mtb-sw.js
+      - manifest.webmanifest
+      - links.json
+      - "fonts/**"
+      - "icon-*.png"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: veroeffentlichen
+  cancel-in-progress: false
+
+jobs:
+  stempeln:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Schon gestempelt?
+        id: pruef
+        env:
+          EREIGNIS: ${{ github.event_name }}
+          VORHER: ${{ github.event.before }}
+        run: |
+          if [ "$EREIGNIS" = "push" ] && git cat-file -e "$VORHER^{commit}" 2>/dev/null \
+             && git diff "$VORHER" HEAD -- index.html | grep -q "^+const APP_VERSION = '"; then
+            echo "Dieser Push bringt schon einen neuen Stempel mit."
+            echo "noetig=nein" >> "$GITHUB_OUTPUT"
+          else
+            echo "noetig=ja" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Version stempeln und hochladen
+        if: steps.pruef.outputs.noetig == 'ja'
+        run: |
+          STAMP=$(TZ=Europe/Berlin date +%Y%m%d-%H%M)
+          sed -i "s/var CACHE = '[^']*'/var CACHE = 'dreambuild-$STAMP'/" mtb-sw.js
+          sed -i "s/const APP_VERSION = '[^']*'/const APP_VERSION = '$STAMP'/" index.html
+          if [ -z "$(git status --porcelain -- mtb-sw.js index.html)" ]; then
+            echo "Stempel $STAMP steht schon drin."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mtb-sw.js index.html
+          git commit -q -m "App aktualisiert (Version $STAMP)"
+          # Die Live-Preise koennen gleichzeitig pushen -- dann nachziehen.
+          for i in 1 2 3; do
+            if git pull --rebase -q origin main && git push -q origin HEAD:main; then
+              echo "Veroeffentlicht: Version $STAMP"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Hochladen fehlgeschlagen."
+          exit 1
+
+      - name: Pages neu bauen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # Ein Push mit dem Action-Token loest den Pages-Bau nicht in jedem Fall aus.
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" > /dev/null || true
