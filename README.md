@@ -112,6 +112,13 @@ Vivid Ultimate) mit HSC und LSC in je 5 Stellungen, Fox Float X2 und DHX2
 mit HSC 8 / LSC 16 Klicks, Float X mit LSC 11, Float DPS mit Open-Mode-Adjust,
 Cane Creek DB IL (gezählt ab offen, HSC in Umdrehungen), Öhlins TTX; Select+
 und Performance zeigen nur den Kletterhebel, Select (R) keine Druckstufe.
+Zwei Einsätze mit gegensätzlichen Zielen (nach den Tuning-Guides von Fox und
+RockShox sowie ENDURO, BikeRadar, MBR): *Abfahrt, ruppig und schnell* — HSC
+offener für Grip auf Kanten, Zugstufe schneller gegen Wegsacken bei
+Schlagfolgen; *Sprünge & Bikepark* — LSC fester gegen Einsacken im Absprung,
+HSC fester für Landungen, Zugstufe langsamer gegen Aushebeln am Kicker, dazu
++5 % Luft oder ein Volumen-Spacer. Die Zugstufe steht in Klicks ab dem eigenen
+Grundwert (Tabelle am Holm oder Bordsteintest).
 Jede Antwort verschiebt Low- und High-Speed um feste Stufen (eine Stufe =
 12 % des Einstellbereichs, ab drei Stufen zählt jede weitere halb, ganz zu
 wird bei Knöpfen mit vielen Klicks nie empfohlen): Flowtrails und zügiges
