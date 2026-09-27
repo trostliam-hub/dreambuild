@@ -70,7 +70,13 @@ LinearXL ab Modelljahr 2027); Gabeln ohne eigene Tabelle bekommen den Wert
 ihrer Klasse und sagen das. Druckstufen als Klicks ab der Grundeinstellung des
 Herstellers (GRIP X2 5/10, GRIP X 10/10 von zu, sonst Mitte). Dämpfer: Luft
 rund Körpergewicht in lb, skaliert mit der geschätzten Hinterbau-Übersetzung;
-Stahlfeder = Last hinten × Übersetzung / (Hub × Sag). Zu jeder Einstellung ein gezeichnetes Schema des
+Stahlfeder = Last hinten × Übersetzung / (Hub × Sag). Die Dämpfer-Druckstufe
+richtet sich nach Modell *und* Ausführung: RockShox RC2T (Super Deluxe und
+Vivid Ultimate) mit HSC und LSC in je 5 Stellungen, Fox Float X2 und DHX2
+mit HSC 8 / LSC 16 Klicks, Float X mit LSC 11, Float DPS mit Open-Mode-Adjust,
+Cane Creek DB IL (gezählt ab offen, HSC in Umdrehungen), Öhlins TTX; Select+
+und Performance zeigen nur den Kletterhebel, Select (R) keine Druckstufe.
+Zu jeder Einstellung ein gezeichnetes Schema des
 Einstellrädchens (Zeiger, ein Strich je Klick), Link zur offiziellen
 Hersteller-Anleitung und optional das eigene Top-Cap-Foto mit markierten Knöpfen.
 

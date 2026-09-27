@@ -428,7 +428,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .tc-ansicht{display:flex;gap:6px}
 .tc-ansicht button{padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:700;border:1px solid var(--hair);background:var(--surface);color:var(--ink-2)}
 .tc-ansicht button[aria-pressed="true"]{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
-.fed-dz{display:grid;grid-template-columns:78px minmax(0,1fr);gap:0 6px;align-items:start}
+.fed-dz{display:grid;grid-template-columns:96px minmax(0,1fr);gap:0 6px;align-items:start}
+.fed-dz b{overflow-wrap:anywhere}
 .fed-dz > span{display:flex;flex-direction:column;gap:5px;min-width:0}
 /* Klick-Skala: ein Punkt je Klick, links "zu", rechts "offen" */
 .ks{display:flex;align-items:center;gap:7px;margin:1px 0 5px}
@@ -4835,7 +4836,7 @@ function stilGruende(){
   if(sp > 0) out.push("Große Sprünge: mehr Luft und HSC zu — schlägt bei der Landung nicht durch.");
   if(g >= 2) out.push("Bikepark: HSC einen Klick zu für die harten Schläge.");
   if(g === 1 && f <= 0) out.push("Ruppige Trails: HSC einen Klick offener — mehr Grip auf Wurzeln und Steinen.");
-  if(b > 0) out.push("Viel bergauf: Dämpfer hinten etwas straffer, wippt weniger.");
+  if(b > 0) out.push("Viel bergauf: Kletterhebel am Dämpfer bergauf schließen — ohne Hebel wird hinten die LSC etwas fester.");
   const kg = (plan.fahrer || 0) + 4;
   if(kg >= 95) out.push("Schwerer als der Durchschnitt: Druckstufen ein Stück fester — sonst sackt das Fahrwerk durch.");
   if(kg > 0 && kg <= 65) out.push("Leichter als der Durchschnitt: Druckstufen ein Stück offener — sonst arbeitet das Fahrwerk nicht.");
@@ -4889,9 +4890,10 @@ function gabelRegler(g){
    2026-09-26): Fox GRIP X2 LSC 18 / HSC 8, GRIP X LSC 16 / HSC 15 (ganz zu =
    Lockout), GRIP SL 3 Stufen (ENDURO-Test 2025); GRIP2 LSC 16 / HSC 8
    (Fox-Tuning-Guide); Grundeinstellung Fox laut Owner's Manual 2025.
-   RockShox Charger 3 und 3.1 RC2: LSC 15, HSC 5, Start in der Mitte
-   (RockShox-FAQ, sram.com). Mit bekanntem Bereich rechnet der Rechner in
-   echten Klicks; sonst ab der Mitte. */
+   RockShox Charger 3, 3.1 und 3.2 RC2: LSC 15, HSC 5, Start in der Mitte
+   (RockShox-FAQ, sram.com; 3.2 hat laut RockShox nur eine straffere
+   Abstimmung, dieselben Knoepfe). Mit bekanntem Bereich rechnet der Rechner
+   in echten Klicks; sonst ab der Mitte. */
 function gabelDaten(g){
   const s = wahlVon(g, "Kartusche") + " " + g.n, typ = gabelRegler(g);
   if(/GRIP ?X2/.test(s)) return {typ:"hl", lsc:{n:18, base:10}, hsc:{n:8, base:5},
@@ -4900,47 +4902,151 @@ function gabelDaten(g){
     txt:"Fox GRIP X: LSC 16, HSC 15 Klicks — ganz zu ist der Lockout. Grundeinstellung (0) laut Fox: je 10 ab ganz zu"};
   if(/GRIP2/.test(s)) return {typ:"hl", lsc:{n:16, base:10}, hsc:{n:8, base:5},
     txt:"Fox GRIP2: LSC 16, HSC 8 Klicks. Grundeinstellung (0) laut Fox: LSC 10, HSC 5 ab ganz zu"};
-  if(/Charger 3(\.1)? RC2/.test(s)) return {typ:"hl", lsc:{n:15, base:8}, hsc:{n:5, base:3},
-    txt:"RockShox Charger 3: LSC 15, HSC 5 Klicks. Grundeinstellung (0) laut RockShox: beide in der Mitte"};
+  if(/Charger 3(\.[12])? RC2/.test(s)) return {typ:"hl", lsc:{n:15, base:8}, hsc:{n:5, base:3},
+    txt:(/3\.2/.test(s) ? "RockShox Charger 3.2: dieselben Knöpfe wie 3.1, nur straffer abgestimmt — " : "RockShox Charger 3: ") +
+      "LSC 15, HSC 5 Klicks. Grundeinstellung (0) laut RockShox: beide in der Mitte"};
   return {typ:typ, lsc:null, hsc:null,
     txt:typ === "hl" ? "Klickzahl dieser Kartusche ist nicht bekannt — gezählt wird ab der Mitte" : "Gezählt wird ab der Mitte"};
 }
-function daempferRegler(d){
-  if(/X2|DHX2|TTX2|TTX22|DB(Air|Coil)|Kitsuma|Storia|ElevenSix|Vivid|Jade|Mara|H3C|Mod Coil|Aria/.test(d.n)) return "hl";
-  if(/SIDLuxe|Float SL|DPS|R 232|TriAir|RockShox Deluxe/.test(d.n)) return "hebel";
-  return "l";
+/* ═══ Daempfer: Druckstufe je Modell UND Ausfuehrung ═══
+   Welche Knoepfe ein Daempfer hat, haengt an der Ausfuehrung: ein Super
+   Deluxe Ultimate hat HSC und LSC, der Select+ nur den Hebel. Recherchiert
+   2026-09-27 (RockShox-FAQ zum RC2T-Daempfer, Fox Owner's Manuals und
+   Tuning-Tabellen, Cane Creek, Oehlins; Tests von Pinkbike Shock Week 2023,
+   BikeRadar, Vital MTB, Blister):
+   - RockShox Super Deluxe und Vivid Ultimate (RC2T): HSC und LSC je 5
+     Stellungen (2 weicher, Mitte, 2 fester), Grundabstimmung in der Mitte,
+     dazu der Threshold-Hebel (offen / Pedal). Deluxe Ultimate (RCT): LSC
+     5 Stellungen und Hebel. Vivid Select+ (RCT): ein Druckstufenknopf fuer
+     beides und Hebel. Select+ (RT): nur Hebel. Select (R): keine Druckstufe.
+   - Fox Float X2 und DHX2 (Factory, Performance Elite): HSC 8, LSC 16
+     Klicks, gezaehlt ab ganz zu; manche Versionen mit 2-Stufen-Hebel
+     (2Pos-Adjust). Grundlage fuer rund 80 kg aus den Fox-Tabellen: LSC 10,
+     HSC 5 ab zu.
+   - Fox Float X (Factory, Performance Elite): LSC 11 Klicks und Hebel,
+     Performance nur Hebel. Float DPS: 3-Stufen-Hebel, Factory und
+     Performance Elite dazu Open-Mode-Adjust 1-3 (Fox: mit 1 anfangen).
+   - Cane Creek DB IL: HSC 4 Umdrehungen, LSC 25 Klicks, gezaehlt ab ganz
+     offen; Werksmitte rund 2 Umdrehungen und 12-13 Klicks. Kitsuma: LSC 11,
+     HSC 13 Stellungen.
+   - Oehlins TTX22m.2: LSC 16 Klicks, HSC 3 Stufen. TTX2 Air: LSC 12 Klicks,
+     HSC-Hebel.
+   Was hier nicht steht, bekommt wie bisher "ab der Mitte". */
+const HEBEL2 = {name:"Kletterhebel", o:["offen", "zu"]}, HEBEL3 = {name:"Kletterhebel", o:["offen", "Mitte", "zu"]};
+const RS_HEBEL = {name:"Kletterhebel", o:["offen", "Pedal"]};
+function daempferDaten(d){
+  const au = wahlVon(d, "Ausführung"), n = d.n, fe = au === "Factory" || au === "Performance Elite" || !au;
+  const R = x => Object.assign({lsc:null, hsc:null, hscStell:null, omd:null, hebel:null}, x);
+  if(d.m === "RockShox"){
+    if(/SIDLuxe/.test(n)) return R({typ:"hebel", hebel:{name:"Kletterhebel", o:["offen", "Pedal", "zu"]},
+      txt:"RockShox SIDLuxe: Hebel mit drei Stufen, sonst keine Druckstufen-Verstellung"});
+    if(au === "Select") return R({typ:"keine", txt:"RockShox Select (R): nur Zugstufe, die Druckstufe ist fest abgestimmt"});
+    if(au === "Select+" && /Vivid/.test(n)) return R({typ:"l", hebel:RS_HEBEL,
+      txt:"RockShox Vivid Select+ (RCT): ein Druckstufenknopf für High- und Low-Speed zusammen, dazu der Threshold-Hebel"});
+    if(au === "Select+") return R({typ:"hebel", hebel:RS_HEBEL,
+      txt:"RockShox Select+ (RT): Threshold-Hebel und Zugstufe, keine weitere Druckstufen-Verstellung"});
+    if(/Super Deluxe|Vivid/.test(n)) return R({typ:"hl", hebel:RS_HEBEL,
+      lsc:{n:4, base:2, wo:"blauer Rändelknopf am Ausgleichsbehälter", stell:true},
+      hsc:{n:4, base:2, wo:"daneben, mit 3-mm-Inbus", stell:true},
+      txt:"RockShox RC2T: HSC und LSC je 5 Stellungen, unabhängig voneinander. Grundabstimmung (0) laut RockShox: beide in der Mitte" +
+        (/Vivid/.test(n) ? ". Der Vivid hat zusätzlich den Durchschlagschutz (HBO) — der bleibt in der Mitte" : "")});
+    if(/Deluxe/.test(n)) return R({typ:"l", lname:"LSC", hebel:RS_HEBEL,
+      lsc:{n:4, base:2, wo:"Knopf gegenüber dem Hebel", stell:true},
+      txt:"RockShox Deluxe Ultimate (RCT): LSC 5 Stellungen, Grundabstimmung (0) in der Mitte, dazu der Threshold-Hebel"});
+  }
+  if(d.m === "Fox"){
+    if(/X2|DHX2/.test(n)) return R({typ:"hl", hebel:Object.assign({opt:true}, HEBEL2),
+      lsc:{n:16, base:10, wo:"Knopf am Ausgleichsbehälter"}, hsc:{n:8, base:5, wo:"Rad am Ausgleichsbehälter"},
+      txt:`Fox ${/DHX2/.test(n) ? "DHX2" : "Float X2"}: LSC 16, HSC 8 Klicks. Grundeinstellung (0) aus den Fox-Tabellen für rund 80 kg: LSC 10, HSC 5 ab ganz zu`});
+    if(/Float X\b/.test(n)) return fe
+      ? R({typ:"l", lname:"LSC", hebel:HEBEL2, lsc:{n:11, base:6, wo:"Knopf am Hebel, wirkt nur offen"},
+          txt:"Fox Float X: LSC 11 Klicks, wirkt nur bei offenem Hebel. Grundeinstellung (0): Mitte"})
+      : R({typ:"hebel", hebel:HEBEL2, txt:"Fox Float X Performance: Hebel offen / zu, die Low-Speed-Druckstufe ist ab Werk fest eingestellt"});
+    if(/DPS/.test(n)) return fe
+      ? R({typ:"hebel", hebel:HEBEL3, omd:{o:["1", "2", "3"], b:0, wo:"Rädchen unter dem Hebel: anheben, drehen, eindrücken"},
+          txt:"Fox Float DPS: Hebel mit drei Stufen, dazu Open-Mode-Adjust 1–3 für die offene Stellung. Fox empfiehlt, mit 1 anzufangen"})
+      : R({typ:"hebel", hebel:HEBEL3, txt:"Fox Float DPS Performance: Hebel mit drei Stufen"});
+    if(/Float SL/.test(n)) return R({typ:"hebel", hebel:HEBEL2, txt:"Fox Float SL: Hebel offen / zu"});
+    if(/DHX/.test(n)) return R({typ:fe ? "l" : "hebel", lname:"LSC", hebel:Object.assign({opt:true}, HEBEL2),
+      txt:"Fox DHX: " + (fe ? "LSC-Knopf, Klickzahl nicht bekannt — gezählt wird ab der Mitte" : "Hebel, die Druckstufe ist ab Werk eingestellt")});
+  }
+  if(/DB(Air|Coil)/.test(n)) return R({typ:"hl", hebel:Object.assign({opt:true, name:"Climb Switch"}, {o:["offen", "zu"]}),
+    lsc:{n:25, base:12, ab:"offen", wo:"kleiner Knopf, rastet in Klicks"},
+    hsc:{n:8, base:4, ab:"offen", dreh:true, wo:"großer Ring, ohne Rasten"},
+    txt:"Cane Creek DB IL: LSC 25 Klicks, HSC 4 Umdrehungen — Cane Creek zählt ab ganz offen. Grundeinstellung (0): Werksmitte, rund 13 Klicks und 2 Umdrehungen. Für viele Rahmen gibt es bei Cane Creek eine eigene Grundabstimmung"});
+  if(/Kitsuma/.test(n)) return R({typ:"hl", hebel:Object.assign({opt:true, name:"Climb Switch"}, {o:["offen", "zu"]}),
+    lsc:{n:10, base:5, ab:"offen"}, hsc:{n:12, base:6, ab:"offen"},
+    txt:"Cane Creek Kitsuma: LSC 11, HSC 13 Stellungen, gezählt ab ganz offen. Grundeinstellung (0): Mitte. Die zweite Generation hat Rädchen mit aufgedruckter Skala"});
+  if(/TTX22/.test(n)) return R({typ:"hl", lsc:{n:16, base:8}, hscStell:{o:["1", "2", "3"], b:1, wo:"Hebel mit drei Stufen"},
+    txt:"Öhlins TTX22m.2: LSC 16 Klicks ab ganz zu, HSC in drei Stufen. Grundeinstellung (0): Mitte"});
+  if(/TTX2 Air/.test(n)) return R({typ:"hl", lsc:{n:12, base:6}, hscStell:{o:["offen", "fest"], b:0, wo:"Hebel"},
+    txt:"Öhlins TTX2 Air: LSC 12 Klicks ab ganz zu, HSC als Hebel. Grundeinstellung (0): LSC in der Mitte"});
+  const typ = /X2|DHX2|TTX2|TTX22|DB(Air|Coil)|Kitsuma|Storia|ElevenSix|Vivid|Jade|Mara|H3C|Mod Coil|Aria/.test(n) ? "hl"
+    : /SIDLuxe|Float SL|DPS|R 232|TriAir|RockShox Deluxe/.test(n) ? "hebel" : "l";
+  return R({typ:typ, hebel:typ === "hebel" ? HEBEL3 : null,
+    txt:typ === "hl" ? "Klickzahl dieses Dämpfers ist nicht bekannt — gezählt wird ab der Mitte" : typ === "l" ? "Gezählt wird ab der Mitte" : "Nur ein Hebel zum Umschalten"});
 }
 /* Druckstufe in Schritten (+ = fester). Ein Schritt sind 12 % des
    Einstellbereichs, mindestens ein Klick -- so bedeutet "+1" am 18-Klick-LSC
-   dasselbe wie am 5-Klick-HSC. Grundlage (0) ist die Herstellerempfehlung;
+   dasselbe wie am 8-Klick-HSC. Knoepfe mit nur 5 Stellungen (RockShox RC2T,
+   Charger-HSC) gehen einen halben Schritt, sonst waere jeder Schritt ein
+   Viertel des Bereichs. Grundlage (0) ist die Herstellerempfehlung;
    verschoben wird nach Gewicht (je 15 kg ueber/unter 80 kg ein Schritt),
    Fahrprofil und Einsatz:
    - Abfahrt: LSC +0,5 (Halt beim Bremsen), HSC -0,5 (Grip auf Wurzeln)
    - Spruenge: LSC +1,5 (Halt an der Kante), HSC +1,5 (nicht durchschlagen) */
-const relText = r => r === 0 ? "Grundeinstellung" : r > 0 ? "+" + r + " fester" : "−" + (-r) + " weicher";
+const zahlTxt = x => String(x).replace(".", ",");
+const relText = r => r === 0 ? "Grundeinstellung" : r > 0 ? "+" + zahlTxt(r) + " fester" : "−" + zahlTxt(-r) + " weicher";
+const einheitVon = (info, menge) => info.dreh ? (menge === 1 ? "Umdrehung" : "Umdrehungen") : (menge === 1 ? "Klick" : "Klicks");
 function knopfWert(name, info, stufen){
   if(info){
-    const schritt = Math.max(1, Math.round(info.n * 0.12));
+    const schritt = info.n < 8 ? 0.5 : Math.max(1, Math.round(info.n * 0.12));
     const pos = Math.max(info.min || 0, Math.min(info.n, info.base - Math.round(stufen * schritt)));
-    const rel = info.base - pos;
-    return [name, `${pos} Klicks ab ganz zu · ${relText(rel)}`,
-      {n:info.n, base:info.base, pos:pos, min:info.min || 0, kurz:`${pos} ab zu (${rel > 0 ? "+" + rel : rel < 0 ? "−" + (-rel) : "0"})`}];
+    const rel = info.base - pos, offen = info.ab === "offen";
+    const zahl = offen ? info.n - pos : pos, menge = info.dreh ? zahl / 2 : zahl, relM = info.dreh ? rel / 2 : rel;
+    const ab = offen ? "ab ganz offen" : "ab ganz zu";
+    return [name, `${zahlTxt(menge)} ${einheitVon(info, menge)} ${ab} · ${relText(relM)}`,
+      {n:info.n, base:info.base, pos:pos, min:info.min || 0, ab:info.ab || "zu", dreh:!!info.dreh, wo:info.wo || "",
+       kurz:`${zahlTxt(menge)} ${offen ? "ab auf" : "ab zu"} (${relZahl(relM)})`}];
   }
   const rel = Math.max(-2, Math.min(2, Math.round(stufen)));
   return [name, rel ? `Mitte, dann ${Math.abs(rel)} ${Math.abs(rel) === 1 ? "Klick" : "Klicks"} ${rel > 0 ? "zu" : "auf"} · ${relText(rel)}` : "Mitte · Grundeinstellung",
     {mitte:rel, kurz:rel ? "Mitte " + (rel > 0 ? "+" : "−") + Math.abs(rel) : "Mitte"}];
 }
+/* Knopf mit wenigen benannten Stufen (Oehlins-HSC, Fox Open-Mode-Adjust) */
+function stellWert(name, s, stufen){
+  const an = Math.max(0, Math.min(s.o.length - 1, s.b + Math.round(stufen)));
+  return [name, `Stufe ${s.o[an]} · ${an === s.b ? "Grundeinstellung" : an > s.b ? "fester" : "weicher"}`, null, {o:s.o, an:an, wo:s.wo}];
+}
+/* Kletterhebel: bergab immer offen. Wer viel selbst hochtritt, bekommt den
+   Hinweis, ihn bergauf zu schliessen -- sonst nur als Moeglichkeit. */
+function hebelZeile(h, k, st, allein){
+  const tipps = [];
+  if(h.o.length > 2) tipps.push(`bergauf auf Trails „${h.o[1]}“, auf Asphalt „${h.o[2]}“`);
+  else tipps.push(`bergauf „${h.o[1]}“${st.bergauf > 0 ? ", das spart spürbar Kraft" : ""}`);
+  if(k === "spruenge" && allein) tipps.unshift("für Sprünge den Druck um 5 % erhöhen");
+  if(h.opt) tipps.push("falls dein Dämpfer einen hat");
+  return [h.name, "offen — " + tipps.join(" · "), null, {o:h.o, an:0}];
+}
 function druckstufen(daten, st, kg, hinten){
   const wkg = (kg - 80) / 15;
-  const L = wkg + st.stL + (hinten && st.bergauf > 0 ? 1 : 0), H = wkg + st.stH;
+  /* Viel bergauf: ohne Kletterhebel die LSC etwas zu, mit Hebel erledigt der das */
+  const L = wkg + st.stL + (hinten && st.bergauf > 0 && !daten.hebel ? 1 : 0), H = wkg + st.stH;
   const prof = {abfahrt:{l:L + 0.5, h:H - 0.5}, spruenge:{l:L + 1.5, h:H + 1.5}};
   const out = {};
   for(const k of ["abfahrt", "spruenge"]){
-    const p = prof[k];
-    if(daten.typ === "hl") out[k] = [knopfWert("LSC", daten.lsc, p.l), knopfWert("HSC", daten.hsc, p.h)];
-    else if(daten.typ === "l") out[k] = [knopfWert("Druckstufe", null, k === "abfahrt" ? p.l - 0.5 : p.l)];
-    else if(daten.typ === "hebel") out[k] = [["Hebel", k === "abfahrt" ? "offen" : "offen — für Sprünge den Druck um 5 % erhöhen"]];
-    else out[k] = [["Lockout", k === "abfahrt" ? "offen" : "offen — für Sprünge 5 psi mehr"]];
+    const p = prof[k], z = [];
+    if(daten.typ === "hl"){
+      z.push(knopfWert("LSC", daten.lsc, p.l));
+      z.push(daten.hscStell ? stellWert("HSC", daten.hscStell, p.h) : knopfWert("HSC", daten.hsc, p.h));
+    }
+    else if(daten.typ === "l") z.push(knopfWert(daten.lname || "Druckstufe", daten.lsc, daten.lsc ? p.l : k === "abfahrt" ? p.l - 0.5 : p.l));
+    else if(daten.typ === "keine") z.push(["Druckstufe", "fest abgestimmt — hier stellst du nur Luftdruck und Zugstufe ein", null, {o:[], an:-1}]);
+    else if(daten.typ === "lock") z.push(["Lockout", k === "abfahrt" ? "offen" : "offen — für Sprünge 5 psi mehr", null, {o:["offen", "gesperrt"], an:0}]);
+    else if(!daten.hebel) z.push(["Hebel", k === "abfahrt" ? "offen" : "offen — für Sprünge den Druck um 5 % erhöhen", null, {o:["offen", "Mitte", "zu"], an:0}]);
+    if(daten.omd) z.push(stellWert("Open-Mode", daten.omd, p.l - 0.5));
+    if(daten.hebel) z.push(hebelZeile(daten.hebel, k, st, daten.typ === "hebel"));
+    out[k] = z;
   }
   return out;
 }
@@ -4966,7 +5072,7 @@ function federRechnen(){
       regler:regler, basis:basis, ds:druckstufen(daten, st, kg)};
   }
   if(d){
-    const coil = /Coil/.test(d.n), regler = daempferRegler(d);
+    const coil = /Coil/.test(d.n), daten = daempferDaten(d), regler = daten.typ;
     const hinten = r && r.maxGabel ? r.maxGabel - (r.schaft === "dc" ? 3 : 10) : 140;
     const lr = Math.max(2, Math.min(3.4, hinten / d.hub));
     const sag = dh ? st.sagH + 3 : st.sagH;
@@ -4980,7 +5086,7 @@ function federRechnen(){
       if(psi > 300){ psi = 300; grenze = true; }
     }
     out.daempfer = {t:d, coil:coil, psi:psi, rate:rate, grenze:grenze, lr:lr, hinten:hinten, sag:sag, sagMm:Math.round(d.hub * sag / 100 * 10) / 10,
-      regler:regler, ds:druckstufen({typ:regler}, st, kg, true)};
+      regler:regler, basis:{txt:daten.txt}, ds:druckstufen(daten, st, kg, true)};
   }
   return out;
 }
@@ -4998,7 +5104,7 @@ function federKarte(titel, x, slot){
     ${reihe("Druckstufe Abfahrt", x.ds.abfahrt)}
     ${reihe("Druckstufe Sprünge", x.ds.spruenge)}
     <p class="fed-q">${x.tab ? (x.tab.eigen ? `Nach Herstellertabelle ${FED_NAME[x.tab.tab]}.` : `Keine Herstellertabelle im Katalog — Richtwert der Klasse (${FED_NAME[x.tab.tab]}).`) + " " : ""}${
-      x.basis ? x.basis.txt + "." : x.lr ? `Hinterbau-Übersetzung ≈ ${x.lr.toFixed(1).replace(".", ",")} (geschätzt aus ${x.hinten} mm Federweg und ${String(x.t.hub).replace(".", ",")} mm Hub).` : ""}</p>
+      x.basis ? x.basis.txt + ". " : ""}${x.lr ? `Hinterbau-Übersetzung ≈ ${x.lr.toFixed(1).replace(".", ",")} (geschätzt aus ${x.hinten} mm Federweg und ${String(x.t.hub).replace(".", ",")} mm Hub).` : ""}</p>
     ${schemaBlock(x, slot)}
     ${topCapBlock(slot, x)}
   </div>`;
@@ -5010,7 +5116,7 @@ function federKarte(titel, x, slot){
    einstellung des Herstellers. Farbe nur zusaetzlich zum Text: Lila fester,
    Cyan weicher -- per Validator des Skills geprueft (OLED und hell: alle
    Checks bestanden, auch Farbschwaeche). */
-const relZahl = r => r > 0 ? "+" + r : r < 0 ? "−" + (-r) : "0";
+const relZahl = r => r > 0 ? "+" + zahlTxt(r) : r < 0 ? "−" + zahlTxt(-r) : "0";
 const WO = {hsc:"großer Ring außen", lsc:"kleiner Knopf innen", knopf:"Druckstufen-Knopf"};
 /* Kleines Symbol: welcher Knopf am Top Cap gemeint ist */
 function woIcon(wo){
@@ -5022,11 +5128,16 @@ function woIcon(wo){
 }
 function knopfKachel(name, wo, vis){
   let lo, hi, wert, gross, einheit, tun;
+  /* Halbe Umdrehungen (Cane Creek HSC) zaehlen intern als Schritt, gezeigt wird in Umdrehungen */
+  const zeig = r => vis.dreh ? r / 2 : r;
   if(vis.n != null){
     lo = -(vis.n - vis.base); hi = vis.base; wert = vis.base - vis.pos;
-    gross = String(vis.pos); einheit = vis.pos === 1 ? "Klick ab ganz zu" : "Klicks ab ganz zu";
-    tun = vis.pos === 0 ? "Ganz zu drehen&nbsp;↻ — fertig."
-      : `Ganz zu drehen&nbsp;↻, dann <b>${vis.pos} ${vis.pos === 1 ? "Klick" : "Klicks"}</b> zurück&nbsp;↺`;
+    const offen = vis.ab === "offen", menge = zeig(offen ? vis.n - vis.pos : vis.pos), e = einheitVon(vis, menge);
+    gross = zahlTxt(menge); einheit = `${e} ab ganz ${offen ? "offen" : "zu"}`;
+    tun = menge === 0 ? (offen ? "Ganz auf drehen&nbsp;↺ — fertig." : "Ganz zu drehen&nbsp;↻ — fertig.")
+      : offen ? `Ganz auf drehen&nbsp;↺, dann <b>${gross} ${e}</b> zu&nbsp;↻`
+      : `Ganz zu drehen&nbsp;↻, dann <b>${gross} ${e}</b> zurück&nbsp;↺`;
+    if(vis.n <= 4 && vis.base * 2 === vis.n) tun += ` — ${vis.n + 1} Stellungen, die mittlere ist die Grundabstimmung`;
   } else {
     lo = -3; hi = 3; wert = vis.mitte;
     gross = wert ? relZahl(wert) : "Mitte"; einheit = wert ? (Math.abs(wert) === 1 ? "Klick ab der Mitte" : "Klicks ab der Mitte") : "";
@@ -5034,24 +5145,25 @@ function knopfKachel(name, wo, vis){
       : `Auf die Mitte stellen, dann <b>${Math.abs(wert)} ${Math.abs(wert) === 1 ? "Klick" : "Klicks"} ${wert > 0 ? "zu&nbsp;↻" : "auf&nbsp;↺"}</b>`;
   }
   const art = wert > 0 ? "fester" : wert < 0 ? "weicher" : "null";
-  const delta = wert > 0 ? relZahl(wert) + " fester" : wert < 0 ? relZahl(wert) + " weicher" : "Grundeinstellung";
+  const delta = wert > 0 ? relZahl(zeig(wert)) + " fester" : wert < 0 ? relZahl(zeig(wert)) + " weicher" : "Grundeinstellung";
+  const woTxt = vis.wo || (wo === "knopf" && name === "LSC" ? "Low-Speed-Knopf" : wo === "knopf" && name === "HSC" ? "High-Speed-Knopf" : WO[wo]);
   const pct = r => ((r - lo) / (hi - lo) * 100).toFixed(2);
   const dicht = hi - lo > 12;
   let striche = "", zahlen = "";
   for(let r = lo; r <= hi; r++){
     striche += `<i class="mt-t${r === 0 ? " null" : ""}" style="left:${pct(r)}%"></i>`;
-    if(r !== wert && (!dicht || r % 2 === 0 || r === lo || r === hi))
-      zahlen += `<span class="mt-z${r === 0 ? " null" : ""}" style="left:${pct(r)}%">${relZahl(r)}</span>`;
+    if(r !== wert && (!dicht || r === lo || r === hi || (r % 2 === 0 && r - lo !== 1 && hi - r !== 1)))
+      zahlen += `<span class="mt-z${r === 0 ? " null" : ""}" style="left:${pct(r)}%">${relZahl(zeig(r))}</span>`;
   }
   const von = Math.min(0, wert), bis = Math.max(0, wert);
   return `<div class="kk" role="group" aria-label="${esc(name + ": " + gross + " " + einheit + ", " + delta)}">
-    <div class="kk-kopf">${woIcon(wo)}<span class="kk-name"><b>${esc(name)}</b><span>${WO[wo]}</span></span>
+    <div class="kk-kopf">${woIcon(wo)}<span class="kk-name"><b>${esc(name)}</b><span>${esc(woTxt)}</span></span>
       <span class="kk-delta ${art}">${delta}</span></div>
     <div class="kk-wert"><b>${gross}</b><span>${einheit}</span></div>
     <div class="mt">
       <div class="mt-bahn">
         <i class="mt-fill ${art}" style="left:${pct(von)}%;width:${(pct(bis) - pct(von)).toFixed(2)}%"></i>${striche}
-        <b class="mt-m ${art}" style="left:${pct(wert)}%"><span>${relZahl(wert)}</span></b>
+        <b class="mt-m ${art}" style="left:${pct(wert)}%"><span>${relZahl(zeig(wert))}</span></b>
       </div>
       <div class="mt-zahlen">${zahlen}</div>
       <div class="mt-enden"><span>− offen · weicher</span><span>zu · fester +</span></div>
@@ -5066,9 +5178,14 @@ function schemaBlock(x, slot){
   const bekannt = /^(Fox|RockShox|Marzocchi)$/.test(x.t.m);
   const raeder = topCap ? knopfKachel("HSC", "hsc", hscZ[2]) + knopfKachel("LSC", "lsc", lscZ[2])
     : zeilen.filter(z => z[2]).map(z => knopfKachel(z[0], "knopf", z[2])).join("");
-  const hebel = zeilen.filter(z => !z[2]).map(z => `<div class="kn-hebel"><b>${esc(z[0])}</b>
-    <span class="kn-pos an">offen</span>${z[0] === "Lockout" ? `<span class="kn-pos">gesperrt</span>` : `<span class="kn-pos">Mitte</span><span class="kn-pos">zu</span>`}
-    ${z[1].indexOf("—") > 0 ? `<span class="kn-hz">${esc(z[1].split("—")[1].trim())}</span>` : ""}</div>`).join("");
+  /* Hebel und Stufen-Knoepfe: alle Stellungen, die empfohlene hervorgehoben */
+  const hebel = zeilen.filter(z => !z[2] && !(z[3] && !z[3].o.length)).map(z => {
+    const s = z[3] || {o:["offen", "Mitte", "zu"], an:0};
+    const hz = z[1].indexOf("—") > 0 ? z[1].slice(z[1].indexOf("—") + 1).trim() : "";
+    return `<div class="kn-hebel"><b>${esc(z[0])}</b>
+    ${s.o.map((o, i) => `<span class="kn-pos${i === s.an ? " an" : ""}">${esc(o)}</span>`).join("")}
+    ${s.wo ? `<span class="kn-hz">${esc(s.wo)}</span>` : ""}${hz ? `<span class="kn-hz">${esc(hz)}</span>` : ""}</div>`;
+  }).join("");
   if(!raeder && !hebel) return "";
   return `<div class="kn-block">
     <div class="kn-kopf"><b>So stellst du die Knöpfe</b>
@@ -5093,6 +5210,9 @@ const HANDBUCH = {
   fox40:["Fox-Anleitung 40", "https://tech.ridefox.com/bike/owners-manuals/2980/fork--2025-40mm"],
   foxX2:["Fox-Anleitung Float X2", "https://tech.ridefox.com/bike/owners-manuals/2984/shock--2025-float-x2"],
   foxFloat:["Fox-Anleitung Float", "https://tech.ridefox.com/bike/owners-manuals/2982/shock--2025-float"],
+  foxX:["Fox-Anleitung Float SL / Float X", "https://tech.ridefox.com/bike/owners-manuals/2983/shock--2025-float-sl-and-float-x"],
+  foxCoil:["Fox-Anleitung DHX / DHX2", "https://tech.ridefox.com/bike/owners-manuals/2981/shock--2025-all-coil-shocks-(dhx2-and-dhx-models)"],
+  rc2t:["RockShox-FAQ zum RC2T-Dämpfer", "https://support.rockshox.com/hc/en-us/sections/5847239665819-RC2T-Damper"],
   charger:["RockShox-Anleitung Charger 3", "https://www.sram.com/en/rockshox/rockshox-technology/charger-3-setup"],
   rsGuide:["RockShox-Einstellanleitung (PDF)", "https://www.sram.com/globalassets/document-hierarchy/tuning-manuals/suspension-setup-and-tuning-guide-english.pdf"]
 };
@@ -5106,11 +5226,14 @@ function handbuchVon(slot, t){
     return null;
   }
   if(/Float X2/.test(t.n)) return HANDBUCH.foxX2;
+  if(/Float (X|SL)\b/.test(t.n)) return HANDBUCH.foxX;
+  if(/DHX/.test(t.n)) return HANDBUCH.foxCoil;
   if(/Fox Float|DPS/.test(t.n)) return HANDBUCH.foxFloat;
-  if(t.m === "RockShox") return HANDBUCH.rsGuide;
+  if(t.m === "RockShox") return /Super Deluxe|Vivid/.test(t.n) && wahlVon(t, "Ausführung") === "Ultimate" ? HANDBUCH.rc2t : HANDBUCH.rsGuide;
   return null;
 }
-const KNOEPFE = {hl:["LSC", "HSC"], l:["Druckstufe"], hebel:["Hebel"], lock:["Lockout"]};
+/* Knoepfe, die man im eigenen Foto markieren kann: alles, was sich verstellen laesst */
+const knoepfeVon = x => x.ds.abfahrt.filter(z => z[2] || (z[3] && z[3].o.length)).map(z => z[0]);
 const tcFach = slot => "mtb.topcap." + (aktivId[modus] || "x") + "." + slot;
 function tcLaden(slot){ try{ const v = localStorage.getItem(tcFach(slot)); return v ? JSON.parse(v) : null; }catch(e){ return null; } }
 function tcSpeichern(slot, d){
@@ -5120,16 +5243,17 @@ function tcSpeichern(slot, d){
 let tcAnsicht = "abfahrt";
 function topCapBlock(slot, x){
   if(!slot) return "";
-  const hb = handbuchVon(slot, x.t), tc = tcLaden(slot), knoepfe = KNOEPFE[x.regler] || [];
+  const hb = handbuchVon(slot, x.t), tc = tcLaden(slot), knoepfe = knoepfeVon(x);
   const teilName = slot === "gabel" ? "deiner Gabel" : "deines Dämpfers";
   const link = hb ? `<a class="tc-link" href="${esc(hb[1])}" target="_blank" rel="noopener">Echtes Bild der Rädchen: ${esc(hb[0])} ↗</a>`
                   : `<span class="tc-link aus">Welcher Knopf wo sitzt, zeigt die Anleitung ${teilName}.</span>`;
+  if(!knoepfe.length) return hb ? `<div class="tc-block">${link}</div>` : "";
   if(!tc) return `<div class="tc-block"><b class="tc-t">Wo sind die Knöpfe?</b>${link}
     <button class="btn ghost sm" data-tcfoto="${slot}">Eigenes Foto markieren</button>
     <span class="tc-h">Fotografier die Oberseite ${teilName} mit den Einstellrädchen — die App schreibt die Einstellung direkt ins Bild. Das Foto bleibt auf deinem Handy.</span></div>`;
   const offen = knoepfe.filter(k => !(tc.marks && tc.marks[k]));
   const werte = {};
-  for(const z of x.ds[tcAnsicht]) werte[z[0]] = z[2] && z[2].kurz ? z[2].kurz : z[1];
+  for(const z of x.ds[tcAnsicht]) werte[z[0]] = z[2] && z[2].kurz ? z[2].kurz : z[3] && z[3].o.length ? z[3].o[z[3].an] : z[1];
   /* Kurz, damit dicht beieinander liegende Knoepfe (GRIP X2: HSC und LSC
      uebereinander) sich nicht verdecken; der zweite steht ueber dem Punkt */
   const kurz = v => !v ? "" : v.replace(/^offen.*$/, "offen");
@@ -5192,9 +5316,10 @@ function oeffneFederung(){
       <div class="erk" style="margin-top:6px"><b>So stellst du es ein</b>
         1. Luft mit einer Dämpferpumpe einfüllen, Gabel und Dämpfer danach ein paar Mal einfedern und nochmal messen.<br>
         2. Sag prüfen: in Fahrposition aufs Rad stellen, der Gummiring am Standrohr zeigt, wie weit es einsinkt — das sollte ungefähr der Sag-Wert sein.<br>
-        3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks. Im Schema ist jeder Strich ein Klick, die Zahl sagt, wie weit von der Grundeinstellung.<br>
-        4. <b style="display:inline">Abfahrt</b> ist für ruppige, schnelle Strecken, <b style="display:inline">Sprünge</b> für Bikepark und Absprünge — mehr Halt an der Kante, kein Durchschlagen bei der Landung.<br>
-        5. Die Zugstufe (Rebound) so, dass das Rad nach dem Einfedern zügig zurückkommt, ohne nachzuwippen.</div>
+        3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks. Im Schema ist jeder Strich ein Klick, die Zahl sagt, wie weit von der Grundeinstellung. Cane Creek zählt andersherum, ab ganz offen — die Kachel sagt es dazu.<br>
+        4. Am Dämpfer sitzen LSC und HSC meist am Ausgleichsbehälter, der Kletterhebel daneben. Bergab steht der Hebel immer offen, sonst wirken HSC und LSC nicht.<br>
+        5. <b style="display:inline">Abfahrt</b> ist für ruppige, schnelle Strecken, <b style="display:inline">Sprünge</b> für Bikepark und Absprünge — mehr Halt an der Kante, kein Durchschlagen bei der Landung.<br>
+        6. Zugstufe (Rebound): Knopf ganz schnell stellen (Hase), im Sitzen von einer Bordsteinkante rollen und dann Klick für Klick langsamer, bis das Heck nach der Landung einmal zurückkommt und nicht nachwippt. Vorne genauso mit einem kräftigen Druck auf den Lenker. Mehr Luft braucht mehr Zugstufe — nach jeder Druckänderung neu prüfen.</div>
       <div class="erk"><b>Nach der ersten Fahrt nachstellen</b>
         Immer nur eine Sache ändern, 1–2 Klicks pro Runde, auf derselben Teststrecke.<br>
         · Taucht beim Bremsen und in Anliegern tief ein → <b style="display:inline">LSC</b> 2 Klicks zu.<br>
@@ -5202,9 +5327,13 @@ function oeffneFederung(){
         · Hart und bockig auf Wurzeln und Steinen → <b style="display:inline">HSC</b> 1 Klick auf.<br>
         · Wenig Grip in Kurven, fühlt sich stumpf an → <b style="display:inline">LSC</b> 1–2 Klicks auf.<br>
         · Nutzt nie den ganzen Federweg (O-Ring) → 5 % weniger Luft.<br>
-        · Dämpfer wippt beim Treten → hinten <b style="display:inline">LSC</b> zu oder den Hebel auf die mittlere Stellung.</div>
+        · Dämpfer wippt beim Treten → hinten <b style="display:inline">LSC</b> zu oder den Kletterhebel auf die mittlere Stellung.<br>
+        · Heck sackt in Senken und Anliegern weg, das Rad wirkt träge → hinten <b style="display:inline">LSC</b> 1–2 Klicks zu.<br>
+        · Hinterbau schlägt bei Drops durch → hinten <b style="display:inline">HSC</b> 1 Klick zu, reicht das nicht: 5 % mehr Luft oder ein Volumen-Spacer.<br>
+        · Hinterrad springt auf Bremswellen und Steinfeldern → hinten <b style="display:inline">HSC</b> 1 Klick auf, Zugstufe 1–2 Klicks schneller.<br>
+        · Vorne und hinten sollen sich gleich anfühlen: Fühlt sich das Heck deutlich härter an als die Gabel, zuerst hinten die Druckstufe öffnen, nicht vorne zudrehen.</div>
       <p class="hint" style="margin-top:8px">Startwerte, keine Garantie: Die Tabelle auf deiner Gabel und das Handbuch haben Vorrang. Nie über den
-        Maximaldruck pumpen. Quelle: Fox Owner's Manuals 2025, RockShox-Luftdrucktabellen.</p>
+        Maximaldruck pumpen. Quellen: Fox Owner's Manuals und Tuning-Tabellen, RockShox-Luftdrucktabellen und RC2T-FAQ, Cane-Creek- und Öhlins-Angaben, Dämpfer-Tests von Pinkbike, BikeRadar und Vital MTB.</p>
     </div>`);
 }
 
@@ -6557,7 +6686,7 @@ document.addEventListener("click", e => {
   const tcm = T("[data-tcmark]");
   if(tcm){
     const slot = tcm.dataset.tcmark, d = tcLaden(slot), x = federRechnen()[slot];
-    const offen = d && x ? (KNOEPFE[x.regler] || []).filter(k => !(d.marks && d.marks[k])) : [];
+    const offen = d && x ? knoepfeVon(x).filter(k => !(d.marks && d.marks[k])) : [];
     if(offen.length){
       const r = tcm.getBoundingClientRect();
       d.marks = d.marks || {};
