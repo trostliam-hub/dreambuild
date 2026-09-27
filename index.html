@@ -374,7 +374,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .mt-bahn{position:relative;height:10px;border-radius:999px;background:var(--sunk)}
 .mt-fill{position:absolute;top:0;bottom:0;border-radius:999px}
 .mt-fill.fester{background:var(--fester)} .mt-fill.weicher{background:var(--weicher)} .mt-fill.null{display:none}
-.mt-t{position:absolute;top:50%;width:2px;height:6px;margin-left:-1px;transform:translateY(-50%);background:var(--ink-3);opacity:.55;border-radius:1px}
+.mt-t{position:absolute;top:50%;width:2px;height:8px;margin-left:-1px;transform:translateY(-50%);background:var(--ink-3);opacity:.85;border-radius:1px}
 .mt-t.null{height:18px;width:3px;margin-left:-1.5px;background:var(--ink);opacity:1}
 .mt-m{position:absolute;top:50%;width:22px;height:22px;margin-left:-11px;transform:translateY(-50%);border-radius:50%;
   background:var(--ink);border:4px solid var(--surface);box-shadow:0 0 0 2px var(--ink)}
@@ -384,6 +384,15 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .mt-z{position:absolute;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .mt-z.null{color:var(--ink);font-weight:800}
 .mt-enden{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);margin:2px -10px 0}
+/* Stellung der anderen Ansicht: gestrichelter Ring auf der Skala */
+.mt-m2{position:absolute;top:50%;width:18px;height:18px;margin-left:-9px;transform:translateY(-50%);border-radius:50%;
+  border:2px dashed var(--ink-2);background:var(--surface)}
+.mt-m2.fester{border-color:var(--fester)} .mt-m2.weicher{border-color:var(--weicher)}
+.kk-anders{display:flex;align-items:center;gap:9px;margin:8px 0 0;font-size:13px;color:var(--ink-2);line-height:1.4}
+.kk-anders .mt-m2{position:static;flex:none;transform:none;margin:0;width:16px;height:16px}
+.kk-anders b{color:var(--ink)}
+.kk-anders-d{font-weight:800;white-space:nowrap}
+.kk-anders-d.fester{color:var(--fester)} .kk-anders-d.weicher{color:var(--weicher)}
 .kk-tun{margin:10px 0 0;padding:9px 11px;border-radius:12px;background:var(--surface-2);font-size:13px;color:var(--ink-2);line-height:1.4}
 .kk-tun b{color:var(--ink)}
 .kn-hebel{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;margin-top:4px}
@@ -6912,13 +6921,14 @@ function woIcon(wo){
     ${wo === "knopf" ? "" : `<circle class="kk-ic-r${ring}" cx="20" cy="20" r="13"/>`}
     <circle class="kk-ic-m${mitte}" cx="20" cy="20" r="${wo === "knopf" ? 11 : 6.5}"/></svg>`;
 }
-function knopfKachel(name, wo, vis){
-  let lo, hi, wert, gross, einheit, tun;
+/* Eine Stellung lesen: Bereich der Skala, Wert gegenueber der Grund-
+   einstellung, grosse Zahl, Einheit und was zu tun ist */
+function knopfLesen(vis){
+  let lo, hi, wert, gross, einheit, tun, stufeName = null;
   /* Halbe Umdrehungen (Cane Creek HSC) zaehlen intern als Schritt, gezeigt wird in Umdrehungen */
   const zeig = r => vis.dreh ? r / 2 : r;
   /* Knopf mit wenigen benannten Stufen (Fox Open-Mode 1-3, Oehlins-HSC):
      gleiche Skala, unter den Strichen stehen die Stufen selbst */
-  let stufeName = null;
   if(vis.stufen){
     lo = -vis.b; hi = vis.o.length - 1 - vis.b; wert = vis.an - vis.b;
     stufeName = r => stellName(vis.o[r + vis.b]);
@@ -6945,6 +6955,17 @@ function knopfKachel(name, wo, vis){
   }
   const art = wert > 0 ? "fester" : wert < 0 ? "weicher" : "null";
   const delta = wert > 0 ? relZahl(zeig(wert)) + tx(" fester", " firmer") : wert < 0 ? relZahl(zeig(wert)) + tx(" weicher", " softer") : tx("Grundeinstellung", "base setting");
+  const marke = r => stufeName ? stufeName(r) : relZahl(zeig(r));
+  return {lo:lo, hi:hi, wert:wert, gross:gross, einheit:einheit, tun:tun, art:art, delta:delta, marke:marke};
+}
+/* Kachel je Knopf. vis2: dieselbe Stellung in der anderen Ansicht (Abfahrt
+   oder Spruenge), wenn sie abweicht -- als gestrichelter Ring auf derselben
+   Skala, damit man ohne Umschalten sieht, dass und wohin umgestellt wird. */
+function knopfKachel(name, wo, vis, vis2){
+  const k = knopfLesen(vis), {lo, hi, wert, art} = k;
+  const k2 = vis2 ? knopfLesen(vis2) : null;
+  const zweit = k2 && k2.wert !== wert && k2.lo === lo && k2.hi === hi ? k2 : null;
+  const anderName = tcAnsicht === "abfahrt" ? tx("Sprünge", "jumps") : tx("Abfahrt", "the descent");
   const woTxt = vis.wo || (wo === "knopf" && name === "LSC" ? tx("Low-Speed-Knopf", "low-speed knob") : wo === "knopf" && name === "HSC" ? tx("High-Speed-Knopf", "high-speed knob") : sp2(WO[wo]));
   const pct = r => ((r - lo) / (hi - lo) * 100).toFixed(2);
   const dicht = hi - lo > 12;
@@ -6952,22 +6973,25 @@ function knopfKachel(name, wo, vis){
   for(let r = lo; r <= hi; r++){
     striche += `<i class="mt-t${r === 0 ? " null" : ""}" style="left:${pct(r)}%"></i>`;
     if(r !== wert && (!dicht || r === lo || r === hi || (r % 2 === 0 && r - lo !== 1 && hi - r !== 1)))
-      zahlen += `<span class="mt-z${r === 0 ? " null" : ""}" style="left:${pct(r)}%">${esc(stufeName ? stufeName(r) : relZahl(zeig(r)))}</span>`;
+      zahlen += `<span class="mt-z${r === 0 ? " null" : ""}" style="left:${pct(r)}%">${esc(k.marke(r))}</span>`;
   }
   const von = Math.min(0, wert), bis = Math.max(0, wert);
-  return `<div class="kk" role="group" aria-label="${esc(knopfName(name) + ": " + gross + " " + einheit + ", " + delta)}">
+  return `<div class="kk" role="group" aria-label="${esc(knopfName(name) + ": " + k.gross + " " + k.einheit + ", " + k.delta)}">
     <div class="kk-kopf">${woIcon(wo)}<span class="kk-name"><b>${esc(knopfName(name))}</b><span>${esc(woTxt)}</span></span>
-      <span class="kk-delta ${art}">${delta}</span></div>
-    <div class="kk-wert"><b>${gross}</b><span>${einheit}</span></div>
+      <span class="kk-delta ${art}">${k.delta}</span></div>
+    <div class="kk-wert"><b>${k.gross}</b><span>${k.einheit}</span></div>
     <div class="mt">
       <div class="mt-bahn">
         <i class="mt-fill ${art}" style="left:${pct(von)}%;width:${(pct(bis) - pct(von)).toFixed(2)}%"></i>${striche}
-        <b class="mt-m ${art}" style="left:${pct(wert)}%"><span>${esc(stufeName ? stufeName(wert) : relZahl(zeig(wert)))}</span></b>
+        ${zweit ? `<i class="mt-m2 ${zweit.art}" style="left:${pct(zweit.wert)}%" aria-hidden="true"></i>` : ""}
+        <b class="mt-m ${art}" style="left:${pct(wert)}%"><span>${esc(k.marke(wert))}</span></b>
       </div>
       <div class="mt-zahlen">${zahlen}</div>
       <div class="mt-enden"><span>${tx("− offen · weicher", "− open · softer")}</span><span>${tx("zu · fester +", "closed · firmer +")}</span></div>
     </div>
-    <p class="kk-tun">${tun}</p>
+    <p class="kk-tun">${k.tun}</p>
+    ${zweit ? `<p class="kk-anders"><i class="mt-m2 ${zweit.art}" aria-hidden="true"></i><span>${tx("Für", "For")} <b>${anderName}</b>: ${esc(zweit.gross)} ${esc(zweit.einheit)} ·
+      <span class="kk-anders-d ${zweit.art}">${zweit.delta}</span></span></p>` : ""}
   </div>`;
 }
 /* Was sich zwischen Abfahrt und Spruengen aendert -- sonst sieht man in der
@@ -6983,8 +7007,11 @@ function schemaBlock(x, slot){
   const lscZ = zeilen.find(z => z[0] === "LSC" && z[2]), hscZ = zeilen.find(z => z[0] === "HSC" && z[2]);
   const topCap = slot === "gabel" && lscZ && hscZ;
   const bekannt = /^(Fox|RockShox|Marzocchi)$/.test(x.t.m);
-  const raeder = topCap ? knopfKachel("HSC", "hsc", hscZ[2]) + knopfKachel("LSC", "lsc", lscZ[2])
-    : zeilen.filter(z => z[2]).map(z => knopfKachel(z[0], "knopf", z[2])).join("");
+  /* dieselbe Stellung in der anderen Ansicht, fuer den gestrichelten Ring */
+  const andere = x.ds[andereAnsicht()] || [];
+  const gegen = z => { const y = andere.find(q => q[0] === z[0]); return y && y[2] ? y[2] : null; };
+  const raeder = topCap ? knopfKachel("HSC", "hsc", hscZ[2], gegen(hscZ)) + knopfKachel("LSC", "lsc", lscZ[2], gegen(lscZ))
+    : zeilen.filter(z => z[2]).map(z => knopfKachel(z[0], "knopf", z[2], gegen(z))).join("");
   /* Hebel und Stufen-Knoepfe: alle Stellungen, die empfohlene hervorgehoben */
   const hebel = zeilen.filter(z => !z[2] && !(z[3] && !z[3].o.length)).map(z => {
     const s = z[3] || {o:["offen", "Mitte", "zu"], an:0};
@@ -7000,8 +7027,8 @@ function schemaBlock(x, slot){
         <button data-tcansicht="abfahrt" aria-pressed="${tcAnsicht === "abfahrt"}"${diff.length && tcAnsicht !== "abfahrt" ? ' class="anders"' : ""}>${tx("Abfahrt", "Descent")}</button>
         <button data-tcansicht="spruenge" aria-pressed="${tcAnsicht === "spruenge"}"${diff.length && tcAnsicht !== "spruenge" ? ' class="anders"' : ""}>${tx("Sprünge", "Jumps")}</button></div></div>
     ${diff.length ? `<p class="kn-anders">${tcAnsicht === "abfahrt"
-      ? tx(`Für <b>Sprünge</b> anders: ${esc(diff.map(knopfName).join(", "))} — oben auf „Sprünge“ tippen.`, `Different for <b>jumps</b>: ${esc(diff.map(knopfName).join(", "))} — tap “Jumps” above.`)
-      : tx(`Für die <b>Abfahrt</b> anders: ${esc(diff.map(knopfName).join(", "))} — oben auf „Abfahrt“ tippen.`, `Different for the <b>descent</b>: ${esc(diff.map(knopfName).join(", "))} — tap “Descent” above.`)}</p>` : ""}
+      ? tx(`Für <b>Sprünge</b> anders: ${esc(diff.map(knopfName).join(", "))}. Der gestrichelte Ring zeigt, wohin — oder oben auf „Sprünge“ tippen.`, `Different for <b>jumps</b>: ${esc(diff.map(knopfName).join(", "))}. The dashed ring shows where — or tap “Jumps” above.`)
+      : tx(`Für die <b>Abfahrt</b> anders: ${esc(diff.map(knopfName).join(", "))}. Der gestrichelte Ring zeigt, wohin — oder oben auf „Abfahrt“ tippen.`, `Different for the <b>descent</b>: ${esc(diff.map(knopfName).join(", "))}. The dashed ring shows where — or tap “Descent” above.`)}</p>` : ""}
     ${raeder ? `<div class="kk-reihe">${raeder}</div>` : ""}${hebel}
     ${raeder ? `<p class="kn-hin">${topCap ? (bekannt
         ? tx("Bei Fox und RockShox sitzt der kleine LSC-Knopf im großen HSC-Ring — das Symbol zeigt, welcher gemeint ist. ", "On Fox and RockShox the small LSC knob sits inside the large HSC ring — the symbol shows which one is meant. ")
