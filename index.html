@@ -1020,34 +1020,57 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
   background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-20deg);animation:glanz 3.4s ease-in-out infinite 1.2s}
 @keyframes glanz{0%,62%{left:-60%}100%{left:135%}}
 
-/* Seitenansicht des Rads: Linien, die sich zeichnen */
-.rs .r-reifen{fill:none;stroke:var(--sunk);stroke-width:40}
-.rs .r-felge{fill:none;stroke:var(--ink-3);stroke-width:9;opacity:.8}
-.rs .r-speiche{stroke:var(--ink-3);stroke-width:4;opacity:.45}
-.rs .r-nabe{fill:var(--ink-3)}
-.rs .r-rahmen{fill:none;stroke-width:30;stroke-linecap:round;stroke-linejoin:round}
-.rs .r-steuer{stroke-width:40}
-.rs .r-teil{fill:none;stroke:var(--ink-2);stroke-width:17;stroke-linecap:round;stroke-linejoin:round}
-.rs .r-sattel{stroke-width:30}
-.rs .r-daempfer{fill:none;stroke:var(--gut);stroke-width:24;stroke-linecap:round}
-.rs .r-blatt{fill:none;stroke:var(--ink-3);stroke-width:10;stroke-dasharray:9 7}
+/* Zeichnungen: Rad, Figur und Cockpit. Farben je Design -- die Teile muessen
+   auf OLED-Schwarz und auf Hell lesbar sein. */
+:root{--rs-schwarz:#3a3656;--rs-schwarz-2:#27243b;--rs-metall:#a8a3c8;--rs-reifen:#1d1a2a;--rs-stollen:#34304b;
+  --rs-schatten:rgba(140,92,255,.32);--rs-kante:rgba(0,0,0,0);--fg-haut:#d9cfee;--fg-haar:#3a3354;--fg-hose:#353052;--fg-schuh:#1f1c30;--fg-helm:#efebfa}
+:root[data-theme="light"]{--rs-schwarz:#2d2945;--rs-schwarz-2:#1e1b30;--rs-metall:#8c87ac;--rs-reifen:#24212f;--rs-stollen:#3d3954;
+  --rs-schatten:rgba(40,20,110,.2);--rs-kante:rgba(30,20,70,.22);--fg-haut:#cfc2e8;--fg-haar:#2c2544;--fg-hose:#2c2748;--fg-schuh:#1b1829;--fg-helm:#f4f1fb}
+.rs .r-reifen{fill:none;stroke:var(--rs-reifen);stroke-width:48}
+.rs .r-stollen{fill:none;stroke:var(--rs-stollen);stroke-width:12;stroke-dasharray:15 11}
+.rs .r-felge{fill:none;stroke:var(--rs-schwarz);stroke-width:18}
+.rs .r-felgenglanz{fill:none;stroke:var(--rs-metall);stroke-width:3;opacity:.45}
+.rs .r-speiche{fill:none;stroke:var(--rs-metall);stroke-width:3;opacity:.5}
+.rs .r-scheibe{fill:none;stroke:var(--rs-metall);stroke-width:15;stroke-dasharray:20 7}
+.rs .r-nabe,.rs .r-dunkel,.rs .r-pedal,.rs .r-sattel{fill:var(--rs-schwarz)}
+.rs .r-dunkel2{fill:var(--rs-schwarz-2)}
+.rs .r-metall{fill:var(--rs-metall)}
+.rs .r-gold{fill:#e5ad4f}
+.rs .r-glanz{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;opacity:.3}
+.rs .r-kette{fill:none;stroke:var(--rs-metall);stroke-width:9;stroke-dasharray:9 5;opacity:.75}
+.rs .r-kassette{fill:none;stroke:var(--rs-metall);stroke-width:6;opacity:.7}
+.rs .r-blatt{fill:none;stroke:var(--rs-metall);stroke-width:11;stroke-dasharray:9 6}
+.rs .r-leitung{fill:none;stroke:var(--rs-schwarz-2);stroke-width:6}
+.rs .r-schrift{font-family:var(--f-head);font-weight:800;font-size:31px;letter-spacing:7px;fill:#fff;opacity:.92;stroke:none}
+.rs .r-haut{fill:var(--fg-haut)}
+.rs .r-hose{fill:var(--fg-hose)}
+.rs .r-schuh{fill:var(--fg-schuh)}
+.rs .r-sohle{fill:var(--rs-metall);opacity:.55}
+.rs .r-helm{fill:var(--fg-helm);stroke:var(--rs-kante);stroke-width:6}
+.rs .r-helmglanz{fill:none;stroke:#fff;stroke-width:10;opacity:.5;stroke-linecap:round}
+.rs .r-naht{fill:none;stroke:#fff;stroke-width:5;opacity:.25}
+.rs .r-hinten{opacity:.5}
 .rs .r-boden{stroke:var(--line);stroke-width:6;stroke-dasharray:60 40;stroke-linecap:round}
-.rs .r-mass{fill:none;stroke:var(--gut);stroke-width:6;stroke-linecap:round}
+.rs .r-mass{fill:none;stroke:var(--gut);stroke-width:7;stroke-linecap:round}
 .rs .r-hilf{fill:none;stroke:var(--gut);stroke-width:4;stroke-dasharray:14 12;opacity:.7}
-.rs text{font-family:var(--f-sans);font-weight:800;font-size:50px;fill:var(--gut);paint-order:stroke;stroke:var(--ground);stroke-width:14px;stroke-linejoin:round}
-.rs .zeichne{animation:zeichnen 1.1s cubic-bezier(.6,.1,.3,1) both;animation-delay:calc(var(--v,0) * 85ms + 120ms)}
-.rs .blende{animation:ei-einblenden .6s ease both;animation-delay:calc(var(--v,0) * 85ms + 120ms)}
+.rs text{font-family:var(--f-sans);font-weight:800;font-size:50px;fill:var(--gut);paint-order:stroke;stroke:var(--surface);stroke-width:14px;stroke-linejoin:round}
+.rs .zeichne{animation:zeichnen 1.1s cubic-bezier(.6,.1,.3,1) both;animation-delay:calc(var(--v,0) * 90ms + 500ms)}
+.rs .blende{animation:ei-einblenden .7s ease both;animation-delay:calc(var(--v,0) * 90ms + 150ms)}
 @keyframes zeichnen{from{stroke-dasharray:1 1;stroke-dashoffset:1}to{stroke-dasharray:1 1;stroke-dashoffset:0}}
 @keyframes ei-einblenden{from{opacity:0}}
-.rs .dreh{transform-box:fill-box;transform-origin:center;animation:dreh 1.6s linear infinite}
+.rs .dreh{transform-box:fill-box;transform-origin:center;animation:dreh 1.4s linear infinite}
 .rs.faehrt .r-boden{animation:boden .9s linear infinite}
-.rs.faehrt .r-ganz{animation:wippen 2.6s ease-in-out infinite}
+.rs.faehrt .r-ganz{animation:reinrollen 1.3s cubic-bezier(.2,.8,.2,1) both,wippen 2.8s ease-in-out 1.4s infinite}
 .rs .fahrt line{stroke:var(--anod);stroke-width:9;stroke-linecap:round;opacity:0;animation:fahrt 1.5s linear infinite}
 .rs .fahrt line:nth-child(2){animation-delay:.5s}
 .rs .fahrt line:nth-child(3){animation-delay:1s}
+@keyframes reinrollen{from{transform:translateX(-900px);opacity:0}to{transform:none;opacity:1}}
 @keyframes boden{to{stroke-dashoffset:-200}}
-@keyframes wippen{50%{transform:translateY(-6px)}}
+@keyframes wippen{50%{transform:translateY(-8px)}}
 @keyframes fahrt{0%{transform:translateX(160px);opacity:0}25%{opacity:.7}100%{transform:translateX(-340px);opacity:0}}
+.fit-rad-z{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:4px 6px 8px}
+.fit-rad-z span{font-size:12px;color:var(--ink-3);padding:5px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--hair)}
+.fit-rad-z b{color:var(--gut);font-weight:800;font-variant-numeric:tabular-nums}
 
 /* Regler fuer Koerpermasse und Budget */
 .ei-regler{margin:0 0 12px;padding:13px 14px 12px;border-radius:18px;background:var(--surface);border:1px solid var(--hair)}
@@ -1081,11 +1104,20 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 /* Groesse und Gewicht: Figur mit Massstab, daneben die Rahmengroesse */
 .ei-figur{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:8px;align-items:end;margin:0 0 14px}
 .ei-figur svg{width:100%;height:236px;display:block}
-.fg-lineal{stroke:var(--line);stroke-width:.8}
-.fg-strich{stroke:var(--ink-3);stroke-width:.7;opacity:.6}
+.fg-band{fill:var(--surface-2);stroke:var(--line);stroke-width:.8}
+.fg-strich{stroke:var(--ink-3);stroke-width:.55;opacity:.65}
+.fg-strich.lang{stroke-width:.9;opacity:1}
 .fg-t{font-family:var(--f-sans);font-size:7px;font-weight:700;fill:var(--ink-3)}
 .fg-mark{stroke:var(--anod-2);stroke-width:.9;stroke-dasharray:2.5 2}
-.fg-mt{font-family:var(--f-sans);font-size:9.5px;font-weight:800;fill:var(--ink)}
+.fg-pfeil{fill:var(--anod-2)}
+.fg-pill{fill:var(--surface);stroke:var(--hair);stroke-width:.8}
+.fg-mt{font-family:var(--f-sans);font-size:8.2px;font-weight:800;fill:var(--ink)}
+.fg-haut{fill:var(--fg-haut)}
+.fg-haar{fill:var(--fg-haar)}
+.fg-hose{fill:var(--fg-hose)}
+.fg-schuh{fill:var(--fg-schuh)}
+.fg-kante{fill:none;stroke:#fff;stroke-width:.6;opacity:.16}
+.fg-schatten{fill:var(--rs-schatten)}
 .ei-gr{display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:26px}
 .ei-gr b{width:96px;height:96px;border-radius:30px;display:grid;place-items:center;font-family:var(--f-head);font-size:40px;
   font-weight:800;letter-spacing:-.04em;color:#fff;background:var(--grad);box-shadow:0 18px 44px -14px rgba(120,70,255,.95)}
@@ -1097,17 +1129,29 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .ei-cockpit{border-radius:22px;border:1px solid var(--hair);padding:12px 8px 12px;margin:0 0 14px;
   background:radial-gradient(120% 90% at 50% 0%,var(--anod-soft),transparent 70%),var(--surface)}
 .ei-cockpit svg{width:100%;height:auto;display:block;max-height:320px;margin:0 auto}
-.ck-koerper{fill:var(--sunk)}
-.ck-arm{fill:none;stroke:var(--ink-3);stroke-width:54;stroke-linecap:round;stroke-linejoin:round;opacity:.5}
-.ck-lenker{fill:none;stroke-width:26;stroke-linecap:round;stroke-linejoin:round}
-.ck-griff{stroke:var(--ink-2);stroke-width:46;stroke-linecap:round}
-.ck-vorbau{fill:var(--ink-3)}
-.ck-band{fill:var(--gut);opacity:.17}
-.ck-mass{stroke:var(--gut);stroke-width:6;stroke-linecap:round}
-.ck-schulter{stroke:var(--warn);stroke-width:6;stroke-dasharray:16 12}
-.ck-punkt{fill:var(--warn)}
-.ck text{font-family:var(--f-sans);font-weight:800;font-size:44px;fill:var(--ink-2)}
-.ck text.m{fill:var(--gut);font-size:50px}
+.ck-haut{fill:var(--fg-haut)}
+.ck-helm{fill:var(--fg-helm);stroke:var(--rs-kante);stroke-width:5}
+.ck-dunkel{fill:var(--rs-schwarz)}
+.ck-metall{fill:var(--rs-metall)}
+.ck-gold{fill:#e5ad4f}
+.ck-glanz{fill:#fff;opacity:.35}
+.ck-reifen{fill:var(--rs-reifen)}
+.ck-stollen{fill:none;stroke:var(--rs-stollen);stroke-width:14;stroke-dasharray:18 14}
+.ck-arm{fill:none;stroke-width:72;stroke-linecap:round;stroke-linejoin:round}
+.ck-arm.u{stroke-width:60}
+.ck-naht{fill:none;stroke:#fff;stroke-width:5;opacity:.25}
+.ck-lenker{fill:none;stroke:var(--rs-metall);stroke-width:26;stroke-linecap:round;stroke-linejoin:round}
+.ck-lenkerglanz{fill:none;stroke:#fff;stroke-width:5;opacity:.35;stroke-linecap:round}
+.ck-griff{fill:var(--rs-schwarz-2)}
+.ck-hebel{fill:none;stroke:var(--rs-metall);stroke-width:13;stroke-linecap:round}
+.ck-handschuh{fill:var(--fg-schuh)}
+.ck-band{fill:var(--gut);opacity:.22}
+.ck-mass{stroke:var(--gut);stroke-width:7;stroke-linecap:round}
+.ck-schulter{stroke:var(--warn);stroke-width:7;stroke-dasharray:18 12}
+.ck-punkt{fill:var(--warn);stroke:var(--surface);stroke-width:6}
+.ck-pill{fill:var(--surface);stroke:var(--hair);stroke-width:3}
+.ck text{font-family:var(--f-sans);font-weight:800;font-size:40px;fill:var(--ink-2)}
+.ck text.m{fill:var(--gut)}
 .ck text.s{fill:var(--warn)}
 .ck-unter{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:8px 8px 0}
 .ck-unter span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:750;line-height:1.5}
@@ -5277,135 +5321,352 @@ let svgNr = 0;
    mit pathLength zeichnet sich die Linie gleichmaessig */
 const kreisPfad = (cx, cy, r) => `M${cx} ${cy - r}a${r} ${r} 0 1 1 0 ${2 * r}a${r} ${r} 0 1 1 0 ${-2 * r}`;
 
-/* Seitenansicht eines Rads aus Geometriezahlen in mm, Tretlager im Ursprung.
-   o.anim: Raeder drehen, Boden laeuft (Begruessung). o.masse: Reach,
-   Sattelhoehe und Kurbel eingezeichnet (Fit). */
+/* Vektorhilfen fuer die Zeichnungen, Punkte als [x, y] */
+const V = {
+  add:(a, b) => [a[0] + b[0], a[1] + b[1]], sub:(a, b) => [a[0] - b[0], a[1] - b[1]], mul:(a, k) => [a[0] * k, a[1] * k],
+  len:a => Math.hypot(a[0], a[1]), unit:a => { const l = Math.hypot(a[0], a[1]) || 1; return [a[0] / l, a[1] / l]; },
+  nrm:a => [-a[1], a[0]], lerp:(a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t],
+  polar:(c, r, w) => [c[0] + r * Math.cos(w), c[1] + r * Math.sin(w)]
+};
+/* Glatte Kontur durch Stuetzpunkte (Catmull-Rom als Bezier), Punkte in SVG-Koordinaten */
+function glatt(pts, zu){
+  const n = pts.length, q = i => pts[zu ? (i + n) % n : Math.max(0, Math.min(n - 1, i))];
+  let d = "M" + pts[0].map(v => v.toFixed(1)).join(" ");
+  for(let i = 0; i < (zu ? n : n - 1); i++){
+    const p0 = q(i - 1), p1 = q(i), p2 = q(i + 1), p3 = q(i + 2);
+    d += "C" + [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6, p2[0] - (p3[0] - p1[0]) / 6,
+      p2[1] - (p3[1] - p1[1]) / 6, p2[0], p2[1]].map(v => v.toFixed(1)).join(" ");
+  }
+  return d + (zu ? "Z" : "");
+}
+
+/* Seitenansicht eines Enduro-Fullys aus Geometriezahlen in mm, Tretlager im
+   Ursprung, y nach oben. Rohre als Flaechen mit Glanzkante, Gabel mit
+   Standrohren, Daempfer an der Wippe, Scheibenbremsen, Kette und Schaltwerk.
+   o.anim: rollt herein, Raeder drehen (Begruessung). o.masse: Sattelhoehe,
+   Kurbel und -- ohne Fahrer -- Reach eingezeichnet. o.fahrer {h, stehend}:
+   ein Fahrer in dieser Groesse sitzt (oder steht) drauf; Beine und Arme
+   ergeben sich aus Sattel, Pedal und Griff. */
 function radSvg(o){
   o = o || {};
-  const n = ++svgNr, gid = "rsg" + n;
-  const R = o.lr === "26" ? 332 : o.lr === "27.5" ? 350 : 368;
+  const {add, sub, mul, len, unit, nrm, lerp, polar} = V;
+  const n = ++svgNr, id = s => "rs" + n + s;
+  const R = o.lr === "26" ? 335 : o.lr === "27.5" ? 350 : 368;
   const reach = o.reach || 470, stack = o.stack || 625;
   const lw = (o.lw || 65) * Math.PI / 180, sw = (o.sw || 77) * Math.PI / 180;
   const ks = o.ks || 440, drop = o.drop || 30, off = 44, steuer = o.steuer || 115;
   const sattel = o.sattel || 745, kurbel = o.kurbel || 170, vorbau = o.vorbau || 45, sr = o.sr || 430;
-  const P = (x, y) => Math.round(x) + " " + Math.round(-y);
-  const hx = -Math.sqrt(ks * ks - drop * drop);
-  const ho = [reach, stack], hu = [reach + steuer * Math.cos(lw), stack - steuer * Math.sin(lw)];
-  const L = (hu[1] + off * Math.cos(lw) - drop) / Math.sin(lw);
-  const vx = hu[0] + L * Math.cos(lw) + off * Math.sin(lw);
-  const s = t => [-t * Math.cos(sw), t * Math.sin(sw)];
-  const sa = s(sattel), st = s(sr), tt0 = s(sr * 0.9), ss = s(sr * 0.8);
-  const tt1 = [ho[0] - 12, ho[1] - 22];
-  const sp = [ho[0] - 28 * Math.cos(lw), ho[1] + 28 * Math.sin(lw)];
-  const ve = [sp[0] + vorbau * Math.sin(lw), sp[1] + vorbau * Math.cos(lw)], le = [ve[0] - 10, ve[1] + 26];
-  const ka = -35 * Math.PI / 180, ke = [kurbel * Math.cos(ka), kurbel * Math.sin(ka)];
-  const dm = [tt0[0] + (tt1[0] - tt0[0]) * 0.42, tt0[1] + (tt1[1] - tt0[1]) * 0.42], du = s(sr * 0.3);
-  let v = 0;
-  const z = (d, k) => `<path class="${k} zeichne" pathLength="1" style="--v:${v++}" d="${d}"/>`;
-  const rad = (x) => {
-    const sp2 = Array.from({length:12}, (_, i) => { const a = i * Math.PI / 6;
-      return `<line class="r-speiche" x1="${Math.round(x)}" y1="${-drop}" x2="${Math.round(x + (R - 48) * Math.cos(a))}" y2="${Math.round(-drop + (R - 48) * Math.sin(a))}"/>`; }).join("");
-    return z(kreisPfad(Math.round(x), -drop, R - 20), "r-reifen") + z(kreisPfad(Math.round(x), -drop, R - 46), "r-felge")
-      + `<g class="${o.anim ? "dreh" : "blende"}" style="--v:${v}">${sp2}<circle class="r-nabe" cx="${Math.round(x)}" cy="${-drop}" r="20"/></g>`;
+  const r1 = v => Math.round(v * 10) / 10, P = a => r1(a[0]) + " " + r1(-a[1]);
+  const C = (a, r, k, x) => `<circle class="${k}" cx="${r1(a[0])}" cy="${r1(-a[1])}" r="${r1(r)}"${x || ""}/>`;
+  /* Rohr von a nach b, Breite w1 -> w2, runde Enden */
+  const rohr = (a, b, w1, w2, k, x) => {
+    const q = nrm(unit(sub(b, a)));
+    return `<path class="${k}"${x || ""} d="M${P(add(a, mul(q, w1 / 2)))}L${P(add(b, mul(q, w2 / 2)))}L${P(sub(b, mul(q, w2 / 2)))}L${P(sub(a, mul(q, w1 / 2)))}Z"/>`
+      + C(a, w1 / 2, k, x) + C(b, w2 / 2, k, x);
   };
-  const oben = Math.max(sa[1] + 40, stack + (o.masse ? 235 : 120)), unten = drop - R - 12;
-  const links = hx - R - 20, rechts = vx + R + 20;
-  let masse = "";
-  if(o.masse){
-    const y = stack + 140, nrm = [-Math.sin(sw), -Math.cos(sw)], a0 = [110 * nrm[0], 110 * nrm[1]];
-    const a1 = [sa[0] + a0[0], sa[1] + a0[1]], mt = [(a0[0] + a1[0]) / 2 + 55 * nrm[0], (a0[1] + a1[1]) / 2 + 55 * nrm[1]];
-    masse = `<g class="blende" style="--v:${v + 2}">
-      <path class="r-hilf" d="M0 ${-drop + 10}V${-y}M${Math.round(ho[0])} ${Math.round(-ho[1])}V${-y}"/>
-      <path class="r-mass" d="M0 ${-y}H${Math.round(reach)}M0 ${-y - 22}v44M${Math.round(reach)} ${-y - 22}v44"/>
-      <text x="${Math.round(reach / 2)}" y="${-y - 26}" text-anchor="middle">Reach ${reach}</text>
-      ${o.ohneSattelMass ? "" : `<path class="r-mass" d="M${P(a0[0], a0[1])}L${P(a1[0], a1[1])}"/>
-      <text x="${Math.round(mt[0])}" y="${Math.round(-mt[1])}" text-anchor="end">Sattel ${sattel}</text>`}
-      <text x="${Math.round(ke[0] + 30)}" y="${Math.round(-ke[1] + 60)}" text-anchor="start">Kurbel ${kurbel}</text></g>`;
+  const glanz = (a, b, w1, w2) => { const d = unit(sub(b, a)), q = nrm(d);
+    return `<path class="r-glanz" d="M${P(add(add(a, mul(q, w1 / 2 - 8)), mul(d, w1 * .5)))}L${P(add(sub(b, mul(d, w2 * .5)), mul(q, w2 / 2 - 8)))}"/>`; };
+  const lack = ` fill="url(#${id("g")})"`;
+
+  /* Geometrie */
+  const ax = [-Math.sqrt(ks * ks - drop * drop), drop];
+  const dA = [Math.cos(lw), -Math.sin(lw)], qA = [Math.sin(lw), Math.cos(lw)];
+  const ho = [reach, stack], hu = add(ho, mul(dA, steuer));
+  const L = (hu[1] + off * Math.cos(lw) - drop) / Math.sin(lw);
+  const vo = [hu[0] + L * Math.cos(lw) + off * Math.sin(lw), drop];
+  const sD = [-Math.cos(sw), Math.sin(sw)], st = t => mul(sD, t), sa = st(sattel);
+  const u0 = [34, 26], u1 = add(hu, mul(dA, -22));
+  const o0 = st(sr * .84), o1 = add(ho, mul(dA, 34));
+  const kw = (o.fahrer && o.fahrer.stehend ? 0 : o.kurbelWinkel == null ? -35 : o.kurbelWinkel) * Math.PI / 180;
+  const pe = [kurbel * Math.cos(kw), kurbel * Math.sin(kw)], pf = mul(pe, -1);
+  const sp1 = add(ho, mul(dA, -24)), ve = add(sp1, mul(qA, vorbau)), gr = add(ve, [-20, 34]);
+
+  /* Laufraeder: Reifen mit Stollen, Felge, gekreuzte Speichen, Bremsscheibe */
+  const rad = (c, scheibe, zange) => {
+    let sp = "";
+    for(let i = 0; i < 24; i++){
+      const a = i * Math.PI / 12, b = a + (i % 2 ? .4 : -.4);
+      sp += `M${P(polar(c, 22, a))}L${P(polar(c, R - 64, b))}`;
+    }
+    return C(c, R - 24, "r-reifen") + C(c, R - 55, "r-felge") + C(c, R - 45, "r-felgenglanz")
+      + `<g class="${o.anim ? "dreh" : ""}">${C(c, R - 5, "r-stollen")}<path class="r-speiche" d="${sp}"/>${C(c, scheibe, "r-scheibe")}</g>`
+      + C(c, 30, "r-nabe") + C(c, 12, "r-metall")
+      + rohr(polar(c, scheibe + 4, zange - .22), polar(c, scheibe + 4, zange + .22), 40, 40, "r-dunkel");
+  };
+  /* Rahmen */
+  const hinterbau = o.hardtail
+    ? rohr(ax, [-8, 10], 26, 34, "", lack) + rohr(ax, st(sr * .88), 22, 26, "", lack)
+    : (() => {
+      const fp = st(sr * .62), rp = add(fp, [-64, -2]), sr2 = add(fp, [96, -12]), mp = add(st(80), [16, 2]);
+      const sf = add(lerp(u0, u1, .45), mul(nrm(unit(sub(u1, u0))), 28));
+      return rohr(ax, mp, 26, 36, "", lack) + glanz(ax, mp, 26, 36) + rohr(ax, rp, 22, 28, "", lack) + glanz(ax, rp, 22, 28)
+        + C(mp, 16, "r-metall")
+        + rohr(sf, lerp(sf, sr2, .58), 30, 30, "r-metall") + rohr(lerp(sf, sr2, .42), sr2, 48, 44, "r-dunkel")
+        + rohr(lerp(sf, sr2, .36), lerp(sf, sr2, .42), 36, 36, "r-gold") + C(sf, 13, "r-metall") + C(sr2, 13, "r-metall")
+        + rohr(rp, sr2, 38, 34, "r-dunkel") + C(fp, 24, "r-dunkel2") + C(fp, 10, "r-metall") + C(rp, 10, "r-metall");
+    })();
+  const um = lerp(u0, u1, .55), uw = Math.atan2(u1[1] - u0[1], u1[0] - u0[0]) * 180 / Math.PI;
+  const rahmen = rohr([-4, 16], st(sr), 46, 38, "", lack) + glanz([-4, 16], st(sr), 46, 38)
+    + rohr(u0, u1, 64, 52, "", lack) + glanz(u0, u1, 64, 52)
+    + `<text class="r-schrift" x="${r1(um[0])}" y="${r1(-um[1])}" transform="rotate(${r1(-uw)} ${r1(um[0])} ${r1(-um[1])})" text-anchor="middle" dominant-baseline="central">CRANKSCORE</text>`
+    + rohr(o0, o1, 40, 46, "", lack) + glanz(o0, o1, 40, 46)
+    + rohr(add(ho, mul(dA, -8)), add(hu, mul(dA, 8)), 60, 64, "", lack) + glanz(add(ho, mul(dA, -8)), add(hu, mul(dA, 8)), 60, 64)
+    + C([0, 0], 38, "r-dunkel2");
+  /* Gabel: Krone, goldene Standrohre, Tauchrohre bis zur Achse */
+  const kr = add(hu, mul(dA, 26)), b0 = add(kr, mul(qA, off)), bd = unit(sub(vo, b0)), bl = len(sub(vo, b0));
+  const tauch = add(b0, mul(bd, bl * .44));
+  const gabel = rohr(add(kr, mul(qA, -24)), add(b0, mul(qA, 24)), 52, 52, "r-dunkel")
+    + rohr(b0, tauch, 38, 38, "r-gold") + glanz(b0, tauch, 38, 38)
+    + rohr(add(tauch, mul(bd, -28)), add(vo, mul(bd, 22)), 56, 46, "r-dunkel") + glanz(add(tauch, mul(bd, -28)), add(vo, mul(bd, 22)), 56, 46)
+    + rohr(add(tauch, mul(bd, -30)), add(tauch, mul(bd, -14)), 60, 60, "r-dunkel2") + C(vo, 20, "r-metall");
+  /* Sattelstuetze und Sattel */
+  const pOben = Math.max(sr + 20, sattel - 165);
+  const sattelPkt = [[-148, -18], [-142, -3], [-126, 9], [-60, 6], [40, -2], [138, -9], [163, -17], [152, -30], [40, -37], [-60, -36], [-126, -33]];
+  const sitz = rohr(st(sr - 12), st(sr + 14), 54, 54, "r-dunkel")
+    + (pOben > sr + 14 ? rohr(st(sr + 14), st(pOben), 34, 34, "r-dunkel2") : "")
+    + rohr(st(pOben), st(sattel - 60), 30, 30, "r-metall") + rohr(st(sattel - 62), st(sattel - 36), 46, 38, "r-dunkel")
+    + `<path class="r-sattel" d="${glatt(sattelPkt.map(p => [sa[0] + p[0], -(sa[1] + p[1])]), true)}"/>`
+    + `<path class="r-glanz" d="M${P(add(sa, [-120, 6]))}Q${P(add(sa, [10, 4]))} ${P(add(sa, [130, -8]))}"/>`;
+  /* Cockpit: Spacer, Vorbau, Lenker mit Rise, Griff von der Seite, Bremshebel */
+  const cockpit = rohr(ho, sp1, 44, 44, "r-dunkel") + rohr(sp1, ve, 44, 38, "r-dunkel") + glanz(sp1, ve, 44, 38)
+    + rohr(ve, gr, 26, 24, "r-metall") + C(ve, 24, "r-metall") + C(gr, 24, "r-dunkel2")
+    + rohr(add(gr, [10, -6]), add(gr, [78, -50]), 13, 8, "r-metall")
+    + `<path class="r-leitung" d="M${P(add(gr, [22, -18]))}Q${P(add(ve, [120, -10]))} ${P(add(kr, mul(qA, 58)))}"/>`;
+  /* Antrieb: Kettenblatt, Kurbeln, Pedale, Kassette, Schaltwerk, Kette */
+  const pedal = (p, k) => `<rect class="${k}" x="${r1(p[0] - 56)}" y="${r1(-p[1] - 13)}" width="112" height="26" rx="11"/>`;
+  const wO = add(ax, [16, -42]), wU = add(ax, [-2, -116]);
+  const antriebHinten = rohr([0, 0], pf, 40, 28, "r-dunkel2") + pedal(pf, "r-dunkel2");
+  const antrieb = C(ax, 58, "r-kassette") + C(ax, 45, "r-kassette") + C(ax, 32, "r-kassette")
+    + `<path class="r-kette" d="M${P([0, 70])}L${P(add(ax, [0, 58]))}M${P([0, -70])}L${P(add(wU, [10, -12]))}"/>`
+    + rohr(ax, wO, 24, 20, "r-dunkel") + rohr(wO, wU, 32, 28, "r-dunkel") + C(wO, 13, "r-metall") + C(wU, 13, "r-metall");
+  const kurbelVorn = C([0, 0], 70, "r-blatt") + C([0, 0], 54, "r-dunkel2")
+    + rohr([0, 0], pe, 42, 28, "r-dunkel") + glanz([0, 0], pe, 42, 28) + C([0, 0], 18, "r-metall") + pedal(pe, "r-pedal");
+
+  /* Fahrer: Beine und Arme ueber zwei Glieder zwischen festen Punkten
+     (Huefte-Pedal, Schulter-Griff). Die Beinlaenge ergibt sich aus der
+     Sattelhoehe -- unten ist das Knie wie beim Bikefit rund 30 Grad gebeugt. */
+  let fHinten = "", fVorn = "", kopfOben = 0;
+  if(o.fahrer){
+    const H = o.fahrer.h * 10, steh = !!o.fahrer.stehend;
+    const ank = p => add(p, [-50, 72]);
+    const gelenk = (a, b, la, lb, wahl) => {
+      const d = Math.max(1, Math.min(len(sub(b, a)), la + lb - 2)), ex = unit(sub(b, a)), ey = nrm(ex);
+      const x = (la * la - lb * lb + d * d) / (2 * d), y = Math.sqrt(Math.max(0, la * la - x * x)), m = add(a, mul(ex, x));
+      return {g:wahl(add(m, mul(ey, y)), add(m, mul(ey, -y))), end:add(a, mul(ex, d))};
+    };
+    let huefte, Lo, Lu;
+    if(steh){
+      Lo = H * .245; Lu = H * .26;
+      const a = ank(pe), w = .8 * (Lo + Lu), dx = -140 - a[0];
+      huefte = [-140, a[1] + Math.sqrt(Math.max(0, w * w - dx * dx))];
+    } else {
+      huefte = add(sa, [-34, 94]);                     /* ueber den Sitzknochen, hinter der Sattelmitte */
+      const d0 = len(sub(huefte, ank([0, -kurbel])));
+      Lo = d0 / 1.932 * .97; Lu = d0 / 1.932 * 1.03;
+    }
+    const T = H * .30, Loa = H * .175, Lua = H * .205;
+    let best = null;
+    for(let g = steh ? 26 : 15; g <= (steh ? 46 : 80); g++){          /* stehend: Angriffshaltung, Oberkoerper vorn */
+      const s = polar(huefte, T, g * Math.PI / 180), dd = Math.abs(len(sub(gr, s)) - (steh ? .9 : .975) * (Loa + Lua));
+      if(!best || dd < best.dd) best = {g:g, s:s, dd:dd};
+    }
+    const sch = best.s, tw = best.g * Math.PI / 180;
+    const ell = gelenk(sch, gr, Loa, Lua, (a, b) => a[1] < b[1] ? a : b).g;
+    const vorn = (a, b) => a[0] > b[0] ? a : b;
+    const bein = (p, k) => {
+      const kn = gelenk(huefte, ank(p), Lo, Lu, vorn), knie = kn.g, fuss = kn.end;
+      return rohr(huefte, knie, 150, 112, "r-hose") + rohr(fuss, lerp(fuss, knie, .5), 70, 88, "r-haut")
+        + rohr(lerp(knie, fuss, .02), lerp(knie, fuss, .45), 110, 96, "r-dunkel2") + C(knie, 56, "r-dunkel2")
+        + rohr(add(fuss, [-30, -22]), add(p, [80, 6]), 64, 44, "r-schuh") + rohr(add(fuss, [-38, -48]), add(p, [86, -16]), 14, 12, "r-sohle");
+    };
+    /* Rumpf in eigenen Koordinaten: t laeuft von der Huefte (0) zur Schulter
+       (1), s quer dazu in mm, positiv zum Ruecken */
+    const sk = H / 1780, u = unit(sub(sch, huefte)), vB = nrm(u);
+    const tp = (t, s) => add(add(huefte, mul(u, t * T)), mul(vB, s * sk));
+    const RUMPF = [[.05, 96], [.28, 86], [.52, 80], [.74, 94], [.94, 90], [1.07, 64], [1.14, 24], [1.11, -28],
+                   [1.0, -72], [.82, -98], [.6, -88], [.38, -76], [.18, -82], [.05, -90]];
+    const rumpf = glatt(RUMPF.map(([t, s]) => { const p = tp(t, s); return [p[0], -p[1]]; }), true);
+    const kopf = add(add(sch, mul(u, 205 * sk)), mul(vB, -34 * sk)), kr = 96 * sk, hr = 116 * sk;
+    kopfOben = kopf[1] + hr;
+    const hW = a => polar(kopf, hr, a * Math.PI / 180);
+    fHinten = `<g class="r-hinten">${bein(pf)}</g>`;
+    fVorn = `<g class="r-fahrer">
+      ${C(huefte, 104 * sk, "r-hose")}
+      ${rohr(tp(1.04, -6), kopf, 76 * sk, 66 * sk, "r-haut")}
+      <path fill="url(#${id("t")})" d="${rumpf}"/>
+      <path class="r-naht" d="M${P(tp(.1, 6))}Q${P(tp(.55, -8))} ${P(tp(.98, 4))}"/>
+      ${bein(pe)}
+      ${rohr(sch, ell, 96 * sk, 78 * sk, "", ` fill="url(#${id("a")})"`)}${rohr(ell, gr, 78 * sk, 62 * sk, "", ` fill="url(#${id("a")})"`)}
+      ${C(gr, 42, "r-schuh")}
+      ${C(kopf, kr, "r-haut")}
+      <path class="r-helm" d="M${P(hW(16))}A${r1(hr)} ${r1(hr)} 0 1 0 ${P(hW(236))}Q${P(polar(kopf, kr * .5, 3.4))} ${P(hW(16))}Z"/>
+      ${rohr(hW(20), polar(kopf, hr * 1.42, (6 + best.g * .12) * Math.PI / 180), 22 * sk, 10 * sk, "r-dunkel2")}
+      <path class="r-helmglanz" d="M${P(polar(kopf, hr * .8, 1.2))}A${r1(hr * .8)} ${r1(hr * .8)} 0 0 0 ${P(polar(kopf, hr * .8, 2.45))}"/></g>`;
   }
-  const fahrt = o.anim ? `<g class="fahrt"><line x1="${Math.round(links + 60)}" y1="${-drop - R * 0.4}" x2="${Math.round(links + 220)}" y2="${-drop - R * 0.4}"/>
-      <line x1="${Math.round(links + 20)}" y1="${-drop}" x2="${Math.round(links + 150)}" y2="${-drop}"/>
-      <line x1="${Math.round(links + 90)}" y1="${-drop + R * 0.45}" x2="${Math.round(links + 210)}" y2="${-drop + R * 0.45}"/></g>` : "";
-  return `<svg class="rs${o.anim ? " faehrt" : ""}" viewBox="${Math.round(links)} ${Math.round(-oben)} ${Math.round(rechts - links)} ${Math.round(oben - unten)}" role="img" aria-label="${o.masse ? `Rad mit deinen Maßen: Reach ${reach} mm, Sattelhöhe ${sattel} mm, Kurbel ${kurbel} mm` : "Mountainbike"}">
-    <defs><linearGradient id="${gid}" gradientUnits="userSpaceOnUse" x1="${Math.round(hx)}" y1="0" x2="${Math.round(vx)}" y2="0">
-      <stop offset="0" stop-color="#8a4dff"/><stop offset=".55" stop-color="#5b5bff"/><stop offset="1" stop-color="#2f8cff"/></linearGradient></defs>
-    ${o.anim ? `<line class="r-boden" x1="${Math.round(links)}" y1="${Math.round(-unten - 12)}" x2="${Math.round(rechts)}" y2="${Math.round(-unten - 12)}"/>` : ""}
+
+  const oben = Math.max(sa[1] + 60, stack + (o.masse && !o.fahrer ? 240 : 120), gr[1] + 50, kopfOben + 40);
+  const unten = drop - R - 44, links = ax[0] - R - 36, rechts = vo[0] + R + 36;
+  let v = 0, masse = "";
+  if(o.masse){
+    const nn = [-Math.sin(sw), -Math.cos(sw)], a0 = mul(nn, 130), a1 = add(sa, mul(nn, 130));
+    const mt = add(lerp(a0, a1, .45), mul(nn, 40)), y = stack + 150;
+    masse = (o.ohneSattelMass ? "" : `<path class="r-mass zeichne" pathLength="1" style="--v:${v++}" d="M${P(a0)}L${P(a1)}"/>
+        <path class="r-mass" d="M${P(add(a0, mul(nn, 22)))}L${P(add(a0, mul(nn, -22)))}M${P(add(a1, mul(nn, 22)))}L${P(add(a1, mul(nn, -22)))}"/>
+        <text class="blende" style="--v:${v++}" x="${r1(mt[0])}" y="${r1(-mt[1])}" text-anchor="end">Sattel ${sattel}</text>`)
+      + (o.fahrer ? "" : `<path class="r-hilf" d="M0 ${r1(-drop + 10)}V${r1(-y)}M${r1(ho[0])} ${r1(-ho[1])}V${r1(-y)}"/>
+        <path class="r-mass zeichne" pathLength="1" style="--v:${v++}" d="M0 ${r1(-y)}H${r1(reach)}"/>
+        <path class="r-mass" d="M0 ${r1(-y - 22)}v44M${r1(reach)} ${r1(-y - 22)}v44"/>
+        <text class="blende" style="--v:${v++}" x="${r1(reach / 2)}" y="${r1(-y - 30)}" text-anchor="middle">Reach ${reach}</text>`)
+      + `<text class="blende" style="--v:${v++}" x="${r1(pe[0] + 40)}" y="${r1(-pe[1] + 78)}" text-anchor="start">Kurbel ${kurbel}</text>`;
+  }
+  const fahrt = o.anim ? `<g class="fahrt"><line x1="${r1(links + 60)}" y1="${r1(-drop - R * .4)}" x2="${r1(links + 260)}" y2="${r1(-drop - R * .4)}"/>
+      <line x1="${r1(links + 20)}" y1="${r1(-drop)}" x2="${r1(links + 180)}" y2="${r1(-drop)}"/>
+      <line x1="${r1(links + 100)}" y1="${r1(-drop + R * .45)}" x2="${r1(links + 240)}" y2="${r1(-drop + R * .45)}"/></g>` : "";
+  const label = o.masse ? `Rad mit deinen Maßen: Reach ${reach} mm, Sattelhöhe ${sattel} mm, Kurbel ${kurbel} mm` : "Enduro-Mountainbike";
+  return `<svg class="rs${o.anim ? " faehrt" : ""}${o.fahrer ? " mitfahrer" : ""}" viewBox="${r1(links)} ${r1(-oben)} ${r1(rechts - links)} ${r1(oben - unten)}" role="img" aria-label="${label}">
+    <defs>
+      <linearGradient id="${id("g")}" gradientUnits="userSpaceOnUse" x1="${r1(ax[0])}" y1="0" x2="${r1(vo[0])}" y2="${r1(-stack)}">
+        <stop offset="0" stop-color="#7a3dff"/><stop offset=".5" stop-color="#5b5bff"/><stop offset="1" stop-color="#2f8cff"/></linearGradient>
+      <linearGradient id="${id("t")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9d6bff"/><stop offset="1" stop-color="#3f7dff"/></linearGradient>
+      <linearGradient id="${id("a")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7f4cf0"/><stop offset="1" stop-color="#2f6fe8"/></linearGradient>
+      <radialGradient id="${id("s")}"><stop offset="0" style="stop-color:var(--rs-schatten)"/><stop offset="1" style="stop-color:var(--rs-schatten)" stop-opacity="0"/></radialGradient>
+    </defs>
+    <ellipse cx="${r1((ax[0] + vo[0]) / 2)}" cy="${r1(-(drop - R) + 6)}" rx="${r1((vo[0] - ax[0]) / 2 + R * .9)}" ry="34" fill="url(#${id("s")})"/>
+    ${o.anim ? `<line class="r-boden" x1="${r1(links)}" y1="${r1(-(drop - R) + 8)}" x2="${r1(rechts)}" y2="${r1(-(drop - R) + 8)}"/>` : ""}
     ${fahrt}
-    <g class="r-ganz">
-    ${rad(hx)}${rad(vx)}
-    <g stroke="url(#${gid})">
-    ${z(`M${P(18, 8)}L${P(hu[0], hu[1])}`, "r-rahmen")}
-    ${z(`M${P(0, 0)}L${P(st[0], st[1])}`, "r-rahmen")}
-    ${z(`M${P(tt0[0], tt0[1])}L${P(tt1[0], tt1[1])}`, "r-rahmen")}
-    ${z(`M${P(0, 0)}L${P(hx, drop)}L${P(ss[0], ss[1])}`, "r-rahmen")}
-    ${z(`M${P(ho[0], ho[1])}L${P(hu[0], hu[1])}`, "r-rahmen r-steuer")}
-    </g>
-    ${o.hardtail ? "" : z(`M${P(du[0], du[1])}L${P(dm[0], dm[1])}`, "r-daempfer")}
-    ${z(`M${P(hu[0], hu[1])}L${P(vx, drop)}`, "r-teil")}
-    ${z(`M${P(st[0], st[1])}L${P(sa[0] + 14, sa[1] - 40)}`, "r-teil")}
-    ${z(`M${P(sa[0] - 105, sa[1] + 4)}L${P(sa[0] + 125, sa[1])}`, "r-teil r-sattel")}
-    ${z(`M${P(ho[0], ho[1])}L${P(sp[0], sp[1])}L${P(ve[0], ve[1])}L${P(le[0], le[1])}`, "r-teil")}
-    ${z(kreisPfad(0, 0, 70), "r-blatt")}
-    ${z(`M0 0L${P(ke[0], ke[1])}M${P(ke[0] - 45, ke[1])}L${P(ke[0] + 45, ke[1])}`, "r-teil")}
+    <g class="r-ganz${o.anim ? "" : " blende"}">
+      ${fHinten}${antriebHinten}
+      ${rad(ax, 90, .62)}${rad(vo, 100, 2.1)}
+      ${hinterbau}${antrieb}${rahmen}${gabel}${sitz}${cockpit}${kurbelVorn}
+      ${fVorn}
     </g>
     ${masse}
   </svg>`;
 }
 
-/* Figur zur Koerpergroesse: Massstab in cm, Fuesse bei 0. Das Gewicht macht
-   sie etwas breiter -- nur fuers Auge. */
+/* Figur zur Koerpergroesse, von vorn: Kontur aus Stuetzpunkten als Anteil der
+   Groesse, Trikot, Shorts und Schuhe als Flaechen darin. Das Gewicht macht
+   Rumpf und Beine breiter -- nur fuers Auge. Links das Massband in cm. */
+const FIGUR = [
+  [.024, .870, .2], [.031, .846, .2], [.072, .836, .35], [.109, .826, .45], [.127, .806, .5], [.135, .762, .5],
+  [.141, .700, .5], [.145, .640, .5], [.148, .575, .45], [.146, .508, .4], [.151, .474, .4], [.143, .420, .4],
+  [.126, .428, .4], [.124, .470, .4], [.123, .508, .4], [.121, .575, .45], [.116, .640, .5], [.108, .705, .55],
+  [.099, .752, .6], [.095, .728, .9], [.090, .670, .9], [.085, .615, .9], [.090, .545, .9], [.094, .505, .9],
+  [.091, .440, .8], [.079, .360, .7], [.066, .285, .5], [.069, .222, .45], [.057, .120, .35], [.043, .056, .2],
+  [.050, .026, .1], [.047, .004, 0], [.015, .004, 0], [.017, .052, .2], [.019, .160, .35], [.023, .222, .45],
+  [.021, .285, .5], [.015, .400, .7], [.004, .470, .8]
+];
 function figurSvg(h, kg){
-  const w = fKlemm((kg > 0 ? kg / Math.pow(h / 100, 2) : 22) / 22, .85, 1.45);
-  const X = 92, Y = y => (-y).toFixed(1);
-  const kopfR = h * .064, kopfY = h - kopfR - .5;
-  const sch = h * .815, huefte = h * .52;
-  const sb = h * .12 * (.9 + .1 * w), hb = h * .082 * w;
-  const bein = h * .068 * (.82 + .18 * w), arm = h * .05 * (.85 + .15 * w);
-  let lineal = "";
-  for(let c = 0; c <= 210; c += 10)
-    lineal += `<line class="fg-strich" x1="${c % 50 ? 22 : 17}" y1="${Y(c)}" x2="28" y2="${Y(c)}"/>` + (c % 50 || !c ? "" : `<text class="fg-t" x="14" y="${(-c + 2.5).toFixed(1)}" text-anchor="end">${c}</text>`);
-  return `<svg viewBox="-2 -224 166 230" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Figur, ${h} cm groß">
-    <defs><linearGradient id="fgG" gradientUnits="userSpaceOnUse" x1="0" y1="${Y(h)}" x2="0" y2="0">
-      <stop offset="0" stop-color="#b08cff"/><stop offset="1" stop-color="#2f8cff"/></linearGradient></defs>
-    <line class="fg-lineal" x1="28" y1="0" x2="28" y2="-212"/>${lineal}
-    <g fill="url(#fgG)" stroke="url(#fgG)" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke-width="${arm.toFixed(1)}" fill="none" d="M${(X - sb).toFixed(1)} ${Y(sch - 2)}L${(X - sb - h * .03).toFixed(1)} ${Y(h * .5)}M${(X + sb).toFixed(1)} ${Y(sch - 2)}L${(X + sb + h * .03).toFixed(1)} ${Y(h * .5)}"/>
-      <path stroke-width="${bein.toFixed(1)}" fill="none" d="M${(X - hb * .5).toFixed(1)} ${Y(huefte)}L${(X - hb * .6).toFixed(1)} ${Y(bein / 2)}M${(X + hb * .5).toFixed(1)} ${Y(huefte)}L${(X + hb * .6).toFixed(1)} ${Y(bein / 2)}"/>
-      <path stroke-width="${(h * .045).toFixed(1)}" d="M${X} ${Y(sch)}L${X} ${Y(kopfY - kopfR)}"/>
-      <path stroke-width="5" d="M${(X - sb).toFixed(1)} ${Y(sch)}Q${X} ${Y(sch + h * .018)} ${(X + sb).toFixed(1)} ${Y(sch)}L${(X + hb).toFixed(1)} ${Y(huefte)}L${(X - hb).toFixed(1)} ${Y(huefte)}Z"/>
-      <circle stroke="none" cx="${X}" cy="${Y(kopfY)}" r="${kopfR.toFixed(1)}"/>
+  const n = ++svgNr, w = fKlemm((kg > 0 ? kg / Math.pow(h / 100, 2) : 22) / 22, .85, 1.45);
+  const X = 104, xs = (x, k) => x * h * (1 + (w - 1) * k);
+  const rechts = FIGUR.map(([x, y, k]) => [X + xs(x, k), -y * h]);
+  const kontur = rechts.concat(FIGUR.slice().reverse().map(([x, y, k]) => [X - xs(x, k), -y * h]));
+  const sil = glatt(kontur, true);
+  const achsel = xs(.099, .6), huefte = Math.min(xs(.097, .9), xs(.124, .4) - .006 * h);
+  const krx = .047 * h, kry = .064 * h, kcy = -.935 * h;
+  let band = "";
+  for(let c = 0; c <= 210; c += 5)
+    band += `<line class="fg-strich${c % 50 ? "" : " lang"}" x1="${c % 50 ? (c % 10 ? 23 : 20) : 15}" y1="${-c}" x2="26" y2="${-c}"/>`
+      + (c % 50 || !c ? "" : `<text class="fg-t" x="11" y="${-c + 2.6}" text-anchor="end">${c}</text>`);
+  const pillX = X + krx + 9;
+  return `<svg viewBox="-16 -226 190 232" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Figur, ${h} cm groß">
+    <defs>
+      <linearGradient id="fgT${n}" gradientUnits="userSpaceOnUse" x1="${(X - .15 * h).toFixed(1)}" y1="${(-.85 * h).toFixed(1)}" x2="${(X + .15 * h).toFixed(1)}" y2="${(-.5 * h).toFixed(1)}">
+        <stop offset="0" stop-color="#9d6bff"/><stop offset="1" stop-color="#3f7dff"/></linearGradient>
+      <linearGradient id="fgV${n}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".22"/>
+        <stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>
+      <linearGradient id="fgB${n}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8a4dff" stop-opacity=".55"/><stop offset="1" stop-color="#2f8cff" stop-opacity=".55"/></linearGradient>
+      <clipPath id="fgK${n}"><path d="${sil}"/><ellipse cx="${X}" cy="${kcy.toFixed(1)}" rx="${krx.toFixed(1)}" ry="${kry.toFixed(1)}"/></clipPath>
+    </defs>
+    <rect class="fg-band" x="13" y="-212" width="16" height="212" rx="4"/>
+    <rect x="15" y="${-h}" width="12" height="${h}" rx="2" fill="url(#fgB${n})"/>
+    ${band}
+    <ellipse class="fg-schatten" cx="${X}" cy="1" rx="${(.13 * h).toFixed(1)}" ry="3.2"/>
+    <g clip-path="url(#fgK${n})">
+      <rect class="fg-haut" x="${X - h * .3}" y="${-h - 2}" width="${h * .6}" height="${h + 4}"/>
+      <ellipse class="fg-haar" cx="${X}" cy="${(kcy - kry * .25).toFixed(1)}" rx="${(krx * 1.1).toFixed(1)}" ry="${(kry * .85).toFixed(1)}"/>
+      <ellipse class="fg-haut" cx="${X}" cy="${(kcy + kry * .3).toFixed(1)}" rx="${(krx * .84).toFixed(1)}" ry="${(kry * .86).toFixed(1)}"/>
+      <rect fill="url(#fgT${n})" x="${(X - achsel).toFixed(1)}" y="${(-.849 * h).toFixed(1)}" width="${(2 * achsel).toFixed(1)}" height="${(.349 * h).toFixed(1)}"/>
+      <rect fill="url(#fgT${n})" x="${X - h * .3}" y="${(-.832 * h).toFixed(1)}" width="${h * .6}" height="${(.18 * h).toFixed(1)}"/>
+      <path class="fg-haut" d="M${(X - .03 * h).toFixed(1)} ${(-.851 * h).toFixed(1)}Q${X} ${(-.8 * h).toFixed(1)} ${(X + .03 * h).toFixed(1)} ${(-.851 * h).toFixed(1)}Z"/>
+      <rect class="fg-hose" x="${(X - huefte).toFixed(1)}" y="${(-.527 * h).toFixed(1)}" width="${(2 * huefte).toFixed(1)}" height="${(.227 * h).toFixed(1)}"/>
+      <rect class="fg-schuh" x="${X - h * .3}" y="${(-.038 * h).toFixed(1)}" width="${h * .6}" height="${(.045 * h).toFixed(1)}"/>
+      <rect fill="url(#fgV${n})" x="${X - h * .3}" y="${-h - 2}" width="${h * .6}" height="${h + 4}"/>
     </g>
-    <line class="fg-mark" x1="28" y1="${Y(h)}" x2="${(X + sb + 8).toFixed(1)}" y2="${Y(h)}"/>
-    <text class="fg-mt" x="${(X + sb + 10).toFixed(1)}" y="${(-h + 3.4).toFixed(1)}">${h} cm</text>
+    <path class="fg-kante" d="${sil}"/>
+    <line class="fg-mark" x1="29" y1="${-h}" x2="${(X - krx).toFixed(1)}" y2="${-h}"/>
+    <path class="fg-pfeil" d="M29 ${-h}l5 -3.2v6.4z"/>
+    <rect class="fg-pill" x="${pillX.toFixed(1)}" y="${(-h - 7).toFixed(1)}" width="38" height="14" rx="7"/>
+    <text class="fg-mt" x="${(pillX + 19).toFixed(1)}" y="${(-h + 3.3).toFixed(1)}" text-anchor="middle">${h} cm</text>
   </svg>`;
 }
 
-/* Cockpit von vorn in mm: Schultern, Arme, Lenker. Das gruene Band zeigt
-   den Bereich, in dem die Lenkerbreite fuer dich passt. */
+/* Cockpit von vorn in mm, y nach unten: Fahrer mit Helm und Brille greift
+   den Lenker. Gelb die Schulterbreite (Knochen zu Knochen), gruen die
+   Lenkerbreite; das gruene Band an den Enden zeigt, was fuer dich passt. */
 function cockpitSvg(f){
-  const S = f.schulter * 10, B = f.lenker, hy = 470, hand = B / 2 - 70;
-  const n = ++svgNr;
-  const seite = sg => {
-    const ell = [sg * (Math.max(S / 2, hand) + 48), 350];
-    return `<path class="ck-arm" d="M${sg * S / 2} 232L${ell[0]} ${ell[1]}L${sg * hand} ${hy}"/>`;
-  };
-  const band = sg => `<rect class="ck-band" x="${sg > 0 ? (B - 20) / 2 : -(B + 20) / 2}" y="${hy - 44}" width="20" height="88" rx="10"/>`;
-  return `<svg class="ck" viewBox="-470 -10 940 650" role="img" aria-label="Schulterbreite ${zahlDe(f.schulter)} cm, Lenkerbreite ${B} mm">
-    <defs><linearGradient id="ckg${n}" x1="0" x2="1"><stop offset="0" stop-color="#8a4dff"/><stop offset="1" stop-color="#2f8cff"/></linearGradient></defs>
-    <circle class="ck-koerper" cx="0" cy="62" r="58"/>
-    <rect class="ck-koerper" x="-30" y="100" width="60" height="90" rx="20"/>
-    <path class="ck-koerper" d="M${-S / 2} 222Q0 175 ${S / 2} 222L${S * .36} 440Q0 462 ${-S * .36} 440Z"/>
+  const S = f.schulter * 10, B = f.lenker, hy = 470, hand = B / 2 - 74, n = ++svgNr, id = s => "ck" + n + s;
+  const sx = S / 2, ex = Math.max(sx, hand) + 48, lv = B / 2 - 178;
+  const pill = (x, y, txt, k) => { const bw = txt.length * 25 + 44;
+    return `<rect class="ck-pill" x="${x - bw / 2}" y="${y - 34}" width="${bw}" height="60" rx="30"/><text class="${k}" x="${x}" y="${y + 8}" text-anchor="middle">${txt}</text>`; };
+  const seite = sg => `
+    <path class="ck-arm" stroke="url(#${id("a")})" d="M${sg * sx} 262L${sg * ex} 372"/>
+    <path class="ck-arm u" stroke="url(#${id("a")})" d="M${sg * ex} 372L${sg * hand} ${hy - 6}"/>`;
+  const griff = sg => `
+    <rect class="ck-griff" x="${sg > 0 ? B / 2 - 136 : -B / 2 + 6}" y="${hy - 36}" width="130" height="44" rx="16"/>
+    <rect class="ck-metall" x="${sg > 0 ? B / 2 - 150 : -B / 2 + 136}" y="${hy - 40}" width="14" height="52" rx="4"/>
+    <rect class="ck-dunkel" x="${sg * lv - 26}" y="${hy - 44}" width="52" height="34" rx="10"/>
+    <path class="ck-hebel" d="M${sg * (lv + 8)} ${hy - 20}Q${sg * (lv + 50)} ${hy + 6} ${sg * (lv + 84)} ${hy + 48}"/>
+    <rect class="ck-handschuh" x="${sg * hand - 52}" y="${hy - 50}" width="104" height="70" rx="28"/>
+    <rect fill="url(#${id("t")})" x="${sg * hand - 40}" y="${hy - 46}" width="80" height="14" rx="7" opacity=".85"/>`;
+  return `<svg class="ck" viewBox="-470 -20 940 690" role="img" aria-label="Schulterbreite ${zahlDe(f.schulter)} cm, Lenkerbreite ${B} mm">
+    <defs>
+      <linearGradient id="${id("t")}" gradientUnits="userSpaceOnUse" x1="${-sx}" y1="200" x2="${sx}" y2="470">
+        <stop offset="0" stop-color="#9d6bff"/><stop offset="1" stop-color="#3f7dff"/></linearGradient>
+      <linearGradient id="${id("a")}" gradientUnits="userSpaceOnUse" x1="${-ex}" y1="260" x2="${ex}" y2="470">
+        <stop offset="0" stop-color="#8450f5"/><stop offset="1" stop-color="#2f70ea"/></linearGradient>
+      <linearGradient id="${id("r")}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a3dff"/><stop offset="1" stop-color="#2f8cff"/></linearGradient>
+      <linearGradient id="${id("b")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb86b"/><stop offset=".5" stop-color="#ff5fa2"/><stop offset="1" stop-color="#7a5cff"/></linearGradient>
+      <linearGradient id="${id("f")}" x1="0" y1="0" x2="0" y2="1"><stop offset=".62" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <mask id="${id("m")}"><rect x="-470" y="${hy}" width="940" height="220" fill="url(#${id("f")})"/></mask>
+    </defs>
+    <rect class="ck-haut" x="-38" y="146" width="76" height="80" rx="24"/>
+    <path fill="url(#${id("t")})" d="M${-sx - 16} 268C${-sx - 12} 228 ${-sx + 34} 208 -64 202L64 202C${sx - 34} 208 ${sx + 12} 228 ${sx + 16} 268L${S * .36} ${hy}L${-S * .36} ${hy}Z"/>
+    <path class="ck-naht" d="M0 250V${hy - 20}"/>
+    <g mask="url(#${id("m")})">
+      <rect class="ck-reifen" x="-36" y="${hy + 130}" width="72" height="260" rx="32"/>
+      <path class="ck-stollen" d="M-28 ${hy + 150}V${hy + 400}M28 ${hy + 150}V${hy + 400}"/>
+      <rect class="ck-dunkel" x="-96" y="${hy + 214}" width="50" height="200" rx="16"/><rect class="ck-dunkel" x="46" y="${hy + 214}" width="50" height="200" rx="16"/>
+      <path class="ck-dunkel" d="M-92 ${hy + 250}Q0 ${hy + 196} 92 ${hy + 250}L92 ${hy + 272}Q0 ${hy + 220} -92 ${hy + 272}Z"/>
+      <rect class="ck-gold" x="-88" y="${hy + 108}" width="34" height="118" rx="6"/><rect class="ck-gold" x="54" y="${hy + 108}" width="34" height="118" rx="6"/>
+      <rect class="ck-glanz" x="-82" y="${hy + 112}" width="7" height="108" rx="3"/><rect class="ck-glanz" x="60" y="${hy + 112}" width="7" height="108" rx="3"/>
+    </g>
+    <rect class="ck-dunkel" x="-104" y="${hy + 84}" width="208" height="42" rx="16"/>
+    <rect fill="url(#${id("r")})" x="-34" y="${hy + 34}" width="68" height="64" rx="12"/>
+    <rect class="ck-dunkel" x="-32" y="${hy - 18}" width="64" height="66" rx="14"/>
+    <ellipse class="ck-haut" cx="0" cy="104" rx="70" ry="84"/>
+    <path class="ck-helm" d="M-94 118C-98 26 -52 -8 0 -8C52 -8 98 26 94 118L78 124C58 92 -58 92 -78 124Z"/>
+    <path class="ck-dunkel" d="M-50 6Q0 -4 50 6M-78 44Q0 22 78 44" style="fill:none;stroke:var(--rs-schwarz-2);stroke-width:12;stroke-linecap:round"/>
+    <path class="ck-dunkel" d="M-112 100Q0 62 112 100L104 120Q0 84 -104 120Z"/>
+    <rect class="ck-dunkel" x="-84" y="108" width="168" height="54" rx="24"/>
+    <rect fill="url(#${id("b")})" x="-74" y="116" width="148" height="38" rx="18"/>
+    <path class="ck-glanz" d="M-56 124L-30 124M-58 134L-44 134" style="stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.7"/>
     ${seite(-1)}${seite(1)}
-    ${band(-1)}${band(1)}
-    <path class="ck-lenker" stroke="url(#ckg${n})" d="M${-B / 2} ${hy}L-105 ${hy}C-65 ${hy} -60 ${hy + 30} -32 ${hy + 30}L32 ${hy + 30}C60 ${hy + 30} 65 ${hy} 105 ${hy}L${B / 2} ${hy}"/>
-    <line class="ck-griff" x1="${-B / 2 + 12}" y1="${hy}" x2="${-B / 2 + 128}" y2="${hy}"/>
-    <line class="ck-griff" x1="${B / 2 - 12}" y1="${hy}" x2="${B / 2 - 128}" y2="${hy}"/>
-    <rect class="ck-vorbau" x="-24" y="${hy + 14}" width="48" height="92" rx="12"/>
-    <line class="ck-schulter" x1="${-S / 2}" y1="222" x2="${S / 2}" y2="222"/>
-    <circle class="ck-punkt" cx="${-S / 2}" cy="222" r="13"/><circle class="ck-punkt" cx="${S / 2}" cy="222" r="13"/>
-    <text class="s" x="${S / 2 - 30}" y="176" text-anchor="start">${zahlDe(f.schulter)} cm</text>
+    <path class="ck-lenker" d="M${-B / 2} ${hy - 14}L-114 ${hy - 10}C-72 ${hy - 8} -64 ${hy + 18} -42 ${hy + 18}L42 ${hy + 18}C64 ${hy + 18} 72 ${hy - 8} 114 ${hy - 10}L${B / 2} ${hy - 14}"/>
+    <path class="ck-lenkerglanz" d="M${-B / 2 + 140} ${hy - 20}L-116 ${hy - 17}M116 ${hy - 17}L${B / 2 - 140} ${hy - 20}"/>
+    <rect class="ck-metall" x="-46" y="${hy - 4}" width="92" height="40" rx="10"/>
+    <circle class="ck-dunkel" cx="-30" cy="${hy + 6}" r="6"/><circle class="ck-dunkel" cx="30" cy="${hy + 6}" r="6"/>
+    <circle class="ck-dunkel" cx="-30" cy="${hy + 26}" r="6"/><circle class="ck-dunkel" cx="30" cy="${hy + 26}" r="6"/>
+    <rect class="ck-band" x="${(-B - 20) / 2}" y="${hy - 56}" width="20" height="90" rx="10"/>
+    <rect class="ck-band" x="${(B - 20) / 2}" y="${hy - 56}" width="20" height="90" rx="10"/>
+    ${griff(-1)}${griff(1)}
+    <line class="ck-schulter" x1="${-sx}" y1="244" x2="${sx}" y2="244"/>
+    <circle class="ck-punkt" cx="${-sx}" cy="244" r="14"/><circle class="ck-punkt" cx="${sx}" cy="244" r="14"/>
+    ${pill(Math.min(sx + 90, 360), 196, zahlDe(f.schulter) + " cm", "s")}
     <line class="ck-mass" x1="${-B / 2}" y1="${hy + 150}" x2="${B / 2}" y2="${hy + 150}"/>
     <line class="ck-mass" x1="${-B / 2}" y1="${hy + 124}" x2="${-B / 2}" y2="${hy + 176}"/>
     <line class="ck-mass" x1="${B / 2}" y1="${hy + 124}" x2="${B / 2}" y2="${hy + 176}"/>
+    ${pill(0, hy + 150, B + " mm", "m")}
   </svg>`;
 }
 const ringSvg = () => { const n = ++svgNr; return `<svg viewBox="0 0 100 100" aria-hidden="true">
@@ -5431,9 +5692,11 @@ function fitErgebnisHtml(f){
         <span>${[f.reach ? `Reach ${f.reach - 10}–${f.reach + 10} mm` : "", f.sattelTief ? "" : "bei Specialized " + f.sp].filter(Boolean).join(" · ")}</span>
         ${f.groesseText ? `<span>${esc(f.groesseText)}</span>` : ""}
         ${f.grund ? `<span class="grund">${esc(f.grund)}</span>` : ""}</div></div>
-    <div class="fit-rad">${radSvg({masse:true, reach:f.reach || 430, sattel:f.sattelTief ? 430 + f.gi * 28 : f.sattel, ohneSattelMass:f.sattelTief,
-      kurbel:f.kurbel, vorbau:vm, lr:f.lrWert,
-      stack:600 + f.gi * 12, sr:360 + f.gi * 28, hardtail:f.ds.every(d => d === "dirt" || d === "trial")})}</div>
+    <div class="fit-rad">${radSvg({masse:true, fahrer:{h:f.h, stehend:f.sattelTief}, reach:f.reach || 430,
+      sattel:f.sattelTief ? 430 + f.gi * 28 : f.sattel, ohneSattelMass:f.sattelTief, kurbel:f.kurbel, vorbau:vm, lr:f.lrWert,
+      stack:600 + f.gi * 12, sr:360 + f.gi * 28, hardtail:f.ds.every(d => d === "dirt" || d === "trial")})}
+      <div class="fit-rad-z">${f.reach ? `<span>Reach <b>${f.reach} mm</b></span>` : ""}<span>${f.sattelTief ? "Sattel <b>ganz unten</b>" : `Sattelhöhe <b>${f.sattel} mm</b>`}</span><span>Kurbel <b>${f.kurbel} mm</b></span></div>
+    </div>
     <div class="fit-kacheln">
       ${kachel(i++, IC.lenker, "Lenkerbreite", f.lenker + " mm", f.lenker, `${f.lenker - 10}–${f.lenker + 10} mm · kürzen geht immer`)}
       ${f.vorbau ? kachel(i++, IC.vorbau, "Vorbau", `${f.vorbau[0]}–${f.vorbau[1]} mm`, null, "kürzer lenkt direkter") : ""}
