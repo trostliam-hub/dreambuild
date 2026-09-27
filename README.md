@@ -21,8 +21,37 @@ Spanish) und Kurbelwelle (DUB, Hollowtech II, 30 mm, PowerSpline, ISIS).
 *Einsatz* misst, ob alle Teile in dieselbe Richtung ziehen — ein Enduro-Rahmen
 mit XC-Bremsen ist fehlerfrei und trotzdem falsch gebaut.
 
-**Für Einsteiger.** Beim ersten Öffnen fragt die App, was man vorhat (neues Rad,
-eigenes Rad, Gebrauchtrad). Oben im Aufbau führt eine Leitkarte Schritt für
+**Einstieg.** Beim ersten Öffnen ein Rundgang über den ganzen Bildschirm, mit
+gezeichnetem Rad, gestaffelt einfliegenden Karten und Konfetti am Ende: Was hast
+du vor (neues Rad, eigenes Rad, Gebrauchtrad)? Wie lange fährst du schon? Wo
+fährst du am liebsten (die sieben Disziplinen in Alltagssprache)? Vier
+Fahrstil-Fragen (Tempo bergab, Sprünge, Fahrwerksgefühl, Anteil bergauf), der
+gewünschte Charakter des Rads (verspielt, ausgewogen, laufruhig), Größe und
+Gewicht, Schulterbreite, Schrittlänge, Spannweite und Handschuhgröße — beim
+Traumrad dazu Budget, Wunschmarken und Schwerpunkt. Jede Antwort wirkt: Die
+Fahrstil-Fragen füllen den Federungsrechner, die Erfahrung schaltet die
+Leitkarte, Budget und Marken gehen in den Assistenten, und am Ende baut der
+Assistent das Rad gleich in den eigenen Maßen. Überspringen geht jederzeit,
+wiederholen unter ⋮ → Hilfe → Einführung & Fragen.
+
+**Dein Fit.** Aus Körpergröße, Schrittlänge, Schulterbreite und Spannweite (was
+fehlt, wird aus der Größe geschätzt und so markiert): Rahmengröße (gemittelte
+Größentabelle, Specialized S1–S6, zwischen zwei Größen entscheidet der
+gewünschte Charakter), Ziel-Reach, Lenkerbreite (halb Schultern, halb
+Spannweite, je Disziplin verschoben), Vorbau, Kurbel (nach Schrittlänge,
+Enduro und Downhill eine Stufe kürzer), Hub der Variostütze
+((Schrittlänge − 58) × 7,5, wie die Tabellen von OneUp und PNW), Sattelhöhe,
+Laufradgröße, Rise und Griffdicke. Beim Eingeben zeigt eine Figur die
+Rahmengröße live, eine Cockpit-Ansicht Schultern und Lenker in echter Breite.
+Im Aufbau steht an Rahmen, Lenker, Vorbau, Kurbel und Stütze, was zu dir passt
+(„auf 780 mm kürzen“, „Größe L bestellen“); die Prüfung hat eine eigene Rubrik
+*Passt das Rad zu dir?*, die nicht in die Wertung zählt. Der Assistent stellt
+Kurbellänge, Hub, Vorbaulänge und Rise auf den Fahrer ein — nur innerhalb des
+Modells und nur, wenn die Prüfung dadurch nicht schlechter wird. Einkaufsliste
+und kopierter Text nennen Rahmengröße, Lenkerkürzung und Sattelhöhe für die
+Werkstatt. Die Maße gelten wie das Fahrergewicht für alle Profile.
+
+**Für Einsteiger.** Oben im Aufbau führt eine Leitkarte Schritt für
 Schritt: je Modus drei bis vier Schritte, abgehakt, was erledigt ist, ein Knopf
 für den nächsten. Jedes Bauteil hat einen Satz „Was ist das?“, unter ⋮ → Hilfe
 stehen Einführung, Begriffe (Boost, Freilauf, Kettenlinie …) und die Erklärung
