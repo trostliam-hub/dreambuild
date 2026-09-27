@@ -21,16 +21,22 @@ Spanish) und Kurbelwelle (DUB, Hollowtech II, 30 mm, PowerSpline, ISIS).
 *Einsatz* misst, ob alle Teile in dieselbe Richtung ziehen — ein Enduro-Rahmen
 mit XC-Bremsen ist fehlerfrei und trotzdem falsch gebaut.
 
-**Einstieg.** Beim ersten Öffnen ein Rundgang über den ganzen Bildschirm, mit
-gezeichnetem Rad, gestaffelt einfliegenden Karten und Konfetti am Ende: Was hast
+**Einstieg.** Beim ersten Öffnen ein Rundgang über den ganzen Bildschirm — auch
+einmal für alle, die die App schon vorher hatten (ein schon gebautes oder
+eingetragenes Rad bleibt dabei unangetastet, das Ergebnis landet in einem
+neuen Profil). Gleich oben die Sprachwahl Deutsch / English, dazu ein
+gezeichnetes Rad, gestaffelt einfliegende Karten und Konfetti am Ende: Was hast
 du vor (neues Rad, eigenes Rad, Gebrauchtrad)? Wie lange fährst du schon? Wo
 fährst du am liebsten (die sieben Disziplinen in Alltagssprache)? Vier
 Fahrstil-Fragen (Tempo bergab, Sprünge, Fahrwerksgefühl, Anteil bergauf), der
 gewünschte Charakter des Rads (verspielt, ausgewogen, laufruhig), Größe und
 Gewicht, Schulterbreite, Schrittlänge, Spannweite und Handschuhgröße — beim
-Traumrad dazu Budget, Wunschmarken und Schwerpunkt. Jede Antwort wirkt: Die
+Traumrad dazu Budget, Vorlieben (Laufradgröße, Hardtail oder Fully, Flat- oder
+Klickpedal — nur die Optionen, für die es einen zur Disziplin passenden Rahmen
+gibt), Wunschmarken und Schwerpunkt. Jede Antwort wirkt: Die
 Fahrstil-Fragen füllen den Federungsrechner, die Erfahrung schaltet die
-Leitkarte, Budget und Marken gehen in den Assistenten, und am Ende baut der
+Leitkarte, Budget, Vorlieben und Marken gehen in den Assistenten (eine
+Rahmen-Vorliebe, die das Budget sprengen würde, lässt er fallen und sagt es), und am Ende baut der
 Assistent das Rad gleich in den eigenen Maßen. Überspringen geht jederzeit,
 wiederholen unter ⋮ → Hilfe → Einführung & Fragen.
 
@@ -116,6 +122,12 @@ Shop, „30-Tage-Tief“ aus dem eigenen Preisverlauf, eine Verlaufskurve über
 eigenen Aufbau passt. Der Aufbau rechnet mit dem günstigsten lieferbaren
 Angebot; ohne Angebot mit dem Richtpreis aus dem Katalog.
 
+**Zwei Sprachen.** Die ganze App gibt es auf Deutsch und Englisch: Beim ersten
+Start entscheidet die Sprache des Geräts, umstellen geht im Einstieg und unter
+⋮ → Sprache. Preise und Zahlen folgen der Sprache (4.906 € / €4,906). Impressum
+und Datenschutzerklärung bleiben verbindlich deutsch, auf Englisch steht eine
+Kurzfassung davor; der Betreiber-Modus ist nur deutsch.
+
 ## Technik
 
 Eine einzelne HTML-Datei, kein Framework, kein Server, keine Verbindung zu
@@ -135,6 +147,13 @@ verlässt es nicht. Als PWA installierbar und offline lauffähig.
 
 Lokal: `index.html` per Doppelklick öffnen. Offline-Cache und
 Homescreen-Installation brauchen `https://`.
+
+Texte im Code stehen als `tx("Deutsch", "English")`, in Tabellen als Paar
+`["Deutsch", "English"]` (gelesen über Getter, `zweisprachig()`), festes HTML
+trägt `data-t="Deutsch|English"` (dazu `data-ta` für aria-label, `data-tt` für
+title). Schlüssel für die Logik (Disziplinen, Maßnamen wie „Federweg“,
+Themen, Knopfnamen im Federungsrechner) bleiben deutsch; übersetzt wird nur,
+was angezeigt wird. Die Sprache liegt in `localStorage` unter `mtb.sprache`.
 
 ## Veroeffentlichen
 
