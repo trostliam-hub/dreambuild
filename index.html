@@ -216,6 +216,9 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
   padding:10px 12px;font:inherit;font-size:15px;font-weight:650;color:var(--ink)}
 .prof-akt{display:flex;flex-wrap:wrap;gap:6px}
 .prof-neu{margin-top:6px}
+.prof-einstieg{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);display:grid;gap:10px}
+.prof-einstieg > span{font-size:13px;color:var(--ink-3);line-height:1.45}
+.prof-einstieg .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn.rot{background:var(--bad);color:#fff;border-color:transparent}
 .kombi{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 2px}
 .kombi span{font-size:12px;color:var(--ink-3)}
@@ -7944,6 +7947,9 @@ function oeffneProfile(){
         voneinander getrennt — nur dein Fahrergewicht gilt überall.`, `Every profile is its own bike: its own parts, disciplines, budget, model year${modus === "markt" ? ", condition, price" : ""} and photo. Dream bike, My bike and Used bike are kept separate — only your rider weight applies everywhere.`)}</p>
       ${liste.map(profilZeile).join("")}
       <div class="prof-neu"><button class="btn wide" data-profneu="1">${tx("Neues Profil", "New profile")}</button></div>
+      <div class="prof-einstieg"><span>${tx("Alle Fragen noch einmal: Ziel, Fahrstil, Maße, Budget und Vorlieben. Ein schon gebautes Rad bleibt, das Ergebnis kommt in ein neues Profil.",
+        "All the questions again: goal, riding style, measurements, budget and preferences. A bike you've already built stays; the result goes into a new profile.")}</span>
+        <button class="btn ghost wide" data-hilfe="start">${ic(IC.traum, 17)} ${tx("Einführung wiederholen", "Repeat the intro")}</button></div>
     </div>`);
   const i = $("modal").querySelector(".prof-in");
   if(i){ i.focus(); i.select(); }

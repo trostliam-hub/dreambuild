@@ -38,7 +38,8 @@ Fahrstil-Fragen füllen den Federungsrechner, die Erfahrung schaltet die
 Leitkarte, Budget, Vorlieben und Marken gehen in den Assistenten (eine
 Rahmen-Vorliebe, die das Budget sprengen würde, lässt er fallen und sagt es), und am Ende baut der
 Assistent das Rad gleich in den eigenen Maßen. Überspringen geht jederzeit,
-wiederholen unter ⋮ → Hilfe → Einführung & Fragen.
+wiederholen unter ⋮ → Hilfe → Einführung & Fragen oder unter Profile →
+Einführung wiederholen.
 
 **Dein Fit.** Aus Körpergröße, Schrittlänge, Schulterbreite und Spannweite (was
 fehlt, wird aus der Größe geschätzt und so markiert): Rahmengröße (gemittelte
