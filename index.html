@@ -346,6 +346,11 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .kn-kopf{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .kn-kopf > b{font-size:12.5px;font-weight:750}
 .kn-hin{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 0 0}
+.kn-anders{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin:0 0 10px;padding:8px 11px;border-radius:12px;
+  background:color-mix(in srgb,var(--fester) 12%,transparent);border:1px solid color-mix(in srgb,var(--fester) 40%,transparent)}
+.kn-anders b{color:var(--ink)}
+.tc-ansicht button.anders{position:relative}
+.tc-ansicht button.anders::after{content:"";position:absolute;top:3px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--fester)}
 /* Knopf-Kacheln: grosse Zahl + gerade Skala */
 .kk-reihe{display:flex;flex-direction:column;gap:10px}
 .kk{border:1px solid var(--hair);background:var(--surface);border-radius:16px;padding:12px 14px 12px}
@@ -6778,7 +6783,10 @@ const stellName = o => tx(o, STELL_EN[o] || o);
 function knopfWert(name, info, stufen){
   if(info){
     const schritt = info.n < 8 ? 0.5 : Math.max(1, Math.round(info.n * 0.12));
-    const pos = Math.max(info.min || 0, Math.min(info.n, info.base - Math.round(stufen * schritt)));
+    /* Ganz zu empfiehlt kein Hersteller als Fahrstellung: bei Knoepfen mit
+       vielen Klicks bleibt mindestens einer offen (5-Stufen-Knoepfe duerfen
+       an den Anschlag, das ist dort eine normale Stellung) */
+    const pos = Math.max(info.min || (info.n >= 8 ? 1 : 0), Math.min(info.n, info.base - Math.round(stufen * schritt)));
     const rel = info.base - pos, offen = info.ab === "offen";
     const zahl = offen ? info.n - pos : pos, menge = info.dreh ? zahl / 2 : zahl, relM = info.dreh ? rel / 2 : rel;
     const ab = offen ? tx("ab ganz offen", "from fully open") : tx("ab ganz zu", "from fully closed");
@@ -6793,7 +6801,8 @@ function knopfWert(name, info, stufen){
 /* Knopf mit wenigen benannten Stufen (Oehlins-HSC, Fox Open-Mode-Adjust) */
 function stellWert(name, s, stufen){
   const an = Math.max(0, Math.min(s.o.length - 1, s.b + Math.round(stufen)));
-  return [name, `${tx("Stufe", "Position")} ${stellName(s.o[an])} · ${an === s.b ? tx("Grundeinstellung", "base setting") : an > s.b ? tx("fester", "firmer") : tx("weicher", "softer")}`, null, {o:s.o, an:an, wo:s.wo}];
+  return [name, `${tx("Stufe", "Position")} ${stellName(s.o[an])} · ${an === s.b ? tx("Grundeinstellung", "base setting") : an > s.b ? tx("fester", "firmer") : tx("weicher", "softer")}`,
+    {stufen:true, o:s.o, an:an, b:s.b, wo:s.wo || "", kurz:stellName(s.o[an])}, {o:s.o, an:an, wo:s.wo}];
 }
 /* Kletterhebel: bergab immer offen. Wer viel selbst hochtritt, bekommt den
    Hinweis, ihn bergauf zu schliessen -- sonst nur als Moeglichkeit. */
@@ -6907,7 +6916,19 @@ function knopfKachel(name, wo, vis){
   let lo, hi, wert, gross, einheit, tun;
   /* Halbe Umdrehungen (Cane Creek HSC) zaehlen intern als Schritt, gezeigt wird in Umdrehungen */
   const zeig = r => vis.dreh ? r / 2 : r;
-  if(vis.n != null){
+  /* Knopf mit wenigen benannten Stufen (Fox Open-Mode 1-3, Oehlins-HSC):
+     gleiche Skala, unter den Strichen stehen die Stufen selbst */
+  let stufeName = null;
+  if(vis.stufen){
+    lo = -vis.b; hi = vis.o.length - 1 - vis.b; wert = vis.an - vis.b;
+    stufeName = r => stellName(vis.o[r + vis.b]);
+    gross = stellName(vis.o[vis.an]);
+    einheit = tx(`Stufe von ${vis.o.length}`, `position of ${vis.o.length}`);
+    tun = !wert ? tx(`Auf Stufe <b>${esc(gross)}</b> stellen — die Grundeinstellung.`, `Set to position <b>${esc(gross)}</b> — the base setting.`)
+      : tx(`Von Stufe ${esc(stellName(vis.o[vis.b]))} auf <b>${esc(gross)}</b> stellen — ${Math.abs(wert) === 1 ? "eine Stufe" : Math.abs(wert) + " Stufen"} ${wert > 0 ? "fester" : "weicher"}.`,
+        `Move from position ${esc(stellName(vis.o[vis.b]))} to <b>${esc(gross)}</b> — ${Math.abs(wert) === 1 ? "one step" : Math.abs(wert) + " steps"} ${wert > 0 ? "firmer" : "softer"}.`);
+  }
+  else if(vis.n != null){
     lo = -(vis.n - vis.base); hi = vis.base; wert = vis.base - vis.pos;
     const offen = vis.ab === "offen", menge = zeig(offen ? vis.n - vis.pos : vis.pos), e = einheitVon(vis, menge);
     gross = zahlTxt(menge); einheit = tx(`${e} ab ganz ${offen ? "offen" : "zu"}`, `${e} from fully ${offen ? "open" : "closed"}`);
@@ -6931,7 +6952,7 @@ function knopfKachel(name, wo, vis){
   for(let r = lo; r <= hi; r++){
     striche += `<i class="mt-t${r === 0 ? " null" : ""}" style="left:${pct(r)}%"></i>`;
     if(r !== wert && (!dicht || r === lo || r === hi || (r % 2 === 0 && r - lo !== 1 && hi - r !== 1)))
-      zahlen += `<span class="mt-z${r === 0 ? " null" : ""}" style="left:${pct(r)}%">${relZahl(zeig(r))}</span>`;
+      zahlen += `<span class="mt-z${r === 0 ? " null" : ""}" style="left:${pct(r)}%">${esc(stufeName ? stufeName(r) : relZahl(zeig(r)))}</span>`;
   }
   const von = Math.min(0, wert), bis = Math.max(0, wert);
   return `<div class="kk" role="group" aria-label="${esc(knopfName(name) + ": " + gross + " " + einheit + ", " + delta)}">
@@ -6941,7 +6962,7 @@ function knopfKachel(name, wo, vis){
     <div class="mt">
       <div class="mt-bahn">
         <i class="mt-fill ${art}" style="left:${pct(von)}%;width:${(pct(bis) - pct(von)).toFixed(2)}%"></i>${striche}
-        <b class="mt-m ${art}" style="left:${pct(wert)}%"><span>${relZahl(zeig(wert))}</span></b>
+        <b class="mt-m ${art}" style="left:${pct(wert)}%"><span>${esc(stufeName ? stufeName(wert) : relZahl(zeig(wert)))}</span></b>
       </div>
       <div class="mt-zahlen">${zahlen}</div>
       <div class="mt-enden"><span>${tx("− offen · weicher", "− open · softer")}</span><span>${tx("zu · fester +", "closed · firmer +")}</span></div>
@@ -6949,8 +6970,16 @@ function knopfKachel(name, wo, vis){
     <p class="kk-tun">${tun}</p>
   </div>`;
 }
+/* Was sich zwischen Abfahrt und Spruengen aendert -- sonst sieht man in der
+   gerade gezeigten Ansicht nicht, dass fuer die andere umgestellt werden muss */
+const andereAnsicht = () => tcAnsicht === "abfahrt" ? "spruenge" : "abfahrt";
+/* verglichen wird die Stellung, nicht der Hinweistext */
+const stellung = z => z[2] ? z[2].kurz : z[3] ? z[3].an : z[1];
+const ansichtDiff = x => { const a = x.ds[tcAnsicht] || [], b = x.ds[andereAnsicht()] || [];
+  return a.filter(z => { const y = b.find(q => q[0] === z[0]); return y && stellung(y) !== stellung(z); }).map(z => z[0]); };
 function schemaBlock(x, slot){
   const zeilen = x.ds[tcAnsicht] || [];
+  const diff = ansichtDiff(x);
   const lscZ = zeilen.find(z => z[0] === "LSC" && z[2]), hscZ = zeilen.find(z => z[0] === "HSC" && z[2]);
   const topCap = slot === "gabel" && lscZ && hscZ;
   const bekannt = /^(Fox|RockShox|Marzocchi)$/.test(x.t.m);
@@ -6968,13 +6997,16 @@ function schemaBlock(x, slot){
   return `<div class="kn-block">
     <div class="kn-kopf"><b>${tx("So stellst du die Knöpfe", "How to set the knobs")}</b>
       <div class="tc-ansicht" role="group" aria-label="${tx("Einstellung zeigen", "Show setting")}">
-        <button data-tcansicht="abfahrt" aria-pressed="${tcAnsicht === "abfahrt"}">${tx("Abfahrt", "Descent")}</button>
-        <button data-tcansicht="spruenge" aria-pressed="${tcAnsicht === "spruenge"}">${tx("Sprünge", "Jumps")}</button></div></div>
+        <button data-tcansicht="abfahrt" aria-pressed="${tcAnsicht === "abfahrt"}"${diff.length && tcAnsicht !== "abfahrt" ? ' class="anders"' : ""}>${tx("Abfahrt", "Descent")}</button>
+        <button data-tcansicht="spruenge" aria-pressed="${tcAnsicht === "spruenge"}"${diff.length && tcAnsicht !== "spruenge" ? ' class="anders"' : ""}>${tx("Sprünge", "Jumps")}</button></div></div>
+    ${diff.length ? `<p class="kn-anders">${tcAnsicht === "abfahrt"
+      ? tx(`Für <b>Sprünge</b> anders: ${esc(diff.map(knopfName).join(", "))} — oben auf „Sprünge“ tippen.`, `Different for <b>jumps</b>: ${esc(diff.map(knopfName).join(", "))} — tap “Jumps” above.`)
+      : tx(`Für die <b>Abfahrt</b> anders: ${esc(diff.map(knopfName).join(", "))} — oben auf „Abfahrt“ tippen.`, `Different for the <b>descent</b>: ${esc(diff.map(knopfName).join(", "))} — tap “Descent” above.`)}</p>` : ""}
     ${raeder ? `<div class="kk-reihe">${raeder}</div>` : ""}${hebel}
     ${raeder ? `<p class="kn-hin">${topCap ? (bekannt
         ? tx("Bei Fox und RockShox sitzt der kleine LSC-Knopf im großen HSC-Ring — das Symbol zeigt, welcher gemeint ist. ", "On Fox and RockShox the small LSC knob sits inside the large HSC ring — the symbol shows which one is meant. ")
-        : tx(`Bei Fox und RockShox sitzt der LSC-Knopf im HSC-Ring — bei ${esc(x.t.m)} kann es anders aussehen, die Anleitung zeigt es. `, `On Fox and RockShox the LSC knob sits inside the HSC ring — on ${esc(x.t.m)} it may look different, the manual shows it. `)) : ""}${tx(`<b>0</b> ist
-      die Grundeinstellung des Herstellers. Nach rechts wird es fester (+), nach links weicher (−).`, `<b>0</b> is the manufacturer's base setting. To the right it gets firmer (+), to the left softer (−).`)}</p>` : ""}
+        : tx(`Bei Fox und RockShox sitzt der LSC-Knopf im HSC-Ring — bei ${esc(x.t.m)} kann es anders aussehen, die Anleitung zeigt es. `, `On Fox and RockShox the LSC knob sits inside the HSC ring — on ${esc(x.t.m)} it may look different, the manual shows it. `)) : ""}${tx(`Der lange Strich ist
+      die Grundeinstellung des Herstellers. Nach rechts wird es fester (+), nach links weicher (−).`, `The long tick is the manufacturer's base setting. To the right it gets firmer (+), to the left softer (−).`)}</p>` : ""}
   </div>`;
 }
 /* ═══ Wo sind die Knoepfe? (Liams Wahl 2026-09-26: beides) ═══
