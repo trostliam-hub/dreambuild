@@ -6598,32 +6598,50 @@ const fSichern = () => { try{ localStorage.setItem("mtb.fprofil", JSON.stringify
 const fFertig = () => plan.fahrer > 0 && FFRAGEN.every(f => fprofil[f.k]);
 const fLv = k => { const f = FFRAGEN.find(x => x.k === k), o = f && f.o.find(x => x[0] === fprofil[k]); return o ? o[3] : 0; };
 const fKlemm = (v, a, b) => Math.max(a, Math.min(b, v));
+/* Jede Antwort verschiebt Low- (L) und High-Speed (H) in Stufen; eine Stufe
+   sind 12 % des Einstellbereichs (Fox GRIP X2 LSC: 2 Klicks). Die Grund-
+   einstellung der Hersteller gilt fuer einen ruhigen Tourenfahrer -- wer
+   Flowtrails, zuegig und kleine Spruenge angibt, faehrt schon fester
+   (Liams Rueckmeldung 2026-09-27: "nach der Einstellung muss sich auch was
+   tun, sonst ist gefuehlt alles auf neutral"). */
+const STIL = {
+  gelaende:{wald:[-1, -1], flow:[1, 0], ruppig:[0.5, -1], park:[1.5, 2]},
+  tempo:{ruhig:[-1, -0.5], zuegig:[0.5, 0], schnell:[2, 1]},
+  spruenge:{nie:[0, -1], klein:[0.5, 1], gross:[1, 2.5]},
+  gefuehl:{weich:[-2, -1.5], mittel:[0, 0], straff:[2, 1.5]}
+};
 function stilVon(){
   const g = fLv("gelaende"), t = fLv("tempo"), sp = fLv("spruenge"), f = fLv("gefuehl"), b = fLv("bergauf");
+  let L = 0, H = 0;
+  for(const k in STIL){ const w = STIL[k][fprofil[k]]; if(w){ L += w[0]; H += w[1]; } }
   return {
-    psiV: fKlemm(1 + 0.03 * t + 0.03 * sp + 0.04 * f, 0.9, 1.12),
-    psiH: fKlemm(1 + 0.03 * t + 0.03 * sp + 0.04 * f + 0.02 * b, 0.9, 1.14),
-    sagV: Math.round(fKlemm(18 - 1.5 * f - (sp > 0 ? 1 : 0) - (t > 0 ? 1 : 0), 14, 22)),
-    sagH: Math.round(fKlemm(28 - 2 * f - (sp > 0 ? 1 : 0), 24, 32)),
-    stL: f + 0.8 * t,
-    stH: f + (sp > 0 ? 1 : sp < 0 ? -0.5 : 0) + (g >= 2 ? 1 : 0) - (g === 1 && f <= 0 ? 1 : 0),
+    psiV: fKlemm(1 + 0.04 * t + 0.04 * sp + 0.05 * f + (g >= 2 ? 0.03 : g < 0 ? -0.02 : 0), 0.88, 1.15),
+    psiH: fKlemm(1 + 0.04 * t + 0.04 * sp + 0.05 * f + 0.02 * b + (g >= 2 ? 0.03 : g < 0 ? -0.02 : 0), 0.88, 1.16),
+    sagV: Math.round(fKlemm(18 - 2 * f - (sp > 0 ? 1 : 0) - (t > 0 ? 1 : 0) + (g < 0 ? 1 : 0), 14, 22)),
+    sagH: Math.round(fKlemm(28 - 2 * f - (sp > 0 ? 1 : 0) + (g < 0 ? 1 : 0), 24, 32)),
+    stL: L, stH: H,
     bergauf: b
   };
 }
 /* In Worten, was die Antworten bewirkt haben */
 function stilGruende(){
   const g = fLv("gelaende"), t = fLv("tempo"), sp = fLv("spruenge"), f = fLv("gefuehl"), b = fLv("bergauf"), out = [];
-  if(f > 0) out.push(tx("Straff gewünscht: mehr Luft, weniger Sag, Druckstufe zu.", "Firm wanted: more air, less sag, compression closed."));
-  if(f < 0) out.push(tx("Weich gewünscht: weniger Luft, mehr Sag, Druckstufe offener.", "Soft wanted: less air, more sag, compression more open."));
-  if(t > 0) out.push(tx("Schnell bergab: etwas mehr Luft, LSC zu — taucht beim Bremsen nicht weg.", "Fast downhill: a bit more air, LSC closed — doesn't dive under braking."));
-  if(t < 0) out.push(tx("Gemütlich: etwas weniger Luft, LSC offener — mehr Komfort.", "Relaxed: a bit less air, LSC more open — more comfort."));
-  if(sp > 0) out.push(tx("Große Sprünge: mehr Luft und HSC zu — schlägt bei der Landung nicht durch.", "Big jumps: more air and HSC closed — doesn't bottom out on landing."));
-  if(g >= 2) out.push(tx("Bikepark: HSC einen Klick zu für die harten Schläge.", "Bike park: HSC one click closed for the big hits."));
-  if(g === 1 && f <= 0) out.push(tx("Ruppige Trails: HSC einen Klick offener — mehr Grip auf Wurzeln und Steinen.", "Rough trails: HSC one click more open — more grip on roots and rocks."));
+  if(g < 0) out.push(tx("Waldwege und Touren: Druckstufen offener, etwas weniger Luft — mehr Komfort.", "Forest paths and tours: compression more open, a bit less air — more comfort."));
+  if(g === 0) out.push(tx("Flowtrails: LSC fester — mehr Halt in Anliegern und beim Pumpen.", "Flow trails: LSC firmer — more support in berms and when pumping."));
+  if(g === 1) out.push(tx("Ruppige Trails: HSC offener für Grip auf Wurzeln und Steinen, LSC etwas fester für Halt.", "Rough trails: HSC more open for grip on roots and rocks, LSC a bit firmer for support."));
+  if(g >= 2) out.push(tx("Bikepark: LSC und vor allem HSC deutlich fester, etwas mehr Luft — für harte Landungen und Anlieger.", "Bike park: LSC and especially HSC clearly firmer, a bit more air — for hard landings and berms."));
+  if(t < 0) out.push(tx("Gemütlich bergab: LSC offener, etwas weniger Luft — mehr Komfort.", "Relaxed downhill: LSC more open, a bit less air — more comfort."));
+  if(t === 0) out.push(tx("Zügig bergab: LSC etwas fester — taucht beim Bremsen weniger ein.", "Brisk downhill: LSC a bit firmer — dives less under braking."));
+  if(t > 0) out.push(tx("Schnell bergab: mehr Luft, weniger Sag, LSC deutlich und HSC etwas fester — taucht beim Bremsen nicht weg.", "Fast downhill: more air, less sag, LSC clearly and HSC a bit firmer — doesn't dive under braking."));
+  if(sp < 0) out.push(tx("Kaum Sprünge: HSC offener — schluckt Wurzeln und Steine besser.", "Hardly any jumps: HSC more open — soaks up roots and rocks better."));
+  if(sp === 0) out.push(tx("Kleine Sprünge und Drops: HSC etwas fester.", "Small jumps and drops: HSC a bit firmer."));
+  if(sp > 0) out.push(tx("Große Sprünge: mehr Luft, HSC deutlich fester — schlägt bei der Landung nicht durch.", "Big jumps: more air, HSC clearly firmer — doesn't bottom out on landing."));
+  if(f > 0) out.push(tx("Straff gewünscht: mehr Luft, weniger Sag, Druckstufen deutlich fester.", "Firm wanted: more air, less sag, compression clearly firmer."));
+  if(f < 0) out.push(tx("Weich gewünscht: weniger Luft, mehr Sag, Druckstufen deutlich offener.", "Soft wanted: less air, more sag, compression clearly more open."));
   if(b > 0) out.push(tx("Viel bergauf: Kletterhebel am Dämpfer bergauf schließen — ohne Hebel wird hinten die LSC etwas fester.", "Lots of climbing: close the climb switch on the shock uphill — without a lever the rear LSC gets a bit firmer."));
   const kg = (plan.fahrer || 0) + 4;
-  if(kg >= 95) out.push(tx("Schwerer als der Durchschnitt: Druckstufen ein Stück fester — sonst sackt das Fahrwerk durch.", "Heavier than average: compression a bit firmer — otherwise the suspension sags through."));
-  if(kg > 0 && kg <= 65) out.push(tx("Leichter als der Durchschnitt: Druckstufen ein Stück offener — sonst arbeitet das Fahrwerk nicht.", "Lighter than average: compression a bit more open — otherwise the suspension doesn't work."));
+  if(kg >= 90) out.push(tx(`Schwerer als der Durchschnitt (${kg} kg mit Ausrüstung): Druckstufen fester — sonst sackt das Fahrwerk durch.`, `Heavier than average (${kg} kg with gear): compression firmer — otherwise the suspension sags through.`));
+  if(kg > 0 && kg <= 70) out.push(tx(`Leichter als der Durchschnitt (${kg} kg mit Ausrüstung): Druckstufen offener — sonst arbeitet das Fahrwerk nicht.`, `Lighter than average (${kg} kg with gear): compression more open — otherwise the suspension doesn't work.`));
   return out.length ? out : [tx("Alles im mittleren Bereich — die Werte der Herstellertabelle, unverändert.", "Everything in the middle range — the manufacturer's table values, unchanged.")];
 }
 const psiAus = (tab, lb) => {
@@ -6781,6 +6799,8 @@ function daempferDaten(d){
    - Abfahrt: LSC +0,5 (Halt beim Bremsen), HSC -0,5 (Grip auf Wurzeln)
    - Spruenge: LSC +1,5 (Halt an der Kante), HSC +1,5 (nicht durchschlagen) */
 const zahlTxt = x => zahlDe(x);
+/* Runden in beide Richtungen gleich: Math.round(-0.5) waere 0, (0.5) aber 1 */
+const rund = x => Math.sign(x) * Math.round(Math.abs(x));
 const relText = r => r === 0 ? tx("Grundeinstellung", "base setting") : r > 0 ? "+" + zahlTxt(r) + tx(" fester", " firmer") : "−" + zahlTxt(-r) + tx(" weicher", " softer");
 const einheitVon = (info, menge) => info.dreh ? (menge === 1 ? tx("Umdrehung", "turn") : tx("Umdrehungen", "turns")) : (menge === 1 ? tx("Klick", "click") : tx("Klicks", "clicks"));
 /* Knopf- und Stellungsnamen bleiben intern deutsch -- sie sind auch die
@@ -6795,7 +6815,7 @@ function knopfWert(name, info, stufen){
     /* Ganz zu empfiehlt kein Hersteller als Fahrstellung: bei Knoepfen mit
        vielen Klicks bleibt mindestens einer offen (5-Stufen-Knoepfe duerfen
        an den Anschlag, das ist dort eine normale Stellung) */
-    const pos = Math.max(info.min || (info.n >= 8 ? 1 : 0), Math.min(info.n, info.base - Math.round(stufen * schritt)));
+    const pos = Math.max(info.min || (info.n >= 8 ? 1 : 0), Math.min(info.n, info.base - rund(stufen * schritt)));
     const rel = info.base - pos, offen = info.ab === "offen";
     const zahl = offen ? info.n - pos : pos, menge = info.dreh ? zahl / 2 : zahl, relM = info.dreh ? rel / 2 : rel;
     const ab = offen ? tx("ab ganz offen", "from fully open") : tx("ab ganz zu", "from fully closed");
@@ -6803,13 +6823,13 @@ function knopfWert(name, info, stufen){
       {n:info.n, base:info.base, pos:pos, min:info.min || 0, ab:info.ab || "zu", dreh:!!info.dreh, wo:info.wo || "",
        kurz:`${zahlTxt(menge)} ${offen ? tx("ab auf", "from open") : tx("ab zu", "from closed")} (${relZahl(relM)})`}];
   }
-  const rel = Math.max(-2, Math.min(2, Math.round(stufen)));
+  const rel = Math.max(-2, Math.min(2, rund(stufen)));
   return [name, rel ? tx(`Mitte, dann ${Math.abs(rel)} ${Math.abs(rel) === 1 ? "Klick" : "Klicks"} ${rel > 0 ? "zu" : "auf"}`, `middle, then ${Math.abs(rel)} ${Math.abs(rel) === 1 ? "click" : "clicks"} ${rel > 0 ? "in" : "out"}`) + ` · ${relText(rel)}` : tx("Mitte · Grundeinstellung", "middle · base setting"),
     {mitte:rel, kurz:rel ? tx("Mitte ", "middle ") + (rel > 0 ? "+" : "−") + Math.abs(rel) : tx("Mitte", "middle")}];
 }
 /* Knopf mit wenigen benannten Stufen (Oehlins-HSC, Fox Open-Mode-Adjust) */
 function stellWert(name, s, stufen){
-  const an = Math.max(0, Math.min(s.o.length - 1, s.b + Math.round(stufen)));
+  const an = Math.max(0, Math.min(s.o.length - 1, s.b + rund(stufen)));
   return [name, `${tx("Stufe", "Position")} ${stellName(s.o[an])} · ${an === s.b ? tx("Grundeinstellung", "base setting") : an > s.b ? tx("fester", "firmer") : tx("weicher", "softer")}`,
     {stufen:true, o:s.o, an:an, b:s.b, wo:s.wo || "", kurz:stellName(s.o[an])}, {o:s.o, an:an, wo:s.wo}];
 }
@@ -6823,23 +6843,28 @@ function hebelZeile(h, k, st, allein){
   if(h.opt) tipps.push(tx("falls dein Dämpfer einen hat", "if your shock has one"));
   return [h.name, tx("offen — ", "open — ") + tipps.join(" · "), null, {o:h.o, an:0}];
 }
+/* Ab drei Stufen zaehlt jede weitere nur halb -- sonst landete jeder
+   Parkfahrer am Anschlag */
+const saett = x => Math.sign(x) * (Math.abs(x) <= 3 ? Math.abs(x) : 3 + (Math.abs(x) - 3) / 2);
 function druckstufen(daten, st, kg, hinten){
-  const wkg = (kg - 80) / 15;
+  const wkg = (kg - 80) / 10;
   /* Viel bergauf: ohne Kletterhebel die LSC etwas zu, mit Hebel erledigt der das */
   const L = wkg + st.stL + (hinten && st.bergauf > 0 && !daten.hebel ? 1 : 0), H = wkg + st.stH;
-  const prof = {abfahrt:{l:L + 0.5, h:H - 0.5}, spruenge:{l:L + 1.5, h:H + 1.5}};
+  const prof = {abfahrt:{l:saett(L), h:saett(H)}, spruenge:{l:saett(L + 1), h:saett(H + 2)}};
   const out = {};
   for(const k of ["abfahrt", "spruenge"]){
     const p = prof[k], z = [];
     if(daten.typ === "hl"){
       z.push(knopfWert("LSC", daten.lsc, p.l));
-      z.push(daten.hscStell ? stellWert("HSC", daten.hscStell, p.h) : knopfWert("HSC", daten.hsc, p.h));
+      /* Knoepfe mit wenigen Stufen: eine halbe Stellung je Stufe, wie beim 5-Stufen-Knopf */
+      z.push(daten.hscStell ? stellWert("HSC", daten.hscStell, p.h * 0.5) : knopfWert("HSC", daten.hsc, p.h));
     }
-    else if(daten.typ === "l") z.push(knopfWert(daten.lname || "Druckstufe", daten.lsc, daten.lsc ? p.l : k === "abfahrt" ? p.l - 0.5 : p.l));
+    /* Ein Knopf fuer beides: Mittel aus Low- und High-Speed */
+    else if(daten.typ === "l") z.push(knopfWert(daten.lname || "Druckstufe", daten.lsc, daten.lsc ? p.l : (p.l + p.h) / 2));
     else if(daten.typ === "keine") z.push(["Druckstufe", tx("fest abgestimmt — hier stellst du nur Luftdruck und Zugstufe ein", "fixed tune — here you only set air pressure and rebound"), null, {o:[], an:-1}]);
     else if(daten.typ === "lock") z.push(["Lockout", k === "abfahrt" ? tx("offen", "open") : tx("offen — für Sprünge 5 psi mehr", "open — 5 psi more for jumps"), null, {o:["offen", "gesperrt"], an:0}]);
     else if(!daten.hebel) z.push(["Hebel", k === "abfahrt" ? tx("offen", "open") : tx("offen — für Sprünge den Druck um 5 % erhöhen", "open — raise the pressure by 5 % for jumps"), null, {o:["offen", "Mitte", "zu"], an:0}]);
-    if(daten.omd) z.push(stellWert("Open-Mode", daten.omd, p.l - 0.5));
+    if(daten.omd) z.push(stellWert("Open-Mode", daten.omd, p.l * 0.5));
     if(daten.hebel) z.push(hebelZeile(daten.hebel, k, st, daten.typ === "hebel"));
     out[k] = z;
   }

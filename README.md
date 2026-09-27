@@ -112,9 +112,17 @@ Vivid Ultimate) mit HSC und LSC in je 5 Stellungen, Fox Float X2 und DHX2
 mit HSC 8 / LSC 16 Klicks, Float X mit LSC 11, Float DPS mit Open-Mode-Adjust,
 Cane Creek DB IL (gezählt ab offen, HSC in Umdrehungen), Öhlins TTX; Select+
 und Performance zeigen nur den Kletterhebel, Select (R) keine Druckstufe.
-Zu jeder Einstellung ein gezeichnetes Schema des
-Einstellrädchens (Zeiger, ein Strich je Klick), Link zur offiziellen
-Hersteller-Anleitung und optional das eigene Top-Cap-Foto mit markierten Knöpfen.
+Jede Antwort verschiebt Low- und High-Speed um feste Stufen (eine Stufe =
+12 % des Einstellbereichs, ab drei Stufen zählt jede weitere halb, ganz zu
+wird bei Knöpfen mit vielen Klicks nie empfohlen): Flowtrails und zügiges
+Tempo machen die LSC fester, ruppiges Gelände die HSC offener, Sprünge und
+Bikepark die HSC fester, das gewünschte Gefühl beides. Die Grundeinstellung
+des Herstellers gilt also für einen ruhigen Tourenfahrer.
+Zu jedem Knopf eine Kachel mit Strich-Skala (ein Strich je Klick oder Stufe,
+langer Strich = Grundeinstellung); die Stellung der anderen Ansicht
+(Abfahrt/Sprünge) steht als gestrichelter Ring auf derselben Skala. Dazu der
+Link zur offiziellen Hersteller-Anleitung und optional das eigene Top-Cap-Foto
+mit markierten Knöpfen.
 
 **Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
 mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut
