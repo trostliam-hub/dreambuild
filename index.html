@@ -1342,9 +1342,11 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 @keyframes tourPop{from{transform:scale(.4) rotate(-12deg);opacity:0}}
 .tk-schritt{display:block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--anod-2);font-weight:800}
 .tour-karte h3{font-family:var(--f-head);font-size:20px;font-weight:800;letter-spacing:-.02em;margin:1px 0 0;line-height:1.15}
-.tour-karte p{font-size:14.5px;line-height:1.5;color:var(--ink-2);margin:10px 0 14px}
-.tk-fuss{display:flex;align-items:center;gap:8px}
-.tk-punkte{display:flex;gap:5px;margin-right:auto}
+.tour-karte p{font-size:14.5px;line-height:1.5;color:var(--ink-2);margin:10px 0 12px}
+.tk-fuss{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:12px}
+.tk-fuss .tk-skip{margin-right:auto}
+.tour-karte .btn:focus-visible,.tk-skip:focus-visible{outline:2px solid var(--anod);outline-offset:-4px}
+.tk-punkte{display:flex;gap:5px}
 .tk-punkte i{width:6px;height:6px;border-radius:999px;background:var(--line);transition:width .3s,background .3s}
 .tk-punkte i.war{background:var(--anod-2);opacity:.5}
 .tk-punkte i.an{width:18px;background:var(--anod)}
@@ -7044,8 +7046,8 @@ function tourZeigen(){
       <span><span class="tk-schritt">${s.mitte ? (s.ende ? tx("Geschafft", "Done") : tx("Willkommen", "Welcome")) : tx(`Schritt ${tour.i} von ${n - 2}`, `Step ${tour.i} of ${n - 2}`)}</span>
       <h3>${s.h}</h3></span></div>
     <p>${s.t}</p>
-    <div class="tk-fuss"><span class="tk-punkte" aria-hidden="true">${tour.liste.map((x, j) => `<i class="${j === tour.i ? "an" : j < tour.i ? "war" : ""}"></i>`).join("")}</span>
-      ${letzte ? "" : `<button class="tk-skip" data-tour="ende">${tx("Überspringen", "Skip")}</button>`}
+    <span class="tk-punkte" aria-hidden="true">${tour.liste.map((x, j) => `<i class="${j === tour.i ? "an" : j < tour.i ? "war" : ""}"></i>`).join("")}</span>
+    <div class="tk-fuss">${letzte ? "" : `<button class="tk-skip" data-tour="ende">${tx("Überspringen", "Skip")}</button>`}
       ${tour.i > 0 && !letzte ? `<button class="btn ghost sm" data-tour="zurueck" aria-label="${tx("Zurück", "Back")}">${ic(IC.zurueck, 16)}</button>` : ""}
       <button class="btn sm${letzte ? " glanz" : ""}" data-tour="weiter">${letzte ? tx("Los geht's", "Let's go") : tour.i === 0 ? tx("Zeig mir alles", "Show me") : tx("Weiter", "Next")}</button></div>`;
   const setzen = () => {
@@ -7057,11 +7059,10 @@ function tourZeigen(){
       karte.style.top = Math.max(16, Math.round((vh - karte.offsetHeight) / 2)) + "px";
     } else {
       const e = tourZiel(s); if(!e){ tourSchritt(1); return; }
-      const r = e.getBoundingClientRect(), pad = 7, rad = Math.min(24, parseFloat(getComputedStyle(e).borderRadius) + pad || 16);
-      const box = {l:r.left - pad, t:r.top - pad, w:r.width + 2 * pad, h:Math.min(r.height + 2 * pad, vh * .45)};
-      [licht, ring].forEach(x => { x.classList.remove("leer"); Object.assign(x.style, {left:box.l + "px", top:box.t + "px", width:box.w + "px", height:box.h + "px", borderRadius:rad + "px"}); });
+      const box = tourBox(e);
+      [licht, ring].forEach(x => { x.classList.remove("leer"); Object.assign(x.style, box.stil); });
       const kh = karte.offsetHeight, unten = box.t + box.h + 14, oben = box.t - kh - 14;
-      const top = unten + kh <= vh - 12 ? unten : oben >= 12 ? oben : Math.max(12, vh - kh - 12);
+      const top = Math.max(12, Math.min(vh - kh - 12, unten + kh <= vh - 12 ? unten : oben >= 12 ? oben : vh - kh - 12));
       karte.style.top = Math.round(top) + "px";
       karte.style.left = Math.round(Math.max(16, Math.min(vw - kw - 16, box.l + box.w / 2 - kw / 2))) + "px";
     }
@@ -7073,8 +7074,9 @@ function tourZeigen(){
   if(!e){ tourSchritt(1); return; }
   const r = e.getBoundingClientRect(), fest = getComputedStyle(e).position === "fixed" || e.closest(".tabs, .top");
   const kopf = 84, fuss = 110;
-  if(!fest && (r.top < kopf || r.bottom > window.innerHeight - fuss)){
-    window.scrollTo({top:Math.max(0, window.scrollY + r.top - kopf - 60), behavior:bewegungAus() ? "auto" : "smooth"});
+  /* Ziel knapp unter die Kopfzeile holen -- dann hat die Karte darunter Platz, auch auf kleinen Handys */
+  if(!fest && (Math.abs(r.top - kopf - 12) > 10 || r.bottom > window.innerHeight - fuss)){
+    window.scrollTo({top:Math.max(0, window.scrollY + r.top - kopf - 12), behavior:bewegungAus() ? "auto" : "smooth"});
     clearTimeout(tour.zeit); tour.zeit = setTimeout(setzen, bewegungAus() ? 30 : 420);
   } else setzen();
 }
@@ -7090,13 +7092,29 @@ function tourKnopf(w){
   else if(w === "zurueck") tourSchritt(-1);
   else tourEnde();
 }
+/* Scheinwerfer um das Element, im Bildschirm gehalten: der Menue-Knopf
+   sitzt oben rechts am Rand, die Reiter unten, hohe Karten werden gekuerzt */
+function tourBox(e){
+  const r = e.getBoundingClientRect(), pad = 7, vw = window.innerWidth, vh = window.innerHeight;
+  const l = Math.max(4, r.left - pad), t = Math.min(vh - 60, Math.max(4, r.top - pad));
+  let unten = Math.min(vh - 4, r.bottom + pad, t + vh * .45);
+  /* zu hoch: an der letzten Zeile enden, die noch ganz hineinpasst -- nie mitten durch einen Eintrag */
+  if(unten < r.bottom + pad){
+    let b = 0;
+    e.querySelectorAll(":scope > *, :scope > * > *").forEach(c => { const q = c.getBoundingClientRect(); if(q.height && q.bottom + pad <= unten) b = Math.max(b, q.bottom); });
+    if(b) unten = b + pad;
+  }
+  const w = Math.min(vw - 4, r.right + pad) - l, h = Math.max(40, unten - t);
+  const rad = Math.min(24, parseFloat(getComputedStyle(e).borderRadius) + pad || 16);
+  return {l:l, t:t, w:w, h:h, stil:{left:l + "px", top:t + "px", width:w + "px", height:h + "px", borderRadius:rad + "px"}};
+}
 /* Beim Scrollen oder Drehen des Handys wandert der Scheinwerfer mit */
 let tourRaf = 0;
 const tourNachziehen = () => { if(!tour) return; cancelAnimationFrame(tourRaf); tourRaf = requestAnimationFrame(() => {
   const s = tour && tour.liste[tour.i]; if(!s || s.mitte) return;
   const e = tourZiel(s), root = $("tour"); if(!e || !root) return;
-  const r = e.getBoundingClientRect(), pad = 7;
-  root.querySelectorAll(".tour-licht, .tour-ring").forEach(x => Object.assign(x.style, {left:(r.left - pad) + "px", top:(r.top - pad) + "px"}));
+  const box = tourBox(e);
+  root.querySelectorAll(".tour-licht, .tour-ring").forEach(x => Object.assign(x.style, box.stil));
 }); };
 window.addEventListener("resize", () => { if(tour) tourZeigen(); });
 window.addEventListener("scroll", tourNachziehen, {passive:true});
