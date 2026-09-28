@@ -48,11 +48,16 @@ gewünschte Charakter), Ziel-Reach, Lenkerbreite (halb Schultern, halb
 Spannweite, je Disziplin verschoben), Vorbau, Kurbel (nach Schrittlänge,
 Enduro und Downhill eine Stufe kürzer), Hub der Variostütze
 ((Schrittlänge − 58) × 7,5, wie die Tabellen von OneUp und PNW), Sattelhöhe,
-Laufradgröße, Rise und Griffdicke. Beim Eingeben zeigt eine Figur die
-Rahmengröße live, eine Cockpit-Ansicht Schultern und Lenker in echter Breite.
+Laufradgröße, Rise und Griffdicke. Beim Eingeben zeigt eine Figur (Gesicht,
+Frisur, Trikot, Shorts, Socken, Schuhe; Statur nach dem Gewicht) die
+Rahmengröße live, eine Cockpit-Ansicht mit Helm, Brille und Handschuhen
+Schultern und Lenker in echter Breite. Im Fit sitzt ein Fahrer in deiner Größe
+auf dem Rad, Beine und Arme aus Sattel, Pedal und Griff gerechnet (Helm mit
+Schirm, Trikot mit Licht und Schatten, Knieschoner, Flat-Schuhe).
 Im Aufbau steht an Rahmen, Lenker, Vorbau, Kurbel und Stütze, was zu dir passt
 („auf 780 mm kürzen“, „Größe L bestellen“); die Prüfung hat eine eigene Rubrik
-*Passt das Rad zu dir?*, die nicht in die Wertung zählt. Der Assistent stellt
+*Passt das Rad zu dir?*, die nur zeigt, was nicht passt, und nicht in die
+Wertung zählt. Der Assistent stellt
 Kurbellänge, Hub, Vorbaulänge und Rise auf den Fahrer ein — nur innerhalb des
 Modells und nur, wenn die Prüfung dadurch nicht schlechter wird. Einkaufsliste
 und kopierter Text nennen Rahmengröße, Lenkerkürzung und Sattelhöhe für die
@@ -61,9 +66,11 @@ Werkstatt. Die Maße gelten wie das Fahrergewicht für alle Profile.
 **Für Einsteiger.** Oben im Aufbau führt eine Leitkarte Schritt für
 Schritt: je Modus drei bis vier Schritte, abgehakt, was erledigt ist, ein Knopf
 für den nächsten. Jedes Bauteil hat einen Satz „Was ist das?“, unter ⋮ → Hilfe
-stehen Einführung, Begriffe (Boost, Freilauf, Kettenlinie …) und die Erklärung
-der Wertung. Ausführungen (Einbaumaß, Federweg …) sind eingeklappt, bis man sie
-ändern will. Der Reiter *Kaufen* hat eine Einkaufsliste mit Shop-Knöpfen, als
+stehen Fit, Begriffe (Boost, Freilauf, Kettenlinie …) und der Federungsrechner;
+die Einführung liegt unter Profile, die Erklärung der Wertung direkt an der
+Wertung. Ausführungen (Einbaumaß, Federweg …) sind eingeklappt, bis man sie
+ändern will; die Teilekachel nennt dann nur das Modell, damit nichts doppelt
+steht. Der Reiter *Kaufen* hat eine Einkaufsliste mit Shop-Knöpfen, als
 Text kopierbar für die Werkstatt.
 
 **Sieben Disziplinen,** einzeln oder gemischt: Cross Country, Trail, Enduro,
@@ -127,7 +134,9 @@ Bikepark die HSC fester, das gewünschte Gefühl beides. Die Grundeinstellung
 des Herstellers gilt also für einen ruhigen Tourenfahrer.
 Zu jedem Knopf eine Kachel mit Strich-Skala (ein Strich je Klick oder Stufe,
 langer Strich = Grundeinstellung); die Stellung der anderen Ansicht
-(Abfahrt/Sprünge) steht als gestrichelter Ring auf derselben Skala. Dazu der
+(Abfahrt/Sprünge) steht als gestrichelter Ring auf derselben Skala. Die
+Übersichtstabelle Abfahrt/Sprünge erscheint nur bei Teilen ohne solche
+Kacheln (etwa nur Kletterhebel), sonst stünde jede Zahl doppelt da. Dazu der
 Link zur offiziellen Hersteller-Anleitung und optional das eigene Top-Cap-Foto
 mit markierten Knöpfen.
 
