@@ -128,8 +128,8 @@ Disziplin dem eingetragenen Rahmen.
 **Federungsrechner.** In der Gruppe Fahrwerk (und unter ⋮ → Hilfe): aus
 Fahrergewicht (+4 kg Ausrüstung) und einem Fahrprofil aus fünf Fragen
 (Gelände, Tempo bergab, Sprünge, gewünschtes Gefühl, Anteil bergauf) je Gabel und Dämpfer ein Luftdruck in psi/bar mit Sag-Ziel, bei
-Stahlfeder die Federhärte, dazu zwei Druckstufen-Einstellungen: *Abfahrt*
-(ruppig, schnell) und *Sprünge* (Absprung und Landung). Grundlage sind die
+Stahlfeder die Federhärte, dazu Druck- und Zugstufe — in drei Modi: *Pur
+Downhill*, *Allround* und *Pur Sprünge*. Grundlage sind die
 Herstellertabellen (Fox Owner's Manuals 2025 für 32/34/36/38/40,
 RockShox-Tabellen für Pike, Lyrik, ZEB, SID, Domain, BoXXer, Recon, Reba,
 LinearXL ab Modelljahr 2027); Gabeln ohne eigene Tabelle bekommen den Wert
@@ -142,24 +142,33 @@ Vivid Ultimate) mit HSC und LSC in je 5 Stellungen, Fox Float X2 und DHX2
 mit HSC 8 / LSC 16 Klicks, Float X mit LSC 11, Float DPS mit Open-Mode-Adjust,
 Cane Creek DB IL (gezählt ab offen, HSC in Umdrehungen), Öhlins TTX; Select+
 und Performance zeigen nur den Kletterhebel, Select (R) keine Druckstufe.
-Zwei Einsätze mit gegensätzlichen Zielen (nach den Tuning-Guides von Fox und
-RockShox sowie ENDURO, BikeRadar, MBR): *Abfahrt, ruppig und schnell* — HSC
-offener für Grip auf Kanten, Zugstufe schneller gegen Wegsacken bei
-Schlagfolgen; *Sprünge & Bikepark* — LSC fester gegen Einsacken im Absprung,
-HSC fester für Landungen, Zugstufe langsamer gegen Aushebeln am Kicker, dazu
-+5 % Luft oder ein Volumen-Spacer. Die Zugstufe steht in Klicks ab dem eigenen
-Grundwert (Tabelle am Holm oder Bordsteintest).
+Drei Modi, oben im Rechner umschaltbar, jeder mit eigener Luft, eigenem Sag,
+eigener Druck- und Zugstufe (nach den Tuning-Guides von Fox und RockShox sowie
+ENDURO, BikeRadar, MBR): *Pur Downhill* — 4 % weniger Luft, 2 % mehr Sag, LSC
+anderthalb und HSC zwei Stufen offener, Zugstufe zwei Klicks schneller: weicher,
+spricht schneller an, sackt bei Schlagfolgen nicht weg; *Allround* — genau das
+Fahrprofil; *Pur Sprünge* — 5 % mehr Luft (oder ein Volumen-Spacer), 2 % weniger
+Sag, LSC zwei Stufen fester gegen Einsacken im Absprung, HSC fester für
+Landungen, Zugstufe langsamer gegen Aushebeln am Kicker. Kurze Federwege (bis
+130 mm) haben weniger Reserve: bergab nicht ganz so weich, beim Springen mehr
+Luft und HSC; lange (ab 180 mm, Doppelbrücke) brauchen beim Springen weniger
+Luft. Je Knopf wird Allround auf ganze Klicks gerundet, jeder Modus kommt als
+eigene ganze Klicks dazu, dann werden alle drei gemeinsam in den
+Einstellbereich geschoben — so steht Allround nie am Anschlag, und Downhill
+ist in jedem Profil weicher, Sprünge fester (geprüft an 27.864 Kombinationen
+aus Gabel, Dämpfer, Gewicht und Profil). Stahlfedern bleiben in allen Modi
+gleich, dort wechselt nur die Dämpfung. Die Zugstufe steht in Klicks ab dem
+eigenen Grundwert (Tabelle am Holm oder Bordsteintest).
 Jede Antwort verschiebt Low- und High-Speed um feste Stufen (eine Stufe =
 12 % des Einstellbereichs, ab drei Stufen zählt jede weitere halb, ganz zu
 wird bei Knöpfen mit vielen Klicks nie empfohlen): Flowtrails und zügiges
 Tempo machen die LSC fester, ruppiges Gelände die HSC offener, Sprünge und
 Bikepark die HSC fester, das gewünschte Gefühl beides. Die Grundeinstellung
 des Herstellers gilt also für einen ruhigen Tourenfahrer.
-Zu jedem Knopf eine Kachel mit Strich-Skala (ein Strich je Klick oder Stufe,
-langer Strich = Grundeinstellung); die Stellung der anderen Ansicht
-(Abfahrt/Sprünge) steht als gestrichelter Ring auf derselben Skala. Die
-Übersichtstabelle Abfahrt/Sprünge erscheint nur bei Teilen ohne solche
-Kacheln (etwa nur Kletterhebel), sonst stünde jede Zahl doppelt da. Dazu der
+Jede Karte zeigt eine Vergleichstabelle aller drei Modi (Luft, Sag, jeder
+verstellbare Knopf, Zugstufe; Tippen auf einen Spaltenkopf wechselt den Modus)
+und darunter zu jedem Knopf des gewählten Modus eine Kachel mit Strich-Skala
+(ein Strich je Klick oder Stufe, langer Strich = Grundeinstellung). Dazu der
 Link zur offiziellen Hersteller-Anleitung und optional das eigene Top-Cap-Foto
 mit markierten Knöpfen.
 
