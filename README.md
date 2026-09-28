@@ -48,12 +48,19 @@ gewünschte Charakter), Ziel-Reach, Lenkerbreite (halb Schultern, halb
 Spannweite, je Disziplin verschoben), Vorbau, Kurbel (nach Schrittlänge,
 Enduro und Downhill eine Stufe kürzer), Hub der Variostütze
 ((Schrittlänge − 58) × 7,5, wie die Tabellen von OneUp und PNW), Sattelhöhe,
-Laufradgröße, Rise und Griffdicke. Beim Eingeben zeigt eine Figur (Gesicht,
-Frisur, Trikot, Shorts, Socken, Schuhe; Statur nach dem Gewicht) die
-Rahmengröße live, eine Cockpit-Ansicht Schultern und Lenker in echter Breite.
+Laufradgröße, Rise und Griffdicke. Beim Eingeben zeigt eine Figur die
+Rahmengröße live: Proportionen nach Körpermaß-Tabellen (Schulter bei 82 %,
+Schritt bei 47 %, Knie bei 28 % der Größe), Gesicht mit Augen, Brauen, Nase
+und Mund, Frisur, Ohren, langärmliges Trikot, Hände mit Daumen, Baggy-Shorts,
+Knie, hohe Socken und Flat-Schuhe; die Statur folgt dem Gewicht. Eine
+Cockpit-Ansicht zeigt Schultern und Lenker in echter Breite, mit Armen im
+Ärmel und Handschuhen, deren Zeigefinger am Bremshebel liegt.
 Im Fit sitzt ein Fahrer in deiner Größe auf dem Rad, Beine und Arme aus Sattel,
-Pedal und Griff gerechnet (Trikot mit Licht und Schatten, Handschuhe,
-Knieschoner, Flat-Schuhe). Beide Fahrer tragen einen Fullface-Helm nach dem Fox Rampage Pro Carbon (ohne
+Pedal und Griff gerechnet: Arm im Ärmel als ein Umriss, Faust um den Griff,
+Baggy-Shorts über Knieschonern mit harter Kappe, hohe Socken, Flat-Schuhe mit
+Profilsohle. Alle Figuren sind plastisch gezeichnet — jedes Teil hat einen
+Verlauf quer zur Achse (Licht von oben vorn), dazu Falten, Nähte und Schatten,
+wo sich Teile berühren. Beide Fahrer tragen einen Fullface-Helm nach dem Fox Rampage Pro Carbon (ohne
 Logo), matt im Carbon-Ton und clean gehalten: Proportionen vom Produktfoto,
 runder Hinterkopf, langer flacher Schirm aus der Schale heraus, große
 Gesichtsöffnung, langer Kinnbügel mit gerader Front, eckige Lüftungen mit
