@@ -349,7 +349,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .kn-was{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin:0 0 10px}
 .kn-was b{color:var(--ink)}
 .kn-luft{display:flex;gap:10px;align-items:baseline;margin:0 0 10px;padding:9px 12px;border-radius:12px;background:var(--surface-2);font-size:13px;color:var(--ink-2);line-height:1.4}
-.kn-luft b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);flex:none;min-width:40px}
+.kn-luft > b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);flex:none;min-width:40px}
+.kn-luft span b{color:var(--ink);font-weight:750}
 .kn-anders{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin:0 0 10px;padding:8px 11px;border-radius:12px;
   background:color-mix(in srgb,var(--fester) 12%,transparent);border:1px solid color-mix(in srgb,var(--fester) 40%,transparent)}
 .kn-anders b{color:var(--ink)}
@@ -941,7 +942,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
   padding:10px 14px;background:var(--surface);border-top:1px solid var(--line-soft)}
 .var-auf:hover{background:var(--surface-2)}
 .va-k{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
-.va-w{font-size:12.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.va-w{font-size:12.5px;color:var(--ink-2);line-height:1.4;min-width:0;overflow-wrap:anywhere}
 .va-a{font-size:12px;color:var(--anod);font-weight:700}
 .var-zu{align-self:flex-end;font-size:12.5px;color:var(--anod);font-weight:700;padding:4px 2px}
 .grp .jahrleiste + .slot{border-top:1px solid var(--line-soft)}
@@ -1044,9 +1045,11 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 /* Zeichnungen: Rad, Figur und Cockpit. Farben je Design -- die Teile muessen
    auf OLED-Schwarz und auf Hell lesbar sein. */
 :root{--rs-schwarz:#3a3656;--rs-schwarz-2:#27243b;--rs-metall:#a8a3c8;--rs-reifen:#1d1a2a;--rs-stollen:#34304b;
-  --rs-schatten:rgba(140,92,255,.32);--rs-kante:rgba(0,0,0,0);--fg-haut:#d9cfee;--fg-haar:#3a3354;--fg-hose:#353052;--fg-schuh:#1f1c30;--fg-helm:#efebfa}
+  --rs-schatten:rgba(140,92,255,.32);--rs-kante:rgba(0,0,0,0);--fg-haut:#d9cfee;--fg-haut2:#b3a6d3;--fg-haar:#3a3354;--fg-hose:#353052;
+  --fg-schuh:#1f1c30;--fg-helm:#efebfa;--fg-helm2:#c9c1e6;--fg-socke:#efebfa}
 :root[data-theme="light"]{--rs-schwarz:#2d2945;--rs-schwarz-2:#1e1b30;--rs-metall:#8c87ac;--rs-reifen:#24212f;--rs-stollen:#3d3954;
-  --rs-schatten:rgba(40,20,110,.2);--rs-kante:rgba(30,20,70,.22);--fg-haut:#cfc2e8;--fg-haar:#2c2544;--fg-hose:#2c2748;--fg-schuh:#1b1829;--fg-helm:#f4f1fb}
+  --rs-schatten:rgba(40,20,110,.2);--rs-kante:rgba(30,20,70,.22);--fg-haut:#cfc2e8;--fg-haut2:#a797cc;--fg-haar:#2c2544;--fg-hose:#2c2748;
+  --fg-schuh:#1b1829;--fg-helm:#f4f1fb;--fg-helm2:#cfc6ea;--fg-socke:#f4f1fb}
 .rs .r-reifen{fill:none;stroke:var(--rs-reifen);stroke-width:48}
 .rs .r-stollen{fill:none;stroke:var(--rs-stollen);stroke-width:12;stroke-dasharray:15 11}
 .rs .r-felge{fill:none;stroke:var(--rs-schwarz);stroke-width:18}
@@ -1071,6 +1074,26 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .rs .r-helmglanz{fill:none;stroke:#fff;stroke-width:10;opacity:.5;stroke-linecap:round}
 .rs .r-naht{fill:none;stroke:#fff;stroke-width:5;opacity:.25}
 .rs .r-hinten{opacity:.5}
+.rs .r-hautschatten{fill:var(--fg-haut2)}
+.rs .r-ohr{fill:none;stroke:var(--fg-haut2);stroke-width:5;stroke-linecap:round}
+.rs .r-mund{fill:none;stroke:var(--fg-haut2);stroke-width:4;stroke-linecap:round}
+.rs .r-haar{fill:var(--fg-haar)}
+.rs .r-helmrand{fill:var(--fg-helm2)}
+.rs .r-schirm{fill:var(--rs-schwarz)}
+.rs .r-luft{fill:none;stroke:var(--rs-schwarz-2);stroke-width:9;stroke-linecap:round}
+.rs .r-riemen{fill:none;stroke:var(--rs-schwarz-2);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.rs .r-buegel{fill:none;stroke:var(--rs-schwarz);stroke-width:8;stroke-linecap:round}
+.rs .r-glasglanz{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:.7}
+.rs .r-socke{fill:var(--fg-socke)}
+.rs .r-sockenrand{fill:none;stroke:var(--anod);stroke-width:10}
+.rs .r-schoner{fill:var(--rs-schwarz-2)}
+.rs .r-saum{fill:none;stroke:var(--rs-schwarz-2);stroke-width:8;stroke-linecap:round}
+.rs .r-schuhkappe{fill:var(--rs-schwarz)}
+.rs .r-handschuh{fill:var(--fg-schuh)}
+.rs .r-akzent{fill:var(--anod)}
+.rs .r-streifen{fill:#fff;opacity:.16}
+.rs .r-schatten{fill:#0b0816;opacity:.26}
+.rs .r-kragen{fill:none;stroke:#2c2257;stroke-width:12;stroke-linecap:round;opacity:.5}
 .rs .r-boden{stroke:var(--line);stroke-width:6;stroke-dasharray:60 40;stroke-linecap:round}
 .rs .r-mass{fill:none;stroke:var(--gut);stroke-width:7;stroke-linecap:round}
 .rs .r-hilf{fill:none;stroke:var(--gut);stroke-width:4;stroke-dasharray:14 12;opacity:.7}
@@ -1089,9 +1112,6 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 @keyframes boden{to{stroke-dashoffset:-200}}
 @keyframes wippen{50%{transform:translateY(-8px)}}
 @keyframes fahrt{0%{transform:translateX(160px);opacity:0}25%{opacity:.7}100%{transform:translateX(-340px);opacity:0}}
-.fit-rad-z{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:4px 6px 8px}
-.fit-rad-z span{font-size:12px;color:var(--ink-3);padding:5px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--hair)}
-.fit-rad-z b{color:var(--gut);font-weight:800;font-variant-numeric:tabular-nums}
 
 /* Regler fuer Koerpermasse und Budget */
 .ei-regler{margin:0 0 12px;padding:13px 14px 12px;border-radius:18px;background:var(--surface);border:1px solid var(--hair)}
@@ -1200,7 +1220,6 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .fit-kacheln{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .fk{background:var(--surface);border:1px solid var(--hair);border-radius:18px;padding:12px 13px;display:flex;flex-direction:column;gap:2px;min-width:0;
   animation:ei-hoch .55s var(--feder) both;animation-delay:calc(var(--i,0) * 65ms + 280ms)}
-.fk.breit{grid-column:1 / -1}
 .fk-k{display:flex;align-items:center;gap:7px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:750}
 .fk-k svg{color:var(--anod);flex:none}
 .fk > b{font-family:var(--f-head);font-size:23px;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
@@ -1250,6 +1269,8 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .fit-teaser .ft-knoepfe{grid-column:1 / -1;display:flex;gap:8px;align-items:center}
 .fit-teaser .leit-weg{position:absolute;top:6px;right:6px}
 .fitbox{margin-top:16px}
+.fit-ok-z{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:8px}
+.fit-ok-z span{font-size:13px;color:var(--gut);font-weight:700}
 .find.fit-ok{border-left-color:var(--gut)}
 .find.fit-ok .pill{background:var(--gut-soft);color:var(--gut)}
 .find.fit-tipp{border-left-color:var(--anod)}
@@ -2675,6 +2696,7 @@ function varianteNachIndex(basis, wahl){
     if(d.o.length > 1) zus.push(o.kurz || o.n);
   });
   t.n = basis.n + (zus.length ? " · " + zus.join(" · ") : "");
+  t.nb = basis.n;                                   /* ohne Ausfuehrung, fuer die Kachel mit Ausfuehrungszeile */
   VARIANTEN.set(id, t);
   return t;
 }
@@ -5013,6 +5035,22 @@ const wahlText = t => t.v ? t.v.map(d => d.o.map(o => o.n + " " + o.h).join(" ")
    gewaehlte Ausfuehrung nicht zum Aufbau passt. Vorher standen allein beim
    Daempfer zwanzig Einbaumasse auf der Startseite. */
 const varOffen = {};
+/* Was die Ausfuehrungszeile zeigt: die gewaehlte Option je waehlbarer
+   Dimension. Bei mehreren steht vor einer reinen Zahl, was sie ist
+   ("Hub 175 mm") -- sonst weiss man bei "34.9 mm · 175 mm" nicht, welche was ist. */
+function ausfWerte(t){
+  if(!t.v || !t.wahl) return "";
+  const dims = t.v.map((d, i) => ({d:d, o:d.o[t.wahl[i]]})).filter(x => x.d.o.length > 1);
+  return dims.map(x => dims.length > 1 && /^[\d.,]/.test(x.o.n) ? dimName(x.d.k) + " " + x.o.n : x.o.n).join(" · ");
+}
+const ausfNamen = t => !t.v ? "" : t.v.filter(d => d.o.length > 1).map(d => d.k + " " + dimName(d.k)).join(" ");
+/* Chip-Woerter ohne Einheiten: "110x15" -> 110 15, "32 Z." -> 32 */
+const chipWoerter = s => String(s).toLowerCase().replace(/(\d)\s*[x×]\s*(\d)/g, "$1 $2").split(/[^a-z0-9.äöüß]+/)
+  .map(w => w.replace(/\.$/, "")).filter(w => w && !/^(mm|z|t|fach|speed|g|kg)$/.test(w));
+function ohneDoppel(chips, schon){
+  const da = new Set(chipWoerter(schon));
+  return chips.filter(c => { const w = chipWoerter(c); return !w.length || !w.every(x => da.has(x)); });
+}
 function varLeiste(slotKey, t){
   if(!t.v || !t.wahl) return "";
   const dims = t.v.map((d, i) => ({d:d, i:i})).filter(x => x.d.o.length > 1);
@@ -5021,7 +5059,7 @@ function varLeiste(slotKey, t){
   if(!varOffen[slotKey] && !falsch)
     return `<button class="var-auf" data-varauf="${slotKey}" aria-expanded="false">
       <span class="va-k">${dims.length === 1 ? esc(dimName(dims[0].d.k)) : tx("Ausführung", "Version")}</span>
-      <span class="va-w">${esc(dims.map(x => x.d.o[t.wahl[x.i]].n).join(" · "))}</span>
+      <span class="va-w">${esc(ausfWerte(t))}</span>
       <span class="va-a">${tx("ändern", "change")}</span></button>`;
   const zeilen = t.v.map((d, i) => {
     if(d.o.length < 2) return "";
@@ -5058,17 +5096,18 @@ function kachelZusatz(slotKey, t){
   if(slotKey === "laufraeder"){
     const ka = (build.kassette && !entfaellt(build, "kassette")) ? findeTeil("kassette", build.kassette) : null;
     const fit = !ka ? "" : ka.freilauf === t.freilauf
-      ? `<span class="fit ok">${tx("✓ Freilauf passt zur Kassette", "✓ Freehub fits the cassette")} ${esc(ka.n)}</span>`
+      ? `<span class="fit ok">${tx("✓ Freilauf passt zur Kassette", "✓ Freehub fits the cassette")}</span>`
       : `<span class="fit no">${tx(`✗ Kassette braucht ${esc(ka.freilauf)}, die Nabe hat ${esc(t.freilauf)}`, `✗ Cassette needs ${esc(ka.freilauf)}, the hub has ${esc(t.freilauf)}`)}</span>`;
     return `<span class="rad2">
       <span class="rz"><b>${tx("Vorn", "Front")}</b><span>${t.lrV}″ · ${tx("Nabe", "hub")} ${achsName(t.va)} · ${esc(t.naben)} · ${t.iw} mm ${tx("Maulweite", "inner width")}</span></span>
-      <span class="rz"><b>${tx("Hinten", "Rear")}</b><span>${t.lrH}″ · ${tx("Nabe", "hub")} ${achsName(t.ha)} · ${tx("Freilauf", "freehub")} ${esc(t.freilauf)}${FREILAUF_FUER[t.freilauf] ? " (" + FREILAUF_FUER[t.freilauf] + ")" : ""}</span></span>
+      <span class="rz"><b>${tx("Hinten", "Rear")}</b><span>${t.lrH}″ · ${tx("Nabe", "hub")} ${achsName(t.ha)}${ausfWerte(t).indexOf(t.freilauf) >= 0 ? ""
+        : " · " + tx("Freilauf", "freehub") + " " + esc(t.freilauf) + (FREILAUF_FUER[t.freilauf] ? " (" + FREILAUF_FUER[t.freilauf] + ")" : "")}</span></span>
       ${fit}</span>`;
   }
   if(slotKey === "kassette" && !entfaellt(build, "kassette")){
     const lr = build.laufraeder ? findeTeil("laufraeder", build.laufraeder) : null;
     return !lr ? `<span class="fit">${tx("braucht Freilauf", "needs freehub")} ${esc(t.freilauf)}</span>`
-      : lr.freilauf === t.freilauf ? `<span class="fit ok">${tx("✓ passt auf die Nabe", "✓ fits the hub")} (${esc(lr.freilauf)})</span>`
+      : lr.freilauf === t.freilauf ? `<span class="fit ok">${tx("✓ passt auf die Nabe", "✓ fits the hub")}</span>`
       : `<span class="fit no">${tx(`✗ braucht Freilauf ${esc(t.freilauf)}, die Nabe hat ${esc(lr.freilauf)}`, `✗ needs freehub ${esc(t.freilauf)}, the hub has ${esc(lr.freilauf)}`)}</span>`;
   }
   return fitKachel(slotKey);
@@ -5460,7 +5499,7 @@ function fitBefunde(b){
       kurz:tx(`Für dich: auf ${f.lenker} mm kürzen`, `For you: cut to ${f.lenker} mm`),
       text:tx(`Ab Werk <code>${l.breite} mm</code> — je Seite <code>${zahlDe((l.breite - f.lenker) / 2)} mm</code> ab. Erst ein paar Ausfahrten breit fahren, dann in 5-mm-Schritten je Seite kürzen. Griffe, Bremsen und Schalthebel wandern mit nach innen.`,
         `<code>${l.breite} mm</code> out of the box — take <code>${zahlDe((l.breite - f.lenker) / 2)} mm</code> off each side. Ride it wide for a few rides first, then cut in 5 mm steps per side. Grips, brakes and shifter move inwards with it.`)});
-    else out.push({s:"ok", slot:"lenker", titel:tx("Lenkerbreite passt zu dir", "Bar width suits you"), kurz:tx(`✓ ${l.breite} mm passen zu dir`, `✓ ${l.breite} mm suits you`),
+    else out.push({s:"ok", slot:"lenker", titel:tx("Lenkerbreite passt zu dir", "Bar width suits you"), kurz:tx("✓ Breite passt zu dir", "✓ Width suits you"),
       text:tx(`<code>${l.breite} mm</code> — für deine Schultern sind ${f.lenker - 10}–${f.lenker + 10} mm richtig.`, `<code>${l.breite} mm</code> — ${f.lenker - 10}–${f.lenker + 10} mm is right for your shoulders.`)});
   }
   const v = t("vorbau");
@@ -5470,7 +5509,7 @@ function fitBefunde(b){
       kurz:tx(`Für dich: ${a}–${c} mm${dim ? " — Ausführung umstellen" : ""}`, `For you: ${a}–${c} mm${dim ? " — change the version" : ""}`),
       text:tx(`Verbaut sind <code>${zahlDe(v.laenge)} mm</code>. ${v.laenge < a ? "Etwas länger bringt mehr Druck aufs Vorderrad und mehr Platz im Cockpit." : "Kürzer lenkt direkter und stellt dich bergab hinter den Lenker."}${dim ? " Diesen Vorbau gibt es in anderen Längen — am Teil unter „Ausführung“." : ""}`,
         `Fitted: <code>${zahlDe(v.laenge)} mm</code>. ${v.laenge < a ? "A little longer puts more weight on the front wheel and gives more room in the cockpit." : "Shorter steers more directly and puts you behind the bar on descents."}${dim ? " This stem comes in other lengths — on the part under “Version”." : ""}`)});
-    else out.push({s:"ok", slot:"vorbau", titel:tx("Vorbaulänge passt zu dir", "Stem length suits you"), kurz:tx(`✓ ${zahlDe(v.laenge)} mm passen zu dir`, `✓ ${zahlDe(v.laenge)} mm suits you`),
+    else out.push({s:"ok", slot:"vorbau", titel:tx("Vorbaulänge passt zu dir", "Stem length suits you"), kurz:tx("✓ Länge passt zu dir", "✓ Length suits you"),
       text:tx(`<code>${zahlDe(v.laenge)} mm</code> — für dich sind ${a}–${c} mm richtig.`, `<code>${zahlDe(v.laenge)} mm</code> — ${a}–${c} mm is right for you.`)});
   }
   const ku = t("kurbel");
@@ -5480,7 +5519,7 @@ function fitBefunde(b){
       kurz:tx(`Für dich: ${ziel} mm — Ausführung umstellen`, `For you: ${ziel} mm — change the version`),
       text:tx(`Verbaut sind <code>${ku.laenge} mm</code>. ${ku.laenge > f.kurbel ? "Kürzere Kurbeln setzen seltener an Steinen auf und drehen runder." : "Etwas länger gibt mehr Hebel bergauf."} Die Länge wählst du am Teil unter „Ausführung“ — kostet nichts extra.`,
         `Fitted: <code>${ku.laenge} mm</code>. ${ku.laenge > f.kurbel ? "Shorter cranks strike rocks less often and spin more smoothly." : "A little longer gives more leverage uphill."} You choose the length on the part under “Version” — at no extra cost.`)});
-    else out.push({s:"ok", slot:"kurbel", titel:tx("Kurbellänge passt zu dir", "Crank length suits you"), kurz:tx(`✓ ${ku.laenge} mm passen zu dir`, `✓ ${ku.laenge} mm suits you`),
+    else out.push({s:"ok", slot:"kurbel", titel:tx("Kurbellänge passt zu dir", "Crank length suits you"), kurz:tx("✓ Länge passt zu dir", "✓ Length suits you"),
       text:`<code>${ku.laenge} mm</code>${ziel !== f.kurbel ? tx(` — ideal wären ${f.kurbel} mm, das gibt es von diesem Modell nicht`, ` — ${f.kurbel} mm would be ideal, this model doesn't come in that length`) : tx(" — genau richtig für deine Schrittlänge", " — just right for your inseam")}.`});
   }
   const st = t("stuetze");
@@ -5496,7 +5535,7 @@ function fitBefunde(b){
       kurz:tx(`Für dich: bis ${Math.floor(ziel / 5) * 5} mm Hub`, `For you: up to ${Math.floor(ziel / 5) * 5} mm drop`),
       text:tx(`<code>${st.hub} mm</code> verbaut. Mit ${f.schritt} cm Schrittlänge${gs} verschwindet der Sattel bergab mit bis zu <code>${Math.floor(ziel / 5) * 5} mm</code> weiter aus dem Weg${ziel < f.hub ? " — mehr lässt das Sitzrohr bei dieser Stütze nicht zu" : ""}.`,
         `<code>${st.hub} mm</code> fitted. With a ${f.schritt} cm inseam${gs}, up to <code>${Math.floor(ziel / 5) * 5} mm</code> gets the saddle further out of the way on descents${ziel < f.hub ? " — the seat tube doesn't allow more with this post" : ""}.`)});
-    else out.push({s:"ok", slot:"stuetze", titel:tx("Hub passt zu deinen Beinen", "Drop suits your legs"), kurz:tx(`✓ ${st.hub} mm Hub passen zu dir`, `✓ ${st.hub} mm drop suits you`),
+    else out.push({s:"ok", slot:"stuetze", titel:tx("Hub passt zu deinen Beinen", "Drop suits your legs"), kurz:tx("✓ Hub passt zu dir", "✓ Drop suits you"),
       text:tx(`<code>${st.hub} mm</code> — für ${f.schritt} cm Schrittlänge${gs} gehen bis rund ${f.hub} mm${rahmenMax < f.hub ? `, das Sitzrohr lässt mit dieser Stütze ${Math.max(st.hub, Math.floor(rahmenMax / 5) * 5)} mm zu` : ""}.`,
         `<code>${st.hub} mm</code> — a ${f.schritt} cm inseam${gs} allows up to around ${f.hub} mm${rahmenMax < f.hub ? `, the seat tube allows ${Math.max(st.hub, Math.floor(rahmenMax / 5) * 5)} mm with this post` : ""}.`)});
   }
@@ -5721,10 +5760,14 @@ function radSvg(o){
 
   /* Fahrer: Beine und Arme ueber zwei Glieder zwischen festen Punkten
      (Huefte-Pedal, Schulter-Griff). Die Beinlaenge ergibt sich aus der
-     Sattelhoehe -- unten ist das Knie wie beim Bikefit rund 30 Grad gebeugt. */
+     Sattelhoehe -- unten ist das Knie wie beim Bikefit rund 30 Grad gebeugt.
+     Gezeichnet als Trail-Fahrer: Helm mit Schirm, Brille, Gesicht im Profil,
+     weites Trikot mit Licht und Schatten, Handschuhe um den Griff, Shorts
+     ueber Knieschonern, Socken und Flat-Schuhe. Alle Masse in mm fuer 178 cm,
+     skaliert mit der Koerpergroesse. */
   let fHinten = "", fVorn = "", kopfOben = 0;
   if(o.fahrer){
-    const H = o.fahrer.h * 10, steh = !!o.fahrer.stehend;
+    const H = o.fahrer.h * 10, steh = !!o.fahrer.stehend, sk = H / 1780, s = v => v * sk;
     const ank = p => add(p, [-50, 72]);
     const gelenk = (a, b, la, lb, wahl) => {
       const d = Math.max(1, Math.min(len(sub(b, a)), la + lb - 2)), ex = unit(sub(b, a)), ey = nrm(ex);
@@ -5744,41 +5787,95 @@ function radSvg(o){
     const T = H * .30, Loa = H * .175, Lua = H * .205;
     let best = null;
     for(let g = steh ? 26 : 15; g <= (steh ? 46 : 80); g++){          /* stehend: Angriffshaltung, Oberkoerper vorn */
-      const s = polar(huefte, T, g * Math.PI / 180), dd = Math.abs(len(sub(gr, s)) - (steh ? .9 : .975) * (Loa + Lua));
-      if(!best || dd < best.dd) best = {g:g, s:s, dd:dd};
+      const sp = polar(huefte, T, g * Math.PI / 180), dd = Math.abs(len(sub(gr, sp)) - (steh ? .9 : .975) * (Loa + Lua));
+      if(!best || dd < best.dd) best = {g:g, s:sp, dd:dd};
     }
-    const sch = best.s, tw = best.g * Math.PI / 180;
+    const sch = best.s;
     const ell = gelenk(sch, gr, Loa, Lua, (a, b) => a[1] < b[1] ? a : b).g;
     const vorn = (a, b) => a[0] > b[0] ? a : b;
-    const bein = (p, k) => {
+    const Q = pts => glatt(pts.map(p => [p[0], -p[1]]), true);
+    /* Glied mit Muskel: Kontur um die Achse a->b. w0, wm, w1: Breite am
+       Anfang, am Bauch (bei t) und am Ende; bv woelbt die linke Seite
+       (Oberschenkel oben, Schienbein vorn), bh die rechte (Wade, Kniekehle). */
+    const glied = (a, b, w0, wm, w1, bv, bh, t, k, x) => {
+      const d = unit(sub(b, a)), q = nrm(d), m = add(a, mul(sub(b, a), t));
+      return `<path${k ? ` class="${k}"` : ""}${x || ""} d="${Q([add(a, mul(q, w0 / 2)), add(m, mul(q, wm / 2 + bv)), add(b, mul(q, w1 / 2)),
+        add(b, mul(d, w1 * .42)), sub(b, mul(q, w1 / 2)), sub(m, mul(q, wm / 2 + bh)), sub(a, mul(q, w0 / 2)), sub(a, mul(d, w0 * .42))])}"/>`;
+    };
+    const linie = (pts, k) => `<path class="${k}" d="M${pts.map(P).join("L")}"/>`;
+    /* Flat-Schuh am Pedal, in eigenen Koordinaten (x nach vorn, y nach unten,
+       Pedalachse im Ursprung): Zehenkappe, Schnuerung, Kragen, helle Sohle */
+    const SCHUH = `<path class="r-schuh" d="M-152 -14L96 -14C112 -14 119 -25 113 -37C105 -53 72 -61 40 -67L-22 -97C-40 -112 -78 -114 -100 -104C-127 -92 -150 -70 -158 -44C-162 -28 -160 -16 -152 -14Z"/>
+      <path class="r-sohle" d="M-156 -13L98 -13C109 -13 116 -18 116 -25L-160 -25Z"/>
+      <path class="r-schuhkappe" d="M60 -25C84 -26 104 -28 112 -34C106 -50 80 -58 52 -63C60 -52 62 -38 60 -25Z"/>
+      <path class="r-naht" d="M20 -76L6 -60M38 -70L24 -55M54 -65L42 -51M-98 -103C-78 -95 -46 -93 -22 -97"/>`;
+    const bein = p => {
       const kn = gelenk(huefte, ank(p), Lo, Lu, vorn), knie = kn.g, fuss = kn.end;
-      return rohr(huefte, knie, 150, 112, "r-hose") + rohr(fuss, lerp(fuss, knie, .5), 70, 88, "r-haut")
-        + rohr(lerp(knie, fuss, .02), lerp(knie, fuss, .45), 110, 96, "r-dunkel2") + C(knie, 56, "r-dunkel2")
-        + rohr(add(fuss, [-30, -22]), add(p, [80, 6]), 64, 44, "r-schuh") + rohr(add(fuss, [-38, -48]), add(p, [86, -16]), 14, 12, "r-sohle");
+      const dS = unit(sub(fuss, knie)), dT = unit(sub(knie, huefte)), qS = nrm(dS), qT = nrm(dT);
+      const sch0 = add(knie, mul(dT, -s(48))), sch1 = add(knie, mul(dS, s(150))), saum = add(knie, mul(dT, s(6)));
+      return glied(knie, fuss, s(100), s(98), s(64), s(3), s(18), .28, "r-haut")
+        + glied(add(fuss, mul(dS, -s(100))), fuss, s(76), s(74), s(72), 0, s(3), .5, "r-socke")
+        + linie([add(add(fuss, mul(dS, -s(88))), mul(qS, s(37))), add(add(fuss, mul(dS, -s(88))), mul(qS, -s(37)))], "r-sockenrand")
+        + `<g transform="translate(${r1(p[0])} ${r1(-p[1])}) scale(${r1(sk * 1000) / 1000})">${SCHUH}</g>`
+        + glied(sch0, sch1, s(126), s(122), s(98), s(12), s(2), .3, "r-schoner")
+        + `<path class="r-glanz" d="M${P(add(sch0, mul(qS, s(48))))}Q${P(add(knie, mul(qS, s(66))))} ${P(add(lerp(knie, sch1, .55), mul(qS, s(50))))}"/>`
+        + glied(add(huefte, mul(dT, -s(24))), saum, s(184), s(162), s(136), s(12), s(8), .45, "r-hose")
+        + linie([add(saum, mul(qT, s(62))), add(saum, mul(qT, -s(62)))], "r-saum")
+        + `<path class="r-schatten" d="${Q([add(add(huefte, mul(dT, s(60))), mul(qT, -s(70))), add(lerp(huefte, saum, .6), mul(qT, -s(70))),
+            add(saum, mul(qT, -s(64))), add(saum, mul(qT, -s(34))), add(lerp(huefte, saum, .55), mul(qT, -s(40)))])}"/>`;
     };
     /* Rumpf in eigenen Koordinaten: t laeuft von der Huefte (0) zur Schulter
-       (1), s quer dazu in mm, positiv zum Ruecken */
-    const sk = H / 1780, u = unit(sub(sch, huefte)), vB = nrm(u);
-    const tp = (t, s) => add(add(huefte, mul(u, t * T)), mul(vB, s * sk));
-    const RUMPF = [[.05, 96], [.28, 86], [.52, 80], [.74, 94], [.94, 90], [1.07, 64], [1.14, 24], [1.11, -28],
-                   [1.0, -72], [.82, -98], [.6, -88], [.38, -76], [.18, -82], [.05, -90]];
-    const rumpf = glatt(RUMPF.map(([t, s]) => { const p = tp(t, s); return [p[0], -p[1]]; }), true);
-    const kopf = add(add(sch, mul(u, 205 * sk)), mul(vB, -34 * sk)), kr = 96 * sk, hr = 116 * sk;
-    kopfOben = kopf[1] + hr;
-    const hW = a => polar(kopf, hr, a * Math.PI / 180);
+       (1), s quer dazu in mm, positiv zum Ruecken. Weites Trikot: runder
+       Ruecken, Brust, etwas Bauch. */
+    const u = unit(sub(sch, huefte)), vB = nrm(u);
+    const tp = (t, sv) => add(add(huefte, mul(u, t * T)), mul(vB, sv * sk));
+    const RUMPF = [[-.02, 112], [.22, 100], [.48, 96], [.7, 108], [.88, 104], [1.0, 86], [1.08, 54], [1.13, 20], [1.11, -26],
+                   [1.04, -66], [.9, -102], [.7, -104], [.48, -92], [.26, -94], [.06, -108], [-.05, -98]];
+    const rumpf = Q(RUMPF.map(([t, sv]) => tp(t, sv)));
+    /* Kopf: wird wie der Rest mit der Groesse skaliert und schaut leicht nach vorn-unten auf den Trail */
+    const kopf = add(add(sch, mul(u, 205 * sk)), mul(vB, -30 * sk));
+    const kipp = Math.max(4, Math.min(20, 12 + (45 - best.g) * .3));
+    kopfOben = kopf[1] + 128 * sk;
+    const KOPF = `<path class="r-haar" d="M-106 16C-104 40 -94 58 -80 70L-66 38Z"/>
+      <path class="r-haut" d="M58 -68C80 -56 90 -34 90 -14L95 -6C91 0 90 6 94 12L113 36C112 43 104 46 96 45C99 51 99 55 96 58C94 61 95 63 98 67C99 74 93 84 84 89C70 97 48 97 28 89C10 82 -8 72 -26 64C-40 70 -52 78 -60 92L-86 80C-102 50 -104 -40 -62 -80C-26 -106 32 -100 58 -68Z"/>
+      <path class="r-hautschatten" d="M28 89C10 82 -8 72 -26 64C-40 70 -52 78 -60 92L-46 96C-30 86 -10 90 20 94Z"/>
+      <ellipse class="r-haut" cx="-20" cy="16" rx="16" ry="24"/><path class="r-ohr" d="M-24 4C-13 8 -13 24 -21 30"/>
+      <path class="r-mund" d="M95 62L86 63"/>
+      <path class="r-helm" d="M98 -16C104 -62 70 -116 -2 -120C-72 -120 -116 -72 -114 -8L-100 26C-62 20 -22 -2 30 -16C62 -24 82 -22 98 -16Z"/>
+      <path class="r-helmrand" d="M-114 -8L-100 26C-62 20 -22 -2 30 -16C62 -24 82 -22 98 -16L97 -30C78 -36 56 -36 26 -30C-22 -16 -66 6 -106 10Z"/>
+      <path class="r-luft" d="M-46 -100L-20 -108M-80 -80L-58 -94M0 -110L28 -106M-104 -44L-92 -62"/>
+      <path class="r-helmglanz" d="M-66 -92C-34 -112 18 -114 52 -92"/>
+      <path class="r-schirm" d="M60 -52C100 -62 138 -60 164 -46L159 -35C132 -44 102 -44 78 -37Z"/>
+      <path class="r-riemen" d="M-44 8L18 86M24 -18L18 86"/>
+      <path fill="url(#${id("b")})" d="M56 -8C74 -14 98 -10 105 -3C107 8 101 19 90 21C75 23 61 17 56 6Z"/>
+      <path class="r-buegel" d="M58 -2L-14 2"/><path class="r-glasglanz" d="M66 -6L86 -6"/>`;
+    const hand = s(90), hg = add(gr, mul(unit(sub(ell, gr)), hand));   /* Handgelenk */
+    const armF = ` fill="url(#${id("a")})"`;
     fHinten = `<g class="r-hinten">${bein(pf)}</g>`;
     fVorn = `<g class="r-fahrer">
-      ${C(huefte, 104 * sk, "r-hose")}
-      ${rohr(tp(1.04, -6), kopf, 76 * sk, 66 * sk, "r-haut")}
+      <defs><clipPath id="${id("rc")}"><path d="${rumpf}"/></clipPath>
+        <linearGradient id="${id("b")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb86b"/><stop offset=".5" stop-color="#ff5fa2"/><stop offset="1" stop-color="#7a5cff"/></linearGradient></defs>
+      ${C(huefte, s(120), "r-hose")}
+      ${glied(tp(.98, -4), add(kopf, mul(vB, s(22))), s(84), s(76), s(72), 0, 0, .5, "r-haut")}
       <path fill="url(#${id("t")})" d="${rumpf}"/>
-      <path class="r-naht" d="M${P(tp(.1, 6))}Q${P(tp(.55, -8))} ${P(tp(.98, 4))}"/>
+      <g clip-path="url(#${id("rc")})">
+        <path class="r-streifen" d="${Q([tp(.6, -130), tp(.7, -130), tp(.84, 140), tp(.74, 140)])}"/>
+        <path class="r-schatten" d="${Q([tp(-.1, -130), tp(.5, -118), tp(1.1, -86), tp(1.1, -50), tp(.62, -66), tp(.1, -74)])}"/>
+        <path class="r-schatten" d="${Q([tp(-.1, 70), tp(.3, 70), tp(.3, 140), tp(-.1, 140)])}"/>
+      </g>
+      <path class="r-glanz" d="M${P(tp(.2, 90))}Q${P(tp(.72, 104))} ${P(tp(.98, 82))}"/>
+      <path class="r-kragen" d="M${P(tp(1.1, -26))}Q${P(tp(1.17, 0))} ${P(tp(1.12, 22))}"/>
       ${bein(pe)}
-      ${rohr(sch, ell, 96 * sk, 78 * sk, "", ` fill="url(#${id("a")})"`)}${rohr(ell, gr, 78 * sk, 62 * sk, "", ` fill="url(#${id("a")})"`)}
-      ${C(gr, 42, "r-schuh")}
-      ${C(kopf, kr, "r-haut")}
-      <path class="r-helm" d="M${P(hW(16))}A${r1(hr)} ${r1(hr)} 0 1 0 ${P(hW(236))}Q${P(polar(kopf, kr * .5, 3.4))} ${P(hW(16))}Z"/>
-      ${rohr(hW(20), polar(kopf, hr * 1.42, (6 + best.g * .12) * Math.PI / 180), 22 * sk, 10 * sk, "r-dunkel2")}
-      <path class="r-helmglanz" d="M${P(polar(kopf, hr * .8, 1.2))}A${r1(hr * .8)} ${r1(hr * .8)} 0 0 0 ${P(polar(kopf, hr * .8, 2.45))}"/></g>`;
+      ${glied(sch, ell, s(106), s(98), s(82), s(8), s(6), .4, "", armF)}
+      ${glied(ell, hg, s(82), s(86), s(62), s(8), s(2), .35, "", armF)}
+      <path class="r-glanz" d="M${P(add(sch, mul(nrm(unit(sub(ell, sch))), s(38))))}L${P(add(lerp(sch, ell, .75), mul(nrm(unit(sub(ell, sch))), s(38))))}"/>
+      ${glied(lerp(ell, hg, .86), add(hg, mul(unit(sub(gr, hg)), s(8))), s(70), s(70), s(68), 0, 0, .5, "r-handschuh")}
+      ${glied(hg, gr, s(66), s(78), s(86), s(4), s(8), .55, "r-handschuh")}
+      ${C(gr, s(47), "r-handschuh")}
+      <path class="r-naht" d="M${P(add(gr, [-s(34), s(34)]))}Q${P(add(gr, [s(4), s(56)]))} ${P(add(gr, [s(40), s(30)]))}"/>
+      ${rohr(add(gr, [s(18), s(26)]), add(gr, [s(66), -s(16)]), s(20), s(16), "r-handschuh")}
+      ${rohr(lerp(hg, gr, .2), lerp(hg, gr, .62), s(16), s(16), "r-akzent")}
+      <g transform="translate(${r1(kopf[0])} ${r1(-kopf[1])}) rotate(${r1(kipp)}) scale(${r1(sk * 1000) / 1000})">${KOPF}</g></g>`;
   }
 
   const oben = Math.max(sa[1] + 60, stack + (o.masse && !o.fahrer ? 240 : 120), gr[1] + 50, kopfOben + 40);
@@ -5958,7 +6055,7 @@ const kurbelSvg = `<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGr
 /* Fit als Ergebnis: Ring mit der Rahmengroesse, das Rad mit deinen Massen,
    Kacheln fuer jedes Mass. Zahlen mit data-zaehl laufen beim Zeigen hoch. */
 function fitErgebnisHtml(f){
-  const kachel = (i, icon, k, wert, zahl, t, breit) => `<div class="fk${breit ? " breit" : ""}" style="--i:${i}">
+  const kachel = (i, icon, k, wert, zahl, t) => `<div class="fk" style="--i:${i}">
     <span class="fk-k">${ic(icon, 15)}${k}</span><b${zahl != null ? ` data-zaehl="${zahl}"` : ""}>${wert}</b>${t ? `<span class="fk-t">${t}</span>` : ""}</div>`;
   const sch = [f.geschaetzt.schritt ? tx("Schrittlänge", "inseam") : "", f.geschaetzt.schulter ? tx("Schulterbreite", "shoulder width") : "", f.geschaetzt.spann ? tx("Spannweite", "arm span") : ""].filter(Boolean);
   const vm = f.vorbau ? (f.vorbau[0] + f.vorbau[1]) / 2 : 45;
@@ -5972,7 +6069,6 @@ function fitErgebnisHtml(f){
     <div class="fit-rad">${radSvg({masse:true, fahrer:{h:f.h, stehend:f.sattelTief}, reach:f.reach || 430,
       sattel:f.sattelTief ? 430 + f.gi * 28 : f.sattel, ohneSattelMass:f.sattelTief, kurbel:f.kurbel, vorbau:vm, lr:f.lrWert,
       stack:600 + f.gi * 12, sr:360 + f.gi * 28, hardtail:f.ds.every(d => d === "dirt" || d === "trial")})}
-      <div class="fit-rad-z">${f.reach ? `<span>Reach <b>${f.reach} mm</b></span>` : ""}<span>${f.sattelTief ? tx("Sattel <b>ganz unten</b>", "Saddle <b>all the way down</b>") : tx(`Sattelhöhe <b>${f.sattel} mm</b>`, `Saddle height <b>${f.sattel} mm</b>`)}</span><span>${tx("Kurbel", "Crank")} <b>${f.kurbel} mm</b></span></div>
     </div>
     <div class="fit-kacheln">
       ${kachel(i++, IC.lenker, tx("Lenkerbreite", "Bar width"), f.lenker + " mm", f.lenker, `${f.lenker - 10}–${f.lenker + 10} mm · ${tx("kürzen geht immer", "you can always cut")}`)}
@@ -5984,7 +6080,6 @@ function fitErgebnisHtml(f){
       ${kachel(i++, IC.laufrad, tx("Laufräder", "Wheels"), f.lr, null, f.lrText)}
       ${kachel(i++, IC.rise, tx("Lenker-Rise", "Bar rise"), `${f.rise[0]}–${f.rise[1]} mm`, null, tx("wie hoch der Lenker kröpft", "how high the bar rises"))}
       ${kachel(i++, IC.hand, tx("Griffe", "Grips"), f.hand ? sp2(HAND[f.hand][0]) : tx("nach Gefühl", "by feel"), null, f.hand ? sp2(HAND[f.hand][1]) : tx("Handschuhgröße angeben für einen Tipp", "Enter your glove size for a tip"))}
-      ${plan.fahrer > 0 ? kachel(i++, IC.fahrwerk, tx("Fahrwerk", "Suspension"), plan.fahrer + " kg", plan.fahrer, tx("plus 4 kg Ausrüstung — Luftdruck und Druckstufe stehen im Federungsrechner", "plus 4 kg of gear — air pressure and compression are in the suspension calculator"), true) : ""}
     </div>
     <p class="ei-klein links">${sch.length ? tx(`Aus deiner Größe geschätzt: ${sch.join(", ")} — gemessen wird es genauer. `, `Estimated from your height: ${sch.join(", ")} — measuring is more accurate. `) : ""}${tx(`Startwerte, wie sie
       Größentabellen und Bikefitter nennen. Eine Probefahrt schlägt jede Tabelle.`, `Starting values as size charts and bike fitters give them. A test ride beats any chart.`)}</p>`;
@@ -6022,7 +6117,8 @@ function konfetti(){
 function oeffneFit(){
   const f = fitRechnen();
   if(!f){ oeffneEinstieg("fit"); return; }
-  const fb = fitBefunde(build);
+  /* Die Rahmengroesse steht oben schon gross -- im Vergleich mit dem Aufbau nur, wenn sie etwas zu sagen hat */
+  const fb = fitBefunde(build).filter(x => !(x.slot === "rahmen" && x.s === "ok"));
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${tx("Auf dich abgestimmt", "Tuned to you")} · ${esc(selNamen())}</span>${tx("Dein Fit", "Your fit")}</h3>${zuBtn}</div>
     <div class="sheet-b">
@@ -6031,9 +6127,8 @@ function oeffneFit(){
       ${fitErgebnisHtml(f)}
       ${fb.length ? `<div class="grp-h" style="margin-top:18px"><h2>${tx("Dein Aufbau", "Your build")}</h2><div class="rule"></div></div>
         ${fb.map(fitFundHtml).join("")}` : ""}
-      <div class="fit-knoepfe">
-        ${modus === "traum" && fb.some(x => x.s !== "ok" && x.slot !== "lenker") ? `<button class="btn" data-fitanpassen="1">${tx("Ausführungen an mich anpassen", "Adjust versions to me")}</button>` : ""}
-        <button class="btn ghost" data-fitstart="fit">${tx("Maße ändern", "Change measurements")}</button></div>
+      ${modus === "traum" && fb.some(x => x.s !== "ok" && x.slot !== "lenker") ? `<div class="fit-knoepfe">
+        <button class="btn" data-fitanpassen="1">${tx("Ausführungen an mich anpassen", "Adjust versions to me")}</button></div>` : ""}
     </div>`);
   eiZaehlen($("modal"));
 }
@@ -6968,15 +7063,15 @@ function federKarte(titel, x, slot){
     ? (x.rate ? `<b class="fed-wert">${x.rate} lbs/in</b><span class="fed-u">${tx("Federhärte", "spring rate")}</span>`
               : `<b class="fed-wert">${x.feder}</b><span class="fed-u">${tx("Stahlfeder", "coil spring")}</span>`)
     : `<b class="fed-wert">${x.psi} psi</b><span class="fed-u">${barVon(x.psi)} ${tx("bar Luftdruck", "bar air pressure")}</span>`;
+  const schema = schemaBlock(x, slot);
   return `<div class="fed-karte">
     <div class="fed-kopf"><span class="fed-k">${titel}</span><span class="fed-n">${esc(x.t.n)}</span></div>
     <div class="fed-haupt">${haupt}<span class="fed-sag">Sag ${x.sag} % ≈ ${zahlDe(x.sagMm)} mm</span></div>
     ${x.grenze ? `<p class="fed-warn">${x.coil ? tx("Außerhalb üblicher Federhärten — beim Hersteller nachfragen.", "Outside the usual spring rates — ask the manufacturer.") : tx("Am Maximaldruck — mehr geht nicht. Sag messen; eventuell ein Volumen-Spacer weniger.", "At maximum pressure — that's the limit. Measure sag; maybe one volume spacer less.")}</p>` : ""}
-    ${reihe(tx("Abfahrt · ruppig und schnell", "Descent · rough and fast"), x.ds.abfahrt)}
-    ${reihe(tx("Sprünge & Bikepark", "Jumps & bike park"), x.ds.spruenge)}
+    ${schema ? "" : reihe(tx("Abfahrt · ruppig und schnell", "Descent · rough and fast"), x.ds.abfahrt) + reihe(tx("Sprünge & Bikepark", "Jumps & bike park"), x.ds.spruenge)}
     <p class="fed-q">${x.tab ? (x.tab.eigen ? tx(`Nach Herstellertabelle ${fedName(x.tab.tab)}.`, `Per manufacturer table ${fedName(x.tab.tab)}.`) : tx(`Keine Herstellertabelle im Katalog — Richtwert der Klasse (${fedName(x.tab.tab)}).`, `No manufacturer table in the catalogue — guide value for its class (${fedName(x.tab.tab)}).`)) + " " : ""}${
       x.basis ? x.basis.txt + ". " : ""}${x.lr ? tx(`Hinterbau-Übersetzung ≈ ${zahlDe(x.lr.toFixed(1))} (geschätzt aus ${x.hinten} mm Federweg und ${zahlDe(x.t.hub)} mm Hub).`, `Leverage ratio ≈ ${x.lr.toFixed(1)} (estimated from ${x.hinten} mm travel and ${x.t.hub} mm stroke).`) : ""}</p>
-    ${schemaBlock(x, slot)}
+    ${schema}
     ${topCapBlock(slot, x)}
   </div>`;
 }
@@ -7107,7 +7202,9 @@ function schemaBlock(x, slot){
   const rest = zeilen.filter(z => z[2] && !(topCap && (z === lscZ || z === hscZ)));
   const raeder = (topCap ? knopfKachel("HSC", "hsc", hscZ[2], gegen(hscZ)) + knopfKachel("LSC", "lsc", lscZ[2], gegen(lscZ)) : "")
     + rest.map(z => knopfKachel(z[0], "knopf", z[2], gegen(z))).join("");
-  const luft = zeilen.filter(z => z[3] && z[3].info).map(z => `<p class="kn-luft"><b>${esc(knopfName(z[0]))}</b><span>${esc(z[1])}</span></p>`).join("");
+  const luftAndere = tcAnsicht === "abfahrt";
+  const luft = (luftAndere ? andere : zeilen).filter(z => z[3] && z[3].info).map(z => `<p class="kn-luft"><b>${esc(knopfName(z[0]))}</b><span>${luftAndere
+    ? tx("Für <b>Sprünge</b>: ", "For <b>jumps</b>: ") : ""}${esc(z[1])}</span></p>`).join("");
   /* Hebel und Stufen-Knoepfe: alle Stellungen, die empfohlene hervorgehoben */
   const hebel = zeilen.filter(z => !z[2] && !(z[3] && !z[3].o.length)).map(z => {
     const s = z[3] || {o:["offen", "Mitte", "zu"], an:0};
@@ -7261,8 +7358,7 @@ function oeffneFederung(){
         2. Sag prüfen: in Fahrposition aufs Rad stellen, der Gummiring am Standrohr zeigt, wie weit es einsinkt — das sollte ungefähr der Sag-Wert sein.<br>
         3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks. Im Schema ist jeder Strich ein Klick, die Zahl sagt, wie weit von der Grundeinstellung. Cane Creek zählt andersherum, ab ganz offen — die Kachel sagt es dazu.<br>
         4. Am Dämpfer sitzen LSC und HSC meist am Ausgleichsbehälter, der Kletterhebel daneben. Bergab steht der Hebel immer offen, sonst wirken HSC und LSC nicht.<br>
-        5. <b style="display:inline">Abfahrt</b> (ruppig, schnell) und <b style="display:inline">Sprünge</b> (Bikepark, Drops) wollen Gegensätzliches: Auf Wurzeln und Steinen braucht es eine offene HSC für Grip und eine schnelle Zugstufe, damit die Federung zwischen den Schlägen wieder ausfedert. Beim Springen braucht es eine festere LSC, damit du im Absprung nicht einsackst, eine festere HSC und etwas mehr Luft oder einen Volumen-Spacer für die Landung, und eine langsamere Zugstufe, damit dich das Rad am Kicker nicht aushebelt.<br>
-        6. Zugstufe (Rebound), dein Grundwert: Viele Gabeln haben eine Tabelle am Holm (Klicks je Luftdruck). Sonst: Knopf ganz schnell stellen (Hase), im Sitzen von einer Bordsteinkante rollen und dann Klick für Klick langsamer, bis das Heck nach der Landung einmal zurückkommt und nicht nachwippt. Vorne genauso mit einem kräftigen Druck auf den Lenker. Von diesem Grundwert aus zählen die Klicks in der Zugstufen-Kachel. Mehr Luft braucht mehr Zugstufe — nach jeder Druckänderung neu prüfen.</div>
+        5. Zugstufe (Rebound), dein Grundwert: Viele Gabeln haben eine Tabelle am Holm (Klicks je Luftdruck). Sonst: Knopf ganz schnell stellen (Hase), im Sitzen von einer Bordsteinkante rollen und dann Klick für Klick langsamer, bis das Heck nach der Landung einmal zurückkommt und nicht nachwippt. Vorne genauso mit einem kräftigen Druck auf den Lenker. Von diesem Grundwert aus zählen die Klicks in der Zugstufen-Kachel. Mehr Luft braucht mehr Zugstufe — nach jeder Druckänderung neu prüfen.</div>
       <div class="erk"><b>Nach der ersten Fahrt nachstellen</b>
         Immer nur eine Sache ändern, 1–2 Klicks pro Runde, auf derselben Teststrecke.<br>
         · Taucht beim Bremsen und in Anliegern tief ein → <b style="display:inline">LSC</b> 2 Klicks zu.<br>
@@ -7284,8 +7380,7 @@ const FED_ANLEITUNG_EN = `<div class="erk" style="margin-top:6px"><b>How to set 
         2. Check sag: stand on the bike in riding position; the rubber O-ring on the stanchion shows how far it sinks — that should be roughly the sag value.<br>
         3. Compression: first turn the knob fully closed (clockwise), then count the clicks back. “Middle” means half the number of clicks. In the diagram every tick is one click, the number says how far from the base setting. Cane Creek counts the other way, from fully open — the tile says so.<br>
         4. On the shock, LSC and HSC usually sit on the reservoir, the climb switch next to them. On descents the lever is always open, otherwise HSC and LSC don't work.<br>
-        5. <b style="display:inline">Descent</b> (rough, fast) and <b style="display:inline">Jumps</b> (bike park, drops) want opposite things: on roots and rocks you need an open HSC for grip and a fast rebound so the suspension recovers between hits. For jumping you need a firmer LSC so you don't sink in on the lip, a firmer HSC and a bit more air or a volume spacer for the landing, and a slower rebound so the bike doesn't buck you off the kicker.<br>
-        6. Rebound, your base value: many forks have a chart on the leg (clicks per air pressure). Otherwise: set the knob to fully fast (hare), roll off a kerb seated and then go slower click by click until the rear comes back once after landing and doesn't bob again. Same at the front with a firm push on the bar. The clicks in the rebound tile count from this base value. More air needs more rebound — check again after every pressure change.</div>
+        5. Rebound, your base value: many forks have a chart on the leg (clicks per air pressure). Otherwise: set the knob to fully fast (hare), roll off a kerb seated and then go slower click by click until the rear comes back once after landing and doesn't bob again. Same at the front with a firm push on the bar. The clicks in the rebound tile count from this base value. More air needs more rebound — check again after every pressure change.</div>
       <div class="erk"><b>Fine-tune after the first ride</b>
         Only ever change one thing, 1–2 clicks per run, on the same test track.<br>
         · Dives deep under braking and in berms → <b style="display:inline">LSC</b> 2 clicks in.<br>
@@ -7562,7 +7657,7 @@ function zeichne(){
             Teile ein, keine Neuteile zum Ladenpreis.`, `Instead of ${eur(m.vsRoh)}: on a bike this age you fit used or cheap parts, not new parts at shop prices.`)}</span></div>` : ""}
         <div class="rechnung" style="border-top:1px solid var(--line);padding-top:10px">
           <span><b>${tx("Gebrauchtwert", "Used value")}</b></span><span class="w"><b>${eur(m.wert)}</b></span>
-          <span class="g">${tx(`Realistische Spanne ${eur(m.unten)} bis ${eur(m.oben)} — darunter wird verkauft, wenn es schnell gehen muss.`, `Realistic range ${eur(m.unten)} to ${eur(m.oben)} — below that is what it sells for when it has to go quickly.`)}</span></div>
+          ${u ? "" : `<span class="g">${tx(`Realistische Spanne ${eur(m.unten)} bis ${eur(m.oben)} — darunter wird verkauft, wenn es schnell gehen muss.`, `Realistic range ${eur(m.unten)} to ${eur(m.oben)} — below that is what it sells for when it has to go quickly.`)}</span>`}</div>
       </div>` : `<p class="sub" style="margin-top:12px">${tx(`Noch kein Teil eingetragen. Fang beim Rahmen an —
         je mehr du einträgst, desto genauer wird die Rechnung.`, "No parts entered yet. Start with the frame — the more you enter, the more accurate the calculation.")}</p>`}
     </div>`;
@@ -7576,13 +7671,13 @@ function zeichne(){
         ${tx("Foto deines Rads aufnehmen", "Take a photo of your bike")}</span>`}
     </label>
     <div class="fotozeile">
-      <button class="btn ghost sm" data-fotowahl="1">${foto ? tx("Foto ersetzen", "Replace photo") : tx("Foto aufnehmen", "Take photo")}</button>
-      ${foto ? `<button class="btn ghost sm" data-fotoweg="1">${tx("Entfernen", "Remove")}</button>` : ""}
+      ${foto ? `<button class="btn ghost sm" data-fotowahl="1">${tx("Foto ersetzen", "Replace photo")}</button>
+      <button class="btn ghost sm" data-fotoweg="1">${tx("Entfernen", "Remove")}</button>` : ""}
       <button class="btn ghost sm" data-spick="1">${tx("Wo steht was am Rad?", "Where is what on the bike?")}</button>
     </div>
     <p class="foto-hint">${modus === "markt"
       ? tx("Screenshot des Angebots — so hast du Bild und Rechnung an einer Stelle.", "A screenshot of the listing — so you have picture and calculation in one place.")
-      : tx("Als Gedächtnisstütze. Die Teile trägst du selbst ein.", "As a reminder. You enter the parts yourself.")} ${tx(`„Wo steht was am Rad?" zeigt, wo jede Angabe aufgedruckt ist.`, `“Where is what on the bike?” shows where each detail is printed.`)}</p>
+      : tx("Als Gedächtnisstütze. Die Teile trägst du selbst ein.", "As a reminder. You enter the parts yourself.")}</p>
   </div>`;
 
   const leerHinweis = (modus === "real" && !build.rahmen) ? `<div class="card" style="margin-bottom:14px">
@@ -7607,13 +7702,18 @@ function zeichne(){
       const t = build[s.k] ? findeTeil(s.k, build[s.k]) : null;
       const lvl = slotLevel(r.funde, s.k);
       const eigen = s.k === "laufraeder" && t;
-      const chips = (t && !eigen) ? specsVon(s.k, t).map(c => `<span class="chip">${esc(c)}</span>`).join("") : "";
+      /* Steht die Ausfuehrung in ihrer eigenen Zeile darunter, traegt der Titel
+         nur das Modell -- vorher stand dieselbe Angabe im Titel, als Chip und
+         in der Zeile (beim Vorbau viermal "50 mm") */
+      const aw = t ? ausfWerte(t) : "";
+      const titel = t ? (aw && t.nb ? t.nb : t.n) : "";
+      const chips = (t && !eigen) ? ohneDoppel(specsVon(s.k, t), titel + " " + aw + " " + (aw ? ausfNamen(t) : "")).map(c => `<span class="chip">${esc(c)}</span>`).join("") : "";
       const rr = build.rahmen ? findeTeil("rahmen", build.rahmen) : null;
       const label = (rr && s.k === "reifenVR") ? s.label + " · " + rr.lrV + "″"
                   : (rr && s.k === "reifenHR") ? s.label + " · " + rr.lrH + "″" : s.label;
       return `<button class="slot ${lvl || ""}${frischSlot === s.k ? " frisch" : ""}" data-slot="${s.k}">
         <span class="slot-k">${label}</span>
-        <span class="slot-n ${t ? "" : "empty"}">${t ? esc(t.n) : tx("Teil wählen …", "Choose part …")}</span>
+        <span class="slot-n ${t ? "" : "empty"}">${t ? esc(titel) : tx("Teil wählen …", "Choose part …")}</span>
         ${t ? "" : `<span class="slot-was">${esc(s.was)}</span>`}
         ${chips ? `<span class="specs">${chips}</span>` : ""}
         ${kachelZusatz(s.k, t)}
@@ -7641,7 +7741,7 @@ function zeichne(){
         <span class="zahl">${voll}/${meine.length}</span>
         <svg class="pfeil" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <div class="grp-inhalt">${rows}${g.n === "Rahmen" ? jahrLeiste() + fitKnopf() : ""}${g.n === "Fahrwerk" && build.gabel &&
+      <div class="grp-inhalt">${rows}${g.n === "Rahmen" ? (modus === "markt" ? "" : jahrLeiste()) + fitKnopf() : ""}${g.n === "Fahrwerk" && build.gabel &&
         (findeTeil("gabel", build.gabel) || {}).travel > 0 ? `<button class="fed-auf" data-fed="1">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
           <span><b>${tx("Fahrwerk einstellen", "Set up suspension")}</b><span>${tx("Luftdruck und Druckstufe für dein Gewicht und deinen Fahrstil", "Air pressure and compression for your weight and riding style")}</span></span>
@@ -7656,7 +7756,6 @@ function zeichne(){
     (incl. VAT, plus shipping; as of the date in the Buy tab). Otherwise it shows a guide price at RRP level — not an offer.<br>
     <b>Links:</b> shop buttons with a dot lead directly to the product, those with a magnifier to the shop's search. Links marked “Ad”
     earn CrankScore a commission; your price doesn't change.${amazonAktiv() ? " As an Amazon Associate CrankScore earns from qualifying purchases." : ""}<br>
-    <b>Before buying</b> check against your frame's data sheet.
     <span class="recht-links"><button data-recht="impressum">Legal notice</button> · <button data-recht="datenschutz">Privacy</button></span> Trials dimensions are simplified to Mod 20/19″,
     Street 24″ and Stock 26″.</p>` : `<p class="legal">
     <b>Was hier belastbar ist:</b> die Standards — Achsmaße, Steuerrohr, Tretlager, Stützendurchmesser,
@@ -7668,7 +7767,6 @@ function zeichne(){
     (inkl. MwSt., zzgl. Versand; Stand im Reiter Kaufen). Sonst steht dort ein Richtpreis auf UVP-Niveau — kein Angebot.<br>
     <b>Links:</b> Shop-Knöpfe mit Punkt führen direkt zum Produkt, die mit Lupe zur Suche im Shop. Mit „Anzeige“
     markierte Links bringen CrankScore eine Provision; dein Preis ändert sich nicht.${amazonAktiv() ? " Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}<br>
-    <b>Vor dem Kauf</b> gegen das Datenblatt deines Rahmens prüfen.
     <span class="recht-links"><button data-recht="impressum">Impressum</button> · <button data-recht="datenschutz">Datenschutz</button></span> Trial-Maße sind auf Mod 20/19″,
     Street 24″ und Stock 26″ vereinfacht.</p>`);
 
@@ -7682,9 +7780,12 @@ function zeichne(){
     : `<div class="clean"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
        ${tx("Keine Konflikte. Alle Maße passen.", "No conflicts. All dimensions fit.")}</div>`;
   /* Passt das Rad zum Fahrer? Eigene Rubrik, zaehlt nicht in die Wertung */
+  const fitOffen = fitListe.filter(x => x.s !== "ok"), fitOk = fitListe.length - fitOffen.length;
   $("findings").innerHTML += fitListe.length
-    ? `<div class="fitbox"><div class="grp-h"><h2>${tx("Passt das Rad zu dir?", "Does the bike fit you?")}</h2><div class="rule"></div></div>${fitListe.map(fitFundHtml).join("")}
-        <div style="margin-top:8px"><button class="btn ghost sm" data-fit="1">${tx("Dein Fit ansehen", "View your fit")}</button></div></div>`
+    ? `<div class="fitbox"><div class="grp-h"><h2>${tx("Passt das Rad zu dir?", "Does the bike fit you?")}</h2><div class="rule"></div></div>${fitOffen.map(fitFundHtml).join("")}
+        <div class="fit-ok-z">${fitOk ? `<span>${fitOffen.length ? tx(`Der Rest passt: ${fitOk} ${fitOk === 1 ? "Maß" : "Maße"}.`, `The rest fits: ${fitOk} ${fitOk === 1 ? "measurement" : "measurements"}.`)
+          : tx(`Alle ${fitOk} Maße passen zu dir.`, `All ${fitOk} measurements suit you.`)}</span>` : ""}
+          <button class="btn ghost sm" data-fit="1">${tx("Dein Fit ansehen", "View your fit")}</button></div></div>`
     : !(koerper.groesse > 0) && r.teile ? `<div class="fit-leer"><span>${tx(`<b>Passt das Rad auch zu dir?</b> Gib Größe, Schulterbreite und
         Schrittlänge an — dann prüft die App Rahmengröße, Lenker, Kurbel und Sattelstütze.`, "<b>Does the bike fit you too?</b> Enter height, shoulder width and inseam — then the app checks frame size, bar, cranks and seatpost.")}</span>
         <button class="btn sm" data-fitstart="1">${tx("Maße angeben", "Enter measurements")}</button></div>` : "";
@@ -7734,9 +7835,8 @@ function fitKnopf(){
   if(!f) return "";
   const offen = fitListe.filter(x => x.s !== "ok").length;
   return `<button class="fed-auf" data-fit="1">${ic(IC.groesse, 18)}
-    <span><b>${tx(`Dein Fit · Größe ${f.groesse} · Lenker ${f.lenker} mm`, `Your fit · size ${f.groesse} · bar ${f.lenker} mm`)}</b><span>${offen ? tx(offen + (offen === 1 ? " Teil passt" : " Teile passen") + " noch nicht ganz zu dir", offen + (offen === 1 ? " part doesn't" : " parts don't") + " quite suit you yet")
-      : tx("Kurbel " + f.kurbel + " mm" + (f.hub ? " · Stütze bis " + f.hub + " mm Hub" : "") + (f.sattelTief ? "" : " · Sattelhöhe " + f.sattel + " mm"),
-           "Cranks " + f.kurbel + " mm" + (f.hub ? " · post up to " + f.hub + " mm drop" : "") + (f.sattelTief ? "" : " · saddle height " + f.sattel + " mm"))}</span></span>
+    <span><b>${tx("Dein Fit", "Your fit")}</b><span>${offen ? tx(offen + (offen === 1 ? " Teil passt" : " Teile passen") + " noch nicht ganz zu dir", offen + (offen === 1 ? " part doesn't" : " parts don't") + " quite suit you yet")
+      : f.sattelTief ? tx("Alle Teile passen zu dir", "All parts suit you") : tx(`Alle Teile passen zu dir · Sattelhöhe ${f.sattel} mm`, `All parts suit you · saddle height ${f.sattel} mm`)}</span></span>
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>`;
 }
 
@@ -8144,7 +8244,7 @@ const mixBox = mp => mp.min < .15 ? `<div class="mixbox no">${tx(`<b>Das gibt es
     `<b>A big stretch.</b> ${dLang(mp.paar[0])} and ${dLang(mp.paar[1])} pull apart — every part becomes a compromise.`)}</div>`
   : `<div class="mixbox ok">${tx(`<b>Das lässt sich bauen.</b> ${sel.map(dLang).join(" und ")} vertragen sich in einem Rad.`, `<b>That can be built.</b> ${sel.map(dLang).join(" and ")} get along in one bike.`)}</div>`;
 const kombiZeile = () => `<div class="kombi"><button class="btn ghost sm" data-kombi="1" aria-pressed="${kombiModus}">${kombiModus ? "✓ " : ""}${tx("Mehrere kombinieren", "Combine several")}</button>
-        <span>${kombiModus ? tx("Tippen fügt hinzu oder nimmt weg.", "Tapping adds or removes.") : tx("Tippen wählt genau diese Disziplin.", "Tapping picks exactly this discipline.")}</span></div>`;
+        ${kombiModus ? `<span>${tx("Tippen fügt hinzu oder nimmt weg.", "Tapping adds or removes.")}</span>` : ""}</div>`;
 function oeffneDisz(){
   if(sel.length > 1) kombiModus = true;
   const mp = sel.length > 1 ? mixPaar(sel) : {min:1, paar:null};
@@ -8537,10 +8637,8 @@ function oeffneMenu(){
       ${spracheKnoepfe("menu-sprache")}
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Hilfe", "Help")}</h2><div class="rule"></div></div>
       <div class="lk-knoepfe" style="margin:0 0 6px">
-        <button class="btn ghost sm" data-hilfe="start">${tx("Einführung &amp; Fragen", "Intro &amp; questions")}</button>
         <button class="btn ghost sm" data-fit="1">${tx("Dein Fit", "Your fit")}</button>
         <button class="btn ghost sm" data-hilfe="begriffe">${tx("Begriffe erklärt", "Terms explained")}</button>
-        <button class="btn ghost sm" data-hilfe="score">${tx("Was bedeuten die Zahlen?", "What do the numbers mean?")}</button>
         <button class="btn ghost sm" data-fed="1">${tx("Federungsrechner", "Suspension calculator")}</button>
         <button class="btn ghost sm" data-hilfe="leit">${leitAus ? tx("Anleitung wieder zeigen", "Show guide again") : tx("Anleitung ausblenden", "Hide guide")}</button>
       </div>
@@ -8566,8 +8664,6 @@ function oeffneMenu(){
         <button class="btn ghost sm" data-recht="impressum">${tx("Impressum", "Legal notice")}</button>
         <button class="btn ghost sm" data-recht="datenschutz">${tx("Datenschutz", "Privacy")}</button>
       </div>
-      <p class="legal">${tx("Mit „Anzeige“ markierte Shop-Links bringen CrankScore eine Provision; dein Preis ändert sich nicht.", "Shop links marked “Ad” earn CrankScore a commission; your price doesn't change.")}
-        ${amazonAktiv() ? tx("Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen.", "As an Amazon Associate CrankScore earns from qualifying purchases.") : ""}</p>
       ${linkVerwaltung ? betreiberHtml() : ""}
     </div>`);
 }
