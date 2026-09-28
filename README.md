@@ -132,6 +132,22 @@ Upgrade; am eigenen Rad ist ein neuer Rahmen keins, und „Günstiger, gleiche
 Maße“ gibt es nur beim Planen. Beim eigenen Rad und beim Angebot folgt die
 Disziplin dem eingetragenen Rahmen.
 
+**Guide.** Der runde Knopf oben rechts (und ⋮ → Hilfe) öffnet einen Chat, in
+dem man Fragen zur App und zum Rad stellen kann. Bewusst ohne KI-Server: Eine
+echte KI bräuchte einen API-Schlüssel (nicht ins öffentliche Repo), kostete je
+Frage und schickte die Fragen an einen Anbieter in den USA. Stattdessen eine
+eingebaute Wissensbasis mit 100 Themen auf Deutsch und Englisch — App-Bedienung,
+MTB-Grundlagen (Geometrie, Federung, Antrieb, Bremsen, Reifen, Wartung,
+Gebrauchtkauf) und jedes Bauteil. Die Frage wird in Stichworte zerlegt und mit
+Wortstamm, Wortteilen und Tippfehler-Toleranz gegen die Stichworte jeder
+Antwort gewertet; Disziplin- und Markennamen zählen schwächer, weil sie oft nur
+Beiwort sind. Antworten zur App lesen den aktuellen Aufbau (Wertung, Konflikte,
+Budget, Gewicht, Fit, Federung, Gebrauchtangebot). Nennt man ein Teil („Passt
+eine Fox 38?“), sucht der Guide es im Katalog und prüft mit der passenden
+Ausführung, ob neue Konflikte entstehen. Unter jeder Antwort Knöpfe, die direkt
+an die richtige Stelle führen (Federungsrechner, Fit, Prüfung, Teileliste mit
+Suche …). Alles bleibt auf dem Gerät und läuft offline.
+
 **Federungsrechner.** In der Gruppe Fahrwerk (und unter ⋮ → Hilfe): aus
 Fahrergewicht (+4 kg Ausrüstung) und einem Fahrprofil aus fünf Fragen
 (Gelände, Tempo bergab, Sprünge, gewünschtes Gefühl, Anteil bergauf) je Gabel und Dämpfer ein Luftdruck in psi/bar mit Sag-Ziel, bei
