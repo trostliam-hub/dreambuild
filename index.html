@@ -7422,7 +7422,7 @@ const G_STOP = new Set(("was wie wo wer wen wem warum wieso weshalb welche welch
   "nichts kein keine keinen zu zum zur im in am an auf aus bei mit fuer von vom ueber unter nach vor so sehr gibt gib geht gehen dass " +
   "wenn dann als da hier dort wieviel viel viele mehr etwas eigentlich genau jetzt gerade immer richtig gut gute guter gutes erklaer " +
   "erklaere erklaeren erklaert bedeutet bedeuten bedeutung heisst heissen meint sagen zeig zeige hilf hilfe helfen frage fragen " +
-  "app crankscore thema sache sachen ding dinge ok okay weiss wissen verstehe versteh verstehen kapiere " +
+  "app crankscore thema sache sachen ding dinge ok okay weiss wissen verstehe versteh verstehen kapiere rad fahrrad bike mtb mountainbike " +
   "what whats how where who why which when is are am was were be been do does did can could should would will i you he she it we " +
   "they my your our me us the a an and or but also only just please not no yes to of in on at for from with about into this that " +
   "these those there here much many more some any explain means mean meaning tell show help question good understand know " +
@@ -7868,7 +7868,8 @@ function gTeilTreffer(q){
     let hit = 0, stark = 0;
     /* stark: ein Wort, das nur zum Teil passt, nicht zu einer Antwort -- oder die Marke selbst */
     const marke = " " + gNorm(x.t.m || "") + " ";
-    for(const w of worte) if(x.such.indexOf(" " + w + (/^\d+$/.test(w) ? " " : "")) >= 0){
+    /* kurze Woerter und Zahlen nur als ganzes Wort: "rad" ist nicht "Radon", "2" nicht "203" */
+    for(const w of worte) if(x.such.indexOf(" " + w + (w.length <= 3 || /^\d+$/.test(w) ? " " : "")) >= 0){
       hit++; if((!gKw.has(w) && !gKw.has(gStamm(w))) || marke.indexOf(" " + w + " ") >= 0) stark++; }
     if(hit) res.push({x:x, hit:hit, stark:stark});
   }
@@ -7963,6 +7964,7 @@ function gAusgabe(e, q){
   const x = typeof e.a === "function" ? e.a(q) : {h:sp2(e.a)};
   return {html:x.h, ak:(x.ak || e.ak || []).filter(a => gAktInfo(a)), chips:x.chips};
 }
+const G_ALLGEMEIN = new Set(["befunde", "budget", "gewicht", "mindest", "fehlt", "wertung", "tauschen", "kaufen", "fit"]);
 function gAntwort(text, id){
   if(id){ const e = GUIDE.find(x => x.id === id); if(e) return gAusgabe(e, []); }
   if(text.indexOf("#teil ") === 0){
@@ -7975,7 +7977,9 @@ function gAntwort(text, id){
   const best = liste[0], gut = best && best.p >= 2;
   const teile = gTeilTreffer(q), t0 = teile[0];
   const worte = t0 ? q.map(y => y.w).filter(w => t0.x.such.indexOf(" " + w) >= 0) : [];
-  if(t0 && t0.stark && (!gut || t0.stark >= 2 || t0.hit >= 2)){
+  /* Nennt die Frage ein Teil, meinen "passt", "kostet", "wiegt" dieses Teil
+     ("Passt eine Lyrik?") -- nicht das ganze Rad */
+  if(t0 && t0.stark && (!gut || t0.stark >= 2 || t0.hit >= 2 || G_ALLGEMEIN.has(best.e.id))){
     const a = gTeilAntwort(teile, worte);
     if(gut && best.p >= 3) a.chips = [{id:best.e.id, t:sp2(best.e.t)}], a.auch = true;
     return a;
@@ -7983,7 +7987,7 @@ function gAntwort(text, id){
   if(gut){
     const a = gAusgabe(best.e, q);
     const auch = liste.slice(1, 3).filter(x => x.p >= Math.max(2, best.p * 0.7)).map(x => ({id:x.e.id, t:sp2(x.e.t)}));
-    if(t0 && t0.hit >= 2) auch.push({f:"#teil " + t0.x.slot + " " + t0.x.t.id, t:tx("Im Katalog: ", "In the catalogue: ") + t0.x.t.n});
+    if(t0 && (t0.hit >= 2 || t0.stark)) auch.push({f:"#teil " + t0.x.slot + " " + t0.x.t.id, t:tx("Im Katalog: ", "In the catalogue: ") + t0.x.t.n});
     if(auch.length && !(a.chips && a.chips.length)){ a.chips = auch.slice(0, 3); a.auch = true; }
     return a;
   }
