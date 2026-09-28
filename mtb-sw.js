@@ -12,7 +12,7 @@
 
    Die Schriften liegen in fonts/ und werden mit der App vorab gecacht -- keine
    Verbindung zu Google, auch nicht beim ersten Start. */
-var CACHE = 'dreambuild-20260928-2211';
+var CACHE = 'dreambuild-20260928-2215';
 var ASSETS = [
   './',
   './index.html',
