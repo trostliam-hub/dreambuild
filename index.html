@@ -1050,21 +1050,46 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 :root[data-theme="light"]{--rs-schwarz:#2d2945;--rs-schwarz-2:#1e1b30;--rs-metall:#8c87ac;--rs-reifen:#24212f;--rs-stollen:#3d3954;
   --rs-schatten:rgba(40,20,110,.2);--rs-kante:rgba(30,20,70,.22);--fg-haut:#d39a79;--fg-haut2:#a86f53;--fg-haar:#2c2544;--fg-hose:#2c2748;
   --fg-schuh:#1b1829;--fg-helm:#f4f1fb;--fg-helm2:#cfc6ea;--fg-socke:#f4f1fb}
+/* Rad: Reifen, Felge, Speichen, Scheibe (hinten liegende Teile gedimmt) */
 .rs .r-reifen{fill:none;stroke:var(--rs-reifen);stroke-width:48}
-.rs .r-stollen{fill:none;stroke:var(--rs-stollen);stroke-width:12;stroke-dasharray:15 11}
-.rs .r-felge{fill:none;stroke:var(--rs-schwarz);stroke-width:18}
-.rs .r-felgenglanz{fill:none;stroke:var(--rs-metall);stroke-width:3;opacity:.45}
-.rs .r-speiche{fill:none;stroke:var(--rs-metall);stroke-width:3;opacity:.5}
-.rs .r-scheibe{fill:none;stroke:var(--rs-metall);stroke-width:15;stroke-dasharray:20 7}
-.rs .r-nabe,.rs .r-dunkel,.rs .r-pedal,.rs .r-sattel{fill:var(--rs-schwarz)}
-.rs .r-dunkel2{fill:var(--rs-schwarz-2)}
-.rs .r-metall{fill:var(--rs-metall)}
+.rs .r-lauf{fill:none;stroke:var(--rs-stollen);stroke-width:5;opacity:.6}
+.rs .r-stollen{fill:var(--rs-stollen)}
+.rs .r-flanke{fill:none;stroke:#fff;stroke-linecap:round;opacity:.05}
+.rs .r-felge{fill:none;stroke:var(--rs-schwarz);stroke-width:24}
+.rs .r-felgenglanz{fill:none;stroke:var(--rs-metall);stroke-width:3;opacity:.5}
+.rs .r-felgeninnen{fill:none;stroke:var(--rs-schwarz-2);stroke-width:3}
+.rs .r-speiche{fill:none;stroke:var(--rs-metall);stroke-width:2.6;opacity:.75}
+.rs .r-speiche2{fill:none;stroke:var(--rs-metall);stroke-width:2.2;opacity:.32}
+.rs .r-scheibe{fill:none;stroke:var(--rs-metall);stroke-width:16}
+.rs .r-scheibe2{fill:var(--rs-metall)}
+.rs .r-loch{fill:var(--rs-reifen)}
+.rs .r-fern{filter:brightness(.62) saturate(.85)}
+.rs .r-nabe,.rs .r-dunkel,.rs .r-pedal,.rs .r-sattel,.rs .r-glied,.rs .r-stuetze{fill:var(--rs-schwarz)}
+.rs .r-dunkel2,.rs .r-dichtung,.rs .r-griff{fill:var(--rs-schwarz-2)}
+.rs .r-metall,.rs .r-pin,.rs .r-kassette-grund{fill:var(--rs-metall)}
+.rs .r-kassette-grund{opacity:.28}
 .rs .r-gold{fill:#e5ad4f}
 .rs .r-glanz{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;opacity:.3}
-.rs .r-kette{fill:none;stroke:var(--rs-metall);stroke-width:9;stroke-dasharray:9 5;opacity:.75}
-.rs .r-kassette{fill:none;stroke:var(--rs-metall);stroke-width:6;opacity:.7}
-.rs .r-blatt{fill:none;stroke:var(--rs-metall);stroke-width:11;stroke-dasharray:9 6}
-.rs .r-leitung{fill:none;stroke:var(--rs-schwarz-2);stroke-width:6}
+.rs .r-kschatten{fill:none;stroke:#000;stroke-width:7;stroke-linecap:round;opacity:.2}
+.rs .r-schweiss{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.2}
+.rs .r-schutz{fill:var(--rs-schwarz-2);opacity:.92}
+.rs .r-dekor{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;opacity:.22}
+.rs .r-knopf{fill:#2f8cff}
+/* Daempferfeder: vordere Windungen hell, hintere dunkel */
+.rs .r-feder{fill:none;stroke:#e5ad4f;stroke-width:9;stroke-linecap:round}
+.rs .r-feder2{fill:none;stroke:#8a6424;stroke-width:8;stroke-linecap:round}
+/* Antrieb */
+.rs .r-kettengrund{fill:none;stroke:var(--rs-schwarz-2);stroke-width:11;stroke-linecap:round;stroke-linejoin:round}
+.rs .r-kette{fill:none;stroke:var(--rs-metall);stroke-width:6;stroke-dasharray:7 5;stroke-linejoin:round;opacity:.85}
+.rs .r-kassette{fill:none;stroke:var(--rs-metall);stroke-width:3.2;opacity:.8}
+.rs .r-zaehne{fill:none;stroke:var(--rs-metall);stroke-width:7;stroke-dasharray:6.6 6.4}
+.rs .r-blatt{fill:none;stroke:var(--rs-schwarz);stroke-width:12}
+.rs .r-bash{fill:none;stroke:var(--rs-schwarz-2);stroke-width:14;stroke-linecap:round}
+/* Sattel, Cockpit, Leitungen */
+.rs .r-streben{fill:none;stroke:var(--rs-metall);stroke-width:7;stroke-linecap:round}
+.rs .r-schale{fill:none;stroke:var(--rs-schwarz-2);stroke-width:6;stroke-linecap:round}
+.rs .r-hebel{fill:none;stroke:var(--rs-metall);stroke-width:10;stroke-linecap:round}
+.rs .r-leitung{fill:none;stroke:var(--rs-schwarz-2);stroke-width:7;stroke-linecap:round}
 .rs .r-schrift{font-family:var(--f-head);font-weight:800;font-size:31px;letter-spacing:7px;fill:#fff;opacity:.92;stroke:none}
 .rs .r-haut{fill:var(--fg-haut)}
 .rs .r-hose{fill:var(--fg-hose)}
@@ -1243,6 +1268,7 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .fit-held-t .grund{color:var(--ink-3)}
 .fit-rad{margin:0 0 12px;padding:10px 6px 4px;border-radius:22px;border:1px solid var(--hair);background:var(--surface)}
 .fit-rad svg{width:100%;height:auto;display:block;max-height:340px;margin:0 auto}
+.fit-rad-q{font-size:11.5px;color:var(--ink-3);text-align:center;margin:0 10px 8px;line-height:1.4}
 .fit-kacheln{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .fk{background:var(--surface);border:1px solid var(--hair);border-radius:18px;padding:12px 13px;display:flex;flex-direction:column;gap:2px;min-width:0;
   animation:ei-hoch .55s var(--feder) both;animation-delay:calc(var(--i,0) * 65ms + 280ms)}
@@ -5682,24 +5708,51 @@ function glatt(pts, zu){
   return d + (zu ? "Z" : "");
 }
 
-/* Seitenansicht eines Enduro-Fullys aus Geometriezahlen in mm, Tretlager im
-   Ursprung, y nach oben. Rohre als Flaechen mit Glanzkante, Gabel mit
-   Standrohren, Daempfer an der Wippe, Scheibenbremsen, Kette und Schaltwerk.
+/* Seitenansicht (Antriebsseite) eines Freeride-Fullys nach der Geometrie des
+   Propain Spindrift 5 AL. Tretlager im Ursprung, y nach oben, alles in mm.
+   Mullet (29″ vorn, 27,5″ hinten), 180 mm Federweg, PRO10-Hinterbau: der
+   steife Hinterbau haengt an zwei gegenlaeufigen Hebeln, der Stahlfeder-
+   Daempfer (230×65) steht senkrecht vor dem Sitzrohr und wird von beiden
+   Hebeln zusammengedrueckt. Reifen, Felgen, Scheiben und Antrieb in echten
+   Groessen.
    o.anim: rollt herein, Raeder drehen (Begruessung). o.masse: Sattelhoehe,
    Kurbel und -- ohne Fahrer -- Reach eingezeichnet. o.fahrer {h, stehend}:
    ein Fahrer in dieser Groesse sitzt (oder steht) drauf; Beine und Arme
-   ergeben sich aus Sattel, Pedal und Griff. */
+   ergeben sich aus Sattel, Pedal und Griff. o.reach waehlt die Rahmengroesse,
+   o.lr "29" oder "27.5" statt Mullet. o.hardtail: Dirt-Hardtail, 26″. */
+/* Propain Spindrift 5 AL (2025), Flip-Chip MX: Reach und Stack je Groesse,
+   Lenkwinkel 63,9°, Sitzwinkel effektiv 78,4°, Kettenstrebe 445 mm,
+   Tretlagerabsenkung 20 mm, Radstand in L 1278 mm (Blister, ENDURO, Loam
+   Wolf, Vital MTB). Das Steuerrohr ist aus Stack und Einbauhoehe einer
+   180er-Gabel zurueckgerechnet -- damit stimmt auch der Radstand --, das
+   Sitzrohr ist geschaetzt. S faehrt 27,5″ vorn und hinten. */
+const SPINDRIFT = [
+  {g:"S",  reach:430, stack:605, steuer:95,  sr:405, lr:"27.5"},
+  {g:"M",  reach:455, stack:636, steuer:101, sr:425},
+  {g:"L",  reach:480, stack:644, steuer:110, sr:445},
+  {g:"XL", reach:505, stack:658, steuer:126, sr:470}
+];
+const spindriftGroesse = reach => SPINDRIFT.reduce((b, g) => Math.abs(g.reach - (reach || 480)) < Math.abs(b.reach - (reach || 480)) ? g : b);
+/* Aussenradius mit 2,5″-Reifen und Felgenhorn (ETRTO / 2) je Laufradgroesse */
+const RAD_R = {"29":380, "27.5":355, "26":335};
+const FELGE_R = {"29":311, "27.5":292, "26":279};
 function radSvg(o){
   o = o || {};
   const {add, sub, mul, len, unit, nrm, lerp, polar} = V;
   const n = ++svgNr, id = s => "rs" + n + s;
-  const R = o.lr === "26" ? 335 : o.lr === "27.5" ? 350 : 368;
-  const reach = o.reach || 470, stack = o.stack || 625;
-  const lw = (o.lw || 65) * Math.PI / 180, sw = (o.sw || 77) * Math.PI / 180;
-  const ks = o.ks || 440, drop = o.drop || 30, off = 44, steuer = o.steuer || 115;
-  const sattel = o.sattel || 745, kurbel = o.kurbel || 170, vorbau = o.vorbau || 45, sr = o.sr || 430;
+  const ht = !!o.hardtail, G = spindriftGroesse(o.reach);
+  const lrV = ht ? "26" : G.lr || (o.lr === "27.5" ? "27.5" : "29");
+  const lrH = ht ? "26" : G.lr || (o.lr === "29" || o.lr === "27.5" ? o.lr : "27.5");
+  const Rv = RAD_R[lrV], Rh = RAD_R[lrH], Fv = FELGE_R[lrV], Fh = FELGE_R[lrH];
+  const lw = (ht ? 69 : 63.9) * Math.PI / 180, sw = (ht ? 73 : 78.4) * Math.PI / 180;
+  const ks = ht ? 385 : 445, drop = ht ? -12 : 20, off = ht ? 41 : 44, fw = ht ? 100 : 180;
+  const steuer = ht ? 100 : G.steuer, sr = ht ? (o.sr || 360) : G.sr, reach = ht ? (o.reach || 400) : G.reach;
+  /* Dirt: Stack aus der Einbauhoehe einer 100er-Gabel (515 mm) */
+  const stack = ht ? Math.round((515 + steuer) * Math.sin(lw) - off * Math.cos(lw) + drop) : G.stack;
+  const sattel = o.sattel || 745, kurbel = o.kurbel || 170, vorbau = o.vorbau || 45;
   const r1 = v => Math.round(v * 10) / 10, P = a => r1(a[0]) + " " + r1(-a[1]);
   const C = (a, r, k, x) => `<circle class="${k}" cx="${r1(a[0])}" cy="${r1(-a[1])}" r="${r1(r)}"${x || ""}/>`;
+  const winkel = (c, p) => Math.atan2(p[1] - c[1], p[0] - c[0]);
   /* Rohr von a nach b, Breite w1 -> w2, runde Enden */
   const rohr = (a, b, w1, w2, k, x) => {
     const q = nrm(unit(sub(b, a)));
@@ -5709,80 +5762,199 @@ function radSvg(o){
   const glanz = (a, b, w1, w2) => { const d = unit(sub(b, a)), q = nrm(d);
     return `<path class="r-glanz" d="M${P(add(add(a, mul(q, w1 / 2 - 8)), mul(d, w1 * .5)))}L${P(add(sub(b, mul(d, w2 * .5)), mul(q, w2 / 2 - 8)))}"/>`; };
   const lack = ` fill="url(#${id("g")})"`;
+  const zug = pts => "M" + pts.map(P).join("L");
+  const weich = pts => glatt(pts.map(p => [p[0], -p[1]]), false);
+  const bogen = (c, r, a0, a1) => { const m = Math.max(3, Math.ceil(Math.abs(a1 - a0) / .1)), out = [];
+    for(let i = 0; i <= m; i++) out.push(polar(c, r, a0 + (a1 - a0) * i / m)); return out; };
+  /* Hydrogeformtes Rohr: Kontur um einen Linienzug, Breite je Punkt, runde
+     Enden. Dazu Licht an der Oberkante und Schatten an der Unterkante. */
+  const rand = (pts, ws, s) => pts.map((p, i) => { const q = nrm(unit(sub(pts[Math.min(pts.length - 1, i + 1)], pts[Math.max(0, i - 1)])));
+    return add(p, mul(q, s * ws[i] / 2)); });
+  const schlauch = (pts, ws, k, x) => {
+    const m = pts.length - 1, d0 = unit(sub(pts[1], pts[0])), d1 = unit(sub(pts[m], pts[m - 1]));
+    const kontur = rand(pts, ws, 1).concat([add(pts[m], mul(d1, ws[m] * .38))], rand(pts, ws, -1).reverse(), [sub(pts[0], mul(d0, ws[0] * .38))]);
+    return `<path${k ? ` class="${k}"` : ""}${x || ""} d="${glatt(kontur.map(p => [p[0], -p[1]]), true)}"/>`;
+  };
+  const plastisch = (pts, ws) => `<path class="r-glanz" d="${weich(rand(pts, ws.map(w => w * .5), 1))}"/><path class="r-kschatten" d="${weich(rand(pts, ws.map(w => w * .62), -1))}"/>`;
+  const naht = (p, d, w) => { const q = nrm(d); return `<path class="r-schweiss" d="${zug([add(p, mul(q, w / 2)), sub(p, mul(q, w / 2))])}"/>`; };
 
-  /* Geometrie */
-  const ax = [-Math.sqrt(ks * ks - drop * drop), drop];
+  /* Geometrie. Beide Raeder stehen auf dem Boden; mit Mullet liegt die
+     Hinterachse um den kleineren Radius tiefer. */
+  const boden = drop - Rv;
+  const ax = [-Math.sqrt(ks * ks - Math.pow(boden + Rh, 2)), boden + Rh];
   const dA = [Math.cos(lw), -Math.sin(lw)], qA = [Math.sin(lw), Math.cos(lw)];
   const ho = [reach, stack], hu = add(ho, mul(dA, steuer));
   const L = (hu[1] + off * Math.cos(lw) - drop) / Math.sin(lw);
   const vo = [hu[0] + L * Math.cos(lw) + off * Math.sin(lw), drop];
-  const sD = [-Math.cos(sw), Math.sin(sw)], st = t => mul(sD, t), sa = st(sattel);
-  const u0 = [34, 26], u1 = add(hu, mul(dA, -22));
-  const o0 = st(sr * .84), o1 = add(ho, mul(dA, 34));
+  const sD = [-Math.cos(sw), Math.sin(sw)], sN = [Math.sin(sw), Math.cos(sw)], st = t => mul(sD, t), sa = st(sattel);
   const kw = (o.fahrer && o.fahrer.stehend ? 0 : o.kurbelWinkel == null ? -35 : o.kurbelWinkel) * Math.PI / 180;
   const pe = [kurbel * Math.cos(kw), kurbel * Math.sin(kw)], pf = mul(pe, -1);
-  const sp1 = add(ho, mul(dA, -24)), ve = add(sp1, mul(qA, vorbau)), gr = add(ve, [-20, 34]);
+  const sp1 = add(ho, mul(dA, -34)), ve = add(sp1, mul(qA, vorbau)), gr = add(ve, [-24, 34]);
 
-  /* Laufraeder: Reifen mit Stollen, Felge, gekreuzte Speichen, Bremsscheibe */
-  const rad = (c, scheibe, zange) => {
-    let sp = "";
-    for(let i = 0; i < 24; i++){
-      const a = i * Math.PI / 12, b = a + (i % 2 ? .4 : -.4);
-      sp += `M${P(polar(c, 22, a))}L${P(polar(c, R - 64, b))}`;
+  /* Laufrad: Reifen mit Stollen, Felge, 32 gekreuzte Speichen (die hintere
+     Lage dunkler), Bremsscheibe und Sattel dahinter, weil wir auf die
+     Antriebsseite schauen */
+  const rad = (c, R, F, scheibe, zange) => {
+    let stollen = "", nah = "", fern = "", loecher = "", spinne = "";
+    const nK = Math.round(2 * Math.PI * R / 19);
+    for(let i = 0; i < nK; i++){
+      const a = i / nK * 2 * Math.PI, h = i % 2 ? 5 : 7, w = (i % 2 ? 4.5 : 6.5) / R;
+      stollen += zug([polar(c, R - h - 3, a - w * 1.15), polar(c, R, a - w), polar(c, R, a + w), polar(c, R - h - 3, a + w * 1.15)]) + "Z";
     }
-    return C(c, R - 24, "r-reifen") + C(c, R - 55, "r-felge") + C(c, R - 45, "r-felgenglanz")
-      + `<g class="${o.anim ? "dreh" : ""}">${C(c, R - 5, "r-stollen")}<path class="r-speiche" d="${sp}"/>${C(c, scheibe, "r-scheibe")}</g>`
-      + C(c, 30, "r-nabe") + C(c, 12, "r-metall")
-      + rohr(polar(c, scheibe + 4, zange - .22), polar(c, scheibe + 4, zange + .22), 40, 40, "r-dunkel");
+    for(let i = 0; i < 32; i++){
+      const a = i * Math.PI / 16, s = zug([polar(c, 31, a), polar(c, F - 24, a + (i % 2 ? .5 : -.5))]);
+      if(i % 4 < 2) nah += s; else fern += s;
+    }
+    for(let i = 0; i < 18; i++) loecher += C(polar(c, scheibe - 8, i * Math.PI / 9 + .17), 3, "r-loch");
+    for(let i = 0; i < 6; i++){ const a = i * Math.PI / 3;
+      spinne += zug([polar(c, 22, a - .3), polar(c, scheibe - 15, a - .1), polar(c, scheibe - 15, a + .12), polar(c, 22, a + .32)]) + "Z"; }
+    const zm = polar(c, scheibe - 3, zange), zt = [-Math.sin(zange), Math.cos(zange)], dreh = o.anim ? ` class="dreh"` : "";
+    return C(c, (R - 6 + F) / 2, "r-reifen", ` style="stroke-width:${r1(R - 6 - F)}"`) + C(c, R - 9, "r-lauf")
+      + `<path class="r-flanke" style="stroke-width:${r1((R - F) * .45)}" d="${zug(bogen(c, (R + F) / 2 - 4, 2.1, 2.9))}"/>`
+      + `<g${dreh}><path class="r-stollen" d="${stollen}"/>${rohr(polar(c, F - 32, 1.1), polar(c, F - 16, 1.1), 7, 7, "r-metall")}</g>`
+      + C(c, F - 12, "r-felge") + C(c, F - 1.5, "r-felgenglanz") + C(c, F - 23, "r-felgeninnen")
+      + `<g class="r-fern"><g${dreh}>${C(c, scheibe - 8, "r-scheibe")}${loecher}<path class="r-scheibe2" d="${spinne}"/></g>
+        ${rohr(sub(zm, mul(zt, 30)), add(zm, mul(zt, 30)), 42, 42, "r-dunkel")}${C(polar(c, scheibe + 10, zange), 6, "r-metall")}</g>`
+      + `<g${dreh}><path class="r-speiche2" d="${fern}"/><path class="r-speiche" d="${nah}"/></g>`
+      + C(c, 34, "r-nabe") + C(c, 22, "r-dunkel2") + C(c, 14, "r-metall") + C(c, 5, "r-dunkel2");
   };
-  /* Rahmen */
-  const hinterbau = o.hardtail
-    ? rohr(ax, [-8, 10], 26, 34, "", lack) + rohr(ax, st(sr * .88), 22, 26, "", lack)
-    : (() => {
-      const fp = st(sr * .62), rp = add(fp, [-64, -2]), sr2 = add(fp, [96, -12]), mp = add(st(80), [16, 2]);
-      const sf = add(lerp(u0, u1, .45), mul(nrm(unit(sub(u1, u0))), 28));
-      return rohr(ax, mp, 26, 36, "", lack) + glanz(ax, mp, 26, 36) + rohr(ax, rp, 22, 28, "", lack) + glanz(ax, rp, 22, 28)
-        + C(mp, 16, "r-metall")
-        + rohr(sf, lerp(sf, sr2, .58), 30, 30, "r-metall") + rohr(lerp(sf, sr2, .42), sr2, 48, 44, "r-dunkel")
-        + rohr(lerp(sf, sr2, .36), lerp(sf, sr2, .42), 36, 36, "r-gold") + C(sf, 13, "r-metall") + C(sr2, 13, "r-metall")
-        + rohr(rp, sr2, 38, 34, "r-dunkel") + C(fp, 24, "r-dunkel2") + C(fp, 10, "r-metall") + C(rp, 10, "r-metall");
-    })();
-  const um = lerp(u0, u1, .55), uw = Math.atan2(u1[1] - u0[1], u1[0] - u0[0]) * 180 / Math.PI;
-  const rahmen = rohr([-4, 16], st(sr), 46, 38, "", lack) + glanz([-4, 16], st(sr), 46, 38)
-    + rohr(u0, u1, 64, 52, "", lack) + glanz(u0, u1, 64, 52)
+
+  /* Hinterbau. PRO10: Kettenstrebe am unteren, Sitzstrebe am oberen Hebel;
+     der Daempfer sitzt zwischen den vorderen Enden beider Hebel. */
+  const lp0 = [-4, 66], lp1 = [-72, 50], se0 = [38, 98];
+  const dD = unit(add(sD, mul(sN, .07))), dQ = nrm(dD), se1 = add(se0, mul(dD, 230));
+  const up0 = add(st(Math.min(346, sr * .9 - 30)), mul(sN, 2)), up1 = add(up0, [-84, 6]);
+  const ssOben = ht ? st(sr * .86) : up1, ksVorn = ht ? [-22, 18] : lp1;
+  const KS = [add(ax, [10, 4]), add(lerp(ax, ksVorn, .55), [0, 8]), ksVorn], KSw = [30, 34, 36];
+  const SS = [add(ax, [8, 16]), add(lerp(ax, ssOben, .5), mul(nrm(unit(sub(ssOben, ax))), 16)), ssOben], SSw = [24, 28, 30];
+  const zangeH = winkel(ax, ssOben) - .3, zangeV = Math.PI - lw + .4;
+  const hinterbau = schlauch(KS, KSw, "", lack) + plastisch(KS, KSw)
+    + schlauch([lerp(KS[0], KS[2], .25), lerp(KS[0], KS[2], .5), lerp(KS[0], KS[2], .82)].map(p => add(p, [0, 16])), [14, 16, 16], "r-schutz")
+    + schlauch(SS, SSw, "", lack) + plastisch(SS, SSw)
+    + C(ax, 32, "", lack) + C(ax, 32, "r-kschatten")
+    + rohr(add(ax, [-8, -6]), add(ax, [-20, -32]), 24, 16, "r-dunkel")
+    + (ht ? "" : C(up1, 14, "r-dunkel") + C(up1, 6, "r-metall"));
+
+  /* Hauptrahmen: dickes Unterrohr mit Knick, gerades Oberrohr, Sitzrohr,
+     konisches Steuerrohr, Knotenblech am Steuerrohr, Schweissnaehte */
+  const o0 = st(sr * (ht ? .86 : .9)), o1 = add(ho, mul(dA, 36));
+  const u0 = [40, 30], u1 = add(hu, mul(dA, -34)), ud = unit(sub(u1, u0)), od = unit(sub(o1, o0));
+  const UR = [u0, lerp(u0, u1, .28), add(lerp(u0, u1, .6), mul(nrm(ud), 12)), u1], URw = [70, 68, 64, 62];
+  const OR = [o0, lerp(o0, o1, .5), o1], ORw = [38, 40, 46];
+  const SR = [st(10), st(sr * .5), st(sr)], SRw = [46, 40, 40];
+  const HT = [add(ho, mul(dA, -12)), add(hu, mul(dA, 12))], HTw = [56, 66];
+  const zA = add(o1, mul(od, -70)), zB = add(u1, mul(ud, -80)), zK = lerp(lerp(zA, zB, .5), lerp(ho, hu, .5), .35);
+  const um = lerp(u0, u1, .55), uw = Math.atan2(ud[1], ud[0]) * 180 / Math.PI;
+  const rahmen = schlauch(SR, SRw, "", lack) + plastisch(SR, SRw)
+    + schlauch(UR, URw, "", lack)
+    + `<path${lack} d="${glatt([[-40, 14], [-26, -26], [18, -40], [54, -8], [62, 40], [30, 52], [-18, 46]].map(p => [p[0], -p[1]]), true)}"/>`
+    + plastisch(UR, URw)
+    + schlauch([lerp(u0, u1, .06), lerp(u0, u1, .24), lerp(u0, u1, .44)].map(p => add(p, mul(nrm(ud), -22))), [22, 22, 20], "r-schutz")
     + `<text class="r-schrift" x="${r1(um[0])}" y="${r1(-um[1])}" transform="rotate(${r1(-uw)} ${r1(um[0])} ${r1(-um[1])})" text-anchor="middle" dominant-baseline="central">CRANKSCORE</text>`
-    + rohr(o0, o1, 40, 46, "", lack) + glanz(o0, o1, 40, 46)
-    + rohr(add(ho, mul(dA, -8)), add(hu, mul(dA, 8)), 60, 64, "", lack) + glanz(add(ho, mul(dA, -8)), add(hu, mul(dA, 8)), 60, 64)
-    + C([0, 0], 38, "r-dunkel2");
-  /* Gabel: Krone, goldene Standrohre, Tauchrohre bis zur Achse */
-  const kr = add(hu, mul(dA, 26)), b0 = add(kr, mul(qA, off)), bd = unit(sub(vo, b0)), bl = len(sub(vo, b0));
-  const tauch = add(b0, mul(bd, bl * .44));
-  const gabel = rohr(add(kr, mul(qA, -24)), add(b0, mul(qA, 24)), 52, 52, "r-dunkel")
-    + rohr(b0, tauch, 38, 38, "r-gold") + glanz(b0, tauch, 38, 38)
-    + rohr(add(tauch, mul(bd, -28)), add(vo, mul(bd, 22)), 56, 46, "r-dunkel") + glanz(add(tauch, mul(bd, -28)), add(vo, mul(bd, 22)), 56, 46)
-    + rohr(add(tauch, mul(bd, -30)), add(tauch, mul(bd, -14)), 60, 60, "r-dunkel2") + C(vo, 20, "r-metall");
-  /* Sattelstuetze und Sattel */
-  const pOben = Math.max(sr + 20, sattel - 165);
-  const sattelPkt = [[-148, -18], [-142, -3], [-126, 9], [-60, 6], [40, -2], [138, -9], [163, -17], [152, -30], [40, -37], [-60, -36], [-126, -33]];
-  const sitz = rohr(st(sr - 12), st(sr + 14), 54, 54, "r-dunkel")
-    + (pOben > sr + 14 ? rohr(st(sr + 14), st(pOben), 34, 34, "r-dunkel2") : "")
-    + rohr(st(pOben), st(sattel - 60), 30, 30, "r-metall") + rohr(st(sattel - 62), st(sattel - 36), 46, 38, "r-dunkel")
+    + schlauch(OR, ORw, "", lack) + plastisch(OR, ORw)
+    + `<path${lack} d="M${P(zA)}Q${P(zK)} ${P(zB)}L${P(lerp(ho, hu, .7))}L${P(lerp(ho, hu, .2))}Z"/>`
+    + schlauch(HT, HTw, "", lack) + plastisch(HT, HTw)
+    + naht(add(o1, mul(od, -24)), od, 50) + naht(add(u1, mul(ud, -36)), ud, 68) + naht(add(o0, mul(od, 24)), od, 44)
+    + naht(add(u0, mul(ud, 58)), ud, 72) + naht(st(52), sD, 46)
+    + rohr(add(ho, mul(dA, -12)), add(ho, mul(dA, -4)), 62, 62, "r-dunkel") + rohr(add(hu, mul(dA, 10)), add(hu, mul(dA, 18)), 70, 70, "r-dunkel")
+    + C(add(lerp(ho, hu, .45), mul(qA, -14)), 7, "r-dunkel2")
+    + rohr(st(sr - 16), st(sr + 6), 52, 52, "r-dunkel") + C(add(st(sr - 5), mul(sN, 27)), 6, "r-metall");
+
+  /* Stahlfeder-Daempfer 230×65: Koerper mit Ausgleichsbehaelter und
+     Einstellknopf, Kolbenstange, Feder als Wendel (hintere Windungen dunkel) */
+  let wHinten = "", wVorn = "";
+  const sp0 = add(se1, mul(dD, -30)), sp9 = add(se0, mul(dD, 30)), nW = 8, wh = len(sub(sp0, sp9)) / nW;
+  for(let i = 0; i < nW; i++){
+    const a = add(sp0, mul(dD, -i * wh)), m = add(a, mul(dD, -wh / 2)), b = add(a, mul(dD, -wh));
+    wVorn += zug([add(a, mul(dQ, 31)), sub(m, mul(dQ, 31))]);
+    wHinten += zug([sub(m, mul(dQ, 31)), add(b, mul(dQ, 31))]);
+  }
+  const kopfD = add(se1, mul(dQ, -46));
+  const daempfer = `<path class="r-feder2" d="${wHinten}"/>`
+    + rohr(add(se1, mul(dD, -10)), add(se1, mul(dD, -128)), 42, 42, "r-dunkel") + glanz(add(se1, mul(dD, -10)), add(se1, mul(dD, -128)), 42, 42)
+    + rohr(add(se1, mul(dD, -128)), add(se0, mul(dD, 12)), 16, 16, "r-metall")
+    + rohr(se1, kopfD, 34, 34, "r-dunkel") + rohr(add(kopfD, mul(dD, 6)), add(kopfD, mul(dD, -86)), 32, 30, "r-dunkel2")
+    + C(add(kopfD, mul(dD, 4)), 11, "r-knopf")
+    + `<path class="r-feder" d="${wVorn}"/>`
+    + rohr(add(sp0, mul(dD, 4)), add(sp0, mul(dD, -4)), 72, 72, "r-dunkel") + rohr(add(sp9, mul(dD, 8)), add(sp9, mul(dD, -8)), 72, 72, "r-dunkel")
+    + C(se1, 16, "r-dunkel") + C(se0, 16, "r-dunkel");
+  const hebel = schlauch([lp1, lp0, se0], [34, 42, 30], "r-glied") + schlauch([up1, up0, se1], [32, 42, 30], "r-glied")
+    + [lp0, lp1, se0, up0, up1, se1].map(p => C(p, 9, "r-metall") + C(p, 3.5, "r-dunkel2")).join("");
+
+  /* Gabel: 180 mm Federweg, Kashima-Standrohre, Bruecke vorn, Steckachse */
+  const kr0 = add(hu, mul(dA, 18)), b0 = add(kr0, mul(qA, off)), kh = ht ? 40 : 50, dicht = add(b0, mul(dA, kh + fw + 26));
+  const TR = [add(dicht, mul(dA, -12)), add(dicht, mul(dA, 110)), add(vo, mul(dA, -60)), add(vo, mul(dA, 8))], TRw = [56, 54, 50, 48];
+  const gabel = rohr(add(b0, mul(dA, -26)), add(b0, mul(dA, -2)), 36, 34, "r-dunkel2") + C(add(b0, mul(dA, -30)), 12, "r-knopf")
+    + rohr(add(b0, mul(dA, kh - 4)), dicht, 38, 38, "r-gold") + glanz(add(b0, mul(dA, kh)), dicht, 38, 38)
+    + rohr(add(add(kr0, mul(dA, kh / 2)), mul(qA, -26)), add(add(kr0, mul(dA, kh / 2)), mul(qA, off + 28)), kh, kh - 6, "r-dunkel")
+    + (ht ? "" : schlauch([mul(qA, 26), add(mul(dA, 70), mul(qA, 36)), add(mul(dA, 140), mul(qA, 26))].map(p => add(dicht, p)), [22, 28, 18], "r-dunkel"))
+    + schlauch(TR, TRw, "r-dunkel") + plastisch(TR, TRw)
+    + rohr(add(dicht, mul(dA, -16)), add(dicht, mul(dA, -4)), 50, 50, "r-dichtung")
+    + `<path class="r-dekor" d="${zug([add(add(dicht, mul(dA, 60)), mul(qA, -10)), add(add(dicht, mul(dA, 210)), mul(qA, -10))])}"/>`
+    + C(vo, 28, "r-dunkel") + C(vo, 15, "r-metall") + C(vo, 5, "r-dunkel2");
+
+  /* Sattelstuetze: Vario mit Aussenrohr, Dichtkopf und glaenzendem Standrohr;
+     beim Dirt-Rad starr. Sattel mit Streben. */
+  const pOben = Math.max(sr + 30, sattel - 170);
+  const sattelPkt = [[-150, -20], [-144, -4], [-126, 8], [-60, 5], [40, -3], [138, -10], [164, -18], [154, -31], [40, -38], [-60, -37], [-128, -35]];
+  const sitz = (ht || sattel - 62 < pOben + 12 ? rohr(st(sr + 6), st(sattel - 40), 30, 30, "r-dunkel2")
+      : rohr(st(sr + 6), st(pOben), 36, 36, "r-dunkel2") + rohr(st(pOben - 2), st(pOben + 10), 40, 40, "r-dunkel")
+        + rohr(st(pOben + 10), st(sattel - 62), 30, 30, "r-stuetze") + glanz(st(pOben + 10), st(sattel - 62), 30, 30))
+    + rohr(st(sattel - 66), st(sattel - 40), 46, 36, "r-dunkel")
+    + `<path class="r-streben" d="${zug([add(sa, [-98, -30]), add(sa, [-10, -38]), add(sa, [78, -30])])}"/>`
     + `<path class="r-sattel" d="${glatt(sattelPkt.map(p => [sa[0] + p[0], -(sa[1] + p[1])]), true)}"/>`
-    + `<path class="r-glanz" d="M${P(add(sa, [-120, 6]))}Q${P(add(sa, [10, 4]))} ${P(add(sa, [130, -8]))}"/>`;
-  /* Cockpit: Spacer, Vorbau, Lenker mit Rise, Griff von der Seite, Bremshebel */
-  const cockpit = rohr(ho, sp1, 44, 44, "r-dunkel") + rohr(sp1, ve, 44, 38, "r-dunkel") + glanz(sp1, ve, 44, 38)
-    + rohr(ve, gr, 26, 24, "r-metall") + C(ve, 24, "r-metall") + C(gr, 24, "r-dunkel2")
-    + rohr(add(gr, [10, -6]), add(gr, [78, -50]), 13, 8, "r-metall")
-    + `<path class="r-leitung" d="M${P(add(gr, [22, -18]))}Q${P(add(ve, [120, -10]))} ${P(add(kr, mul(qA, 58)))}"/>`;
-  /* Antrieb: Kettenblatt, Kurbeln, Pedale, Kassette, Schaltwerk, Kette */
-  const pedal = (p, k) => `<rect class="${k}" x="${r1(p[0] - 56)}" y="${r1(-p[1] - 13)}" width="112" height="26" rx="11"/>`;
-  const wO = add(ax, [16, -42]), wU = add(ax, [-2, -116]);
-  const antriebHinten = rohr([0, 0], pf, 40, 28, "r-dunkel2") + pedal(pf, "r-dunkel2");
-  const antrieb = C(ax, 58, "r-kassette") + C(ax, 45, "r-kassette") + C(ax, 32, "r-kassette")
-    + `<path class="r-kette" d="M${P([0, 70])}L${P(add(ax, [0, 58]))}M${P([0, -70])}L${P(add(wU, [10, -12]))}"/>`
-    + rohr(ax, wO, 24, 20, "r-dunkel") + rohr(wO, wU, 32, 28, "r-dunkel") + C(wO, 13, "r-metall") + C(wU, 13, "r-metall");
-  const kurbelVorn = C([0, 0], 70, "r-blatt") + C([0, 0], 54, "r-dunkel2")
-    + rohr([0, 0], pe, 42, 28, "r-dunkel") + glanz([0, 0], pe, 42, 28) + C([0, 0], 18, "r-metall") + pedal(pe, "r-pedal");
+    + `<path class="r-schale" d="${weich([add(sa, [-146, -22]), add(sa, [-60, -34]), add(sa, [40, -35]), add(sa, [150, -26])])}"/>`
+    + `<path class="r-glanz" d="${weich([add(sa, [-120, 4]), add(sa, [10, 2]), add(sa, [128, -8])])}"/>`;
+
+  /* Cockpit: Steuersatz, Spacer, Vorbau, Lenker mit Rise, Bremsgriff,
+     Schalthebel und die Leitungen, die vorn am Unterrohr im Rahmen verschwinden */
+  const port = add(add(u1, mul(ud, -50)), mul(nrm(ud), 26));
+  const cockpit = rohr(add(ho, mul(dA, -4)), add(sp1, mul(dA, 18)), 42, 42, "r-dunkel2")
+    + rohr(add(sp1, mul(dA, 20)), add(sp1, mul(dA, -20)), 50, 50, "r-dunkel") + rohr(add(sp1, mul(dA, -20)), add(sp1, mul(dA, -26)), 40, 40, "r-dunkel2")
+    + `<path class="r-leitung" d="${weich([add(gr, [40, -8]), add(add(ho, mul(qA, 96)), mul(dA, 30)), add(add(hu, mul(qA, off + 50)), mul(dA, 10)), add(kr0, mul(qA, off + 18))])}"/>`
+    + `<path class="r-leitung" d="${weich([add(gr, [14, -24]), add(add(ho, mul(qA, 70)), mul(dA, 50)), add(port, mul(qA, 40)), port])}"/>`
+    + `<path class="r-leitung" d="${weich([add(gr, [26, -20]), add(add(ho, mul(qA, 82)), mul(dA, 40)), add(add(port, mul(qA, 50)), mul(ud, -10)), add(port, mul(ud, -14))])}"/>`
+    + rohr(sp1, ve, 44, 40, "r-dunkel") + glanz(sp1, ve, 44, 40) + C(ve, 30, "r-dunkel") + C(ve, 19, "r-metall")
+    + C(add(ve, mul(qA, 20)), 4, "r-metall") + rohr(ve, gr, 30, 24, "r-metall")
+    + rohr(add(gr, [16, -2]), add(gr, [50, 8]), 18, 14, "r-dunkel")
+    + `<path class="r-hebel" d="${weich([add(gr, [22, -6]), add(gr, [62, -16]), add(gr, [88, -44])])}"/>`
+    + rohr(add(gr, [2, -16]), add(gr, [26, -30]), 14, 10, "r-dunkel2") + C(gr, 21, "r-griff");
+
+  /* Antrieb: 32er-Kettenblatt mit Fuehrung und Bashguard, 12-fach-Kassette
+     10–51, Schaltwerk mit zwei Roellchen, Kette als S um beide Roellchen.
+     Dirt: Singlespeed, 14er-Ritzel. Radien = Teilkreise der Zaehne. */
+  const rk = 64.7, rz = ht ? 29 : 48.5, rp = 17;
+  const tang = (c1, r1_, c2, r2, oben) => { const d = sub(c2, c1), l = len(d), u = mul(d, 1 / l), v = [-u[1], u[0]], s = (r1_ - r2) / l, c = Math.sqrt(1 - s * s);
+    const nA = add(mul(u, s), mul(v, c)), nB = add(mul(u, s), mul(v, -c)), nn = (nA[1] > nB[1]) === oben ? nA : nB;
+    return [add(c1, mul(nn, r1_)), add(c2, mul(nn, r2))]; };
+  const ab = (a0, a1) => a1 < a0 ? a1 + 2 * Math.PI : a1;
+  const [t1, t2] = tang([0, 0], rk, ax, rz, true);
+  let kettePts, werk = "";
+  if(ht){
+    const [b1, b2] = tang([0, 0], rk, ax, rz, false);
+    kettePts = [t1, t2].concat(bogen(ax, rz, winkel(ax, t2), ab(winkel(ax, t2), winkel(ax, b2))), [b1], bogen([0, 0], rk, winkel([0, 0], b1), ab(winkel([0, 0], b1), winkel([0, 0], t1))));
+  } else {
+    const jp1 = add(ax, [16, -(rz + 12 + rp)]), jp2 = add(jp1, [-12, -76]);
+    const [b1, b2] = tang(jp2, rp, [0, 0], rk, false);
+    kettePts = [t1, t2].concat(bogen(ax, rz, winkel(ax, t2), 1.5 * Math.PI), bogen(jp1, rp, .75 * Math.PI, -.1 * Math.PI),
+      bogen(jp2, rp, .95 * Math.PI, ab(.95 * Math.PI, winkel(jp2, b1))), [b2], bogen([0, 0], rk, winkel([0, 0], b2), ab(winkel([0, 0], b2), winkel([0, 0], t1))));
+    werk = `<path class="r-dunkel" d="${zug([add(ax, [-30, -20]), add(ax, [-50, -50]), add(jp1, [-8, 14]), add(jp1, [16, 22])])}Z"/>`
+      + rohr(add(ax, [-10, -6]), add(ax, [-34, -30]), 28, 26, "r-dunkel")
+      + rohr(jp1, jp2, 42, 40, "r-dunkel2") + glanz(jp1, jp2, 42, 40) + C(jp1, 7, "r-metall") + C(jp2, 7, "r-metall");
+  }
+  const kassette = ht ? C(ax, 32, "r-kassette-grund") + C(ax, 31, "r-kassette") + C(ax, 20, "r-dunkel2")
+    : C(ax, 104, "r-kassette-grund") + [104, 95, 86, 77, 68, 59, 51, 43, 36, 29, 23].map(r => C(ax, r, "r-kassette")).join("") + C(ax, 16, "r-dunkel2");
+  const kette = `<path class="r-kettengrund" d="${zug(kettePts)}"/><path class="r-kette" d="${zug(kettePts)}"/>`;
+  const pedal = (p, fern) => {
+    let pins = "";
+    for(const dx of [-40, -14, 14, 40]) pins += `<rect class="r-pin" x="${r1(p[0] + dx - 3)}" y="${r1(-p[1] - 20)}" width="6" height="8"/><rect class="r-pin" x="${r1(p[0] + dx - 3)}" y="${r1(-p[1] + 12)}" width="6" height="8"/>`;
+    return pins + `<rect class="${fern ? "r-dunkel2" : "r-pedal"}" x="${r1(p[0] - 54)}" y="${r1(-p[1] - 13)}" width="108" height="26" rx="9"/>` + C(p, 7, "r-metall");
+  };
+  const antriebHinten = rohr([0, 0], pf, 40, 28, "r-dunkel2") + pedal(pf, true);
+  const kurbelVorn = C([0, 0], 66.5, "r-zaehne") + C([0, 0], 60, "r-blatt") + C([0, 0], 48, "r-dunkel2")
+    + [0, 1, 2, 3].map(i => C(polar([0, 0], 34, i * Math.PI / 2 + .4), 7, "r-dunkel")).join("")
+    + (ht ? "" : rohr(polar([0, 0], 80, 1.85), polar([0, 0], 80, 2.35), 20, 20, "r-dunkel") + `<path class="r-bash" d="${zug(bogen([0, 0], 76, -1.35, .15))}"/>`)
+    + rohr([0, 0], pe, 44, 28, "r-dunkel") + glanz([0, 0], pe, 44, 28) + C([0, 0], 19, "r-metall") + C([0, 0], 8, "r-dunkel2") + pedal(pe, false);
 
   /* Fahrer: Beine und Arme ueber zwei Glieder zwischen festen Punkten
      (Huefte-Pedal, Schulter-Griff). Die Beinlaenge ergibt sich aus der
@@ -5916,8 +6088,8 @@ function radSvg(o){
       <g transform="translate(${r1(kopf[0])} ${r1(-kopf[1])}) rotate(${r1(kipp)}) scale(${r1(sk * 1000) / 1000})">${KOPF}</g></g>`;
   }
 
-  const oben = Math.max(sa[1] + 60, stack + (o.masse && !o.fahrer ? 240 : 120), gr[1] + 50, kopfOben + 40);
-  const unten = drop - R - 44, links = ax[0] - R - 36, rechts = vo[0] + R + 36;
+  const oben = Math.max(sa[1] + 60, stack + (o.masse && !o.fahrer ? 240 : 120), gr[1] + 60, kopfOben + 40);
+  const unten = boden - 44, links = ax[0] - Rh - 36, rechts = vo[0] + Rv + 36;
   let v = 0, masse = "";
   if(o.masse){
     const nn = [-Math.sin(sw), -Math.cos(sw)], a0 = mul(nn, 130), a1 = add(sa, mul(nn, 130));
@@ -5931,10 +6103,11 @@ function radSvg(o){
         <text class="blende" style="--v:${v++}" x="${r1(reach / 2)}" y="${r1(-y - 30)}" text-anchor="middle">Reach ${reach}</text>`)
       + `<text class="blende" style="--v:${v++}" x="${r1(pe[0] + 40)}" y="${r1(-pe[1] + 78)}" text-anchor="start">${tx("Kurbel", "Crank")} ${kurbel}</text>`;
   }
-  const fahrt = o.anim ? `<g class="fahrt"><line x1="${r1(links + 60)}" y1="${r1(-drop - R * .4)}" x2="${r1(links + 260)}" y2="${r1(-drop - R * .4)}"/>
+  const fahrt = o.anim ? `<g class="fahrt"><line x1="${r1(links + 60)}" y1="${r1(-drop - Rv * .4)}" x2="${r1(links + 260)}" y2="${r1(-drop - Rv * .4)}"/>
       <line x1="${r1(links + 20)}" y1="${r1(-drop)}" x2="${r1(links + 180)}" y2="${r1(-drop)}"/>
-      <line x1="${r1(links + 100)}" y1="${r1(-drop + R * .45)}" x2="${r1(links + 240)}" y2="${r1(-drop + R * .45)}"/></g>` : "";
-  const label = o.masse ? tx(`Rad mit deinen Maßen: Reach ${reach} mm, Sattelhöhe ${sattel} mm, Kurbel ${kurbel} mm`, `Bike with your measurements: reach ${reach} mm, saddle height ${sattel} mm, crank ${kurbel} mm`) : tx("Enduro-Mountainbike", "Enduro mountain bike");
+      <line x1="${r1(links + 100)}" y1="${r1(-drop + Rv * .45)}" x2="${r1(links + 240)}" y2="${r1(-drop + Rv * .45)}"/></g>` : "";
+  const art = ht ? tx("Dirt-Hardtail", "Dirt hardtail") : tx(`Freerider nach der Geometrie des Propain Spindrift 5 AL, Größe ${G.g}`, `Freeride bike with the geometry of the Propain Spindrift 5 AL, size ${G.g}`);
+  const label = o.masse ? tx(`${art} mit deinen Maßen: Sattelhöhe ${sattel} mm, Kurbel ${kurbel} mm`, `${art} with your measurements: saddle height ${sattel} mm, crank ${kurbel} mm`) : art;
   return `<svg class="rs${o.anim ? " faehrt" : ""}${o.fahrer ? " mitfahrer" : ""}" viewBox="${r1(links)} ${r1(-oben)} ${r1(rechts - links)} ${r1(oben - unten)}" role="img" aria-label="${label}">
     <defs>
       <linearGradient id="${id("g")}" gradientUnits="userSpaceOnUse" x1="${r1(ax[0])}" y1="0" x2="${r1(vo[0])}" y2="${r1(-stack)}">
@@ -5943,13 +6116,14 @@ function radSvg(o){
       <linearGradient id="${id("a")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7f4cf0"/><stop offset="1" stop-color="#2f6fe8"/></linearGradient>
       <radialGradient id="${id("s")}"><stop offset="0" style="stop-color:var(--rs-schatten)"/><stop offset="1" style="stop-color:var(--rs-schatten)" stop-opacity="0"/></radialGradient>
     </defs>
-    <ellipse cx="${r1((ax[0] + vo[0]) / 2)}" cy="${r1(-(drop - R) + 6)}" rx="${r1((vo[0] - ax[0]) / 2 + R * .9)}" ry="34" fill="url(#${id("s")})"/>
-    ${o.anim ? `<line class="r-boden" x1="${r1(links)}" y1="${r1(-(drop - R) + 8)}" x2="${r1(rechts)}" y2="${r1(-(drop - R) + 8)}"/>` : ""}
+    <ellipse cx="${r1((ax[0] + vo[0]) / 2)}" cy="${r1(-boden + 6)}" rx="${r1((vo[0] - ax[0]) / 2 + Rv * .9)}" ry="34" fill="url(#${id("s")})"/>
+    ${o.anim ? `<line class="r-boden" x1="${r1(links)}" y1="${r1(-boden + 8)}" x2="${r1(rechts)}" y2="${r1(-boden + 8)}"/>` : ""}
     ${fahrt}
     <g class="r-ganz${o.anim ? "" : " blende"}">
       ${fHinten}${antriebHinten}
-      ${rad(ax, 90, .62)}${rad(vo, 100, 2.1)}
-      ${hinterbau}${antrieb}${rahmen}${gabel}${sitz}${cockpit}${kurbelVorn}
+      ${rad(ax, Rh, Fh, ht ? 80 : 101.5, zangeH)}${rad(vo, Rv, Fv, ht ? 90 : 110, zangeV)}
+      ${kassette}${rahmen}${ht ? "" : daempfer}${hinterbau}${ht ? "" : hebel}${gabel}
+      ${kette}${werk}${sitz}${cockpit}${kurbelVorn}
       ${fVorn}
     </g>
     ${masse}
@@ -6153,7 +6327,7 @@ function fitErgebnisHtml(f){
   const kachel = (i, icon, k, wert, zahl, t) => `<div class="fk" style="--i:${i}">
     <span class="fk-k">${ic(icon, 15)}${k}</span><b${zahl != null ? ` data-zaehl="${zahl}"` : ""}>${wert}</b>${t ? `<span class="fk-t">${t}</span>` : ""}</div>`;
   const sch = [f.geschaetzt.schritt ? tx("Schrittlänge", "inseam") : "", f.geschaetzt.schulter ? tx("Schulterbreite", "shoulder width") : "", f.geschaetzt.spann ? tx("Spannweite", "arm span") : ""].filter(Boolean);
-  const vm = f.vorbau ? (f.vorbau[0] + f.vorbau[1]) / 2 : 45;
+  const vm = f.vorbau ? (f.vorbau[0] + f.vorbau[1]) / 2 : 45, dirtRad = f.ds.every(d => d === "dirt" || d === "trial");
   let i = 0;
   return `<div class="fit-held">
       <div class="fit-ring">${ringSvg()}<b>${f.groesse}</b></div>
@@ -6162,8 +6336,10 @@ function fitErgebnisHtml(f){
         ${f.groesseText ? `<span>${esc(f.groesseText)}</span>` : ""}
         ${f.grund ? `<span class="grund">${esc(f.grund)}</span>` : ""}</div></div>
     <div class="fit-rad">${radSvg({masse:true, fahrer:{h:f.h, stehend:f.sattelTief}, reach:f.reach || 430,
-      sattel:f.sattelTief ? 430 + f.gi * 28 : f.sattel, ohneSattelMass:f.sattelTief, kurbel:f.kurbel, vorbau:vm, lr:f.lrWert,
-      stack:600 + f.gi * 12, sr:360 + f.gi * 28, hardtail:f.ds.every(d => d === "dirt" || d === "trial")})}
+      sattel:f.sattelTief ? 430 + f.gi * 28 : f.sattel, ohneSattelMass:f.sattelTief, kurbel:f.kurbel, vorbau:vm,
+      lr:/^Mullet/.test(f.lr) ? "mx" : f.lrWert, sr:360 + f.gi * 28, hardtail:dirtRad})}
+      ${dirtRad ? "" : `<p class="fit-rad-q">${tx(`Gezeichnet nach der Geometrie des Propain Spindrift 5 AL, Größe ${spindriftGroesse(f.reach || 430).g}`,
+        `Drawn to the geometry of the Propain Spindrift 5 AL, size ${spindriftGroesse(f.reach || 430).g}`)}</p>`}
     </div>
     <div class="fit-kacheln">
       ${kachel(i++, IC.lenker, tx("Lenkerbreite", "Bar width"), f.lenker + " mm", f.lenker, `${f.lenker - 10}–${f.lenker + 10} mm · ${tx("kürzen geht immer", "you can always cut")}`)}

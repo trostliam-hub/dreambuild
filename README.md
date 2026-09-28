@@ -54,6 +54,14 @@ Rahmengröße live, eine Cockpit-Ansicht mit Helm, Brille und Handschuhen
 Schultern und Lenker in echter Breite. Im Fit sitzt ein Fahrer in deiner Größe
 auf dem Rad, Beine und Arme aus Sattel, Pedal und Griff gerechnet (Helm mit
 Schirm, Trikot mit Licht und Schatten, Knieschoner, Flat-Schuhe).
+Das Rad ist nach der Geometrie des Propain Spindrift 5 AL gezeichnet (S–XL,
+die Größe folgt deinem Reach): Lenkwinkel 63,9°, Sitzwinkel 78,4°, Kettenstrebe
+445 mm, Tretlagerabsenkung 20 mm, Mullet 29/27,5″, 180 mm Federweg. Das
+Steuerrohr ist aus Stack und Gabel-Einbauhöhe zurückgerechnet, damit stimmt
+auch der Radstand (L: 1280 statt 1278 mm). Dazu PRO10-Hinterbau mit zwei
+Hebeln und senkrechtem Stahlfederdämpfer 230×65, Reifen mit Stollen,
+32 Speichen, Bremsscheiben, 12-fach-Antrieb mit Schaltwerk und Kettenführung,
+Vario-Stütze. Dirt und Trial bekommen ein 26″-Hardtail.
 Im Aufbau steht an Rahmen, Lenker, Vorbau, Kurbel und Stütze, was zu dir passt
 („auf 780 mm kürzen“, „Größe L bestellen“); die Prüfung hat eine eigene Rubrik
 *Passt das Rad zu dir?*, die nur zeigt, was nicht passt, und nicht in die
