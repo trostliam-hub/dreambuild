@@ -351,14 +351,24 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .kn-hin{font-size:11.5px;color:var(--ink-3);line-height:1.45;margin:6px 0 0}
 .kn-was{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin:0 0 10px}
 .kn-was b{color:var(--ink)}
-.kn-luft{display:flex;gap:10px;align-items:baseline;margin:0 0 10px;padding:9px 12px;border-radius:12px;background:var(--surface-2);font-size:13px;color:var(--ink-2);line-height:1.4}
-.kn-luft > b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);flex:none;min-width:40px}
-.kn-luft span b{color:var(--ink);font-weight:750}
-.kn-anders{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin:0 0 10px;padding:8px 11px;border-radius:12px;
-  background:color-mix(in srgb,var(--fester) 12%,transparent);border:1px solid color-mix(in srgb,var(--fester) 40%,transparent)}
-.kn-anders b{color:var(--ink)}
-.tc-ansicht button.anders{position:relative}
-.tc-ansicht button.anders::after{content:"";position:absolute;top:3px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--fester)}
+.kn-modus{font-size:11.5px;font-weight:750;color:var(--anod)}
+/* Drei Modi: Umschalter oben, Vergleich aller Modi in jeder Karte */
+.fm-wahl{margin:0 0 10px;padding:12px 13px;border-radius:16px;border:1px solid var(--hair);background:var(--surface-2)}
+.fm-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;margin-top:7px;border-radius:14px;background:var(--sunk)}
+.fm-seg button{padding:10px 4px;border-radius:10px;font-size:13px;font-weight:750;color:var(--ink-2);line-height:1.2}
+.fm-seg button[aria-pressed="true"]{background:var(--grad);color:#fff;box-shadow:0 6px 18px -8px rgba(120,70,255,.8)}
+.fm-txt{font-size:13px;color:var(--ink);line-height:1.45;margin:9px 0 0}
+.fm-tab{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));margin:0 0 4px;border-radius:12px;
+  overflow:hidden;background:var(--surface);font-size:12px;font-variant-numeric:tabular-nums}
+.fm-tab > *{padding:7px 3px;border-top:1px solid var(--line-soft);text-align:center;min-width:0;line-height:1.3;color:var(--ink-2)}
+.fm-tab .fm-l{text-align:left;padding-left:10px;padding-right:2px;font-size:11.5px;color:var(--ink-3);font-weight:700}
+.fm-tab .fm-z b{display:block;font-size:13.5px;font-weight:650;color:inherit}
+.fm-tab .fm-z.an b{font-weight:800}
+.fm-tab .fm-z small{display:block;font-size:10.5px;color:var(--ink-3);font-weight:500;line-height:1.2}
+.fm-tab .fm-ecke,.fm-tab .fm-h{border-top:0}
+.fm-tab .fm-h{padding:8px 2px;font-size:11.5px;font-weight:750;color:var(--ink-3);border-radius:0}
+.fm-tab .an{background:var(--anod-soft);color:var(--ink);font-weight:750}
+.fm-tab .fm-h.an{color:var(--anod)}
 /* Knopf-Kacheln: grosse Zahl + gerade Skala */
 .kk-reihe{display:flex;flex-direction:column;gap:10px}
 .kk{border:1px solid var(--hair);background:var(--surface);border-radius:16px;padding:12px 14px 12px}
@@ -392,15 +402,6 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .mt-z{position:absolute;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .mt-z.null{color:var(--ink);font-weight:800}
 .mt-enden{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);margin:2px -10px 0}
-/* Stellung der anderen Ansicht: gestrichelter Ring auf der Skala */
-.mt-m2{position:absolute;top:50%;width:18px;height:18px;margin-left:-9px;transform:translateY(-50%);border-radius:50%;
-  border:2px dashed var(--ink-2);background:var(--surface)}
-.mt-m2.fester{border-color:var(--fester)} .mt-m2.weicher{border-color:var(--weicher)}
-.kk-anders{display:flex;align-items:center;gap:9px;margin:8px 0 0;font-size:13px;color:var(--ink-2);line-height:1.4}
-.kk-anders .mt-m2{position:static;flex:none;transform:none;margin:0;width:16px;height:16px}
-.kk-anders b{color:var(--ink)}
-.kk-anders-d{font-weight:800;white-space:nowrap}
-.kk-anders-d.fester{color:var(--fester)} .kk-anders-d.weicher{color:var(--weicher)}
 .kk-tun{margin:10px 0 0;padding:9px 11px;border-radius:12px;background:var(--surface-2);font-size:13px;color:var(--ink-2);line-height:1.4}
 .kk-tun b{color:var(--ink)}
 .kn-hebel{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;margin-top:4px}
@@ -441,9 +442,6 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .tc-m.links > span{left:0;transform:none;text-align:left}
 .tc-m.rechts > span{left:auto;right:0;transform:none;text-align:right}
 .tc-knoepfe{display:flex;gap:6px;flex-wrap:wrap}
-.tc-ansicht{display:flex;gap:6px}
-.tc-ansicht button{padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:700;border:1px solid var(--hair);background:var(--surface);color:var(--ink-2)}
-.tc-ansicht button[aria-pressed="true"]{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
 .fed-dz{display:grid;grid-template-columns:96px minmax(0,1fr);gap:0 6px;align-items:start}
 .fed-dz b{overflow-wrap:anywhere}
 .fed-dz > span{display:flex;flex-direction:column;gap:5px;min-width:0}
@@ -2999,7 +2997,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260928-1355';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260928-1410';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -7441,10 +7439,8 @@ function daempferDaten(d){
    dasselbe wie am 8-Klick-HSC. Knoepfe mit nur 5 Stellungen (RockShox RC2T,
    Charger-HSC) gehen einen halben Schritt, sonst waere jeder Schritt ein
    Viertel des Bereichs. Grundlage (0) ist die Herstellerempfehlung;
-   verschoben wird nach Gewicht (je 15 kg ueber/unter 80 kg ein Schritt),
-   Fahrprofil und Einsatz:
-   - Abfahrt: LSC +0,5 (Halt beim Bremsen), HSC -0,5 (Grip auf Wurzeln)
-   - Spruenge: LSC +1,5 (Halt an der Kante), HSC +1,5 (nicht durchschlagen) */
+   verschoben wird nach Gewicht (je 10 kg ueber/unter 80 kg ein Schritt),
+   Fahrprofil und Modus (EINSATZ). */
 const zahlTxt = x => zahlDe(x);
 /* Runden in beide Richtungen gleich: Math.round(-0.5) waere 0, (0.5) aber 1 */
 const rund = x => Math.sign(x) * Math.round(Math.abs(x));
@@ -7504,63 +7500,125 @@ function zugWert(r, hinten){
 /* Ab drei Stufen zaehlt jede weitere nur halb -- sonst landete jeder
    Parkfahrer am Anschlag */
 const saett = x => Math.sign(x) * (Math.abs(x) <= 3 ? Math.abs(x) : 3 + (Math.abs(x) - 3) / 2);
-/* Zwei Einsaetze mit gegensaetzlichen Zielen (recherchiert 2026-09-27: Fox-
-   und RockShox-Tuning-Guides, ENDURO-Setup-Guide, BikeRadar, Singletracks,
-   MBR, Mountain Bike Action):
-   - Abfahrt, ruppig und schnell (Wurzeln, Steinfelder, Bremswellen): HSC
-     offener, damit das Rad auf Kanten Grip behaelt; LSC wie das Profil;
-     Zugstufe schneller -- sonst federt es zwischen schnellen Schlaegen nicht
-     mehr aus und sackt immer tiefer ("packing").
-   - Spruenge und Bikepark (Absprung, Landung, Drops, Anlieger): LSC fester,
-     damit man im Absprung nicht in den Federweg faellt und Anlieger Halt
-     haben; HSC fester fuer Landungen und Senken; Zugstufe langsamer, damit
-     das Rad am Kicker nicht aushebelt; gegen Durchschlagen zuerst etwas mehr
-     Luft oder ein Volumen-Spacer, nicht nur HSC (Luft-Zeile in federRechnen).
-   Werte in Stufen zu 12 % des Einstellbereichs, Zugstufe in Klicks. */
-const EINSATZ = {abfahrt:{l:0, h:-1, r:-1.5}, spruenge:{l:2, h:1.5, r:1.5}};
-function druckstufen(daten, st, kg, hinten){
+/* Drei Modi (Liam 2026-09-26: "pur Downhill, dann Allround und pur Spruenge
+   -- fuer jede Kategorie unterschiedlich und gut errechnet"; bergab soll die
+   Gabel weicher sein und schneller reagieren). Tuning-Regeln recherchiert
+   2026-09-27 (Fox- und RockShox-Tuning-Guides, ENDURO-Setup-Guide, BikeRadar,
+   Singletracks, MBR, Mountain Bike Action):
+   - Pur Downhill (Wurzeln, Steinfelder, Bremswellen, hohes Tempo): 4 % weniger
+     Luft und 2 % mehr Sag, LSC anderthalb und HSC zwei Stufen offener -- das
+     Fahrwerk spricht schneller an und behaelt auf Kanten Grip. Zugstufe zwei
+     Klicks schneller, sonst federt es zwischen schnellen Schlaegen nicht mehr
+     aus und sackt immer tiefer ("packing").
+   - Allround: genau das Fahrprofil, die Mitte zwischen beiden.
+   - Pur Spruenge (Absprung, Landung, Drops, Anlieger): 5 % mehr Luft und 2 %
+     weniger Sag, LSC zwei Stufen fester, damit man im Absprung nicht in den
+     Federweg faellt; HSC fester fuer Landungen; Zugstufe langsamer, damit das
+     Rad am Kicker nicht aushebelt.
+   Werte in Stufen zu 12 % des Einstellbereichs, Zugstufe in Klicks (+ =
+   langsamer), Luft als Anteil, Sag in Prozentpunkten. */
+const EINSATZ = {
+  downhill:{l:-1.5, h:-2, r:-2, luft:-0.04, sag:2},
+  allround:{l:0, h:0, r:0, luft:0, sag:0},
+  spruenge:{l:2, h:1.5, r:1.5, luft:0.05, sag:-2}
+};
+const FMODI = ["downhill", "allround", "spruenge"];
+const FMODUS_NAME = {downhill:["Pur Downhill", "Pure downhill"], allround:["Allround", "All-round"], spruenge:["Pur Sprünge", "Pure jumps"]};
+const FMODUS_KURZ = {downhill:["Downhill", "Downhill"], allround:["Allround", "All-round"], spruenge:["Sprünge", "Jumps"]};
+const modusName = k => sp2(FMODUS_NAME[k]), modusKurz = k => sp2(FMODUS_KURZ[k]);
+let fedModus = "allround";
+try{ const m = localStorage.getItem("mtb.fmodus"); if(EINSATZ[m]) fedModus = m; }catch(e){}
+/* Federweg-Klasse: -1 kurz (bis 130 mm), 0 mittel, +1 lang (ab 180 mm oder
+   Doppelbruecke). Wenig Federweg heisst wenig Reserve: bergab nicht ganz so
+   weich, beim Springen mehr Luft und HSC. Viel Federweg hat Reserve -- beim
+   Springen reicht weniger Luft. */
+const fwKlasse = (mm, dh) => dh || mm >= 180 ? 1 : mm <= 130 ? -1 : 0;
+function einsatzVon(k, klasse){
+  const e = Object.assign({}, EINSATZ[k]);
+  if(k === "downhill" && klasse < 0){ e.h += 0.5; e.luft += 0.02; e.sag -= 1; }
+  if(k === "spruenge"){ if(klasse < 0) e.h += 0.5; e.luft += klasse < 0 ? 0.02 : klasse > 0 ? -0.02 : 0; }
+  return e;
+}
+/* Klicks je Stufe und Bereich in Klicks [weichste, festeste] -- so wie
+   knopfWert rechnet (ohne Klickzahl: Mitte +-3) und stellWert (Stellungen) */
+function knopfMass(info){
+  if(!info) return {s:1, raum:[-3, 3]};
+  const s = info.n < 8 ? 0.5 : Math.max(1, Math.round(info.n * 0.12));
+  return {s:s, raum:[-(info.n - info.base), info.base - (info.min || (info.n >= 8 ? 1 : 0))]};
+}
+const stellMass = st => ({s:0.5, raum:[-st.b, st.o.length - 1 - st.b]});
+/* Die drei Modi eines Knopfs gemeinsam in den Bereich schieben: Abstaende
+   bleiben, Allround rueckt vom Anschlag weg, bis Downhill und Spruenge noch
+   passen. Sonst stuende ein kraeftiges Profil schon in Allround am Anschlag
+   und Spruenge (oder Downhill) waeren gleich -- gemessen 2026-09-28 in drei
+   Vierteln der ueblichen Profile. Passt der Abstand nicht, dann mittig. */
+function einpassen(v, raum){
+  const lo = raum[0], hi = raum[1], w = FMODI.map(k => v[k]);
+  const min = Math.min.apply(null, w), max = Math.max.apply(null, w);
+  const d = max - min >= hi - lo ? (lo + hi) / 2 - (min + max) / 2 : max > hi ? hi - max : min < lo ? lo - min : 0;
+  const out = {};
+  for(const k of FMODI) out[k] = v[k] + d;
+  return out;
+}
+/* Allround aus dem Profil auf ganze Klicks runden, jeden Modus als eigene
+   ganze Klicks dazu -- mindestens einen, wenn der Modus den Knopf verstellt.
+   Zusammen gerundet fielen an Knoepfen mit 5 Stellungen (RockShox RC2T)
+   Downhill und Allround oft auf dieselbe Stellung. */
+function modusKlicks(vA, off, m){
+  const a = rund(vA * m.s), v = {};
+  for(const k of FMODI){ const o = off[k] * m.s; v[k] = a + (o ? Math.sign(o) * Math.max(1, Math.round(Math.abs(o))) : 0); }
+  return einpassen(v, m.raum);
+}
+function druckstufen(daten, st, kg, hinten, klasse){
   const wkg = (kg - 80) / 10;
   /* Viel bergauf: ohne Kletterhebel die LSC etwas zu, mit Hebel erledigt der das.
-     Das Profil wird vor dem Einsatz gesaettigt -- so bleibt der Unterschied
-     zwischen Abfahrt und Spruengen auch bei kraeftigen Profilen sichtbar */
+     Das Profil wird vor dem Modus gesaettigt -- so bleibt der Unterschied
+     zwischen den Modi auch bei kraeftigen Profilen sichtbar */
   const L = saett(wkg + st.stL + (hinten && st.bergauf > 0 && !daten.hebel ? 1 : 0)), H = saett(wkg + st.stH);
+  const E = {};
+  for(const k of FMODI) E[k] = einsatzVon(k, klasse || 0);
+  const klicks = (vA, f, m) => { const off = {}; for(const k of FMODI) off[k] = f(E[k]); return modusKlicks(vA, off, m); };
+  let lM, hM, einM, lK, hK, einK, omdK;
+  if(daten.typ === "hl"){
+    lM = knopfMass(daten.lsc); lK = klicks(L, e => e.l, lM);
+    hM = daten.hscStell ? stellMass(daten.hscStell) : knopfMass(daten.hsc); hK = klicks(H, e => e.h, hM);
+  }
+  else if(daten.typ === "l"){ einM = knopfMass(daten.lsc); einK = klicks(daten.lsc ? L : (L + H) / 2, e => daten.lsc ? e.l : (e.l + e.h) / 2, einM); }
+  if(daten.omd) omdK = klicks(L, e => e.l, stellMass(daten.omd));
+  const zK = klicks(st.zug || 0, e => e.r, {s:1, raum:[-3, 3]});
   const out = {};
-  for(const k of ["abfahrt", "spruenge"]){
-    const e = EINSATZ[k], p = {l:L + e.l, h:H + e.h}, z = [];
+  for(const k of FMODI){
+    const z = [];
     if(daten.typ === "hl"){
-      z.push(knopfWert("LSC", daten.lsc, p.l));
-      /* Knoepfe mit wenigen Stufen: eine halbe Stellung je Stufe, wie beim 5-Stufen-Knopf */
-      z.push(daten.hscStell ? stellWert("HSC", daten.hscStell, p.h * 0.5) : knopfWert("HSC", daten.hsc, p.h));
+      z.push(knopfWert("LSC", daten.lsc, lK[k] / lM.s));
+      /* Knoepfe mit wenigen benannten Stufen: in Stellungen gerechnet */
+      z.push(daten.hscStell ? stellWert("HSC", daten.hscStell, hK[k]) : knopfWert("HSC", daten.hsc, hK[k] / hM.s));
     }
     /* Ein Knopf fuer beides: Mittel aus Low- und High-Speed */
-    else if(daten.typ === "l") z.push(knopfWert(daten.lname || "Druckstufe", daten.lsc, daten.lsc ? p.l : (p.l + p.h) / 2));
+    else if(daten.typ === "l") z.push(knopfWert(daten.lname || "Druckstufe", daten.lsc, einK[k] / einM.s));
     else if(daten.typ === "keine") z.push(["Druckstufe", tx("fest abgestimmt — hier stellst du nur Luftdruck und Zugstufe ein", "fixed tune — here you only set air pressure and rebound"), null, {o:[], an:-1}]);
     else if(daten.typ === "lock") z.push(["Lockout", tx("offen — bergab immer offen", "open — always open downhill"), null, {o:["offen", "gesperrt"], an:0}]);
     else if(!daten.hebel) z.push(["Hebel", tx("offen — bergab immer offen", "open — always open downhill"), null, {o:["offen", "Mitte", "zu"], an:0}]);
-    if(daten.omd) z.push(stellWert("Open-Mode", daten.omd, p.l * 0.5));
+    if(daten.omd) z.push(stellWert("Open-Mode", daten.omd, omdK[k]));
     if(daten.hebel) z.push(hebelZeile(daten.hebel, k, st, daten.typ === "hebel"));
-    z.push(zugWert(e.r + (st.zug || 0), hinten));
+    z.push(zugWert(zK[k], hinten));
     out[k] = z;
   }
   return out;
 }
 const barVon = psi => (psi / 14.5038).toLocaleString(ortsform(), {maximumFractionDigits:1});
-/* Luft je Einsatz: fuer Spruenge etwas mehr Druck (rund 2 % weniger Sag) --
-   oder bei gleichem Druck ein Volumen-Spacer mehr, dann bleibt der mittlere
-   Federweg weich und nur das Ende wird straffer */
-function luftZeilen(ds, psi, sag, coil, grenze){
-  const info = {info:true, o:[], an:-1};
-  if(coil){
-    ds.spruenge.unshift(["Luft", tx("Stahlfeder bleibt — gegen Durchschlagen sorgt die HSC; erst wenn es trotzdem durchschlägt, eine Federstufe härter",
-      "Keep the coil — HSC handles bottoming; only if it still bottoms out, one spring rate stiffer"), null, info]);
-    return ds;
+/* Luft und Sag je Modus. Stahlfeder: die Feder bleibt in allen Modi, damit
+   auch der Sag -- es wechselt nur die Daempfung. */
+function luftModi(psi0, sag0, max, coil, klasse, mm){
+  const m = {};
+  for(const k of FMODI){
+    const e = einsatzVon(k, klasse);
+    let psi = null, grenze = false;
+    if(!coil && psi0 != null){ psi = Math.round(psi0 * (1 + e.luft)); if(max && psi > max){ psi = max; grenze = true; } }
+    const sag = coil ? sag0 : sag0 + e.sag;
+    m[k] = {psi:psi, grenze:grenze, sag:sag, sagMm:Math.round(mm * sag / 10) / 10, luft:e.luft};
   }
-  ds.abfahrt.unshift(["Luft", tx(`${psi} psi, Sag ${sag} % — so bleibt Grip auf Wurzeln und Steinen`, `${psi} psi, sag ${sag} % — keeps grip on roots and rocks`), null, info]);
-  const mehr = grenze ? psi : Math.round(psi * 1.05);
-  ds.spruenge.unshift(["Luft", grenze
-    ? tx(`${psi} psi (schon am Maximum) — besser 1 Volumen-Spacer mehr`, `${psi} psi (already at the maximum) — better 1 volume spacer more`)
-    : tx(`${mehr} psi (+5 %, Sag rund ${sag - 2} %) — oder bei ${psi} psi 1 Volumen-Spacer mehr`, `${mehr} psi (+5 %, sag around ${sag - 2} %) — or 1 volume spacer more at ${psi} psi`), null, info]);
-  return ds;
+  return m;
 }
 function federRechnen(){
   const st = stilVon(), kg = (plan.fahrer || 0) + 4, lb = kg * 2.20462;
@@ -7571,16 +7629,15 @@ function federRechnen(){
   const out = {kg:kg, st:st};
   if(g && g.travel > 0){
     const coil = /Coil/.test(g.n), tab = gabelTabelle(g), daten = gabelDaten(g), regler = daten.typ, basis = {txt:daten.txt};
-    const sag = dh ? st.sagV + 5 : st.sagV;
+    const sag = dh ? st.sagV + 5 : st.sagV, klasse = fwKlasse(g.travel, dh), max = FED_MAX[tab.tab];
     let psi = null, grenze = false, feder = null;
     if(coil) feder = kg < 68 ? tx("weich (soft)", "soft") : kg < 86 ? tx("mittel (medium)", "medium") : kg < 100 ? tx("hart (firm)", "firm") : tx("extra hart (x-firm)", "x-firm");
     else {
       psi = Math.round(psiAus(tab.tab, lb) * st.psiV);
-      const max = FED_MAX[tab.tab];
       if(max && psi > max){ psi = max; grenze = true; }
     }
     out.gabel = {t:g, coil:coil, psi:psi, feder:feder, grenze:grenze, tab:tab, sag:sag, sagMm:Math.round(g.travel * sag / 100),
-      regler:regler, basis:basis, ds:luftZeilen(druckstufen(daten, st, kg), psi, sag, coil, grenze)};
+      regler:regler, basis:basis, klasse:klasse, modi:luftModi(psi, sag, max, coil, klasse, g.travel), ds:druckstufen(daten, st, kg, false, klasse)};
   }
   if(d){
     const coil = /Coil/.test(d.n), daten = daempferDaten(d), regler = daten.typ;
@@ -7596,26 +7653,71 @@ function federRechnen(){
       psi = Math.round(lb * (0.6 + 0.4 * lr / 2.8) * st.psiH);
       if(psi > 300){ psi = 300; grenze = true; }
     }
+    const klasse = fwKlasse(hinten, dh);
     out.daempfer = {t:d, coil:coil, psi:psi, rate:rate, grenze:grenze, lr:lr, hinten:hinten, sag:sag, sagMm:Math.round(d.hub * sag / 100 * 10) / 10,
-      regler:regler, basis:{txt:daten.txt}, ds:luftZeilen(druckstufen(daten, st, kg, true), psi, sag, coil, grenze)};
+      regler:regler, basis:{txt:daten.txt}, klasse:klasse, modi:luftModi(psi, sag, 300, coil, klasse, d.hub), ds:druckstufen(daten, st, kg, true, klasse)};
   }
   return out;
 }
+/* Alle drei Modi nebeneinander: was sich je Modus aendert, auf einen Blick.
+   Ersetzt den gestrichelten Ring der zweiten Ansicht -- bei drei Modi waeren
+   es zwei Ringe je Skala. Die Spalte des gewaehlten Modus ist hervorgehoben,
+   Tippen auf den Spaltenkopf wechselt den Modus. Zeilen, die in allen Modi
+   gleich sind (Kletterhebel offen), fallen weg. */
+/* Zelle: [Zahl, Einheit klein darunter] -- in beiden Sprachen gleich schmal */
+function modusZelle(z){
+  const v = z[2];
+  if(v && v.zug) return !v.mitte ? ["0", tx("Grundwert", "base")] : v.mitte > 0 ? [String(v.mitte), tx("langsamer", "slower")] : [String(-v.mitte), tx("schneller", "faster")];
+  if(v && v.stufen) return [v.kurz, tx("Stufe", "position")];
+  if(v && v.n != null){ const t = v.kurz.replace(/\s*\([^)]*\)$/, ""), i = t.indexOf(" "); return [t.slice(0, i), (v.dreh ? tx("Umdr. ", "turns ") : "") + t.slice(i + 1)]; }
+  if(v) return [v.mitte ? relZahl(v.mitte) : "0", tx("ab Mitte", "from middle")];
+  if(z[3] && z[3].o && z[3].o.length) return [stellName(z[3].o[z[3].an]), ""];
+  return null;
+}
+function modusVergleich(x){
+  const zeilen = [];
+  if(!x.coil) zeilen.push(["Luft", k => [String(x.modi[k].psi), "psi"]]);
+  zeilen.push(["Sag", k => [String(x.modi[k].sag), "%"]]);
+  x.ds.allround.forEach((z, i) => {
+    const werte = FMODI.map(k => modusZelle(x.ds[k][i] || []));
+    if(werte[0] && werte.some(w => w.join() !== werte[0].join())) zeilen.push([z[0], k => werte[FMODI.indexOf(k)]]);
+  });
+  const kopf = `<span class="fm-ecke"></span>` + FMODI.map(k =>
+    `<button class="fm-h${k === fedModus ? " an" : ""}" data-fmodus="${k}" aria-pressed="${k === fedModus}">${esc(modusKurz(k))}</button>`).join("");
+  return `<div class="fm-tab" role="table" aria-label="${tx("Alle drei Modi im Vergleich", "All three modes compared")}">${kopf}${zeilen.map(([n, f]) =>
+    `<span class="fm-l" role="rowheader">${esc(knopfName(n))}</span>` + FMODI.map(k => { const w = f(k);
+      return `<span class="fm-z${k === fedModus ? " an" : ""}" role="cell"><b>${esc(w[0])}</b>${w[1] ? `<small>${esc(w[1])}</small>` : ""}</span>`; }).join("")).join("")}</div>`;
+}
+/* Wofuer der Modus steht, mit den Zahlen dieser Karte */
+function modusWas(x){
+  const m = x.modi[fedModus], pz = Math.round(Math.abs(m.luft) * 100);
+  if(fedModus === "downhill") return tx(`<b>Pur Downhill</b> — schnell und ruppig, Wurzeln, Steinfelder, Bremswellen: ${x.coil ? "Stahlfeder bleibt" : `${pz} % weniger Luft`}, mehr Sag, LSC und HSC offener — das Fahrwerk ist weicher, spricht schneller an und klebt am Boden. Zugstufe schneller, damit es zwischen schnellen Schlägen ausfedert statt wegzusacken.`,
+    `<b>Pure downhill</b> — fast and rough, roots, rock gardens, braking bumps: ${x.coil ? "keep the coil" : `${pz} % less air`}, more sag, LSC and HSC more open — the suspension is softer, reacts faster and sticks to the ground. Rebound faster so it recovers between quick hits instead of packing down.`);
+  if(fedModus === "spruenge") return tx(`<b>Pur Sprünge</b> — Absprung, Landung, Drops, Anlieger: ${x.coil ? "Stahlfeder bleibt, gegen Durchschlagen sorgt die HSC" : m.grenze ? "schon am Maximaldruck — nimm 1 Volumen-Spacer mehr" : `${pz} % mehr Luft (oder bei ${x.psi} psi 1 Volumen-Spacer mehr)`}; LSC fester, damit du im Absprung nicht in den Federweg sackst; HSC fester für Landungen; Zugstufe langsamer, damit dich das Rad am Kicker nicht aushebelt.`,
+    `<b>Pure jumps</b> — take-offs, landings, drops, berms: ${x.coil ? "keep the coil, HSC handles bottoming" : m.grenze ? "already at maximum pressure — add 1 volume spacer" : `${pz} % more air (or 1 volume spacer more at ${x.psi} psi)`}; LSC firmer so you don't sink into the travel on the lip; HSC firmer for landings; rebound slower so the bike doesn't buck you off the kicker.`);
+  return tx("<b>Allround</b> — Trails mit allem: genau nach deinem Fahrprofil, ausgewogen zwischen Grip und Halt. Von hier aus nach der ersten Fahrt feinstellen.",
+    "<b>All-round</b> — trails with everything: exactly per your riding profile, balanced between grip and support. Fine-tune from here after the first ride.");
+}
 function federKarte(titel, x, slot){
+  const m = x.modi[fedModus];
   const reihe = (lbl, zeilen) => `<div class="fed-ds"><span class="fed-dk">${lbl}</span>
     ${zeilen.map(([k, v]) => `<span class="fed-dz"><b>${knopfName(k)}</b><span>${esc(v)}</span></span>`).join("")}</div>`;
   const haupt = x.coil
     ? (x.rate ? `<b class="fed-wert">${x.rate} lbs/in</b><span class="fed-u">${tx("Federhärte", "spring rate")}</span>`
               : `<b class="fed-wert">${x.feder}</b><span class="fed-u">${tx("Stahlfeder", "coil spring")}</span>`)
-    : `<b class="fed-wert">${x.psi} psi</b><span class="fed-u">${barVon(x.psi)} ${tx("bar Luftdruck", "bar air pressure")}</span>`;
+    : `<b class="fed-wert">${m.psi} psi</b><span class="fed-u">${barVon(m.psi)} bar · ${esc(modusName(fedModus))}</span>`;
   const schema = schemaBlock(x, slot);
   return `<div class="fed-karte">
     <div class="fed-kopf"><span class="fed-k">${titel}</span><span class="fed-n">${esc(x.t.n)}</span></div>
-    <div class="fed-haupt">${haupt}<span class="fed-sag">Sag ${x.sag} % ≈ ${zahlDe(x.sagMm)} mm</span></div>
-    ${x.grenze ? `<p class="fed-warn">${x.coil ? tx("Außerhalb üblicher Federhärten — beim Hersteller nachfragen.", "Outside the usual spring rates — ask the manufacturer.") : tx("Am Maximaldruck — mehr geht nicht. Sag messen; eventuell ein Volumen-Spacer weniger.", "At maximum pressure — that's the limit. Measure sag; maybe one volume spacer less.")}</p>` : ""}
-    ${schema ? "" : reihe(tx("Abfahrt · ruppig und schnell", "Descent · rough and fast"), x.ds.abfahrt) + reihe(tx("Sprünge & Bikepark", "Jumps & bike park"), x.ds.spruenge)}
+    <div class="fed-haupt">${haupt}<span class="fed-sag">Sag ${m.sag} % ≈ ${zahlDe(m.sagMm)} mm${x.coil
+      ? tx(" · die Feder bleibt in allen Modi gleich", " · the spring stays the same in every mode") : ""}</span></div>
+    ${m.grenze ? `<p class="fed-warn">${x.coil ? tx("Außerhalb üblicher Federhärten — beim Hersteller nachfragen.", "Outside the usual spring rates — ask the manufacturer.") : tx("Am Maximaldruck — mehr geht nicht. Sag messen; eventuell ein Volumen-Spacer weniger.", "At maximum pressure — that's the limit. Measure sag; maybe one volume spacer less.")}</p>` : ""}
+    ${modusVergleich(x)}
+    ${schema ? "" : reihe(esc(modusName(fedModus)), x.ds[fedModus])}
     <p class="fed-q">${x.tab ? (x.tab.eigen ? tx(`Nach Herstellertabelle ${fedName(x.tab.tab)}.`, `Per manufacturer table ${fedName(x.tab.tab)}.`) : tx(`Keine Herstellertabelle im Katalog — Richtwert der Klasse (${fedName(x.tab.tab)}).`, `No manufacturer table in the catalogue — guide value for its class (${fedName(x.tab.tab)}).`)) + " " : ""}${
-      x.basis ? x.basis.txt + ". " : ""}${x.lr ? tx(`Hinterbau-Übersetzung ≈ ${zahlDe(x.lr.toFixed(1))} (geschätzt aus ${x.hinten} mm Federweg und ${zahlDe(x.t.hub)} mm Hub).`, `Leverage ratio ≈ ${x.lr.toFixed(1)} (estimated from ${x.hinten} mm travel and ${x.t.hub} mm stroke).`) : ""}</p>
+      x.basis ? x.basis.txt + ". " : ""}${x.lr ? tx(`Hinterbau-Übersetzung ≈ ${zahlDe(x.lr.toFixed(1))} (geschätzt aus ${x.hinten} mm Federweg und ${zahlDe(x.t.hub)} mm Hub).`, `Leverage ratio ≈ ${x.lr.toFixed(1)} (estimated from ${x.hinten} mm travel and ${x.t.hub} mm stroke).`) : ""}${
+      x.klasse < 0 ? tx(" Wenig Federweg, wenig Reserve: bergab nicht ganz so weich, beim Springen mehr Luft und Druckstufe.", " Short travel, little reserve: not quite as soft downhill, more air and compression for jumps.")
+      : x.klasse > 0 ? tx(" Viel Federweg, viel Reserve: beim Springen reicht etwas weniger Luft.", " Long travel, plenty of reserve: a bit less air is enough for jumps.") : ""}</p>
     ${schema}
     ${topCapBlock(slot, x)}
   </div>`;
@@ -7687,18 +7789,12 @@ function knopfLesen(vis){
   const delta = vis.zug ? (wert > 0 ? relZahl(wert) + tx(" langsamer", " slower") : wert < 0 ? relZahl(wert) + tx(" schneller", " faster") : tx("Grundwert", "base value"))
     : wert > 0 ? relZahl(zeig(wert)) + tx(" fester", " firmer") : wert < 0 ? relZahl(zeig(wert)) + tx(" weicher", " softer") : tx("Grundeinstellung", "base setting");
   const marke = r => stufeName ? stufeName(r) : relZahl(zeig(r));
-  /* kurz fuer die Zeile unter der Kachel ("Fuer Spruenge: ...") */
-  const kurzText = vis.zug ? (wert ? `${Math.abs(wert)} ${einheit}` : tx("dein Grundwert", "your base value")) : null;
-  return {lo:lo, hi:hi, wert:wert, gross:gross, einheit:einheit, tun:tun, art:art, delta:delta, marke:marke, enden:enden, kurzText:kurzText};
+  return {lo:lo, hi:hi, wert:wert, gross:gross, einheit:einheit, tun:tun, art:art, delta:delta, marke:marke, enden:enden};
 }
-/* Kachel je Knopf. vis2: dieselbe Stellung in der anderen Ansicht (Abfahrt
-   oder Spruenge), wenn sie abweicht -- als gestrichelter Ring auf derselben
-   Skala, damit man ohne Umschalten sieht, dass und wohin umgestellt wird. */
-function knopfKachel(name, wo, vis, vis2){
+/* Kachel je Knopf. Was sich in den anderen Modi aendert, zeigt der
+   Vergleich ueber den Kacheln (modusVergleich). */
+function knopfKachel(name, wo, vis){
   const k = knopfLesen(vis), {lo, hi, wert, art} = k;
-  const k2 = vis2 ? knopfLesen(vis2) : null;
-  const zweit = k2 && k2.wert !== wert && k2.lo === lo && k2.hi === hi ? k2 : null;
-  const anderName = tcAnsicht === "abfahrt" ? tx("Sprünge", "jumps") : tx("Abfahrt", "the descent");
   const woTxt = vis.wo || (wo === "knopf" && name === "LSC" ? tx("Low-Speed-Knopf", "low-speed knob") : wo === "knopf" && name === "HSC" ? tx("High-Speed-Knopf", "high-speed knob") : sp2(WO[wo]));
   const pct = r => ((r - lo) / (hi - lo) * 100).toFixed(2);
   const dicht = hi - lo > 12;
@@ -7716,40 +7812,22 @@ function knopfKachel(name, wo, vis, vis2){
     <div class="mt">
       <div class="mt-bahn">
         <i class="mt-fill ${art}" style="left:${pct(von)}%;width:${(pct(bis) - pct(von)).toFixed(2)}%"></i>${striche}
-        ${zweit ? `<i class="mt-m2 ${zweit.art}" style="left:${pct(zweit.wert)}%" aria-hidden="true"></i>` : ""}
         <b class="mt-m ${art}" style="left:${pct(wert)}%"><span>${esc(k.marke(wert))}</span></b>
       </div>
       <div class="mt-zahlen">${zahlen}</div>
       <div class="mt-enden"><span>${k.enden ? k.enden[0] : tx("− offen · weicher", "− open · softer")}</span><span>${k.enden ? k.enden[1] : tx("zu · fester +", "closed · firmer +")}</span></div>
     </div>
     <p class="kk-tun">${k.tun}</p>
-    ${zweit ? `<p class="kk-anders"><i class="mt-m2 ${zweit.art}" aria-hidden="true"></i><span>${tx("Für", "For")} <b>${anderName}</b>: ${zweit.kurzText
-      ? `<span class="kk-anders-d ${zweit.art}">${esc(zweit.kurzText)}</span>`
-      : `${esc(zweit.gross)} ${esc(zweit.einheit)} · <span class="kk-anders-d ${zweit.art}">${zweit.delta}</span>`}</span></p>` : ""}
   </div>`;
 }
-/* Was sich zwischen Abfahrt und Spruengen aendert -- sonst sieht man in der
-   gerade gezeigten Ansicht nicht, dass fuer die andere umgestellt werden muss */
-const andereAnsicht = () => tcAnsicht === "abfahrt" ? "spruenge" : "abfahrt";
-/* verglichen wird die Stellung, nicht der Hinweistext */
-const stellung = z => z[2] ? z[2].kurz : z[3] ? z[3].an : z[1];
-const ansichtDiff = x => { const a = x.ds[tcAnsicht] || [], b = x.ds[andereAnsicht()] || [];
-  return a.filter(z => { const y = b.find(q => q[0] === z[0]); return y && stellung(y) !== stellung(z); }).map(z => z[0]); };
 function schemaBlock(x, slot){
-  const zeilen = x.ds[tcAnsicht] || [];
-  const diff = ansichtDiff(x);
+  const zeilen = x.ds[fedModus] || [];
   const lscZ = zeilen.find(z => z[0] === "LSC" && z[2]), hscZ = zeilen.find(z => z[0] === "HSC" && z[2]);
   const topCap = slot === "gabel" && lscZ && hscZ;
   const bekannt = /^(Fox|RockShox|Marzocchi)$/.test(x.t.m);
-  /* dieselbe Stellung in der anderen Ansicht, fuer den gestrichelten Ring */
-  const andere = x.ds[andereAnsicht()] || [];
-  const gegen = z => { const y = andere.find(q => q[0] === z[0]); return y && y[2] ? y[2] : null; };
   const rest = zeilen.filter(z => z[2] && !(topCap && (z === lscZ || z === hscZ)));
-  const raeder = (topCap ? knopfKachel("HSC", "hsc", hscZ[2], gegen(hscZ)) + knopfKachel("LSC", "lsc", lscZ[2], gegen(lscZ)) : "")
-    + rest.map(z => knopfKachel(z[0], "knopf", z[2], gegen(z))).join("");
-  const luftAndere = tcAnsicht === "abfahrt";
-  const luft = (luftAndere ? andere : zeilen).filter(z => z[3] && z[3].info).map(z => `<p class="kn-luft"><b>${esc(knopfName(z[0]))}</b><span>${luftAndere
-    ? tx("Für <b>Sprünge</b>: ", "For <b>jumps</b>: ") : ""}${esc(z[1])}</span></p>`).join("");
+  const raeder = (topCap ? knopfKachel("HSC", "hsc", hscZ[2]) + knopfKachel("LSC", "lsc", lscZ[2]) : "")
+    + rest.map(z => knopfKachel(z[0], "knopf", z[2])).join("");
   /* Hebel und Stufen-Knoepfe: alle Stellungen, die empfohlene hervorgehoben */
   const hebel = zeilen.filter(z => !z[2] && !(z[3] && !z[3].o.length)).map(z => {
     const s = z[3] || {o:["offen", "Mitte", "zu"], an:0};
@@ -7760,19 +7838,8 @@ function schemaBlock(x, slot){
   }).join("");
   if(!raeder && !hebel) return "";
   return `<div class="kn-block">
-    <div class="kn-kopf"><b>${tx("So stellst du die Knöpfe", "How to set the knobs")}</b>
-      <div class="tc-ansicht" role="group" aria-label="${tx("Einstellung zeigen", "Show setting")}">
-        <button data-tcansicht="abfahrt" aria-pressed="${tcAnsicht === "abfahrt"}"${diff.length && tcAnsicht !== "abfahrt" ? ' class="anders"' : ""}>${tx("Abfahrt", "Descent")}</button>
-        <button data-tcansicht="spruenge" aria-pressed="${tcAnsicht === "spruenge"}"${diff.length && tcAnsicht !== "spruenge" ? ' class="anders"' : ""}>${tx("Sprünge", "Jumps")}</button></div></div>
-    ${diff.length ? `<p class="kn-anders">${tcAnsicht === "abfahrt"
-      ? tx(`Für <b>Sprünge</b> anders: ${esc(diff.map(knopfName).join(", "))}. Der gestrichelte Ring zeigt, wohin — oder oben auf „Sprünge“ tippen.`, `Different for <b>jumps</b>: ${esc(diff.map(knopfName).join(", "))}. The dashed ring shows where — or tap “Jumps” above.`)
-      : tx(`Für die <b>Abfahrt</b> anders: ${esc(diff.map(knopfName).join(", "))}. Der gestrichelte Ring zeigt, wohin — oder oben auf „Abfahrt“ tippen.`, `Different for the <b>descent</b>: ${esc(diff.map(knopfName).join(", "))}. The dashed ring shows where — or tap “Descent” above.`)}</p>` : ""}
-    <p class="kn-was">${tcAnsicht === "abfahrt"
-      ? tx("<b>Ruppig und schnell</b> — Wurzeln, Steinfelder, Bremswellen: HSC offener für Grip auf Kanten, Zugstufe schneller, damit die Federung zwischen schnellen Schlägen wieder ausfedert statt wegzusacken.",
-        "<b>Rough and fast</b> — roots, rock gardens, braking bumps: HSC more open for grip on edges, rebound faster so the suspension recovers between quick hits instead of packing down.")
-      : tx("<b>Sprünge und Bikepark</b> — Absprung, Landung, Drops, Anlieger: LSC fester, damit du im Absprung nicht in den Federweg sackst; HSC fester und etwas mehr Luft für Landungen; Zugstufe langsamer, damit dich das Rad am Kicker nicht aushebelt.",
-        "<b>Jumps and bike park</b> — take-offs, landings, drops, berms: LSC firmer so you don't sink into the travel on the lip; HSC firmer and a bit more air for landings; rebound slower so the bike doesn't buck you off the kicker.")}</p>
-    ${luft}
+    <div class="kn-kopf"><b>${tx("So stellst du die Knöpfe", "How to set the knobs")}</b><span class="kn-modus">${esc(modusName(fedModus))}</span></div>
+    <p class="kn-was">${modusWas(x)}</p>
     ${raeder ? `<div class="kk-reihe">${raeder}</div>` : ""}${hebel}
     ${raeder ? `<p class="kn-hin">${topCap ? (bekannt
         ? tx("Bei Fox und RockShox sitzt der kleine LSC-Knopf im großen HSC-Ring — das Symbol zeigt, welcher gemeint ist. ", "On Fox and RockShox the small LSC knob sits inside the large HSC ring — the symbol shows which one is meant. ")
@@ -7817,14 +7884,13 @@ function handbuchVon(slot, t){
 }
 /* Knoepfe, die man im eigenen Foto markieren kann: alles, was sich verstellen laesst */
 /* Die Zugstufe der Gabel sitzt unten am Holm, nicht auf dem Top Cap */
-const knoepfeVon = x => x.ds.abfahrt.filter(z => (z[2] || (z[3] && z[3].o.length)) && !(z[0] === "Zugstufe" && x.tab)).map(z => z[0]);
+const knoepfeVon = x => x.ds.allround.filter(z => (z[2] || (z[3] && z[3].o.length)) && !(z[0] === "Zugstufe" && x.tab)).map(z => z[0]);
 const tcFach = slot => "mtb.topcap." + (aktivId[modus] || "x") + "." + slot;
 function tcLaden(slot){ try{ const v = localStorage.getItem(tcFach(slot)); return v ? JSON.parse(v) : null; }catch(e){ return null; } }
 function tcSpeichern(slot, d){
   try{ if(d) localStorage.setItem(tcFach(slot), JSON.stringify(d)); else localStorage.removeItem(tcFach(slot)); return true; }
   catch(e){ zeigeToast(tx("Kein Platz mehr auf dem Gerät — entferne ein anderes Foto.", "No space left on the device — remove another photo.")); return false; }
 }
-let tcAnsicht = "abfahrt";
 function topCapBlock(slot, x){
   if(!slot) return "";
   const hb = handbuchVon(slot, x.t), tc = tcLaden(slot), knoepfe = knoepfeVon(x);
@@ -7838,7 +7904,7 @@ function topCapBlock(slot, x){
       `Take a photo of the top of ${teilName} with the adjuster dials — the app writes the setting straight into the picture. The photo stays on your phone.`)}</span></div>`;
   const offen = knoepfe.filter(k => !(tc.marks && tc.marks[k]));
   const werte = {};
-  for(const z of x.ds[tcAnsicht]) werte[z[0]] = z[2] && z[2].kurz ? z[2].kurz : z[3] && z[3].o.length ? stellName(z[3].o[z[3].an]) : z[1];
+  for(const z of x.ds[fedModus]) werte[z[0]] = z[2] && z[2].kurz ? z[2].kurz : z[3] && z[3].o.length ? stellName(z[3].o[z[3].an]) : z[1];
   /* Kurz, damit dicht beieinander liegende Knoepfe (GRIP X2: HSC und LSC
      uebereinander) sich nicht verdecken; der zweite steht ueber dem Punkt */
   const kurz = v => !v ? "" : v.replace(/^(offen|open)\b.*$/, "$1");
@@ -7848,7 +7914,7 @@ function topCapBlock(slot, x){
   }).join("");
   return `<div class="tc-block">
     ${offen.length ? `<p class="tc-hin">${tx(`Tippe im Foto auf den Knopf „${esc(offen[0])}“.`, `Tap the “${esc(knopfName(offen[0]))}” knob in the photo.`)}</p>`
-      : `<p class="tc-h">${tx(`Dein Foto — zeigt die Einstellung für ${tcAnsicht === "abfahrt" ? "Abfahrt" : "Sprünge"} (oben umschalten).`, `Your photo — shows the setting for ${tcAnsicht === "abfahrt" ? "descent" : "jumps"} (switch above).`)}</p>`}
+      : `<p class="tc-h">${tx(`Dein Foto — zeigt die Einstellung für ${modusName(fedModus)} (oben umschalten).`, `Your photo — shows the setting for ${modusName(fedModus)} (switch above).`)}</p>`}
     <div class="tc-bild${offen.length ? " markieren" : ""}"${offen.length ? ` data-tcmark="${slot}"` : ""}>
       <img src="${tc.img}" alt="${tx("Dein Foto", "Your photo")}">${marken}</div>
     <div class="tc-knoepfe">
@@ -7863,7 +7929,14 @@ function federErgebnisHtml(){
   const f = federRechnen();
   if(!f.gabel && !f.daempfer) return `<p class="empty-note">${tx(`In diesem Aufbau ist keine Federung eingetragen. Wähl zuerst eine Federgabel
     ${modus === "traum" ? "" : "— oder trag ein, welche an deinem Rad ist"}.`, `There's no suspension in this build. Choose a suspension fork first${modus === "traum" ? "" : " — or enter the one on your bike"}.`)}</p>`;
-  return (f.gabel ? federKarte(tx("Federgabel", "Suspension fork"), f.gabel, "gabel") : "") + (f.daempfer ? federKarte(tx("Dämpfer", "Shock"), f.daempfer, "daempfer") : "");
+  const was = {downhill:["Schnelle, ruppige Abfahrten: weicher, spricht schneller an und klebt auf Wurzeln und Steinen.", "Fast, rough descents: softer, reacts faster and sticks on roots and rocks."],
+    allround:["Trails mit allem: ausgewogen zwischen Grip und Halt — die Einstellung für jeden Tag.", "Trails with everything: balanced between grip and support — the everyday setting."],
+    spruenge:["Bikepark, Tables, Drops: straff, viel Halt an der Kante, schlägt bei der Landung nicht durch.", "Bike park, tables, drops: firm, lots of support on the lip, doesn't bottom out on landing."]};
+  return `<div class="fm-wahl"><span class="leit-sub">${tx("Wofür stellst du ein?", "What are you setting up for?")}</span>
+      <div class="fm-seg" role="group" aria-label="${tx("Modus", "Mode")}">${FMODI.map(k =>
+        `<button data-fmodus="${k}" aria-pressed="${k === fedModus}">${esc(modusName(k))}</button>`).join("")}</div>
+      <p class="fm-txt">${sp2(was[fedModus])}</p></div>`
+    + (f.gabel ? federKarte(tx("Federgabel", "Suspension fork"), f.gabel, "gabel") : "") + (f.daempfer ? federKarte(tx("Dämpfer", "Shock"), f.daempfer, "daempfer") : "");
 }
 function federFrageHtml(){
   const n = FFRAGEN.length + 1, i = fschritt;
@@ -7903,7 +7976,8 @@ function oeffneFederung(){
         2. Sag prüfen: in Fahrposition aufs Rad stellen, der Gummiring am Standrohr zeigt, wie weit es einsinkt — das sollte ungefähr der Sag-Wert sein.<br>
         3. Druckstufe: Knopf erst ganz zudrehen (im Uhrzeigersinn), dann die Klicks zurückzählen. „Mitte“ heißt: halbe Anzahl Klicks. Im Schema ist jeder Strich ein Klick, die Zahl sagt, wie weit von der Grundeinstellung. Cane Creek zählt andersherum, ab ganz offen — die Kachel sagt es dazu.<br>
         4. Am Dämpfer sitzen LSC und HSC meist am Ausgleichsbehälter, der Kletterhebel daneben. Bergab steht der Hebel immer offen, sonst wirken HSC und LSC nicht.<br>
-        5. Zugstufe (Rebound), dein Grundwert: Viele Gabeln haben eine Tabelle am Holm (Klicks je Luftdruck). Sonst: Knopf ganz schnell stellen (Hase), im Sitzen von einer Bordsteinkante rollen und dann Klick für Klick langsamer, bis das Heck nach der Landung einmal zurückkommt und nicht nachwippt. Vorne genauso mit einem kräftigen Druck auf den Lenker. Von diesem Grundwert aus zählen die Klicks in der Zugstufen-Kachel. Mehr Luft braucht mehr Zugstufe — nach jeder Druckänderung neu prüfen.</div>
+        5. Oben den Modus wählen: <b style="display:inline">Pur Downhill</b> für schnelle, ruppige Abfahrten, <b style="display:inline">Allround</b> für Trails mit allem, <b style="display:inline">Pur Sprünge</b> für Bikepark und Drops. Luft, Sag, Druck- und Zugstufe ändern sich mit — umstellen dauert mit der Pumpe zwei Minuten.<br>
+        6. Zugstufe (Rebound), dein Grundwert: Viele Gabeln haben eine Tabelle am Holm (Klicks je Luftdruck). Sonst: Knopf ganz schnell stellen (Hase), im Sitzen von einer Bordsteinkante rollen und dann Klick für Klick langsamer, bis das Heck nach der Landung einmal zurückkommt und nicht nachwippt. Vorne genauso mit einem kräftigen Druck auf den Lenker. Von diesem Grundwert aus zählen die Klicks in der Zugstufen-Kachel. Mehr Luft braucht mehr Zugstufe — nach jeder Druckänderung neu prüfen.</div>
       <div class="erk"><b>Nach der ersten Fahrt nachstellen</b>
         Immer nur eine Sache ändern, 1–2 Klicks pro Runde, auf derselben Teststrecke.<br>
         · Taucht beim Bremsen und in Anliegern tief ein → <b style="display:inline">LSC</b> 2 Klicks zu.<br>
@@ -7925,7 +7999,8 @@ const FED_ANLEITUNG_EN = `<div class="erk" style="margin-top:6px"><b>How to set 
         2. Check sag: stand on the bike in riding position; the rubber O-ring on the stanchion shows how far it sinks — that should be roughly the sag value.<br>
         3. Compression: first turn the knob fully closed (clockwise), then count the clicks back. “Middle” means half the number of clicks. In the diagram every tick is one click, the number says how far from the base setting. Cane Creek counts the other way, from fully open — the tile says so.<br>
         4. On the shock, LSC and HSC usually sit on the reservoir, the climb switch next to them. On descents the lever is always open, otherwise HSC and LSC don't work.<br>
-        5. Rebound, your base value: many forks have a chart on the leg (clicks per air pressure). Otherwise: set the knob to fully fast (hare), roll off a kerb seated and then go slower click by click until the rear comes back once after landing and doesn't bob again. Same at the front with a firm push on the bar. The clicks in the rebound tile count from this base value. More air needs more rebound — check again after every pressure change.</div>
+        5. Pick the mode at the top: <b style="display:inline">Pure downhill</b> for fast, rough descents, <b style="display:inline">All-round</b> for trails with everything, <b style="display:inline">Pure jumps</b> for bike park and drops. Air, sag, compression and rebound change with it — switching takes two minutes with the pump.<br>
+        6. Rebound, your base value: many forks have a chart on the leg (clicks per air pressure). Otherwise: set the knob to fully fast (hare), roll off a kerb seated and then go slower click by click until the rear comes back once after landing and doesn't bob again. Same at the front with a firm push on the bar. The clicks in the rebound tile count from this base value. More air needs more rebound — check again after every pressure change.</div>
       <div class="erk"><b>Fine-tune after the first ride</b>
         Only ever change one thing, 1–2 clicks per run, on the same test track.<br>
         · Dives deep under braking and in berms → <b style="display:inline">LSC</b> 2 clicks in.<br>
@@ -9501,8 +9576,12 @@ document.addEventListener("click", e => {
   if(tcw){ tcSpeichern(tcw.dataset.tcweg, null); $("fed-erg").innerHTML = federErgebnisHtml(); return; }
   const tcn = T("[data-tcneu]");
   if(tcn){ const d = tcLaden(tcn.dataset.tcneu); if(d){ d.marks = {}; tcSpeichern(tcn.dataset.tcneu, d); } $("fed-erg").innerHTML = federErgebnisHtml(); return; }
-  const tca = T("[data-tcansicht]");
-  if(tca){ tcAnsicht = tca.dataset.tcansicht; $("fed-erg").innerHTML = federErgebnisHtml(); return; }
+  const fmo = T("[data-fmodus]");
+  if(fmo){
+    fedModus = fmo.dataset.fmodus;
+    try{ localStorage.setItem("mtb.fmodus", fedModus); }catch(e){}
+    $("fed-erg").innerHTML = federErgebnisHtml(); return;
+  }
   const tcm = T("[data-tcmark]");
   if(tcm){
     const slot = tcm.dataset.tcmark, d = tcLaden(slot), x = federRechnen()[slot];
