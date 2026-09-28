@@ -50,10 +50,11 @@ Enduro und Downhill eine Stufe kürzer), Hub der Variostütze
 ((Schrittlänge − 58) × 7,5, wie die Tabellen von OneUp und PNW), Sattelhöhe,
 Laufradgröße, Rise und Griffdicke. Beim Eingeben zeigt eine Figur (Gesicht,
 Frisur, Trikot, Shorts, Socken, Schuhe; Statur nach dem Gewicht) die
-Rahmengröße live, eine Cockpit-Ansicht mit Helm, Brille und Handschuhen
-Schultern und Lenker in echter Breite. Im Fit sitzt ein Fahrer in deiner Größe
-auf dem Rad, Beine und Arme aus Sattel, Pedal und Griff gerechnet (Helm mit
-Schirm, Trikot mit Licht und Schatten, Knieschoner, Flat-Schuhe).
+Rahmengröße live, eine Cockpit-Ansicht mit Fullface-Helm (Kinnbügel mit
+Gitter, Goggle) und Handschuhen Schultern und Lenker in echter Breite. Im Fit
+sitzt ein Fahrer in deiner Größe auf dem Rad, Beine und Arme aus Sattel, Pedal
+und Griff gerechnet (Fullface-Helm mit Schirm und Goggle, Trikot mit Licht und
+Schatten, Knieschoner, Flat-Schuhe).
 Das Rad ist nach der Geometrie des Propain Spindrift 5 AL gezeichnet (S–XL,
 im Fit folgt die Größe deinem Reach, auf der Begrüßung steht das lange XL): Lenkwinkel 63,9°, Sitzwinkel 78,4°, Kettenstrebe
 445 mm, Tretlagerabsenkung 20 mm, Mullet 29/27,5″, 180 mm Federweg. Das
