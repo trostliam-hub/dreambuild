@@ -313,6 +313,9 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .erk b{display:block;color:var(--ink);font-size:14px;margin-bottom:2px}
 .wie{grid-column:1 / -1;justify-self:start;font-size:12px;color:var(--anod);font-weight:650;padding:2px 0;margin-top:-4px}
 .slot-was{grid-column:1;font-size:12px;color:var(--ink-3);line-height:1.4}
+/* Fuer Einsteiger: jedes Teil erklaert sich in einem Satz */
+.slot-was.neu{display:flex;gap:6px;align-items:flex-start;margin-top:2px;color:var(--ink-3)}
+.slot-was.neu svg{flex:none;margin-top:1px;color:var(--anod-2)}
 .was-das{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin:0 0 10px;padding:10px 12px;border-radius:12px;background:var(--anod-soft)}
 .was-das b{color:var(--anod)}
 
@@ -1315,6 +1318,51 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 
 /* Konfetti */
 .konfetti{position:fixed;inset:0;pointer-events:none;z-index:95;overflow:hidden}
+
+/* Rundgang: Scheinwerfer auf echte Bedienelemente, Karte daneben */
+.tour{position:fixed;inset:0;z-index:90;animation:ei-einblenden .3s ease both}
+.tour.aus{opacity:0;transition:opacity .3s}
+.tour-licht,.tour-ring{position:fixed;pointer-events:none;border-radius:18px;
+  transition:left .45s cubic-bezier(.3,.9,.3,1),top .45s cubic-bezier(.3,.9,.3,1),width .45s cubic-bezier(.3,.9,.3,1),height .45s cubic-bezier(.3,.9,.3,1),border-radius .45s,opacity .3s}
+.tour-licht{box-shadow:0 0 0 300vmax rgba(4,3,12,.76)}
+.tour-licht.leer{left:50%!important;top:45%!important;width:0!important;height:0!important}
+.tour-ring{border:2px solid var(--anod);animation:tourPuls 1.7s ease-out infinite}
+.tour-ring.leer{opacity:0}
+@keyframes tourPuls{0%{box-shadow:0 0 0 0 rgba(140,92,255,.55)}100%{box-shadow:0 0 0 16px rgba(140,92,255,0)}}
+.tour-karte{position:fixed;left:16px;top:40%;background:var(--surface);border:1px solid var(--hair);border-radius:22px;padding:16px 16px 14px;
+  box-shadow:0 26px 70px rgba(0,0,0,.55);opacity:0;transform:translateY(12px) scale(.97);
+  transition:opacity .28s ease,transform .38s cubic-bezier(.2,.9,.3,1.25)}
+.tour-karte.rein{opacity:1;transform:none}
+.tour-karte.mitte{padding:18px 18px 16px}
+.tk-bild{margin:-4px -6px 8px;height:118px}
+.tk-bild svg{width:100%;height:100%;display:block}
+.tk-kopf{display:flex;align-items:center;gap:12px}
+.tk-ic{width:42px;height:42px;flex:none;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#8a4dff,#2f8cff);
+  box-shadow:0 8px 22px rgba(110,80,255,.45);animation:tourPop .5s cubic-bezier(.2,.9,.3,1.5) both}
+@keyframes tourPop{from{transform:scale(.4) rotate(-12deg);opacity:0}}
+.tk-schritt{display:block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--anod-2);font-weight:800}
+.tour-karte h3{font-family:var(--f-head);font-size:20px;font-weight:800;letter-spacing:-.02em;margin:1px 0 0;line-height:1.15}
+.tour-karte p{font-size:14.5px;line-height:1.5;color:var(--ink-2);margin:10px 0 14px}
+.tk-fuss{display:flex;align-items:center;gap:8px}
+.tk-punkte{display:flex;gap:5px;margin-right:auto}
+.tk-punkte i{width:6px;height:6px;border-radius:999px;background:var(--line);transition:width .3s,background .3s}
+.tk-punkte i.war{background:var(--anod-2);opacity:.5}
+.tk-punkte i.an{width:18px;background:var(--anod)}
+.tk-skip{background:none;border:none;color:var(--ink-3);font-weight:700;font-size:13px;padding:8px 6px;cursor:pointer}
+
+/* Menue: Einstieg und Rundgang als grosse Knoepfe, Hilfe als erklaerte Zeilen */
+.hilfe-start{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 0}
+.hs-knopf{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:14px;border-radius:18px;
+  background:var(--anod-soft);border:1px solid var(--hair);color:var(--ink);cursor:pointer;min-height:118px}
+.hs-knopf b{font-size:14.5px;font-weight:800;margin-top:6px}
+.hs-knopf > span:last-child{font-size:12px;line-height:1.4;color:var(--ink-3)}
+.hs-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#8a4dff,#2f8cff)}
+.hilfe-liste{display:grid;gap:8px}
+.hl-zeile{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;text-align:left;padding:12px 14px;
+  border-radius:16px;background:var(--surface);border:1px solid var(--hair);color:var(--ink-3);cursor:pointer}
+.hl-zeile b{display:block;font-size:14px;font-weight:750;color:var(--ink)}
+.hl-zeile span span{display:block;font-size:12px;margin-top:1px}
+.hl-ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--surface-2);color:var(--anod)}
 .konfetti i{position:absolute;left:50%;top:38%;width:8px;height:14px;border-radius:2px;opacity:0;
   animation:konfetti var(--d,2s) cubic-bezier(.16,.7,.36,1) forwards;animation-delay:var(--w,0s)}
 @keyframes konfetti{0%{transform:translate(0,0) rotate(0) scale(.5);opacity:1}
@@ -5653,6 +5701,13 @@ function fitAnpassen(b, protokoll){
 const ic = (inhalt, gr) => `<svg width="${gr || 22}" height="${gr || 22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inhalt}</svg>`;
 const tacho = (dx, dy) => `<path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l${dx} ${dy}"/><circle cx="12" cy="17" r="1.3"/>`;
 const IC = {
+  wertung:`<path d="M4 18a8 8 0 1 1 16 0"/><path d="m12 18 4-6"/><circle cx="12" cy="18" r="1.2"/>`,
+  upgrade:`<path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/>`,
+  hilfe:`<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2.2-2.4 3.7"/><circle cx="12" cy="17.2" r=".6"/>`,
+  neustart:`<path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.4"/><path d="M3.5 3.5v4.9h4.9"/>`,
+  tour:`<circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.3 5-4.9 2.2 2.3-5z"/>`,
+  buch:`<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19M9 7h6"/>`,
+  auge:`<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>`,
   traum:`<path d="m12 3 1.9 5.3L19 10l-5.1 1.7L12 17l-1.9-5.3L5 10l5.1-1.7z"/><path d="M19 15.5 19.8 18l2.2.8-2.2.8L19 22l-.8-2.4-2.2-.8 2.2-.8z"/>`,
   real:`<circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="m5.5 16.5 4-7h6l3 7M9.5 9.5l3 7h3M13 6h3"/>`,
   markt:`<path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.6" cy="7.6" r="1.4"/>`,
@@ -6862,6 +6917,7 @@ function eiSchliessen(){
   return nach;
 }
 function eiSkip(){
+  if(ei.modus === "voll") tourAnstehend = !tourGesehen();
   const nach = eiSchliessen();
   if(nach && ei.modus === "fit") nach();
 }
@@ -6901,14 +6957,150 @@ function eiFertig(){
       wizFit = [];
       wizErgebnis = fitAnpassen(generiere(), wizFit); wizInfo = generiereInfo;
       eiSchliessen();
+      tourAnstehend = !tourGesehen();          /* Rundgang, sobald der Assistent zu ist */
       oeffneWiz(5);
     }, 650);
     return;
   }
   eiSchliessen();
   window.scrollTo(0, 0);
+  tourAnstehend = !tourGesehen();            /* Rundgang, sobald der Rahmen gewaehlt ist */
   setTimeout(() => oeffneSlot("rahmen"), 300);
 }
+/* ═══════════ Rundgang ═══════════
+   Nach dem ersten Einstieg einmal (Liams Wunsch 2026-09-28: "nach dem
+   Boarding eine Einfuehrung, wo einem kurz und spannend alles gezeigt wird"):
+   ein Scheinwerfer wandert ueber die echten Bedienelemente, daneben eine
+   Karte mit einem Satz dazu. Neun Stationen, jederzeit zu beenden, unter
+   App & Profil wieder startbar. Was es auf dem Bildschirm gerade nicht gibt
+   (etwa die Reiter auf breiten Bildschirmen), wird uebersprungen. */
+let tourAnstehend = false, tour = null;
+/* Einsteiger: im Einstieg "Ganz neu dabei" gewaehlt -- dann erklaert jede
+   Teilekachel in einem Satz, was das Teil tut. Abschaltbar ueber den Einstieg. */
+const einsteiger = () => koerper.erfahrung === "neu";
+const tourGesehen = () => { try{ return localStorage.getItem("mtb.tour") === "1"; }catch(e){ return true; } };
+function tourStationen(){
+  const traum = modus === "traum";
+  return [
+    {mitte:true, bild:true, h:tx("Dein Rad ist bereit", "Your bike is ready"),
+     t:tx("Kurzer Rundgang: In 30 Sekunden weißt du, wo alles ist.", "Quick tour: in 30 seconds you'll know where everything is.")},
+    {sel:".bar-in", ic:IC.wertung, h:tx("Deine Wertung", "Your score"),
+     t:tx("Die große Zahl sagt, wie gut alles zusammenpasst — grün ab 85. Daneben Preis und Gewicht.", "The big number tells you how well everything fits together — green from 85. Next to it: price and weight.")},
+    {sel:".modus-in", ic:IC.real, h:tx("Drei Modi", "Three modes"),
+     t:tx("Traumrad planen, dein eigenes Rad prüfen oder ein Gebrauchtrad bewerten — hier umschalten.", "Plan a dream bike, check your own bike or rate a used one — switch here.")},
+    {sel:"#aufbau .grp .slot", ic:IC.weiter, h:traum ? tx("Teile tauschen", "Swap parts") : tx("Teile eintragen", "Enter parts"),
+     t:traum ? tx("Tippe ein Teil an. Die App zeigt dir nur, was passt — mit Preis und Gewicht.", "Tap a part. The app only shows what fits — with price and weight.")
+       : tx("Tippe ein Teil an und wähl, was an deinem Rad verbaut ist.", "Tap a part and pick what's fitted to your bike.")},
+    {sel:'.tabs [data-view="befunde"]||#c-find', ic:IC.pruef, h:tx("Prüfung", "Check"),
+     t:tx("Hier steht, was nicht zusammenpasst — und mit welchem Teil du es löst.", "This shows what doesn't fit together — and which part fixes it.")},
+    {sel:'.tabs [data-view="upgrades"]||#c-up', ic:IC.upgrade, h:"Upgrades",
+     t:tx("Was sich lohnt: erst, was du kostenlos umstellen kannst, dann echte Verbesserungen.", "What's worth it: first what you can adjust for free, then real improvements.")},
+    {sel:'.tabs [data-view="deals"]||#c-kauf', ic:IC.markt, h:tx("Kaufen", "Buy"),
+     t:traum ? tx("Einkaufsliste mit allen Teilen und Shop-Links — dazu reduzierte Angebote.", "Shopping list with every part and shop links — plus discounted offers.")
+       : tx("Reduzierte Teile, die zu deinem Rad passen.", "Discounted parts that fit your bike.")},
+    {sel:"#btn-disz", ic:IC.trail, h:tx("Wofür fährst du?", "What do you ride?"),
+     t:tx("Trail, Enduro, Downhill … danach wählt die App jedes Teil. Hier kannst du es ändern.", "Trail, enduro, downhill … the app picks every part for it. Change it here.")},
+    {sel:"#btn-menu", ic:IC.hilfe, h:tx("App & Profil", "App & profile"),
+     t:tx("Dein Fit, der Federungsrechner, alle Begriffe erklärt — und hier startest du Einstieg und Rundgang neu.", "Your fit, the suspension calculator, every term explained — and this is where you restart the setup and this tour.")},
+    {mitte:true, ende:true, ic:IC.traum, h:tx("Los geht's!", "Let's ride!"),
+     t:tx("Tipp: Farbige Ränder an den Teilen zeigen, wo etwas nicht passt. Viel Spaß beim Bauen.", "Tip: coloured edges on parts show where something doesn't fit. Have fun building.")}
+  ];
+}
+/* "a||b": erst a (Reiter auf dem Handy), sonst b (Spalte auf breiten Bildschirmen) */
+const tourZiel = s => { if(!s.sel) return null;
+  for(const q of s.sel.split("||")){ const e = document.querySelector(q); if(!e) continue;
+    const r = e.getBoundingClientRect(); if(r.width > 0 && r.height > 0) return e; }
+  return null; };
+function tourStart(){
+  if(tour || $("modal").firstElementChild) return;
+  tourAnstehend = false;
+  view = "aufbau"; zeichne(); window.scrollTo(0, 0);
+  tour = {i:0, liste:tourStationen().filter(s => !s.sel || tourZiel(s)), zeit:0};
+  const el = document.createElement("div");
+  el.id = "tour"; el.className = "tour"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true");
+  el.setAttribute("aria-label", tx("Rundgang durch die App", "Tour of the app"));
+  el.innerHTML = `<div class="tour-licht leer"></div><div class="tour-ring leer"></div><div class="tour-karte" aria-live="polite"></div>`;
+  document.body.appendChild(el);
+  setTimeout(tourZeigen, 60);
+}
+function tourEnde(){
+  const el = $("tour");
+  if(el){ el.classList.add("aus"); setTimeout(() => el.remove(), 320); }
+  tour = null;
+  try{ localStorage.setItem("mtb.tour", "1"); }catch(e){}
+  window.scrollTo({top:0, behavior:bewegungAus() ? "auto" : "smooth"});
+}
+/* Scheinwerfer und Karte an die Station setzen; scrollt erst, wenn das Ziel
+   nicht ganz im Bild ist (oben die Kopfzeile, unten die Reiter) */
+function tourZeigen(){
+  if(!tour) return;
+  const s = tour.liste[tour.i], root = $("tour"), karte = root.querySelector(".tour-karte");
+  const licht = root.querySelector(".tour-licht"), ring = root.querySelector(".tour-ring");
+  const n = tour.liste.length, letzte = tour.i === n - 1;
+  karte.classList.remove("rein");
+  karte.classList.toggle("mitte", !!s.mitte);
+  karte.innerHTML = `${s.bild ? `<div class="tk-bild">${radSvg({anim:true, sattel:780})}</div>` : ""}
+    <div class="tk-kopf">${s.bild ? "" : `<span class="tk-ic">${ic(s.ic || IC.traum, 20)}</span>`}
+      <span><span class="tk-schritt">${s.mitte ? (s.ende ? tx("Geschafft", "Done") : tx("Willkommen", "Welcome")) : tx(`Schritt ${tour.i} von ${n - 2}`, `Step ${tour.i} of ${n - 2}`)}</span>
+      <h3>${s.h}</h3></span></div>
+    <p>${s.t}</p>
+    <div class="tk-fuss"><span class="tk-punkte" aria-hidden="true">${tour.liste.map((x, j) => `<i class="${j === tour.i ? "an" : j < tour.i ? "war" : ""}"></i>`).join("")}</span>
+      ${letzte ? "" : `<button class="tk-skip" data-tour="ende">${tx("Überspringen", "Skip")}</button>`}
+      ${tour.i > 0 && !letzte ? `<button class="btn ghost sm" data-tour="zurueck" aria-label="${tx("Zurück", "Back")}">${ic(IC.zurueck, 16)}</button>` : ""}
+      <button class="btn sm${letzte ? " glanz" : ""}" data-tour="weiter">${letzte ? tx("Los geht's", "Let's go") : tour.i === 0 ? tx("Zeig mir alles", "Show me") : tx("Weiter", "Next")}</button></div>`;
+  const setzen = () => {
+    const vw = window.innerWidth, vh = window.innerHeight, kw = Math.min(360, vw - 32);
+    karte.style.width = kw + "px";
+    if(s.mitte){
+      licht.classList.add("leer"); ring.classList.add("leer");
+      karte.style.left = Math.round((vw - kw) / 2) + "px";
+      karte.style.top = Math.max(16, Math.round((vh - karte.offsetHeight) / 2)) + "px";
+    } else {
+      const e = tourZiel(s); if(!e){ tourSchritt(1); return; }
+      const r = e.getBoundingClientRect(), pad = 7, rad = Math.min(24, parseFloat(getComputedStyle(e).borderRadius) + pad || 16);
+      const box = {l:r.left - pad, t:r.top - pad, w:r.width + 2 * pad, h:Math.min(r.height + 2 * pad, vh * .45)};
+      [licht, ring].forEach(x => { x.classList.remove("leer"); Object.assign(x.style, {left:box.l + "px", top:box.t + "px", width:box.w + "px", height:box.h + "px", borderRadius:rad + "px"}); });
+      const kh = karte.offsetHeight, unten = box.t + box.h + 14, oben = box.t - kh - 14;
+      const top = unten + kh <= vh - 12 ? unten : oben >= 12 ? oben : Math.max(12, vh - kh - 12);
+      karte.style.top = Math.round(top) + "px";
+      karte.style.left = Math.round(Math.max(16, Math.min(vw - kw - 16, box.l + box.w / 2 - kw / 2))) + "px";
+    }
+    requestAnimationFrame(() => karte.classList.add("rein"));
+    const w = karte.querySelector('[data-tour="weiter"]'); if(w){ try{ w.focus({preventScroll:true}); }catch(err){} }
+  };
+  if(s.mitte){ setzen(); if(s.ende) setTimeout(konfetti, 200); return; }
+  const e = tourZiel(s);
+  if(!e){ tourSchritt(1); return; }
+  const r = e.getBoundingClientRect(), fest = getComputedStyle(e).position === "fixed" || e.closest(".tabs, .top");
+  const kopf = 84, fuss = 110;
+  if(!fest && (r.top < kopf || r.bottom > window.innerHeight - fuss)){
+    window.scrollTo({top:Math.max(0, window.scrollY + r.top - kopf - 60), behavior:bewegungAus() ? "auto" : "smooth"});
+    clearTimeout(tour.zeit); tour.zeit = setTimeout(setzen, bewegungAus() ? 30 : 420);
+  } else setzen();
+}
+function tourSchritt(d){
+  if(!tour) return;
+  const i = tour.i + d;
+  if(i < 0) return;
+  if(i >= tour.liste.length){ tourEnde(); return; }
+  tour.i = i; tourZeigen();
+}
+function tourKnopf(w){
+  if(w === "weiter") tourSchritt(1);
+  else if(w === "zurueck") tourSchritt(-1);
+  else tourEnde();
+}
+/* Beim Scrollen oder Drehen des Handys wandert der Scheinwerfer mit */
+let tourRaf = 0;
+const tourNachziehen = () => { if(!tour) return; cancelAnimationFrame(tourRaf); tourRaf = requestAnimationFrame(() => {
+  const s = tour && tour.liste[tour.i]; if(!s || s.mitte) return;
+  const e = tourZiel(s), root = $("tour"); if(!e || !root) return;
+  const r = e.getBoundingClientRect(), pad = 7;
+  root.querySelectorAll(".tour-licht, .tour-ring").forEach(x => Object.assign(x.style, {left:(r.left - pad) + "px", top:(r.top - pad) + "px"}));
+}); };
+window.addEventListener("resize", () => { if(tour) tourZeigen(); });
+window.addEventListener("scroll", tourNachziehen, {passive:true});
+
 /* ═══════════ Erklaerungen, Begriffe ═══════════ */
 function oeffneScoreHilfe(){
   zeigeSheet(`
@@ -8049,7 +8241,7 @@ function zeichne(){
       return `<button class="slot ${lvl || ""}${frischSlot === s.k ? " frisch" : ""}" data-slot="${s.k}">
         <span class="slot-k">${label}</span>
         <span class="slot-n ${t ? "" : "empty"}">${t ? esc(titel) : tx("Teil wählen …", "Choose part …")}</span>
-        ${t ? "" : `<span class="slot-was">${esc(s.was)}</span>`}
+        ${!t ? `<span class="slot-was">${esc(s.was)}</span>` : einsteiger() ? `<span class="slot-was neu">${ic(IC.hilfe, 13)}${esc(s.was)}</span>` : ""}
         ${chips ? `<span class="specs">${chips}</span>` : ""}
         ${kachelZusatz(s.k, t)}
         <span class="slot-r">${t ? kachelPreis(t) : `<span class="g">${tx("offen", "open")}</span>`}</span>
@@ -8382,7 +8574,8 @@ function zeigeSheet(html){
   const f = $("modal").querySelector(".btn, input, .dis, .qopt, .iconbtn");
   if(f && !alt){ try{ f.focus({preventScroll:true}); }catch(e){ f.focus(); } }
 }
-function schliesse(){ $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; profUmbenennen = null; profLoeschFrage = null; }
+function schliesse(){ $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; profUmbenennen = null; profLoeschFrage = null;
+  if(tourAnstehend) setTimeout(() => { if(tourAnstehend) tourStart(); }, 700); }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen" data-ta="Schließen|Close">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 
@@ -8546,7 +8739,7 @@ function oeffneProfile(){
       <div class="prof-neu"><button class="btn wide" data-profneu="1">${tx("Neues Profil", "New profile")}</button></div>
       <div class="prof-einstieg"><span>${tx("Alle Fragen noch einmal: Ziel, Fahrstil, Maße, Budget und Vorlieben. Ein schon gebautes Rad bleibt, das Ergebnis kommt in ein neues Profil.",
         "All the questions again: goal, riding style, measurements, budget and preferences. A bike you've already built stays; the result goes into a new profile.")}</span>
-        <button class="btn ghost wide" data-hilfe="start">${ic(IC.traum, 17)} ${tx("Einführung wiederholen", "Repeat the intro")}</button></div>
+        <button class="btn ghost wide" data-hilfe="start">${ic(IC.traum, 17)} ${tx("Einstieg wiederholen", "Repeat the setup")}</button></div>
     </div>`);
   const i = $("modal").querySelector(".prof-in");
   if(i){ i.focus(); i.select(); }
@@ -8968,15 +9161,21 @@ function oeffneMenu(){
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${tx("Einstellungen", "Settings")}</span>${linkVerwaltung ? "App &amp; Betrieb" : tx("App &amp; Profil", "App &amp; profile")}</h3>${zuBtn}</div>
     <div class="sheet-b">
-      <div class="grp-h" style="margin-top:14px"><h2>${tx("Sprache", "Language")}</h2><div class="rule"></div></div>
-      ${spracheKnoepfe("menu-sprache")}
-      <div class="grp-h" style="margin-top:14px"><h2>${tx("Hilfe", "Help")}</h2><div class="rule"></div></div>
-      <div class="lk-knoepfe" style="margin:0 0 6px">
-        <button class="btn ghost sm" data-fit="1">${tx("Dein Fit", "Your fit")}</button>
-        <button class="btn ghost sm" data-hilfe="begriffe">${tx("Begriffe erklärt", "Terms explained")}</button>
-        <button class="btn ghost sm" data-fed="1">${tx("Federungsrechner", "Suspension calculator")}</button>
-        <button class="btn ghost sm" data-hilfe="leit">${leitAus ? tx("Anleitung wieder zeigen", "Show guide again") : tx("Anleitung ausblenden", "Hide guide")}</button>
+      <div class="hilfe-start">
+        <button class="hs-knopf" data-hilfe="start"><span class="hs-ic">${ic(IC.neustart, 20)}</span>
+          <b>${tx("Einstieg wiederholen", "Repeat the setup")}</b><span>${tx("Alle Fragen noch einmal — Größe, Fahrstil, Budget", "All the questions again — size, riding style, budget")}</span></button>
+        <button class="hs-knopf" data-hilfe="tour"><span class="hs-ic">${ic(IC.tour, 20)}</span>
+          <b>${tx("App-Rundgang", "App tour")}</b><span>${tx("In 30 Sekunden: wo was ist", "In 30 seconds: where everything is")}</span></button>
       </div>
+      <div class="grp-h" style="margin-top:16px"><h2>${tx("Hilfe", "Help")}</h2><div class="rule"></div></div>
+      <div class="hilfe-liste">${[
+        ['data-fit="1"', IC.groesse, tx("Dein Fit", "Your fit"), tx("Rahmengröße, Lenker und Kurbel aus deinen Maßen", "Frame size, bar and cranks from your measurements")],
+        ['data-fed="1"', IC.fahrwerk, tx("Federungsrechner", "Suspension calculator"), tx("Luftdruck und Klicks für Gabel und Dämpfer", "Air pressure and clicks for fork and shock")],
+        ['data-hilfe="begriffe"', IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie … einfach erklärt", "Boost, freehub, chainline … explained simply")],
+        ['data-hilfe="leit"', IC.auge, leitAus ? tx("Anleitung wieder zeigen", "Show guide again") : tx("Anleitung ausblenden", "Hide guide"), tx("Die Schritt-Karte oben im Aufbau", "The step card at the top of the build")]
+      ].map(([a, i, t, u]) => `<button class="hl-zeile" ${a}><span class="hl-ic">${ic(i, 18)}</span><span><b>${t}</b><span>${u}</span></span>${ic(IC.weiter, 16)}</button>`).join("")}</div>
+      <div class="grp-h" style="margin-top:16px"><h2>${tx("Sprache", "Language")}</h2><div class="rule"></div></div>
+      ${spracheKnoepfe("menu-sprache")}
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Fahrer &amp; Budget", "Rider &amp; budget")}</h2><div class="rule"></div></div>
       <div class="fld"><label for="m-fahrer">${tx("Fahrergewicht in kg — gilt für alle Profile, prüft die Laufrad-Freigabe", "Rider weight in kg — applies to all profiles, checks the wheels' weight limit")}</label>
         <input id="m-fahrer" type="number" inputmode="numeric" min="0" max="180" value="${plan.fahrer || ""}" placeholder="${tx("leer = Prüfung aus", "empty = check off")}" data-plan="fahrer"></div>
@@ -9022,6 +9221,8 @@ document.addEventListener("click", e => {
   if(T("[data-eiweiter]")){ eiWeiter(); return; }
   if(T("[data-eizurueck]")){ eiZurueck(); return; }
   if(T("[data-eiskip]")){ eiSkip(); return; }
+  const tk = T("[data-tour]");
+  if(tk){ tourKnopf(tk.dataset.tour); return; }
   if(T("[data-eifertig]")){ eiFertig(); return; }
   const est = T("[data-eistep]");
   if(est){ const q = est.dataset.eistep.split("|"); eiSetze(q[0], eiWert(q[0]) + (+q[1])); return; }
@@ -9314,6 +9515,7 @@ document.addEventListener("click", e => {
   if(hi){
     const w = hi.dataset.hilfe;
     if(w === "start") oeffneEinstieg("voll");
+    else if(w === "tour"){ schliesse(); setTimeout(tourStart, 320); }
     else if(w === "begriffe") oeffneBegriffe();
     else if(w === "score") oeffneScoreHilfe();
     else if(w === "leit"){
@@ -9406,6 +9608,12 @@ document.addEventListener("change", e => {
   }
 });
 document.addEventListener("keydown", e => {
+  if(tour){
+    if(e.key === "Escape") tourEnde();
+    else if(e.key === "ArrowRight") tourSchritt(1);
+    else if(e.key === "ArrowLeft") tourSchritt(-1);
+    return;
+  }
   if(e.key === "Enter" && e.target.closest && e.target.closest("[data-profname]")){
     profUmbenennen = null; sichern(); zeichne(); oeffneProfile(); return;
   }
@@ -9440,7 +9648,11 @@ function start(daten){
   zeichne();
   liveLaden();
   if(erstesMal && !daten && !linkVerwaltung) setTimeout(() => { if(!$("modal").firstElementChild) oeffneEinstieg("voll"); }, 250);
-  else einflug();
+  else {
+    einflug();
+    /* Wer den Einstieg schon vor dem Rundgang gemacht hat, bekommt ihn einmal so */
+    if(!tourGesehen() && !daten && !linkVerwaltung) setTimeout(() => { if(!$("modal").firstElementChild) tourStart(); }, 1400);
+  }
 }
 /* Zurueck in der App nach mehr als einer halben Stunde: frische Preise holen */
 document.addEventListener("visibilitychange", () => {

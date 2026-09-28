@@ -79,15 +79,22 @@ Modells und nur, wenn die Prüfung dadurch nicht schlechter wird. Einkaufsliste
 und kopierter Text nennen Rahmengröße, Lenkerkürzung und Sattelhöhe für die
 Werkstatt. Die Maße gelten wie das Fahrergewicht für alle Profile.
 
-**Für Einsteiger.** Oben im Aufbau führt eine Leitkarte Schritt für
-Schritt: je Modus drei bis vier Schritte, abgehakt, was erledigt ist, ein Knopf
-für den nächsten. Jedes Bauteil hat einen Satz „Was ist das?“, unter ⋮ → Hilfe
-stehen Fit, Begriffe (Boost, Freilauf, Kettenlinie …) und der Federungsrechner;
-die Einführung liegt unter Profile, die Erklärung der Wertung direkt an der
-Wertung. Ausführungen (Einbaumaß, Federweg …) sind eingeklappt, bis man sie
-ändern will; die Teilekachel nennt dann nur das Modell, damit nichts doppelt
-steht. Der Reiter *Kaufen* hat eine Einkaufsliste mit Shop-Knöpfen, als
-Text kopierbar für die Werkstatt.
+**Für Einsteiger.** Nach dem Einstieg kommt einmal ein **Rundgang**: ein
+Scheinwerfer wandert über die echten Bedienelemente (Wertung, Modi, Teile,
+Prüfung, Upgrades, Kaufen, Disziplin, Menü), daneben eine Karte mit einem Satz,
+Fortschrittspunkten, Zurück und Überspringen; am Ende Konfetti. Auf breiten
+Bildschirmen zeigt er auf die Spalten statt auf die Reiter, Pfeiltasten
+blättern, Esc beendet. Unter ⋮ → *App & Profil* stehen ganz oben zwei große
+Knöpfe: *Einstieg wiederholen* und *App-Rundgang*; darunter die Hilfe als
+erklärte Zeilen (Fit, Federungsrechner, Begriffe, Anleitung ein/aus).
+Wer im Einstieg „Ganz neu dabei“ wählt, bekommt an jeder Teilekachel einen Satz,
+was das Teil tut. Oben im Aufbau führt eine Leitkarte Schritt für Schritt: je
+Modus drei bis vier Schritte, abgehakt, was erledigt ist, ein Knopf für den
+nächsten. Die Erklärung der Wertung steht direkt an der Wertung. Ausführungen
+(Einbaumaß, Federweg …) sind eingeklappt, bis man sie ändern will; die
+Teilekachel nennt dann nur das Modell, damit nichts doppelt steht. Der Reiter
+*Kaufen* hat eine Einkaufsliste mit Shop-Knöpfen, als Text kopierbar für die
+Werkstatt.
 
 **Sieben Disziplinen,** einzeln oder gemischt: Cross Country, Trail, Enduro,
 Downhill, Dirtjump, Slopestyle, Trial. Mischungen werden auf Machbarkeit
