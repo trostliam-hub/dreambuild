@@ -1077,6 +1077,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .rs .r-hautschatten{fill:var(--fg-haut2)}
 .rs .r-ohr{fill:none;stroke:var(--fg-haut2);stroke-width:5;stroke-linecap:round}
 .rs .r-mund{fill:none;stroke:var(--fg-haut2);stroke-width:4;stroke-linecap:round}
+.rs .r-halslinie{fill:none;stroke:var(--fg-haut2);stroke-width:5;stroke-linecap:round;opacity:.6}
 .rs .r-haar{fill:var(--fg-haar)}
 .rs .r-helmrand{fill:var(--fg-helm2)}
 .rs .r-schirm{fill:var(--rs-schwarz)}
@@ -1190,6 +1191,7 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .ck-haut{fill:var(--fg-haut)}
 .ck-hautschatten{fill:var(--fg-haut2)}
 .ck-mund{fill:none;stroke:var(--fg-haut2);stroke-width:6;stroke-linecap:round}
+.ck-halslinie{fill:none;stroke:var(--fg-haut2);stroke-width:4;stroke-linecap:round;opacity:.6}
 .ck-riemen{fill:none;stroke:var(--rs-schwarz-2);stroke-width:6;stroke-linecap:round;opacity:.7}
 .ck-luft{fill:none;stroke:var(--rs-schwarz-2);stroke-width:12;stroke-linecap:round}
 .ck-helmglanz{fill:none;stroke:#fff;stroke-width:10;stroke-linecap:round;opacity:.55}
@@ -5863,7 +5865,7 @@ function radSvg(o){
                    [1.04, -66], [.9, -102], [.7, -104], [.48, -92], [.26, -94], [.06, -108], [-.05, -98]];
     const rumpf = Q(RUMPF.map(([t, sv]) => tp(t, sv)));
     /* Kopf: wird wie der Rest mit der Groesse skaliert und schaut leicht nach vorn-unten auf den Trail */
-    const kopf = add(add(sch, mul(u, 178 * sk)), mul(vB, -44 * sk));
+    const kopf = add(add(sch, mul(u, 236 * sk)), mul(vB, -46 * sk));   /* mit Hals dazwischen */
     const kipp = Math.max(4, Math.min(20, 12 + (45 - best.g) * .3));
     kopfOben = kopf[1] + 128 * sk;
     /* Punkt am Kopf (eigene Koordinaten, y nach unten) in Rad-Koordinaten */
@@ -5890,7 +5892,9 @@ function radSvg(o){
       <defs><clipPath id="${id("rc")}"><path d="${rumpf}"/></clipPath>
         <linearGradient id="${id("b")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb86b"/><stop offset=".5" stop-color="#ff5fa2"/><stop offset="1" stop-color="#7a5cff"/></linearGradient></defs>
       ${C(huefte, s(120), "r-hose")}
-      ${glied(tp(.98, -6), lokal(-26, 52), s(96), s(86), s(82), 0, 0, .5, "r-haut")}
+      ${glied(tp(.97, -14), lokal(-22, 58), s(104), s(88), s(84), s(4), s(2), .5, "r-haut")}
+      <path class="r-hautschatten" d="M${P(lokal(34, 78))}Q${P(lokal(-8, 104))} ${P(lokal(-52, 70))}L${P(lokal(-58, 96))}Q${P(lokal(-6, 128))} ${P(lokal(30, 108))}Z"/>
+      <path class="r-halslinie" d="M${P(lokal(-40, 70))}Q${P(tp(1.06, -20))} ${P(tp(1.0, -44))}"/>
       <path fill="url(#${id("t")})" d="${rumpf}"/>
       <g clip-path="url(#${id("rc")})">
         <path class="r-streifen" d="${Q([tp(.6, -130), tp(.7, -130), tp(.84, 140), tp(.74, 140)])}"/>
@@ -6068,7 +6072,7 @@ function cockpitSvg(f){
     <ellipse class="ck-daumen" cx="${gx - sg * 14}" cy="${hy - 52}" rx="30" ry="14"/>
     <rect fill="url(#${id("t")})" x="${gx - 40}" y="${hy - 50}" width="80" height="14" rx="7" opacity=".9"/>`;
   };
-  return `<svg class="ck" viewBox="-470 -20 940 690" role="img" aria-label="${tx(`Schulterbreite ${zahlDe(f.schulter)} cm, Lenkerbreite ${B} mm`, `Shoulder width ${f.schulter} cm, bar width ${B} mm`)}">
+  return `<svg class="ck" viewBox="-470 -66 940 736" role="img" aria-label="${tx(`Schulterbreite ${zahlDe(f.schulter)} cm, Lenkerbreite ${B} mm`, `Shoulder width ${f.schulter} cm, bar width ${B} mm`)}">
     <defs>
       <linearGradient id="${id("t")}" gradientUnits="userSpaceOnUse" x1="${-sx}" y1="200" x2="${sx}" y2="470">
         <stop offset="0" stop-color="#9d6bff"/><stop offset="1" stop-color="#3f7dff"/></linearGradient>
@@ -6080,16 +6084,18 @@ function cockpitSvg(f){
       <linearGradient id="${id("b")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb86b"/><stop offset=".5" stop-color="#ff5fa2"/><stop offset="1" stop-color="#7a5cff"/></linearGradient>
       <linearGradient id="${id("f")}" x1="0" y1="0" x2="0" y2="1"><stop offset=".62" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
       <mask id="${id("m")}"><rect x="-470" y="${hy}" width="940" height="220" fill="url(#${id("f")})"/></mask>
-      <clipPath id="${id("k")}"><path d="${`M${-sx - 16} 268C${-sx - 12} 228 ${-sx + 34} 208 -64 202L64 202C${sx - 34} 208 ${sx + 12} 228 ${sx + 16} 268L${S * .36} ${hy}L${-S * .36} ${hy}Z`}"/></clipPath>
+      <clipPath id="${id("k")}"><path d="${`M${-sx - 16} 268C${-sx - 12} 228 ${-sx + 34} 208 -64 202Q0 246 64 202C${sx - 34} 208 ${sx + 12} 228 ${sx + 16} 268L${S * .36} ${hy}L${-S * .36} ${hy}Z`}"/></clipPath>
     </defs>
-    <rect class="ck-haut" x="-40" y="170" width="80" height="62" rx="22"/>
-    <ellipse class="ck-hautschatten" cx="0" cy="206" rx="40" ry="16"/>
+    <!-- Hals: vom Kinn in die Schultern, darunter der runde Trikotausschnitt -->
+    <path class="ck-haut" d="M-38 120L-40 188C-42 204 -52 212 -70 218L70 218C52 212 42 204 40 188L38 120Z"/>
+    <path class="ck-hautschatten" d="M-38 150C-20 174 20 174 38 150L38 166C20 186 -20 186 -38 166Z"/>
+    <path class="ck-halslinie" d="M-24 186L-12 218M24 186L12 218"/>
     <g clip-path="url(#${id("k")})">
       <rect fill="url(#${id("t")})" x="${-sx - 20}" y="198" width="${S + 40}" height="${hy - 190}"/>
       <path class="ck-streifen" d="M${-sx - 20} 300L${-sx - 20} 250L${sx + 20} 380L${sx + 20} 430Z"/>
       <rect fill="url(#${id("v")})" x="${-sx - 20}" y="198" width="${S + 40}" height="${hy - 190}"/>
     </g>
-    <path class="ck-kragen" d="M-62 206Q0 244 62 206"/>
+    <path class="ck-kragen" d="M-64 204Q0 250 64 204"/>
     <path class="ck-naht" d="M0 236V${hy - 20}"/>
     <g mask="url(#${id("m")})">
       <rect class="ck-reifen" x="-36" y="${hy + 130}" width="72" height="260" rx="32"/>
@@ -6102,6 +6108,7 @@ function cockpitSvg(f){
     <rect class="ck-dunkel" x="-104" y="${hy + 84}" width="208" height="42" rx="16"/>
     <rect fill="url(#${id("r")})" x="-34" y="${hy + 34}" width="68" height="64" rx="12"/>
     <rect class="ck-dunkel" x="-32" y="${hy - 18}" width="64" height="66" rx="14"/>
+    <g transform="translate(0 -46)">
     <ellipse class="ck-haut" cx="-68" cy="132" rx="14" ry="24"/><ellipse class="ck-haut" cx="68" cy="132" rx="14" ry="24"/>
     <path class="ck-haut" d="M-66 96C-68 168 -38 204 0 206C38 204 68 168 66 96Z"/>
     <path class="ck-hautschatten" d="M-20 150Q0 176 20 150Q10 172 0 174Q-10 172 -20 150Z" opacity=".6"/>
@@ -6113,7 +6120,7 @@ function cockpitSvg(f){
     <path class="ck-schirm" d="M-112 70Q0 34 112 70L106 94Q0 60 -106 94Z"/>
     <path fill="url(#${id("b")})" d="M-78 112Q0 100 78 112Q82 140 60 148Q30 152 8 140L0 134L-8 140Q-30 152 -60 148Q-82 140 -78 112Z"/>
     <path class="ck-brillenrand" d="M-78 112Q0 100 78 112"/>
-    <path class="ck-glanz" d="M-56 120L-30 118M-58 132L-44 131" style="stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.7"/>
+    <path class="ck-glanz" d="M-56 120L-30 118M-58 132L-44 131" style="stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.7"/></g>
     ${seite(-1)}${seite(1)}
     <path class="ck-lenker" d="M${-B / 2} ${hy - 14}L-114 ${hy - 10}C-72 ${hy - 8} -64 ${hy + 18} -42 ${hy + 18}L42 ${hy + 18}C64 ${hy + 18} 72 ${hy - 8} 114 ${hy - 10}L${B / 2} ${hy - 14}"/>
     <path class="ck-lenkerglanz" d="M${-B / 2 + 140} ${hy - 20}L-116 ${hy - 17}M116 ${hy - 17}L${B / 2 - 140} ${hy - 20}"/>
