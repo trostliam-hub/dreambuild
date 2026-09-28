@@ -160,9 +160,10 @@ Switch in drei Stufen, Öhlins TTX; Select+ und Performance zeigen nur den
 Kletterhebel, Select (R) keine Druckstufe.
 Drei Modi, oben im Rechner umschaltbar, jeder mit eigener Luft, eigenem Sag,
 eigener Druck- und Zugstufe (nach den Tuning-Guides von Fox und RockShox sowie
-ENDURO, BikeRadar, MBR): *Pur Downhill* — 4 % weniger Luft, 2 % mehr Sag, LSC
-anderthalb und HSC zwei Stufen offener, Zugstufe zwei Klicks schneller: weicher,
-spricht schneller an, sackt bei Schlagfolgen nicht weg; *Allround* — genau das
+ENDURO, BikeRadar, MBR): *Pur Downhill* — 6 % weniger Luft, 3 % mehr Sag, LSC
+und HSC je drei Stufen offener, Zugstufe drei Klicks schneller, HBO/ABO eine
+Stufe fester: weicher, spricht schneller an, sackt bei Schlagfolgen nicht weg,
+fängt harte Schläge bei Tempo ab; *Allround* — genau das
 Fahrprofil; *Pur Sprünge* — 5 % mehr Luft (oder ein Volumen-Spacer), 2 % weniger
 Sag, LSC zwei Stufen fester gegen Einsacken im Absprung, HSC fester für
 Landungen, Zugstufe langsamer gegen Aushebeln am Kicker. Kurze Federwege (bis
@@ -172,7 +173,8 @@ Luft. Je Knopf wird Allround auf ganze Klicks gerundet, jeder Modus kommt als
 eigene ganze Klicks dazu, dann werden alle drei gemeinsam in den
 Einstellbereich geschoben — so steht Allround nie am Anschlag, und Downhill
 ist in jedem Profil weicher, Sprünge fester (geprüft an 27.864 Kombinationen
-aus Gabel, Dämpfer, Gewicht und Profil). Stahlfedern bleiben in allen Modi
+aus Gabel, Dämpfer, Gewicht und Profil). Verstellt ein Modus einen Knopf,
+landet er nie genau auf der Grundeinstellung, sonst wirkt er „neutral“. Stahlfedern bleiben in allen Modi
 gleich, dort wechselt nur die Dämpfung. Die Zugstufe steht vorne und hinten
 in echten Klicks ab ganz zu (Schildkröte), wo die Klickzahl bekannt ist:
 Charger 3.x 18, RockShox Super Deluxe und Deluxe Luft 15, Stahlfeder und Vivid

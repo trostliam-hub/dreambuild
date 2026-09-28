@@ -7773,9 +7773,15 @@ const saett = x => Math.sign(x) * (Math.abs(x) <= 3 ? Math.abs(x) : 3 + (Math.ab
      Rad am Kicker nicht aushebelt.
    Werte in Stufen zu 12 % des Einstellbereichs, Zugstufe in Klicks (+ =
    langsamer), Luft als Anteil, Sag in Prozentpunkten. */
-/* bo: Durchschlagschutz (RockShox HBO und ABO) -- nur beim Springen eine Stufe fester */
+/* bo: Durchschlagschutz (RockShox HBO und ABO), eine Stufe fester fuer harte
+   Schlaege bei Tempo und fuer Landungen. Pur Downhill verstellt seit Liams
+   Rueckmeldung 2026-09-28 ("bei DH zu wenig Veraenderung, alles neutral")
+   deutlich mehr: LSC und HSC je drei Stufen offener (am 5-Stellungs-Knopf
+   zwei Klicks, vorher oft nur einer), Zugstufe drei Klicks schneller, 6 %
+   weniger Luft und 3 % mehr Sag -- vorher stand DH in 40 % der Profile an
+   LSC oder HSC auf der Grundeinstellung. */
 const EINSATZ = {
-  downhill:{l:-1.5, h:-2, r:-2, luft:-0.04, sag:2, bo:0},
+  downhill:{l:-3, h:-3, r:-3, luft:-0.06, sag:3, bo:1},
   allround:{l:0, h:0, r:0, luft:0, sag:0, bo:0},
   spruenge:{l:2, h:1.5, r:1.5, luft:0.05, sag:-2, bo:1}
 };
@@ -7824,7 +7830,15 @@ function einpassen(v, raum){
 function modusKlicks(vA, off, m){
   const a = rund(vA * m.s), v = {};
   for(const k of FMODI){ const o = off[k] * m.s; v[k] = a + (o ? Math.sign(o) * Math.max(1, Math.round(Math.abs(o))) : 0); }
-  return einpassen(v, m.raum);
+  const e = einpassen(v, m.raum);
+  /* Verstellt ein Modus den Knopf, landet er nicht genau auf der Grund-
+     einstellung -- sonst wirkt der Modus "neutral" (Liam 2026-09-28). Er
+     geht einen Klick weiter in seine Richtung, wenn der Bereich es hergibt. */
+  for(const k of FMODI){
+    const r = Math.sign(off[k]);
+    if(r && e[k] === 0 && e[k] + r >= m.raum[0] && e[k] + r <= m.raum[1]) e[k] += r;
+  }
+  return e;
 }
 function druckstufen(daten, st, kg, hinten, klasse){
   const wkg = (kg - 80) / 10;
@@ -7957,8 +7971,9 @@ function modusVergleich(x){
 /* Wofuer der Modus steht, mit den Zahlen dieser Karte */
 function modusWas(x){
   const m = x.modi[fedModus], pz = Math.round(Math.abs(m.luft) * 100);
-  if(fedModus === "downhill") return tx(`<b>Pur Downhill</b> — schnell und ruppig, Wurzeln, Steinfelder, Bremswellen: ${x.coil ? "Stahlfeder bleibt" : `${pz} % weniger Luft`}, mehr Sag, LSC und HSC offener — das Fahrwerk ist weicher, spricht schneller an und klebt am Boden. Zugstufe schneller, damit es zwischen schnellen Schlägen ausfedert statt wegzusacken.`,
-    `<b>Pure downhill</b> — fast and rough, roots, rock gardens, braking bumps: ${x.coil ? "keep the coil" : `${pz} % less air`}, more sag, LSC and HSC more open — the suspension is softer, reacts faster and sticks to the ground. Rebound faster so it recovers between quick hits instead of packing down.`);
+  const bo = x.ds.downhill.some(z => /^(HBO|ABO)$/.test(z[0]));
+  if(fedModus === "downhill") return tx(`<b>Pur Downhill</b> — schnell und ruppig, Wurzeln, Steinfelder, Bremswellen: ${x.coil ? "Stahlfeder bleibt" : `${pz} % weniger Luft`}, mehr Sag, LSC und HSC deutlich offener — das Fahrwerk ist weicher, spricht schneller an und klebt am Boden. Zugstufe schneller, damit es zwischen schnellen Schlägen ausfedert statt wegzusacken.${bo ? " Der Durchschlagschutz eine Stufe fester — er fängt die harten Schläge bei Tempo am Ende des Federwegs ab." : ""}`,
+    `<b>Pure downhill</b> — fast and rough, roots, rock gardens, braking bumps: ${x.coil ? "keep the coil" : `${pz} % less air`}, more sag, LSC and HSC clearly more open — the suspension is softer, reacts faster and sticks to the ground. Rebound faster so it recovers between quick hits instead of packing down.${bo ? " Bottom-out control one step firmer — it catches the hard hits at speed at the end of the travel." : ""}`);
   if(fedModus === "spruenge") return tx(`<b>Pur Sprünge</b> — Absprung, Landung, Drops, Anlieger: ${x.coil ? "Stahlfeder bleibt, gegen Durchschlagen sorgt die HSC" : m.grenze ? "schon am Maximaldruck — nimm 1 Volumen-Spacer mehr" : `${pz} % mehr Luft (oder bei ${x.psi} psi 1 Volumen-Spacer mehr)`}; LSC fester, damit du im Absprung nicht in den Federweg sackst; HSC fester für Landungen; Zugstufe langsamer, damit dich das Rad am Kicker nicht aushebelt.`,
     `<b>Pure jumps</b> — take-offs, landings, drops, berms: ${x.coil ? "keep the coil, HSC handles bottoming" : m.grenze ? "already at maximum pressure — add 1 volume spacer" : `${pz} % more air (or 1 volume spacer more at ${x.psi} psi)`}; LSC firmer so you don't sink into the travel on the lip; HSC firmer for landings; rebound slower so the bike doesn't buck you off the kicker.`);
   return tx("<b>Allround</b> — Trails mit allem: genau nach deinem Fahrprofil, ausgewogen zwischen Grip und Halt. Von hier aus nach der ersten Fahrt feinstellen.",
