@@ -56,7 +56,7 @@ Pedal und Griff gerechnet (Trikot mit Licht und Schatten, Handschuhe,
 Knieschoner, Flat-Schuhe). Beide Fahrer tragen einen Fullface-Helm nach Art des
 Fox Rampage (ohne Logo): eckiger, markanter Kinnbügel mit Facetten und
 Bruchkanten, scharfer Spitze, Mundgitter und
-Seitenschlitzen, fester Schirm mit Schrauben, Lüftungsschlitze, dunkler
+Seitenschlitzen, eckiger fester Schirm mit Schrauben, Lüftungsschlitze, dunkler
 Unterrand; dazu eine MX-Goggle mit Rahmen, getönter Linse, Stiften,
 Rahmenlüftung, Nasenschutz, Seitenaufhängung und breitem Silikonband.
 Das Rad ist nach der Geometrie des Propain Spindrift 5 AL gezeichnet (S–XL,

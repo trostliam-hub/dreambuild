@@ -1115,7 +1115,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .rs .r-facette2{fill:var(--fg-helm3)}
 .rs .r-bruchkante{fill:none;stroke:#fff;stroke-width:4;stroke-linejoin:round;opacity:.55}
 .rs .r-eckschlitz{fill:var(--rs-schwarz-2)}
-.rs .r-schirmkante{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:.2}
+.rs .r-schirmkante{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;opacity:.28}
+.rs .r-schirmflaeche{fill:#000;opacity:.28}
 .rs .r-brillenband{fill:var(--anod)}
 .rs .r-bandnaht{fill:none;stroke:#fff;stroke-width:3;stroke-dasharray:10 8;opacity:.45}
 .rs .r-rahmen{fill:var(--rs-schwarz)}
@@ -1248,7 +1249,8 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .ck-pin{fill:var(--rs-metall)}
 .ck-nase{fill:var(--rs-schwarz-2)}
 .ck-gitterrand{fill:none;stroke:var(--rs-schwarz);stroke-width:5;stroke-linejoin:round}
-.ck-schirmkante{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:.2}
+.ck-schirmkante{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;opacity:.28}
+.ck-schirmflaeche{fill:#fff;opacity:.08}
 .ck-helmkante{fill:none;stroke:var(--rs-schwarz-2);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
 .ck-schirm{fill:var(--rs-schwarz)}
 .ck-brillenrand{fill:none;stroke:var(--rs-schwarz);stroke-width:8;stroke-linecap:round}
@@ -6115,9 +6117,10 @@ function radSvg(o){
       <path fill="url(#${id("b")})" d="M132 -46C140 -42 146 -32 148 -20C150 -2 149 16 144 28C140 30 136 30 133 29C136 10 136 -28 132 -46Z"/>
       <path class="r-glasglanz" d="M138 -36L144 -16"/>
       <path class="r-dunkel2" d="M134 30L142 30L150 46L138 48Z"/>
-      <path class="r-schirm" d="M24 -120C80 -128 140 -116 180 -96L175 -74C146 -86 112 -90 84 -84C62 -80 42 -92 24 -120Z"/>
-      <path class="r-schirmkante" d="M40 -120C90 -124 142 -112 176 -94"/>
-      <circle class="r-metall" cx="52" cy="-104" r="5.5"/>`;
+      <path class="r-schirm" d="M20 -124L118 -124L184 -102L180 -80L120 -94L84 -86L52 -94Z"/>
+      <path class="r-schirmflaeche" d="M184 -102L180 -80L120 -94L84 -86L52 -94L86 -100L124 -104Z"/>
+      <path class="r-schirmkante" d="M28 -122L118 -122L182 -101"/>
+      <circle class="r-metall" cx="50" cy="-108" r="5.5"/>`;
     const hand = s(90), hg = add(gr, mul(unit(sub(ell, gr)), hand));   /* Handgelenk */
     const armF = ` fill="url(#${id("a")})"`;
     fHinten = `<g class="r-hinten">${bein(pf)}</g>`;
@@ -6369,8 +6372,9 @@ function cockpitSvg(f){
     <path class="ck-gitterrand" d="M-34 180L34 180L24 214L0 226L-24 214Z"/>
     <path class="ck-eckschlitz" d="M-78 170L-66 170L-54 196L-66 196ZM78 170L66 170L54 196L66 196ZM-96 170L-88 170L-80 188L-88 188ZM96 170L88 170L80 188L88 188Z"/>
     <path class="ck-helmkante" d="M-54 232L0 256L54 232"/>
-    <path class="ck-schirm" d="M-126 58Q0 12 126 58L118 84Q60 58 0 56Q-60 58 -118 84Z"/>
-    <path class="ck-schirmkante" d="M-122 62Q0 20 122 62"/>
+    <path class="ck-schirm" d="M-128 62L-84 36L-32 24L32 24L84 36L128 62L120 86L72 64L22 56L-22 56L-72 64L-120 86Z"/>
+    <path class="ck-schirmflaeche" d="M-128 62L-84 36L-32 24L32 24L84 36L128 62L122 70L80 46L30 36L-30 36L-80 46L-122 70Z"/>
+    <path class="ck-schirmkante" d="M-124 64L-82 40L-31 29L31 29L82 40L124 64"/>
     <circle class="ck-metall" cx="-104" cy="70" r="6"/><circle class="ck-metall" cx="104" cy="70" r="6"/></g>
     ${seite(-1)}${seite(1)}
     <path class="ck-lenker" d="M${-B / 2} ${hy - 14}L-114 ${hy - 10}C-72 ${hy - 8} -64 ${hy + 18} -42 ${hy + 18}L42 ${hy + 18}C64 ${hy + 18} 72 ${hy - 8} 114 ${hy - 10}L${B / 2} ${hy - 14}"/>
