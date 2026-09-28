@@ -57,7 +57,8 @@ Knieschoner, Flat-Schuhe). Beide Fahrer tragen einen Fullface-Helm nach dem Fox 
 Logo), matt im Carbon-Ton und clean gehalten: Proportionen vom Produktfoto,
 runder Hinterkopf, langer flacher Schirm aus der Schale heraus, große
 Gesichtsöffnung, langer Kinnbügel mit gerader Front, eckige Lüftungen mit
-Gitter an Stirn, Kinn und Hinterkopf, feine Panelkanten. Dazu eine MX-Goggle
+Gitter an Stirn, Kinn und Hinterkopf, feine Panelkanten. Klare Linien: gerade
+Kanten mit gerundeten Ecken, Lüftungen als Rechtecke parallel zur Kante. Dazu eine MX-Goggle
 mit Rahmen, getönter Linse, Stiften, Nasenschutz und Band.
 Das Rad ist nach der Geometrie des Propain Spindrift 5 AL gezeichnet (S–XL,
 im Fit folgt die Größe deinem Reach, auf der Begrüßung steht das lange XL): Lenkwinkel 63,9°, Sitzwinkel 78,4°, Kettenstrebe

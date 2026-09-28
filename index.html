@@ -6077,28 +6077,33 @@ function radSvg(o){
        eckige Lueftungen mit Gitter (Stirn, Kinn, Hinterkopf). Dazu eine
        MX-Goggle mit Band. Eigene Koordinaten, x nach vorn, y nach unten,
        Kopfmitte im Ursprung; Proportionen vom Produktfoto abgenommen. */
-    const HELM = "M-124 67C-142 30 -142 -46 -112 -82C-90 -108 -50 -118 -4 -118L60 -110L108 -96L137 -60C110 -58 80 -52 67 -44C58 -20 56 30 70 54L127 70L194 55L208 67L209 107L198 134L67 141L-27 121L-87 90Z";
-    const gitter = pts => `<path fill="url(#${id("n")})" class="r-gitter" d="M${pts}Z"/>`;
+    /* Klare Linien: gerade Kanten mit gerundeten Ecken, eine durchgehende
+       Kinnfront, gerade Unterkante; Lueftungen als Rechtecke parallel zur
+       jeweiligen Kante */
+    const HELM = "M-122 64C-142 20 -140 -52 -108 -86C-86 -110 -48 -120 -4 -120C44 -120 86 -108 112 -92L132 -66Q138 -58 128 -58C100 -56 72 -50 66 -30C60 -6 60 30 72 50Q76 58 86 58L186 52Q200 51 202 64L208 112Q209 126 196 128L64 140C20 144 -40 124 -84 98C-104 88 -118 78 -122 64Z";
+    const gitter = (cx, cy, w, h, dw) => `<rect fill="url(#${id("n")})" class="r-gitter" x="${cx - w / 2}" y="${cy - h / 2}" width="${w}" height="${h}" rx="4" transform="rotate(${dw} ${cx} ${cy})"/>`;
     const KOPF = `<clipPath id="${id("hk")}"><path d="${HELM}"/></clipPath>
-      <path class="r-dunkel2" d="M137 -60C110 -58 80 -52 67 -44C58 -20 56 30 70 54L127 70C130 30 132 -20 137 -60Z"/>
+      <path class="r-dunkel2" d="M128 -58C100 -56 72 -50 66 -30C60 -6 60 30 72 50Q76 58 86 58L122 58Z"/>
       <path class="r-ff" d="${HELM}"/>
-      <path class="r-fflicht" d="M-100 -70C-80 -100 -40 -112 10 -114L60 -106L40 -92C0 -98 -50 -90 -100 -70Z"/>
-      <path class="r-ffunten" d="M127 70L194 55L208 67L209 107L198 134L67 141L-27 121L-87 90L-86 60L-28 64L66 50Z"/>
-      <path class="r-ffkante" d="M-26 -108L-88 60M66 50L-28 64L-86 60M194 55L190 132"/>
-      ${gitter("66 -84L112 -94L128 -68L80 -58")}${gitter("-130 4L-114 -2L-112 26L-128 32")}${gitter("-102 58L-74 56L-70 78L-98 82")}
-      ${gitter("30 78L80 74L86 108L36 112")}${gitter("140 108L172 104L178 128L144 132")}${gitter("192 72L204 74L204 96L193 94")}
-      <circle class="r-dunkel2" cx="23" cy="34" r="6"/><circle class="r-ffkante" cx="23" cy="34" r="9"/>
-      <path class="r-helmkante" d="M-87 90L-27 121L67 141L198 134"/>
-      <g clip-path="url(#${id("hk")})"><path class="r-brillenband" d="M98 -24C40 -32 -60 -32 -150 -16L-150 4C-60 -10 40 -10 98 -4Z"/></g>
-      <path class="r-rahmen" d="M100 -48C118 -54 138 -50 146 -40C152 -22 152 18 144 32C132 40 114 40 102 34C96 14 96 -28 100 -48Z"/>
-      <path class="r-dunkel2" d="M92 -22L104 -28L104 12L92 6Z"/>
-      <path fill="url(#${id("b")})" d="M132 -46C140 -42 146 -32 148 -20C150 -2 149 16 144 28C140 30 136 30 133 29C136 10 136 -28 132 -46Z"/>
-      <path class="r-glasglanz" d="M138 -36L144 -16"/>
-      <path class="r-dunkel2" d="M134 30L142 30L148 44L136 46Z"/>
-      <path class="r-ffschirm" d="M-40 -118L199 -133L196 -122L112 -100L64 -90L20 -104Z"/>
-      <path class="r-ffunten" d="M199 -133L196 -122L112 -100L64 -90L70 -97L116 -109Z"/>
-      <path class="r-ffkante" d="M-30 -118L197 -132"/>
-      <circle class="r-dunkel2" cx="36" cy="-106" r="5"/>`;
+      <g clip-path="url(#${id("hk")})">
+        <path class="r-fflicht" d="M-140 -60C-110 -110 -40 -124 20 -122L120 -110L100 -96C20 -104 -70 -96 -140 -60Z"/>
+        <path class="r-ffunten" d="M210 90L210 140L-140 140L-140 104Z"/>
+        <path class="r-ffkante" d="M210 90L-140 104M-22 -124L-96 100"/>
+        <path class="r-brillenband" d="M100 -20L-150 -16L-150 4L100 0Z"/>
+      </g>
+      ${gitter(98, -78, 40, 16, -13)}${gitter(56, 116, 52, 22, -5)}${gitter(160, 112, 34, 20, -5)}${gitter(190, 76, 14, 22, 7)}
+      ${gitter(-122, 12, 12, 30, 6)}${gitter(-98, 66, 26, 16, -38)}
+      <circle class="r-dunkel2" cx="24" cy="30" r="6"/><circle class="r-ffkante" cx="24" cy="30" r="9"/>
+      <path class="r-helmkante" d="M-84 98C-40 124 20 144 64 140L196 128"/>
+      <rect class="r-dunkel2" x="88" y="-24" width="14" height="30" rx="3"/>
+      <rect class="r-rahmen" x="98" y="-50" width="50" height="86" rx="12"/>
+      <rect fill="url(#${id("b")})" x="135" y="-44" width="14" height="74" rx="7"/>
+      <path class="r-glasglanz" d="M142 -34V-14"/>
+      <rect class="r-dunkel2" x="132" y="32" width="14" height="14" rx="4"/>
+      <path class="r-ffschirm" d="M-30 -118L196 -133Q202 -133 200 -127L197 -121L104 -99Z"/>
+      <path class="r-ffunten" d="M197 -121L104 -99L110 -105L198 -126Z"/>
+      <path class="r-ffkante" d="M-24 -119L194 -133"/>
+      <circle class="r-dunkel2" cx="36" cy="-108" r="5"/>`;
     const hand = s(90), hg = add(gr, mul(unit(sub(ell, gr)), hand));   /* Handgelenk */
     const armF = ` fill="url(#${id("a")})"`;
     fHinten = `<g class="r-hinten">${bein(pf)}</g>`;
@@ -6332,13 +6337,12 @@ function cockpitSvg(f){
     <!-- Fullface-Helm nach dem Fox Rampage Pro Carbon, von vorn, matt:
          Kuppel, eckiger Kinnbuegel mit Spitze und Mundgitter, Stirn- und
          Kinnlueftungen mit Gitter, breiter Schirm. Davor eine MX-Goggle. -->
-    <path class="ck-helm" d="M-108 122C-114 18 -60 -18 0 -18C60 -18 114 18 108 122L104 170L92 202L54 232L0 256L-54 232L-92 202L-104 170Z"/>
+    <path class="ck-helm" d="M-108 122C-114 18 -60 -18 0 -18C60 -18 114 18 108 122L104 166Q103 175 97 182L58 230Q53 235 46 238L9 254Q0 258 -9 254L-46 238Q-53 235 -58 230L-97 182Q-103 175 -104 166Z"/>
     <path class="ck-fflicht" d="M-92 44C-72 2 -32 -12 0 -12C32 -12 72 2 92 44C60 24 -60 24 -92 44Z"/>
-    <path class="ck-facette" d="M-104 170L-92 202L-54 232L0 256L0 232L-44 212L-80 186L-96 164ZM104 170L92 202L54 232L0 256L0 232L44 212L80 186L96 164Z"/>
-    <path class="ck-kinn" d="M-92 202L-54 232L0 256L54 232L92 202L86 198L50 224L0 246L-50 224L-86 198Z"/>
-    <path class="ck-bruchkante" d="M-96 164L-80 186L-44 212L0 232L44 212L80 186L96 164M0 232V256"/>
-    ${["-50 8L-38 4L-40 24L-54 28", "-22 0L-10 -2L-11 20L-24 22", "22 0L10 -2L11 20L24 22", "50 8L38 4L40 24L54 28",
-        "-60 64L-16 60L-16 78L-62 82", "60 64L16 60L16 78L62 82"].map(q => `<path fill="url(#${id("n")})" class="ck-gitterrand" d="M${q}Z"/>`).join("")}
+    <path class="ck-facette" d="M-104 176L-52 214L0 234L52 214L104 176L104 166Q103 175 97 182L58 230Q53 235 46 238L9 254Q0 258 -9 254L-46 238Q-53 235 -58 230L-97 182Q-103 175 -104 166Z"/>
+    <path class="ck-bruchkante" d="M-102 176L-52 214L0 234L52 214L102 176M0 234V255"/>
+    ${[[-46, 2, 12, 22], [-18, -4, 12, 22], [6, -4, 12, 22], [34, 2, 12, 22], [-60, 60, 44, 18], [16, 60, 44, 18]]
+        .map(([x, y, w, h]) => `<rect fill="url(#${id("n")})" class="ck-gitterrand" x="${x}" y="${y}" width="${w}" height="${h}" rx="4"/>`).join("")}
     <path class="ck-helmglanz" d="M-72 22C-50 0 -20 -8 4 -8"/>
     <path class="ck-innen" d="M-98 86Q0 70 98 86L96 164Q0 174 -96 164Z"/>
     <path class="ck-strap" d="M-116 98L-94 102L-94 142L-116 146ZM116 98L94 102L94 142L116 146Z"/>
@@ -6348,12 +6352,12 @@ function cockpitSvg(f){
     ${[-1, 1].map(sg => [100, 121, 142].map(y => `<circle class="ck-pin" cx="${sg * 91}" cy="${y}" r="3.2"/>`).join("")).join("")}
     <path class="ck-glanz" d="M-62 102L-22 100M-66 114L-48 113" style="stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.7"/>
     <path class="ck-nase" d="M-16 150Q0 136 16 150L12 174Q0 180 -12 174Z"/>
-    <path fill="url(#${id("n")})" class="ck-gitterrand" d="M-34 180L34 180L24 214L0 226L-24 214Z"/>
-    <path fill="url(#${id("n")})" class="ck-gitterrand" d="M-80 170L-64 170L-52 198L-68 198ZM80 170L64 170L52 198L68 198Z"/>
-    <path class="ck-helmkante" d="M-54 232L0 256L54 232"/>
-    <path class="ck-schirm" d="M-128 62L-84 36L-32 24L32 24L84 36L128 62L120 86L72 64L22 56L-22 56L-72 64L-120 86Z"/>
-    <path class="ck-schirmflaeche" d="M-128 62L-84 36L-32 24L32 24L84 36L128 62L122 70L80 46L30 36L-30 36L-80 46L-122 70Z"/>
-    <path class="ck-schirmkante" d="M-124 64L-82 40L-31 29L31 29L82 40L124 64"/>
+    <path fill="url(#${id("n")})" class="ck-gitterrand" d="M-32 180L32 180L22 218L-22 218Z"/>
+    <rect fill="url(#${id("n")})" class="ck-gitterrand" x="-81" y="168" width="14" height="30" rx="4" transform="rotate(-38 -74 183)"/>
+    <rect fill="url(#${id("n")})" class="ck-gitterrand" x="67" y="168" width="14" height="30" rx="4" transform="rotate(38 74 183)"/>
+    <path class="ck-helmkante" d="M-58 230L-9 254Q0 258 9 254L58 230"/>
+    <path class="ck-schirm" d="M-126 64L-40 26Q0 18 40 26L126 64Q130 70 124 84L60 62Q0 52 -60 62L-124 84Q-130 70 -126 64Z"/>
+    <path class="ck-schirmkante" d="M-122 64L-40 29Q0 22 40 29L122 64"/>
     <circle class="ck-metall" cx="-104" cy="70" r="6"/><circle class="ck-metall" cx="104" cy="70" r="6"/></g>
     ${seite(-1)}${seite(1)}
     <path class="ck-lenker" d="M${-B / 2} ${hy - 14}L-114 ${hy - 10}C-72 ${hy - 8} -64 ${hy + 18} -42 ${hy + 18}L42 ${hy + 18}C64 ${hy + 18} 72 ${hy - 8} 114 ${hy - 10}L${B / 2} ${hy - 14}"/>
