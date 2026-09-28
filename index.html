@@ -1075,6 +1075,9 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .rs .r-schutz{fill:var(--rs-schwarz-2);opacity:.92}
 .rs .r-dekor{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;opacity:.22}
 .rs .r-knopf{fill:#2f8cff}
+.rs .r-zug{fill:#e5484d}
+.rs .r-standlicht{fill:#fff;opacity:.35}
+.rs .r-standschatten{fill:#7a4d10;opacity:.28}
 /* Daempferfeder: vordere Windungen hell, hintere dunkel */
 .rs .r-feder{fill:none;stroke:#e5ad4f;stroke-width:9;stroke-linecap:round}
 .rs .r-feder2{fill:none;stroke:#8a6424;stroke-width:8;stroke-linecap:round}
@@ -5856,7 +5859,7 @@ function radSvg(o){
     + schlauch(HT, HTw, "", lack) + plastisch(HT, HTw)
     + naht(add(o1, mul(od, -24)), od, 50) + naht(add(u1, mul(ud, -36)), ud, 68) + naht(add(o0, mul(od, 24)), od, 44)
     + naht(add(u0, mul(ud, 58)), ud, 72) + naht(st(52), sD, 46)
-    + rohr(add(ho, mul(dA, -12)), add(ho, mul(dA, -4)), 62, 62, "r-dunkel") + rohr(add(hu, mul(dA, 10)), add(hu, mul(dA, 18)), 70, 70, "r-dunkel")
+    + rohr(add(ho, mul(dA, -12)), add(ho, mul(dA, -4)), 62, 62, "r-dunkel")
     + C(add(lerp(ho, hu, .45), mul(qA, -14)), 7, "r-dunkel2")
     + rohr(st(sr - 16), st(sr + 6), 52, 52, "r-dunkel") + C(add(st(sr - 5), mul(sN, 27)), 6, "r-metall");
 
@@ -5881,17 +5884,32 @@ function radSvg(o){
   const hebel = schlauch([lp1, lp0, se0], [34, 42, 30], "r-glied") + schlauch([up1, up0, se1], [32, 42, 30], "r-glied")
     + [lp0, lp1, se0, up0, up1, se1].map(p => C(p, 9, "r-metall") + C(p, 3.5, "r-dunkel2")).join("");
 
-  /* Gabel: 180 mm Federweg, Kashima-Standrohre, Bruecke vorn, Steckachse */
-  const kr0 = add(hu, mul(dA, 18)), b0 = add(kr0, mul(qA, off)), kh = ht ? 40 : 50, dicht = add(b0, mul(dA, kh + fw + 26));
-  const TR = [add(dicht, mul(dA, -12)), add(dicht, mul(dA, 110)), add(vo, mul(dA, -60)), add(vo, mul(dA, 8))], TRw = [56, 54, 50, 48];
-  const gabel = rohr(add(b0, mul(dA, -26)), add(b0, mul(dA, -2)), 36, 34, "r-dunkel2") + C(add(b0, mul(dA, -30)), 12, "r-knopf")
-    + rohr(add(b0, mul(dA, kh - 4)), dicht, 38, 38, "r-gold") + glanz(add(b0, mul(dA, kh)), dicht, 38, 38)
-    + rohr(add(add(kr0, mul(dA, kh / 2)), mul(qA, -26)), add(add(kr0, mul(dA, kh / 2)), mul(qA, off + 28)), kh, kh - 6, "r-dunkel")
-    + (ht ? "" : schlauch([mul(qA, 26), add(mul(dA, 70), mul(qA, 36)), add(mul(dA, 140), mul(qA, 26))].map(p => add(dicht, p)), [22, 28, 18], "r-dunkel"))
-    + schlauch(TR, TRw, "r-dunkel") + plastisch(TR, TRw)
-    + rohr(add(dicht, mul(dA, -16)), add(dicht, mul(dA, -4)), 50, 50, "r-dichtung")
-    + `<path class="r-dekor" d="${zug([add(add(dicht, mul(dA, 60)), mul(qA, -10)), add(add(dicht, mul(dA, 210)), mul(qA, -10))])}"/>`
-    + C(vo, 28, "r-dunkel") + C(vo, 15, "r-metall") + C(vo, 5, "r-dunkel2");
+  /* Gabel nach dem Vorbild einer 38er Freeride-Gabel, in eigenen Koordinaten
+     gezeichnet: x nach vorn quer zur Lenkachse, y die Standrohrachse hinunter,
+     0 = Oberkante Krone. Achse bis Krone rund 588 mm (Fox 38, 29″: 583),
+     frei: Federweg plus 22 mm Puffer, Tauchrohr gut 340 mm -- oben breit, wo
+     die Buchsen sitzen, unten schlanker, um die Achse wieder dicker. Die
+     Bruecke sitzt vorn ueber dem Reifen (Abstand zur Achse > Reifenradius). */
+  const kr0 = add(hu, mul(dA, 18)), b0 = add(kr0, mul(qA, off));
+  const La = r1(L - 18), fs = ht ? 18 : 20, kh = ht ? 42 : 50, sd = kh + fw + 22, s = -off;
+  const gabel = `<g transform="translate(${P(b0)}) rotate(${r1(lw * 180 / Math.PI - 90)})">
+    <rect class="r-dunkel" x="${s - 36}" y="-8" width="72" height="9" rx="2"/>
+    <rect class="r-dunkel2" x="-17" y="-15" width="34" height="16" rx="3"/>
+    <rect class="r-knopf" x="-13" y="-23" width="26" height="9" rx="3"/><rect class="r-knopf" x="-6" y="-28" width="12" height="6" rx="2"/>
+    <rect class="r-gold" x="${-fs}" y="${kh - 6}" width="${2 * fs}" height="${sd - kh + 8}"/>
+    <rect class="r-standlicht" x="${-fs + 5}" y="${kh}" width="5" height="${sd - kh - 12}" rx="2.5"/>
+    <rect class="r-standschatten" x="${fs - 8}" y="${kh}" width="6" height="${sd - kh - 12}" rx="3"/>
+    <path class="r-dunkel" d="M${s - 24} 8C${s - 24} 2 ${s - 18} 0 ${s - 12} 0L16 -2C28 -2 34 6 34 16L34 ${kh - 12}C34 ${kh - 2} 27 ${kh} 16 ${kh}L-8 ${kh - 2}C${s + 10} ${kh - 8} ${s - 4} ${kh - 12} ${s - 12} ${kh - 14}C${s - 20} ${kh - 15} ${s - 24} ${kh - 20} ${s - 24} ${kh - 26}Z"/>
+    <path class="r-glanz" d="M${s - 14} 5L16 3"/>
+    <circle class="r-metall" cx="-24" cy="${kh / 2}" r="5"/><circle class="r-metall" cx="${s - 6}" cy="${kh / 2 - 4}" r="4.5"/>
+    ${ht ? "" : `<path class="r-dunkel" d="M24 ${sd - 34}C26 ${sd - 44} 44 ${sd - 48} 50 ${sd - 34}C56 ${sd - 20} 56 ${sd + 8} 48 ${sd + 30}C42 ${sd + 48} 36 ${sd + 64} 30 ${sd + 80}L26 ${sd + 2}Z"/>`}
+    <path class="r-dunkel" d="M-32 ${sd + 8}C-32 ${sd + 2} -27 ${sd} -20 ${sd}L20 ${sd}C27 ${sd} 32 ${sd + 2} 32 ${sd + 8}L31 ${sd + 96}L27 ${La - 72}C27 ${La - 46} 34 ${La - 36} 34 ${La}C34 ${La + 22} 18 ${La + 32} 0 ${La + 32}C-18 ${La + 32} -34 ${La + 22} -34 ${La}C-34 ${La - 36} -27 ${La - 46} -27 ${La - 72}L-31 ${sd + 96}Z"/>
+    <path class="r-glanz" d="M-21 ${sd + 16}L-18 ${La - 74}"/><path class="r-kschatten" d="M24 ${sd + 16}L20 ${La - 74}"/>
+    <path class="r-dekor" d="M9 ${sd + 44}L8 ${sd + 190}"/>
+    <rect class="r-dichtung" x="-26" y="${sd - 11}" width="52" height="14" rx="4"/>
+    <circle class="r-felgeninnen" cx="0" cy="${La}" r="25"/><circle class="r-metall" cx="0" cy="${La}" r="17"/><circle class="r-dunkel2" cx="0" cy="${La}" r="7"/>
+    <rect class="r-zug" x="-8" y="${La + 29}" width="16" height="9" rx="3"/>
+  </g>`;
 
   /* Sattelstuetze: Vario mit Aussenrohr, Dichtkopf und glaenzendem Standrohr;
      beim Dirt-Rad starr. Sattel mit Streben. */

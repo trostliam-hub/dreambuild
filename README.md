@@ -59,7 +59,9 @@ die Größe folgt deinem Reach): Lenkwinkel 63,9°, Sitzwinkel 78,4°, Kettenstr
 445 mm, Tretlagerabsenkung 20 mm, Mullet 29/27,5″, 180 mm Federweg. Das
 Steuerrohr ist aus Stack und Gabel-Einbauhöhe zurückgerechnet, damit stimmt
 auch der Radstand (L: 1280 statt 1278 mm). Dazu PRO10-Hinterbau mit zwei
-Hebeln und senkrechtem Stahlfederdämpfer 230×65, Reifen mit Stollen,
+Hebeln und senkrechtem Stahlfederdämpfer 230×65, Gabel in den Maßen einer
+38er (Achse bis Krone ~588 mm, gut 200 mm freies Standrohr, 340 mm Tauchrohr,
+Brücke vorn über dem Reifen, Krone mit Klemmschrauben), Reifen mit Stollen,
 32 Speichen, Bremsscheiben, 12-fach-Antrieb mit Schaltwerk und Kettenführung,
 Vario-Stütze. Dirt und Trial bekommen ein 26″-Hardtail.
 Im Aufbau steht an Rahmen, Lenker, Vorbau, Kurbel und Stütze, was zu dir passt
