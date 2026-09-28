@@ -1108,11 +1108,14 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .rs .r-halslinie{fill:none;stroke:var(--fg-haut2);stroke-width:5;stroke-linecap:round;opacity:.6}
 .rs .r-haar{fill:var(--fg-haar)}
 .rs .r-helmrand{fill:var(--fg-helm2)}
-.rs .r-helmstreifen{fill:none;stroke:var(--anod);stroke-width:14;stroke-linecap:round}
+.rs .r-helmstreifen{fill:none;stroke:var(--anod);stroke-width:12;stroke-linecap:round}
+.rs .r-kinn{fill:var(--rs-schwarz)}
+.rs .r-schlitz{fill:none;stroke:var(--rs-schwarz-2);stroke-width:10;stroke-linecap:round}
+.rs .r-mundschlitz{fill:none;stroke:var(--rs-schwarz-2);stroke-width:12;stroke-linecap:round}
+.rs .r-schirmkante{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:.2}
 .rs .r-brillenband{fill:var(--anod)}
-.rs .r-kinnluft{fill:none;stroke:var(--rs-schwarz-2);stroke-width:9;stroke-linecap:round}
-.rs .r-helmnaht{fill:none;stroke:var(--fg-helm2);stroke-width:5;stroke-linecap:round}
-.rs .r-helmoeffnung{fill:var(--rs-schwarz-2)}
+.rs .r-bandnaht{fill:none;stroke:#fff;stroke-width:3;stroke-dasharray:10 8;opacity:.45}
+.rs .r-rahmen{fill:var(--rs-schwarz)}
 .rs .r-helmkante{fill:none;stroke:var(--rs-schwarz-2);stroke-width:8;stroke-linecap:round}
 .rs .r-schirm{fill:var(--rs-schwarz)}
 .rs .r-luft{fill:none;stroke:var(--rs-schwarz-2);stroke-width:9;stroke-linecap:round}
@@ -1229,11 +1232,17 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .ck-riemen{fill:none;stroke:var(--rs-schwarz-2);stroke-width:6;stroke-linecap:round;opacity:.7}
 .ck-luft{fill:none;stroke:var(--rs-schwarz-2);stroke-width:12;stroke-linecap:round}
 .ck-helmglanz{fill:none;stroke:#fff;stroke-width:10;stroke-linecap:round;opacity:.55}
-.ck-helmrand{fill:var(--fg-helm2)}
-.ck-helmstreifen{fill:none;stroke:var(--anod);stroke-width:14;stroke-linecap:round}
+.ck-kinn{fill:var(--rs-schwarz)}
+.ck-helmstreifen{fill:none;stroke:var(--anod);stroke-width:12;stroke-linecap:round}
+.ck-schlitz{fill:none;stroke:var(--rs-schwarz-2);stroke-width:11;stroke-linecap:round}
 .ck-innen{fill:var(--rs-schwarz-2)}
-.ck-brillenband{fill:var(--anod)}
-.ck-gitter{fill:none;stroke:var(--rs-metall);stroke-width:4;stroke-linecap:round}
+.ck-strap{fill:var(--anod)}
+.ck-rahmen{fill:var(--rs-schwarz)}
+.ck-rahmenluft{fill:none;stroke:var(--rs-schwarz-2);stroke-width:4;stroke-linecap:round}
+.ck-pin{fill:var(--rs-metall)}
+.ck-nase{fill:var(--rs-schwarz-2)}
+.ck-gitterrand{fill:none;stroke:var(--rs-schwarz);stroke-width:5;stroke-linejoin:round}
+.ck-schirmkante{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:.2}
 .ck-helmkante{fill:none;stroke:var(--rs-schwarz-2);stroke-width:8;stroke-linecap:round}
 .ck-schirm{fill:var(--rs-schwarz)}
 .ck-brillenrand{fill:none;stroke:var(--rs-schwarz);stroke-width:8;stroke-linecap:round}
@@ -6074,24 +6083,30 @@ function radSvg(o){
     /* Punkt am Kopf (eigene Koordinaten, y nach unten) in Rad-Koordinaten */
     const kw = kipp * Math.PI / 180;
     const lokal = (x, y) => add(kopf, [(x * Math.cos(kw) - y * Math.sin(kw)) * sk, -(x * Math.sin(kw) + y * Math.cos(kw)) * sk]);
-    /* Fullface-Helm von der Seite: Schale mit Kinnbuegel, Schirm, Goggle mit
-       Band um die Schale, Lueftung am Kinn. Eigene Koordinaten, x nach vorn,
-       y nach unten, Kopfmitte im Ursprung. */
-    const KOPF = `<path class="r-helm" d="M-120 6C-122 -78 -62 -130 8 -128C74 -126 110 -88 114 -42L120 -30L122 28C134 40 142 56 142 72C142 94 126 110 100 114C70 120 34 118 10 110C-18 102 -52 98 -80 100C-104 102 -120 72 -120 6Z"/>
-      <path class="r-helmrand" d="M-118 34C-100 84 -40 96 10 104C60 112 108 110 136 90L140 80C112 100 62 104 12 96C-36 88 -92 76 -116 22Z"/>
-      <path class="r-helmstreifen" d="M104 -62C50 -108 -44 -110 -104 -52"/>
-      <path class="r-helmglanz" d="M-70 -98C-36 -120 20 -122 60 -100"/>
-      <path class="r-luft" d="M-56 -104L-30 -114M-88 -80L-68 -96M-6 -118L22 -116"/>
-      <path class="r-helmnaht" d="M62 30C34 44 12 72 6 108"/>
-      <path class="r-kinnluft" d="M126 50C134 62 135 80 128 94"/>
-      <path class="r-helmkante" d="M-80 100C-40 96 -10 104 10 110C40 118 76 118 100 114"/>
-      <path class="r-helmoeffnung" d="M50 -40C80 -48 112 -44 124 -32L126 26C104 36 76 36 54 30C44 10 44 -20 50 -40Z"/>
-      <path class="r-brillenband" d="M60 -26C10 -32 -60 -30 -119 -12L-119 10C-60 -6 10 -6 60 2Z"/>
-      <path class="r-dunkel" d="M58 -36C84 -44 114 -40 128 -28C136 -12 136 12 128 24C108 32 80 32 60 26C52 8 52 -18 58 -36Z"/>
-      <path fill="url(#${id("b")})" d="M92 -30C108 -32 120 -28 126 -22C130 -8 130 10 126 18C114 24 102 24 92 22C88 6 88 -14 92 -30Z"/>
-      <path class="r-glasglanz" d="M98 -22L118 -22"/>
-      <path class="r-schirm" d="M52 -104C98 -112 150 -104 180 -86L172 -70C144 -84 110 -88 80 -84Z"/>
-      <circle class="r-metall" cx="70" cy="-92" r="5"/>`;
+    /* Fullface-Helm nach Art des Fox Rampage, von der Seite: runde Schale,
+       kantiger Kinnbuegel mit Spitze nach vorn-unten, Schlitze am Kinn und
+       oben, langer fester Schirm mit Schraube. Dazu eine MX-Goggle: dicker
+       Rahmen, getoente Linse, Nasenschutz, Seitenaufhaengung und breites
+       Silikonband um die Schale. Eigene Koordinaten, x nach vorn, y nach
+       unten, Kopfmitte im Ursprung. */
+    const KOPF = `<path class="r-helm" d="M-120 30C-128 -70 -66 -132 6 -130C72 -128 110 -96 116 -52L112 -40L114 30L130 36C156 44 182 58 198 76L200 84C184 100 156 116 120 122C84 126 48 122 18 114C-16 104 -56 98 -86 102C-104 104 -116 80 -120 30Z"/>
+      <path class="r-kinn" d="M198 76L200 84C184 100 156 116 120 122C84 126 48 122 18 114C-16 104 -56 98 -86 102C-62 90 -22 88 18 92C70 96 140 90 198 76Z"/>
+      <path class="r-helmstreifen" d="M190 78C140 88 72 94 20 90C-18 86 -56 88 -84 98"/>
+      <path class="r-helmglanz" d="M-74 -98C-40 -120 18 -124 60 -106"/>
+      <path class="r-schlitz" d="M-22 -112L8 -114M-62 -100L-38 -109M-96 -70L-80 -88M-114 -20L-110 -42"/>
+      <path class="r-schlitz" d="M134 62L158 58M136 78L170 72"/>
+      <path class="r-mundschlitz" d="M174 68L188 78"/>
+      <path class="r-helmkante" d="M-86 102C-56 98 -16 104 18 114C48 122 84 126 120 122"/>
+      <path class="r-brillenband" d="M98 -32C40 -40 -50 -40 -123 -22L-123 16C-50 -2 40 -2 98 4Z"/>
+      <path class="r-bandnaht" d="M92 -14C30 -20 -50 -20 -122 -4"/>
+      <path class="r-rahmen" d="M102 -48C120 -54 138 -50 146 -40C152 -22 152 18 144 32C132 40 114 40 102 34C96 14 96 -28 102 -48Z"/>
+      <path class="r-dunkel2" d="M92 -22L104 -28L104 12L92 6Z"/>
+      <path fill="url(#${id("b")})" d="M132 -46C140 -42 146 -32 148 -20C150 -2 149 16 144 28C140 30 136 30 133 29C136 10 136 -28 132 -46Z"/>
+      <path class="r-glasglanz" d="M138 -36L144 -16"/>
+      <path class="r-dunkel2" d="M134 30L142 30L150 46L138 48Z"/>
+      <path class="r-schirm" d="M24 -120C80 -128 140 -116 180 -96L175 -74C146 -86 112 -90 84 -84C62 -80 42 -92 24 -120Z"/>
+      <path class="r-schirmkante" d="M40 -120C90 -124 142 -112 176 -94"/>
+      <circle class="r-metall" cx="52" cy="-104" r="5.5"/>`;
     const hand = s(90), hg = add(gr, mul(unit(sub(ell, gr)), hand));   /* Handgelenk */
     const armF = ` fill="url(#${id("a")})"`;
     fHinten = `<g class="r-hinten">${bein(pf)}</g>`;
@@ -6293,6 +6308,8 @@ function cockpitSvg(f){
       <linearGradient id="${id("b")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb86b"/><stop offset=".5" stop-color="#ff5fa2"/><stop offset="1" stop-color="#7a5cff"/></linearGradient>
       <linearGradient id="${id("f")}" x1="0" y1="0" x2="0" y2="1"><stop offset=".62" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
       <mask id="${id("m")}"><rect x="-470" y="${hy}" width="940" height="220" fill="url(#${id("f")})"/></mask>
+      <pattern id="${id("n")}" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="9" height="9" style="fill:var(--rs-schwarz-2)"/><path d="M0 0V9M0 0H9" style="stroke:var(--rs-metall);stroke-width:2;opacity:.6"/></pattern>
       <clipPath id="${id("k")}"><path d="${`M${-sx - 16} 268C${-sx - 12} 228 ${-sx + 34} 208 -64 202Q0 246 64 202C${sx - 34} 208 ${sx + 12} 228 ${sx + 16} 268L${S * .36} ${hy}L${-S * .36} ${hy}Z`}"/></clipPath>
     </defs>
     <!-- Hals: vom Kinn in die Schultern, darunter der runde Trikotausschnitt -->
@@ -6318,21 +6335,30 @@ function cockpitSvg(f){
     <rect fill="url(#${id("r")})" x="-34" y="${hy + 34}" width="68" height="64" rx="12"/>
     <rect class="ck-dunkel" x="-32" y="${hy - 18}" width="64" height="66" rx="14"/>
     <g transform="translate(0 -46)">
-    <!-- Fullface-Helm von vorn: Schale, Kinnbuegel mit Gitter, Schirm, Goggle -->
-    <path class="ck-helm" d="M-106 124C-112 20 -60 -16 0 -16C60 -16 112 20 106 124L102 188C98 212 72 226 40 230L-40 230C-72 226 -98 212 -102 188Z"/>
-    <path class="ck-helmrand" d="M-104 150L-102 188C-98 212 -72 226 -40 230L40 230C72 226 98 212 102 188L104 150C80 178 -80 178 -104 150Z"/>
-    <path class="ck-helmstreifen" d="M0 -14V62M-58 0Q-86 30 -96 74M58 0Q86 30 96 74"/>
-    <path class="ck-luft" d="M-34 10L-38 44M34 10L38 44"/>
-    <path class="ck-helmglanz" d="M-66 22C-44 0 -16 -6 6 -6"/>
-    <path class="ck-innen" d="M-92 92Q0 76 92 92L90 158Q0 170 -90 158Z"/>
-    <path class="ck-brillenband" d="M-110 100L-92 100L-92 148L-108 150ZM110 100L92 100L92 148L108 150Z"/>
-    <path class="ck-dunkel" d="M-94 116C-94 98 -80 90 -62 90L62 90C80 90 94 98 94 116L94 132C94 148 82 156 64 156L20 156C12 156 8 144 0 144C-8 144 -12 156 -20 156L-64 156C-82 156 -94 148 -94 132Z"/>
-    <path fill="url(#${id("b")})" d="M-84 118C-84 104 -74 98 -60 98L60 98C74 98 84 104 84 118L84 130C84 142 76 148 62 148L22 148C14 148 10 138 0 138C-10 138 -14 148 -22 148L-62 148C-76 148 -84 142 -84 130Z"/>
-    <path class="ck-glanz" d="M-60 108L-24 106M-62 120L-46 119" style="stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.7"/>
-    <path class="ck-dunkel" d="M-36 184Q0 176 36 184L32 214Q0 222 -32 214Z"/>
-    <path class="ck-gitter" d="M-28 192H28M-27 202H27"/>
-    <path class="ck-helmkante" d="M-40 230C-20 234 20 234 40 230"/>
-    <path class="ck-schirm" d="M-120 64Q0 26 120 64L112 88Q0 54 -112 88Z"/></g>
+    <!-- Fullface-Helm nach Art des Fox Rampage, von vorn: Schale, kantiger
+         Kinnbuegel mit Spitze und Mundgitter, Schlitze, breiter Schirm mit
+         Schrauben. Davor eine MX-Goggle mit Rahmen, Linse, Stiften,
+         Nasenschutz und Band. -->
+    <path class="ck-helm" d="M-108 122C-114 18 -60 -18 0 -18C60 -18 114 18 108 122L104 178C100 200 66 224 22 240Q0 248 -22 240C-66 224 -100 200 -104 178Z"/>
+    <path class="ck-kinn" d="M-104 164L-104 178C-100 200 -66 224 -22 240Q0 248 22 240C66 224 100 200 104 178L104 164C92 190 60 212 22 226Q0 232 -22 226C-60 212 -92 190 -104 164Z"/>
+    <path class="ck-helmstreifen" d="M-102 70Q-90 150 -34 214M102 70Q90 150 34 214"/>
+    <path class="ck-schlitz" d="M-42 6L-46 38M-14 -4L-15 32M14 -4L15 32M42 6L46 38"/>
+    <path class="ck-helmglanz" d="M-72 22C-50 0 -20 -8 4 -8"/>
+    <path class="ck-innen" d="M-98 86Q0 70 98 86L96 164Q0 174 -96 164Z"/>
+    <path class="ck-strap" d="M-116 98L-94 102L-94 142L-116 146ZM116 98L94 102L94 142L116 146Z"/>
+    <path class="ck-rahmen" d="M-98 104C-98 90 -88 82 -72 82L72 82C88 82 98 90 98 104L98 136C98 154 86 162 68 162L28 162C18 162 14 150 0 150C-14 150 -18 162 -28 162L-68 162C-86 162 -98 154 -98 136Z"/>
+    <path fill="url(#${id("b")})" d="M-86 106C-86 96 -78 92 -68 92L68 92C78 92 86 96 86 106L86 132C86 144 78 150 66 150L26 150C18 150 14 140 0 140C-14 140 -18 150 -26 150L-66 150C-78 150 -86 144 -86 132Z"/>
+    <path class="ck-rahmenluft" d="M-62 87H-42M-24 86H-8M8 86H24M42 87H62"/>
+    ${[-1, 1].map(sg => [100, 121, 142].map(y => `<circle class="ck-pin" cx="${sg * 91}" cy="${y}" r="3.2"/>`).join("")).join("")}
+    <path class="ck-glanz" d="M-62 102L-22 100M-66 114L-48 113" style="stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.7"/>
+    <path class="ck-nase" d="M-16 150Q0 136 16 150L12 174Q0 180 -12 174Z"/>
+    <path fill="url(#${id("n")})" d="M-34 184L34 184L22 224Q0 232 -22 224Z"/>
+    <path class="ck-gitterrand" d="M-34 184L34 184L22 224Q0 232 -22 224Z"/>
+    <path class="ck-schlitz" d="M-74 174L-60 206M74 174L60 206M-90 166L-82 192M90 166L82 192"/>
+    <path class="ck-helmkante" d="M-22 240Q0 248 22 240"/>
+    <path class="ck-schirm" d="M-126 58Q0 12 126 58L118 84Q60 58 0 56Q-60 58 -118 84Z"/>
+    <path class="ck-schirmkante" d="M-122 62Q0 20 122 62"/>
+    <circle class="ck-metall" cx="-104" cy="70" r="6"/><circle class="ck-metall" cx="104" cy="70" r="6"/></g>
     ${seite(-1)}${seite(1)}
     <path class="ck-lenker" d="M${-B / 2} ${hy - 14}L-114 ${hy - 10}C-72 ${hy - 8} -64 ${hy + 18} -42 ${hy + 18}L42 ${hy + 18}C64 ${hy + 18} 72 ${hy - 8} 114 ${hy - 10}L${B / 2} ${hy - 14}"/>
     <path class="ck-lenkerglanz" d="M${-B / 2 + 140} ${hy - 20}L-116 ${hy - 17}M116 ${hy - 17}L${B / 2 - 140} ${hy - 20}"/>
