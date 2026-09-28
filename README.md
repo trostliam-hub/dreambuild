@@ -55,7 +55,7 @@ Schultern und Lenker in echter Breite. Im Fit sitzt ein Fahrer in deiner Größe
 auf dem Rad, Beine und Arme aus Sattel, Pedal und Griff gerechnet (Helm mit
 Schirm, Trikot mit Licht und Schatten, Knieschoner, Flat-Schuhe).
 Das Rad ist nach der Geometrie des Propain Spindrift 5 AL gezeichnet (S–XL,
-die Größe folgt deinem Reach): Lenkwinkel 63,9°, Sitzwinkel 78,4°, Kettenstrebe
+im Fit folgt die Größe deinem Reach, auf der Begrüßung steht das lange XL): Lenkwinkel 63,9°, Sitzwinkel 78,4°, Kettenstrebe
 445 mm, Tretlagerabsenkung 20 mm, Mullet 29/27,5″, 180 mm Federweg. Das
 Steuerrohr ist aus Stack und Gabel-Einbauhöhe zurückgerechnet, damit stimmt
 auch der Radstand (L: 1280 statt 1278 mm). Dazu PRO10-Hinterbau mit zwei

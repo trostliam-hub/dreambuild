@@ -5735,7 +5735,8 @@ const SPINDRIFT = [
   {g:"L",  reach:480, stack:644, steuer:110, sr:445},
   {g:"XL", reach:505, stack:658, steuer:126, sr:470}
 ];
-const spindriftGroesse = reach => SPINDRIFT.reduce((b, g) => Math.abs(g.reach - (reach || 480)) < Math.abs(b.reach - (reach || 480)) ? g : b);
+/* Ohne Fahrer (Begruessung) die laengste Groesse, XL -- mit Fahrer die, deren Reach passt */
+const spindriftGroesse = reach => SPINDRIFT.reduce((b, g) => Math.abs(g.reach - (reach || 505)) < Math.abs(b.reach - (reach || 505)) ? g : b);
 /* Aussenradius mit 2,5″-Reifen und Felgenhorn (ETRTO / 2) je Laufradgroesse */
 const RAD_R = {"29":380, "27.5":355, "26":335};
 const FELGE_R = {"29":311, "27.5":292, "26":279};
@@ -6527,7 +6528,7 @@ const spracheKnoepfe = cls => `<div class="er-chips ${cls || ""}" role="group" a
 const EI_SCHRITT = {
   hallo: () => ({h:`
     ${spracheKnoepfe("ei-sprache")}
-    <div class="ei-rad" style="--i:0">${radSvg({anim:true, reach:475, sattel:760})}</div>
+    <div class="ei-rad" style="--i:0">${radSvg({anim:true, sattel:780})}</div>
     <p class="ei-sub" style="--i:1">${tx("Willkommen bei CrankScore", "Welcome to CrankScore")}</p>
     <h1 class="ei-h1" style="--i:2">${tx("Dein Rad.", "Your bike.")}<br><span class="grad-t">${tx("Auf dich gebaut.", "Built around you.")}</span></h1>
     <p class="ei-qs" style="--i:3">${tx(`Ein paar Fragen zu dir und deinem Fahrstil — dann kennt die App deine Rahmengröße und
