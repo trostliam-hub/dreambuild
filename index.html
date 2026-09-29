@@ -592,7 +592,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .g-bl{max-width:86%;min-width:0;padding:10px 13px;border-radius:18px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
 .g-m.du .g-bl{background:var(--grad);color:#fff;border-bottom-right-radius:6px}
 .g-m.bot .g-bl{background:var(--surface-2);color:var(--ink);border:1px solid var(--hair);border-bottom-left-radius:6px}
-.g-bl ul{margin:6px 0 2px;padding-left:18px}
+.g-bl ul,.g-bl ol{margin:6px 0 8px;padding-left:20px}
 .g-bl li{margin:3px 0}
 .g-bl b{font-weight:750}
 .g-av{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--grad);color:#fff}
@@ -7680,10 +7680,396 @@ function gMindest(q){
       "Below that it becomes a bike with compromises. Used, you often get much more for your money — the Used mode checks the price."), ak:[modus === "traum" ? "wiz" : "modus:traum"]};
 }
 function gUeber(){
-  return {h:tx(`Ich bin der eingebaute Guide von CrankScore — keine KI aus dem Internet, sondern eine Wissenssammlung direkt in der App. Ich suche in deiner Frage nach Stichworten und antworte aus ${GUIDE.length} Themen zur App und zum Rad. Deinen Aufbau lese ich live mit: Wertung, Konflikte, Budget, Fit, Federung. Teile finde ich im Katalog und sage dir, ob sie an dein Rad passen. Alles bleibt auf deinem Handy, auch offline. Am besten fragst du kurz und mit Fachwort, etwa „Was ist Boost?“ oder „Passt eine Fox 38?“.`,
-    `I'm CrankScore's built-in guide — not an AI from the internet, but a knowledge base right inside the app. I look for keywords in your question and answer from ${GUIDE.length} topics about the app and the bike. I read your build live: score, conflicts, budget, fit, suspension. I find parts in the catalogue and tell you whether they fit your bike. Everything stays on your phone, even offline. Ask briefly and use the technical term, e.g. “What is Boost?” or “Does a Fox 38 fit?”.`)};
+  return {h:tx(`Ich bin der eingebaute Guide von CrankScore — keine KI aus dem Internet, sondern eine Wissenssammlung direkt in der App, die mit deinem Aufbau rechnet. Ich erkenne, was du wissen willst, und antworte aus ${GUIDE.length} Themen zur App und zum Rad. Zu deinem Rad rechne ich live: was zur 100 fehlt und welcher Tausch am meisten bringt, welche Teile am besten passen, wofür dein Rad taugt, wo du Geld oder Gewicht sparst. Teile finde ich im Katalog und sage dir, ob sie passen. Alles bleibt auf deinem Handy, auch offline.`,
+    `I'm CrankScore's built-in guide — not an AI from the internet, but a knowledge base right inside the app that calculates with your build. I work out what you want to know and answer from ${GUIDE.length} topics about the app and the bike. For your bike I calculate live: what's missing to get 100 and which swap gains the most, which parts fit best, what your bike is good for, where you save money or weight. I find parts in the catalogue and tell you whether they fit. Everything stays on your phone, even offline.`)};
 }
 const gBegriff = i => () => { const b = (sprache === "en" ? BEGRIFFE_EN : BEGRIFFE)[i]; return {h:`<b>${esc(b[0])}</b> — ${esc(b[1])}`}; };
+
+/* ── Absichten: Fragen zum eigenen Rad, die rechnen muessen ──
+   Die Stichwortsuche unten findet Themen ("Was ist Boost?"). Fragen wie
+   "Was fehlt zur 100?", "Welche Gabel soll ich nehmen?" oder "Taugt mein Rad
+   fuer Enduro?" meinen aber den eigenen Aufbau -- und in ihnen stecken Woerter
+   wie "fehlt" oder "passt", die sonst ein falsches Thema treffen. Deshalb
+   werden sie vorher an Mustern erkannt und mit echten Zahlen beantwortet:
+   bewerte() fuer die Wertung, jedes passende Teil einmal durchprobiert fuer
+   Empfehlungen und Hebel. */
+const G_SLOTWORT = {
+  gabel:"gabel gabeln federgabel federgabeln fork forks",
+  daempfer:"daempfer federbein hinterbaudaempfer shock shocks",
+  laufraeder:"laufrad laufraeder laufradsatz laufradsaetze felge felgen wheel wheels wheelset rim rims",
+  reifenVR:"reifen mantel maentel tyre tyres tire tires",
+  bremsen:"bremse bremsen brake brakes",
+  lenker:"lenker handlebar handlebars",
+  vorbau:"vorbau stem",
+  kurbel:"kurbel kurbeln crank cranks cranckset crankset",
+  kette:"kette ketten chain",
+  kassette:"kassette ritzel ritzelpaket cassette",
+  schaltwerk:"schaltwerk derailleur",
+  schalthebel:"schalthebel trigger shifter",
+  stuetze:"sattelstuetze stuetze variostuetze teleskopstuetze dropper seatpost",
+  sattel:"sattel saddle",
+  pedale:"pedale pedal pedals",
+  griffe:"griffe griff grips grip",
+  rahmen:"rahmen frame",
+  innenlager:"innenlager tretlager",
+  steuersatz:"steuersatz headset",
+  rahmenlager:"rahmenlager hinterbaulager"
+};
+const G_DISZWORT = {xc:"xc cc crosscountry marathon xcbike racebike", trail:"trail trails trailbike trailbikes allmountain tour touren tourer",
+  enduro:"enduro enduros endurobike endurobikes", dh:"downhill dh bikepark park downhillbike freeride",
+  dirt:"dirt dirtjump dirtjumper dirtjumps pumptrack", slope:"slope slopestyle", trial:"trial trials"};
+/* Zum Bauteil passendes Wissens-Thema, als Vorschlag unter der Antwort */
+const G_TEILTHEMA = {gabel:"b1", daempfer:"coil", laufraeder:"laufradsatz", reifenVR:"reifen", bremsen:"b12", lenker:"cockpit", vorbau:"cockpit",
+  kurbel:"kurbellaenge", kassette:"schaltung", schaltwerk:"schaltung", kette:"kette", stuetze:"b10", sattel:"sattel", pedale:"pedale",
+  innenlager:"b13", steuersatz:"steuerrohr", rahmenlager:"lager"};
+/* Wort gehoert zu einer Liste -- auch gebeugt ("Laufraedern", "Gabeln"), aber
+   nicht als Teil eines laengeren Worts ("Reifendruck" ist ein eigenes Thema) */
+const gWortIn = (w, l) => l.some(x => w === x || (x.length >= 5 && w.indexOf(x) === 0 && w.length - x.length <= 2));
+const gFinde = (worte, tabelle) => { for(const k in tabelle){ const l = tabelle[k].split(" "); if(worte.some(w => gWortIn(w, l))) return k; } return null; };
+const gAlleDisz = worte => DID.filter(d => worte.some(w => G_DISZWORT[d].split(" ").indexOf(w) >= 0)
+  || (d === "xc" && worte.indexOf("cross") >= 0 && worte.indexOf("country") >= 0));
+const gEig = e => (Math.round(e * 10) / 10).toLocaleString(ortsform());
+const gPkt = n => { const x = Math.round(n); return x + " " + tx(x === 1 ? "Punkt" : "Punkte", x === 1 ? "point" : "points"); };
+const gPlus = n => Math.abs(n) < 1 ? tx("gleicher Preis", "same price") : (n > 0 ? "+" : "−") + eur(Math.abs(n));
+/* Kurz die Disziplin wechseln, rechnen, zuruecksetzen */
+function gMitSel(ds, fn){ const alt = sel; sel = ds; try{ return fn(); } finally { sel = alt; } }
+/* Alle Teile, die in einen Platz passen und keinen neuen Konflikt bringen --
+   mit der Wertung, die das Rad danach haette */
+function gProbe(k, mitJetzt){
+  const jetzt = build[k] ? findeTeil(k, build[k]) : null, f0 = harteFehler(build), out = [];
+  for(const kand of kandidaten(k, build)){
+    if(!mitJetzt && jetzt && kand.id === jetzt.id) continue;
+    const probe = {...build}; probe[k] = kand.id;
+    const pr = bewerte(probe);                                  /* eine Pruefung je Teil -- bewerte() prueft schon */
+    if(pr.funde.filter(f => f.level === "fehler").length > f0) continue;
+    out.push({t:kand, g:pr.gesamt, eig:eignung(kand), preis:preisVon(kand), jetzt:!!jetzt && basisVon(kand.id) === basisVon(jetzt.id)});
+  }
+  return out;
+}
+
+/* "Was fehlt zur 100?" -- woher die fehlenden Punkte kommen und welche
+   Tausche sie am schnellsten zurueckholen */
+function gZur100(){
+  const r = gR();
+  if(!r.teile) return {h:tx("Noch sind keine Teile drin — ohne Teile gibt es keine Wertung. Fang mit dem Rahmen an oder lass den Assistenten ein Rad bauen.",
+    "There are no parts yet — no parts, no score. Start with the frame or let the assistant build a bike."), ak:[modus === "traum" ? "wiz" : "slot:rahmen"]};
+  if(r.gesamt >= 100) return {h:tx("<b>100 von 100</b> — da fehlt nichts. Alles passt zusammen und jedes Teil passt zu " + esc(selNamen()) + ".",
+    "<b>100 out of 100</b> — nothing's missing. Everything fits together and every part suits " + esc(selNamen()) + "."), ak:["score"]};
+  /* Woher: jeder Befund kostet Passform (62 % der Gesamtwertung), jedes Teil
+     unter 5/5 kostet Einsatz (38 %) -- gewichtet wie in bewerte() */
+  const funde = r.funde.map(f => ({f:f, p:ABZUG[f.level] * 0.62})).sort((a, b) => b.p - a.p);
+  let gewSum = 0; const teile = [];
+  for(const s of SLOTS){
+    if(!s.gew || !build[s.k] || !zaehlt(build, s)) continue;
+    const t = findeTeil(s.k, build[s.k]); if(!t || !t.e) continue;
+    gewSum += s.gew; teile.push({s:s, t:t, eig:eignung(t)});
+  }
+  teile.forEach(x => { x.p = gewSum ? x.s.gew * (5 - x.eig) / gewSum / 5 * 100 * 0.38 : 0; });
+  const schwach = teile.filter(x => x.p >= 0.4).sort((a, b) => b.p - a.p);
+  let h = tx(`Du hast <b>${r.gesamt} von 100</b> — es ${100 - r.gesamt === 1 ? "fehlt" : "fehlen"} <b>${gPkt(100 - r.gesamt)}</b>.`, `You have <b>${r.gesamt} out of 100</b> — <b>${gPkt(100 - r.gesamt)}</b> missing.`);
+  h += `<br><b>${tx("Woher sie kommen", "Where they go")}</b><ul>`;
+  if(funde.length){
+    const zuViel = funde.reduce((a, x) => a + ABZUG[x.f.level], 0) > 100;
+    h += `<li>${tx("Passform", "Fit")} ${r.tech}: ` + funde.slice(0, 3).map(x => `${esc(gOhneTags(x.f.titel))} (${esc(STUFE[x.f.level])}${zuViel ? "" : ", ~" + gPkt(x.p)})`).join("; ")
+      + (funde.length > 3 ? tx(` und ${funde.length - 3} weitere`, ` and ${funde.length - 3} more`) : "") + "</li>";
+  } else h += `<li>${tx("Passform", "Fit")} ${r.tech}: ${tx("alles passt, hier fehlt nichts", "everything fits, nothing missing here")}</li>`;
+  if(schwach.length) h += `<li>${tx("Einsatz", "Purpose")} ${r.chara} ${tx("für", "for")} ${esc(selNamen())}: `
+    + schwach.slice(0, 3).map(x => `${esc(x.s.label)} (${esc(x.t.n)}, ${gEig(x.eig)}/5, ~${gPkt(x.p)})`).join("; ") + "</li>";
+  else h += `<li>${tx("Einsatz", "Purpose")} ${r.chara}: ${tx("jedes Teil passt zu", "every part suits")} ${esc(selNamen())}</li>`;
+  h += "</ul>";
+  /* Groesster Einzelposten ist oft die Disziplin: ein Enduro-Rahmen, bewertet als Trail */
+  const rah = build.rahmen ? findeTeil("rahmen", build.rahmen) : null, rd = rahmenDisziplin(rah);
+  const hinweisDisz = rd && !sel.some(d => (rah.e[d] || 0) >= 4);
+  if(hinweisDisz) h += tx(`<b>Wichtig:</b> Dein Rahmen ist für ${esc(dLang(rd))} gebaut, bewertet wird gerade nach ${esc(selNamen())}. Stell die Disziplin auf ${esc(dLang(rd))} — das bringt mehr als jeder Tausch.<br>`,
+    `<b>Important:</b> your frame is built for ${esc(dLang(rd))}, but it's currently rated for ${esc(selNamen())}. Switch the discipline to ${esc(dLang(rd))} — that gains more than any swap.<br>`);
+  const offen = gOffen().length;
+  if(offen) h += tx(`Noch ${offen === 1 ? "ist ein Platz" : offen + " Plätze sind"} leer — die zählen erst, wenn etwas drin ist.<br>`, `${offen === 1 ? "One slot is" : offen + " slots are"} still empty — they only count once something's in.<br>`);
+  /* Hebel Schritt fuer Schritt: den besten Tausch nehmen, neu rechnen, den
+     naechsten -- so zaehlen Wechselwirkungen mit (ein anderer Rahmen braucht
+     einen anderen Daempfer). Je Platz die drei besten Kandidaten aus der
+     ersten Runde, damit es am Handy schnell bleibt. Vorrang hat das eigene
+     Teil in anderer Ausfuehrung, dann das guenstigere; ein neuer Rahmen nur,
+     wenn er klar mehr bringt. Am eigenen Rad gar kein neuer Rahmen. */
+  const kand = {};
+  for(const s of SLOTS){
+    if(!build[s.k] || !zaehlt(build, s) || (s.k === "rahmen" && modus !== "traum")) continue;
+    /* die drei mit der besten Wertung und die drei mit der besten Eignung --
+       zweiteres fuer Wechselwirkungen (Hinterreifen erst nach dem vorderen) */
+    const alle = gProbe(s.k, false);
+    const l = alle.slice().sort((a, b) => b.g - a.g || (b.jetzt - a.jetzt) || a.preis - b.preis).slice(0, 3);
+    alle.slice().sort((a, b) => b.eig - a.eig || b.g - a.g || a.preis - b.preis).slice(0, 3).forEach(x => { if(l.indexOf(x) < 0) l.push(x); });
+    if(l.length) kand[s.k] = l;
+  }
+  const wert = x => x.d - (x.s.k === "rahmen" ? 5 : 0);
+  const besser = (a, b) => wert(a) !== wert(b) ? wert(a) > wert(b) : a.gleich !== b.gleich ? a.gleich : a.mehr < b.mehr;
+  const bau = {...build}, schritte = [];
+  let stand = r.gesamt;
+  for(let runde = 0; runde < 6; runde++){
+    let best = null;
+    for(const k in kand){
+      if(schritte.some(x => x.s.k === k)) continue;
+      const jetzt = findeTeil(k, build[k]);
+      for(const x of kand[k]){
+        const probe = {...bau}; probe[k] = x.t.id;
+        const pr = bewerte(probe), d = pr.gesamt - stand;
+        if(d <= 0) continue;
+        const c = {s:slotOf(k), t:x.t, d:d, pr:pr, gleich:x.jetzt, mehr:preisVon(x.t) - preisVon(jetzt)};
+        if(!best || besser(c, best)) best = c;
+      }
+    }
+    if(!best) break;
+    schritte.push(best); bau[best.s.k] = best.t.id; stand = best.pr.gesamt;
+  }
+  const ak = [];
+  if(schritte.length){
+    const zeig = schritte.slice(0, 4), ende = schritte[schritte.length - 1].pr;
+    h += `<b>${tx("So holst du sie", "How to get them back")}</b><ol>` + zeig.map(x => `<li>${esc(x.s.label)} → <b>${esc(x.t.n)}</b>`
+      + (x.gleich ? tx(" (dein Teil, andere Ausführung)", " (your part, another version)") : "") + `: +${gPkt(x.d)}, ${gPlus(x.mehr)}</li>`).join("") + "</ol>";
+    if(schritte.length > zeig.length) h += tx(`Danach noch ${schritte.slice(4).map(x => esc(x.s.label)).join(", ")}. `, `Then ${schritte.slice(4).map(x => esc(x.s.label.toLowerCase())).join(", ")}. `);
+    if(schritte.length > 1) h += tx(`Alle ${schritte.length} zusammen: <b>${r.gesamt} → ${ende.gesamt}</b>, ${gPlus(ende.preis - r.preis)}.`,
+      `All ${schritte.length} together: <b>${r.gesamt} → ${ende.gesamt}</b>, ${gPlus(ende.preis - r.preis)}.`);
+    if(ende.gesamt < 100) h += " " + tx("Mehr geht mit dem Katalog nicht — für die übrigen Plätze gibt es kein Teil, das noch besser passt.",
+      "That's the most the catalogue allows — there's no part for the remaining slots that fits even better.");
+    if(plan.budget > 0 && modus !== "markt" && ende.preis > plan.budget) h += " " + tx(`Achtung: Das liegt über deinem Budget von ${eur(plan.budget)}.`, `Note: that's over your budget of ${eur(plan.budget)}.`);
+    ak.push("slot:" + schritte[0].s.k);
+  } else h += tx("Einen Tausch, der die Wertung hebt, gibt es im Katalog nicht — dein Aufbau ist so gut, wie er mit diesem Rahmen geht.",
+    "There's no swap in the catalogue that raises the score — your build is as good as it gets with this frame.");
+  if(hinweisDisz) ak.unshift("disz");
+  if(funde.some(x => x.f.level === "fehler")) ak.push("view:befunde");
+  ak.push("view:upgrades", "score");
+  return {h:h, ak:ak};
+}
+
+/* "Welche Gabel soll ich nehmen?" -- jede passende einmal am eigenen Rad
+   durchgerechnet */
+function gEmpfehlung(k){
+  const s = slotOf(k);
+  if(entfaellt(build, k)) return {h:tx(`${esc(s.label)}: brauchst du bei deinem Rahmen nicht.`, `${esc(s.label)}: your frame doesn't need one.`)};
+  const r = gR(), jetzt = build[k] ? findeTeil(k, build[k]) : null;
+  const liste = gProbe(k, true);
+  if(!liste.length) return {h:tx(`Für „${esc(s.label)}“ gibt es im Katalog nichts, was ohne neuen Konflikt an dein Rad passt.`, `There's nothing in the catalogue for “${esc(s.label.toLowerCase())}” that fits your bike without a new conflict.`), ak:["slot:" + k]};
+  /* Gleiche Wertung und Eignung: das leichtere zuerst, den Preis zeigt die Zeile */
+  liste.sort((a, b) => b.g - a.g || b.eig - a.eig || (a.t.g || 9e9) - (b.t.g || 9e9) || a.preis - b.preis);
+  const rest = r.preis - (jetzt ? preisVon(jetzt) : 0), budget = plan.budget > 0 && modus !== "markt" ? plan.budget : 0;
+  const gesehen = {}, top = [];
+  for(const x of liste){ const b = basisVon(x.t.id); if(gesehen[b]) continue; gesehen[b] = 1; top.push(x); if(top.length === 3) break; }
+  const zeile = x => `<li><b>${esc(x.t.n)}</b>${x.jetzt ? tx(" (deine jetzige)", " (your current one)") : ""} — ${eur(x.preis)}${x.t.g ? ", " + gKg(x.t.g) : ""}, `
+    + tx(`Eignung ${gEig(x.eig)}/5, Wertung ${x.g}`, `suitability ${gEig(x.eig)}/5, score ${x.g}`) + (r.teile && x.g !== r.gesamt ? ` (${x.g > r.gesamt ? "+" : ""}${x.g - r.gesamt})` : "")
+    + (budget && rest + x.preis > budget ? tx(" — über Budget", " — over budget") : "") + "</li>";
+  let h = tx(`Für dein Rad und ${esc(selNamen())} passen am besten:`, `For your bike and ${esc(selNamen())}, the best fits are:`) + `<ol>${top.map(zeile).join("")}</ol>`;
+  /* Preis-Leistung: das guenstigste, das hoechstens 2 Punkte hinter dem besten liegt */
+  const pl = liste.filter(x => x.g >= top[0].g - 2 && x.eig >= 3.5 && !top.slice(0, 1).some(y => basisVon(y.t.id) === basisVon(x.t.id)))
+    .sort((a, b) => a.preis - b.preis)[0];
+  if(pl && pl.preis < top[0].preis * 0.8) h += tx(`Preis-Leistung: <b>${esc(pl.t.n)}</b> für ${eur(pl.preis)} — Wertung ${pl.g}.`, `Best value: <b>${esc(pl.t.n)}</b> for ${eur(pl.preis)} — score ${pl.g}.`);
+  if(jetzt && top[0].jetzt) h += " " + tx("Dein jetziges Teil ist schon die beste Wahl.", "Your current part is already the best choice.");
+  /* Konflikte an anderen Teilen druecken die Wertung, egal was hier steckt */
+  const fremd = r.funde.filter(f => f.level === "fehler" && f.slots.indexOf(k) < 0).length, ak = ["slot:" + k];
+  if(fremd){ h += " " + tx(`Die Wertung bleibt niedrig, solange ${fremd === 1 ? "ein Konflikt" : fremd + " Konflikte"} an anderen Teilen offen ${fremd === 1 ? "ist" : "sind"} — die zuerst lösen.`,
+    `The score stays low while ${fremd === 1 ? "a conflict" : fremd + " conflicts"} on other parts ${fremd === 1 ? "is" : "are"} open — fix those first.`); ak.push("view:befunde"); }
+  const thema = G_TEILTHEMA[k];
+  return {h:h, ak:ak, chips:thema ? [{id:thema, t:gTitel(thema)}] : null};
+}
+
+/* "Wie viel wiegt meine Gabel?" -- das eingebaute Teil im Detail */
+function gMeinTeil(k){
+  const s = slotOf(k);
+  if(entfaellt(build, k)) return {h:tx(`${esc(s.label)}: brauchst du bei deinem Rahmen nicht.`, `${esc(s.label)}: your frame doesn't need one.`)};
+  const t = build[k] ? findeTeil(k, build[k]) : null;
+  if(!t) return {h:tx(`${esc(s.label)}: noch nichts eingetragen. ${esc(s.was)}`, `${esc(s.label)}: nothing entered yet. ${esc(s.was)}`), ak:["slot:" + k]};
+  let h = `<b>${esc(t.n)}</b> · ${eur(preisVon(t))}${t.g ? " · " + gKg(t.g) : ""}`;
+  const sp = specsVon(k, t); if(sp.length) h += "<br>" + esc(sp.join(" · "));
+  if(t.e) h += "<br>" + tx(`Passt zu ${esc(selNamen())}: ${gEig(eignung(t))} von 5.`, `Suits ${esc(selNamen())}: ${gEig(eignung(t))} out of 5.`) + (gFuer(t) ? " " + tx("Gebaut für ", "Built for ") + esc(gFuer(t)) + "." : "");
+  const f = gR().funde.filter(x => x.level !== "hinweis" && x.slots.indexOf(k) >= 0);
+  if(f.length) h += `<div class="g-passt nein">${ic(IC.kreuz, 15)}<span>${f.map(x => esc(gOhneTags(x.titel))).join("; ")}</span></div>`;
+  const frage = tx(`${s.label}: was passt besser?`, `${s.label}: what fits better?`);
+  return {h:h, ak:["slot:" + k], chips:[{f:tx(`Welche ${s.label} empfiehlst du?`, `Which ${s.label.toLowerCase()} do you recommend?`), t:frage}]};
+}
+
+/* "Warum passt meine Gabel nicht?" -- die Befunde zu diesem Teil ausfuehrlich */
+function gWarum(k){
+  const s = slotOf(k), r = gR();
+  const f = r.funde.filter(x => x.slots.indexOf(k) >= 0).sort((a, b) => ABZUG[b.level] - ABZUG[a.level]);
+  if(!build[k]) return {h:tx(`${esc(s.label)}: noch nichts eingetragen — dann kann auch nichts klemmen.`, `${esc(s.label)}: nothing entered yet — so nothing can clash.`), ak:["slot:" + k]};
+  if(!f.length){
+    const t = findeTeil(k, build[k]);
+    return {h:tx(`${esc(s.label)}: passt — keine Konflikte, keine Kompromisse.`, `${esc(s.label)}: fits — no conflicts, no compromises.`)
+      + (t && t.e && eignung(t) < 3.5 ? " " + tx(`Zu ${esc(selNamen())} passt das Teil aber nur mäßig (${gEig(eignung(t))}/5) — das kostet Einsatz-Punkte.`, `It only suits ${esc(selNamen())} moderately, though (${gEig(eignung(t))}/5) — that costs purpose points.`) : ""), ak:["slot:" + k]};
+  }
+  const h = f.slice(0, 3).map(x => `<b>${esc(gOhneTags(x.titel))}</b> (${esc(STUFE[x.level])}) — ${esc(gOhneTags(x.text))}`).join("<br><br>");
+  return {h:h, ak:["slot:" + (f[0].fixSlot || k), "view:befunde"]};
+}
+
+function gTeileliste(){
+  const r = gR();
+  const z = SLOTS.filter(s => build[s.k] && zaehlt(build, s)).map(s => ({s:s, t:findeTeil(s.k, build[s.k])})).filter(x => x.t);
+  if(!z.length) return {h:tx("Noch sind keine Teile drin.", "There are no parts yet."), ak:[modus === "traum" ? "wiz" : "slot:rahmen"]};
+  return {h:tx(`In deinem Rad (${esc(selNamen())}, Wertung ${r.gesamt}):`, `On your bike (${esc(selNamen())}, score ${r.gesamt}):`)
+    + `<ul>${z.map(x => `<li><b>${esc(x.s.label)}</b>: ${esc(x.t.n)} — ${eur(preisVon(x.t))}</li>`).join("")}</ul>`
+    + tx(`Zusammen <b>${eur(r.preis)}</b>, rund ${gKg(r.gewicht)}.`, `Total <b>${eur(r.preis)}</b>, about ${gKg(r.gewicht)}.`) + (gOffen().length ? " " + tx(`Noch offen: ${gOffen().length}.`, `Still open: ${gOffen().length}.`) : ""),
+    ak:["view:aufbau", "view:deals"]};
+}
+
+/* "Taugt mein Rad fuer Enduro?" -- die Einsatz-Wertung fuer diese Disziplin */
+function gDiszCheck(ds){
+  if(!gR().teile) return {h:tx("Noch sind keine Teile drin — dann kann ich das nicht sagen.", "There are no parts yet — so I can't tell."), ak:[modus === "traum" ? "wiz" : "slot:rahmen"]};
+  const rah = build.rahmen ? findeTeil("rahmen", build.rahmen) : null;
+  const pruef = d => gMitSel([d], () => {
+    const r = bewerte(build);
+    const schwach = SLOTS.filter(s => s.gew && build[s.k] && zaehlt(build, s) && s.k !== "rahmen").map(s => ({s:s, t:findeTeil(s.k, build[s.k])}))
+      .filter(x => x.t && x.t.e).map(x => ({...x, e:x.t.e[d] || 0})).filter(x => x.e <= 2).sort((a, b) => a.e - b.e || b.s.gew - a.s.gew);
+    return {d:d, chara:r.chara, rahmen:rah && rah.e ? (rah.e[d] || 0) : null, schwach:schwach};
+  });
+  if(ds.length === 1){
+    const x = pruef(ds[0]), name = esc(dLang(ds[0]));
+    const urteil = x.rahmen !== null && x.rahmen <= 1 ? tx(`<b>Eher nicht.</b> Der Rahmen ist nicht für ${name} gebaut (${x.rahmen}/5) — das ändert auch kein anderes Teil.`, `<b>Not really.</b> The frame isn't built for ${name} (${x.rahmen}/5) — no other part changes that.`)
+      : x.chara >= 85 ? tx(`<b>Ja, gut.</b> Für ${name} kommt dein Rad auf ${x.chara} von 100 beim Einsatz.`, `<b>Yes, well.</b> For ${name} your bike scores ${x.chara} out of 100 on purpose.`)
+      : x.chara >= 65 ? tx(`<b>Geht, mit Kompromissen.</b> Für ${name} kommt dein Rad auf ${x.chara} von 100 beim Einsatz.`, `<b>It works, with compromises.</b> For ${name} your bike scores ${x.chara} out of 100 on purpose.`)
+      : tx(`<b>Eher nicht.</b> Für ${name} kommt dein Rad nur auf ${x.chara} von 100 beim Einsatz.`, `<b>Not really.</b> For ${name} your bike only scores ${x.chara} out of 100 on purpose.`);
+    let h = urteil;
+    if(x.schwach.length) h += " " + tx("Am wenigsten dafür gemacht: ", "Least suited for it: ") + x.schwach.slice(0, 3).map(y => `${esc(y.s.label)} (${esc(y.t.n)}, ${y.e}/5)`).join(", ") + ".";
+    const ak = sel.length === 1 && sel[0] === ds[0] ? [] : ["disz"];
+    return {h:h, ak:ak};
+  }
+  const alle = (ds.length ? ds : DID).map(pruef).sort((a, b) => b.chara - a.chara);
+  return {h:tx(`Am besten passt dein Rad zu <b>${esc(dLang(alle[0].d))}</b>. Einsatz je Disziplin (von 100):`, `Your bike suits <b>${esc(dLang(alle[0].d))}</b> best. Purpose per discipline (out of 100):`)
+    + `<ul>${alle.map(x => `<li><b>${esc(dLang(x.d))}</b>: ${x.chara}${x.rahmen !== null && x.rahmen <= 1 ? tx(" — Rahmen nicht dafür gebaut", " — frame not built for it") : ""}</li>`).join("")}</ul>`, ak:["disz"]};
+}
+
+/* "Wie kann ich Geld sparen?" -- guenstigere Teile mit gleichen Massen */
+function gSparen(){
+  if(modus !== "traum") return {h:tx("Dein Rad ist schon gekauft — hier spart man am ehesten beim Verschleiß: Kette rechtzeitig tauschen schont Kassette und Kettenblatt. Günstigere Teile mit gleichen Maßen zeigt die App beim Planen im Modus Traumrad.",
+    "Your bike is already bought — the easiest saving here is on wear: changing the chain in time saves the cassette and chainring. Cheaper parts with the same dimensions are shown when planning in Dream bike mode."), ak:["modus:traum"], chips:[{id:"kette", t:gTitel("kette")}]};
+  if(!gR().teile) return {h:tx("Noch sind keine Teile drin — sparen lässt sich erst an einem Aufbau. Der Assistent baut dir eins, das in dein Budget passt.",
+    "There are no parts yet — you can only save on a build. The assistant builds you one that fits your budget."), ak:["wiz"]};
+  const plan0 = sparPlan(build);
+  if(!plan0.length) return {h:tx("Da ist nichts mehr zu holen, ohne dass sich Maße oder Einsatz ändern — dein Aufbau ist schon schlank.",
+    "There's nothing left to save without changing dimensions or purpose — your build is already lean.")};
+  const r = gR(), top = plan0.slice(0, 4);
+  const probe = {...build}; top.forEach(x => { probe[x.slot.k] = x.teil.id; });
+  const pr = bewerte(probe);
+  return {h:tx("Hier liegt Geld, ohne dass sich an den Maßen etwas ändert:", "Here's where the money is, without changing any dimensions:")
+    + `<ul>${top.map(x => `<li>${esc(x.slot.label)} → <b>${esc(x.teil.n)}</b>: −${eur(x.spart)}${x.ab && x.ab.length ? " (" + esc(x.ab.join(", ")) + ")" : ""}</li>`).join("")}</ul>`
+    + tx(`Zusammen <b>−${eur(r.preis - pr.preis)}</b>, Wertung ${r.gesamt} → ${pr.gesamt}.`, `Together <b>−${eur(r.preis - pr.preis)}</b>, score ${r.gesamt} → ${pr.gesamt}.`), ak:["view:upgrades"]};
+}
+
+/* "Wie wird mein Rad leichter?" -- je Platz die groesste Ersparnis, ohne
+   dass das Teil schlechter zum Einsatz passt */
+function gLeichter(){
+  const r = gR();
+  if(!r.teile) return gGewicht();
+  const out = [];
+  for(const s of SLOTS){
+    if(!build[s.k] || !zaehlt(build, s) || s.k === "rahmen") continue;       /* ein neuer Rahmen ist ein neues Rad, kein Gewichtstipp */
+    const jetzt = findeTeil(s.k, build[s.k]); if(!jetzt || !jetzt.g) continue;
+    let best = null;
+    for(const x of gProbe(s.k, false)){
+      const spar = jetzt.g - (x.t.g || jetzt.g);
+      if(spar < 40 || x.eig < eignung(jetzt) - 0.25 || x.g < r.gesamt - 1) continue;
+      if((x.preis - preisVon(jetzt)) / spar > 8) continue;                   /* mehr als 8 EUR je Gramm lohnt nicht */
+      if(!best || spar > best.spar || (spar === best.spar && x.preis < best.preis)) best = {s:s, t:x.t, spar:spar, mehr:x.preis - preisVon(jetzt), g:x.g};
+    }
+    if(best) out.push(best);
+  }
+  out.sort((a, b) => b.spar - a.spar);
+  if(!out.length) return {h:tx(`Dein Rad wiegt rund ${gKg(r.gewicht)}. Leichter geht es nur mit Teilen, die schlechter zu ${esc(selNamen())} passen — das lohnt sich nicht.`,
+    `Your bike weighs about ${gKg(r.gewicht)}. Going lighter only works with parts that suit ${esc(selNamen())} worse — not worth it.`)};
+  const top = out.slice(0, 4);
+  const probe = {...build}; top.forEach(x => { probe[x.s.k] = x.t.id; });
+  const pr = bewerte(probe);
+  return {h:tx(`Dein Rad wiegt rund ${gKg(r.gewicht)}. Leichter, ohne dass es schlechter zu ${esc(selNamen())} passt:`, `Your bike weighs about ${gKg(r.gewicht)}. Lighter, without suiting ${esc(selNamen())} any worse:`)
+    + `<ul>${top.map(x => `<li>${esc(x.s.label)} → <b>${esc(x.t.n)}</b>: −${gKg(x.spar)}, ${gPlus(x.mehr)}</li>`).join("")}</ul>`
+    + tx(`Zusammen <b>${gKg(r.gewicht)} → ${gKg(pr.gewicht)}</b>, ${gPlus(pr.preis - r.preis)}. Am meisten spürt man es an Laufrädern und Reifen — rotierende Masse.`,
+      `Together <b>${gKg(r.gewicht)} → ${gKg(pr.gewicht)}</b>, ${gPlus(pr.preis - r.preis)}. You feel it most on wheels and tyres — rotating mass.`), ak:["view:upgrades"]};
+}
+
+/* Erkennt die Absicht; null heisst: die Stichwortsuche soll ran.
+   Merkt sich Bauteil und Disziplin fuer Folgefragen ("und die Bremsen?"). */
+let gKontext = null;
+/* Begriffsgruppen: viele Wortformen je Bedeutung. Die Absichten ergeben sich
+   aus Kombinationen -- so versteht der Guide auch Formulierungen, die in
+   keinem Beispiel standen ("Was haelt mich von 100 ab?", "Wo verliere ich
+   Punkte?", "Ich suche neue Bremsen"). */
+const G_B = {
+  hundert:/ (100|hundert\w*|volle punktzahl|vollen punkte|perfekt\w*|perfect|maximum|maximal\w*|full score|top score|hoechstwertung) /,
+  wertung:/ (wertung\w*|punkt\w*|score\w*|bewert\w*|rating|note|crankscore) /,
+  hoch:/ (verbesser\w*|steig\w*|erhoeh\w*|hoeher|improve\w*|raise|increase|higher|besser|better|bring\w*|meist\w*|most|mehr|more|hol\w*|gain\w*|gives|give) /,
+  runter:/ (zieht|runter|abzug\w*|drag\w*|lower\w*|verlier\w*|lose|losing|lost|haelt|halten|hold\w*|back|hindert|bremst|kostet) /,
+  warum:/ (warum|wieso|weshalb|woran|why|how come) /,
+  aendern:/ (aender\w*|tausch\w*|wechsel\w*|upgrad\w*|swap\w*|change\w*|replace\w*|verbesser\w*|improve\w*) /,
+  meiste:/ (am meisten|meist\w*|most|groesst\w*|biggest|am ehesten|zuerst|als erstes|first) /,
+  rat:/ (wuerdest|wuerde|would|solltest|sollte ich|soll ich|should|empfiehlst|advise) /,
+  fehlt:/ (fehlt|fehlen|fehlend\w*|missing|vergess\w*|forgot\w*|fertig|komplett|vollstaendig|complete|done|finished|offen) /,
+  teile:/ (teile|parts|komponenten|components|verbaut) /,
+  besitz:/ (hab|habe|have|has|hast|drin|verbaut|installiert|installed|montiert|fitted|dran|drauf|bei mir|on my bike|on it) /,
+  eigenschaft:/ (wiegt|gewicht|schwer|kost\w*|preis|teuer|wert|weigh\w*|cost\w*|price|heavy|expensive|alt|old|war|was) /,
+  urteil:/ (gut|good|taugt|tauglich|geeignet|brauchbar|ok|okay|decent|any good) /,
+  eignung:/ (gut|geeignet|eignet|taugt|tauglich|reicht|kann|koennte|fahren|good|suitable|handle|ok|okay|enough|capable|ready|passt|fit\w*|geht|moeglich|was fuer|for) /,
+  sparen:/ (\w*spar\w*|save|saving|reduzier\w*|guenstiger|billiger|cheaper) /,
+  geld:/ (geld|euro|kosten|budget|preis|money|cost|costs|guenstig\w*|billig\w*) /,
+  gewicht:/ (gewicht|gramm|kilo|leichter|weight|lighter|abspecken) /,
+  empfehlen:/ (welche\w*|which|should|soll|sollte|empfiehl\w*|empfehl\w*|recommend\w*|suggest\w*|vorschlag\w*|vorschlagen|beste\w*|best|besser\w*|better|passt|passen|fit|fits|nehm\w*|kauf\w*|get|buy|choose|waehl\w*|tipp\w*|alternative\w*|such\w*|brauch\w*|need|neu\w*|new|gut\w*|good|want|moechte|haett\w*|holen) /,
+  wissen:/ (kolben|druck|luft|psi|bar|einstell\w*|stelle|stellen|warten|wartung|service|pflege|wechseln|laenge|breite|groesse\w*|gross|size|montier\w*|einbau\w*|erklaer\w*|explain|unterschied|difference|bedeutet|means) /,
+  vergleich:/ (oder|or|vs|versus) /,
+  mass:/ (mm|cm|euro|eur|kg|gramm|psi|bar|zoll|grad|prozent) /,
+  rad:/ (rad|bike|fahrrad|aufbau|build|damit|mtb) /,
+  groesse:/ (gross\w*|groesse\w*|size|rahmengroesse|rahmen|frame|passt|fit|welche\w*|which) /,
+  qualitaet:/ (gut\w*|good|neu\w*|new|ordentlich\w*|vernuenftig\w*|anstaendig\w*|gescheit\w*|brauchbar\w*|solide\w*|einsteig\w*|anfaenger\w*|decent|solid|mindestens|at least|minimum) /,
+  farbe:/ (rot|gelb|gruen|red|yellow|green|farbe\w*|rand\w*|markiert|marked) /
+};
+function gAbsicht(text){
+  const n = " " + gNorm(text) + " ", worte = n.trim().split(" ");
+  const hat = re => re.test(n), B = {};
+  for(const k in G_B) B[k] = G_B[k].test(n);
+  const slot = gFinde(worte, G_SLOTWORT) || (hat(/ bottom bracket /) ? "innenlager" : null);
+  const ds = gAlleDisz(worte);
+  const mein = hat(/ (mein\w*|my|mine|damit) /) || hat(/ (das|dem|this|the) (rad|bike) /);
+  /* "meine Gabel" -- das Besitzwort steht direkt vor dem Bauteil */
+  const iSlot = slot ? worte.findIndex(w => gWortIn(w, G_SLOTWORT[slot].split(" "))) : -1;
+  const meinTeil = iSlot > 0 && worte.slice(Math.max(0, iSlot - 2), iSlot).some(w => /^(mein\w*|my|dein\w*|your)$/.test(w));
+  const aus = (id, x, merk) => { gKontext = merk || null; return {html:x.h, ak:(x.ak || []).filter(a => gAktInfo(a)), chips:x.chips, id:id}; };
+  /* Folgefrage: "und die Bremsen?", "und fuer Enduro?", "what about the fork?" */
+  if(gKontext && hat(/^ (und|and|what about|how about|und was ist mit|und wie ist es mit) /) && worte.length <= 7){
+    if(slot && gKontext.art !== "disz") return gAbsichtArt(gKontext.art, slot, aus);
+    if(ds.length && gKontext.art === "disz") return aus("disz-check", gDiszCheck(ds), {art:"disz"});
+  }
+  if(hat(/ (wer bist|was bist du|was kannst du|was weisst du|wie funktionierst|what can you do|what do you know|bist du (eine |ein )?(ki|ai|bot|mensch|chatgpt|roboter)|who are you|what are you|how do you work|are you (an? )?(ai|bot|human|robot)) /)) return aus("wer", gUeber());
+  /* Wertung: was fehlt zur 100, was zieht runter, welcher Tausch bringt am meisten */
+  if((B.hundert && !B.mass && !slot)
+    || (hat(/ (nur|only|just|bloss|lediglich) [1-9]\d /) && !B.mass)
+    || (B.wertung && !B.farbe && (B.hoch || B.runter || B.warum || B.aendern))
+    || hat(/ (schwaechst\w*|schlechtest\w*|weakest|worst|schwachstelle\w*|schwachpunkt\w*) /)
+    || (B.meiste && B.aendern)
+    || (B.rat && B.aendern && (mein || B.rad) && !slot)
+    || (B.rad && hat(/ (besser|better|verbesser\w*|improve\w*) /) && hat(/ (wie|how|was|what) /) && !slot && !B.gewicht && !B.geld))
+    return aus("zur100", gZur100());
+  if(B.gewicht && (B.sparen || hat(/ (leichter|lighter|reduzier\w*|weniger|less|runter|down) /))) return aus("leichter", gLeichter());
+  if((B.geld && B.sparen) || hat(/ (wo|where) (kann ich|can i) \w*spar\w* /)) return aus("sparen", gSparen());
+  if(B.fehlt && !B.hundert && !slot && !B.wertung) return aus("fehlt", gFehlt());
+  if((B.teile && hat(/ (zeig\w*|list\w*|auflist\w*|alle|all|alles|uebersicht|ueberblick|overview|every) /))
+    || (mein && B.rad && hat(/ (uebersicht|ueberblick|overview|alles|everything) /) && !hat(/ (passt|kompatib\w*|konflikt\w*|problem\w*|fehl\w*) /))
+    || hat(/ (was|what) (hab|habe|have) (ich|i) (alles|all) /) || hat(/ what parts /)) return aus("teileliste", gTeileliste());
+  if(hat(/ (1[4-9]\d|20\d) (cm )?/) && B.groesse && (!slot || slot === "rahmen")) return aus("fit", gFit());
+  if(ds.length && mein && !slot && B.eignung) return aus("disz-check", gDiszCheck(ds), {art:"disz"});
+  if(mein && hat(/ (wofuer|what (is )?my bike (good )?for|fuer was) /)) return aus("disz-check", gDiszCheck([]), {art:"disz"});
+  if(!mein && hat(/ (kost\w*|cost\w*|preis|price|teuer|expensive|geld|money|budget) /) && B.qualitaet
+    && (ds.length || hat(/ (rad|bike|mtb|fully|hardtail|mountainbike) /))) return aus("mindest", gMindest(worte.map(w => ({w:w, s:gStamm(w)}))));
+  if(!slot) return null;
+  /* Nennt die Frage ein bestimmtes Modell ("Passt eine Fox 38 Gabel?"), ist der Katalog genauer */
+  const t0 = gTeilTreffer(gWorte(text))[0];
+  if(t0 && t0.stark) return null;
+  if(B.warum && hat(/ (passt|passen|fit\w*|konflikt\w*|problem\w*|rot|red|gelb|yellow|falsch|wrong|klappt|funktion\w*|geht|work\w*|markiert|marked) /)) return gAbsichtArt("warum", slot, aus);
+  if((meinTeil && (B.eigenschaft || B.urteil || hat(/ was fuer /)))
+    || (B.besitz && hat(/ (welch\w*|which|what|was fuer|was) /))
+    || (mein && hat(/ (wiegt|weigh\w*) /))) return gAbsichtArt("meinteil", slot, aus);
+  if(!B.vergleich && !B.wissen && B.empfehlen) return gAbsichtArt("empfehlung", slot, aus);
+  return null;
+}
+function gAbsichtArt(art, slot, aus){
+  const merk = {art:art, slot:slot};
+  if(art === "warum") return aus("warum-" + slot, gWarum(slot), merk);
+  if(art === "meinteil") return aus("meinteil-" + slot, gMeinTeil(slot), merk);
+  return aus("empfehlung-" + slot, gEmpfehlung(slot), merk);
+}
 
 /* ── Wissensbasis. k: Stichworte (deutsch und englisch, beliebige Form), t: Titel
    (dient auch als Vorschlag), a: Antwort oder Funktion, ak: Knoepfe.
@@ -7693,8 +8079,13 @@ const GUIDE = [
   {id:"danke", k:"danke dank dankeschoen super cool top perfekt klasse genial thanks thank great nice awesome", t:["Danke", "Thanks"],
    a:["Gern geschehen! Frag einfach weiter, wenn noch etwas unklar ist.", "You're welcome! Just ask if anything else is unclear."]},
   {id:"wer", k:"wer bist ki bot chatbot chatgpt kuenstlich intelligenz mensch ai robot guide funktionierst funktioniert", t:["Wer bist du?", "Who are you?"], a:gUeber},
+  {id:"zur100", k:"hundert volle punktzahl perfekt maximum hebel tausch tauschen bringt meisten schwachstelle schwaechste perfect weakest", t:["Was fehlt zur 100?", "What's missing to get 100?"], a:gZur100},
+  {id:"wofuer", k:"wofuer eignet taugt geeignet einsatzbereich tauglich suitable", t:["Wofür ist mein Rad gut?", "What is my bike good for?"], a:() => gDiszCheck([])},
+  {id:"teileliste", k:"teileliste stueckliste komponenten uebersicht verbaut parts list overview components", t:["Welche Teile sind verbaut?", "Which parts are fitted?"], a:gTeileliste},
+  {id:"sparen", k:"sparen einsparen guenstiger billiger save cheaper", t:["Wo kann ich Geld sparen?", "Where can I save money?"], a:gSparen},
+  {id:"leichter", k:"leichter abspecken gewichtstuning lighter", t:["Wie wird mein Rad leichter?", "How do I make my bike lighter?"], a:gLeichter},
   {id:"wertung", k:"wertung score punkte punktzahl zahl zahlen note bewertung niedrig schlecht rating mark prozent verbessern hoeher steigern", t:["Warum hat mein Rad diese Wertung?", "Why does my bike have this score?"], a:gWertung},
-  {id:"befunde", k:"passt passen konflikt konflikte fehler problem probleme pruefung pruef warnung kompromiss kompromisse inkompatibel falsch conflict conflicts error check wrong fit fits", t:["Was passt an meinem Rad nicht?", "What doesn't fit on my bike?"], a:gBefunde},
+  {id:"befunde", k:"passt passen konflikt konflikte fehler problem probleme pruefung pruef warnung kompromiss kompromisse inkompatibel kompatibel kompatibilitaet zusammen falsch conflict conflicts error check wrong fit fits compatible compatibility", t:["Was passt an meinem Rad nicht?", "What doesn't fit on my bike?"], a:gBefunde},
   {id:"fehlt", k:"fehlt fehlen offen naechst naechste schritt weiter tun machen anfangen beginnen leer fertig missing next step todo start begin", t:["Was fehlt noch — was mache ich als Nächstes?", "What's missing — what do I do next?"], a:gFehlt},
   {id:"budget", k:"budget teuer preis preise kosten kostet guenstig guenstiger sparen geld euro billig expensive cheap price cost money save", t:["Was kostet mein Rad?", "What does my bike cost?"], a:gBudget},
   {id:"gewicht", k:"gewicht schwer leicht leichter kilo kg gramm wiegt weight heavy light lighter weigh", t:["Wie schwer ist mein Rad?", "How heavy is my bike?"], a:gGewicht},
@@ -7731,7 +8122,7 @@ const GUIDE = [
   {id:"modelljahr", k:"modelljahr jahr baujahr jahrgang alt aelter aelteres neuer 2023 2024 2025 2026 year model older", t:["Wofür ist das Modelljahr?", "What is the model year for?"],
    a:["Beim Rahmen wählst du oben das Modelljahr. Ältere Jahrgänge kosten weniger, das Alter geht aber in die Bewertung ein. Der Assistent nutzt ältere Rahmen als Hebel, wenn das Budget knapp ist.",
      "For the frame you pick the model year at the top. Older years cost less, but the age counts in the rating. The assistant uses older frames as a lever when the budget is tight."], ak:["slot:rahmen"]},
-  {id:"fedmodi", k:"pur federmodus modi weicher straffer spruenge sprung allround abfahrt jumps softer firmer", t:["Pur Downhill, Allround, Pur Sprünge?", "Pure downhill, all-round, pure jumps?"],
+  {id:"fedmodi", k:"pur federmodus modi weicher straffer spruenge sprung springen allround abfahrt jumps jumping softer firmer", t:["Pur Downhill, Allround, Pur Sprünge?", "Pure downhill, all-round, pure jumps?"],
    a:["Im Federungsrechner wählst du oben, wofür du einstellst. <b>Pur Downhill</b>: weniger Luft, mehr Sag, Druckstufen deutlich offener, Zugstufe schneller — weich, spricht schnell an, klebt auf Wurzeln. <b>Allround</b>: genau nach deinem Fahrprofil. <b>Pur Sprünge</b>: mehr Luft (oder ein Volumen-Spacer), Druckstufen fester, Zugstufe langsamer — viel Halt am Absprung, schlägt nicht durch. Die Tabelle in jeder Karte zeigt alle drei nebeneinander.",
      "In the suspension calculator you pick at the top what you're setting up for. <b>Pure downhill</b>: less air, more sag, compression clearly more open, faster rebound — soft, reacts quickly, sticks on roots. <b>All-round</b>: exactly per your riding profile. <b>Pure jumps</b>: more air (or a volume spacer), firmer compression, slower rebound — lots of support on the lip, doesn't bottom out. The table in each card shows all three side by side."], ak:["fed"]},
   {id:"topcap", k:"foto top cap topcap bild knopf knoepfe markieren kartusche raedchen sitzt anleitung photo knob knobs dial where", t:["Wo sind die Knöpfe an meiner Gabel?", "Where are the knobs on my fork?"],
@@ -7951,13 +8342,15 @@ function gTeilTreffer(q){
   if(!worte.length) return [];
   const res = [];
   for(const x of gKatalog()){
-    let hit = 0, stark = 0;
+    let hit = 0, stark = 0, wort = false;
     /* stark: ein Wort, das nur zum Teil passt, nicht zu einer Antwort -- oder die Marke selbst */
     const marke = " " + gNorm(x.t.m || "") + " ";
     /* kurze Woerter und Zahlen nur als ganzes Wort: "rad" ist nicht "Radon", "2" nicht "203" */
     for(const w of worte) if(x.such.indexOf(" " + w + (w.length <= 3 || /^\d+$/.test(w) ? " " : "")) >= 0){
-      hit++; if((!gKw.has(w) && !gKw.has(gStamm(w))) || marke.indexOf(" " + w + " ") >= 0) stark++; }
-    if(hit) res.push({x:x, hit:hit, stark:stark});
+      hit++; if(!/^\d+$/.test(w)) wort = true;
+      if((!gKw.has(w) && !gKw.has(gStamm(w))) || marke.indexOf(" " + w + " ") >= 0) stark++; }
+    /* Nur Zahlen ("100", "29") sind kein Teil -- dazu braucht es ein Wort */
+    if(hit && wort) res.push({x:x, hit:hit, stark:stark});
   }
   if(!res.length) return [];
   res.sort((a, b) => b.hit - a.hit || b.stark - a.stark || a.x.t.n.length - b.x.t.n.length);
@@ -7994,7 +8387,7 @@ function gTeilAntwort(treffer, worte){
   const p = gPasstZuRad(x);
   if(p) h += `<div class="g-passt ${p.ok ? "ja" : "nein"}">${ic(p.ok ? IC.haken : IC.kreuz, 15)}<span>${p.h}</span></div>`;
   const such = (worte && worte.length ? worte : gNorm(t.n).split(" ")).join(" ");
-  return {html:h, ak:["such:" + x.slot + ":" + such]};
+  return {html:h, ak:["such:" + x.slot + ":" + such], id:"katalog"};
 }
 /* ── Knoepfe unter den Antworten ── */
 function gAktInfo(id){
@@ -8030,8 +8423,8 @@ function guideAktion(id){ const a = gAktInfo(id); if(a) a[1](); }
 let gVerlauf = [];
 function gHalloText(){
   const r = gR();
-  return tx("Hi! Ich bin der Guide. Frag mich alles zur App oder zum Rad — was ein Begriff bedeutet, warum etwas nicht passt, welche Größe du brauchst oder ob ein Teil an dein Rad passt.",
-    "Hi! I'm the guide. Ask me anything about the app or the bike — what a term means, why something doesn't fit, which size you need or whether a part fits your bike.")
+  return tx("Hi! Ich bin der Guide. Frag mich alles zur App oder zu deinem Rad — zum Beispiel „Was fehlt zur 100?“, „Welche Gabel soll ich nehmen?“, „Taugt mein Rad für Enduro?“ oder „Was ist Boost?“.",
+    "Hi! I'm the guide. Ask me anything about the app or your bike — for example “What's missing to get 100?”, “Which fork should I get?”, “Is my bike good for enduro?” or “What is Boost?”.")
     + (r.teile ? " " + tx(`Gerade offen: ${esc(MODUS_NAME[modus])} · ${esc(selNamen())} · Wertung ${r.gesamt}.`, `Open right now: ${esc(MODUS_NAME[modus])} · ${esc(selNamen())} · score ${r.gesamt}.`) : "");
 }
 function gVorschlaege(){
@@ -8041,14 +8434,15 @@ function gVorschlaege(){
   if(modus === "markt") add("gebraucht");
   if(modus !== "markt" && plan.budget > 0 && r.preis > plan.budget) add("budget");
   if(gOffen().length) add("fehlt");
-  if(r.teile && !fehl) add("wertung");
+  if(r.teile && r.gesamt < 100) add("zur100");
+  if(r.teile >= 5) add("wofuer");
   if(!(koerper.groesse > 0)) add("fit");
   add("federung"); add("b0"); add("b3"); add("anfaenger");
   return c;
 }
 function gAusgabe(e, q){
   const x = typeof e.a === "function" ? e.a(q) : {h:sp2(e.a)};
-  return {html:x.h, ak:(x.ak || e.ak || []).filter(a => gAktInfo(a)), chips:x.chips};
+  return {html:x.h, ak:(x.ak || e.ak || []).filter(a => gAktInfo(a)), chips:x.chips, id:e.id};
 }
 const G_ALLGEMEIN = new Set(["befunde", "budget", "gewicht", "mindest", "fehlt", "wertung", "tauschen", "kaufen", "fit"]);
 function gAntwort(text, id){
@@ -8057,8 +8451,12 @@ function gAntwort(text, id){
     const [, slot, tid] = text.split(" "), x = gKatalog().find(y => y.slot === slot && y.t.id === tid);
     if(x) return gTeilAntwort([{x:x}], null);
   }
+  /* Erst die Absicht (Fragen zum eigenen Rad), dann die Stichwortsuche */
+  const abs = gAbsicht(text);
+  if(abs) return abs;
+  gKontext = null;
   const q = gWorte(text);
-  if(!q.length) return {html:gHalloText(), chips:gVorschlaege()};
+  if(!q.length) return {html:gHalloText(), chips:gVorschlaege(), id:"hallo"};
   const liste = gIdx().map(x => ({e:x.e, p:gPunkte(q, x)})).filter(x => x.p > 0).sort((a, b) => b.p - a.p);
   const best = liste[0], gut = best && best.p >= 2;
   const teile = gTeilTreffer(q), t0 = teile[0];
@@ -8080,7 +8478,7 @@ function gAntwort(text, id){
   const nah = liste.slice(0, 3).map(x => ({id:x.e.id, t:sp2(x.e.t)}));
   return {html:tx("Dazu weiß ich leider nichts. Ich kenne die App, dein Rad und die wichtigsten MTB-Begriffe — probier es mit anderen Wörtern oder einem Fachwort. Oder tippe auf eine dieser Fragen:",
       "Sorry, I don't know anything about that. I know the app, your bike and the key MTB terms — try other words or a technical term. Or tap one of these questions:"),
-    ak:["begriffe"], chips:nah.length ? nah : gVorschlaege()};
+    ak:["begriffe"], chips:nah.length ? nah : gVorschlaege(), id:"unbekannt"};
 }
 function gListeHtml(){
   return gVerlauf.map((m, i) => {
@@ -8098,6 +8496,11 @@ function gZeigen(){
   const l = $("g-liste"); if(!l) return;
   l.innerHTML = gListeHtml();
   l.scrollTop = l.scrollHeight;
+  /* Lange Antworten liest man von oben: an den Anfang der neuen Antwort
+     springen statt ans Ende */
+  const m = l.querySelectorAll(".g-m"), letzte = m[m.length - 1];
+  if(letzte && letzte.classList.contains("bot") && !letzte.querySelector(".g-tippt") && letzte.offsetHeight > l.clientHeight * 0.6)
+    l.scrollTop += letzte.getBoundingClientRect().top - l.getBoundingClientRect().top - 10;
 }
 function oeffneGuide(){
   if(!gVerlauf.length) gVerlauf.push({wer:"bot", html:gHalloText(), chips:gVorschlaege()});

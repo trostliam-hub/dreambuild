@@ -161,6 +161,32 @@ Ausführung, ob neue Konflikte entstehen. Unter jeder Antwort Knöpfe, die direk
 an die richtige Stelle führen (Federungsrechner, Fit, Prüfung, Teileliste mit
 Suche …). Alles bleibt auf dem Gerät und läuft offline.
 
+Vor der Stichwortsuche erkennt der Guide **Absichten** — Fragen zum eigenen
+Rad, die rechnen müssen. Dafür gibt es Begriffsgruppen mit vielen Wortformen
+(Wertung, steigern, abhalten, warum, ändern, besitzen, empfehlen, sparen,
+Gewicht …); die Absicht ergibt sich aus ihrer Kombination, Bauteile und
+Disziplinen werden auch gebeugt erkannt („Laufrädern“, „Bikepark“ → Downhill),
+und ob „mein“ direkt vor dem Bauteil steht („meine Gabel“ gegen „eine gute
+Gabel für mein Rad“). So antwortet er mit echten Zahlen:
+- *Was fehlt zur 100?* — woher die fehlenden Punkte kommen (jeder Befund und
+  jedes Teil unter 5/5 mit seinem Anteil) und welche Tausche sie zurückholen:
+  Schritt für Schritt gerechnet, damit Wechselwirkungen zählen; das eigene Teil
+  in anderer Ausführung zuerst, ein neuer Rahmen nur, wenn er klar mehr bringt.
+  Ist der Rahmen für eine andere Disziplin gebaut, sagt er das zuerst.
+- *Welche Gabel soll ich nehmen?* — jedes passende Teil einmal am eigenen Rad
+  durchgerechnet, die besten drei plus ein Preis-Leistungs-Tipp.
+- *Wie viel wiegt meine Gabel? Warum passt mein Dämpfer nicht?* — das
+  eingebaute Teil mit Preis, Gewicht, Eignung und Befunden.
+- *Taugt mein Rad für Enduro? Wofür ist mein Rad gut?* — die Einsatz-Wertung
+  je Disziplin und die Teile, die dafür am wenigsten gemacht sind.
+- *Wo kann ich Geld sparen? Wie wird mein Rad leichter?* — die größten Hebel
+  mit Betrag bzw. Gramm (nichts über 8 € je Gramm), dazu die Teileliste.
+- Folgefragen: „und die Bremsen?“, „und für Downhill?“.
+
+Geprüft mit drei Fragenreihen (206 Fragen, Deutsch und Englisch, mit
+Umgangssprache und Tippfehlern); die dritte war vor dem Feinschliff unbekannt
+und kam auf 42 von 48 — danach 47 von 48.
+
 **Federungsrechner.** In der Gruppe Fahrwerk (und unter ⋮ → Hilfe): aus
 Fahrergewicht (+4 kg Ausrüstung) und einem Fahrprofil aus fünf Fragen
 (Gelände, Tempo bergab, Sprünge, gewünschtes Gefühl, Anteil bergauf) je Gabel und Dämpfer ein Luftdruck in psi/bar mit Sag-Ziel, bei
