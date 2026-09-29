@@ -7526,7 +7526,7 @@ const gR = () => bewerte(build);
 const gKg = g => g >= 1000 ? zahlDe(Math.round(g / 10) / 100) + " kg" : Math.round(g) + " g";
 const gOhneTags = s => String(s || "").replace(/<[^>]+>/g, "");
 const gZahl = (n, de1, deN, en1, enN) => n + " " + tx(n === 1 ? de1 : deN, n === 1 ? en1 : enN);
-const gOffen = () => SLOTS.filter(s => !entfaellt(build, s.k) && !build[s.k] && (modus === "traum" || s.k !== "rahmen" || !build.rahmen));
+const gOffen = () => SLOTS.filter(s => !s.opt && !entfaellt(build, s.k) && !build[s.k] && (modus === "traum" || s.k !== "rahmen" || !build.rahmen));
 
 /* ── Antworten, die den aktuellen Aufbau lesen ── */
 function gWertung(){
@@ -7845,8 +7845,11 @@ const GUIDE = [
    a:["Heute fast immer Steckachsen. <b>Vorn</b>: 15×110 (Boost) an Trail und Enduro, 20×110 an Downhill-Doppelbrücken. <b>Hinten</b>: 12×148 (Boost) oder 12×157 (Super Boost, DH). Ältere Räder: 15×100 vorn, 12×142 hinten. Nabe und Rahmen oder Gabel müssen gleich sein.",
      "Almost always thru-axles now. <b>Front</b>: 15×110 (Boost) on trail and enduro, 20×110 on downhill dual crowns. <b>Rear</b>: 12×148 (Boost) or 12×157 (Super Boost, DH). Older bikes: 15×100 front, 12×142 rear. Hub and frame or fork must match."]},
   {id:"steuerrohr", k:"steuerrohr steuersatz tapered konisch zs44 zs56 schaft gabelschaft headset steerer", t:["Steuersatz und Gabelschaft?", "Headset and steerer?"],
-   a:["Die meisten MTB-Gabeln haben einen <b>tapered</b> Schaft: unten 1,5″, oben 1 1/8″. Der Steuersatz muss zu den Maßen des Steuerrohrs im Rahmen passen (etwa ZS44/ZS56). Doppelbrücken-Gabeln haben einen geraden Schaft. Die App prüft Gabel und Rahmen.",
-     "Most MTB forks have a <b>tapered</b> steerer: 1.5″ at the bottom, 1 1/8″ at the top. The headset must match the head tube dimensions of the frame (e.g. ZS44/ZS56). Dual-crown forks have a straight steerer. The app checks fork and frame."]},
+   a:["Die meisten MTB-Gabeln haben einen <b>tapered</b> Schaft: unten 1,5″, oben 1 1/8″. Der Steuersatz muss zu den Maßen des Steuerrohrs im Rahmen passen (etwa ZS44/ZS56). Doppelbrücken-Gabeln haben einen geraden Schaft. Die App prüft Gabel und Rahmen — und wenn du unter „Rahmen“ einen Steuersatz einträgst (freiwillig), auch den gegen beide.",
+     "Most MTB forks have a <b>tapered</b> steerer: 1.5″ at the bottom, 1 1/8″ at the top. The headset must match the head tube dimensions of the frame (e.g. ZS44/ZS56). Dual-crown forks have a straight steerer. The app checks fork and frame — and if you add a headset under “Frame” (optional), it checks that against both."], ak:["slot:steuersatz"]},
+  {id:"lager", k:"lager rahmenlager hinterbaulager steuerlager lagersatz optional freiwillig spiel knackt bearing bearings pivot", t:["Muss ich Lager eintragen?", "Do I have to add bearings?"],
+   a:["Lager sind freiwillig. Unter „Rahmen“ gibt es zwei Plätze dafür: <b>Steuersatz</b> (die Lager, in denen sich die Gabel dreht) und <b>Rahmenlager</b> (der Lagersatz im Hinterbau, nur bei Fullys). Leer fehlt nichts — sie zählen nur, wenn du etwas einträgst, etwa weil ein Lager Spiel hat oder du aufrüsten willst. Das <b>Innenlager</b> für die Kurbel ist dagegen ein fester Platz.",
+     "Bearings are optional. Under “Frame” there are two slots for them: <b>headset</b> (the bearings the fork turns in) and <b>frame bearings</b> (the kit in the rear linkage, full-suspension only). Left empty, nothing is missing — they only count once you add something, say because a bearing has play or you want an upgrade. The <b>bottom bracket</b> for the cranks, on the other hand, is a regular slot."], ak:["slot:steuersatz"]},
   {id:"offset", k:"offset gabeloffset vorlauf nachlauf rake 44 51 37 42", t:["Was ist der Gabel-Offset?", "What is fork offset?"],
    a:["Offset ist, wie weit die Vorderachse vor der Lenkachse sitzt (etwa 44 oder 51 mm bei 29″). Weniger Offset macht die Lenkung ruhiger, mehr Offset wendiger. Nimm, was der Rahmenhersteller angibt — der Unterschied ist spürbar, aber kein Sicherheitsthema.",
      "Offset is how far the front axle sits ahead of the steering axis (e.g. 44 or 51 mm on 29″). Less offset makes the steering calmer, more offset livelier. Use what the frame maker specifies — the difference is noticeable but not a safety issue."]},
