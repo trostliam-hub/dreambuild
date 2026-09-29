@@ -567,6 +567,14 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 @keyframes einblenden{from{opacity:0}to{opacity:1}}
 @keyframes hoch{from{transform:translateY(40%);opacity:.3}to{transform:none;opacity:1}}
 @media (min-width:821px){.scrim{place-items:center}.sheet{border-radius:24px;max-height:86dvh}.sheet::before{display:none}}
+/* Tastatur am Handy offen: iOS verkleinert die Seite nicht, sondern schiebt sie
+   hoch. Die Schublade folgt dem sichtbaren Bereich (visualViewport) -- Kopf
+   bleibt oben, das Eingabefeld sitzt direkt auf der Tastatur. */
+body.tastatur .scrim{top:var(--vv-top,0px);bottom:auto;height:var(--vv-h,100%);place-items:end center}
+body.tastatur .sheet{max-height:calc(var(--vv-h,100dvh) - 10px)}
+body.tastatur .sheet:has(.g-b){height:calc(var(--vv-h,100dvh) - 10px)}
+body.tastatur .sheet-f{padding-bottom:10px}
+body.tastatur .sheet-b{padding-bottom:14px}
 .sheet-h{padding:20px 16px 12px;border-bottom:1px solid var(--line-soft);display:flex;align-items:center;gap:10px;flex:none}
 .sheet-h h3{font-size:19px;font-weight:800;margin-right:auto;min-width:0;line-height:1.2;letter-spacing:-.025em}
 .sheet-h .sub{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
@@ -9686,6 +9694,25 @@ function sperre(){
   gesperrt = true; sperrY = window.scrollY;
   const b = document.body.style;
   b.position = "fixed"; b.top = -sperrY + "px"; b.left = "0"; b.right = "0"; b.width = "100%";
+}
+/* Sichtbarer Bereich bei offener Tastatur: Hoehe und Oberkante als CSS-Variablen.
+   Als "Tastatur offen" gilt, wenn gut 120 px der Seite verdeckt sind. */
+function sichtAnpassen(){
+  const vv = window.visualViewport;
+  if(!vv) return;
+  const voll = Math.max(document.documentElement.clientHeight, window.innerHeight);
+  const offen = voll - vv.height > 120;
+  const war = document.body.classList.contains("tastatur");
+  const r = document.documentElement.style;
+  r.setProperty("--vv-h", Math.round(vv.height) + "px");
+  r.setProperty("--vv-top", Math.round(vv.offsetTop) + "px");
+  document.body.classList.toggle("tastatur", offen);
+  /* Beim Aufgehen der Tastatur die neueste Nachricht im Blick behalten */
+  if(offen && !war){ const l = $("g-liste"); if(l) l.scrollTop = l.scrollHeight; }
+}
+if(window.visualViewport){
+  window.visualViewport.addEventListener("resize", sichtAnpassen);
+  window.visualViewport.addEventListener("scroll", sichtAnpassen);
 }
 function freigeben(){
   if(!gesperrt) return;
