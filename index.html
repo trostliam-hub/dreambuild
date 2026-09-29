@@ -474,6 +474,9 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .slot.fehler .mark{background:var(--bad)} .slot.warnung .mark{background:var(--warn)}
 .slot-n{font-weight:650;font-size:15px;letter-spacing:-.01em;grid-column:1;line-height:1.28;overflow-wrap:anywhere}
 .slot-n.empty{color:var(--anod);font-weight:600}
+/* Optionale Lager: leer ist hier kein Loch im Aufbau, sondern ein Angebot -- leiser */
+.slot.optional .slot-n.empty{color:var(--anod-2);font-weight:550}
+.slot.optional .slot-was{opacity:.8}
 .slot-r{grid-column:2;grid-row:1 / span 2;text-align:right;display:flex;flex-direction:column;
   align-items:flex-end;justify-content:center;gap:2px;flex:none}
 .slot-r .p{font-size:14.5px;font-weight:750;letter-spacing:-.01em}
@@ -1647,7 +1650,7 @@ const o_ = (w, n, s, x) => Object.defineProperties({w:w, s:s || null, p:(x && x.
 const DIM_EN = {"Federweg":"Travel", "Kartusche":"Damper", "Ausführung":"Version", "Einbaumaß":"Eye-to-eye × stroke",
   "Freilauf":"Freehub", "Scheiben":"Rotors", "Durchmesser":"Diameter", "Hub":"Drop", "Rise":"Rise", "Klemmung":"Clamp",
   "Länge":"Length", "Kurbellänge":"Crank length", "Nabenbreite":"Hub width", "Steuerrohr":"Head tube", "Vorderachse":"Front axle",
-  "Kettenblatt":"Chainring", "Gehäuse":"Shell"};
+  "Kettenblatt":"Chainring", "Gehäuse":"Shell", "Einpressmaß":"Head tube standard"};
 const dimName = k => tx(k, DIM_EN[k] || k);
 const dezimal = v => [String(v).replace(".", ","), String(v)];
 const dim = (k, o, std) => { const i = o.findIndex(x => x.w === std); return {k:k, o:o, d:i < 0 ? 0 : i}; };
@@ -1712,6 +1715,19 @@ function IL(id, n, m, welle, gh, x){
   return t;
 }
 const BSA = [["BSA 68/73", ["BSA68","BSA73"]]], BSA_DH = [["BSA 68/73", ["BSA68","BSA73"]], ["BSA 83 (DH)", ["BSA83"]]];
+/* Steuersatz (optional, Liam 2026-09-29): das Einpressmass haengt am
+   Steuerrohr des Rahmens, die untere Lagerschale am Gabelschaft -- tapered
+   (1,5″ unten) oder gerade 1 1/8″ (Doppelbruecke, Dirt, Trial). Die gaengigen
+   Modelle gibt es in allen Massen, darum steht das Mass als Ausfuehrung am
+   Teil. Welches Mass der Rahmen genau hat (ZS44/ZS56, IS42/IS52 ...), steht
+   nicht fuer jeden Rahmen im Katalog -- der Chip am Teil sagt es dazu. */
+const SS_MASSE = [["ZS44 / ZS56", "tapered", "1.5"], ["IS42 / IS52", "tapered", "1.5"], ["ZS44 / EC56", "tapered", "1.5"],
+  ["ZS49 / ZS56 · 1 1/8″ unten", "dc", "1.125"], ["EC34 / EC34 · gerade", "gerade", "1.125"]];
+function SS(id, n, m, x){
+  return {id:id, n:n, m:m, rohr:"tapered", unten:"1.5", e:x.e, g:x.g, p:x.p,
+    v:[dim("Einpressmaß", SS_MASSE.map(([w, rohr, unten]) => o_(w, rohr === "dc" ? [w + " (Doppelbrücke)", w.replace("unten", "lower") + " (dual crown)"]
+      : rohr === "gerade" ? [w + " 1 1/8″", w.replace("gerade", "straight") + " 1 1/8″"] : w + " · tapered", {rohr:rohr, unten:unten}, {kurz:w.split(" · ")[0]})), "ZS44 / ZS56")]};
+}
 
 /* Kartuschen je Gabelfamilie. Erste Zeile = Grundausführung des Eintrags;
    Preis und Gewicht der anderen als Abstand dazu. Die Modelljahre stehen
@@ -2619,6 +2635,31 @@ innenlager:[
  IL("il-trialsp",  "Trial-Innenlager ISIS · Spanish",       "Trial",     "ISIS",          [["Spanish BB", ["Spanish"]]], {e:E(0,0,0,0,2,1,5), g:220, p:55})
 ],
 
+/* Optional: Steuersatz. Preise und Gewichte als Richtwerte nach UVP der
+   Hersteller fuer ZS44/ZS56 (Stand 2026-09-29), je nach Mass etwas anders. */
+steuersatz:[
+ SS("ss-fsa57",     "FSA Orbit No.57E",              "FSA",        {e:E(4,4,3,2,3,3,3), g:140, p:35}),
+ SS("ss-acros",     "Acros AZX-212",                 "Acros",      {e:E(4,5,4,3,4,4,3), g:115, p:65}),
+ SS("ss-cc40",      "Cane Creek 40",                 "Cane Creek", {e:E(4,5,4,3,4,4,3), g:110, p:75}),
+ SS("ss-hope",      "Hope Pick 'n' Mix",             "Hope",       {e:E(4,5,5,5,5,5,4), g:125, p:115}),
+ SS("ss-wolftooth", "Wolf Tooth Premium",            "Wolf Tooth", {e:E(4,5,5,4,4,4,3), g:100, p:125}),
+ SS("ss-hellbender","Cane Creek Hellbender 70",      "Cane Creek", {e:E(3,5,5,5,5,5,4), g:125, p:150}),
+ SS("ss-cc110",     "Cane Creek 110",                "Cane Creek", {e:E(5,5,5,4,4,4,3), g:105, p:180}),
+ SS("ss-king",      "Chris King DropSet 2 / InSet",  "Chris King", {e:E(5,5,5,5,5,5,4), g:105, p:220})
+],
+
+/* Optional: Rahmenlager (Hinterbau-Lager), nur bei Fullys. Ab Werk verbaut --
+   als Satz zum Tauschen, wenn sie Spiel haben oder rau laufen. Der Satz ist
+   je Rahmen verschieden; Preis als Richtwert fuer einen Enduro-Hinterbau mit
+   8-12 Lagern. ersatz: ersetzt verbaute Lager, das Gewicht des Rades aendert
+   sich dadurch nicht. */
+rahmenlager:[
+ {id:"rl-original", n:"Original-Lagersatz vom Rahmenhersteller", m:"Rahmenhersteller", typ:["Stahl, wie ab Werk", "steel, as from the factory"], ersatz:true, e:E(4,4,4,4,4,4,4), g:0, p:90},
+ {id:"rl-abec3",    n:"Enduro Bearings Rahmenlager-Kit ABEC 3", m:"Enduro Bearings", typ:["Stahl, 2RS-Dichtung", "steel, 2RS seals"], ersatz:true, e:E(4,4,4,3,4,4,4), g:0, p:75},
+ {id:"rl-max",      n:"Enduro Bearings Rahmenlager-Kit MAX", m:"Enduro Bearings", typ:["vollrollig, für langsame Schwenkbewegung", "full complement, for slow pivoting"], ersatz:true, e:E(3,5,5,5,5,5,4), g:0, p:95},
+ {id:"rl-xd15",     n:"Enduro Bearings Rahmenlager-Kit XD-15", m:"Enduro Bearings", typ:["rostfrei, Keramikkugeln", "stainless, ceramic balls"], ersatz:true, e:E(5,5,5,5,4,4,4), g:0, p:260}
+],
+
 /* Pedale: Flat oder Klick. Gewicht je Paar. Alle MTB-Pedale haben das
    9/16-Zoll-Gewinde -- es gibt hier nichts, was nicht an jede Kurbel passt. */
 pedale:[
@@ -2700,7 +2741,8 @@ const NAME_EN = [
   [/Felgenflanke gezahnt/, "serrated rim sidewall"], [/Felgenbremse/, "rim brake"], [/Starrgabel Trial/, "Rigid trial fork"],
   [/Hardtail Alu/, "alloy hardtail"], [/\bAlu\b/, "Alloy"], [/ Kette$/, " chain"], [/ Sattel( |$)/, " saddle$1"], [/ Vorbau/, " stem"],
   [/\bhohl\b/, "hollow"], [/\bScheibe\b/, "disc"], [/nur Trek Supercaliber/, "Trek Supercaliber only"],
-  [/1 1\/8″ gerade/, "1 1/8″ straight"], [/(\d+) mm VA/, "$1 mm front axle"], [/(\d+) Z\./, "$1T"]
+  [/1 1\/8″ gerade/, "1 1/8″ straight"], [/Original-Lagersatz vom Rahmenhersteller/, "Original bearing kit from the frame maker"],
+  [/Rahmenlager-Kit/, "Frame Bearing Kit"], [/(\d+) mm VA/, "$1 mm front axle"], [/(\d+) Z\./, "$1T"]
 ];
 const nameEn = n => NAME_EN.reduce((s, [a, b]) => s.replace(a, b), String(n));
 for(const q in K) for(const t of K[q]){
@@ -2727,7 +2769,10 @@ const SLOTS = [
   {k:"stuetze",    label:"Sattelstütze",  gew:1,   grp:"Sitz",      anteil:.05, was:"Hält den Sattel. Eine Variostütze senkt ihn per Knopfdruck für die Abfahrt."},
   {k:"sattel",     label:"Sattel",        gew:0.5, grp:"Sitz",      anteil:.02, was:"Worauf du sitzt. Geschmackssache, auf langen Touren aber wichtig."},
   {k:"pedale",     label:"Pedale",        gew:0.5, grp:"Kontakt",   anteil:.02, was:"Flatpedale für normale Schuhe oder Klickpedale, in die der Schuh einrastet."},
-  {k:"griffe",     label:"Griffe",        gew:0.3, grp:"Kontakt",   anteil:.005, was:"Die Griffe am Lenker — Dicke und Muster sind Geschmackssache."}
+  {k:"griffe",     label:"Griffe",        gew:0.3, grp:"Kontakt",   anteil:.005, was:"Die Griffe am Lenker — Dicke und Muster sind Geschmackssache."},
+  /* opt: freiwillig -- zaehlt nicht als fehlend, der Assistent laesst es leer */
+  {k:"steuersatz", label:"Steuersatz",    gew:0,   grp:"Rahmen",    anteil:0, opt:true, was:"Die Lager im Steuerrohr, in denen sich die Gabel dreht. Bei vielen Rahmen dabei — hier nur, wenn du ihn einzeln tauschen oder aufrüsten willst."},
+  {k:"rahmenlager",label:"Rahmenlager",   gew:0,   grp:"Rahmen",    anteil:0, opt:true, was:"Die Lager im Hinterbau, nur bei Fullys. Ab Werk verbaut — hier nur, wenn du sie als Satz tauschen willst, etwa weil sie Spiel haben."}
 ];
 const SLOTS_EN = {
   rahmen:["Frame", "The heart of the bike. Sets wheel size, travel and almost every dimension — so pick it first."],
@@ -2748,7 +2793,9 @@ const SLOTS_EN = {
   stuetze:["Seatpost", "Holds the saddle. A dropper post lowers it at the push of a button for the descent."],
   sattel:["Saddle", "What you sit on. A matter of taste, but it matters on long rides."],
   pedale:["Pedals", "Flat pedals for normal shoes, or clipless pedals your shoe clicks into."],
-  griffe:["Grips", "The grips on the bar — thickness and pattern are a matter of taste."]
+  griffe:["Grips", "The grips on the bar — thickness and pattern are a matter of taste."],
+  steuersatz:["Headset", "The bearings in the head tube the fork turns in. Included with many frames — only add it here if you want to replace or upgrade it."],
+  rahmenlager:["Frame bearings", "The bearings in the rear linkage, full-suspension only. Fitted from the factory — only add them here if you want to swap the kit, say because they have play."]
 };
 SLOTS.forEach(s => { const de = [s.label, s.was], en = SLOTS_EN[s.k];
   Object.defineProperties(s, {label:{get(){ return tx(de[0], en[0]); }, enumerable:true},
@@ -2926,6 +2973,12 @@ function optionPasst(slotKey, d, o, b){
     case "Nabenbreite": return r ? s.ha === r.ha : null;
     case "Vorderachse": { const g = b.gabel ? findeTeil("gabel", b.gabel) : null; return g ? s.va === g.va : null; }
     case "Steuerrohr": return r ? s.schaft === r.schaft : null;
+    /* Steuersatz: oben das Steuerrohr des Rahmens, unten der Gabelschaft */
+    case "Einpressmaß": {
+      const g = b.gabel ? findeTeil("gabel", b.gabel) : null;
+      if(!g && !r) return null;
+      return (!r || (r.schaft === "gerade") === (s.rohr === "gerade")) && (!g || (g.schaft === "tapered") === (s.unten === "1.5"));
+    }
     case "Hub": return r && r.einsteck > 0 ? s.einbau <= r.einsteck : null;
     case "Gehäuse": return r && r.bb ? s.gehaeuse.indexOf(r.bb) >= 0 : null;
     case "Klemmung": {
@@ -2958,6 +3011,8 @@ function kandidaten(slotKey, b){
 function entfaellt(b, slotKey){
   const r = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
   if(r && r.ohne && r.ohne.indexOf(slotKey) >= 0) return true;
+  /* Rahmenlager gibt es nur am Hinterbau eines Fullys */
+  if(slotKey === "rahmenlager" && r && (!r.daempfer || (r.ohne && r.ohne.indexOf("daempfer") >= 0))) return true;
   /* Singlespeed und Trial fahren eine feste Uebersetzung -- Hebel und
      Schaltwerk gibt es dort schlicht nicht. */
   if(slotKey === "schalthebel" || slotKey === "schaltwerk"){
@@ -2966,6 +3021,9 @@ function entfaellt(b, slotKey){
   }
   return false;
 }
+/* Zaehlt der Slot bei "x von y Teilen" und "offen"? Optionale Lager nur,
+   wenn sie eingetragen sind -- leer fehlt nichts */
+const zaehlt = (b, s) => !entfaellt(b, s.k) && (!s.opt || !!b[s.k]);
 
 /* ═══════════ 4 · Zustand ═══════════ */
 
@@ -3677,6 +3735,16 @@ function pruefe(b){
         tx(`Für die DUB-Wide-Kurbel im geschraubten Gehäuse bleibt das Lager dasselbe — SRAM liefert dafür ein eigenes Spacer-Kit (rund 5 €). Beim Einbau die Wide-Anordnung verwenden.`,
            `For the DUB Wide crank in a threaded shell the bearing stays the same — SRAM sells a dedicated spacer kit (about €5). Use the Wide spacer layout when fitting.`)));
   }
+  /* Steuersatz (optional): Steuerrohr des Rahmens und Schaft der Gabel */
+  const steuersatz = t.steuersatz;
+  if(steuersatz && rahmen && (rahmen.schaft === "gerade") !== (steuersatz.rohr === "gerade"))
+    out.push(F(tx("Steuersatz passt nicht ins Steuerrohr", "Headset doesn't fit the head tube"),"steuersatz",["rahmen","steuersatz"],
+      tx(`Der Rahmen hat ein ${rahmen.schaft === "gerade" ? "gerades 1 1/8″-Steuerrohr" : "konisches (tapered) Steuerrohr"}, der Steuersatz ist für ${steuersatz.rohr === "gerade" ? "ein gerades" : "ein konisches"} gebaut. Die Lagerschalen sitzen dann nicht.`,
+         `The frame has a ${rahmen.schaft === "gerade" ? "straight 1 1/8″ head tube" : "tapered head tube"}, the headset is made for a ${steuersatz.rohr === "gerade" ? "straight" : "tapered"} one. The cups won't sit.`)));
+  else if(steuersatz && gabel && (gabel.schaft === "tapered") !== (steuersatz.unten === "1.5"))
+    out.push(F(tx("Steuersatz-Unterteil passt nicht zur Gabel", "Lower headset cup doesn't fit the fork"),"steuersatz",["gabel","steuersatz"],
+      tx(`<code>${gabel.n}</code> hat einen ${gabel.schaft === "tapered" ? "konischen Schaft (1,5″ unten)" : "geraden 1 1/8″-Schaft"}, das Unterteil ist für ${steuersatz.unten === "1.5" ? "1,5″" : "1 1/8″"} gebaut. Am Teil die Ausführung wählen, die zur Gabel passt.`,
+         `<code>${gabel.n}</code> has a ${gabel.schaft === "tapered" ? "tapered steerer (1.5″ lower)" : "straight 1 1/8″ steerer"}, the lower cup is made for ${steuersatz.unten === "1.5" ? "1.5″" : "1 1/8″"}. Pick the version on the part that fits the fork.`)));
   if(hat("trial") && sel.length === 1 && kassette && kassette.gaenge > 1)
     out.push(W(tx("Kein Trial-Antrieb", "Not a trials drivetrain"),"kassette",["kassette"],
       tx(`Trial fährt eine feste Übersetzung um <code>18:12</code> mit dem Freilauf in der Kurbel — das erlaubt Kurbelstellung halten und Rückwärtstreten. Ein Schaltwerk ist dort Ballast und bricht beim ersten Pedal Kick.`,
@@ -3763,8 +3831,8 @@ function pruefe(b){
            `On dirt jumps and slopestyle the post stays slammed and never comes back up. A dropper there is about ${Math.max(0, stuetze.g - 190)} g of dead weight, one more lever on the bar and a part that breaks in a crash.`)));
   }
 
-  const fehlend = SLOTS.filter(s => !b[s.k] && !entfaellt(b, s.k));
-  const garNichts = fehlend.length === SLOTS.filter(s => !entfaellt(b, s.k)).length;
+  const fehlend = SLOTS.filter(s => !s.opt && !b[s.k] && !entfaellt(b, s.k));
+  const garNichts = fehlend.length === SLOTS.filter(s => !s.opt && !entfaellt(b, s.k)).length;
   if(fehlend.length && !garNichts) out.push(W(tx("Aufbau unvollständig", "Build incomplete"),"",fehlend.map(s => s.k),
     tx("Offen: ", "Missing: ") + fehlend.map(s => "<code>" + s.label + "</code>").join(", ") + tx(". Bewertet wird nur, was drin ist.", ". Only what's in the build gets scored.")));
   return out;
@@ -3784,11 +3852,12 @@ function bewerte(b){
   let sum = 0, gew = 0, schwach = null, schwachV = 99;
   let gewicht = 0, preis = 0, teile = 0, moeglich = 0;
   for(const s of SLOTS){
-    if(entfaellt(b, s.k)) continue;
+    if(!zaehlt(b, s)) continue;
     moeglich++;
     const teil = b[s.k] ? findeTeil(s.k, b[s.k]) : null;
     if(!teil) continue;
-    teile++; gewicht += teil.g || 0; preis += preisVon(teil);
+    /* Ein Rahmenlager-Satz ersetzt verbaute Lager -- kostet, wiegt aber nichts dazu */
+    teile++; gewicht += teil.ersatz ? 0 : teil.g || 0; preis += preisVon(teil);
     if(!teil.e || !s.gew) continue;                  /* Innenlager: zaehlt nicht zum Charakter */
     const eig = eignung(teil);
     sum += eig * s.gew; gew += s.gew;
@@ -3926,6 +3995,8 @@ const MASSE = {
   stuetze:    {hart:["d","hub"], weich:{einbau:[["mm Einstecktiefe","mm insertion"],15]}},
   sattel:     {hart:[], weich:{}},
   innenlager: {hart:["welle"], weich:{}},
+  steuersatz: {hart:["rohr","unten"], weich:{}},
+  rahmenlager:{hart:[], weich:{}},
   pedale:     {hart:["typ","sys"], weich:{}},
   griffe:     {hart:["bef"], weich:{}}
 };
@@ -4838,7 +4909,8 @@ const ART = {
   schaltwerk:["schaltwerk","derailleur"], kassette:["kassette","cassette"], kette:["kette","chain"],
   kurbel:["kurbel","crank"], bremsen:["bremse","brake"], vorbau:["vorbau","stem"],
   stuetze:["stütze","stuetze","seatpost","dropper","post"], sattel:["sattel","saddle"],
-  innenlager:["innenlager","tretlager","bottom bracket"], pedale:["pedal"], griffe:["griff","grip"]
+  innenlager:["innenlager","tretlager","bottom bracket"], pedale:["pedal"], griffe:["griff","grip"],
+  steuersatz:["steuersatz","headset","steuerlager"], rahmenlager:["rahmenlager","hinterbaulager","lagersatz","frame bearing","pivot bearing"]
 };
 function feedZiele(){
   const out = [];
@@ -5063,7 +5135,7 @@ function oeffneDetail(slotKey, teilId){
         <div class="dspec"><dt>${tx("Daten", "Specs")}</dt><dd>
           <span class="specs" style="margin-top:0">${specs.map(c => `<span class="chip">${esc(c)}</span>`).join("")}</span>
         </dd></div>
-        <div class="dspec"><dt>${tx("Gewicht", "Weight")}</dt><dd>${t.g} g</dd></div>
+        <div class="dspec"><dt>${tx("Gewicht", "Weight")}</dt><dd>${t.ersatz ? tx("ersetzt verbaute Lager, das Rad wird nicht schwerer", "replaces the fitted bearings, the bike gets no heavier") : t.g + " g"}</dd></div>
         ${a ? "" : `<div class="dspec"><dt>${tx("Richtpreis", "Guide price")}</dt><dd>${eur(preisVon(t))}</dd></div>`}
         ${t.m ? `<div class="dspec"><dt>${tx("Marke", "Brand")}</dt><dd>${esc(t.m)}</dd></div>` : ""}
       </dl>
@@ -5347,6 +5419,9 @@ function specsVon(slotKey, t){
     case "vorbau": c.push(t.klemm + tx(" mm Klemmung", " mm clamp"), t.laenge + " mm", t.dm ? "Direct Mount" : null); break;
     case "sattel": c.push(t.oval ? tx("Streben " + t.oval + " mm oval", t.oval + " mm oval rails") : null); break;
     case "stuetze": c.push(t.d + " mm", t.hub ? t.hub + tx(" mm Hub", " mm drop") : tx("starr", "rigid"), tx("Einbau ", "Insertion ") + t.einbau + " mm"); break;
+    case "steuersatz": c.push(t.rohr === "dc" ? tx("unten 1 1/8″ · Doppelbrücke", "lower 1 1/8″ · dual crown") : t.rohr === "gerade" ? tx("gerade 1 1/8″", "straight 1 1/8″") : tx("tapered · unten 1,5″", "tapered · lower 1.5″"),
+      tx("Einpressmaß beim Rahmenhersteller prüfen", "check your frame's headset standard")); break;
+    case "rahmenlager": c.push(sp2(t.typ), tx("Satz passend zum Rahmen bestellen", "order the kit for your frame")); break;
     case "innenlager": c.push(t.gehaeuse.map(bbName).join(" / "), t.welle === "Hollowtech II" ? "24 mm (Hollowtech II)" : t.welle === "DUB" ? tx("DUB 28,99 mm", "DUB 28.99 mm") : t.welle, t.breit ? "Wide · CL55" : null); break;
     case "pedale": c.push(t.typ === "Klick" ? tx("Klick · ", "Clipless · ") + t.sys : "Flat", t.g + tx(" g/Paar", " g/pair")); break;
     case "griffe": c.push(t.bef, griffMat(t.mat)); break;
@@ -5389,7 +5464,7 @@ for(const k in LEIT) zweisprachig(LEIT[k], ["sub", "h", "t"]);
 function leitSchritte(r){
   const fehl = r.funde.filter(f => f.level === "fehler").length, warn = r.funde.filter(f => f.level === "warnung").length;
   /* Beim eigenen Rad und beim Angebot ist der Rahmen ein eigener Schritt */
-  const offen = SLOTS.filter(s => !entfaellt(build, s.k) && !build[s.k] && (modus === "traum" || s.k !== "rahmen")), nx = offen[0];
+  const offen = SLOTS.filter(s => !s.opt && !entfaellt(build, s.k) && !build[s.k] && (modus === "traum" || s.k !== "rahmen")), nx = offen[0];
   const offenTxt = offen.slice(0, 3).map(s => s.label).join(", ") + (offen.length > 3 ? tx(" und " + (offen.length - 3) + " weitere", " and " + (offen.length - 3) + " more") : "");
   const zurListe = nx ? `data-slot="${nx.k}"` : `data-springe=".grp"`;
   const pruefung = {t: modus === "real" ? tx("Prüfen, was nicht passt", "Check what doesn't fit") : tx("Prüfen, ob alles passt", "Check that everything fits"),
@@ -8328,7 +8403,7 @@ function einkaufHtml(r){
   const teile = SLOTS.filter(s => !entfaellt(build, s.k) && build[s.k]).map(s => ({s:s, t:findeTeil(s.k, build[s.k])})).filter(x => x.t);
   if(!teile.length) return `<p class="empty-note">${tx(`Noch keine Teile im Aufbau. Stell im Reiter Aufbau zuerst ein Rad zusammen —
     am schnellsten mit dem Assistenten.`, "No parts in the build yet. Put a bike together in the Build tab first — fastest with the assistant.")}</p>`;
-  const offen = SLOTS.filter(s => !entfaellt(build, s.k) && !build[s.k]).length;
+  const offen = SLOTS.filter(s => !s.opt && !entfaellt(build, s.k) && !build[s.k]).length;
   const fehl = r.funde.filter(f => f.level === "fehler").length;
   return `${fehl ? `<div class="mixbox no" style="margin-bottom:10px">${tx(`<b>Erst klären, dann bestellen.</b>
       ${fehl === 1 ? "Ein Teil passt" : fehl + " Teile passen"} nicht zum Rest. Was genau, steht im Reiter Prüfung.`, `<b>Sort it out first, then order.</b> ${fehl === 1 ? "One part doesn't" : fehl + " parts don't"} fit the rest. Exactly what is in the Check tab.`)}</div>` : ""}
@@ -8618,9 +8693,10 @@ function zeichne(){
   </button>`;
 
   $("aufbau").innerHTML = diszHinweis() + fitTeaser() + leitKarte(r) + marktkarte + fotokarte + (leitAus ? leerHinweis + cta : "") + GRUPPEN.map((g, gi) => {
-    const meine = SLOTS.filter(s => s.grp === g.n && !entfaellt(build, s.k));
+    /* Optionale Lager zaehlen nur mit, wenn sie eingetragen sind */
+    const meine = SLOTS.filter(s => s.grp === g.n && zaehlt(build, s));
     if(!meine.length) return "";                       /* Thema ganz ohne Slot am Rahmen */
-    const rows = SLOTS.filter(s => s.grp === g.n).map(s => {
+    const rows = SLOTS.filter(s => s.grp === g.n && !(s.opt && entfaellt(build, s.k))).map(s => {
       if(entfaellt(build, s.k))
         return `<div class="slot leer"><span class="slot-k">${s.label}</span>
           <span class="slot-n empty">${tx("entfällt bei diesem Rahmen", "not needed with this frame")}</span><span class="slot-r"></span></div>`;
@@ -8636,13 +8712,13 @@ function zeichne(){
       const rr = build.rahmen ? findeTeil("rahmen", build.rahmen) : null;
       const label = (rr && s.k === "reifenVR") ? s.label + " · " + rr.lrV + "″"
                   : (rr && s.k === "reifenHR") ? s.label + " · " + rr.lrH + "″" : s.label;
-      return `<button class="slot ${lvl || ""}${frischSlot === s.k ? " frisch" : ""}" data-slot="${s.k}">
+      return `<button class="slot ${lvl || ""}${frischSlot === s.k ? " frisch" : ""}${s.opt && !t ? " optional" : ""}" data-slot="${s.k}">
         <span class="slot-k">${label}</span>
-        <span class="slot-n ${t ? "" : "empty"}">${t ? esc(titel) : tx("Teil wählen …", "Choose part …")}</span>
+        <span class="slot-n ${t ? "" : "empty"}">${t ? esc(titel) : s.opt ? tx("Optional — hinzufügen …", "Optional — add …") : tx("Teil wählen …", "Choose part …")}</span>
         ${!t ? `<span class="slot-was">${esc(s.was)}</span>` : einsteiger() ? `<span class="slot-was neu">${ic(IC.hilfe, 13)}${esc(s.was)}</span>` : ""}
         ${chips ? `<span class="specs">${chips}</span>` : ""}
         ${kachelZusatz(s.k, t)}
-        <span class="slot-r">${t ? kachelPreis(t) : `<span class="g">${tx("offen", "open")}</span>`}</span>
+        <span class="slot-r">${t ? kachelPreis(t) : `<span class="g">${s.opt ? tx("optional", "optional") : tx("offen", "open")}</span>`}</span>
       </button>${t ? varLeiste(s.k, t) : ""}`;
     }).join("");
     /* Der Punkt am Thema fasst zusammen, was darin steckt: roter Konflikt,
@@ -8768,7 +8844,7 @@ function fitKnopf(){
 /* Kachelpreis: mit Rabatt-Plakette, wenn ein Shop das Teil gerade reduziert hat */
 function kachelPreis(t){
   const a = bestesAngebot(t), r = (a && jahrFaktor(t) === 1) ? rabatt(a) : 0;
-  return `<span class="p${a ? " live" : ""}">${a && jahrFaktor(t) === 1 ? eurG(a.p) : eur(preisVon(t))}</span>${r >= 5 ? `<span class="sale-mini">−${r} %</span>` : ""}<span class="g">${t.g} g</span>`;
+  return `<span class="p${a ? " live" : ""}">${a && jahrFaktor(t) === 1 ? eurG(a.p) : eur(preisVon(t))}</span>${r >= 5 ? `<span class="sale-mini">−${r} %</span>` : ""}<span class="g">${t.ersatz ? tx("ersetzt verbaute", "replaces fitted") : t.g + " g"}</span>`;
 }
 /* ═══════════ Deals ═══════════
    Was gerade reduziert ist -- zuerst dein verbautes Teil, dann was in den
@@ -9042,7 +9118,7 @@ function oeffneSlot(slotKey){
           <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}${t.seit ? `<span class="chip">${tx("seit", "since")} ${t.seit}</span>` : ""}</div>${wahlZeile(t)}</div>
         <div class="opt-r"><span class="opt-p${a && !jf ? " livepreis" : ""}">${a && !jf ? (lst.filter(x => x.a !== 0).length > 1 ? `<small>${tx("ab", "from")}</small> ` : "") + eurG(a.p) : eur(pJetzt)}</span>
           ${preisZusatz(t)}
-          ${jf ? `<span class="opt-g"><s>${eur(pNeu)}</s> ${tx("neu", "new")}</span>` : ""}<span class="opt-g">${t.g} g</span>
+          ${jf ? `<span class="opt-g"><s>${eur(pNeu)}</s> ${tx("neu", "new")}</span>` : ""}<span class="opt-g">${t.ersatz ? tx("ersetzt verbaute", "replaces fitted") : t.g + " g"}</span>
           <button class="btn ghost sm" data-detail="${slotKey}|${t.id}">${tx("Ansehen", "View")}</button>
           ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">${tx("Einbauen", "Fit")}</button>`}</div>
         ${gruende}
@@ -9292,7 +9368,7 @@ function oeffneWiz(step){
     const r = bewerte(b);
     const rahmenT = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
     const rahmenJetzt = rahmenT ? preisVon(rahmenT) : 0;
-    const zeilen = SLOTS.filter(s => !entfaellt(b, s.k)).map(s => {
+    const zeilen = SLOTS.filter(s => zaehlt(b, s)).map(s => {
       const t = b[s.k] ? findeTeil(s.k, b[s.k]) : null;
       return `<div class="erg"><span class="k">${s.label}${s.k === "rahmen" && info.jahr && info.jahr < AKTUELL ? tx(" · Modelljahr ", " · model year ") + info.jahr : ""}</span>
         <span class="n">${t ? esc(t.n) : "—"}</span>
@@ -9777,7 +9853,14 @@ document.addEventListener("click", e => {
   if(T("[data-wizneu]")){ wizErgebnis = null; wizInfo = null; oeffneWiz(5); return; }
   if(T("[data-wizfertig]")){
     if(wizErgebnis){
-      setzeBau({...wizErgebnis});
+      /* Der Assistent laesst die optionalen Lager leer -- selbst gewaehlte
+         bleiben, in der Ausfuehrung, die zum neuen Aufbau passt */
+      const neu = {...wizErgebnis};
+      for(const s of SLOTS) if(s.opt && build[s.k]){
+        const basis = rohTeil(quelleOf(s), basisVon(build[s.k]));
+        if(basis) neu[s.k] = basis.v ? besteVariante(s.k, basis, neu).id : basis.id;
+      }
+      setzeBau(neu);
       if(wizInfo && wizInfo.jahr) jahrWahl[modus] = wizInfo.jahr;   /* Rahmen-Modelljahr gleich mit */
     }
     const neu = !!wizErgebnis;

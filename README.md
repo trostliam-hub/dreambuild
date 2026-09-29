@@ -15,7 +15,20 @@ Bremsscheibengröße gegen Freigabe, Center Lock gegen 6-Loch, Felgenbremse
 gegen Bremssockel und Bremsflanke, Lenkerklemmung 31,8 gegen 35,
 Stützendurchmesser und Einstecktiefe, Systemgewicht gegen Laufrad-Freigabe,
 Innenlager gegen Tretlagergehäuse (BSA 68/73/83, PressFit 92/107, PF30,
-Spanish) und Kurbelwelle (DUB, Hollowtech II, 30 mm, PowerSpline, ISIS).
+Spanish) und Kurbelwelle (DUB, Hollowtech II, 30 mm, PowerSpline, ISIS),
+Steuersatz gegen Steuerrohr und Gabelschaft (tapered, gerade 1 1/8″, Doppelbrücke).
+
+**Optionale Lager.** In allen drei Modi — Traumrad, eigenes Rad, Gebrauchtrad —
+stehen unter „Rahmen“ zwei Plätze, die man nur füllt, wenn man will:
+*Steuersatz* (acht Modelle von FSA bis Chris King, je in fünf Einpressmaßen;
+beim Einbauen wählt die App das Maß, das zu Rahmen und Gabel passt, und die
+Prüfung meldet ein falsches Unterteil) und *Rahmenlager* (Lagersätze für den
+Hinterbau, nur bei Fullys sichtbar). Leer zählen sie nirgends mit: nicht im
+Zähler, nicht in „offen“, nicht in der Einkaufsliste. Der Traumrad-Assistent
+lässt sie leer; wer vorher selbst welche eingebaut hat, behält sie — in der
+Ausführung, die zum neuen Aufbau passt. Ein Rahmenlager-Satz ersetzt verbaute
+Lager und macht das Rad deshalb nicht schwerer. Das Innenlager war schon immer
+ein eigener Platz und bleibt es.
 
 **Zwei getrennte Werte.** *Passform* misst, ob es mechanisch zusammenpasst.
 *Einsatz* misst, ob alle Teile in dieselbe Richtung ziehen — ein Enduro-Rahmen
