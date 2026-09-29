@@ -156,7 +156,7 @@ button:active:not(:disabled){transform:scale(.97)}
   border-bottom:1px solid transparent;transition:border-color .2s}
 body.klein .top{border-bottom-color:var(--hair)}
 .top-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:8px;min-height:56px}
-.kopf-links{display:grid;margin-right:auto;min-width:0;align-items:center}
+.kopf-links{display:grid;margin-right:auto;min-width:0;align-items:center;flex:none}
 .kopf-links > *{grid-area:1 / 1;transition:opacity .2s,transform .25s var(--feder)}
 .brand{font-family:var(--f-head);font-weight:800;font-size:21px;letter-spacing:-.035em;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -170,7 +170,7 @@ body.klein .top{border-bottom-color:var(--hair)}
 body.klein .brand{opacity:0;transform:translateY(-8px)}
 body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .dchip{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--hair);border-radius:999px;
-  padding:7px 12px 7px 10px;font-size:13px;font-weight:650;max-width:46vw;flex:none;box-shadow:var(--shadow)}
+  padding:7px 12px 7px 10px;font-size:13px;font-weight:650;max-width:46vw;flex:0 1 auto;min-width:0;box-shadow:var(--shadow)}
 .dchip:hover{color:var(--anod)}
 .dchip .dn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--anod);flex:none;box-shadow:0 0 0 3px var(--anod-soft)}
@@ -574,6 +574,42 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .sheet-h .iconbtn{box-shadow:none;background:var(--surface-2)}
 .sheet-b{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   padding:14px 16px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px}
+/* ── Guide: Fragen stellen ── */
+.g-knopf{background:var(--grad);color:#fff;box-shadow:0 6px 16px -8px rgba(120,70,255,.9)}
+.g-knopf:hover{color:#fff;filter:brightness(1.1)}
+.sheet:has(.g-b){height:88dvh}
+.g-b{gap:12px;padding-bottom:16px;flex:1}
+.g-m{display:flex;gap:8px;align-items:flex-end;min-width:0}
+.g-m.du{justify-content:flex-end}
+.g-bl{max-width:86%;min-width:0;padding:10px 13px;border-radius:18px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+.g-m.du .g-bl{background:var(--grad);color:#fff;border-bottom-right-radius:6px}
+.g-m.bot .g-bl{background:var(--surface-2);color:var(--ink);border:1px solid var(--hair);border-bottom-left-radius:6px}
+.g-bl ul{margin:6px 0 2px;padding-left:18px}
+.g-bl li{margin:3px 0}
+.g-bl b{font-weight:750}
+.g-av{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--grad);color:#fff}
+.g-ak{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.g-auch{font-size:12px;color:var(--ink-3);margin:-2px 0 -4px 36px}
+.g-chips{display:flex;flex-wrap:wrap;gap:6px;padding-left:36px}
+.g-chip{padding:8px 12px;border-radius:14px;border:1px solid color-mix(in srgb,var(--anod) 45%,transparent);background:var(--anod-soft);
+  color:var(--ink);font-size:13px;font-weight:650;text-align:left;line-height:1.3}
+.g-chip:hover{border-color:var(--anod)}
+.g-passt{display:flex;gap:7px;align-items:flex-start;margin-top:9px;padding:8px 10px;border-radius:12px;font-size:13px;line-height:1.45}
+.g-passt svg{flex:none;margin-top:2px}
+.g-passt.ja{background:var(--gut-soft);color:var(--gut)}
+.g-passt.nein{background:var(--bad-soft);color:var(--bad)}
+.g-passt ul{margin:4px 0 0;padding-left:18px}
+.g-tippt{display:flex;gap:4px;align-items:center;padding:14px 16px}
+.g-tippt span{width:7px;height:7px;border-radius:50%;background:var(--ink-3);animation:gpunkt 1s infinite}
+.g-tippt span:nth-child(2){animation-delay:.15s}
+.g-tippt span:nth-child(3){animation-delay:.3s}
+@keyframes gpunkt{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.g-tippt span{animation:none}}
+.g-f input{flex:1;min-width:0;height:46px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);
+  color:var(--ink);font:inherit;font-size:16px}
+.g-f input::placeholder{color:var(--ink-3)}
+.g-f input:focus{outline:none;border-color:var(--anod);box-shadow:0 0 0 3px var(--anod-soft)}
+.g-send{width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--grad);color:#fff}
 .sheet-f{flex:none;border-top:1px solid var(--line-soft);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
   display:flex;gap:9px;align-items:center;background:var(--surface)}
 .filt{display:flex;gap:6px;padding:0 0 4px;align-items:center}
@@ -1475,6 +1511,9 @@ img{max-width:100%}
     <button class="dchip" id="btn-disz" aria-label="Disziplin wählen" data-ta="Disziplin wählen|Choose discipline">
       <span class="dot"></span><span class="dn" id="disz-n">Trail</span>
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <button class="iconbtn g-knopf" id="btn-guide" data-guide="1" aria-label="Frag den Guide" data-ta="Frag den Guide|Ask the guide">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/></svg>
     </button>
     <button class="iconbtn" id="btn-menu" aria-label="Einstellungen" data-ta="Einstellungen|Settings">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg>
@@ -3080,7 +3119,7 @@ let modus = "traum";
 let zuGeklappt = {};
 /* Stand dieser Seite -- steht hier oben, weil die Aufbau-Ansicht ihn schon beim
    ersten Zeichnen braucht (Abschnitt 12 laeuft erst danach). */
-const APP_VERSION = '20260928-1809';   /* wird beim Veroeffentlichen gestempelt */
+const APP_VERSION = '20260928-2215';   /* wird beim Veroeffentlichen gestempelt */
 let updateDa = false;
 /* Modelljahr je Modus. Traumrad und Mein Rad starten beim aktuellen Jahr, der
    Angebotsmodus bei drei Jahren -- dem typischen Alter eines Gebrauchtrads. */
@@ -5804,6 +5843,10 @@ const IC = {
   wertung:`<path d="M4 18a8 8 0 1 1 16 0"/><path d="m12 18 4-6"/><circle cx="12" cy="18" r="1.2"/>`,
   upgrade:`<path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/>`,
   hilfe:`<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2.2-2.4 3.7"/><circle cx="12" cy="17.2" r=".6"/>`,
+  guide:`<path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/>`,
+  senden:`<path d="M4 12h15"/><path d="m13 6 6 6-6 6"/>`,
+  haken:`<path d="m5 12.5 4.5 4.5L19 7.5"/>`,
+  kreuz:`<path d="M17 7 7 17M7 7l10 10"/>`,
   neustart:`<path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.4"/><path d="M3.5 3.5v4.9h4.9"/>`,
   tour:`<circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.3 5-4.9 2.2 2.3-5z"/>`,
   buch:`<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19M9 7h6"/>`,
@@ -7252,6 +7295,8 @@ function tourStationen(){
        : tx("Reduzierte Teile, die zu deinem Rad passen.", "Discounted parts that fit your bike.")},
     {sel:"#btn-disz", ic:IC.trail, h:tx("Wofür fährst du?", "What do you ride?"),
      t:tx("Trail, Enduro, Downhill … danach wählt die App jedes Teil. Hier kannst du es ändern.", "Trail, enduro, downhill … the app picks every part for it. Change it here.")},
+    {sel:"#btn-guide", ic:IC.guide, h:tx("Frag den Guide", "Ask the guide"),
+     t:tx("Etwas unklar? Hier fragen — zur App oder zum Rad. Der Guide kennt dein Rad und öffnet dir die passende Stelle.", "Something unclear? Ask here — about the app or the bike. The guide knows your bike and opens the right place for you.")},
     {sel:"#btn-menu", ic:IC.hilfe, h:tx("App & Profil", "App & profile"),
      t:tx("Dein Fit, der Federungsrechner, alle Begriffe erklärt — und hier startest du Einstieg und Rundgang neu.", "Your fit, the suspension calculator, every term explained — and this is where you restart the setup and this tour.")},
     {mitte:true, ende:true, ic:IC.traum, h:tx("Los geht's!", "Let's ride!"),
@@ -7432,6 +7477,645 @@ function oeffneBegriffe(){
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${tx("Hilfe", "Help")}</span>${tx("Begriffe erklärt", "Terms explained")}</h3>${zuBtn}</div>
     <div class="sheet-b">${(sprache === "en" ? BEGRIFFE_EN : BEGRIFFE).map(([k, t]) => `<div class="erk"><b>${k}</b>${t}</div>`).join("")}</div>`);
+}
+
+/* ═══════════ Guide: Fragen stellen ═══════════
+   Liams Wunsch 2026-09-28: "ein Guide-Bot, den man fragen kann, wenn man in
+   der App oder generell etwas nicht versteht". Bewusst ohne KI-Server: Eine
+   echte KI braucht einen API-Schluessel (gehoert nicht ins oeffentliche Repo),
+   kostet je Frage und schickt die Fragen an einen Anbieter in den USA (DSGVO).
+   Stattdessen eine eingebaute Wissensbasis: Die Stichworte der Frage werden
+   mit den Stichworten jeder Antwort verglichen -- mit Wortstamm, Wortteilen
+   ("Federungsrechner" enthaelt "Federung") und Tippfehler-Toleranz.
+   Antworten zur App lesen den aktuellen Aufbau (Wertung, Konflikte, Budget,
+   Fit, Federung). Teile findet der Guide im Katalog und prueft gleich, ob sie
+   ans eigene Rad passen. Alles bleibt auf dem Geraet und laeuft offline. */
+const G_STOP = new Set(("was wie wo wer wen wem warum wieso weshalb welche welcher welches welchen welchem ist sind bin bist war " +
+  "waere hat habe haben hast hatte kann kannst koennen konnte koennte soll sollte sollen muss musst muessen darf ich du er sie es " +
+  "wir ihr man mein meine meinen meinem meiner meins dein deine deinen deinem deiner mir mich dir dich uns euch der die das den dem " +
+  "des dies diese dieser dieses ein eine einen einem einer eines und oder aber auch noch schon nur mal bitte denn doch ja nein nicht " +
+  "nichts kein keine keinen zu zum zur im in am an auf aus bei mit fuer von vom ueber unter nach vor so sehr gibt gib geht gehen dass " +
+  "wenn dann als da hier dort wieviel viel viele mehr etwas eigentlich genau jetzt gerade immer richtig gut gute guter gutes erklaer " +
+  "erklaere erklaeren erklaert bedeutet bedeuten bedeutung heisst heissen meint sagen zeig zeige hilf hilfe helfen frage fragen " +
+  "app crankscore thema sache sachen ding dinge ok okay weiss wissen verstehe versteh verstehen kapiere rad fahrrad bike mtb mountainbike " +
+  "what whats how where who why which when is are am was were be been do does did can could should would will i you he she it we " +
+  "they my your our me us the a an and or but also only just please not no yes to of in on at for from with about into this that " +
+  "these those there here much many more some any explain means mean meaning tell show help question good understand know " +
+  "doesn dont don isn aren cant won didn shouldn wouldn couldn").split(" "));
+/* Woerter, die oft nur Beiwort sind ("Reifen fuer Enduro", "Fox 38"): zaehlen
+   als Treffer schwaecher, damit das eigentliche Thema gewinnt */
+const G_SCHWACH = new Set("xc trail enduro downhill dh dirt dirtjump slope trial bikepark park fox rockshox shimano sram".split(" "));
+function gNorm(s){
+  return String(s).toLowerCase().replace(/\be[\s-]*(bikes?|mtbs?)\b/g, "e$1").replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/(\d)[.,](\d)/g, "$1$2").replace(/[^a-z0-9]+/g, " ").trim();
+}
+/* Grober Wortstamm: "Federungen", "Federung" und "Feder" treffen sich */
+const gStamm = w => { if(w.length <= 4 || /\d/.test(w)) return w;
+  const s = w.replace(/(ungen|ung|heit|keit|en|er|es|em|e|n|s)$/, ""); return s.length >= 3 ? s : w; };
+const gWorte = s => gNorm(s).split(" ").filter(w => w && (w.length > 1 || /\d/.test(w)) && !G_STOP.has(w)).map(w => ({w:w, s:gStamm(w)}));
+function gLev(a, b){
+  const m = a.length, n = b.length; let v = Array.from({length:n + 1}, (_, j) => j);
+  for(let i = 1; i <= m; i++){
+    const w = [i];
+    for(let j = 1; j <= n; j++) w[j] = Math.min(v[j] + 1, w[j - 1] + 1, v[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    v = w;
+  }
+  return v[n];
+}
+const gR = () => bewerte(build);
+const gKg = g => g >= 1000 ? zahlDe(Math.round(g / 10) / 100) + " kg" : Math.round(g) + " g";
+const gOhneTags = s => String(s || "").replace(/<[^>]+>/g, "");
+const gZahl = (n, de1, deN, en1, enN) => n + " " + tx(n === 1 ? de1 : deN, n === 1 ? en1 : enN);
+const gOffen = () => SLOTS.filter(s => !entfaellt(build, s.k) && !build[s.k] && (modus === "traum" || s.k !== "rahmen" || !build.rahmen));
+
+/* ── Antworten, die den aktuellen Aufbau lesen ── */
+function gWertung(){
+  const r = gR(), fehl = r.funde.filter(f => f.level === "fehler").length, warn = r.funde.filter(f => f.level === "warnung").length;
+  if(!r.teile) return {h:tx("Noch sind keine Teile drin. Sobald du welche wählst, bekommt dein Rad eine Wertung von 0 bis 100: grün ab 85, gelb ab 60, darunter rot.",
+    "There are no parts yet. As soon as you pick some, your bike gets a score from 0 to 100: green from 85, yellow from 60, red below."),
+    ak:[modus === "traum" ? "wiz" : "slot:rahmen", "score"]};
+  const farbe = r.gesamt >= 85 ? tx("grün — stimmig", "green — coherent") : r.gesamt >= 60 ? tx("gelb — fahrbar, mit Kompromissen", "yellow — rideable, with compromises")
+    : tx("rot — da stimmt etwas Grundlegendes nicht", "red — something fundamental is off");
+  let h = tx(`Dein Aufbau hat <b>${r.gesamt} von 100</b> (${farbe}). Die Zahl setzt sich aus zwei Teilen zusammen:`,
+    `Your build scores <b>${r.gesamt} out of 100</b> (${farbe}). The number has two parts:`);
+  h += `<ul><li><b>${tx("Passform", "Fit")} ${r.tech}</b>: ${fehl ? tx(`${gZahl(fehl, "Konflikt", "Konflikte", "", "")} — Teile, die so nicht zusammengehen`, `${gZahl(fehl, "", "", "conflict", "conflicts")} — parts that don't go together like this`)
+    : warn ? gZahl(warn, "Kompromiss", "Kompromisse", "compromise", "compromises") : tx("alle Maße und Standards passen", "all dimensions and standards match")}.</li>`;
+  const schwach = r.schwach && r.schwach.eig < 3.5 ? r.schwach : null;
+  h += `<li><b>${tx("Einsatz", "Purpose")} ${r.chara}</b>: ${tx(`wie gut die Teile zu ${esc(selNamen())} passen`, `how well the parts suit ${esc(selNamen())}`)}${schwach
+    ? tx(` — am wenigsten: ${esc(schwach.slot.label)} (${esc(schwach.teil.n)})`, ` — least of all: ${esc(schwach.slot.label.toLowerCase())} (${esc(schwach.teil.n)})`) : ""}.</li></ul>`;
+  const ak = [];
+  if(fehl){ h += tx("Größter Hebel: die Konflikte lösen — jeder kostet 26 Punkte Passform.", "Biggest lever: fix the conflicts — each one costs 26 fit points."); ak.push("view:befunde"); }
+  else if(schwach && r.chara < 80){
+    h += tx(`Größter Hebel: ${esc(schwach.slot.label)} gegen ein Teil tauschen, das besser zu ${esc(selNamen())} passt.`,
+      `Biggest lever: swap the ${esc(schwach.slot.label.toLowerCase())} for a part that suits ${esc(selNamen())} better.`);
+    ak.push("slot:" + schwach.slot.k);
+  }
+  else if(warn){ h += tx("Holen lässt sich noch etwas bei den Kompromissen in der Prüfung.", "There's still something to gain from the compromises in the check."); ak.push("view:befunde"); }
+  else h += tx("Da ist nicht mehr viel zu holen — sauber gebaut.", "Not much left to gain — cleanly built.");
+  ak.push("score");
+  return {h:h, ak:ak};
+}
+function gBefunde(){
+  const r = gR();
+  if(!r.teile) return {h:tx("Noch sind keine Teile drin. Sobald du welche wählst, prüft die App Maße und Standards — Achsen, Freilauf, Einbaumaße, Klemmungen, Gangzahl.",
+    "There are no parts yet. As soon as you pick some, the app checks dimensions and standards — axles, freehub, mounting sizes, clamps, number of gears."),
+    ak:[modus === "traum" ? "wiz" : "slot:rahmen"]};
+  const liste = r.funde.filter(f => f.level !== "hinweis"), tipps = r.funde.length - liste.length;
+  if(!liste.length) return {h:tx("Alles passt zusammen — keine Konflikte, keine Kompromisse.", "Everything fits together — no conflicts, no compromises.")
+    + (tipps ? " " + tx(`In der Prüfung stehen noch ${gZahl(tipps, "Tipp", "Tipps", "", "")}.`, `The check has ${gZahl(tipps, "", "", "tip", "tips")}.`) : ""), ak:["view:befunde"]};
+  const z = liste.slice(0, 5).map(f => `<li><b>${esc(gOhneTags(f.titel))}</b> — ${esc(STUFE[f.level])}</li>`).join("");
+  return {h:tx(`${liste.length === 1 ? "Eine Sache passt" : liste.length + " Sachen passen"} nicht ganz:`, `${liste.length === 1 ? "One thing doesn't" : liste.length + " things don't"} quite fit:`)
+    + `<ul>${z}</ul>` + (liste.length > 5 ? tx(`… und ${liste.length - 5} weitere. `, `… and ${liste.length - 5} more. `) : "")
+    + tx("In der Prüfung steht zu jedem Punkt, welches Teil ihn löst.", "The check tab says which part fixes each one."), ak:["view:befunde"]};
+}
+function gFehlt(){
+  const r = gR(), offen = gOffen(), fehl = r.funde.filter(f => f.level === "fehler").length;
+  if(offen.length){
+    const n = offen.slice(0, 4).map(s => esc(s.label)).join(", ") + (offen.length > 4 ? tx(` und ${offen.length - 4} weitere`, ` and ${offen.length - 4} more`) : "");
+    let h = tx(`Noch offen: ${n}.`, `Still open: ${n}.`);
+    const wiz = modus === "traum" && !r.teile;
+    h += wiz ? tx(" Am schnellsten geht's mit dem Assistenten — er füllt alles passend.", " The quickest way is the assistant — it fills everything in so it fits.")
+      : tx(` Nächster Schritt: <b>${esc(offen[0].label)}</b> wählen.`, ` Next step: choose the <b>${esc(offen[0].label.toLowerCase())}</b>.`);
+    if(modus !== "traum") h += tx(" Was du nicht weißt, lässt du einfach leer.", " Just leave empty what you don't know.");
+    return {h:h, ak:[wiz ? "wiz" : "slot:" + offen[0].k]};
+  }
+  if(fehl) return {h:tx(`Alle Teile sind drin, aber ${fehl === 1 ? "ein Konflikt ist" : fehl + " Konflikte sind"} offen — die zuerst lösen.`,
+    `All parts are in, but ${fehl === 1 ? "one conflict is" : fehl + " conflicts are"} open — fix those first.`), ak:["view:befunde"]};
+  if(modus === "traum") return {h:tx("Alles drin und es passt. Jetzt kannst du über die Einkaufsliste bestellen — und dir im Federungsrechner die ersten Einstellungen holen.",
+    "Everything's in and it fits. Now you can order from the shopping list — and get your first settings from the suspension calculator."), ak:["view:deals", "fed"]};
+  if(modus === "real") return {h:tx("Alles eingetragen und es passt. Schau in die Upgrades, was sich lohnt — und stell die Federung ein.",
+    "Everything's entered and it fits. Check the upgrades for what's worth it — and set up your suspension."), ak:["view:upgrades", "fed"]};
+  return {h:tx("Alles eingetragen. Gib noch Alter, Zustand und Preis aus der Anzeige an — dann siehst du, ob das Angebot fair ist.",
+    "Everything's entered. Now add age, condition and the price from the listing — then you'll see whether the offer is fair."), ak:["springe:.mk"]};
+}
+function gTeuerste(n){
+  return SLOTS.filter(s => build[s.k] && !entfaellt(build, s.k)).map(s => ({s:s, t:findeTeil(s.k, build[s.k])})).filter(x => x.t)
+    .sort((a, b) => preisVon(b.t) - preisVon(a.t)).slice(0, n).map(x => `${esc(x.s.label)} ${eur(preisVon(x.t))}`).join(", ");
+}
+function gBudget(){
+  if(modus === "markt") return gGebraucht();
+  const r = gR(), b = plan.budget;
+  if(!r.teile) return {h:(b > 0 ? tx(`Dein Budget: ${eur(b)}.`, `Your budget: ${eur(b)}.`) : tx("Noch ist kein Budget gesetzt.", "No budget set yet."))
+    + tx(" Der Assistent baut dir ein Rad, das höchstens 100 € darüber liegt.", " The assistant builds you a bike that's at most €100 over it."), ak:[modus === "traum" ? "wiz" : "menu"]};
+  let h = tx(`Dein Aufbau kostet <b>${eur(r.preis)}</b>`, `Your build costs <b>${eur(r.preis)}</b>`);
+  const ak = [];
+  if(b > 0){
+    const d = r.preis - b;
+    h += d > 0 ? tx(` — ${eur(d)} über deinem Budget von ${eur(b)}.`, ` — ${eur(d)} over your budget of ${eur(b)}.`)
+      : tx(` — ${eur(-d)} unter deinem Budget von ${eur(b)}.`, ` — ${eur(-d)} under your budget of ${eur(b)}.`);
+    if(d > 0){
+      h += tx("<ul><li>Im Reiter Upgrades stehen günstigere Teile derselben Klasse.</li><li>Ein älteres Rahmen-Modelljahr spart oft am meisten.</li>" +
+        (modus === "traum" ? "<li>Oder der Assistent rechnet mit deinem Budget neu.</li>" : "") + "</ul>",
+        "<ul><li>The Upgrades tab lists cheaper parts of the same class.</li><li>An older frame model year often saves the most.</li>" +
+        (modus === "traum" ? "<li>Or let the assistant recalculate with your budget.</li>" : "") + "</ul>");
+      ak.push("view:upgrades"); if(modus === "traum") ak.push("wiz");
+    }
+  } else { h += tx(". Ein Budget setzt du unter ⋮ → Fahrer & Budget — dann warnt die App, sobald es zu teuer wird.", ". You set a budget under ⋮ → Rider & budget — then the app warns you as soon as it gets too expensive."); ak.push("menu"); }
+  h += " " + tx("Am teuersten: ", "Most expensive: ") + gTeuerste(3) + ".";
+  return {h:h, ak:ak};
+}
+function gGewicht(){
+  const r = gR();
+  if(!r.teile) return {h:tx("Noch keine Teile drin — das Gewicht ergibt sich aus allen Teilen zusammen. Zum Vergleich: XC-Räder wiegen um 10–11 kg, Trail 13–15, Enduro 15–17, Downhill 16–18.",
+    "No parts yet — the weight is the sum of all parts. For comparison: XC bikes weigh around 10–11 kg, trail 13–15, enduro 15–17, downhill 16–18.")};
+  const schwer = SLOTS.filter(s => build[s.k] && !entfaellt(build, s.k)).map(s => ({s:s, t:findeTeil(s.k, build[s.k])}))
+    .filter(x => x.t && x.t.g).sort((a, b) => b.t.g - a.t.g).slice(0, 3).map(x => `${esc(x.s.label)} ${gKg(x.t.g)}`).join(", ");
+  return {h:tx(`Dein Aufbau wiegt rund <b>${gKg(r.gewicht)}</b>${r.teile < r.moeglich ? ` (${r.teile} von ${r.moeglich} Teilen)` : ""}. Am schwersten: ${schwer}. ` +
+      "Am spürbarsten leichter wird es bei Laufrädern und Reifen — das ist rotierende Masse. Zum Vergleich: XC um 10–11 kg, Trail 13–15, Enduro 15–17, Downhill 16–18.",
+    `Your build weighs about <b>${gKg(r.gewicht)}</b>${r.teile < r.moeglich ? ` (${r.teile} of ${r.moeglich} parts)` : ""}. Heaviest: ${schwer}. ` +
+      "Wheels and tyres make the most noticeable difference — that's rotating mass. For comparison: XC around 10–11 kg, trail 13–15, enduro 15–17, downhill 16–18."), ak:["view:upgrades"]};
+}
+function gDisz(){
+  const z = DISZ.map(d => `<li><b>${esc(d.n)}</b>${sel.indexOf(d.id) >= 0 ? tx(" (gewählt)", " (selected)") : ""}: ${esc(sprache === "en" ? d.en : d.de)}</li>`).join("");
+  return {h:tx("Jede Disziplin braucht andere Teile:", "Each discipline needs different parts:") + `<ul>${z}</ul>`
+    + tx("Unsicher? Nimm Trail — der Allrounder. Oben rechts stellst du um, danach wählt die App jedes Teil.", "Not sure? Pick trail — the all-rounder. You switch at the top right, and the app picks every part for it."), ak:["disz"]};
+}
+function gGebraucht(){
+  if(modus !== "markt") return {h:tx("Dafür gibt es oben den Modus <b>Gebraucht</b>: Trag die Teile aus der Anzeige ein, dazu Modelljahr, Zustand und Preis. Die App rechnet, was die Teile gebraucht noch wert sind, und sagt dir, ob der Preis fair ist.",
+    "That's what the <b>Used</b> mode at the top is for: enter the parts from the listing, plus model year, condition and price. The app works out what the parts are still worth used and tells you whether the price is fair."),
+    ak:["modus:markt"], chips:[{id:"gebrauchtcheck", t:gTitel("gebrauchtcheck")}]};
+  if(!build.rahmen) return {h:tx("Trag zuerst den Rahmen aus der Anzeige ein, dann alles, was dort sonst steht. Je mehr Teile, desto genauer das Urteil.",
+    "Enter the frame from the listing first, then whatever else it mentions. The more parts, the more accurate the verdict."), ak:["slot:rahmen"]};
+  if(!(markt.preis > 0)) return {h:tx("Gib noch Modelljahr, Zustand und den geforderten Preis an — dann vergleicht die App ihn mit dem, was die Teile gebraucht wert sind.",
+    "Now add the model year, condition and the asking price — then the app compares it with what the parts are worth used."), ak:["springe:.mk"]};
+  return {h:tx(`Gefordert sind ${eur(markt.preis)}. Das Urteil steht unten im Aufbau: Es vergleicht den Preis mit dem Gebrauchtwert der Teile, abzüglich fälliger Verschleißteile.`,
+    `The asking price is ${eur(markt.preis)}. The verdict is at the bottom of the build: it compares the price with the used value of the parts, minus any worn parts that are due.`),
+    ak:["springe:.urteil"], chips:[{id:"gebrauchtcheck", t:gTitel("gebrauchtcheck")}]};
+}
+function gFit(){
+  const f = fitRechnen();
+  if(!f) return {h:tx("Dafür brauche ich deine Körpergröße. Unter <b>Dein Fit</b> gibst du sie ein, optional auch die Schrittlänge — dann bekommst du Rahmengröße, Lenkerbreite, Kurbellänge und den Hub der Variostütze.",
+    "For that I need your height. Enter it under <b>Your fit</b>, optionally your inseam too — then you get frame size, bar width, crank length and dropper travel."), ak:["fit"]};
+  return {h:tx(`Für ${f.h} cm und ${esc(selNamen())}: Rahmengröße <b>${esc(f.groesse)}</b>${f.reach ? ` (Reach um ${f.reach} mm)` : ""}, Lenker ${f.lenker} mm, Kurbel ${f.kurbel} mm, Laufräder ${esc(f.lr)}${f.hub ? `, Variostütze bis ${f.hub} mm Hub` : ""}.`,
+      `For ${f.h} cm and ${esc(selNamen())}: frame size <b>${esc(f.groesse)}</b>${f.reach ? ` (reach around ${f.reach} mm)` : ""}, bar ${f.lenker} mm, cranks ${f.kurbel} mm, wheels ${esc(f.lr)}${f.hub ? `, dropper up to ${f.hub} mm travel` : ""}.`)
+    + (f.geschaetzt.schritt ? " " + tx("Die Schrittlänge ist geschätzt — mit deiner echten wird es genauer.", "The inseam is estimated — with your real one it gets more accurate.") : ""), ak:["fit"]};
+}
+function gFederung(){
+  if(!(plan.fahrer > 0)) return {h:tx("Dafür brauche ich dein Gewicht. Der Federungsrechner fragt es ab, dazu ein paar Fragen zum Fahrstil — dann bekommst du Luftdruck, Sag und jede Knopfstellung in Klicks.",
+    "For that I need your weight. The suspension calculator asks for it, plus a few questions about your riding — then you get air pressure, sag and every knob position in clicks."), ak:["fed"]};
+  const fr = federRechnen();
+  if(!fr.gabel && !fr.daempfer) return {h:tx("In diesem Aufbau ist noch keine Federung eingetragen. Wähl zuerst eine Gabel.", "There's no suspension in this build yet. Choose a fork first."), ak:["slot:gabel"]};
+  const zeile = (name, x) => { const m = x.modi[fedModus];
+    return `<li><b>${name}</b> (${esc(x.t.n)}): ${x.coil ? (x.rate ? x.rate + " lbs/in" : esc(x.feder)) : m.psi + " psi (" + barVon(m.psi) + " bar)"}, Sag ${m.sag} %</li>`; };
+  let h = tx(`Startwerte für ${plan.fahrer} kg im Modus ${esc(modusName(fedModus))}:`, `Starting values for ${plan.fahrer} kg in ${esc(modusName(fedModus))} mode:`)
+    + "<ul>" + (fr.gabel ? zeile(tx("Gabel", "Fork"), fr.gabel) : "") + (fr.daempfer ? zeile(tx("Dämpfer", "Shock"), fr.daempfer) : "") + "</ul>"
+    + tx("LSC, HSC und Zugstufe in Klicks zeigt der Federungsrechner.", "The suspension calculator shows LSC, HSC and rebound in clicks.");
+  if(!fFertig()) h += " " + tx("Beantworte dort noch die Fragen zum Fahrprofil, dann werden die Werte genauer.", "Answer the riding-profile questions there too, and the values get more accurate.");
+  return {h:h, ak:["fed"]};
+}
+function gMindest(q){
+  const ds = DISZ.filter(d => MINDEST[d.id] && (q || []).some(x => x.w === d.id || x.w === gNorm(d.n) || gNorm(d.lang).split(" ").indexOf(x.w) >= 0));
+  const liste = (ds.length ? ds : DISZ.filter(d => MINDEST[d.id]));
+  const z = liste.map(d => `<li><b>${esc(d.n)}</b>: ${tx("ab etwa", "from about")} ${eur(MINDEST[d.id])}</li>`).join("");
+  return {h:tx("So viel kostet ein stimmiges Rad mindestens, neu aus dem Katalog zusammengestellt:", "This is the least a coherent bike costs, built new from the catalogue:") + `<ul>${z}</ul>`
+    + tx("Darunter wird es ein Rad mit Kompromissen. Gebraucht bekommst du oft deutlich mehr fürs Geld — der Modus Gebraucht prüft den Preis.",
+      "Below that it becomes a bike with compromises. Used, you often get much more for your money — the Used mode checks the price."), ak:[modus === "traum" ? "wiz" : "modus:traum"]};
+}
+function gUeber(){
+  return {h:tx(`Ich bin der eingebaute Guide von CrankScore — keine KI aus dem Internet, sondern eine Wissenssammlung direkt in der App. Ich suche in deiner Frage nach Stichworten und antworte aus ${GUIDE.length} Themen zur App und zum Rad. Deinen Aufbau lese ich live mit: Wertung, Konflikte, Budget, Fit, Federung. Teile finde ich im Katalog und sage dir, ob sie an dein Rad passen. Alles bleibt auf deinem Handy, auch offline. Am besten fragst du kurz und mit Fachwort, etwa „Was ist Boost?“ oder „Passt eine Fox 38?“.`,
+    `I'm CrankScore's built-in guide — not an AI from the internet, but a knowledge base right inside the app. I look for keywords in your question and answer from ${GUIDE.length} topics about the app and the bike. I read your build live: score, conflicts, budget, fit, suspension. I find parts in the catalogue and tell you whether they fit your bike. Everything stays on your phone, even offline. Ask briefly and use the technical term, e.g. “What is Boost?” or “Does a Fox 38 fit?”.`)};
+}
+const gBegriff = i => () => { const b = (sprache === "en" ? BEGRIFFE_EN : BEGRIFFE)[i]; return {h:`<b>${esc(b[0])}</b> — ${esc(b[1])}`}; };
+
+/* ── Wissensbasis. k: Stichworte (deutsch und englisch, beliebige Form), t: Titel
+   (dient auch als Vorschlag), a: Antwort oder Funktion, ak: Knoepfe.
+   Reihenfolge zaehlt bei Gleichstand: weiter oben gewinnt. ── */
+const GUIDE = [
+  {id:"hallo", k:"hallo hi hey moin servus gruess gruezi hello hiya", t:["Hallo", "Hello"], a:() => ({h:gHalloText(), chips:gVorschlaege()})},
+  {id:"danke", k:"danke dank dankeschoen super cool top perfekt klasse genial thanks thank great nice awesome", t:["Danke", "Thanks"],
+   a:["Gern geschehen! Frag einfach weiter, wenn noch etwas unklar ist.", "You're welcome! Just ask if anything else is unclear."]},
+  {id:"wer", k:"wer bist ki bot chatbot chatgpt kuenstlich intelligenz mensch ai robot guide funktionierst funktioniert", t:["Wer bist du?", "Who are you?"], a:gUeber},
+  {id:"wertung", k:"wertung score punkte punktzahl zahl zahlen note bewertung niedrig schlecht rating mark prozent verbessern hoeher steigern", t:["Warum hat mein Rad diese Wertung?", "Why does my bike have this score?"], a:gWertung},
+  {id:"befunde", k:"passt passen konflikt konflikte fehler problem probleme pruefung pruef warnung kompromiss kompromisse inkompatibel falsch conflict conflicts error check wrong fit fits", t:["Was passt an meinem Rad nicht?", "What doesn't fit on my bike?"], a:gBefunde},
+  {id:"fehlt", k:"fehlt fehlen offen naechst naechste schritt weiter tun machen anfangen beginnen leer fertig missing next step todo start begin", t:["Was fehlt noch — was mache ich als Nächstes?", "What's missing — what do I do next?"], a:gFehlt},
+  {id:"budget", k:"budget teuer preis preise kosten kostet guenstig guenstiger sparen geld euro billig expensive cheap price cost money save", t:["Was kostet mein Rad?", "What does my bike cost?"], a:gBudget},
+  {id:"gewicht", k:"gewicht schwer leicht leichter kilo kg gramm wiegt weight heavy light lighter weigh", t:["Wie schwer ist mein Rad?", "How heavy is my bike?"], a:gGewicht},
+  {id:"disziplin", k:"disziplin disziplinen fahrstil einsatzbereich xc crosscountry trail enduro downhill dh dirt dirtjump slope trial bikepark park discipline style riding", t:["Welche Disziplin passt zu mir?", "Which discipline suits me?"], a:gDisz},
+  {id:"mindest", k:"kostet kosten mindestens realistisch einstiegspreis reicht wieviel minimum afford xc trail enduro downhill dh dirt slope trial", t:["Wie viel kostet ein gutes Rad?", "How much does a good bike cost?"], a:gMindest},
+  {id:"gebraucht", k:"gebraucht preis angebot fair fairer anzeige kleinanzeigen verkauf verkaeufer wert wertverlust urteil handeln used offer listing worth seller haggle", t:["Ist das Gebraucht-Angebot fair?", "Is the used offer fair?"], a:gGebraucht},
+  {id:"fit", k:"groesse rahmengroesse koerpergroesse reach passt mir gross klein cm zentimeter lenkerbreite kurbellaenge schrittlaenge size fit tall height", t:["Welche Rahmengröße brauche ich?", "Which frame size do I need?"], a:gFit},
+  {id:"federung", k:"federung fahrwerk luft luftdruck psi bar sag einstellen einstellung gabel daempfer setup abstimmen pumpe suspension pressure fork shock tune", t:["Wie stelle ich meine Federung ein?", "How do I set up my suspension?"], a:gFederung},
+  {id:"modi", k:"modus modi traumrad eigenes gebrauchtrad umschalten unterschied mode modes dream own", t:["Traumrad, Mein Rad, Gebraucht — was ist der Unterschied?", "Dream bike, My bike, Used — what's the difference?"],
+   a:["Oben schaltest du zwischen drei Modi um:<ul><li><b>Traumrad</b> — ein neues Rad planen, Teil für Teil oder mit dem Assistenten, mit Einkaufsliste.</li><li><b>Mein Rad</b> — dein vorhandenes Rad eintragen: Die App prüft, was nicht passt, und zeigt lohnende Upgrades.</li><li><b>Gebraucht</b> — ein Angebot aus einer Anzeige eintragen: Die App sagt, ob der Preis fair ist.</li></ul>Jeder Modus hat eigene Profile, beim Umschalten geht nichts verloren.",
+     "At the top you switch between three modes:<ul><li><b>Dream bike</b> — plan a new bike, part by part or with the assistant, with a shopping list.</li><li><b>My bike</b> — enter the bike you have: the app checks what doesn't fit and shows worthwhile upgrades.</li><li><b>Used</b> — enter an offer from a listing: the app tells you whether the price is fair.</li></ul>Each mode has its own profiles, nothing is lost when you switch."],
+   ak:["modus:traum", "modus:real", "modus:markt"]},
+  {id:"assistent", k:"assistent automatisch vorschlag vorschlagen zusammenstellen generieren lassen wizard assistant suggest automatic generate", t:["Was macht der Assistent?", "What does the assistant do?"],
+   a:["Der Assistent stellt dir in sechs Schritten ein komplettes Rad zusammen: Disziplin, Budget, Wunschmarken, Schwerpunkt. Er hält dein Budget ein (höchstens 100 € darüber), nimmt nur Teile, die zusammenpassen, und wählt Kurbel, Stütze und Vorbau passend zu deinen Maßen. Danach kannst du jedes Teil selbst tauschen.",
+     "The assistant puts a complete bike together for you in six steps: discipline, budget, favourite brands, priority. It keeps to your budget (at most €100 over), only takes parts that fit together and picks cranks, seatpost and stem to suit your measurements. Afterwards you can swap any part yourself."], ak:["wiz"]},
+  {id:"tauschen", k:"tauschen teil teile wechseln aendern auswaehlen waehlen einbauen austauschen ersetzen hinzufuegen eintragen suchen swap change pick choose replace add part parts search", t:["Wie wähle oder tausche ich ein Teil?", "How do I choose or swap a part?"],
+   a:["Tippe im Reiter <b>Aufbau</b> auf ein Teil, zum Beispiel die Gabel. Es öffnet sich eine Liste: oben die Teile, die zu deinem Rad passen, mit Preis, Gewicht und Eignung. Suchen kannst du nach Marke, Modell oder Maß, etwa „Fox 36“ oder „Boost“. Ein Tipp auf das Teil übernimmt es.",
+     "In the <b>Build</b> tab, tap a part, for example the fork. A list opens: at the top the parts that fit your bike, with price, weight and suitability. You can search by brand, model or size, e.g. “Fox 36” or “Boost”. Tapping the part takes it over."], ak:["slot:gabel"]},
+  {id:"upgrades", k:"upgrade upgrades verbessern verbesserung besser lohnt lohnen aufruesten tuning tunen improve better worth", t:["Welche Upgrades lohnen sich?", "Which upgrades are worth it?"],
+   a:["Der Reiter <b>Upgrades</b> sortiert in drei Stufen: erst, was du <b>kostenlos umstellen</b> kannst, dann <b>Ersatz in derselben Klasse</b>, wo ein Teil nicht zu deinem Einsatz passt, dann <b>echte Upgrades</b> — nur Teile, die mindestens so hochwertig sind wie deine jetzigen und die Wertung heben.",
+     "The <b>Upgrades</b> tab sorts into three levels: first what you can <b>adjust for free</b>, then <b>replacements in the same class</b> where a part doesn't suit your riding, then <b>real upgrades</b> — only parts at least as good as your current ones that raise the score."], ak:["view:upgrades"]},
+  {id:"kaufen", k:"kaufen einkaufsliste einkauf bestellen shop shops link links haendler teile buy order shopping store parts", t:["Wo kaufe ich die Teile?", "Where do I buy the parts?"],
+   a:["Im Reiter <b>Kaufen</b> steht die Einkaufsliste: jedes Teil mit Preis und Knopf zum Shop, dazu die Summe. Die Liste kannst du als Text kopieren, etwa für deine Werkstatt. Bei Mein Rad und Gebraucht zeigt der Reiter reduzierte Teile, die zu deinem Rad passen. Bestellt wird im Shop — CrankScore verkauft selbst nichts.",
+     "The <b>Buy</b> tab has the shopping list: every part with price and a button to the shop, plus the total. You can copy the list as text, e.g. for your workshop. In My bike and Used, the tab shows discounted parts that fit your bike. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
+  {id:"anzeige", k:"anzeige werbung partnerlink partnerlinks provision affiliate verdient verdienen kostenlos gratis finanziert sponsored ad ads free", t:["Ist die App kostenlos? Was heißt „Anzeige“?", "Is the app free? What does “Ad” mean?"],
+   a:["Die App ist kostenlos und braucht kein Konto. Manche Shop-Links sind Partnerlinks: Kaufst du darüber, bekommt CrankScore eine kleine Provision — dein Preis bleibt gleich. Solche Links sind direkt am Shop mit <b>Anzeige</b> gekennzeichnet. Welches Teil passt, entscheidet die Prüfung, nicht die Provision.",
+     "The app is free and needs no account. Some shop links are partner links: if you buy through them, CrankScore gets a small commission — your price stays the same. Such links are marked <b>Ad</b> right at the shop. Which part fits is decided by the check, not by the commission."]},
+  {id:"preise", k:"livepreis live aktuell aktuelle stand uvp richtpreis reduziert deal deals rabatt sale angebote discount offers current", t:["Woher kommen die Preise?", "Where do the prices come from?"],
+   a:["Hat ein Partnershop das Teil, zählt das günstigste lieferbare Angebot — mit Stand, inkl. MwSt., zzgl. Versand. Sonst steht ein Richtpreis auf UVP-Niveau. Ältere Modelljahre rechnet die App günstiger. Im Shop gilt immer der Preis dort.",
+     "If a partner shop has the part, the cheapest offer in stock counts — with a timestamp, incl. VAT, plus shipping. Otherwise there's a guide price at RRP level. The app prices older model years lower. In the shop, the shop's price always applies."]},
+  {id:"profile", k:"profil profile mehrere raeder zweites weiteres anlegen umbenennen speichern gespeichert bikes several second another rename save", t:["Mehrere Räder speichern", "Saving several bikes"],
+   a:["Unter dem Modus-Schalter stehen deine Profile: Mit <b>+ Weiteres Rad</b> legst du ein neues an, antippen wechselt, der Stift benennt um oder löscht. Jeder Modus hat eigene Profile, gespeichert wird automatisch auf deinem Gerät.",
+     "Your profiles sit below the mode switch: <b>+ Another bike</b> creates a new one, tapping switches, the pencil renames or deletes. Each mode has its own profiles, and everything is saved automatically on your device."]},
+  {id:"modelljahr", k:"modelljahr jahr baujahr jahrgang alt aelter aelteres neuer 2023 2024 2025 2026 year model older", t:["Wofür ist das Modelljahr?", "What is the model year for?"],
+   a:["Beim Rahmen wählst du oben das Modelljahr. Ältere Jahrgänge kosten weniger, das Alter geht aber in die Bewertung ein. Der Assistent nutzt ältere Rahmen als Hebel, wenn das Budget knapp ist.",
+     "For the frame you pick the model year at the top. Older years cost less, but the age counts in the rating. The assistant uses older frames as a lever when the budget is tight."], ak:["slot:rahmen"]},
+  {id:"fedmodi", k:"pur federmodus modi weicher straffer spruenge sprung allround abfahrt jumps softer firmer", t:["Pur Downhill, Allround, Pur Sprünge?", "Pure downhill, all-round, pure jumps?"],
+   a:["Im Federungsrechner wählst du oben, wofür du einstellst. <b>Pur Downhill</b>: weniger Luft, mehr Sag, Druckstufen deutlich offener, Zugstufe schneller — weich, spricht schnell an, klebt auf Wurzeln. <b>Allround</b>: genau nach deinem Fahrprofil. <b>Pur Sprünge</b>: mehr Luft (oder ein Volumen-Spacer), Druckstufen fester, Zugstufe langsamer — viel Halt am Absprung, schlägt nicht durch. Die Tabelle in jeder Karte zeigt alle drei nebeneinander.",
+     "In the suspension calculator you pick at the top what you're setting up for. <b>Pure downhill</b>: less air, more sag, compression clearly more open, faster rebound — soft, reacts quickly, sticks on roots. <b>All-round</b>: exactly per your riding profile. <b>Pure jumps</b>: more air (or a volume spacer), firmer compression, slower rebound — lots of support on the lip, doesn't bottom out. The table in each card shows all three side by side."], ak:["fed"]},
+  {id:"topcap", k:"foto top cap topcap bild knopf knoepfe markieren kartusche raedchen sitzt anleitung photo knob knobs dial where", t:["Wo sind die Knöpfe an meiner Gabel?", "Where are the knobs on my fork?"],
+   a:["Im Federungsrechner steht bei jeder Gabel und jedem Dämpfer ein Link zur offiziellen Anleitung mit echten Bildern der Rädchen. Oder du fotografierst dein Top Cap und tippst einmal auf jeden Knopf — dann schreibt die App die Einstellung direkt ins Foto. Das Foto bleibt auf deinem Handy.",
+     "In the suspension calculator every fork and shock has a link to the official manual with real pictures of the dials. Or photograph your top cap and tap each knob once — the app then writes the setting straight into the photo. The photo stays on your phone."], ak:["fed"]},
+  {id:"design", k:"design dunkel dunkler dunkle hell heller helle modus darkmode farbe schwarz oled weiss hintergrund dark light theme colour color", t:["Hell oder dunkel?", "Light or dark?"],
+   a:["Standard ist OLED-Schwarz — das spart auf vielen Handys Akku. Unter ⋮ → Design stellst du auf Hell um.", "The default is OLED black — it saves battery on many phones. Under ⋮ → Design you switch to light."], ak:["menu"]},
+  {id:"sprache", k:"sprache englisch deutsch language english german uebersetzen translate", t:["Sprache umstellen", "Change language"],
+   a:["Unter ⋮ → Sprache stellst du zwischen Deutsch und Englisch um. Die ganze App wechselt sofort, auch der Guide.", "Under ⋮ → Language you switch between German and English. The whole app switches at once, including the guide."], ak:["menu"]},
+  {id:"install", k:"installieren installation homescreen startbildschirm herunterladen download offline icon symbol iphone android store playstore install", t:["Wie hole ich die App aufs Handy?", "How do I install the app?"],
+   a:["CrankScore ist eine Web-App — ohne App Store. <b>iPhone:</b> in Safari auf Teilen, dann „Zum Home-Bildschirm“. <b>Android:</b> in Chrome im Menü ⋮ auf „App installieren“ oder „Zum Startbildschirm hinzufügen“. Danach startet sie wie eine App und läuft auch offline.",
+     "CrankScore is a web app — no app store needed. <b>iPhone:</b> in Safari tap Share, then “Add to Home Screen”. <b>Android:</b> in Chrome open the ⋮ menu and tap “Install app” or “Add to Home screen”. After that it starts like an app and works offline too."]},
+  {id:"update", k:"update updates aktualisieren aktualisierung version versionen laden neuste neueste", t:["Wie bekomme ich die neue Version?", "How do I get the new version?"],
+   a:["Gibt es eine neue Version, erscheint unten ein Hinweis mit <b>Neue Version laden</b>. Von Hand geht es unter ⋮ → App → Nach Update suchen. Deine Räder und Einstellungen bleiben dabei erhalten.",
+     "When there's a new version, a notice with <b>Load new version</b> appears at the bottom. Manually: ⋮ → App → Check for update. Your bikes and settings are kept."], ak:["menu"]},
+  {id:"daten", k:"daten datenschutz speichern gespeichert speichert konto login anmelden registrieren privatsphaere cloud sync synchronisieren handywechsel privacy data stored account", t:["Wo werden meine Daten gespeichert?", "Where is my data stored?"],
+   a:["Nur auf deinem Gerät, im Speicher des Browsers. Es gibt kein Konto und keinen Login, deine Räder, Maße und Fotos gehen an keinen Server. Das heißt auch: Wechselst du das Handy oder löschst die Browserdaten, sind sie weg. Auch dieser Guide läuft komplett auf deinem Handy.",
+     "Only on your device, in the browser's storage. There's no account and no login; your bikes, measurements and photos go to no server. That also means: if you change phones or clear your browser data, they're gone. This guide runs entirely on your phone too."], ak:["datenschutz"]},
+  {id:"reset", k:"zuruecksetzen reset loeschen vorne neustart leeren clear delete restart", t:["Von vorn anfangen", "Start over"],
+   a:["Unter ⋮ → <b>Dieses Profil zurücksetzen</b> leerst du das aktuelle Rad. Ein ganzes Profil löschst du über den Stift neben den Profilen. Den Einstieg mit allen Fragen startest du unter ⋮ → Einstieg wiederholen neu.",
+     "Under ⋮ → <b>Reset this profile</b> you empty the current bike. You delete a whole profile with the pencil next to the profiles. The setup with all the questions restarts under ⋮ → Repeat the setup."], ak:["menu", "einstieg"]},
+  {id:"teilen", k:"teilen kopieren kopie senden schicken werkstatt text export exportieren share copy send workshop", t:["Liste teilen oder kopieren", "Share or copy the list"],
+   a:["Im Reiter <b>Kaufen</b> kopierst du die Einkaufsliste als Text — mit allen Teilen und Preisen. Den Text kannst du in jede Nachricht einfügen, etwa an deine Werkstatt.",
+     "In the <b>Buy</b> tab you copy the shopping list as text — with every part and price. You can paste it into any message, e.g. to your workshop."], ak:["view:deals"]},
+  {id:"tour", k:"rundgang tour einfuehrung einstieg nochmal wiederholen anleitung tutorial ueberblick introduction onboarding overview", t:["Rundgang und Einstieg nochmal", "Tour and setup again"],
+   a:["Den Rundgang (in 30 Sekunden, wo was ist) und den Einstieg (alle Fragen zu Größe, Fahrstil und Budget) startest du jederzeit neu — auch direkt hier:",
+     "You can restart the tour (in 30 seconds, where everything is) and the setup (all the questions on size, riding style and budget) at any time — right here too:"], ak:["tour", "einstieg"]},
+  {id:"farben", k:"rand raender randfarbe farbig farbige rot roter gelb gelber gruen gruener punkt markierung markiert border colored coloured red yellow green", t:["Was bedeuten die farbigen Ränder?", "What do the coloured edges mean?"],
+   a:["An den Teilen im Aufbau: <b>roter Rand</b> — passt nicht zum Rest, so geht das Rad nicht. <b>Gelber Rand</b> — ein Kompromiss, fahrbar, aber nicht ideal. <b>Grüner Punkt</b> an einer Gruppe — alles drin und sauber. Was genau los ist, steht im Reiter Prüfung.",
+     "On the parts in the build: <b>red edge</b> — doesn't fit the rest, the bike won't work like this. <b>Yellow edge</b> — a compromise, rideable but not ideal. <b>Green dot</b> on a group — everything in and clean. The Check tab says exactly what's going on."], ak:["view:befunde"]},
+  {id:"passform", k:"passform einsatz balken technik charakter eignung purpose bar bars", t:["Was heißen Passform und Einsatz?", "What do fit and purpose mean?"],
+   a:["Die Wertung setzt sich aus zwei Balken zusammen. <b>Passform</b>: Passen die Teile technisch zusammen — Achsen, Freilauf, Einbaumaße, Klemmungen, Gangzahl? <b>Einsatz</b>: Passen sie zu dem, was du fahren willst? Ein Enduro-Rahmen mit leichten XC-Bremsen passt technisch, bremst bergab aber zu schwach.",
+     "The score is made of two bars. <b>Fit</b>: do the parts fit together technically — axles, freehub, mounting sizes, clamps, number of gears? <b>Purpose</b>: do they suit what you want to ride? An enduro frame with light XC brakes fits technically but brakes too weakly downhill."], ak:["score"]},
+  {id:"begriffe", k:"begriffe begriff fachbegriff fachbegriffe woerter wort lexikon glossar abkuerzung abkuerzungen terms glossary jargon", t:["Alle Begriffe erklärt", "All terms explained"],
+   a:["Die wichtigsten Fachwörter stehen kurz erklärt in der Begriffe-Liste. Du kannst mich aber auch einzeln fragen, zum Beispiel „Was ist Boost?“ oder „Was heißt HSC?“.",
+     "The most important technical terms are briefly explained in the terms list. But you can also ask me one by one, e.g. “What is Boost?” or “What does HSC mean?”."], ak:["begriffe"]},
+  {id:"anfaenger", k:"anfaenger einsteiger neuling erstes erste beginner first empfehlung empfiehlst newbie recommend starten", t:["Ich bin Anfänger — womit fange ich an?", "I'm a beginner — where do I start?"],
+   a:["Für die meisten ist <b>Trail</b> der beste Start: kommt überall hoch und macht bergab Spaß. Ein Hardtail ist günstiger und leichter zu warten, ein Fully verzeiht mehr im Gelände. Am einfachsten: Starte den Assistenten, gib Budget und Größe an — er baut dir ein passendes Rad, und ich erkläre dir jedes Teil. Plan dazu Geld für Helm und Handschuhe ein.",
+     "For most people <b>trail</b> is the best start: climbs anywhere and is fun downhill. A hardtail is cheaper and easier to maintain, a full-suspension bike forgives more off-road. Easiest: start the assistant, enter budget and size — it builds a matching bike and I'll explain every part. Budget for a helmet and gloves too."], ak:["wiz", "einstieg"]},
+  {id:"ebike", k:"ebike emtb motor akku elektro elektrisch pedelec unterstuetzung electric", t:["Gibt es auch E-Bikes?", "Are there e-bikes too?"],
+   a:["Nein — CrankScore plant und prüft Mountainbikes ohne Motor. E-MTB-Rahmen, Motoren und Akkus sind nicht im Katalog. Viele Teile wie Gabel, Bremsen und Reifen sind aber dieselben — dazu kannst du mich trotzdem fragen.",
+     "No — CrankScore plans and checks mountain bikes without a motor. E-MTB frames, motors and batteries aren't in the catalogue. Many parts like forks, brakes and tyres are the same though — you can still ask me about those."]},
+  {id:"ausstattung", k:"factory performance elite select ultimate kashima ausstattung linie linien version versionen modellvariante trim level", t:["Factory, Performance, Select, Ultimate — was ist der Unterschied?", "Factory, Performance, Select, Ultimate — what's the difference?"],
+   a:["Das sind Ausstattungslinien desselben Modells. Bei <b>Fox</b>: Factory (beste Dämpfung, Kashima-Beschichtung), Performance Elite (meist dieselbe Dämpfung ohne Kashima), Performance (einfachere Dämpfung, weniger Knöpfe). Bei <b>RockShox</b>: Ultimate, Select+ und Select, absteigend. Standrohre und Maße sind gleich — der Unterschied liegt in Dämpfung, Einstellbarkeit und Gewicht.",
+     "These are trim levels of the same model. <b>Fox</b>: Factory (best damper, Kashima coating), Performance Elite (usually the same damper without Kashima), Performance (simpler damper, fewer knobs). <b>RockShox</b>: Ultimate, Select+ and Select, descending. Stanchions and dimensions are the same — the difference is damping, adjustability and weight."]},
+  {id:"marken", k:"fox rockshox shimano sram marke marken hersteller vergleich versus vs brand brands better compare", t:["Fox oder RockShox, Shimano oder SRAM?", "Fox or RockShox, Shimano or SRAM?"],
+   a:["Innerhalb einer Preisklasse sind beide Paare etwa gleich gut — Details und Geschmack entscheiden, nicht die Marke. Fox und RockShox haben vergleichbare Linien (Factory ↔ Ultimate, Performance ↔ Select). Bei Shimano und SRAM fühlen sich Schaltung und Bremsen anders an: Shimano-Bremsen packen früher zu, SRAM dosiert weicher. Wichtig ist nur, dass Schalthebel, Schaltwerk, Kassette und Kette zu einem System gehören — die App prüft das.",
+     "Within a price class both pairs are about equally good — details and taste decide, not the brand. Fox and RockShox have comparable lines (Factory ↔ Ultimate, Performance ↔ Select). Shimano and SRAM shifting and brakes feel different: Shimano brakes bite earlier, SRAM modulates more softly. All that matters is that shifter, derailleur, cassette and chain belong to one system — the app checks that."]},
+
+  /* Begriffe aus der Hilfe, mit Stichworten */
+  {id:"b0", k:"hardtail fully vollgefedert gefedert hinterbau full suspension", t:["Hardtail oder Fully?", "Hardtail or full suspension?"], a:gBegriff(0)},
+  {id:"b1", k:"federweg travel millimeter", t:["Wie viel Federweg?", "How much travel?"], a:gBegriff(1)},
+  {id:"b2", k:"laufradgroesse laufrad 29 275 26 zoll inch mullet mx wheel size", t:["29, 27,5 oder Mullet?", "29, 27.5 or mullet?"], a:gBegriff(2)},
+  {id:"b3", k:"boost superboost nabenbreite 148 157 110 hub width", t:["Was ist Boost?", "What is Boost?"], a:gBegriff(3)},
+  {id:"b4", k:"freilauf hg microspline micro spline xd xdr freehub kassettenaufnahme", t:["Was ist der Freilauf (HG, Micro Spline, XD)?", "What is the freehub (HG, Micro Spline, XD)?"], a:gBegriff(4)},
+  {id:"b5", k:"kettenlinie chainline", t:["Was ist die Kettenlinie?", "What is chainline?"], a:gBegriff(5)},
+  {id:"b6", k:"udh transmission schaltauge ttype derailleur hanger", t:["Was ist UDH / Transmission?", "What is UDH / Transmission?"], a:gBegriff(6)},
+  {id:"b7", k:"einbaumass daempfermass trunnion standard hub laenge shock size eye", t:["Was ist das Einbaumaß beim Dämpfer?", "What is the shock size?"], a:gBegriff(7)},
+  {id:"b8", k:"doppelbruecke direct mount dual crown dh gabel", t:["Doppelbrücke und Direct Mount?", "Dual crown and direct mount?"], a:gBegriff(8)},
+  {id:"b9", k:"klemmung klemmmass 318 35 lenkerklemmung clamp durchmesser diameter", t:["Klemmung 31,8 oder 35?", "Clamp 31.8 or 35?"], a:gBegriff(9)},
+  {id:"b10", k:"variostuetze dropper absenkbar sattelstuetze versenkbar seatpost", t:["Was ist eine Variostütze?", "What is a dropper post?"], a:gBegriff(10)},
+  {id:"b11", k:"maulweite felgenbreite innenbreite rim width", t:["Was ist die Maulweite?", "What is inner rim width?"], a:gBegriff(11)},
+  {id:"b12", k:"kolben bremse bremsen bremsscheibe 4kolben 2kolben vierkolben rotor piston brake brakes", t:["Welche Bremse — 2 oder 4 Kolben?", "Which brake — 2 or 4 pistons?"], a:gBegriff(12)},
+  {id:"b13", k:"innenlager bsa pressfit pf92 dub hollowtech tretlager bottom bracket", t:["Welches Innenlager?", "Which bottom bracket?"], a:gBegriff(13)},
+
+  /* MTB-Wissen */
+  {id:"geometrie", k:"geometrie geo reach stack lenkwinkel sitzwinkel radstand kettenstrebe tretlagerhoehe flach steil geometry head angle seat wheelbase chainstay", t:["Was bedeuten Reach, Stack und Lenkwinkel?", "What do reach, stack and head angle mean?"],
+   a:["<b>Reach</b>: waagrechter Abstand vom Tretlager zum Steuerrohr — wie lang sich das Rad im Stehen anfühlt. <b>Stack</b>: wie hoch das Steuerrohr reicht. <b>Lenkwinkel</b>: flach (um 63–64°, Enduro und Downhill) läuft bei Tempo ruhiger, steiler (um 67–69°, XC) lenkt direkter. <b>Sitzwinkel</b>: steiler bringt dich bergauf besser über das Tretlager. Ein längerer <b>Radstand</b> läuft ruhiger, ein kürzerer ist wendiger.",
+     "<b>Reach</b>: horizontal distance from the bottom bracket to the head tube — how long the bike feels standing up. <b>Stack</b>: how high the head tube reaches. <b>Head angle</b>: slack (around 63–64°, enduro and downhill) is calmer at speed, steeper (around 67–69°, XC) steers more directly. <b>Seat angle</b>: steeper puts you better over the bottom bracket when climbing. A longer <b>wheelbase</b> is more stable, a shorter one more agile."], ak:["fit"]},
+  {id:"material", k:"carbon alu aluminium stahl titan material rahmenmaterial kohlefaser haltbar steel aluminum titanium", t:["Carbon oder Alu?", "Carbon or aluminium?"],
+   a:["<b>Alu</b>: günstig, robust, verzeiht Stürze, etwas schwerer. <b>Carbon</b>: leichter und steifer, aber teurer; Schäden nach Schlägen sieht man schlechter. <b>Stahl</b> und <b>Titan</b>: selten, sehr haltbar und komfortabel, meist bei Hardtails und Dirt. Für Einsteiger ist Alu fast immer die bessere Wahl fürs Geld.",
+     "<b>Aluminium</b>: cheap, tough, forgives crashes, a bit heavier. <b>Carbon</b>: lighter and stiffer but pricier; damage after impacts is harder to spot. <b>Steel</b> and <b>titanium</b>: rare, very durable and comfortable, mostly on hardtails and dirt bikes. For beginners aluminium is almost always the better value."]},
+  {id:"coil", k:"stahlfeder coil luftfeder luft feder spring air linear progressiv", t:["Luftfeder oder Stahlfeder?", "Air or coil spring?"],
+   a:["<b>Luftfeder</b>: leicht, per Pumpe fein einstellbar, mit Volumen-Spacern progressiv — Standard bei den meisten Rädern. <b>Stahlfeder</b> (Coil): spricht noch feiner an und bleibt auf langen Abfahrten konstant, ist aber schwerer; die Härte änderst du nur mit einer anderen Feder. Beliebt bei Enduro und Downhill.",
+     "<b>Air spring</b>: light, finely adjustable with a pump, progressive with volume spacers — standard on most bikes. <b>Coil spring</b>: even more sensitive and stays consistent on long descents, but heavier; you change the rate only with a different spring. Popular for enduro and downhill."]},
+  {id:"sag", k:"sag negativfederweg einsinken einfedern oring gummiring ring messen negative travel", t:["Was ist Sag?", "What is sag?"],
+   a:["Sag ist, wie weit Gabel oder Dämpfer einsinken, wenn du in Fahrposition auf dem Rad stehst — in Prozent des Federwegs. Üblich: vorn 15–25 %, hinten 25–35 %. Messen: Gummiring am Standrohr nach unten schieben, vorsichtig aufsteigen, absteigen, ablesen. Den Zielwert für dich nennt der Federungsrechner.",
+     "Sag is how far the fork or shock sinks when you stand on the bike in riding position — as a percentage of travel. Typical: 15–25 % front, 25–35 % rear. To measure: push the rubber O-ring down the stanchion, carefully get on, get off, read it. The suspension calculator gives your target value."], ak:["fed"]},
+  {id:"druckstufe", k:"druckstufe lsc hsc compression lowspeed highspeed low high speed daempfung kartusche", t:["Was sind LSC und HSC?", "What are LSC and HSC?"],
+   a:["Die Druckstufe bremst das Einfedern. <b>LSC</b> (Low-Speed Compression) wirkt bei langsamen Bewegungen — Bremsen, Anlieger, Pumpen: mehr LSC gibt Halt, das Rad taucht weniger ein. <b>HSC</b> (High-Speed Compression) wirkt bei schnellen Schlägen — Wurzeln, Steine, Landungen: weniger HSC schluckt Kanten besser, mehr HSC schützt vor Durchschlagen. Zudrehen macht fester, aufdrehen weicher.",
+     "Compression damping slows the suspension as it compresses. <b>LSC</b> (low-speed compression) acts on slow movements — braking, berms, pumping: more LSC gives support, the bike dives less. <b>HSC</b> (high-speed compression) acts on fast hits — roots, rocks, landings: less HSC absorbs edges better, more HSC protects against bottoming out. Closing makes it firmer, opening softer."], ak:["fed"]},
+  {id:"zugstufe", k:"zugstufe rebound ausfedern hase schildkroete zurueckfedern rueckprall wippt nachwippen", t:["Was ist die Zugstufe?", "What is rebound?"],
+   a:["Die Zugstufe (Rebound) bestimmt, wie schnell die Federung nach dem Einfedern wieder ausfedert. Zu schnell (Richtung Hase): Das Rad springt und wippt nach. Zu langsam (Richtung Schildkröte): Bei schnellen Schlägen federt es nicht mehr ganz aus und sackt immer tiefer. Den Grundwert liefern die Tabelle am Holm oder der Bordsteintest im Federungsrechner.",
+     "Rebound sets how fast the suspension extends again after compressing. Too fast (towards the hare): the bike bounces and bobs. Too slow (towards the tortoise): on quick hits it no longer fully extends and sinks lower and lower. The base value comes from the chart on the fork leg or the kerb test in the suspension calculator."], ak:["fed"]},
+  {id:"spacer", k:"spacer token tokens volumen volumenspacer progression progressiv durchschlagen durchschlag durchschlaegt bottom out bottoming", t:["Was ist ein Volumen-Spacer?", "What is a volume spacer?"],
+   a:["Ein Kunststoffteil in der Luftkammer. Es verkleinert das Volumen, dadurch wird die Feder zum Ende des Federwegs straffer (progressiver) — ohne den Anfang härter zu machen. Schlägt die Gabel oft durch, obwohl der Sag passt: ein Spacer mehr. Nutzt du den Federweg nie ganz: einer weniger.",
+     "A plastic piece in the air chamber. It reduces the volume, so the spring gets firmer towards the end of the travel (more progressive) — without making the start harder. If the fork often bottoms out although the sag is right: one spacer more. If you never use the full travel: one fewer."]},
+  {id:"schaltung", k:"schaltung schaltgruppe 1x12 1x 12fach 11fach einfach gaenge gang eagle deore slx xt xtr nx sx gx x01 xx1 gruppe schalten gears drivetrain groupset", t:["Welche Schaltung? 1×12, Deore, XT, Eagle …", "Which drivetrain? 1×12, Deore, XT, Eagle …"],
+   a:["Fast alle MTBs fahren heute <b>1-fach</b>: ein Kettenblatt vorn, 12 Ritzel hinten — simpel und robust. Die Gruppen unterscheiden sich vor allem in Gewicht, Schaltgefühl und Preis, kaum in der Funktion. <b>Shimano</b>: Deore → SLX → XT → XTR. <b>SRAM Eagle</b>: SX → NX → GX → X01 → XX1, neuer als Transmission (T-Type, braucht UDH am Rahmen). Schalthebel, Schaltwerk, Kassette und Kette müssen zusammenpassen — die App prüft das.",
+     "Almost all MTBs now run <b>1×</b>: one chainring up front, 12 sprockets at the back — simple and robust. The groups differ mainly in weight, shift feel and price, hardly in function. <b>Shimano</b>: Deore → SLX → XT → XTR. <b>SRAM Eagle</b>: SX → NX → GX → X01 → XX1, newer as Transmission (T-Type, needs UDH on the frame). Shifter, derailleur, cassette and chain must match — the app checks that."]},
+  {id:"elektronisch", k:"axs di2 elektronisch elektronische funk kabellos wireless electronic batterie", t:["Elektronisch schalten (AXS, Di2)?", "Electronic shifting (AXS, Di2)?"],
+   a:["SRAM <b>AXS</b> und Shimano <b>Di2</b> schalten elektronisch per Knopfdruck — präzise und ohne Zugwartung, aber teurer, und es gibt einen Akku mehr zu laden. Mechanisch schaltet genauso zuverlässig und ist günstiger.",
+     "SRAM <b>AXS</b> and Shimano <b>Di2</b> shift electronically at the push of a button — precise and without cable maintenance, but pricier, and there's one more battery to charge. Mechanical shifting is just as reliable and cheaper."]},
+  {id:"uebersetzung", k:"kettenblatt kettenblaetter zaehne zahn uebersetzung leichtester steil treten bandbreite 1052 1051 gearing chainring teeth ratio climb climbing", t:["Welches Kettenblatt, wie leicht ist der leichteste Gang?", "Which chainring, how easy is the lowest gear?"],
+   a:["Je kleiner das Kettenblatt und je größer das größte Ritzel hinten, desto leichter der leichteste Gang. Üblich sind 30–32 Zähne vorn mit 10–51 oder 10–52 hinten für Trail und Enduro, 34–36 für XC-Racer mit viel Kraft. Wer viele Höhenmeter tritt oder schwer ist, nimmt eher 30.",
+     "The smaller the chainring and the bigger the largest rear sprocket, the easier the lowest gear. Typical: 30–32 teeth up front with 10–51 or 10–52 at the back for trail and enduro, 34–36 for strong XC racers. If you climb a lot or are heavy, go for 30."]},
+  {id:"kurbellaenge", k:"kurbellaenge kurbel 160 165 170 175 aufsetzen crank length", t:["Welche Kurbellänge?", "Which crank length?"],
+   a:["Kürzere Kurbeln (160–165 mm) setzen seltener auf und sind an Trail- und Enduro-Rädern heute üblich; 170–175 mm eher bei XC und großen Fahrern. Dein Fit schlägt eine Länge nach deiner Größe vor.",
+     "Shorter cranks (160–165 mm) strike the ground less often and are now common on trail and enduro bikes; 170–175 mm more for XC and tall riders. Your fit suggests a length for your size."], ak:["fit"]},
+  {id:"reifen", k:"reifen reifenwahl karkasse exo doubledown dd superr gravity gummimischung maxxterra maxxgrip breite 24 25 26 grip tyre tire tyres tires", t:["Welche Reifen?", "Which tyres?"],
+   a:["Drei Dinge zählen. <b>Karkasse</b> (Pannenschutz): leicht für XC, verstärkt (etwa EXO+, Doubledown, Super Gravity) für Enduro, eine DH-Karkasse für Downhill. <b>Gummimischung</b>: weich greift besser, hält aber kürzer — vorn weicher als hinten. <b>Breite</b>: 2,3–2,4″ für Trail, 2,4–2,5″ für Enduro. Vorn zählt Grip, hinten Rollwiderstand und Pannenschutz.",
+     "Three things matter. <b>Casing</b> (puncture protection): light for XC, reinforced (e.g. EXO+, Doubledown, Super Gravity) for enduro, a DH casing for downhill. <b>Rubber compound</b>: softer grips better but wears faster — softer at the front than the rear. <b>Width</b>: 2.3–2.4″ for trail, 2.4–2.5″ for enduro. At the front grip counts, at the rear rolling resistance and puncture protection."], ak:["slot:reifenVR"]},
+  {id:"tubeless", k:"tubeless schlauchlos schlauch dichtmilch milch platten plattfuss durchstich snakebite ventil tube flat puncture sealant", t:["Tubeless oder Schlauch?", "Tubeless or tubes?"],
+   a:["<b>Tubeless</b>: ohne Schlauch, mit Dichtmilch im Reifen. Kleine Löcher dichten sich selbst, du fährst weniger Luftdruck mit mehr Grip, und Durchschläge am Felgenrand (Snakebite) gibt es nicht. Die Milch alle paar Monate nachfüllen. Mit <b>Schlauch</b> ist die Montage einfacher, dafür gibt es mehr Plattfüße.",
+     "<b>Tubeless</b>: no tube, with sealant in the tyre. Small holes seal themselves, you can run lower pressure with more grip, and there are no pinch flats at the rim (snakebites). Top up the sealant every few months. With <b>tubes</b> fitting is easier, but you get more flats."]},
+  {id:"reifendruck", k:"reifendruck reifen luftdruck bar psi druck tyre tire tyres tires pressure air", t:["Wie viel Luft in die Reifen?", "How much air in the tyres?"],
+   a:["Faustregel für Tubeless, 2,4″-Reifen und rund 75 kg: vorn etwa 1,5–1,7 bar, hinten 1,7–1,9 bar. Pro 10 kg mehr rund 0,1 bar mehr; mit Schlauch 0,2–0,3 bar mehr gegen Durchschläge. Zu wenig: Der Reifen walkt in Kurven oder schlägt durch. Zu viel: wenig Grip, das Rad springt.",
+     "Rule of thumb for tubeless, 2.4″ tyres and about 75 kg: around 1.5–1.7 bar (22–25 psi) front, 1.7–1.9 bar (25–28 psi) rear. About 0.1 bar more per extra 10 kg; with tubes 0.2–0.3 bar more against pinch flats. Too little: the tyre squirms in corners or bottoms out. Too much: little grip, the bike skips."]},
+  {id:"laufradsatz", k:"laufradsatz laufraeder felge felgen carbonfelge speichen nabe naben einrastpunkte freilaufgeraeusch wheelset wheels rim hub spokes", t:["Worauf kommt es beim Laufradsatz an?", "What matters in a wheelset?"],
+   a:["Laufräder sind rotierende Masse — leichtere beschleunigen spürbar besser. <b>Felge</b>: Alu ist robust und günstig, Carbon leichter und steifer, aber teurer. Die <b>Maulweite</b> muss zur Reifenbreite passen. <b>Nabe</b>: Mehr Einrastpunkte greifen beim Antreten schneller. Achsmaß (Boost), Freilauf und Bremsaufnahme müssen zum Rest passen — die App prüft das.",
+     "Wheels are rotating mass — lighter ones accelerate noticeably better. <b>Rim</b>: aluminium is tough and cheap, carbon lighter and stiffer but pricier. The <b>inner width</b> must suit the tyre width. <b>Hub</b>: more engagement points pick up faster when you pedal. Axle size (Boost), freehub and rotor mount must match the rest — the app checks that."], ak:["slot:laufraeder"]},
+  {id:"bremsenpflege", k:"mineraloel mineral dot bremsfluessigkeit entlueften entlueftung belaege belag bremsbelag bremsbelaege organisch resin sinter metallisch quietschen quietscht schleift fading bremst schwach druckpunkt pads bleed squeal", t:["Bremsbeläge, Mineralöl oder DOT?", "Brake pads, mineral oil or DOT?"],
+   a:["<b>Shimano</b> und Magura fahren Mineralöl, <b>SRAM</b> DOT-Flüssigkeit — niemals mischen, das zerstört die Dichtungen. <b>Beläge</b>: organisch beißen leise und kräftig, verschleißen aber schneller; Sinter (metallisch) halten länger und vertragen Hitze, quietschen eher. Wandert der Druckpunkt oder wird der Hebel weich: entlüften. Lässt die Bremskraft auf langen Abfahrten nach, helfen größere Scheiben und 4 Kolben.",
+     "<b>Shimano</b> and Magura use mineral oil, <b>SRAM</b> DOT fluid — never mix them, it destroys the seals. <b>Pads</b>: organic bite quietly and strongly but wear faster; sintered (metallic) last longer and handle heat, but squeal more. If the bite point wanders or the lever goes soft: bleed. If braking power fades on long descents, bigger rotors and 4 pistons help."]},
+  {id:"scheiben", k:"scheibengroesse scheibe 160 180 200 203 220 223 postmount adapter bremsaufnahme maximal rotor size mount", t:["Wie groß dürfen die Bremsscheiben sein?", "How big can the rotors be?"],
+   a:["Rahmen und Gabel geben über ihre Aufnahme eine Mindestgröße vor (meist Postmount 160 oder 180 mm) und laut Hersteller eine Höchstgröße. Größere Scheiben gehen über einen Adapter. Üblich: 180 mm für XC und Trail, 200–220 mm für Enduro und Downhill — größer bremst kräftiger und überhitzt später.",
+     "Frame and fork set a minimum size through their mount (usually post mount 160 or 180 mm) and a maximum per the manufacturer. Bigger rotors go on with an adapter. Typical: 180 mm for XC and trail, 200–220 mm for enduro and downhill — bigger brakes harder and overheats later."]},
+  {id:"achse", k:"achse steckachse schnellspanner 15x110 20x110 12x148 12x157 12x142 15x100 axle thru", t:["Welche Achsen gibt es?", "Which axles are there?"],
+   a:["Heute fast immer Steckachsen. <b>Vorn</b>: 15×110 (Boost) an Trail und Enduro, 20×110 an Downhill-Doppelbrücken. <b>Hinten</b>: 12×148 (Boost) oder 12×157 (Super Boost, DH). Ältere Räder: 15×100 vorn, 12×142 hinten. Nabe und Rahmen oder Gabel müssen gleich sein.",
+     "Almost always thru-axles now. <b>Front</b>: 15×110 (Boost) on trail and enduro, 20×110 on downhill dual crowns. <b>Rear</b>: 12×148 (Boost) or 12×157 (Super Boost, DH). Older bikes: 15×100 front, 12×142 rear. Hub and frame or fork must match."]},
+  {id:"steuerrohr", k:"steuerrohr steuersatz tapered konisch zs44 zs56 schaft gabelschaft headset steerer", t:["Steuersatz und Gabelschaft?", "Headset and steerer?"],
+   a:["Die meisten MTB-Gabeln haben einen <b>tapered</b> Schaft: unten 1,5″, oben 1 1/8″. Der Steuersatz muss zu den Maßen des Steuerrohrs im Rahmen passen (etwa ZS44/ZS56). Doppelbrücken-Gabeln haben einen geraden Schaft. Die App prüft Gabel und Rahmen.",
+     "Most MTB forks have a <b>tapered</b> steerer: 1.5″ at the bottom, 1 1/8″ at the top. The headset must match the head tube dimensions of the frame (e.g. ZS44/ZS56). Dual-crown forks have a straight steerer. The app checks fork and frame."]},
+  {id:"offset", k:"offset gabeloffset vorlauf nachlauf rake 44 51 37 42", t:["Was ist der Gabel-Offset?", "What is fork offset?"],
+   a:["Offset ist, wie weit die Vorderachse vor der Lenkachse sitzt (etwa 44 oder 51 mm bei 29″). Weniger Offset macht die Lenkung ruhiger, mehr Offset wendiger. Nimm, was der Rahmenhersteller angibt — der Unterschied ist spürbar, aber kein Sicherheitsthema.",
+     "Offset is how far the front axle sits ahead of the steering axis (e.g. 44 or 51 mm on 29″). Less offset makes the steering calmer, more offset livelier. Use what the frame maker specifies — the difference is noticeable but not a safety issue."]},
+  {id:"cockpit", k:"vorbau vorbaulaenge lenker lenkerbreite rise backsweep upsweep cockpit kuerzen kuerzer stem bar handlebar", t:["Lenker und Vorbau?", "Bar and stem?"],
+   a:["<b>Lenkerbreite</b>: meist 760–800 mm; breiter gibt mehr Kontrolle, schmaler passt besser zwischen Bäumen — kürzen geht. <b>Rise</b> (Höhe) bringt dich aufrechter. <b>Vorbau</b>: kurz (35–50 mm) lenkt direkt und ist Standard an Trail und Enduro. Lenker und Vorbau brauchen dieselbe Klemmung (31,8 oder 35). Dein Fit schlägt Breite und Rise vor.",
+     "<b>Bar width</b>: usually 760–800 mm; wider gives more control, narrower fits better between trees — you can cut it down. <b>Rise</b> (height) puts you more upright. <b>Stem</b>: short (35–50 mm) steers directly and is standard on trail and enduro. Bar and stem need the same clamp (31.8 or 35). Your fit suggests width and rise."], ak:["fit"]},
+  {id:"pedale", k:"pedale pedal flat flats plattform klick klickpedale spd clip clipless schuhe schuh pins pedals shoes", t:["Flat- oder Klickpedale?", "Flat or clipless pedals?"],
+   a:["<b>Flatpedale</b> mit Pins und griffigen Schuhen: Du kommst schnell vom Rad und lernst saubere Technik — ideal für Einsteiger, Dirt und Bikepark. <b>Klickpedale</b> (etwa SPD): Du bist mit dem Pedal verbunden, trittst effizienter und rutschst auf Ruppigem nicht ab — beliebt bei XC, Trail und Enduro-Rennen. Braucht etwas Übung.",
+     "<b>Flat pedals</b> with pins and grippy shoes: you get off the bike quickly and learn clean technique — ideal for beginners, dirt and bike park. <b>Clipless pedals</b> (e.g. SPD): you're connected to the pedal, pedal more efficiently and don't slip off on rough ground — popular for XC, trail and enduro racing. Takes some practice."], ak:["slot:pedale"]},
+  {id:"sattel", k:"sattel sitzen sitzknochen hintern schmerzen taub saddle sitting sore", t:["Welcher Sattel?", "Which saddle?"],
+   a:["Entscheidend ist die Breite passend zu deinen Sitzknochen — viele Radläden messen das. Am MTB sitzt du bergab kaum, bergauf dafür lange: Ein flacher Sattel mit Aussparung entlastet. Tun eher Knie oder Beine weh, liegt es an Sattelhöhe oder -position.",
+     "What matters is a width that suits your sit bones — many bike shops measure this. On an MTB you hardly sit downhill but a lot uphill: a flat saddle with a cut-out relieves pressure. If your knees or legs hurt instead, it's the saddle height or position."]},
+  {id:"kette", k:"kette ketten kettenverschleiss verschleiss kettenlehre laengung gelaengt kettenwechsel wann chain wear stretch", t:["Wann muss die Kette gewechselt werden?", "When should the chain be replaced?"],
+   a:["Ketten längen sich. Mit einer Kettenlehre messen und bei 11- und 12-fach ab etwa 0,5 % wechseln. Wartest du zu lange, verschleißt die Kette Kassette und Kettenblatt mit. Je nach Wetter und Pflege hält eine Kette etwa 1.000–3.000 km.",
+     "Chains stretch. Measure with a chain checker and replace at about 0.5 % on 11- and 12-speed. Wait too long and the chain wears out the cassette and chainring with it. Depending on weather and care, a chain lasts about 1,000–3,000 km."]},
+  {id:"schaltprobleme", k:"schaltet schaltung kette springt einstellen justieren schaltauge verbogen indexierung zugspannung knackt shifting skips skipping adjust hanger bent", t:["Die Schaltung springt — was tun?", "The gears skip — what to do?"],
+   a:["Meist ist es eines von drei Dingen: Zugspannung (Einstellschraube am Schaltwerk oder Hebel eine halbe Umdrehung drehen), ein verbogenes Schaltauge oder eine verschlissene Kette. Bei SRAM Transmission gibt es kein Schaltauge zum Verbiegen — dort hilft meist das Neu-Einstellen nach Anleitung.",
+     "It's usually one of three things: cable tension (turn the barrel adjuster on the derailleur or shifter half a turn), a bent derailleur hanger or a worn chain. SRAM Transmission has no hanger to bend — there, re-adjusting per the manual usually helps."]},
+  {id:"service", k:"service wartung pflege gabelservice daempferservice oel oelwechsel dichtungen dichtung abstreifer betriebsstunden stunden reinigen putzen maintenance clean servicing", t:["Wie oft Service an Gabel und Dämpfer?", "How often to service fork and shock?"],
+   a:["Nach jeder Fahrt die Standrohre abwischen. Den kleinen Service (Öl, Abstreifer) je nach Hersteller etwa alle 50–125 Betriebsstunden, einen großen mit Dämpfung mindestens einmal im Jahr. Die genauen Zeiten stehen in der Anleitung — der Federungsrechner verlinkt sie.",
+     "Wipe the stanchions after every ride. The small service (oil, wiper seals) roughly every 50–125 riding hours depending on the maker, a full one including the damper at least once a year. The exact intervals are in the manual — the suspension calculator links to it."], ak:["fed"]},
+  {id:"gebrauchtcheck", k:"worauf achten gebrauchtkauf checkliste besichtigung risse riss lager lagerspiel spiel probefahrt diebstahl gestohlen rahmennummer rechnung checklist inspect inspection", t:["Worauf beim Gebrauchtkauf achten?", "What to check when buying used?"],
+   a:["<ul><li><b>Rahmen</b>: Risse an Schweißnähten, Tretlager und Steuerrohr; bei Carbon tiefe Kratzer und Schlagstellen.</li><li><b>Lager</b>: Hinterbau und Steuersatz dürfen kein Spiel haben — Rad am Sattel anheben und rütteln, Vorderbremse ziehen und schieben.</li><li><b>Federung</b>: Standrohre ohne Kratzer und Ölspuren, federt gleichmäßig.</li><li><b>Verschleiß</b>: Kette, Kassette, Bremsbeläge, Reifen.</li><li><b>Papiere</b>: Rechnung zeigen lassen, Rahmennummer vergleichen.</li><li><b>Probefahrt</b>: schalten, bremsen, auf Knacken achten.</li></ul>Den fairen Preis rechnet dir der Modus Gebraucht aus.",
+     "<ul><li><b>Frame</b>: cracks at welds, bottom bracket and head tube; on carbon, deep scratches and impact marks.</li><li><b>Bearings</b>: rear end and headset must have no play — lift the bike by the saddle and shake, pull the front brake and rock.</li><li><b>Suspension</b>: stanchions without scratches or oil, compresses smoothly.</li><li><b>Wear</b>: chain, cassette, brake pads, tyres.</li><li><b>Papers</b>: ask for the receipt, compare the frame number.</li><li><b>Test ride</b>: shift, brake, listen for creaks.</li></ul>The Used mode works out the fair price for you."], ak:["modus:markt"]},
+  {id:"schutz", k:"helm fullface halbschale protektoren protektor knieschoner schoner rueckenprotektor schutz ausruestung brille goggle handschuhe helmet protection pads gloves gear", t:["Welche Schutzausrüstung?", "Which protective gear?"],
+   a:["Ein <b>Helm</b> ist Pflicht — für Trail eine Halbschale mit tiefem Hinterkopfschutz, für Bikepark und Downhill ein Fullface. Dazu <b>Handschuhe</b> und eine Brille. <b>Knieschoner</b> lohnen sich ab ruppigen Trails, Rücken- und Ellbogenschutz vor allem im Bikepark. Schutzausrüstung ist nicht im Katalog — CrankScore plant das Rad.",
+     "A <b>helmet</b> is a must — for trail an open-face with deep rear coverage, for bike park and downhill a full-face. Add <b>gloves</b> and eyewear. <b>Knee pads</b> are worth it from rough trails on, back and elbow protection mostly in the bike park. Protective gear isn't in the catalogue — CrankScore plans the bike."]},
+  {id:"dropperhub", k:"stuetzenhub dropperhub hub 125 150 170 180 200 210 einstecktiefe durchmesser 309 316 349 stuetzendurchmesser dropper travel insertion", t:["Wie viel Hub bei der Variostütze?", "How much dropper travel?"],
+   a:["So viel Hub, wie in deinen Rahmen passt: Je tiefer der Sattel bergab, desto mehr Bewegungsfreiheit. Begrenzt wird er durch deine Beinlänge und die Einstecktiefe des Sitzrohrs. Der Durchmesser (30,9 / 31,6 / 34,9 mm) muss zum Rahmen passen. Dein Fit rechnet den passenden Hub aus.",
+     "As much travel as fits your frame: the lower the saddle downhill, the more freedom to move. It's limited by your leg length and the seat tube's insertion depth. The diameter (30.9 / 31.6 / 34.9 mm) must match the frame. Your fit works out the right travel."], ak:["fit"]}
+];
+/* Jedes Bauteil: was es ist, was davon im eigenen Rad steckt, Knopf zum Waehlen.
+   Hinten angehaengt: Bei Gleichstand gewinnt die ausfuehrlichere Antwort oben. */
+const G_TEIL = {rahmen:["Rahmen", "frame", "rahmen frame"], gabel:["Federgabel", "fork", "gabel federgabel fork"],
+  daempfer:["Dämpfer", "shock", "daempfer federbein shock"], laufraeder:["Laufradsatz", "wheelset", "laufradsatz laufraeder wheelset wheels"],
+  reifenVR:["Reifen", "tyres", "reifen mantel tyre tire"], schalthebel:["Schalthebel", "shifter", "schalthebel trigger shifter"],
+  schaltwerk:["Schaltwerk", "derailleur", "schaltwerk derailleur"], kassette:["Kassette", "cassette", "kassette ritzel cassette"],
+  kette:["Kette", "chain", "kette chain"], kurbel:["Kurbel", "cranks", "kurbel kurbeln crank cranks"], innenlager:["Innenlager", "bottom bracket", "innenlager tretlager"],
+  bremsen:["Bremsen", "brakes", "bremse bremsen brake brakes"], lenker:["Lenker", "handlebar", "lenker handlebar"], vorbau:["Vorbau", "stem", "vorbau stem"],
+  stuetze:["Sattelstütze", "seatpost", "sattelstuetze stuetze seatpost"], sattel:["Sattel", "saddle", "sattel saddle"],
+  pedale:["Pedale", "pedals", "pedale pedal pedals"], griffe:["Griffe", "grips", "griffe griff grips"]};
+Object.keys(G_TEIL).forEach(k => { const v = G_TEIL[k];
+  GUIDE.push({id:"teil-" + k, k:v[2], t:["Bauteil: " + v[0], "Part: " + v[1]], a:() => {
+    const s = slotOf(k), t = build[k] && !entfaellt(build, k) ? findeTeil(k, build[k]) : null;
+    return {h:`<b>${esc(s.label)}</b> — ${esc(s.was)}` + (t ? " " + tx(`In deinem Rad: ${esc(t.n)}.`, `On your bike: ${esc(t.n)}.`) : entfaellt(build, k) ? " " + tx("Bei deinem Rad entfällt es.", "Your bike doesn't need one.") : ""),
+      ak:entfaellt(build, k) ? [] : ["slot:" + k]}; }}); });
+const gTitel = id => { const e = GUIDE.find(x => x.id === id); return e ? sp2(e.t) : id; };
+let gIndex = null, gKw = null;
+function gIdx(){
+  if(gIndex) return gIndex;
+  gKw = new Set();
+  gIndex = GUIDE.map(e => {
+    const k = new Set();
+    for(const x of gWorte(e.k)){ k.add(x.w); k.add(x.s); gKw.add(x.w); gKw.add(x.s); }
+    return {e:e, k:[...k], t:gWorte(e.t[0] + " " + e.t[1]).map(x => x.s)};
+  });
+  return gIndex;
+}
+function gPunkte(q, x){
+  let p = 0;
+  for(const {w, s} of q){
+    let b = 0;
+    for(const k of x.k){
+      let v = 0;
+      if(k === s || k === w) v = G_SCHWACH.has(k) ? 2 : 3;
+      else if(k.length >= 4 && s.length >= 4 && (k.indexOf(s) === 0 || s.indexOf(k) === 0)) v = 2.2;
+      else if(s.length >= 3 && k.length >= 3 && Math.abs(k.length - s.length) <= 2 && (k.indexOf(s) === 0 || s.indexOf(k) === 0)) v = 2.2;   /* tyr/tyre, pass/passt */
+      else if(k.length >= 5 && w.length >= 7 && w.indexOf(k) >= 0) v = 2;          /* Wortteil: "federungsrechner" enthaelt "federung" */
+      else if(s.length >= 5 && k.length >= 7 && k.indexOf(s) >= 0) v = 1.8;
+      else if(s.length >= 5 && k.length >= 5 && Math.abs(k.length - s.length) <= 2 && gLev(k, s) <= (s.length >= 8 ? 2 : 1)) v = 1.6;   /* Tippfehler */
+      if(v > b){ b = v; if(b === 3) break; }
+    }
+    if(b && x.t.indexOf(s) >= 0) b += 0.5;
+    p += b;
+  }
+  return p;
+}
+/* ── Teile im Katalog: Marke und Modell, ganze Woerter vom Wortanfang ── */
+let gTeilListe = null;
+function gKatalog(){
+  if(gTeilListe) return gTeilListe;
+  gTeilListe = [];
+  const q = new Set();
+  for(const s of SLOTS){ const k = quelleOf(s); if(q.has(k)) continue; q.add(k);
+    for(const t of K[k] || []) gTeilListe.push({t:t, slot:s.k, such:" " + gNorm((t.m || "") + " " + t.n) + " "}); }
+  return gTeilListe;
+}
+function gTeilTreffer(q){
+  gIdx();
+  const worte = q.map(x => x.w).filter(w => w.length >= 2);
+  if(!worte.length) return [];
+  const res = [];
+  for(const x of gKatalog()){
+    let hit = 0, stark = 0;
+    /* stark: ein Wort, das nur zum Teil passt, nicht zu einer Antwort -- oder die Marke selbst */
+    const marke = " " + gNorm(x.t.m || "") + " ";
+    /* kurze Woerter und Zahlen nur als ganzes Wort: "rad" ist nicht "Radon", "2" nicht "203" */
+    for(const w of worte) if(x.such.indexOf(" " + w + (w.length <= 3 || /^\d+$/.test(w) ? " " : "")) >= 0){
+      hit++; if((!gKw.has(w) && !gKw.has(gStamm(w))) || marke.indexOf(" " + w + " ") >= 0) stark++; }
+    if(hit) res.push({x:x, hit:hit, stark:stark});
+  }
+  if(!res.length) return [];
+  res.sort((a, b) => b.hit - a.hit || b.stark - a.stark || a.x.t.n.length - b.x.t.n.length);
+  return res.filter(r => r.hit === res[0].hit && r.stark === res[0].stark);
+}
+function gFuer(t){
+  if(!t.e) return "";
+  const d = Object.keys(t.e).filter(k => t.e[k] >= 4).sort((a, b) => t.e[b] - t.e[a]).slice(0, 2);
+  return d.map(dLang).join(tx(" und ", " and "));
+}
+/* Passt das Teil ans eigene Rad? Wie beim Einbauen: erst die passende
+   Ausfuehrung (Federweg, Einbaumass ...), dann pruefen, ob neue Konflikte kommen */
+function gPasstZuRad(x){
+  if(!SLOTS.some(s => s.k !== x.slot && build[s.k])) return null;
+  if(build[x.slot] && String(build[x.slot]).split("|")[0] === x.t.id)
+    return {ok:true, h:tx("Das steckt schon in deinem Rad.", "That's already on your bike.")};
+  const t0 = findeTeil(x.slot, x.t.id); if(!t0) return null;
+  const pa = passendeAusfuehrung(x.slot, t0, build), kand = pa || t0;
+  const test = Object.assign({}, build); test[x.slot] = kand.id;
+  const vorher = new Set(pruefe(build).filter(f => f.level === "fehler").map(f => f.titel));
+  const neu = pruefe(test).filter(f => f.level === "fehler" && !vorher.has(f.titel));
+  if(!neu.length) return {ok:true, h:tx("Passt zu deinem Rad", "Fits your bike") + (pa && pa.aenderung && pa.aenderung.length
+    ? tx(` — in der Ausführung ${esc(pa.aenderung.join(", "))}.`, ` — in the version ${esc(pa.aenderung.join(", "))}.`) : ".")};
+  return {ok:false, h:tx("Passt so nicht zu deinem Rad:", "Doesn't fit your bike like this:") + `<ul>${neu.slice(0, 3).map(f => `<li>${esc(gOhneTags(f.titel))}</li>`).join("")}</ul>`};
+}
+function gTeilAntwort(treffer, worte){
+  const x = treffer[0].x, t = x.t, s = slotOf(x.slot);
+  let h = `<b>${esc(t.n)}</b> · ${esc(s.label)} · ${eur(preisVon(t))}${t.g ? " · " + gKg(t.g) : ""}`;
+  const fuer = gFuer(t); if(fuer) h += "<br>" + tx("Gebaut für ", "Built for ") + esc(fuer) + ".";
+  h += "<br>" + esc(s.was);
+  const mehr = treffer.length - 1;
+  if(mehr > 0) h += "<br>" + tx(`Dazu ${mehr === 1 ? "ein weiterer Treffer" : mehr + " weitere Treffer"}: `, `Plus ${mehr === 1 ? "one more match" : mehr + " more matches"}: `)
+    + treffer.slice(1, 4).map(y => esc(y.x.t.n)).join(", ") + (mehr > 3 ? " …" : "") + ".";
+  const p = gPasstZuRad(x);
+  if(p) h += `<div class="g-passt ${p.ok ? "ja" : "nein"}">${ic(p.ok ? IC.haken : IC.kreuz, 15)}<span>${p.h}</span></div>`;
+  const such = (worte && worte.length ? worte : gNorm(t.n).split(" ")).join(" ");
+  return {html:h, ak:["such:" + x.slot + ":" + such]};
+}
+/* ── Knoepfe unter den Antworten ── */
+function gAktInfo(id){
+  const i = id.indexOf(":"), art = i < 0 ? id : id.slice(0, i), arg = i < 0 ? "" : id.slice(i + 1);
+  const ansicht = {befunde:tx("Zur Prüfung", "Go to check"), upgrades:tx("Zu den Upgrades", "Go to upgrades"),
+    deals:modus === "traum" ? tx("Zur Einkaufsliste", "Go to shopping list") : tx("Zu Kaufen", "Go to buy"), aufbau:tx("Zum Aufbau", "Go to build")};
+  switch(art){
+    case "fed": return [tx("Federungsrechner", "Suspension calculator"), () => { fFragenOffen = false; oeffneFederung(); }];
+    case "fit": return [tx("Dein Fit", "Your fit"), () => oeffneFit()];
+    case "score": return [tx("Was bedeuten die Zahlen?", "What do the numbers mean?"), () => oeffneScoreHilfe()];
+    case "begriffe": return [tx("Alle Begriffe", "All terms"), () => oeffneBegriffe()];
+    case "tour": return [tx("Rundgang starten", "Start the tour"), () => { schliesse(); setTimeout(tourStart, 320); }];
+    case "einstieg": return [tx("Einstieg wiederholen", "Repeat the setup"), () => oeffneEinstieg("voll")];
+    case "wiz": return modus === "traum" ? [tx("Assistent starten", "Start assistant"), () => oeffneWiz(0)] : null;
+    case "menu": return [tx("Einstellungen öffnen", "Open settings"), () => oeffneMenu()];
+    case "disz": return [tx("Disziplin wählen", "Choose discipline"), () => { schliesse(); oeffneDisz(); }];
+    case "datenschutz": return [tx("Datenschutz lesen", "Read privacy policy"), () => oeffneRecht("datenschutz")];
+    case "view": return ansicht[arg] ? [ansicht[arg], () => { schliesse(); const b = document.querySelector(`.tabs [data-view="${arg}"]`);
+      if(b) b.click(); else { view = arg; zeichne(); } }] : null;
+    case "modus": return MODUS_NAME[arg] && arg !== modus ? [tx(`Zu ${MODUS_NAME[arg]}`, `Go to ${MODUS_NAME[arg]}`), () => { schliesse();
+      const b = document.querySelector(`.modus [data-modus="${arg}"]`); if(b) b.click(); }] : null;
+    case "slot": { const s = slotOf(arg); if(!s || entfaellt(build, arg)) return null;
+      return [modus === "traum" ? tx(`${s.label} wählen`, `Choose ${s.label.toLowerCase()}`) : tx(`${s.label} eintragen`, `Enter ${s.label.toLowerCase()}`), () => oeffneSlot(arg)]; }
+    case "such": { const j = arg.indexOf(":"), k = arg.slice(0, j), text = arg.slice(j + 1);
+      return slotOf(k) ? [tx("Im Katalog ansehen", "View in catalogue"), () => { offenerSlot = k; suchText = text; oeffneSlot(k); filterAnwenden(); }] : null; }
+    case "springe": return document.querySelector(arg) ? [arg === ".urteil" ? tx("Zum Urteil", "Go to verdict") : tx("Angaben machen", "Enter details"),
+      () => { schliesse(); setTimeout(() => { const e = document.querySelector(arg); if(e) e.scrollIntoView({behavior:"smooth", block:"start"}); }, 60); }] : null;
+  }
+  return null;
+}
+function guideAktion(id){ const a = gAktInfo(id); if(a) a[1](); }
+/* ── Gespraech ── */
+let gVerlauf = [];
+function gHalloText(){
+  const r = gR();
+  return tx("Hi! Ich bin der Guide. Frag mich alles zur App oder zum Rad — was ein Begriff bedeutet, warum etwas nicht passt, welche Größe du brauchst oder ob ein Teil an dein Rad passt.",
+    "Hi! I'm the guide. Ask me anything about the app or the bike — what a term means, why something doesn't fit, which size you need or whether a part fits your bike.")
+    + (r.teile ? " " + tx(`Gerade offen: ${esc(MODUS_NAME[modus])} · ${esc(selNamen())} · Wertung ${r.gesamt}.`, `Open right now: ${esc(MODUS_NAME[modus])} · ${esc(selNamen())} · score ${r.gesamt}.`) : "");
+}
+function gVorschlaege(){
+  const r = gR(), fehl = r.funde.filter(f => f.level === "fehler").length, c = [], ids = [];
+  const add = id => { if(ids.indexOf(id) < 0 && c.length < 4){ ids.push(id); c.push({id:id, t:gTitel(id)}); } };
+  if(fehl) add("befunde");
+  if(modus === "markt") add("gebraucht");
+  if(modus !== "markt" && plan.budget > 0 && r.preis > plan.budget) add("budget");
+  if(gOffen().length) add("fehlt");
+  if(r.teile && !fehl) add("wertung");
+  if(!(koerper.groesse > 0)) add("fit");
+  add("federung"); add("b0"); add("b3"); add("anfaenger");
+  return c;
+}
+function gAusgabe(e, q){
+  const x = typeof e.a === "function" ? e.a(q) : {h:sp2(e.a)};
+  return {html:x.h, ak:(x.ak || e.ak || []).filter(a => gAktInfo(a)), chips:x.chips};
+}
+const G_ALLGEMEIN = new Set(["befunde", "budget", "gewicht", "mindest", "fehlt", "wertung", "tauschen", "kaufen", "fit"]);
+function gAntwort(text, id){
+  if(id){ const e = GUIDE.find(x => x.id === id); if(e) return gAusgabe(e, []); }
+  if(text.indexOf("#teil ") === 0){
+    const [, slot, tid] = text.split(" "), x = gKatalog().find(y => y.slot === slot && y.t.id === tid);
+    if(x) return gTeilAntwort([{x:x}], null);
+  }
+  const q = gWorte(text);
+  if(!q.length) return {html:gHalloText(), chips:gVorschlaege()};
+  const liste = gIdx().map(x => ({e:x.e, p:gPunkte(q, x)})).filter(x => x.p > 0).sort((a, b) => b.p - a.p);
+  const best = liste[0], gut = best && best.p >= 2;
+  const teile = gTeilTreffer(q), t0 = teile[0];
+  const worte = t0 ? q.map(y => y.w).filter(w => t0.x.such.indexOf(" " + w) >= 0) : [];
+  /* Nennt die Frage ein Teil, meinen "passt", "kostet", "wiegt" dieses Teil
+     ("Passt eine Lyrik?") -- nicht das ganze Rad */
+  if(t0 && t0.stark && (!gut || t0.stark >= 2 || t0.hit >= 2 || G_ALLGEMEIN.has(best.e.id))){
+    const a = gTeilAntwort(teile, worte);
+    if(gut && best.p >= 3) a.chips = [{id:best.e.id, t:sp2(best.e.t)}], a.auch = true;
+    return a;
+  }
+  if(gut){
+    const a = gAusgabe(best.e, q);
+    const auch = liste.slice(1, 3).filter(x => x.p >= Math.max(2, best.p * 0.7)).map(x => ({id:x.e.id, t:sp2(x.e.t)}));
+    if(t0 && (t0.hit >= 2 || t0.stark)) auch.push({f:"#teil " + t0.x.slot + " " + t0.x.t.id, t:tx("Im Katalog: ", "In the catalogue: ") + t0.x.t.n});
+    if(auch.length && !(a.chips && a.chips.length)){ a.chips = auch.slice(0, 3); a.auch = true; }
+    return a;
+  }
+  const nah = liste.slice(0, 3).map(x => ({id:x.e.id, t:sp2(x.e.t)}));
+  return {html:tx("Dazu weiß ich leider nichts. Ich kenne die App, dein Rad und die wichtigsten MTB-Begriffe — probier es mit anderen Wörtern oder einem Fachwort. Oder tippe auf eine dieser Fragen:",
+      "Sorry, I don't know anything about that. I know the app, your bike and the key MTB terms — try other words or a technical term. Or tap one of these questions:"),
+    ak:["begriffe"], chips:nah.length ? nah : gVorschlaege()};
+}
+function gListeHtml(){
+  return gVerlauf.map((m, i) => {
+    if(m.wer === "du") return `<div class="g-m du"><div class="g-bl">${esc(m.text)}</div></div>`;
+    const kopf = `<div class="g-m bot"><span class="g-av" aria-hidden="true">${ic(IC.guide, 15)}</span>`;
+    if(m.tippt) return kopf + `<div class="g-bl g-tippt" aria-label="${tx("Guide schreibt", "Guide is typing")}"><span></span><span></span><span></span></div></div>`;
+    const ak = (m.ak || []).map(a => { const x = gAktInfo(a); return x ? `<button class="btn ghost sm" data-gakt="${esc(a)}">${esc(x[0])}</button>` : ""; }).join("");
+    const letzte = i === gVerlauf.length - 1;
+    return kopf + `<div class="g-bl">${m.html}${ak ? `<div class="g-ak">${ak}</div>` : ""}</div></div>`
+      + (letzte && m.chips && m.chips.length ? (m.auch ? `<p class="g-auch">${tx("Passt vielleicht auch:", "You might also mean:")}</p>` : "")
+        + `<div class="g-chips">${m.chips.map(c => `<button class="g-chip" data-gfrage="${esc(c.f || "")}"${c.id ? ` data-gid="${esc(c.id)}"` : ""}>${esc(c.t)}</button>`).join("")}</div>` : "");
+  }).join("");
+}
+function gZeigen(){
+  const l = $("g-liste"); if(!l) return;
+  l.innerHTML = gListeHtml();
+  l.scrollTop = l.scrollHeight;
+}
+function oeffneGuide(){
+  if(!gVerlauf.length) gVerlauf.push({wer:"bot", html:gHalloText(), chips:gVorschlaege()});
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${tx("Frag den Guide", "Ask the guide")}</span>${tx("Wie kann ich helfen?", "How can I help?")}</h3>${zuBtn}</div>
+    <div class="sheet-b g-b" id="g-liste" aria-live="polite">${gListeHtml()}</div>
+    <form class="sheet-f g-f" id="g-form" autocomplete="off">
+      <input id="g-in" type="text" enterkeyhint="send" maxlength="200" placeholder="${tx("Frag etwas …", "Ask something …")}" aria-label="${tx("Deine Frage", "Your question")}">
+      <button class="g-send" type="submit" aria-label="${tx("Senden", "Send")}">${ic(IC.senden, 18)}</button></form>`);
+  const l = $("g-liste"); if(l) l.scrollTop = l.scrollHeight;
+  /* Am Rechner gleich ins Feld; am Handy nicht -- sonst verdeckt die Tastatur die Antworten */
+  try{ if(window.matchMedia("(pointer:fine)").matches) $("g-in").focus({preventScroll:true}); }catch(e){}
+}
+let gWarte = null;
+function guideFrage(text, id){
+  text = String(text || "").trim().slice(0, 200);
+  if(!text && !id) return;
+  if(gWarte){ clearTimeout(gWarte); gWarte = null; gVerlauf = gVerlauf.filter(m => !m.tippt); }
+  const zeig = id ? gTitel(id) : text.indexOf("#teil ") === 0 ? (gKatalog().find(y => text.split(" ")[2] === y.t.id) || {t:{n:text}}).t.n : text;
+  gVerlauf.push({wer:"du", text:zeig});
+  const a = gAntwort(text, id);
+  gVerlauf.push({wer:"bot", tippt:true});
+  if(gVerlauf.length > 40) gVerlauf = gVerlauf.slice(-40);
+  gZeigen();
+  gWarte = setTimeout(() => {
+    gWarte = null;
+    gVerlauf = gVerlauf.filter(m => !m.tippt);
+    gVerlauf.push({wer:"bot", html:a.html, ak:a.ak, chips:a.chips, auch:a.auch});
+    gZeigen();
+  }, 420);
 }
 
 /* ═══════════ Federungsrechner ═══════════
@@ -7836,9 +8520,9 @@ const saett = x => Math.sign(x) * (Math.abs(x) <= 3 ? Math.abs(x) : 3 + (Math.ab
    Gabel weicher sein und schneller reagieren). Tuning-Regeln recherchiert
    2026-09-27 (Fox- und RockShox-Tuning-Guides, ENDURO-Setup-Guide, BikeRadar,
    Singletracks, MBR, Mountain Bike Action):
-   - Pur Downhill (Wurzeln, Steinfelder, Bremswellen, hohes Tempo): 4 % weniger
-     Luft und 2 % mehr Sag, LSC anderthalb und HSC zwei Stufen offener -- das
-     Fahrwerk spricht schneller an und behaelt auf Kanten Grip. Zugstufe zwei
+   - Pur Downhill (Wurzeln, Steinfelder, Bremswellen, hohes Tempo): 6 % weniger
+     Luft und 3 % mehr Sag, LSC und HSC je drei Stufen offener -- das
+     Fahrwerk spricht schneller an und behaelt auf Kanten Grip. Zugstufe drei
      Klicks schneller, sonst federt es zwischen schnellen Schlaegen nicht mehr
      aus und sackt immer tiefer ("packing").
    - Allround: genau das Fahrprofil, die Mitte zwischen beiden.
@@ -9643,6 +10327,7 @@ function oeffneMenu(){
       </div>
       <div class="grp-h" style="margin-top:16px"><h2>${tx("Hilfe", "Help")}</h2><div class="rule"></div></div>
       <div class="hilfe-liste">${[
+        ['data-guide="1"', IC.guide, tx("Frag den Guide", "Ask the guide"), tx("Fragen zur App oder zum Rad — mit Antwort sofort", "Questions about the app or the bike — answered instantly")],
         ['data-fit="1"', IC.groesse, tx("Dein Fit", "Your fit"), tx("Rahmengröße, Lenker und Kurbel aus deinen Maßen", "Frame size, bar and cranks from your measurements")],
         ['data-fed="1"', IC.fahrwerk, tx("Federungsrechner", "Suspension calculator"), tx("Luftdruck und Klicks für Gabel und Dämpfer", "Air pressure and clicks for fork and shock")],
         ['data-hilfe="begriffe"', IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie … einfach erklärt", "Boost, freehub, chainline … explained simply")],
@@ -9688,6 +10373,13 @@ const slotUndTeil = x => { const i = x.indexOf("|"); return [x.slice(0, i), x.sl
 document.addEventListener("click", e => {
   const T = q => e.target.closest(q);
   if(T("[data-zu]") || (e.target.classList && e.target.classList.contains("scrim"))){ schliesse(); return; }
+
+  /* Guide */
+  if(T("[data-guide]")){ oeffneGuide(); return; }
+  const gak = T("[data-gakt]");
+  if(gak){ guideAktion(gak.dataset.gakt); return; }
+  const gfr = T("[data-gfrage]");
+  if(gfr){ guideFrage(gfr.dataset.gfrage, gfr.dataset.gid); return; }
 
   /* Einstieg und Fit */
   const ew = T("[data-eiwahl]");
@@ -10103,6 +10795,13 @@ document.addEventListener("keydown", e => {
     profUmbenennen = null; sichern(); zeichne(); oeffneProfile(); return;
   }
   if(e.key === "Escape") schliesse();
+});
+/* Guide: Frage abschicken, per Enter oder Pfeil */
+document.addEventListener("submit", e => {
+  if(!e.target || e.target.id !== "g-form") return;
+  e.preventDefault();
+  const i = $("g-in"); if(!i) return;
+  guideFrage(i.value); i.value = "";
 });
 $("btn-disz").addEventListener("click", oeffneDisz);
 $("btn-menu").addEventListener("click", oeffneMenu);
