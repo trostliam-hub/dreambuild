@@ -34,6 +34,28 @@ ein eigener Platz und bleibt es.
 *Einsatz* misst, ob alle Teile in dieselbe Richtung ziehen — ein Enduro-Rahmen
 mit XC-Bremsen ist fehlerfrei und trotzdem falsch gebaut.
 
+**Übersicht im Stil von Bevel.** Oben drei Ringe nebeneinander wie die
+Kennzahlen in der Gesundheits-App Bevel: in der Mitte groß die *Wertung*
+(Ampelfarbe: grün ab 85, gelb ab 60, sonst rot), links *Passform* (violett),
+rechts *Einsatz* (orange). Tippen auf einen Ring erklärt die Zahlen. Darunter
+ein Satz zum Stand und zwei Kacheln: *Preis* (mit Budget als Tankanzeige —
+wie viel frei ist oder dass es drüber liegt) und *Gewicht* (mit „x von y
+Teilen“). Direkt darunter die Karte **Nächster Schritt**: statt aller Listen
+der eine Schritt, der das Rad jetzt am meisten weiterbringt — zuerst ein
+harter Konflikt (am liebsten kostenlos: dasselbe Teil, andere Ausführung),
+dann beim Traumrad über Budget der größte Sparzug bei gleichen Maßen, sonst
+das beste echte Upgrade mit Punkten, Preis und Gewicht. Ein Knopf baut es
+ein, ein zweiter fragt den Guide „Was fehlt zur 100?“. Gerechnet wird mit
+denselben Vorschlägen wie im Reiter Upgrades; beim Gebrauchtrad und bei
+leerem Aufbau fehlt die Karte. Das Design dazu: echtes Schwarz (hell: iOS-
+Grau), Graphit-Karten ohne Rand mit großen Radien, Beschriftungen in normaler
+Schreibung statt gesperrter Versalien, Knöpfe schlicht weiß auf schwarz
+(hell umgekehrt), der bunte Verlauf Orange → Pink → Violett nur noch am
+Guide, am Assistenten und an „Nächster Schritt“. Grautexte haben mindestens
+4,5:1 Kontrast, die Ringe mindestens 3:1. Die Seiten von Bevel selbst
+(bevel.health) waren aus der Entwicklungsumgebung gesperrt — Vorlage war die
+bekannte Bevel-App: Ringe oben, ein Coach-Tipp, ruhige Karten.
+
 **Einstieg.** Beim ersten Öffnen ein Rundgang über den ganzen Bildschirm — auch
 einmal für alle, die die App schon vorher hatten (ein schon gebautes oder
 eingetragenes Rad bleibt dabei unangetastet, das Ergebnis landet in einem
