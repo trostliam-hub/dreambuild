@@ -35,7 +35,7 @@ ein eigener Platz und bleibt es.
 mit XC-Bremsen ist fehlerfrei und trotzdem falsch gebaut.
 
 **Übersicht im Stil von Bevel.** Oben drei Ringe nebeneinander wie die
-Kennzahlen in der Gesundheits-App Bevel: in der Mitte groß die *Wertung*
+Kennzahlen in der Gesundheits-App Bevel: in der Mitte groß der *Score*
 (Ampelfarbe: grün ab 85, gelb ab 60, sonst rot), links *Passform* (violett),
 rechts *Einsatz* (orange). Tippen auf einen Ring erklärt die Zahlen. Darunter
 ein Satz zum Stand und zwei Kacheln: *Preis* (mit Budget als Tankanzeige —
