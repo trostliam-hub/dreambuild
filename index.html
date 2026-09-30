@@ -3455,7 +3455,12 @@ let fotoZiel = null;   /* worauf sich die naechste Dateiauswahl bezieht */
 let feed = {treffer:{}, stand:0, quelle:"", zeilen:0};
 let fotos = {traum:null, real:null, markt:null};
 let build = builds[modus];
-const setzeBau = o => { builds[modus] = o; build = o; };
+/* Radtyp und Radgewicht (Federungsrechner) gehoeren zum Rad, nicht zu den
+   Teilen -- ein neuer Entwurf des Assistenten behaelt sie, Zuruecksetzen nicht */
+const setzeBau = (o, frei) => {
+  if(!frei && build) for(const k of ["radTyp", "radKg"]) if(build[k] != null && o[k] == null) o[k] = build[k];
+  builds[modus] = o; build = o;
+};
 /* ═══════════ Impressum und Datenschutz ═══════════
    Die Datenschutzerklaerung beschreibt genau das, was diese App tut -- nicht
    mehr und nicht weniger. Wer etwas an der App aendert, das Daten an Dritte
@@ -12204,7 +12209,7 @@ document.addEventListener("click", e => {
   }
   if(T("[data-ekkopie]")){ kopiere(einkaufText()); return; }
   if(T("[data-reset]")){
-    setzeBau(modus === "traum" && profile.traum.length === 1 ? {...START} : leerBau());
+    setzeBau(modus === "traum" && profile.traum.length === 1 ? {...START} : leerBau(), true);
     fotos[modus] = null; sel = ["trail"]; plan = {...PLAN_START, fahrer:plan.fahrer};
     if(modus === "markt") markt = JSON.parse(JSON.stringify(MARKT_START));
     jahrWahl[modus] = jahrStart(modus);
