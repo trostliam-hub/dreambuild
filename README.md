@@ -56,6 +56,23 @@ Guide, am Assistenten und an „Nächster Schritt“. Grautexte haben mindestens
 (bevel.health) waren aus der Entwicklungsumgebung gesperrt — Vorlage war die
 bekannte Bevel-App: Ringe oben, ein Coach-Tipp, ruhige Karten.
 
+**Startseite.** Aufgebaut wie bevel.health (nach einer Bildschirmaufnahme der
+Seite): hell, große Überschriften, schwarzer Knopf „Kostenlos starten“, ein
+weiches Farbband mit dem gezeichneten Rad im Kopf, dann „Kennt die Teile von“
+mit laufenden Markennamen und drei Zahlen (Teile, Marken, Prüfregeln — aus dem
+Katalog gezählt), je Funktion eine große hellgraue Karte mit Handy-Vorschau und
+Farbschein (Wertung, Prüfung, Nächster Schritt, Dein Fit, Gebrauchtrad), ein
+dunkler Abschnitt für den Guide mit leuchtender Kugel, „Und das ist nicht
+alles“ zum Wischen, Free oder Pro, eine dunkelgrüne Karte zur Privatsphäre,
+„Bereit, wenn du es bist“ und eine Fußzeile mit Impressum und Datenschutz.
+Die Zahlen in den Vorschauen rechnet die App selbst (Wertung des Startrads, Fit
+für 1,82 m, Luftdruck für 80 kg); erfundene Nutzerzahlen oder Bewertungen gibt
+es bewusst nicht. Karten gleiten beim Scrollen ein (aus bei „Bewegung
+reduzieren“). Sie kommt beim ersten Besuch im Browser vor dem Einstieg, in der
+installierten App nicht; sonst unter ⋮ → Über CrankScore oder über die Adresse
+mit `#start` — der Link für TikTok:
+https://trostliam-hub.github.io/dreambuild/#start
+
 **Einstieg.** Beim ersten Öffnen ein Rundgang über den ganzen Bildschirm — auch
 einmal für alle, die die App schon vorher hatten (ein schon gebautes oder
 eingetragenes Rad bleibt dabei unangetastet, das Ergebnis landet in einem

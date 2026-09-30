@@ -1606,6 +1606,159 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .grp-h{margin:0 0 10px}
 .grp-h h2{text-transform:none;letter-spacing:-.025em;font-size:19px;font-weight:800;color:var(--ink)}
 .grp-h .rule{display:none}
+/* ═══ Startseite wie bevel.health ═══
+   Immer hell, wie die Vorlage -- mit eigenem Satz Farben, unabhaengig vom
+   Design der App. Liegt unter den Schubladen (z 60), damit Impressum, Guide
+   und Pro darueber aufgehen. */
+.ls{position:fixed;inset:0;z-index:55;background:#fff;color:#1d1d1f;display:flex;flex-direction:column;
+  --l-karte:#f2f2f5;--l-ink:#1d1d1f;--l-ink2:#6e6e73;--l-line:#e3e3e8;animation:einblenden .3s ease;
+  --gut:#2fb86b;--bad:#e0344f;--m-pass:#6a55f0;--m-eins:#f08a1c;--anod:#5b45e0}
+.ls-nav{flex:none;display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;
+  background:rgba(255,255,255,.82);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid transparent;transition:border-color .2s;position:relative;z-index:2}
+.ls.gerollt .ls-nav{border-bottom-color:var(--l-line)}
+.ls-logo{font-family:var(--f-head);font-weight:800;font-size:20px;letter-spacing:-.04em;color:var(--l-ink)}
+.ls-logo i{font-style:normal;color:#8e8e93;font-weight:700}
+.ls-mini{background:var(--l-ink);color:#fff;border-radius:999px;padding:8px 16px;font-size:13.5px;font-weight:700}
+.ls-b{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:env(safe-area-inset-bottom,0px)}
+.ls-b > :is(section,div,footer):not(.ls-hero,.ls-dunkel,.ls-quer,.ls-privat){max-width:760px;margin-left:auto;margin-right:auto}
+.ls h1,.ls h2,.ls h3{font-family:var(--f-head);color:var(--l-ink);margin:0;text-wrap:balance}
+.ls-hero{text-align:center;padding:44px 20px 0;position:relative;overflow:hidden;max-width:none}
+.ls-hero h1{font-size:46px;line-height:1.02;letter-spacing:-.05em;font-weight:800}
+.ls-hero > p{font-size:17px;line-height:1.45;color:var(--l-ink2);margin:16px auto 24px;max-width:460px}
+.ls-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--l-ink);color:#fff;border-radius:999px;
+  padding:14px 26px;font-size:16.5px;font-weight:700;min-height:52px}
+.ls-cta:hover{opacity:.88}
+.ls-klein{font-size:13px;color:var(--l-ink2);margin:12px auto 0;text-wrap:balance;max-width:320px}
+/* Farbband wie im Kopf von Bevel: weich, bunt, leicht bewegt */
+.ls-band{position:relative;height:120px;margin:34px -40px -70px;pointer-events:none}
+.ls-band i{position:absolute;inset:34px 0;border-radius:50%;filter:blur(18px);opacity:.75;
+  background:linear-gradient(90deg,#7cc9ff,#8be3c2 22%,#ffd98a 45%,#ffa3c4 66%,#b8a4ff 85%,#7cc9ff);background-size:200% 100%;
+  animation:lsband 14s linear infinite}
+@keyframes lsband{to{background-position:200% 0}}
+.ls-rad{position:relative;max-width:520px;margin:0 auto;padding:0 6px}
+.ls-rad svg{width:100%;height:auto;display:block;overflow:visible}
+.ls-marken{text-align:center;padding:34px 0 10px}
+.ls-marken h3{font-size:19px;font-weight:700;letter-spacing:-.02em}
+.ls-lauf{overflow:hidden;margin:16px 0 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.ls-lauf > div{display:flex;gap:34px;width:max-content;animation:lslauf 40s linear infinite}
+.ls-lauf span{font-family:var(--f-head);font-size:22px;font-weight:800;letter-spacing:-.03em;color:#9a9aa0;white-space:nowrap}
+@keyframes lslauf{to{transform:translateX(-50%)}}
+.ls-fakten{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:26px 16px 0}
+.ls-fakten div{display:flex;flex-direction:column;gap:3px}
+.ls-fakten b{font-family:var(--f-head);font-size:30px;font-weight:800;letter-spacing:-.04em;color:var(--l-ink)}
+.ls-fakten span{font-size:12.5px;color:var(--l-ink2);line-height:1.35}
+.ls-titel{text-align:center;padding:64px 22px 26px}
+.ls-titel h2{font-size:36px;line-height:1.05;letter-spacing:-.045em;font-weight:800}
+.ls-titel p{font-size:17px;line-height:1.45;color:var(--l-ink2);margin:14px auto 0;max-width:460px}
+.ls-titel.links{text-align:left}
+.ls-titel.links p{margin-left:0}
+.ls-titel.ende{padding-top:72px}
+.ls-titel.ende .ls-cta{margin-top:24px}
+/* Funktionskarte: Titel und Satz oben links, Vorschau unten, Farbschein am Boden */
+.ls-karte{position:relative;overflow:hidden;margin:0 max(14px,calc(50% - 380px)) 14px;border-radius:30px;padding:30px 26px 0;
+  background:linear-gradient(to bottom,var(--l-karte) 45%,color-mix(in srgb,var(--ton) 26%,var(--l-karte)) 100%)}
+.ls-karte h3{font-size:30px;line-height:1.08;letter-spacing:-.04em;font-weight:800}
+.ls-karte p{font-size:17px;line-height:1.42;color:var(--l-ink2);margin:10px 0 0;max-width:430px}
+.ls-vor{position:relative;margin-top:26px}
+.ls-handy{position:relative;max-width:300px;margin:0 auto -1px;background:#f7f7f9;border:7px solid #1d1d1f;border-bottom:0;
+  border-radius:44px 44px 0 0;padding:34px 14px 22px;min-height:230px;box-shadow:0 30px 60px -30px rgba(0,0,0,.35);color:var(--l-ink)}
+.ls-insel{position:absolute;top:9px;left:50%;width:80px;height:22px;margin-left:-40px;border-radius:999px;background:#1d1d1f}
+.ls-app-t{font-size:14px;font-weight:750;text-align:center;margin:0 0 12px}
+.ls-app-z{font-size:12.5px;color:var(--l-ink2);text-align:center;margin-top:10px;line-height:1.4}
+.ls-app-z b{color:var(--l-ink)}
+.ls-ringe{display:grid;grid-template-columns:1fr 1.3fr 1fr;align-items:center;gap:6px}
+.ls-ring{position:relative;display:block}
+.ls-ring svg{width:100%;display:block}
+.ls-ring .b{fill:none;stroke:color-mix(in srgb,var(--f) 18%,transparent);stroke-width:9}
+.ls-ring .w{fill:none;stroke:var(--f);stroke-width:9;stroke-linecap:round}
+.ls-ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-head);font-weight:800;font-size:17px;letter-spacing:-.04em}
+.ls-ring.gross b{font-size:28px}
+.ls-ringl{display:grid;grid-template-columns:1fr 1.3fr 1fr;text-align:center;font-size:11px;font-weight:650;color:var(--l-ink2);margin-top:5px}
+.ls-platz{height:92px}
+.ls-schwebe{position:absolute;left:-4px;bottom:20px;display:flex;flex-direction:column;gap:1px;padding:11px 15px;border-radius:18px;
+  background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 14px 34px -14px rgba(0,0,0,.3)}
+.ls-schwebe span{font-size:11.5px;color:var(--l-ink2)}
+.ls-schwebe b{font-family:var(--f-head);font-size:20px;font-weight:800;letter-spacing:-.03em}
+.ls-fund{background:#fff;border-radius:16px;padding:11px 12px;margin-bottom:8px;display:flex;flex-direction:column;gap:3px;box-shadow:inset 3px 0 0 #e0344f}
+.ls-fund.ok{box-shadow:inset 3px 0 0 #1f9d63}
+.ls-fund em{align-self:flex-start;font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#c42a52;background:#fbe2ea;padding:2px 7px;border-radius:999px}
+.ls-fund.ok em{color:#12805a;background:#dcf4e9}
+.ls-fund b{font-size:13.5px}
+.ls-fund span{font-size:12px;color:var(--l-ink2);line-height:1.4}
+.ls-coach{background:#fff;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.ls-coach-k{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--l-ink2)}
+.ls-coach-k i{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;color:#fff;background:var(--grad)}
+.ls-coach b{font-family:var(--f-head);font-size:17px;letter-spacing:-.025em;line-height:1.2}
+.ls-coach > span{font-size:12.5px;color:var(--l-ink2);line-height:1.4}
+.ls-coach div{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.ls-coach em{font-style:normal;font-size:12px;font-weight:700;padding:7px 12px;border-radius:999px;background:var(--l-ink);color:#fff}
+.ls-coach em.g{background:#ececf0;color:var(--l-ink)}
+.ls-fit{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ls-fit div{background:#fff;border-radius:16px;padding:11px 12px;display:flex;flex-direction:column;gap:1px}
+.ls-fit b{font-family:var(--f-head);font-size:21px;font-weight:800;letter-spacing:-.03em}
+.ls-fit span{font-size:11.5px;color:var(--l-ink2)}
+.ls-urteil{background:#dcf4e9;border-radius:18px;padding:14px;color:#12805a;display:flex;flex-direction:column;gap:4px}
+.ls-urteil b{font-family:var(--f-head);font-size:24px;letter-spacing:-.035em}
+.ls-urteil span{font-size:12.5px;line-height:1.4}
+.ls-skala{position:relative;height:9px;border-radius:999px;background:rgba(18,128,90,.18);margin:10px 0 2px}
+.ls-skala i{position:absolute;left:38%;width:30%;top:0;bottom:0;border-radius:999px;background:rgba(18,128,90,.4)}
+.ls-skala u{position:absolute;left:44%;top:-5px;bottom:-5px;width:4px;border-radius:999px;background:#12805a}
+.ls-klicks{display:flex;align-items:center;gap:5px;margin-top:12px;font-size:11.5px;color:var(--l-ink2)}
+.ls-klicks span{margin-right:4px}
+.ls-klicks i{width:11px;height:11px;border-radius:50%;background:#e3e3e8}
+.ls-klicks i.an{background:var(--m-pass)}
+.ls-chat{background:#fff;border-radius:18px 18px 18px 6px;padding:10px 12px;font-size:12.5px;line-height:1.45;margin-bottom:8px;max-width:92%}
+.ls-chat.du{margin-left:auto;background:#5b45e0;color:#fff;border-radius:18px 18px 6px 18px}
+/* Dunkler Abschnitt fuer den Guide -- wie "Bevel Intelligence" */
+.ls-dunkel{background:#161618;color:#f5f5f7;padding:60px 0 20px;margin-top:50px;max-width:none;text-align:center;overflow:hidden}
+.ls-dunkel > h2{font-size:38px;line-height:1.04;letter-spacing:-.045em;font-weight:800;color:#f5f5f7;padding:0 20px}
+.ls-dunkel > h2 span{color:#8e8e93}
+.ls-dunkel > p{font-size:17px;line-height:1.45;color:#a1a1a6;margin:14px auto 34px;max-width:440px;padding:0 20px}
+.ls-dunkel .ls-karte{text-align:left;max-width:732px;margin-left:auto;margin-right:auto}
+@media (max-width:760px){.ls-dunkel .ls-karte{margin-left:14px;margin-right:14px}}
+.ls-orbw{width:300px;height:280px;margin:-50px auto -40px;display:grid;place-items:center;
+  background:radial-gradient(closest-side,rgba(123,92,255,.42),rgba(224,80,138,.14) 55%,transparent)}
+.ls-orb{position:relative;width:130px;height:130px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff 0%,#c9c2ff 22%,#7b5cff 52%,#e0508a 78%,#ff7a45 100%);animation:lsorb 6s ease-in-out infinite}
+.ls-orb i{position:absolute;top:44px;width:16px;height:26px;border-radius:999px;background:rgba(255,255,255,.85)}
+.ls-orb i:first-child{left:44px} .ls-orb i:last-child{right:44px}
+@keyframes lsorb{50%{transform:translateY(-8px) scale(1.03)}}
+.ls-quer{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:0 14px 6px;scroll-snap-type:x mandatory;max-width:none}
+.ls-quer::-webkit-scrollbar{display:none}
+.ls-mehr{flex:none;width:250px;scroll-snap-align:start;background:var(--l-karte);border-radius:26px;padding:22px 20px;display:flex;flex-direction:column;gap:6px}
+.ls-mehr i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#fff;color:#5b45e0;margin-bottom:6px}
+.ls-mehr b{font-family:var(--f-head);font-size:19px;letter-spacing:-.025em}
+.ls-mehr span{font-size:14.5px;line-height:1.4;color:var(--l-ink2)}
+@media (min-width:790px){.ls-quer{flex-wrap:wrap;justify-content:center;max-width:790px;margin:0 auto}.ls-mehr{width:245px}}
+.ls-preise{display:grid;grid-template-columns:1fr;gap:12px;padding:0 14px}
+@media (min-width:600px){.ls-preise{grid-template-columns:1fr 1fr}}
+.ls-preis{background:var(--l-karte);border-radius:28px;padding:24px 22px;display:flex;flex-direction:column;gap:4px}
+.ls-preis > span{font-size:15px;font-weight:700;color:var(--l-ink2)}
+.ls-preis > b{font-family:var(--f-head);font-size:40px;font-weight:800;letter-spacing:-.045em}
+.ls-preis > b small{font-size:15px;font-weight:600;color:var(--l-ink2);letter-spacing:0}
+.ls-preis ul{list-style:none;padding:0;margin:12px 0 4px;display:flex;flex-direction:column;gap:9px}
+.ls-preis li{display:flex;align-items:center;gap:9px;font-size:15px}
+.ls-preis li svg{flex:none;color:#12805a}
+.ls-preis > small{font-size:12.5px;color:var(--l-ink2);margin-top:6px}
+.ls-preis.pro{background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:2px solid transparent}
+.ls-preis.pro li svg{color:#5b45e0}
+/* Privatsphaere: dunkelgruene Karte mit Schloss und Punktraster */
+.ls-privat{position:relative;overflow:hidden;margin:64px max(14px,calc(50% - 380px)) 0;border-radius:30px;padding:120px 26px 110px;text-align:center;
+  background:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.4px) 0 0 / 16px 16px,linear-gradient(to bottom,#18221f 0%,#16211d 55%,#1f5c45 100%);color:#e8efe9}
+.ls-schloss{position:absolute;left:50%;top:50%;width:250px;height:290px;transform:translate(-50%,-50%);fill:none;stroke:rgba(255,255,255,.09);stroke-width:5}
+.ls-privat h2{position:relative;font-size:38px;line-height:1.04;letter-spacing:-.045em;font-weight:800;color:#f2f5f3}
+.ls-privat p{position:relative;font-size:17px;line-height:1.45;color:#b9c7bf;margin:14px auto 0;max-width:360px}
+.ls-fuss{display:grid;grid-template-columns:1fr;gap:18px;padding:60px 22px 40px;margin-top:40px;border-top:1px solid var(--l-line)}
+.ls-copy{font-size:13px;color:var(--l-ink2);margin-top:-14px}
+.ls-fuss div{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.ls-fuss div b{font-size:15px;color:var(--l-ink2);font-weight:650}
+.ls-fuss div button{font-size:17px;color:var(--l-ink);padding:2px 0}
+/* Einblenden beim Scrollen */
+.ls-rein.zu{opacity:0;transform:translateY(28px)}
+.ls-rein.da{opacity:1;transform:none;transition:opacity .7s ease,transform .8s var(--feder)}
+@media (min-width:700px){.ls-hero h1{font-size:64px}.ls-titel h2,.ls-dunkel > h2,.ls-privat h2{font-size:48px}.ls-karte h3{font-size:36px}.ls-karte{padding:40px 40px 0}}
+@media (prefers-reduced-motion:reduce){.ls-band i,.ls-lauf > div,.ls-orb{animation:none}}
 </style>
 <style>
 /* Grundlage, die sonst die Plattform stellt und hier selbst kommen muss.
@@ -1745,6 +1898,7 @@ img{max-width:100%}
 <input type="file" id="foto-in" accept="image/*" hidden>
 <input type="file" id="feed-in" accept=".csv,.txt,text/csv,text/plain" hidden>
 <input type="file" id="links-in" accept=".json,application/json" hidden>
+<div id="startseite"></div>
 <div id="modal"></div>
 
 <script>
@@ -5099,6 +5253,172 @@ function gPro(){
     : tx(`CrankScore gibt es als <b>Free</b> und als <b>Pro</b>. Free ist kostenlos: Aufbau, Prüfung, Wertung, Nächster Schritt, Upgrades, Einkaufsliste, Fit-Rechner und Gebrauchtrad-Bewertung. <b>Pro</b> kostet ${proPreis()} und bringt unbegrenzt Räder (Free: eines je Modus), den Federungsrechner und den Guide ohne Limit (Free: ${PRO_GUIDE_FREI} Fragen am Tag). Ein Konto brauchst du für beides nicht: Pro schaltest du mit dem Code aus der Kauf-Mail frei, jederzeit kündbar.`,
       `CrankScore comes as <b>Free</b> and <b>Pro</b>. Free costs nothing: build, check, score, next step, upgrades, shopping list, fit calculator and rating used bikes. <b>Pro</b> costs ${proPreis()} and adds unlimited bikes (Free: one per mode), the suspension calculator and an unlimited guide (Free: ${PRO_GUIDE_FREI} questions a day). You don't need an account for either: you unlock Pro with the code from the purchase email, cancel anytime.`),
     ak:["pro"]};
+}
+
+/* ═══════════ Startseite ═══════════
+   Aufgebaut wie bevel.health (Liams Bildschirmaufnahme 2026-09-30): hell,
+   grosse Ueberschriften, schwarzer Knopf, ein Farbband im Kopf, je Funktion
+   eine grosse hellgraue Karte mit einer Vorschau wie auf dem Handy, ein
+   dunkler Abschnitt fuer den Guide, "Und das ist nicht alles", eine Karte
+   zur Privatsphaere, Abschluss und Fusszeile. Die Zahlen in den Vorschauen
+   rechnet die App selbst (Wertung des Startrads, Fit fuer 1,82 m, Luftdruck
+   fuer 80 kg) -- erfundene Nutzerzahlen oder Bewertungen gibt es nicht.
+   Beim ersten Besuch im Browser kommt sie vor dem Einstieg; sonst ueber
+   ⋮ → Über CrankScore oder die Adresse mit #start (fuer Links aus TikTok). */
+const istInstalliert = () => { try{ return window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true; }catch(e){ return false; } };
+function lsFakten(){
+  let teile = 0; const m = {};
+  for(const k in K) for(const t of K[k]){ teile++; if(t.m && !/^(Generisch|Trial)$/.test(t.m)) m[t.m] = (m[t.m] || 0) + 1; }
+  const marken = Object.keys(m).sort((a, b) => m[b] - m[a] || a.localeCompare(b));
+  return {teile:teile, marken:marken, abrunden:x => Math.floor(x / 100) * 100};
+}
+/* Beispielwerte mit dem Startrad statt dem eigenen Aufbau */
+function lsBeispiel(){
+  const altB = build, altF = plan.fahrer, out = {};
+  try{
+    build = {...START};
+    const r = bewerte(build); out.r = r;
+    plan.fahrer = 80;
+    const fr = federRechnen(), gm = fr.gabel && fr.gabel.modi && fr.gabel.modi[fedModus];
+    if(gm && gm.psi) out.feder = {psi:gm.psi, sag:gm.sag, n:String(fr.gabel.t.n).split(" · ")[0]};
+  }catch(e){}
+  finally{ build = altB; plan.fahrer = altF; }
+  try{ out.fit = fitRechnen({...KOERPER_START, groesse:182}, ["trail"]); }catch(e){}
+  return out;
+}
+const lsRing = (v, farbe, gross) => { const u = 2 * Math.PI * 42;
+  return `<span class="ls-ring${gross ? " gross" : ""}" style="--f:${farbe}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" class="b"/>
+    <circle cx="50" cy="50" r="42" class="w" stroke-dasharray="${u.toFixed(1)}" stroke-dashoffset="${(u * (1 - v / 100)).toFixed(1)}" transform="rotate(-90 50 50)"/></svg><b>${v}</b></span>`; };
+function startseiteHtml(){
+  const f = lsFakten(), bsp = lsBeispiel(), r = bsp.r || {gesamt:99, tech:100, chara:98, preis:0, gewicht:0};
+  const fit = bsp.fit, fe = bsp.feder;
+  const knopf = (t, extra) => `<button class="ls-cta${extra || ""}" data-lsstart="1">${t}</button>`;
+  const karte = (ton, h, t, inhalt, extra) => `<article class="ls-karte ls-rein${extra || ""}" style="--ton:${ton}"><h3>${h}</h3><p>${t}</p><div class="ls-vor">${inhalt}</div></article>`;
+  const handy = inhalt => `<div class="ls-handy"><div class="ls-insel"></div>${inhalt}</div>`;
+  const marken = f.marken.slice(0, 16).map(x => `<span>${esc(x)}</span>`).join("");
+  const mehr = [
+    [IC.markt, tx("Einkaufsliste", "Shopping list"), tx("Jedes Teil mit Preis und Knopf zum Shop, dazu die Summe.", "Every part with price and a button to the shop, plus the total.")],
+    [IC.upgrade, tx("Upgrades mit Punkten", "Upgrades with points"), tx("Nur Teile, die mindestens so gut sind und die Wertung heben.", "Only parts at least as good that raise the score.")],
+    [IC.real, tx("Günstiger, gleiche Maße", "Cheaper, same specs"), tx("Wo du sparst, ohne dass sich an der Passform etwas ändert.", "Where you save without changing the fit.")],
+    [IC.traum, tx("Traumrad-Assistent", "Dream bike assistant"), tx("Budget, Marken, Fahrstil — und ein fertiger Aufbau.", "Budget, brands, riding style — and a finished build.")],
+    [IC.pruef, tx("Drei Modi", "Three modes"), tx("Traumrad planen, eigenes Rad prüfen, Gebrauchtrad bewerten.", "Plan a dream bike, check your own, rate a used one.")],
+    [IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie — in einem Satz.", "Boost, freehub, chainline — in one sentence.")],
+    [IC.hilfe, tx("Offline und als App", "Offline and as an app"), tx("Zum Home-Bildschirm hinzufügen, läuft auch ohne Netz.", "Add to your home screen, works without a connection.")]
+  ].map(([i, h, t]) => `<div class="ls-mehr"><i>${ic(i, 20)}</i><b>${h}</b><span>${t}</span></div>`).join("");
+  const frei = [tx("Aufbau, Prüfung und Wertung", "Build, check and score"), tx("Nächster Schritt und Upgrades", "Next step and upgrades"), tx("Einkaufsliste und Deals", "Shopping list and deals"),
+    tx("Fit-Rechner", "Fit calculator"), tx("Gebrauchtrad-Bewertung", "Used bike rating"), tx(`Guide: ${PRO_GUIDE_FREI} Fragen am Tag`, `Guide: ${PRO_GUIDE_FREI} questions a day`), tx("Ein Rad je Modus", "One bike per mode")];
+  const plus = [tx("Alles aus Free", "Everything in Free"), tx("Unbegrenzt Räder", "Unlimited bikes"), tx("Federungsrechner", "Suspension calculator"), tx("Guide ohne Limit", "Unlimited guide")];
+  const liste = a => `<ul>${a.map(x => `<li>${ic(IC.haken, 15)}${x}</li>`).join("")}</ul>`;
+  return `<div class="ls" role="dialog" aria-modal="true" aria-label="CrankScore">
+    <header class="ls-nav"><span class="ls-logo">Crank<i>Score</i></span>
+      <button class="ls-mini" data-lsstart="1">${(() => { try{ return localStorage.getItem("mtb.einstieg2"); }catch(e){ return null; } })() ? tx("Zur App", "Open app") : tx("Starten", "Start")}</button></header>
+    <div class="ls-b" id="ls-b">
+      <section class="ls-hero">
+        <h1>${tx("Dein Rad.<br>Auf dich gebaut.", "Your bike.<br>Built around you.")}</h1>
+        <p>${tx("Bau dein Traumrad aus Einzelteilen, prüf dein eigenes Rad oder bewerte ein Gebrauchtes. CrankScore prüft jedes Teil auf Maße und Standards — und sagt dir, was als Nächstes kommt.",
+          "Build your dream bike from individual parts, check your own bike or rate a used one. CrankScore checks every part against dimensions and standards — and tells you what comes next.")}</p>
+        ${knopf(tx("Kostenlos starten", "Start for free"))}
+        <p class="ls-klein">${tx("Free kostenlos · Pro 1,99 € im Monat · ohne Anmeldung", "Free at no cost · Pro €1.99 a month · no sign-up")}</p>
+        <div class="ls-band" aria-hidden="true"><i></i></div>
+        <div class="ls-rad" aria-hidden="true">${radSvg({anim:true, sattel:780})}</div>
+      </section>
+      <section class="ls-marken ls-rein">
+        <h3>${tx("Kennt die Teile von", "Knows the parts from")}</h3>
+        <div class="ls-lauf" aria-label="${esc(f.marken.slice(0, 16).join(", "))}"><div>${marken}${marken}</div></div>
+        <div class="ls-fakten">
+          <div><b>${f.abrunden(f.teile)}+</b><span>${tx("Teile im Katalog", "parts in the catalogue")}</span></div>
+          <div><b>${f.abrunden(f.marken.length)}+</b><span>${tx("Marken", "brands")}</span></div>
+          <div><b>20+</b><span>${tx("Prüfregeln auf echten Standards", "check rules on real standards")}</span></div></div>
+      </section>
+      <section class="ls-titel ls-rein"><h2>${tx("Wisse vor dem Kauf,<br>ob alles passt.", "Know before you buy<br>that it all fits.")}</h2>
+        <p>${tx("Drei Zahlen zeigen dir, wo dein Rad steht — und was es besser macht.", "Three numbers show you where your bike stands — and what makes it better.")}</p></section>
+      ${karte("var(--gut)", tx("Wertung", "Score"), tx("Eine Zahl von 0 bis 100: Passen die Teile zusammen — und zu dem, was du fährst?", "One number from 0 to 100: do the parts fit together — and suit what you ride?"),
+        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.tech, "var(--m-pass)")}${lsRing(r.gesamt, "var(--gut)", true)}${lsRing(r.chara, "var(--m-eins)")}</div>
+          <div class="ls-ringl"><span>${tx("Passform", "Fit")}</span><span>${tx("Wertung", "Score")}</span><span>${tx("Einsatz", "Purpose")}</span></div>
+          <div class="ls-app-z"><b>${tx("Stimmig.", "Spot on.")}</b> ${tx("Alles zieht in Richtung Trail.", "Everything pulls towards trail.")}</div><div class="ls-platz"></div>`)
+        + `<div class="ls-schwebe"><span>${tx("Preis", "Price")}</span><b>${eur(r.preis)}</b><span>${kg(r.gewicht)}</span></div>`)}
+      ${karte("var(--bad)", tx("Prüfung", "Check"), tx("Achsen, Freilauf, Dämpfermaß, Steuersatz, Bremsscheiben: Die App prüft jedes Teil gegen jedes andere — und sagt, womit du es löst.",
+          "Axles, freehub, shock size, headset, brake rotors: the app checks every part against every other — and tells you how to fix it."),
+        handy(`<div class="ls-app-t">${tx("Prüfung", "Check")}</div>
+          <div class="ls-fund"><em>${tx("Passt nicht", "Doesn't fit")}</em><b>${tx("Dämpfer-Einbaumaß passt nicht", "Shock size doesn't fit")}</b>
+            <span>${tx("Der Rahmen verlangt 210 × 55 mm, der Dämpfer liefert 190 × 45 mm.", "The frame needs 210 × 55 mm, the shock is 190 × 45 mm.")}</span></div>
+          <div class="ls-fund ok"><em>${tx("Passt", "Fits")}</em><b>${tx("Freilauf und Kassette", "Freehub and cassette")}</b><span>Micro Spline · 12-${tx("fach", "speed")}</span></div>`))}
+      ${karte("var(--m-pass)", tx("Nächster Schritt", "Next step"), tx("Der eine Tausch, der dein Rad gerade am meisten verbessert — mit Punkten, Preis und Gewicht. Ein Fingertipp baut ihn ein.",
+          "The one swap that improves your bike most right now — with points, price and weight. One tap fits it."),
+        handy(`<div class="ls-coach"><span class="ls-coach-k"><i>${ic(IC.traum, 13)}</i>${tx("Nächster Schritt", "Next step")}</span>
+          <b>${tx("Dämpfer umstellen — kostenlos", "Change the shock setting — free")}</b>
+          <span>${tx("Einbaumaß 190×45 → 210×55: dasselbe Teil, andere Ausführung.", "Size 190×45 → 210×55: same part, different version.")}</span>
+          <div><em>${tx("Übernehmen", "Apply")}</em><em class="g">${tx("Was fehlt zur 100?", "What's missing to 100?")}</em></div></div>`))}
+      ${fit ? karte("var(--m-eins)", tx("Dein Fit", "Your fit"), tx("Aus Größe, Schulterbreite und Schrittlänge: Rahmengröße, Lenkerbreite, Kurbel und Sattelstütze — passend zu dir.",
+          "From height, shoulder width and inseam: frame size, bar width, cranks and seatpost — made for you."),
+        handy(`<div class="ls-app-t">${tx("Für 1,82 m", "For 1.82 m")}</div><div class="ls-fit">
+          <div><b>${esc(fit.groesse)}</b><span>${tx("Rahmen", "Frame")}</span></div><div><b>${fit.lenker} mm</b><span>${tx("Lenker", "Bar")}</span></div>
+          <div><b>${fit.kurbel} mm</b><span>${tx("Kurbel", "Cranks")}</span></div><div><b>${fit.hub} mm</b><span>${tx("Stützen-Hub", "Dropper travel")}</span></div></div>`)) : ""}
+      ${karte("var(--anod)", tx("Gebrauchtrad", "Used bikes"), tx("Trag ein, was verbaut ist, und den Preis aus der Anzeige — die App rechnet den Gebrauchtwert und sagt, ob das Angebot fair ist.",
+          "Enter what's fitted and the price from the listing — the app works out the used value and tells you whether the offer is fair."),
+        handy(`<div class="ls-urteil"><b>${tx("Fairer Preis", "Fair price")}</b><span>${tx("Beispiel: Angebot 2.400 € bei rund 2.650 € Gebrauchtwert", "Example: offer €2,400 against a used value of about €2,650")}</span>
+          <div class="ls-skala"><i></i><u></u></div></div>`))}
+      <section class="ls-dunkel">
+        <div class="ls-orbw ls-rein" aria-hidden="true"><div class="ls-orb"><i></i><i></i></div></div>
+        <h2 class="ls-rein"><span>${tx("Frag einfach", "Just ask")}</span><br>${tx("den Guide", "the guide")}</h2>
+        <p class="ls-rein">${tx("Er kennt dein Rad und rechnet mit deinen Teilen — direkt auf dem Handy, auch offline.", "It knows your bike and calculates with your parts — right on your phone, even offline.")}</p>
+        ${karte("var(--m-pass)", tx("Antworten aus deinem Aufbau", "Answers from your build"), tx("Frag, was zur 100 fehlt, welche Gabel passt oder wofür dein Rad taugt.", "Ask what's missing to 100, which fork fits or what your bike is good for."),
+          handy(`<div class="ls-chat du">${tx("Was fehlt bei meinem Bike zur 100?", "What's missing on my bike to get 100?")}</div>
+            <div class="ls-chat">${tx(`Du hast ${r.gesamt} von 100. Der größte Hebel: <b>Maxxis Minion DHR II</b> statt Continental Kryptotal-F vorn — +1 Punkt, +5 €.`,
+              `You have ${r.gesamt} out of 100. The biggest lever: <b>Maxxis Minion DHR II</b> instead of the Continental Kryptotal-F at the front — +1 point, +€5.`)}</div>`), " hell")}
+        ${fe ? karte("var(--m-eins)", tx("Federungsrechner", "Suspension calculator") + ` <em class="pro-tag">Pro</em>`, tx("Luftdruck, Sag und jede Knopfstellung in Klicks — passend zu deinem Gewicht und Fahrstil.", "Air pressure, sag and every knob position in clicks — for your weight and riding style."),
+          handy(`<div class="ls-app-t">${esc(fe.n)} · 80 kg</div><div class="ls-fit">
+            <div><b>${fe.psi} psi</b><span>${tx("Luftdruck", "Air pressure")}</span></div><div><b>${fe.sag} %</b><span>Sag</span></div></div>
+            <div class="ls-klicks"><span>${tx("Zugstufe", "Rebound")}</span><i></i><i></i><i></i><i class="an"></i><i class="an"></i><i class="an"></i><i class="an"></i><i class="an"></i></div>`), " hell") : ""}
+      </section>
+      <section class="ls-titel links ls-rein"><h2>${tx("Und das ist<br>nicht alles", "And that's<br>not all")}</h2><p>${tx("CrankScore kann außerdem:", "CrankScore also has:")}</p></section>
+      <div class="ls-quer">${mehr}</div>
+      <section class="ls-titel ls-rein"><h2>${tx("Free oder Pro", "Free or Pro")}</h2><p>${tx("Fast alles ist kostenlos. Pro gibt es für alle, die mehr wollen.", "Almost everything is free. Pro is for everyone who wants more.")}</p></section>
+      <div class="ls-preise ls-rein">
+        <div class="ls-preis"><span>Free</span><b>0 €</b>${liste(frei)}</div>
+        <div class="ls-preis pro"><span>Pro</span><b>${sprache === "en" ? "€1.99" : "1,99 €"} <small>${tx("im Monat", "a month")}</small></b>${liste(plus)}<small>${tx("Jederzeit kündbar, über Lemon Squeezy.", "Cancel anytime, via Lemon Squeezy.")}</small></div>
+      </div>
+      <section class="ls-privat ls-rein">
+        <svg class="ls-schloss" viewBox="0 0 120 140" aria-hidden="true"><path d="M30 62V42a30 30 0 0 1 60 0v20"/><rect x="14" y="62" width="92" height="70" rx="16"/></svg>
+        <h2>${tx("Gebaut für<br>Privatsphäre", "Built for<br>privacy")}</h2>
+        <p>${tx("Deine Räder bleiben auf deinem Gerät. Kein Konto, keine Tracker, keine Cookies.", "Your bikes stay on your device. No account, no trackers, no cookies.")}</p>
+      </section>
+      <section class="ls-titel ende ls-rein"><h2>${tx("Bereit, wenn<br>du es bist", "Ready when<br>you are")}</h2>
+        <p>${tx("Ein paar Fragen, dann steht dein erstes Rad — mit Wertung, Prüfung und dem nächsten Schritt.", "A few questions, and your first bike is ready — with score, check and the next step.")}</p>
+        ${knopf(tx("Kostenlos starten", "Start for free"))}</section>
+      <footer class="ls-fuss">
+        <span class="ls-logo">Crank<i>Score</i></span><span class="ls-copy">© ${new Date().getFullYear()} CrankScore</span>
+        <div><b>${tx("App", "App")}</b><button data-lsstart="1">${tx("App öffnen", "Open app")}</button><button data-lsguide="1">${tx("Frag den Guide", "Ask the guide")}</button><button data-pro="start">CrankScore Pro</button></div>
+        <div><b>${tx("Rechtliches", "Legal")}</b><button data-recht="impressum">${tx("Impressum", "Legal notice")}</button><button data-recht="datenschutz">${tx("Datenschutz", "Privacy")}</button></div>
+      </footer>
+    </div></div>`;
+}
+function oeffneStartseite(){
+  const el = $("startseite");
+  el.innerHTML = startseiteHtml();
+  const b = $("ls-b");
+  /* Karten gleiten beim Scrollen ein, wie bei Bevel. Bei "Bewegung
+     reduzieren" steht alles sofort da. */
+  if(!bewegungAus() && "IntersectionObserver" in window){
+    const beob = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add("da"); beob.unobserve(e.target); } }),
+      {root:b, rootMargin:"0px 0px -8% 0px"});
+    b.querySelectorAll(".ls-rein").forEach(x => { x.classList.add("zu"); beob.observe(x); });
+  }
+  b.addEventListener("scroll", () => el.firstElementChild.classList.toggle("gerollt", b.scrollTop > 10), {passive:true});
+}
+function schliesseStartseite(){ $("startseite").innerHTML = ""; }
+/* #start auch, wenn die App schon offen ist (Link in derselben Seite) */
+window.addEventListener("hashchange", () => {
+  if(!/^#start$/i.test(location.hash)) return;
+  try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
+  schliesse(); oeffneStartseite();
+});
+/* Starten: wer neu ist, kommt in den Einstieg, alle anderen in die App */
+function startseiteStart(){
+  schliesseStartseite();
+  let neu = false;
+  try{ neu = !localStorage.getItem("mtb.einstieg2"); }catch(e){}
+  if(neu) oeffneEinstieg("voll");
 }
 
 /* ═══════════ Live-Preise ═══════════
@@ -11199,6 +11519,7 @@ function oeffneMenu(){
         ['data-guide="1"', IC.guide, tx("Frag den Guide", "Ask the guide"), tx("Fragen zur App oder zum Rad — mit Antwort sofort", "Questions about the app or the bike — answered instantly")],
         ['data-fit="1"', IC.groesse, tx("Dein Fit", "Your fit"), tx("Rahmengröße, Lenker und Kurbel aus deinen Maßen", "Frame size, bar and cranks from your measurements")],
         ['data-fed="1"', IC.fahrwerk, tx("Federungsrechner", "Suspension calculator"), tx("Luftdruck und Klicks für Gabel und Dämpfer", "Air pressure and clicks for fork and shock")],
+        ['data-startseite="1"', IC.traum, tx("Über CrankScore", "About CrankScore"), tx("Alles, was die App kann — auf einer Seite", "Everything the app does — on one page")],
         ['data-hilfe="begriffe"', IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie … einfach erklärt", "Boost, freehub, chainline … explained simply")],
         ['data-hilfe="leit"', IC.auge, leitAus ? tx("Anleitung wieder zeigen", "Show guide again") : tx("Anleitung ausblenden", "Hide guide"), tx("Die Schritt-Karte oben im Aufbau", "The step card at the top of the build")]
       ].map(([a, i, t, u]) => `<button class="hl-zeile" ${a}><span class="hl-ic">${ic(i, 18)}</span><span><b>${t}${a === 'data-fed="1"' ? proTag() : ""}</b><span>${u}</span></span>${ic(IC.weiter, 16)}</button>`).join("")}</div>
@@ -11249,6 +11570,9 @@ document.addEventListener("click", e => {
   if(gak){ guideAktion(gak.dataset.gakt); return; }
   const gfr = T("[data-gfrage]");
   if(gfr){ guideFrage(gfr.dataset.gfrage, gfr.dataset.gid); return; }
+  if(T("[data-lsstart]")){ startseiteStart(); return; }
+  if(T("[data-lsguide]")){ schliesseStartseite(); oeffneGuide(); return; }
+  if(T("[data-startseite]")){ schliesse(); oeffneStartseite(); return; }
   const prk = T("[data-pro]");
   if(prk){ proMeldung = ""; oeffnePro(prk.dataset.pro); return; }
   if(T("[data-proweg]")){ proEntfernen(); return; }
@@ -11709,7 +12033,10 @@ function start(daten){
   zeichne();
   liveLaden();
   proPruefen();
-  if(erstesMal && !daten && !linkVerwaltung) setTimeout(() => { if(!$("modal").firstElementChild) oeffneEinstieg("voll"); }, 250);
+  const startHash = /^#start$/i.test(location.hash);
+  if(startHash){ try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){} }
+  if((startHash || (erstesMal && !istInstalliert())) && !daten && !linkVerwaltung) oeffneStartseite();
+  else if(erstesMal && !daten && !linkVerwaltung) setTimeout(() => { if(!$("modal").firstElementChild) oeffneEinstieg("voll"); }, 250);
   else {
     einflug();
     /* Wer den Einstieg schon vor dem Rundgang gemacht hat, bekommt ihn einmal so */
