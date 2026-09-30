@@ -419,6 +419,10 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .fed-wert{font-family:var(--f-head);font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--anod)}
 .fed-u{font-size:12.5px;color:var(--ink-3)}
 .fed-sag{grid-column:1 / -1;font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.fed-tok b{font-size:15px;color:var(--ink)}
+.ff-montur{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.ff-summe{font-size:13px;color:var(--ink-2);margin:4px 0 10px}
+.ff-chip{cursor:pointer;font:inherit}
 .fed-ds{display:flex;flex-direction:column;gap:2px;padding:8px 2px;border-top:1px solid var(--line-soft)}
 .fed-dk{font-size:12.5px;font-weight:750;color:var(--ink)}
 .fed-dz{font-size:13px;color:var(--ink-2);line-height:1.4}
@@ -8559,7 +8563,7 @@ function guideFrage(text, id){
    137-140 psi bei 180 lb). Gabeln ohne eigene Tabelle bekommen den Wert ihrer
    Klasse und sagen das dazu. Hinten: Luft rund Koerpergewicht in lb (Fox,
    RockShox), Stahlfeder nach Last hinten x Uebersetzung / (Hub x Sag).
-   Gerechnet wird mit Fahrergewicht plus 4 kg Ausruestung.
+   Gerechnet wird mit Fahrergewicht plus Ausruestung (monturKg, ohne Angabe 4 kg).
    Druckstufe als Klicks gegenueber der Grundeinstellung des Herstellers:
    GRIP X2 5 HSC / 10 LSC von zu, GRIP X 10/10, Charger 3 und alle anderen Mitte. */
 const FED_TAB = {
@@ -8584,6 +8588,53 @@ const FED_MAX = {fox36:120, fox36r:120, fox38:140, fox40:120, pike:163, lyrik:16
 const FED_NAME = {fox32:"Fox 32", fox34:"Fox 34", fox36:"Fox 36 FLOAT", fox36r:"Fox 36 Rhythm", fox38:"Fox 38", fox40:"Fox 40",
   pike:"RockShox Pike", lyrik:"RockShox Lyrik", zeb:"RockShox ZEB", sid:"RockShox SID", domain:"RockShox Domain",
   boxxer:"RockShox BoXXer", recon:"RockShox Recon", reba:"RockShox Reba", linearxl:"RockShox LinearXL (ab 2027)"};
+/* Volumen-Spacer / Tokens: [ab Werk, hoechstens] je Federweg (Fox Owner's
+   Manuals 2021-2025: 34, 36, 38, 40; RockShox: ZEB 2023+ 160 mm 2, 170 mm 1
+   ab Werk, Lyrik 2023+ ab Werk ohne Token -- das Maximum steht bei RockShox
+   in der Tabelle an der Gabel, darum null). Nur fuer die eigene Tabelle der
+   Gabel, nie fuer "Richtwert der Klasse". */
+const GABEL_TOKENS = {
+  fox34:{160:[1, 4], 150:[2, 5], 140:[2, 5], 130:[3, 6], 120:[5, 6], 110:[6, 7]},
+  fox36:{170:[0, 5], 160:[1, 6], 150:[2, 7], 140:[4, 8], 130:[5, 9]},
+  fox38:{180:[1, 4], 170:[2, 5], 160:[3, 6], 150:[4, 6]},
+  fox40:{203:[2, 5]},
+  zeb:{170:[1, null], 160:[2, null]},
+  lyrik:{140:[0, null], 150:[0, null], 160:[0, null]}
+};
+const TOKEN_NAME = t => /^fox/.test(t) ? tx("Volumen-Spacer", "volume spacers") : tx("Tokens", "tokens");
+const tokenEinzahl = (name, n) => n === 1 ? name.replace(/Tokens$/, "Token").replace(/tokens$/, "token").replace(/spacers$/, "spacer") : name;
+/* Wie viele mehr oder weniger als ab Werk: Spruenge, Bikepark, schnell und
+   straff wollen mehr Progression gegen das Durchschlagen, Touren und weich
+   ein lineares Ende, das den ganzen Federweg nutzt. Am Maximaldruck hilft
+   ein Spacer mehr statt mehr Luft. */
+function tokenEmpfehlung(tab, travel, grenze){
+  const g = fLv("gelaende"), t = fLv("tempo"), sp = fLv("spruenge"), f = fLv("gefuehl");
+  const d = Math.max(-2, Math.min(2, Math.round(0.8 * sp + (g >= 2 ? 1 : g < 0 ? -0.5 : 0) + 0.4 * t + 0.5 * f + (grenze ? 1 : 0))));
+  const reihe = GABEL_TOKENS[tab], w = reihe && reihe[travel];
+  if(!w) return {delta:d, std:null, max:null, soll:null, name:TOKEN_NAME(tab || "")};
+  const soll = Math.max(0, w[1] == null ? w[0] + d : Math.min(w[1], w[0] + d));
+  return {delta:soll - w[0], std:w[0], max:w[1], soll:soll, name:TOKEN_NAME(tab)};
+}
+/* Stahlfedern der Coil-Gabeln laut Hersteller: [Name, lbs/in, bis Systemgewicht kg].
+   Marzocchi Z1 Coil 120-150-180-210-250 lb, Oehlins RXF36 m.2 Coil 35-65
+   lbs/in fuer 45-100 kg (Mitte zwischen den Empfehlungen), Cane Creek Helm
+   MKII 35/45/55/65 fuer 90-120/120-160/160-200/200-240 lb, Formula Selva
+   nach Gewichtsklassen ohne veroeffentlichte Rate. */
+const GABEL_FEDERN = {
+  "g-z1coil":[["Soft", 40, 68], ["Medium", 45, 82], ["Firm", 50, 95], ["Extra Firm", 55, 999]],
+  "g-rxf36coil":[["35 lbs", 35, 50], ["40 lbs", 40, 59.5], ["45 lbs", 45, 68.5], ["50 lbs", 50, 77.5], ["55 lbs", 55, 86.5], ["60 lbs", 60, 95.5], ["65 lbs", 65, 999]],
+  "g-helmcoil":[["35 lbs (rot)", 35, 54], ["45 lbs (schwarz)", 45, 73], ["55 lbs (grün)", 55, 91], ["65 lbs (blau)", 65, 999]],
+  "g-selvav":[["Hyper Soft", null, 55], ["Super Soft", null, 65], ["Soft", null, 75], ["Medium", null, 85], ["Firm", null, 95], ["Super Firm", null, 999]]
+};
+/* Aggressiver Stil und Bikepark rechnen mit mehr Gewicht -- zwischen zwei
+   Federn nimmt man dann die haertere (Marzocchi, Oehlins) */
+function federWahl(id, kg, st){
+  const l = GABEL_FEDERN[id];
+  if(!l) return null;
+  const eff = kg * st.psiV, i = l.findIndex(x => eff <= x[2]);
+  return {name:l[i][0].replace("(rot)", tx("(rot)", "(red)")).replace("(schwarz)", tx("(schwarz)", "(black)")).replace("(grün)", tx("(grün)", "(green)")).replace("(blau)", tx("(blau)", "(blue)")),
+    lbs:l[i][1], eff:Math.round(eff), rand:i === l.length - 1 && eff > l[i - 1][2] + 15};
+}
 const fedName = k => tx(FED_NAME[k], FED_NAME[k].replace("(ab 2027)", "(from 2027)"));
 /* Fahrprofil: Gewicht plus fuenf Fragen statt drei Stil-Knoepfen (Liams
    Wunsch 2026-09-26: "individueller"). Jede Antwort verschiebt Luftdruck,
@@ -8610,6 +8661,38 @@ const fSichern = () => { try{ localStorage.setItem("mtb.fprofil", JSON.stringify
 const fFertig = () => plan.fahrer > 0 && FFRAGEN.every(f => fprofil[f.k]);
 const fLv = k => { const f = FFRAGEN.find(x => x.k === k), o = f && f.o.find(x => x[0] === fprofil[k]); return o ? o[3] : 0; };
 const fKlemm = (v, a, b) => Math.max(a, Math.min(b, v));
+/* Ausruestung einzeln statt pauschal 4 kg (Liams Brief 2026-09-30: "inkl.
+   kompletter Fahrtmontur"). Schuhe und Kleidung sind immer dabei; ohne
+   Angabe bleibt es bei 4 kg wie bisher. Eigener Wert geht vor. */
+const MONTUR = [
+  ["halbschale", ["Halbschalenhelm", "Open-face helmet"], 0.4],
+  ["fullface", ["Fullface-Helm", "Full-face helmet"], 1.1],
+  ["huefte", ["Hüfttasche", "Hip pack"], 1.2],
+  ["rucksack", ["Rucksack mit Trinken", "Backpack with water"], 3],
+  ["knie", ["Knieschoner", "Knee pads"], 0.8],
+  ["ellbogen", ["Ellbogenschoner", "Elbow pads"], 0.4],
+  ["ruecken", ["Rückenprotektor / Weste", "Back protector / vest"], 1.5]
+];
+const MONTUR_GRUND = 2;   /* Schuhe, Kleidung, Handschuhe */
+function monturKg(){
+  const m = fprofil.montur;
+  if(!m) return 4;
+  if(m.eigen > 0) return m.eigen;
+  return Math.round((MONTUR_GRUND + MONTUR.filter(x => (m.teile || []).indexOf(x[0]) >= 0).reduce((a, x) => a + x[2], 0)) * 10) / 10;
+}
+const systemKg = () => Math.round(((plan.fahrer || 0) + monturKg()) * 10) / 10;
+/* Groesse und Rahmen: wer im Verhaeltnis zum Radstand gross ist, steht
+   weiter ueber dem Vorderrad -- dann traegt die Gabel etwas mehr. Die
+   Hersteller rechnen das nicht; deshalb nur +-3 % und immer dazugesagt.
+   Bezug: 180 cm auf 1230 mm Radstand = 6,83 mm je cm. */
+function vorneFaktor(r){
+  const cm = fprofil.cm, rs = r && r.geo && r.geo.rs;
+  if(!(cm >= 130 && cm <= 215) || !rs) return {f:1, txt:""};
+  const f = fKlemm(1 + 0.05 * (6.83 - rs / cm), 0.97, 1.03), pz = Math.round((f - 1) * 100);
+  return {f:f, txt:!pz ? tx(`Größe ${cm} cm auf ${rs} mm Radstand: ausgewogen, kein Aufschlag.`, `Height ${cm} cm on a ${rs} mm wheelbase: balanced, no adjustment.`)
+    : pz > 0 ? tx(`Größe ${cm} cm auf ${rs} mm Radstand: mehr Gewicht vorne, ${pz} % mehr Luft.`, `Height ${cm} cm on a ${rs} mm wheelbase: more weight on the front, ${pz} % more air.`)
+    : tx(`Größe ${cm} cm auf ${rs} mm Radstand: weniger Gewicht vorne, ${-pz} % weniger Luft.`, `Height ${cm} cm on a ${rs} mm wheelbase: less weight on the front, ${-pz} % less air.`)};
+}
 /* Jede Antwort verschiebt Low- (L) und High-Speed (H) in Stufen; eine Stufe
    sind 12 % des Einstellbereichs (Fox GRIP X2 LSC: 2 Klicks). Die Grund-
    einstellung der Hersteller gilt fuer einen ruhigen Tourenfahrer -- wer
@@ -8654,7 +8737,7 @@ function stilGruende(){
   if(f > 0) out.push(tx("Straff gewünscht: mehr Luft, weniger Sag, Druckstufen deutlich fester.", "Firm wanted: more air, less sag, compression clearly firmer."));
   if(f < 0) out.push(tx("Weich gewünscht: weniger Luft, mehr Sag, Druckstufen deutlich offener.", "Soft wanted: less air, more sag, compression clearly more open."));
   if(b > 0) out.push(tx("Viel bergauf: Kletterhebel am Dämpfer bergauf schließen — ohne Hebel wird hinten die LSC etwas fester.", "Lots of climbing: close the climb switch on the shock uphill — without a lever the rear LSC gets a bit firmer."));
-  const kg = (plan.fahrer || 0) + 4;
+  const kg = systemKg();
   if(kg >= 90) out.push(tx(`Schwerer als der Durchschnitt (${kg} kg mit Ausrüstung): Druckstufen fester — sonst sackt das Fahrwerk durch.`, `Heavier than average (${kg} kg with gear): compression firmer — otherwise the suspension sags through.`));
   if(kg > 0 && kg <= 70) out.push(tx(`Leichter als der Durchschnitt (${kg} kg mit Ausrüstung): Druckstufen offener — sonst arbeitet das Fahrwerk nicht.`, `Lighter than average (${kg} kg with gear): compression more open — otherwise the suspension doesn't work.`));
   return out.length ? out : [tx("Alles im mittleren Bereich — die Werte der Herstellertabelle, unverändert.", "Everything in the middle range — the manufacturer's table values, unchanged.")];
@@ -8744,6 +8827,13 @@ function gabelDaten(g){
       txt:fit4 ? tx("Fox FIT4: Hebel mit drei Stufen, dazu die Open-Mode-Feineinstellung für die offene Stellung — gezählt ab der Mitte", "Fox FIT4: three-position lever, plus open mode adjust for the open position — counted from the middle")
         : tx(`Fox ${/GRIP SL/.test(s) ? "GRIP SL" : "GRIP"}: Hebel mit drei Stufen (Open, Medium, Firm) — bergab steht er offen`, `Fox ${/GRIP SL/.test(s) ? "GRIP SL" : "GRIP"}: three-position lever (open, medium, firm) — open on descents`)};
   }
+  /* Oehlins RXF36 m.2 (TTX18, Air und Coil): LSC 15 Klicks, HSC 3 Stufen
+     plus Kletter-Modus, Zugstufe 15 Klicks; Oehlins zaehlt ab ganz zu,
+     Grundeinstellung in der Mitte (Singletracks, NSMB, Oehlins-Anleitung) */
+  if(/RXF36 m\.2/.test(s)) return {typ:"hl", lsc:{n:15, base:7, wo:tx("blauer Knopf oben links", "blue knob top left")},
+    hscStell:{o:["1", "2", "3"], b:1, wo:tx("Hebel oben links, Stufe 1–3 (die vierte Stellung ist der Kletter-Modus)", "lever top left, position 1–3 (the fourth is climb mode)")},
+    zug:[{name:"Zugstufe", n:15, wo:tx("goldener Knopf oben rechts", "gold knob top right")}],
+    txt:tx("Öhlins RXF36 m.2: LSC 15 Klicks, HSC 3 Stufen, Zugstufe 15 Klicks, gezählt ab ganz zu. Grundeinstellung (0): Mitte", "Öhlins RXF36 m.2: LSC 15 clicks, HSC 3 positions, rebound 15 clicks, counted from fully closed. Base setting (0): middle")};
   if(/Charger 3(\.[12])? RC2/.test(s)){
     const zahl = /3\.2/.test(s), abo = zahl && /^g-(lyrik|zeb)/.test(id);
     return {typ:"hl", lsc:{n:14, base:7, skala:zahl ? "zahl" : "mitte"}, hsc:{n:4, base:2, skala:zahl ? "zahl" : "mitte"},
@@ -9092,7 +9182,7 @@ function luftModi(psi0, sag0, max, coil, klasse, mm){
   return m;
 }
 function federRechnen(){
-  const st = stilVon(), kg = (plan.fahrer || 0) + 4, lb = kg * 2.20462;
+  const st = stilVon(), kg = systemKg(), lb = kg * 2.20462;
   const r = build.rahmen ? findeTeil("rahmen", build.rahmen) : null;
   const g = build.gabel ? findeTeil("gabel", build.gabel) : null;
   const d = build.daempfer && !entfaellt(build, "daempfer") ? findeTeil("daempfer", build.daempfer) : null;
@@ -9102,12 +9192,19 @@ function federRechnen(){
     const coil = /Coil/.test(g.n), tab = gabelTabelle(g), daten = gabelDaten(g), regler = daten.typ, basis = {txt:daten.txt};
     const sag = dh ? st.sagV + 5 : st.sagV, klasse = fwKlasse(g.travel, dh), max = FED_MAX[tab.tab];
     let psi = null, grenze = false, feder = null;
-    if(coil) feder = kg < 68 ? tx("weich (soft)", "soft") : kg < 86 ? tx("mittel (medium)", "medium") : kg < 100 ? tx("hart (firm)", "firm") : tx("extra hart (x-firm)", "x-firm");
-    else {
-      psi = Math.round(psiAus(tab.tab, lb) * st.psiV);
-      if(max && psi > max){ psi = max; grenze = true; }
+    const vf = vorneFaktor(r);
+    let tokens = null, fw = null;
+    if(coil){
+      fw = federWahl(g.basisId || g.id, kg * vf.f, st);
+      feder = fw ? fw.name + (fw.lbs ? " · " + fw.lbs + " lbs/in" : "")
+        : kg < 68 ? tx("weich (soft)", "soft") : kg < 86 ? tx("mittel (medium)", "medium") : kg < 100 ? tx("hart (firm)", "firm") : tx("extra hart (x-firm)", "x-firm");
     }
-    out.gabel = {t:g, coil:coil, psi:psi, feder:feder, grenze:grenze, tab:tab, sag:sag, sagMm:Math.round(g.travel * sag / 100),
+    else {
+      psi = Math.round(psiAus(tab.tab, lb) * st.psiV * vf.f);
+      if(max && psi > max){ psi = max; grenze = true; }
+      tokens = tokenEmpfehlung(tab.eigen ? tab.tab : null, g.travel, grenze);
+    }
+    out.gabel = {t:g, coil:coil, psi:psi, feder:feder, fw:fw, tokens:tokens, vf:vf, grenze:grenze, tab:tab, sag:sag, sagMm:Math.round(g.travel * sag / 100),
       regler:regler, basis:basis, klasse:klasse, modi:luftModi(psi, sag, max, coil, klasse, g.travel), ds:druckstufen(daten, st, kg, false, klasse)};
   }
   if(d){
@@ -9180,16 +9277,23 @@ function federKarte(titel, x, slot){
     ? (x.rate ? `<b class="fed-wert">${x.rate} lbs/in</b><span class="fed-u">${tx("Federhärte", "spring rate")}</span>`
               : `<b class="fed-wert">${x.feder}</b><span class="fed-u">${tx("Stahlfeder", "coil spring")}</span>`)
     : `<b class="fed-wert">${m.psi} psi</b><span class="fed-u">${barVon(m.psi)} bar · ${esc(modusName(fedModus))}</span>`;
+  /* Tokens / Spacer: Zielzahl, wenn die Werksbestueckung bekannt ist, sonst die Richtung */
+  const tk = x.tokens, tkTxt = !tk ? "" : tk.soll != null
+    ? tx(`<b>${tk.soll}</b> ${tokenEinzahl(tk.name, tk.soll)} · ab Werk ${tk.std}${tk.delta ? ` → ${tk.delta > 0 ? tk.delta + " dazu" : -tk.delta + " raus"}` : ", so lassen"}${tk.max != null ? ` · höchstens ${tk.max}` : ""}`,
+         `<b>${tk.soll}</b> ${tokenEinzahl(tk.name, tk.soll)} · stock ${tk.std}${tk.delta ? ` → ${tk.delta > 0 ? "add " + tk.delta : "remove " + -tk.delta}` : ", leave as is"}${tk.max != null ? ` · max ${tk.max}` : ""}`)
+    : !tk.delta ? tx(`${tk.name}: wie ab Werk lassen`, `${tk.name}: leave as stock`)
+    : tx(`${tk.name}: ${Math.abs(tk.delta)} ${tk.delta > 0 ? "mehr" : "weniger"} als ab Werk — das Maximum steht in der Tabelle an der Gabel`, `${tk.name}: ${Math.abs(tk.delta)} ${tk.delta > 0 ? "more" : "fewer"} than stock — the maximum is on the chart on the fork`);
   const schema = schemaBlock(x, slot);
   return `<div class="fed-karte">
     <div class="fed-kopf"><span class="fed-k">${titel}</span><span class="fed-n">${esc(x.t.n)}</span></div>
     <div class="fed-haupt">${haupt}<span class="fed-sag">Sag ${m.sag} % ≈ ${zahlDe(m.sagMm)} mm${x.coil
-      ? tx(" · die Feder bleibt in allen Modi gleich", " · the spring stays the same in every mode") : ""}</span></div>
+      ? tx(" · die Feder bleibt in allen Modi gleich", " · the spring stays the same in every mode") : ""}</span>${tkTxt ? `<span class="fed-sag fed-tok">${tkTxt}</span>` : ""}</div>
+    ${x.fw ? `<p class="fed-q">${x.fw.lbs ? "" : tx("Formula nennt für die Selva nur Gewichtsklassen, keine Federrate. ", "Formula only lists weight classes for the Selva, no spring rate. ")}${tx(`Gewählt für ${x.fw.eff} kg (Systemgewicht mit Fahrstil) nach der Federtabelle des Herstellers — liegst du knapp an der Grenze, nimm bei aggressivem Stil die härtere.`, `Picked for ${x.fw.eff} kg (system weight with riding style) from the manufacturer's spring chart — if you're close to the limit and ride aggressively, take the firmer one.`)}${x.fw.rand ? tx(" Du liegst über der härtesten Feder — beim Hersteller nach einer Sonderfeder fragen.", " You're above the firmest spring — ask the manufacturer for a custom spring.") : ""}</p>` : ""}
     ${m.grenze ? `<p class="fed-warn">${x.coil ? tx("Außerhalb üblicher Federhärten — beim Hersteller nachfragen.", "Outside the usual spring rates — ask the manufacturer.") : tx("Am Maximaldruck — mehr geht nicht. Sag messen; eventuell ein Volumen-Spacer weniger.", "At maximum pressure — that's the limit. Measure sag; maybe one volume spacer less.")}</p>` : ""}
     ${modusVergleich(x)}
     ${schema ? "" : reihe(esc(modusName(fedModus)), x.ds[fedModus])}
     <p class="fed-q">${x.tab ? (x.tab.eigen ? tx(`Nach Herstellertabelle ${fedName(x.tab.tab)}.`, `Per manufacturer table ${fedName(x.tab.tab)}.`) : tx(`Keine Herstellertabelle im Katalog — Richtwert der Klasse (${fedName(x.tab.tab)}).`, `No manufacturer table in the catalogue — guide value for its class (${fedName(x.tab.tab)}).`)) + " " : ""}${
-      x.basis ? x.basis.txt + ". " : ""}${x.lr ? tx(`Hinterbau-Übersetzung ≈ ${zahlDe(x.lr.toFixed(1))} (geschätzt aus ${x.hinten} mm Federweg und ${zahlDe(x.t.hub)} mm Hub).`, `Leverage ratio ≈ ${x.lr.toFixed(1)} (estimated from ${x.hinten} mm travel and ${x.t.hub} mm stroke).`) : ""}${
+      x.basis ? x.basis.txt + ". " : ""}${x.vf && x.vf.txt ? (x.coil ? x.vf.txt.replace(/(\d+) % (mehr|weniger) Luft/, "Feder für $1 % $2 Gewicht gewählt").replace(/(\d+) % (more|less) air/, "spring picked for $1 % $2 weight") : x.vf.txt) + " " : ""}${x.lr ? tx(`Hinterbau-Übersetzung ≈ ${zahlDe(x.lr.toFixed(1))} (geschätzt aus ${x.hinten} mm Federweg und ${zahlDe(x.t.hub)} mm Hub).`, `Leverage ratio ≈ ${x.lr.toFixed(1)} (estimated from ${x.hinten} mm travel and ${x.t.hub} mm stroke).`) : ""}${
       x.klasse < 0 ? tx(" Wenig Federweg, wenig Reserve: bergab nicht ganz so weich, beim Springen mehr Luft und Druckstufe.", " Short travel, little reserve: not quite as soft downhill, more air and compression for jumps.")
       : x.klasse > 0 ? tx(" Viel Federweg, viel Reserve: beim Springen reicht etwas weniger Luft.", " Long travel, plenty of reserve: a bit less air is enough for jumps.") : ""}</p>
     ${schema}
@@ -9264,13 +9368,14 @@ function knopfLesen(vis){
     tun = zahl ? tx(`Knopf auf <b>${relZahl(wert)}</b> drehen — die Zahl steht auf dem Knopf.`, `Turn the knob to <b>${relZahl(wert)}</b> — the number is printed on the knob.`)
       : !wert ? tx("Auf die Mitte stellen (mittlerer Strich) — fertig.", "Set to the middle (centre tick) — done.")
       : tx(`Auf die Mitte stellen (mittlerer Strich), dann <b>${a} ${kl} Richtung ${wert > 0 ? "+" : "−"}</b>.`, `Set to the middle (centre tick), then <b>${a} ${kl} towards ${wert > 0 ? "+" : "−"}</b>.`);
+    tun += tx(` Ab ganz zu gezählt: ${vis.pos} ${vis.pos === 1 ? "Klick" : "Klicks"}.`, ` Counted from fully closed: ${vis.pos} ${vis.pos === 1 ? "click" : "clicks"}.`);
   }
   else if(vis.n != null){
     lo = -(vis.n - vis.base); hi = vis.base; wert = vis.base - vis.pos;
     const offen = vis.ab === "offen", menge = zeig(offen ? vis.n - vis.pos : vis.pos), e = einheitVon(vis, menge);
     gross = zahlTxt(menge); einheit = tx(`${e} ab ganz ${offen ? "offen" : "zu"}`, `${e} from fully ${offen ? "open" : "closed"}`);
     tun = menge === 0 ? (offen ? tx("Ganz auf drehen&nbsp;↺ — fertig.", "Turn fully open&nbsp;↺ — done.") : tx("Ganz zu drehen&nbsp;↻ — fertig.", "Turn fully closed&nbsp;↻ — done."))
-      : offen ? tx(`Ganz auf drehen&nbsp;↺, dann <b>${gross} ${e}</b> zu&nbsp;↻`, `Turn fully open&nbsp;↺, then <b>${gross} ${e}</b> back in&nbsp;↻`)
+      : offen ? tx(`Ganz auf drehen&nbsp;↺, dann <b>${gross} ${e}</b> zu&nbsp;↻ (ab ganz zu gezählt: ${zahlTxt(zeig(vis.pos))})`, `Turn fully open&nbsp;↺, then <b>${gross} ${e}</b> back in&nbsp;↻ (counted from fully closed: ${zahlTxt(zeig(vis.pos))})`)
       : tx(`Ganz zu drehen&nbsp;↻, dann <b>${gross} ${e}</b> zurück&nbsp;↺`, `Turn fully closed&nbsp;↻, then <b>${gross} ${e}</b> back out&nbsp;↺`);
     if(vis.n <= 4 && vis.base * 2 === vis.n) tun = menge === 0
       ? (offen ? tx(`Ganz auf drehen&nbsp;↺ — die offenste der ${vis.n + 1} Stellungen.`, `Turn fully open&nbsp;↺ — the softest of the ${vis.n + 1} positions.`)
@@ -9436,16 +9541,39 @@ function federErgebnisHtml(){
       <p class="fm-txt">${sp2(was[fedModus])}</p></div>`
     + (f.gabel ? federKarte(tx("Federgabel", "Suspension fork"), f.gabel, "gabel") : "") + (f.daempfer ? federKarte(tx("Dämpfer", "Shock"), f.daempfer, "daempfer") : "");
 }
+/* Schritte: 0 Gewicht und Groesse, 1 Ausruestung, danach die Fragen.
+   fEinzeln: nur eine Antwort aendern, danach zurueck zum Ergebnis. */
+const F_VOR = 2;
+let fEinzeln = false;
+function fWeiter(){
+  if(fEinzeln){ fEinzeln = false; fFragenOffen = false; fschritt = 0; }
+  else fschritt++;
+  if(fschritt >= FFRAGEN.length + F_VOR){ fFragenOffen = false; fschritt = 0; }
+  oeffneFederung();
+}
 function federFrageHtml(){
-  const n = FFRAGEN.length + 1, i = fschritt;
+  const n = FFRAGEN.length + F_VOR, i = fschritt;
   const kopf = `<div class="ff-kopf"><span class="leit-sub">${tx(`Frage ${i + 1} von ${n}`, `Question ${i + 1} of ${n}`)}</span>
     <div class="leit-bahn"><i style="width:${Math.round(i / n * 100)}%"></i></div></div>`;
-  if(i === 0) return kopf + `<p class="q">${tx("Wie schwer bist du?", "How heavy are you?")}</p>
-    <p class="qs">${tx("Ohne Ausrüstung — Helm, Schuhe und Rucksack rechnet die App mit 4 kg dazu.", "Without gear — the app adds 4 kg for helmet, shoes and backpack.")}</p>
+  if(i === 0) return kopf + `<p class="q">${tx("Wie schwer und wie groß bist du?", "How heavy and how tall are you?")}</p>
+    <p class="qs">${tx("Gewicht ohne Ausrüstung — die kommt im nächsten Schritt. Die Größe ist freiwillig: mit dem Radstand deines Rahmens schätzt die App, wie viel Gewicht auf der Gabel liegt.", "Weight without gear — that comes next. Height is optional: together with your frame's wheelbase the app estimates how much weight is on the fork.")}</p>
     <div class="fld"><label for="f-gew">${tx("Gewicht in kg", "Weight in kg")}</label>
       <input id="f-gew" type="number" inputmode="numeric" min="30" max="160" value="${plan.fahrer || ""}" placeholder="${tx("z. B. 78", "e.g. 78")}" data-plan="fahrer"></div>
-    <button class="btn wide" data-ffweiter="1"${plan.fahrer > 0 ? "" : " disabled"}>${tx("Weiter", "Next")}</button>`;
-  const f = FFRAGEN[i - 1];
+    <div class="fld"><label for="f-cm">${tx("Größe in cm (freiwillig)", "Height in cm (optional)")}</label>
+      <input id="f-cm" type="number" inputmode="numeric" min="130" max="215" value="${fprofil.cm || ""}" placeholder="${tx("z. B. 180", "e.g. 180")}" data-fcm="1"></div>
+    <button class="btn wide" data-ffweiter="1"${plan.fahrer > 0 ? "" : " disabled"}>${fEinzeln ? tx("Fertig", "Done") : tx("Weiter", "Next")}</button>`;
+  if(i === 1){
+    const m = fprofil.montur || {teile:["halbschale", "huefte"]};
+    return kopf + `<p class="q">${tx("Was hast du beim Fahren dabei?", "What do you ride with?")}</p>
+    <p class="qs">${tx(`Alles, was mitfedert. Schuhe, Kleidung und Handschuhe rechnet die App mit ${MONTUR_GRUND} kg.`, `Everything the suspension carries. Shoes, clothes and gloves count as ${MONTUR_GRUND} kg.`)}</p>
+    <div class="ff-montur">${MONTUR.map(([k, n, w]) => `<button class="qopt ff-chip" data-fmont="${k}" aria-pressed="${(m.teile || []).indexOf(k) >= 0}">${sp2(n)}<small>${zahlTxt(w)} kg</small></button>`).join("")}</div>
+    <div class="fld"><label for="f-mkg">${tx("Oder eigener Wert in kg (gewogen)", "Or your own value in kg (weighed)")}</label>
+      <input id="f-mkg" type="number" inputmode="decimal" min="0" max="25" step="0.5" value="${m.eigen || ""}" placeholder="${tx("leer = aus den Teilen", "empty = from the items")}" data-fmkg="1"></div>
+    <p class="ff-summe" id="ff-summe">${tx(`Ausrüstung ${zahlTxt(monturKg())} kg · gerechnet mit ${zahlTxt(systemKg())} kg`, `Gear ${monturKg()} kg · calculating with ${systemKg()} kg`)}</p>
+    <button class="btn wide" data-ffmontur="1">${fEinzeln ? tx("Fertig", "Done") : tx("Weiter", "Next")}</button>
+    ${fEinzeln ? "" : `<button class="btn ghost sm" data-ffzurueck="1" style="margin-top:12px">${tx("Zurück", "Back")}</button>`}`;
+  }
+  const f = FFRAGEN[i - F_VOR];
   return kopf + `<p class="q">${f.q}</p><p class="qs">${f.h}</p>
     <div class="ff-opts">${f.o.map(o => `<button class="qopt ff-opt" data-ff="${f.k}|${o[0]}" aria-pressed="${fprofil[f.k] === o[0]}">${o[1]}<small>${o[2]}</small></button>`).join("")}</div>
     <button class="btn ghost sm" data-ffzurueck="1" style="margin-top:12px">${tx("Zurück", "Back")}</button>`;
@@ -9453,19 +9581,23 @@ function federFrageHtml(){
 function oeffneFederung(){
   if(!fFertig() && !fFragenOffen){
     fFragenOffen = true;
-    fschritt = !(plan.fahrer > 0) ? 0 : FFRAGEN.findIndex(f => !fprofil[f.k]) + 1;
+    fschritt = !(plan.fahrer > 0) ? 0 : !fprofil.montur ? 1 : FFRAGEN.findIndex(f => !fprofil[f.k]) + F_VOR;
   }
   if(fFragenOffen){
     zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${tx("Federungsrechner", "Suspension calculator")}</span>${tx("Dein Fahrprofil", "Your riding profile")}</h3>${zuBtn}</div>
       <div class="sheet-b">${federFrageHtml()}</div>`);
     return;
   }
-  const chips = [`<span class="chip">${plan.fahrer} kg</span>`].concat(FFRAGEN.map(f => {
-    const o = f.o.find(x => x[0] === fprofil[f.k]); return o ? `<span class="chip">${esc(o[1])}</span>` : ""; })).join("");
+  /* Jede Antwort ein Knopf: Tippen oeffnet nur diesen Schritt */
+  const chip = (i, t) => `<button class="chip ff-chip" data-ffedit="${i}" title="${tx("ändern", "change")}">${esc(t)} ✎</button>`;
+  const chips = [chip(0, plan.fahrer + " kg" + (fprofil.cm ? " · " + fprofil.cm + " cm" : "")),
+    chip(1, tx(`Ausrüstung ${zahlTxt(monturKg())} kg`, `gear ${monturKg()} kg`))].concat(FFRAGEN.map((f, i) => {
+    const o = f.o.find(x => x[0] === fprofil[f.k]); return o ? chip(i + F_VOR, o[1]) : ""; })).join("");
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${tx("Federungsrechner", "Suspension calculator")}</span>${tx("Fahrwerk einstellen", "Set up suspension")}</h3>${zuBtn}</div>
     <div class="sheet-b">
       <div class="ff-profil"><span class="leit-sub">${tx("Dein Fahrprofil", "Your riding profile")}</span><div class="specs">${chips}</div>
+        <p class="ff-summe">${tx(`Gerechnet mit ${zahlTxt(systemKg())} kg inklusive Ausrüstung. Tippe auf eine Angabe, um sie zu ändern.`, `Calculating with ${systemKg()} kg including gear. Tap any entry to change it.`)}</p>
         <ul class="ff-gruende">${stilGruende().map(g => `<li>${esc(g)}</li>`).join("")}</ul>
         <button class="btn ghost sm" data-ffneu="1">${tx("Antworten ändern", "Change answers")}</button></div>
       <div id="fed-erg">${federErgebnisHtml()}</div>
@@ -11134,13 +11266,25 @@ document.addEventListener("click", e => {
   if(ffa){
     const q = ffa.dataset.ff.split("|");
     fprofil[q[0]] = q[1]; fSichern();
-    fschritt++;
-    if(fschritt > FFRAGEN.length){ fFragenOffen = false; fschritt = 0; }
-    oeffneFederung(); return;
+    fWeiter(); return;
   }
-  if(T("[data-ffweiter]")){ if(plan.fahrer > 0){ fschritt = 1; oeffneFederung(); } return; }
+  if(T("[data-ffweiter]")){ if(plan.fahrer > 0) fWeiter(); return; }
+  if(T("[data-ffmontur]")){ if(!fprofil.montur){ fprofil.montur = {teile:["halbschale", "huefte"]}; fSichern(); } fWeiter(); return; }
+  const fmt = T("[data-fmont]");
+  if(fmt){
+    const m = fprofil.montur || {teile:["halbschale", "huefte"]}, k = fmt.dataset.fmont, t = (m.teile || []).slice(), i = t.indexOf(k);
+    if(i >= 0) t.splice(i, 1); else {
+      t.push(k);
+      /* nur ein Helm, nur eine Tasche */
+      const gegen = {halbschale:"fullface", fullface:"halbschale", huefte:"rucksack", rucksack:"huefte"}[k];
+      if(gegen && t.indexOf(gegen) >= 0) t.splice(t.indexOf(gegen), 1);
+    }
+    fprofil.montur = {teile:t, eigen:m.eigen || null}; fSichern(); oeffneFederung(); return;
+  }
+  const ffe = T("[data-ffedit]");
+  if(ffe){ fEinzeln = true; fFragenOffen = true; fschritt = +ffe.dataset.ffedit; oeffneFederung(); return; }
   if(T("[data-ffzurueck]")){ fschritt = Math.max(0, fschritt - 1); oeffneFederung(); return; }
-  if(T("[data-ffneu]")){ fFragenOffen = true; fschritt = 0; oeffneFederung(); return; }
+  if(T("[data-ffneu]")){ fEinzeln = false; fFragenOffen = true; fschritt = 0; oeffneFederung(); return; }
   const hi = T("[data-hilfe]");
   if(hi){
     const w = hi.dataset.hilfe;
@@ -11216,6 +11360,16 @@ document.addEventListener("input", e => {
     if($("fed-erg")) $("fed-erg").innerHTML = federErgebnisHtml();     /* Federungsrechner live */
     const ffw = $("modal").querySelector("[data-ffweiter]");
     if(ffw) ffw.disabled = !(plan.fahrer > 0);
+  }
+  if(e.target && e.target.dataset && e.target.dataset.fcm){
+    const v = parseInt(e.target.value, 10);
+    fprofil.cm = v >= 130 && v <= 215 ? v : null; fSichern();
+  }
+  if(e.target && e.target.dataset && e.target.dataset.fmkg){
+    const v = parseFloat(String(e.target.value).replace(",", "."));
+    const m = fprofil.montur || {teile:["halbschale", "huefte"]};
+    fprofil.montur = {teile:m.teile || [], eigen:v > 0 && v <= 25 ? v : null}; fSichern();
+    const su = $("ff-summe"); if(su) su.textContent = tx(`Ausrüstung ${zahlTxt(monturKg())} kg · gerechnet mit ${zahlTxt(systemKg())} kg`, `Gear ${monturKg()} kg · calculating with ${systemKg()} kg`);
   }
 });
 document.addEventListener("change", e => {
