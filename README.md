@@ -437,6 +437,21 @@ einrichten, danach läuft es von selbst:
 Die Download-Adressen enthalten den persönlichen API-Schlüssel. Sie gehören
 nur ins Secret, nie in eine Datei — das Repo ist öffentlich.
 
+## Grafik-Prüfung
+
+Ein Prüfskript öffnet jede Ansicht, jede Schublade, alle Assistenten- und
+Einstiegsschritte, den Rundgang und die Startseite — in 320, 390, 430, 768 und
+1280 px, dunkel und hell, Deutsch und Englisch — und meldet Elemente, die aus
+dem Bild ragen, und abgeschnittene Texte. Dazu Screenshots zum Durchsehen.
+Behoben am 30.09.2026: Knöpfe blieben nach dem Tippen gedimmt (Hover klebte auf
+dem iPhone), die Disziplin in der Kopfzeile war auf schmalen Handys
+abgeschnitten („T…“, „End…“), die Startseite zeigte Beispielzahlen der eigenen
+Disziplin statt des Trail-Beispiels, hellgraue Knöpfe waren auf grauen Flächen
+unsichtbar (Guide-Antworten, Rechtliches), der Shop-Link nahm in Upgrades und
+Sparvorschlägen dem Namen die halbe Breite, „Übernehmen“ ragte im Assistenten
+bei 320 px aus dem Bild, und nach jedem Öffnen einer Schublade stand ein
+Fokus-Ring um den Schließen-Knopf (jetzt nur bei Tastatur-Bedienung).
+
 ## Grenzen
 
 Live-Preise gibt es nur für Teile, die ein Partnershop im Feed führt, und nur
