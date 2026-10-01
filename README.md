@@ -314,6 +314,8 @@ verlässt es nicht. Als PWA installierbar und offline lauffähig.
     mtb-sw.js                     Service Worker, Offline-Betrieb
     icon-*.png                    App-Symbole
     tools/preise.py               liest die Produktfeeds, schreibt die Preise
+    tools/kompat-test.mjs         prüft das Regelwerk gegen feste Testfälle
+    tools/kompat-faelle.mjs       die Testfälle (Rahmen, Achsen, Freiläufe, Lager …)
     .github/workflows/preise.yml  startet preise.py alle sechs Stunden
     preise.json                   Angebote je Teil (von der Action geschrieben)
     preisverlauf.json             günstigster Preis je Teil und Tag
@@ -443,6 +445,25 @@ einrichten, danach läuft es von selbst:
 
 Die Download-Adressen enthalten den persönlichen API-Schlüssel. Sie gehören
 nur ins Secret, nie in eine Datei — das Repo ist öffentlich.
+
+## Kompatibilitäts-Prüfung
+
+`node tools/kompat-test.mjs` lädt die App in Chromium (Playwright) und spielt
+feste Aufbauten durch: welcher Befund rot, gelb oder nur Hinweis sein muss —
+und welcher nicht kommen darf. Kippt eine Änderung an Katalog oder Regeln ein
+bekanntes Ergebnis, schlägt der Test an (Rückgabewert 1). Neue Fälle kommen in
+`tools/kompat-faelle.mjs`; Teile mit Ausführung als `["w-hopemx", {Nabenbreite:"150x12"}]`.
+
+Abgedeckt (Stand 01.10.2026): SRAM UDH / Transmission je Rahmen und Baujahr,
+T-Type-Kassette und Flattop-Kette, Hinterachsen 135/142/148/150/157 inkl.
+Umbaukit (gelb), Vorderachse 15/20 mm, Freiläufe HG / Micro Spline / XD,
+Innenlager BSA 68/73/83, PF92, Spanish, DUB / DUB Wide, 24 / 30 mm, ISIS,
+PowerSpline, Kettenlinie 52 / 55 / 56,5 und das Startrad der App.
+
+Datenkorrekturen dabei: Trek Session hat UDH; Commencal Meta SX erst ab 2023
+mit UDH; Specialized Enduro erst ab 2025; Transition Sentinel (Carbon) erst
+ab 2024; Commencal Supreme DH V5 hat 157 mm hinten (150 nur mit Umbaukit);
+Canyon Sender CFR ab 2025 mit 148 mm und UDH.
 
 ## Grafik-Prüfung
 
