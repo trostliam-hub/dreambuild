@@ -367,8 +367,13 @@ Netzwerk-IDs und Feeds. Normale Nutzer sehen davon nichts.
 
 ## Free und Pro
 
-CrankScore gibt es als **Free** (kostenlos) und **Pro** (1,99 € im Monat,
-jederzeit kündbar). Pro bringt:
+CrankScore gibt es als **Free** (kostenlos) und **Pro**: 6,99 € im Monat oder
+3,99 € im Monat bei jährlicher Zahlung (47,88 € im Jahr — 36 € bzw. 43 %
+gespart gegenüber monatlich), jederzeit kündbar. Die Pro-Seite zeigt beide
+Tarife nebeneinander, jährlich hervorgehoben, die Ersparnis rechnet die App aus
+den Preisen (`PRO_MONAT`, `PRO_JAHR_MONAT`). Im **Betreiber-Modus** (`#betreiber`)
+ist Pro immer an — der Betreiber testet alles, ohne zu zahlen; Betreiber-Modus
+aus zeigt die App wie für Free-Nutzer. Pro bringt:
 
 - **Unbegrenzt Räder.** Free: ein Rad je Modus (Traumrad, Mein Rad, Gebraucht).
   Wer vorher schon mehrere hatte, behält sie; nur neue kommen nicht dazu.
@@ -388,22 +393,23 @@ Ist das Abo abgelaufen, ist Pro aus; ohne Netz bleibt Pro 14 Tage ab der
 letzten erfolgreichen Prüfung an. Ein Code von einem fremden Store wird
 abgelehnt. „Auf diesem Gerät entfernen“ gibt die Aktivierung frei, damit man
 den Code woanders nutzen kann. Ohne Server lässt sich Pro durch Ändern des
-Browser-Speichers vortäuschen — bei 1,99 € ist das hingenommen.
+Browser-Speichers vortäuschen (oder über `#betreiber`) — ohne Server ist das hingenommen.
 
 **Einrichten (einmalig):**
 
 1. Bei Lemon Squeezy einen Store anlegen und ein Produkt „CrankScore Pro“ als
-   Abo für 1,99 € im Monat erstellen, *License keys* einschalten
+   Abo mit zwei Varianten erstellen — monatlich 6,99 €, jährlich 47,88 € —,
+   *License keys* einschalten
    (Aktivierungslimit etwa 3 Geräte, Laufzeit an das Abo gebunden).
-2. App mit `#betreiber` öffnen, unter ⋮ → Pro-Verkauf den Kauf-Link
-   (Checkout-URL), die Store-ID und die Produkt-ID eintragen.
+2. App mit `#betreiber` öffnen, unter ⋮ → Pro-Verkauf die beiden Kauf-Links
+   (Checkout-URL monatlich und jährlich), die Store-ID und die Produkt-ID eintragen.
 3. „links.json speichern“ und veröffentlichen. Bis dahin zeigt die Pro-Seite
    „Pro kommt bald“ und nimmt keinen Code an.
 
 Die Datenschutzerklärung nennt Lemon Squeezy und die Lizenzprüfung (Abschnitt 7).
 Gebühren bei Lemon Squeezy laut Preisliste: 5 % plus 50 US-Cent je Zahlung. Bei
-1,99 € im Monat bleiben je nachdem, ob die Mehrwertsteuer im Preis steckt, grob
-1,10 bis 1,40 € — ein Jahresabo würde die feste Gebühr nur einmal fällig machen.
+6,99 € im Monat bleiben nach Gebühren und Mehrwertsteuer grob 5,10 €; beim
+Jahresabo fällt die feste Gebühr nur einmal an — von 47,88 € bleiben grob 37 €.
 
 ## Eigene Affiliate-Links
 

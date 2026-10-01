@@ -353,6 +353,17 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .pro-orb.klein{width:40px;height:40px;border-radius:13px;margin:0;box-shadow:none;flex:none}
 .pro-kopf h4{font-family:var(--f-head);font-size:26px;font-weight:800;letter-spacing:-.035em;margin:0}
 .pro-preis{margin:4px 0 0;font-size:14px;color:var(--ink-2)}
+.pro-tarife{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0 6px}
+@media (min-width:520px){.pro-tarife{grid-template-columns:1fr 1fr}}
+.pro-tarif{position:relative;display:flex;flex-direction:column;gap:3px;padding:16px 14px 14px;border:1px solid var(--hair);border-radius:18px;background:var(--surface)}
+.pro-tarif.best{border-color:var(--anod);box-shadow:0 0 0 1px var(--anod) inset}
+.pro-tarif > b{font-family:var(--f-head);font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.pro-tarif > b small{font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:0}
+.pro-tname{font-size:12px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.pro-tzeile{font-size:13px;color:var(--ink-2)}
+.pro-tspar{font-size:13px;font-weight:700;color:var(--anod);margin-bottom:6px}
+.pro-tarif .btn{margin-top:8px}
+.pro-tbadge{position:absolute;top:-10px;right:12px;padding:3px 9px;border-radius:999px;background:var(--anod);color:var(--on-anod);font-size:11.5px;font-weight:750}
 .pro-preis b{font-family:var(--f-head);font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.03em}
 .pro-grund{margin:6px 0 0;padding:11px 13px;border-radius:14px;background:var(--anod-soft);font-size:13.5px;color:var(--ink);line-height:1.45}
 .pro-liste{list-style:none;margin:4px 0 0;padding:0;background:var(--surface-2);border-radius:20px;overflow:hidden;flex:none}
@@ -4909,7 +4920,8 @@ let linksServer = {netz:{}, teile:{}, betreiber:{}};
    die Impressum-Angaben -- im Betreiber-Modus eintragen, mit links.json
    veroeffentlichen. Die IDs sind nicht geheim, sie stehen in jeder Antwort
    der License API. */
-const PRO_FELDER = [["proKauf", "Kauf-Link (Checkout von Lemon Squeezy, https://…)"], ["proStore", "Store-ID"], ["proProdukt", "Produkt-ID"]];
+const PRO_FELDER = [["proKauf", "Kauf-Link monatlich (Checkout von Lemon Squeezy, https://…)"], ["proKaufJahr", "Kauf-Link jährlich (Checkout, https://…)"],
+  ["proStore", "Store-ID"], ["proProdukt", "Produkt-ID"]];
 const BETREIBER_FELDER = [["name", "Vor- und Nachname"], ["zusatz", "Adresszusatz — z. B. c/o Impressum-Service"],
   ["strasse", "Straße und Hausnummer"], ["ort", "PLZ und Ort"],
   ["email", "E-Mail"], ["telefon", "Telefon — zweiter schneller Kontaktweg"], ["ustid", "USt-IdNr. — nur wenn vorhanden"]].concat(PRO_FELDER);
@@ -5125,7 +5137,8 @@ function teilName(id){
 }
 
 /* ═══════════ Pro ═══════════
-   Free und Pro (Liams Wunsch 2026-09-30). Pro kostet 1,99 € im Monat und
+   Free und Pro (Liams Wunsch 2026-09-30). Pro kostet 6,99 EUR im Monat oder
+   3,99 EUR je Monat im Jahresabo (47,88 EUR im Jahr) und
    wird ueber Lemon Squeezy verkauft -- die kuemmern sich um Bezahlung,
    Rechnung, Mehrwertsteuer und Abo und schicken nach dem Kauf einen
    Lizenzcode. Die App prueft ihn selbst ueber die License API von Lemon
@@ -5144,14 +5157,28 @@ function teilName(id){
    Pro vortaeuschen; ohne Server ist das nicht zu verhindern. */
 const PRO_GUIDE_FREI = 10;
 const PRO_KULANZ = 14 * 864e5, PRO_TAKT = 864e5;
-const proPreis = () => tx("1,99 € im Monat", "€1.99 a month");
+/* Preise (Liam 2026-10-01): monatlich 6,99 EUR, im Jahresabo 3,99 EUR je
+   Monat, als ein Betrag fuer das Jahr berechnet. Die Ersparnis rechnet die
+   App selbst aus, damit sie zu den Preisen passt. */
+const PRO_MONAT = 6.99, PRO_JAHR_MONAT = 3.99;
+const PRO_JAHR = Math.round(PRO_JAHR_MONAT * 12 * 100) / 100;                       /* 47,88 */
+const PRO_SPAR = Math.round((PRO_MONAT * 12 - PRO_JAHR) * 100) / 100;               /* 36,00 */
+const PRO_SPAR_PZ = Math.round(PRO_SPAR / (PRO_MONAT * 12) * 100);                  /* 43 */
+const euro = x => sprache === "en" ? "€" + x.toFixed(2) : x.toFixed(2).replace(".", ",") + " €";
+const proPreis = () => tx(`${euro(PRO_MONAT)} im Monat oder ${euro(PRO_JAHR_MONAT)} im Monat bei jährlicher Zahlung`, `${euro(PRO_MONAT)} a month, or ${euro(PRO_JAHR_MONAT)} a month billed yearly`);
+const proSparTxt = () => tx(`Du sparst ${euro(PRO_SPAR)} im Jahr (${PRO_SPAR_PZ} %) gegenüber monatlich`, `You save ${euro(PRO_SPAR)} a year (${PRO_SPAR_PZ} %) compared with monthly`);
 const proKauf = () => httpsNur(betreiber().proKauf);
+const proKaufJahr = () => httpsNur(betreiber().proKaufJahr);
 const proStore = () => +betreiber().proStore || 0;
 const proProdukt = () => +betreiber().proProdukt || 0;
 let pro = {};                      /* {key, inst, status:"aktiv"|"aus", geprueft, fehler} */
 try{ const q = JSON.parse(localStorage.getItem("mtb.pro") || "null"); if(q && typeof q === "object" && !Array.isArray(q)) pro = q; }catch(e){}
 const proSichern = () => { try{ localStorage.setItem("mtb.pro", JSON.stringify(pro)); }catch(e){} };
-const istPro = () => !!pro.key && pro.status === "aktiv" && Date.now() - (+pro.geprueft || 0) < PRO_KULANZ;
+/* Im Betreiber-Modus (#betreiber) ist Pro an -- der Betreiber braucht alle
+   Funktionen zum Pruefen und zahlt nicht an sich selbst. Betreiber-Modus aus
+   zeigt die App wieder so, wie Free-Nutzer sie sehen. */
+const proBetreiber = () => linkVerwaltung && !(pro.key && pro.status === "aktiv");
+const istPro = () => linkVerwaltung || (!!pro.key && pro.status === "aktiv" && Date.now() - (+pro.geprueft || 0) < PRO_KULANZ);
 /* Free: ein Rad je Modus. Wer schon mehrere hat, behaelt sie -- nur neue
    kommen nicht dazu. */
 const proRaederVoll = () => !istPro() && profile[modus].length >= 1;
@@ -5257,6 +5284,23 @@ const guideRestText = () => istPro() ? "" : " · " + tx(`${guideRest()} von ${PR
 
 /* Die Pro-Seite: was Pro bringt, Preis, Kaufen, Code eingeben -- oder der
    Stand, wenn Pro schon laeuft. grund sagt, woher man kommt. */
+/* Zwei Tarife nebeneinander: jaehrlich hervorgehoben, mit Ersparnis.
+   nurZeigen: ohne Kaufknoepfe (Betreiber-Ansicht). */
+function proTarife(nurZeigen){
+  const knopf = (url, t, gross) => !nurZeigen && url ? `<a class="btn ${gross ? "gross" : "ghost"} wide" href="${esc(url)}" target="_blank" rel="noopener">${t}</a>` : "";
+  return `<div class="pro-tarife">
+    <div class="pro-tarif best"><span class="pro-tbadge">${tx(`${PRO_SPAR_PZ} % günstiger`, `${PRO_SPAR_PZ} % cheaper`)}</span>
+      <span class="pro-tname">${tx("Jährlich", "Yearly")}</span>
+      <b>${euro(PRO_JAHR_MONAT)} <small>${tx("im Monat", "a month")}</small></b>
+      <span class="pro-tzeile">${tx(`${euro(PRO_JAHR)} einmal im Jahr`, `${euro(PRO_JAHR)} once a year`)}</span>
+      <span class="pro-tspar">${proSparTxt()}</span>
+      ${knopf(proKaufJahr(), tx(`Jährlich holen · ${euro(PRO_JAHR)}`, `Get yearly · ${euro(PRO_JAHR)}`), true)}</div>
+    <div class="pro-tarif"><span class="pro-tname">${tx("Monatlich", "Monthly")}</span>
+      <b>${euro(PRO_MONAT)} <small>${tx("im Monat", "a month")}</small></b>
+      <span class="pro-tzeile">${tx(`${euro(Math.round(PRO_MONAT * 1200) / 100)} aufs Jahr gerechnet · monatlich kündbar`, `${euro(Math.round(PRO_MONAT * 1200) / 100)} over a year · cancel monthly`)}</span>
+      ${knopf(proKauf(), tx(`Monatlich holen · ${euro(PRO_MONAT)}`, `Get monthly · ${euro(PRO_MONAT)}`), !proKaufJahr())}</div>
+  </div>`;
+}
 function oeffnePro(grund){
   const GRUND = {
     raeder:tx("In Free hast du ein Rad je Modus. Mit Pro legst du beliebig viele an.", "Free gives you one bike per mode. With Pro you can add as many as you like."),
@@ -5271,7 +5315,7 @@ function oeffnePro(grund){
     <div class="sheet-b">
       <div class="pro-kopf"><span class="pro-orb">${ic(IC.traum, 28)}</span>
         <h4>CrankScore Pro</h4>
-        <p class="pro-preis"><b>${sprache === "en" ? "€1.99" : "1,99 €"}</b> ${tx("im Monat · jederzeit kündbar", "a month · cancel anytime")}</p></div>
+        <p class="pro-preis">${tx("ab", "from")} <b>${euro(PRO_JAHR_MONAT)}</b> ${tx("im Monat · jederzeit kündbar", "a month · cancel anytime")}</p></div>
       ${grund && GRUND[grund] && !aktiv ? `<p class="pro-grund">${GRUND[grund]}</p>` : ""}
       <ul class="pro-liste">
         ${vorteil(IC.real, tx("Unbegrenzt Räder", "Unlimited bikes"), tx("Beliebig viele Traumräder, eigene Räder und Angebote nebeneinander. Free: eines je Modus.", "As many dream bikes, own bikes and offers as you like. Free: one per mode."))}
@@ -5280,13 +5324,16 @@ function oeffnePro(grund){
       </ul>
       <p class="pro-frei">${tx("Kostenlos bleibt alles andere: Aufbau, Prüfung, Score, Nächster Schritt, Upgrades, Einkaufsliste, Fit-Rechner und die Bewertung von Gebrauchträdern.",
         "Everything else stays free: build, check, score, next step, upgrades, shopping list, fit calculator and rating used bikes.")}</p>
-      ${aktiv ? `<div class="pro-stand"><b>${ic(IC.haken, 16)} ${tx("Pro ist aktiv — danke!", "Pro is active — thank you!")}</b>
+      ${aktiv && proBetreiber() ? `<div class="pro-stand"><b>${ic(IC.haken, 16)} Pro ist aktiv — Betreiber-Modus</b>
+          <span>Für dich kostenlos, solange der Betreiber-Modus an ist. Schaltest du ihn unter ⋮ aus, siehst du die App wie Free-Nutzer.</span></div>
+        ${proTarife(true)}`
+      : aktiv ? `<div class="pro-stand"><b>${ic(IC.haken, 16)} ${tx("Pro ist aktiv — danke!", "Pro is active — thank you!")}</b>
           <span>${tx("Code", "Code")} ${code} · ${tx("zuletzt geprüft", "last checked")} ${new Date(+pro.geprueft).toLocaleDateString(ortsform())}</span></div>
         <div class="pro-knoepfe"><a class="btn ghost" href="https://app.lemonsqueezy.com/my-orders" target="_blank" rel="noopener">${tx("Abo verwalten oder kündigen", "Manage or cancel subscription")}</a>
           <button class="btn ghost" data-proweg="1">${tx("Auf diesem Gerät entfernen", "Remove from this device")}</button></div>`
       : `${pro.fehler ? `<p class="pro-hin">${pro.fehler}</p>` : ""}
-        ${proKauf() ? `<a class="btn gross wide" href="${esc(proKauf())}" target="_blank" rel="noopener">${tx("Pro holen · 1,99 € im Monat", "Get Pro · €1.99 a month")}</a>
-          <p class="pro-frei" style="text-align:center">${tx("Bezahlung, Rechnung und Kündigung über Lemon Squeezy. Nach dem Kauf kommt dein Code per Mail.", "Payment, invoice and cancellation via Lemon Squeezy. Your code arrives by email after purchase.")}</p>`
+        ${proTarife(false)}
+        ${proKauf() || proKaufJahr() ? `<p class="pro-frei" style="text-align:center">${tx("Bezahlung, Rechnung und Kündigung über Lemon Squeezy. Nach dem Kauf kommt dein Code per Mail.", "Payment, invoice and cancellation via Lemon Squeezy. Your code arrives by email after purchase.")}</p>`
         : `<button class="btn gross wide" disabled>${tx("Pro kommt bald", "Pro is coming soon")}</button>`}
         <form class="pro-code" id="pro-form" autocomplete="off">
           <label for="pro-in">${tx("Code schon da?", "Already have a code?")}</label>
@@ -5370,7 +5417,7 @@ function startseiteHtml(){
         <p>${tx("Bau dein Traumrad aus Einzelteilen, prüf dein eigenes Rad oder bewerte ein Gebrauchtes. CrankScore prüft jedes Teil auf Maße und Standards — und sagt dir, was als Nächstes kommt.",
           "Build your dream bike from individual parts, check your own bike or rate a used one. CrankScore checks every part against dimensions and standards — and tells you what comes next.")}</p>
         ${knopf(tx("Kostenlos starten", "Start for free"))}
-        <p class="ls-klein">${tx("Free kostenlos · Pro 1,99 € im Monat · ohne Anmeldung", "Free at no cost · Pro €1.99 a month · no sign-up")}</p>
+        <p class="ls-klein">${tx(`Free kostenlos · Pro ab ${euro(PRO_JAHR_MONAT)} im Monat · ohne Anmeldung`, `Free at no cost · Pro from ${euro(PRO_JAHR_MONAT)} a month · no sign-up`)}</p>
         <div class="ls-band" aria-hidden="true"><i></i></div>
         <div class="ls-rad" aria-hidden="true">${radSvg({anim:true, sattel:780})}</div>
       </section>
@@ -5428,7 +5475,8 @@ function startseiteHtml(){
       <section class="ls-titel ls-rein"><h2>${tx("Free oder Pro", "Free or Pro")}</h2><p>${tx("Fast alles ist kostenlos. Pro gibt es für alle, die mehr wollen.", "Almost everything is free. Pro is for everyone who wants more.")}</p></section>
       <div class="ls-preise ls-rein">
         <div class="ls-preis"><span>Free</span><b>0 €</b>${liste(frei)}</div>
-        <div class="ls-preis pro"><span>Pro</span><b>${sprache === "en" ? "€1.99" : "1,99 €"} <small>${tx("im Monat", "a month")}</small></b>${liste(plus)}<small>${tx("Jederzeit kündbar, über Lemon Squeezy.", "Cancel anytime, via Lemon Squeezy.")}</small></div>
+        <div class="ls-preis pro"><span>Pro</span><b>${euro(PRO_JAHR_MONAT)} <small>${tx("im Monat, jährlich", "a month, yearly")}</small></b>
+          <small>${tx(`${euro(PRO_JAHR)} im Jahr — oder ${euro(PRO_MONAT)} monatlich. ${proSparTxt()}.`, `${euro(PRO_JAHR)} a year — or ${euro(PRO_MONAT)} monthly. ${proSparTxt()}.`)}</small>${liste(plus)}<small>${tx("Jederzeit kündbar, über Lemon Squeezy.", "Cancel anytime, via Lemon Squeezy.")}</small></div>
       </div>
       <section class="ls-privat ls-rein">
         <svg class="ls-schloss" viewBox="0 0 120 140" aria-hidden="true"><path d="M30 62V42a30 30 0 0 1 60 0v20"/><rect x="14" y="62" width="92" height="70" rx="16"/></svg>
@@ -7648,7 +7696,7 @@ const EI_SCHRITT = {
       <li><i>${ic(IC.fahrwerk, 17)}</i>${tx("Fahrwerk für dein Gewicht und deinen Stil", "Suspension for your weight and your style")}</li>
       <li><i>${ic(IC.pruef, 17)}</i>${tx("Prüfung: passt jedes Teil zum anderen?", "Check: does every part fit the others?")}</li></ul>`,
     f:`<button class="btn wide gross glanz" data-eiweiter="1">${tx("Los geht's", "Let's go")}</button>
-      <p class="ei-klein">${tx("Rund zwei Minuten · Free kostenlos · Pro für 1,99 € im Monat", "About two minutes · Free at no cost · Pro for €1.99 a month")}</p>`}),
+      <p class="ei-klein">${tx(`Rund zwei Minuten · Free kostenlos · Pro ab ${euro(PRO_JAHR_MONAT)} im Monat`, `About two minutes · Free at no cost · Pro from ${euro(PRO_JAHR_MONAT)} a month`)}</p>`}),
   ziel: () => ({h:`
     <p class="ei-sub" style="--i:0">${tx("Los geht's", "Let's go")}</p>
     <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Was hast du vor?", "What are you planning?")}</h2>
@@ -8825,8 +8873,8 @@ const GUIDE = [
    a:["Im Reiter <b>Kaufen</b> steht die Einkaufsliste: jedes Teil mit Preis und Knopf zum Shop, dazu die Summe. Die Liste kannst du als Text kopieren, etwa für deine Werkstatt. Bei Mein Rad und Gebraucht zeigt der Reiter reduzierte Teile, die zu deinem Rad passen. Bestellt wird im Shop — CrankScore verkauft selbst nichts.",
      "The <b>Buy</b> tab has the shopping list: every part with price and a button to the shop, plus the total. You can copy the list as text, e.g. for your workshop. In My bike and Used, the tab shows discounted parts that fit your bike. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
   {id:"anzeige", k:"anzeige werbung partnerlink partnerlinks provision affiliate verdient verdienen kostenlos gratis finanziert sponsored ad ads free", t:["Ist die App kostenlos? Was heißt „Anzeige“?", "Is the app free? What does “Ad” mean?"],
-   a:["Es gibt <b>Free</b> und <b>Pro</b>. Free ist kostenlos und kann fast alles; <b>Pro</b> kostet 1,99 € im Monat und bringt unbegrenzt Räder, den Federungsrechner und den Guide ohne Limit. Außerdem sind manche Shop-Links Partnerlinks: Kaufst du darüber, bekommt CrankScore eine kleine Provision — dein Preis bleibt gleich. Solche Links sind direkt am Shop mit <b>Anzeige</b> gekennzeichnet. Welches Teil passt, entscheidet die Prüfung, nicht die Provision.",
-     "There's <b>Free</b> and <b>Pro</b>. Free costs nothing and does almost everything; <b>Pro</b> costs €1.99 a month and adds unlimited bikes, the suspension calculator and an unlimited guide. Also, some shop links are partner links: if you buy through them, CrankScore gets a small commission — your price stays the same. Such links are marked <b>Ad</b> right at the shop. Which part fits is decided by the check, not by the commission."], ak:["pro"]},
+   a:["Es gibt <b>Free</b> und <b>Pro</b>. Free ist kostenlos und kann fast alles; <b>Pro</b> kostet 6,99 € im Monat oder 3,99 € im Monat bei jährlicher Zahlung (47,88 € im Jahr, 36 € gespart) und bringt unbegrenzt Räder, den Federungsrechner und den Guide ohne Limit. Außerdem sind manche Shop-Links Partnerlinks: Kaufst du darüber, bekommt CrankScore eine kleine Provision — dein Preis bleibt gleich. Solche Links sind direkt am Shop mit <b>Anzeige</b> gekennzeichnet. Welches Teil passt, entscheidet die Prüfung, nicht die Provision.",
+     "There's <b>Free</b> and <b>Pro</b>. Free costs nothing and does almost everything; <b>Pro</b> costs €6.99 a month, or €3.99 a month billed yearly (€47.88 a year, €36 saved), and adds unlimited bikes, the suspension calculator and an unlimited guide. Also, some shop links are partner links: if you buy through them, CrankScore gets a small commission — your price stays the same. Such links are marked <b>Ad</b> right at the shop. Which part fits is decided by the check, not by the commission."], ak:["pro"]},
   {id:"pro", k:"premium abo abonnement freischalten lizenz lizenzcode code kuendigen kuendigung bezahlen lemon squeezy subscription license unlock cancel paid", t:["Was bringt Pro?", "What does Pro include?"], a:gPro},
   {id:"preise", k:"livepreis live aktuell aktuelle stand uvp richtpreis reduziert deal deals rabatt sale angebote discount offers current", t:["Woher kommen die Preise?", "Where do the prices come from?"],
    a:["Hat ein Partnershop das Teil, zählt das günstigste lieferbare Angebot — mit Stand, inkl. MwSt., zzgl. Versand. Sonst steht ein Richtpreis auf UVP-Niveau. Ältere Modelljahre rechnet die App günstiger. Im Shop gilt immer der Preis dort.",
@@ -11716,8 +11764,9 @@ function oeffneMenu(){
         „links.json speichern“ veröffentlicht — öffentlich wie jedes Impressum.</p>
       ${BETREIBER_FELDER.filter(f => PRO_FELDER.indexOf(f) < 0).map(betreiberFeld).join("")}
       <div class="grp-h" style="margin-top:14px"><h2>Pro-Verkauf</h2><div class="rule"></div></div>
-      <p class="hint" style="margin:0 0 8px">Bei Lemon Squeezy ein Produkt „CrankScore Pro“ als Abo (1,99 € im Monat) mit
-        Lizenzcodes anlegen, Aktivierungslimit etwa 3 Geräte. Kauf-Link, Store-ID und Produkt-ID hier eintragen und mit
+      <p class="hint" style="margin:0 0 8px">Bei Lemon Squeezy ein Produkt „CrankScore Pro“ als Abo mit zwei Varianten anlegen —
+        monatlich 6,99 € und jährlich 47,88 € (= 3,99 € im Monat) — mit Lizenzcodes, Aktivierungslimit etwa 3 Geräte.
+        Beide Kauf-Links, Store-ID und Produkt-ID hier eintragen und mit
         „links.json speichern“ veröffentlichen. Ohne Store-ID nimmt die App keinen Code an.</p>
       ${PRO_FELDER.map(betreiberFeld).join("")}
       ${status}
@@ -11797,8 +11846,8 @@ function oeffneMenu(){
     <div class="sheet-b">
       <button class="pro-zeile${istPro() ? " an" : ""}" data-pro="menu"><span class="pro-orb klein">${ic(IC.traum, 18)}</span>
         <span><b>CrankScore Pro${istPro() ? ` <i class="pro-an">${tx("aktiv", "active")}</i>` : ""}</b><span>${istPro()
-          ? tx("Unbegrenzt Räder, Federungsrechner, Guide ohne Limit — danke!", "Unlimited bikes, suspension calculator, unlimited guide — thank you!")
-          : tx("Unbegrenzt Räder, Federungsrechner, Guide ohne Limit · 1,99 € im Monat", "Unlimited bikes, suspension calculator, unlimited guide · €1.99 a month")}</span></span>${ic(IC.weiter, 16)}</button>
+          ? (proBetreiber() ? "Betreiber-Modus: alles frei" : tx("Unbegrenzt Räder, Federungsrechner, Guide ohne Limit — danke!", "Unlimited bikes, suspension calculator, unlimited guide — thank you!"))
+          : tx(`Unbegrenzt Räder, Federungsrechner, Guide ohne Limit · ab ${euro(PRO_JAHR_MONAT)} im Monat`, `Unlimited bikes, suspension calculator, unlimited guide · from ${euro(PRO_JAHR_MONAT)} a month`)}</span></span>${ic(IC.weiter, 16)}</button>
       <div class="hilfe-start">
         <button class="hs-knopf" data-hilfe="start"><span class="hs-ic">${ic(IC.neustart, 20)}</span>
           <b>${tx("Einstieg wiederholen", "Repeat the setup")}</b><span>${tx("Alle Fragen noch einmal — Größe, Fahrstil, Budget", "All the questions again — size, riding style, budget")}</span></button>
