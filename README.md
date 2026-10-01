@@ -361,7 +361,7 @@ Actions -> Veroeffentlichen -> *Run workflow*, geht auch am Handy.
 
 ## Betreiber-Modus
 
-App einmal mit `#betreiber` am Ende der Adresse öffnen. Dann stehen unter ⋮
+App einmal mit `#betreiber` am Ende der Adresse öffnen und den PIN eingeben. Dann stehen unter ⋮
 die Prüfliste bis zur Veröffentlichung, die Impressum-Angaben, Affiliate-Links,
 Netzwerk-IDs und Feeds. Normale Nutzer sehen davon nichts.
 
@@ -371,8 +371,9 @@ CrankScore gibt es als **Free** (kostenlos) und **Pro**: 6,99 € im Monat oder
 3,99 € im Monat bei jährlicher Zahlung (47,88 € im Jahr — 36 € bzw. 43 %
 gespart gegenüber monatlich), jederzeit kündbar. Die Pro-Seite zeigt beide
 Tarife nebeneinander, jährlich hervorgehoben, die Ersparnis rechnet die App aus
-den Preisen (`PRO_MONAT`, `PRO_JAHR_MONAT`). Im **Betreiber-Modus** (`#betreiber`)
-ist Pro immer an — der Betreiber testet alles, ohne zu zahlen; Betreiber-Modus
+den Preisen (`PRO_MONAT`, `PRO_JAHR_MONAT`). Im **Betreiber-Modus** (`#betreiber`, beim
+ersten Mal je Gerät mit PIN — im Code steht nur ein gesalzener PBKDF2-Hash;
+„Gerät abmelden“ verlangt ihn wieder) ist Pro immer an — der Betreiber testet alles, ohne zu zahlen; Betreiber-Modus
 aus zeigt die App wie für Free-Nutzer. Pro bringt:
 
 - **Unbegrenzt Räder.** Free: ein Rad je Modus (Traumrad, Mein Rad, Gebraucht).
@@ -393,7 +394,7 @@ Ist das Abo abgelaufen, ist Pro aus; ohne Netz bleibt Pro 14 Tage ab der
 letzten erfolgreichen Prüfung an. Ein Code von einem fremden Store wird
 abgelehnt. „Auf diesem Gerät entfernen“ gibt die Aktivierung frei, damit man
 den Code woanders nutzen kann. Ohne Server lässt sich Pro durch Ändern des
-Browser-Speichers vortäuschen (oder über `#betreiber`) — ohne Server ist das hingenommen.
+Browser-Speichers vortäuschen — ohne Server ist das hingenommen; `#betreiber` allein reicht seit dem PIN nicht mehr.
 
 **Einrichten (einmalig):**
 

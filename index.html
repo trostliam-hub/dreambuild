@@ -3754,7 +3754,8 @@ function laden(){
     if(zg){ const q = JSON.parse(zg); if(q && typeof q === "object") zuGeklappt = q; }
     const lk = localStorage.getItem("mtb.links");
     if(lk){ const q = JSON.parse(lk); if(q && q.teile && typeof q.teile === "object") linksLokal = {teile:q.teile}; }
-    linkVerwaltung = localStorage.getItem("mtb.linkadmin") === "1";
+    /* Betreiber-Modus nur mit gemerktem PIN -- ein alter Schalter ohne PIN gilt nicht mehr */
+    linkVerwaltung = localStorage.getItem("mtb.linkadmin") === "1" && btFrei();
     const bt = localStorage.getItem("mtb.betreiber");
     if(bt){ const q = JSON.parse(bt); if(q && typeof q === "object") betreiberLokal = q; }
     const fd = localStorage.getItem("mtb.feed");
@@ -4937,6 +4938,66 @@ function betreiber(){
 const impressumFehlt = () => ["name", "strasse", "ort", "email"].filter(k => !betreiber()[k]);
 let linksLokal = {teile:{}};
 let linkVerwaltung = false;
+/* ═══ PIN fuer den Betreiber-Modus (Liam 2026-10-01) ═══
+   #betreiber allein reicht nicht mehr: einmal je Geraet den PIN eingeben.
+   Im Code steht nur ein gesalzener PBKDF2-Hash (SHA-256, 150 000 Runden),
+   nicht der PIN selbst. Nach der richtigen Eingabe merkt sich das Geraet den
+   Hash; Betreiber-Modus aus und wieder an braucht dann keinen PIN mehr,
+   "Geraet abmelden" schon. Ohne Server bleibt eine Grenze: wer den
+   Speicher von Hand aendert, kommt trotzdem hinein -- der PIN haelt nur die
+   ab, die den Link kennen. PIN aendern: neuen Hash mit Salz erzeugen
+   (Python: hashlib.pbkdf2_hmac("sha256", pin, salz, 150000)). */
+const BT_SALZ = "87e5edfaea04225b2860b269db106d2d", BT_HASH = "e49d113eefb01331aed6f3dc7dc0babb9e44fbb12dd1a5551253336fe03c87f5", BT_RUNDEN = 150000;
+const btFrei = () => { try{ return localStorage.getItem("mtb.betreiberok") === BT_HASH; }catch(e){ return false; } };
+async function btPruefen(pin){
+  try{
+    const enc = new TextEncoder(), salz = new Uint8Array(BT_SALZ.match(/../g).map(x => parseInt(x, 16)));
+    const k = await crypto.subtle.importKey("raw", enc.encode(String(pin)), "PBKDF2", false, ["deriveBits"]);
+    const bits = await crypto.subtle.deriveBits({name:"PBKDF2", hash:"SHA-256", salt:salz, iterations:BT_RUNDEN}, k, 256);
+    return Array.from(new Uint8Array(bits)).map(x => x.toString(16).padStart(2, "0")).join("") === BT_HASH;
+  }catch(e){ return false; }
+}
+let btFehlversuche = 0, btSperreBis = 0, btMeldung = "", btLaeuft = false;
+function oeffneBetreiberPin(){
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">CrankScore</span>Betreiber-Modus</h3>${zuBtn}</div>
+    <div class="sheet-b">
+      <p class="hint" style="margin:0 0 10px">Gib deinen PIN ein. Das Gerät merkt sich das — danach geht <code>#betreiber</code> ohne PIN, bis du es unter ⋮ abmeldest.</p>
+      <form id="bt-form" autocomplete="off">
+        <div class="fld"><label for="bt-pin">PIN</label>
+          <input id="bt-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="••••••"></div>
+        <button class="btn wide" type="submit"${btLaeuft ? " disabled" : ""}>${btLaeuft ? "Prüfe …" : "Entsperren"}</button>
+      </form>
+      ${btMeldung ? `<p class="pro-hin">${btMeldung}</p>` : ""}
+    </div>`);
+  setTimeout(() => { const i = $("bt-pin"); if(i) i.focus(); }, 50);
+}
+async function btEntsperren(pin){
+  if(Date.now() < btSperreBis){ btMeldung = `Zu viele Versuche — warte ${Math.ceil((btSperreBis - Date.now()) / 1000)} Sekunden.`; oeffneBetreiberPin(); return; }
+  btLaeuft = true; btMeldung = ""; oeffneBetreiberPin();
+  const ok = await btPruefen(String(pin || "").trim());
+  btLaeuft = false;
+  if(!ok){
+    btFehlversuche++;
+    if(btFehlversuche >= 5){ btSperreBis = Date.now() + 60000; btFehlversuche = 0; }
+    btMeldung = "Falscher PIN.";
+    oeffneBetreiberPin(); return;
+  }
+  try{ localStorage.setItem("mtb.betreiberok", BT_HASH); }catch(e){}
+  btMeldung = ""; btFehlversuche = 0;
+  linkVerwaltung = true; sichern(); schliesse(); zeichne();
+  zeigeToast("Betreiber-Modus an — Pro ist frei. Unter ⋮ stehen Impressum, Links und Netzwerk.");
+}
+/* #betreiber: mit gemerktem PIN sofort an, sonst nach dem PIN fragen */
+function betreiberLink(imStart){
+  if(!/^#betreiber$/i.test(location.hash)) return false;
+  try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
+  if(btFrei()){
+    linkVerwaltung = true; sichern(); if(!imStart) zeichne();
+    setTimeout(() => zeigeToast("Betreiber-Modus an — unter ⋮ stehen Impressum, Links und Netzwerk."), 400);
+  } else setTimeout(oeffneBetreiberPin, 300);
+  return true;
+}
+window.addEventListener("hashchange", () => betreiberLink(false));
 const httpsNur = x => (typeof x === "string" && /^https:\/\/[^\s"'<>\\]+$/i.test(x.trim())) ? x.trim() : "";
 const netzWert = k => String(aff[k] || (linksServer.netz || {})[k] || "").trim();
 const midVon = id => String(((aff.mid || {})[id]) || (((linksServer.netz || {}).mid || {})[id]) || "").trim();
@@ -11840,7 +11901,8 @@ function oeffneMenu(){
         Gesamtpreis — deshalb der Stand und der Hinweis, dass der Preis im Shop gilt.
         ${amazonAktiv() ? "<br><br><b>Amazon.</b> Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}
       </p>
-      <div style="margin:12px 0 4px"><button class="btn ghost wide" data-lkadmin="1">Betreiber-Modus ausschalten</button></div>`;
+      <div style="margin:12px 0 4px"><button class="btn ghost wide" data-lkadmin="1">Betreiber-Modus ausschalten</button></div>
+      <div style="margin:6px 0 4px"><button class="btn ghost wide" data-btabmelden="1">Gerät abmelden (PIN wieder verlangen)</button></div>`;
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${tx("Einstellungen", "Settings")}</span>${linkVerwaltung ? "App &amp; Betrieb" : tx("App &amp; Profil", "App &amp; profile")}</h3>${zuBtn}</div>
     <div class="sheet-b">
@@ -12010,7 +12072,12 @@ document.addEventListener("click", e => {
   if(lkn){ linkSpeichern(lkn.dataset.lkneu); return; }
   const lkw = T("[data-lkweg]");
   if(lkw){ const q = lkw.dataset.lkweg.split("|"); linkLoeschen(q[0], +q[1]); if(!detailOffen || !$("lk-url")) oeffneMenu(); return; }
-  if(T("[data-lkadmin]")){ linkVerwaltung = !linkVerwaltung; sichern(); zeichne(); oeffneMenu(); return; }
+  if(T("[data-lkadmin]")){ linkVerwaltung = !linkVerwaltung && btFrei(); sichern(); zeichne(); oeffneMenu(); return; }
+  if(T("[data-btabmelden]")){
+    try{ localStorage.removeItem("mtb.betreiberok"); }catch(e){}
+    linkVerwaltung = false; sichern(); zeichne(); oeffneMenu();
+    zeigeToast("Abgemeldet — #betreiber fragt auf diesem Gerät wieder nach dem PIN."); return;
+  }
   const rc = T("[data-recht]");
   if(rc){ oeffneRecht(rc.dataset.recht); return; }
   if(T("[data-lkexport]")){ linksSpeichernDatei(); return; }
@@ -12368,6 +12435,7 @@ document.addEventListener("keydown", e => {
 /* Guide: Frage abschicken, per Enter oder Pfeil */
 document.addEventListener("submit", e => {
   if(e.target && e.target.id === "pro-form"){ e.preventDefault(); proFreischalten(($("pro-in") || {}).value); return; }
+  if(e.target && e.target.id === "bt-form"){ e.preventDefault(); btEntsperren(($("bt-pin") || {}).value); return; }
   if(!e.target || e.target.id !== "g-form") return;
   e.preventDefault();
   const i = $("g-in"); if(!i) return;
@@ -12386,11 +12454,7 @@ function start(daten){
      mehr, als die alte Startauswahl wusste */
   try{ erstesMal = !localStorage.getItem("mtb.einstieg2"); }catch(e){}
   laden();
-  if(/^#betreiber$/i.test(location.hash)){
-    linkVerwaltung = true; sichern();
-    try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
-    setTimeout(() => zeigeToast("Betreiber-Modus an — unter ⋮ stehen Impressum, Links und Netzwerk."), 400);
-  }
+  const btLink = betreiberLink(true);
   if(daten && daten.builds){
     builds = daten.builds; modus = daten.modus || modus; 
     fotos = daten.fotos || fotos;
@@ -12404,12 +12468,12 @@ function start(daten){
   proPruefen();
   const startHash = /^#start$/i.test(location.hash);
   if(startHash){ try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){} }
-  if((startHash || (erstesMal && !istInstalliert())) && !daten && !linkVerwaltung) oeffneStartseite();
-  else if(erstesMal && !daten && !linkVerwaltung) setTimeout(() => { if(!$("modal").firstElementChild) oeffneEinstieg("voll"); }, 250);
+  if((startHash || (erstesMal && !istInstalliert())) && !daten && !linkVerwaltung && !btLink) oeffneStartseite();
+  else if(erstesMal && !daten && !linkVerwaltung && !btLink) setTimeout(() => { if(!$("modal").firstElementChild) oeffneEinstieg("voll"); }, 250);
   else {
     einflug();
     /* Wer den Einstieg schon vor dem Rundgang gemacht hat, bekommt ihn einmal so */
-    if(!tourGesehen() && !daten && !linkVerwaltung) setTimeout(() => { if(!$("modal").firstElementChild) tourStart(); }, 1400);
+    if(!tourGesehen() && !daten && !linkVerwaltung && !btLink) setTimeout(() => { if(!$("modal").firstElementChild) tourStart(); }, 1400);
   }
 }
 /* Zurueck in der App nach mehr als einer halben Stunde: frische Preise holen */
