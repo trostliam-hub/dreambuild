@@ -1113,6 +1113,8 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .fld input{font-size:16px;padding:10px 12px;border-radius:12px;
   border:1px solid transparent;background:var(--surface-2);color:var(--ink);width:100%;font-family:var(--f-sans)}
 .fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px var(--anod-soft)}
+.fld input[aria-invalid="true"]{border-color:var(--bad)}
+.fld-fehler{display:block;margin-top:6px;font-size:12.5px;color:var(--bad)}
 .hint{font-size:12px;color:var(--ink-3);line-height:1.5;margin:0}
 .hint code{font-family:var(--f-mono);font-size:10.5px;overflow-wrap:anywhere}
 .legal{font-size:12px;color:var(--ink-3);line-height:1.6;border-top:1px solid var(--line-soft);
@@ -10475,7 +10477,7 @@ function federFrageHtml(){
   if(i === 0) return kopf + `<p class="q">${tx("Wie schwer und wie groß bist du?", "How heavy and how tall are you?")}</p>
     <p class="qs">${tx("Gewicht ohne Ausrüstung — die kommt im nächsten Schritt. Die Größe ist freiwillig: mit dem Radstand deines Rahmens schätzt die App, wie viel Gewicht auf der Gabel liegt.", "Weight without gear — that comes next. Height is optional: together with your frame's wheelbase the app estimates how much weight is on the fork.")}</p>
     <div class="fld"><label for="f-gew">${tx("Gewicht in kg", "Weight in kg")}</label>
-      <input id="f-gew" type="number" inputmode="numeric" min="30" max="160" value="${plan.fahrer || ""}" placeholder="${tx("z. B. 78", "e.g. 78")}" data-plan="fahrer"></div>
+      <input id="f-gew" type="number" inputmode="numeric" min="30" max="180" value="${plan.fahrer || ""}" placeholder="${tx("z. B. 78", "e.g. 78")}" data-plan="fahrer"></div>
     <div class="fld"><label for="f-cm">${tx("Größe in cm (freiwillig)", "Height in cm (optional)")}</label>
       <input id="f-cm" type="number" inputmode="numeric" min="130" max="215" value="${fprofil.cm || ""}" placeholder="${tx("z. B. 180", "e.g. 180")}" data-fcm="1"></div>
     <button class="btn wide" data-ffweiter="1"${plan.fahrer > 0 ? "" : " disabled"}>${fEinzeln ? tx("Fertig", "Done") : tx("Weiter", "Next")}</button>`;
@@ -12403,8 +12405,17 @@ document.addEventListener("input", e => {
   }
   const pl = e.target.closest("[data-plan]");
   if(pl){
-    const v = parseInt(pl.value, 10);
-    plan[pl.dataset.plan] = isNaN(v) || v < 0 ? 0 : v;
+    /* Plausible Grenzen: 99 999 kg Fahrer rechnete sonst Luftdruecke jenseits
+       jeder Gabel. Ausserhalb gilt das Feld als leer, und darunter steht warum. */
+    const v = parseInt(pl.value, 10), k = pl.dataset.plan;
+    const GR = {fahrer:[30, 180], budget:[0, 100000]}, gr = GR[k];
+    const raus = !isNaN(v) && gr && (v < gr[0] || v > gr[1]);
+    plan[k] = isNaN(v) || v < 0 || raus ? 0 : v;
+    pl.setAttribute("aria-invalid", raus ? "true" : "false");
+    let hin = pl.parentElement.querySelector(".fld-fehler");
+    if(raus && !hin){ hin = document.createElement("span"); hin.className = "fld-fehler"; pl.insertAdjacentElement("afterend", hin); }
+    if(hin){ hin.hidden = !raus; if(raus) hin.textContent = k === "fahrer" ? tx(`Bitte ein Gewicht zwischen ${gr[0]} und ${gr[1]} kg eingeben.`, `Please enter a weight between ${gr[0]} and ${gr[1]} kg.`)
+      : tx(`Bitte höchstens ${gr[1].toLocaleString("de-DE")} € eingeben.`, `Please enter at most €${gr[1].toLocaleString("en")}.`); }
     sichern(); zeichne();
     const btn = $("modal").querySelector(".sheet-f .btn.wide");
     if(btn && wizOffen()) btn.disabled = !(plan[pl.dataset.plan] > 0);
