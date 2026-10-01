@@ -449,6 +449,20 @@ einrichten, danach läuft es von selbst:
 Die Download-Adressen enthalten den persönlichen API-Schlüssel. Sie gehören
 nur ins Secret, nie in eine Datei — das Repo ist öffentlich.
 
+## Guide als Werkstatt-Experte
+
+Der eingebaute Guide (Sprechblase oben rechts) beantwortet neben App- und
+Aufbaufragen auch Werkstattfragen — einfach erklärt, Fachwörter sofort
+übersetzt, Arbeiten als nummerierte Schritte, bei Bremsen immer mit
+Sicherheitshinweis: Bremse schleift / quietscht, entlüften, Beläge wechseln,
+Felgen- und Rücktrittbremse, Schaltung einstellen, Schaltung springt, Kette
+wechseln, messen und ölen, Inspektion, Platten, Nabenschaltung, Marken-
+Vergleiche (Bremsen, Schaltungen, E-Bike-Motoren), Mineralöl oder DOT.
+Die Antwort richtet sich nach dem Rad im Aufbau (welche Bremse, welche
+Flüssigkeit, Shimano/SRAM Eagle/Transmission/Di2, welche Kette); nennt die
+Frage eine Marke („Wie entlüfte ich eine Magura?“), gilt die. Fehlt das Teil,
+fragt der Guide danach. Alles läuft offline in der App, ohne KI-Dienst.
+
 ## Kompatibilitäts-Prüfung
 
 `node tools/kompat-test.mjs` lädt die App in Chromium (Playwright) und spielt

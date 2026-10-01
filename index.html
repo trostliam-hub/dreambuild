@@ -729,6 +729,9 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .g-bl ul,.g-bl ol{margin:6px 0 8px;padding-left:20px}
 .g-bl li{margin:3px 0}
 .g-bl b{font-weight:750}
+.g-bl p{margin:8px 0 0}
+.g-bl .g-sicher{padding:7px 10px;border-left:3px solid var(--warn);background:var(--warn-soft);border-radius:8px}
+.g-bl .g-nach{color:var(--anod)}
 .g-av{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--grad);color:#fff}
 .g-ak{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .g-auch{font-size:12px;color:var(--ink-3);margin:-2px 0 -4px 36px}
@@ -8724,8 +8727,8 @@ function gMindest(q){
       "Below that it becomes a bike with compromises. Used, you often get much more for your money — the Used mode checks the price."), ak:[modus === "traum" ? "wiz" : "modus:traum"]};
 }
 function gUeber(){
-  return {h:tx(`Ich bin der eingebaute Guide von CrankScore — keine KI aus dem Internet, sondern eine Wissenssammlung direkt in der App, die mit deinem Aufbau rechnet. Ich erkenne, was du wissen willst, und antworte aus ${GUIDE.length} Themen zur App und zum Rad. Zu deinem Rad rechne ich live: was zur 100 fehlt und welcher Tausch am meisten bringt, welche Teile am besten passen, wofür dein Rad taugt, wo du Geld oder Gewicht sparst. Teile finde ich im Katalog und sage dir, ob sie passen. Alles bleibt auf deinem Handy, auch offline.`,
-    `I'm CrankScore's built-in guide — not an AI from the internet, but a knowledge base right inside the app that calculates with your build. I work out what you want to know and answer from ${GUIDE.length} topics about the app and the bike. For your bike I calculate live: what's missing to get 100 and which swap gains the most, which parts fit best, what your bike is good for, where you save money or weight. I find parts in the catalogue and tell you whether they fit. Everything stays on your phone, even offline.`)};
+  return {h:tx(`Ich bin der eingebaute Guide von CrankScore — keine KI aus dem Internet, sondern eine Wissenssammlung direkt in der App, die mit deinem Aufbau rechnet. Ich erkenne, was du wissen willst, und antworte aus ${GUIDE.length} Themen zur App und zum Rad. Zu deinem Rad rechne ich live: was zur 100 fehlt und welcher Tausch am meisten bringt, welche Teile am besten passen, wofür dein Rad taugt, wo du Geld oder Gewicht sparst. Und ich helfe in der Werkstatt: Bremse schleift oder quietscht, entlüften, Beläge, Schaltung einstellen, Kette wechseln, Inspektion, Platten — Schritt für Schritt und passend zu den Teilen an deinem Rad. Teile finde ich im Katalog und sage dir, ob sie passen. Alles bleibt auf deinem Handy, auch offline.`,
+    `I'm CrankScore's built-in guide — not an AI from the internet, but a knowledge base right inside the app that calculates with your build. I work out what you want to know and answer from ${GUIDE.length} topics about the app and the bike. For your bike I calculate live: what's missing to get 100 and which swap gains the most, which parts fit best, what your bike is good for, where you save money or weight. And I help in the workshop: rubbing or squealing brakes, bleeding, pads, adjusting gears, changing the chain, inspection, flats — step by step and matched to the parts on your bike. I find parts in the catalogue and tell you whether they fit. Everything stays on your phone, even offline.`)};
 }
 const gBegriff = i => () => { const b = (sprache === "en" ? BEGRIFFE_EN : BEGRIFFE)[i]; return {h:`<b>${esc(b[0])}</b> — ${esc(b[1])}`}; };
 
@@ -9084,6 +9087,9 @@ function gAbsicht(text){
     || hat(/\spro\s$/) || hat(/ (mit|ohne|with|without|get|buy|kaufen|holen) pro /)
     || hat(/ pro (version|abo|freischalt\w*|kauf\w*|kaufen|holen|kosten|kostet|nutzer\w*|funktion\w*|feature\w*|vorteil\w*|code|lizenz\w*|konto|account|plan|include\w*|worth|cost\w*|price|bringt|lohnt) /))
     return aus("pro", gPro());
+  /* Werkstattfragen ("meine Bremse schleift, was soll ich tun?") gehoeren der
+     Wissensbasis -- nicht der Teile-Empfehlung, auch wenn "soll" drinsteht */
+  if(G_WERKSTATT_WORT.test(n) && !hat(/ (empfiehl\w*|empfehl\w*|recommend\w*|budget|kaufen|buy) /)) return null;
   /* Wertung: was fehlt zur 100, was zieht runter, welcher Tausch bringt am meisten */
   if((B.hundert && !B.mass && !slot)
     || (hat(/ (nur|only|just|bloss|lediglich) [1-9]\d /) && !B.mass)
@@ -9121,6 +9127,356 @@ function gAbsichtArt(art, slot, aus){
   if(art === "meinteil") return aus("meinteil-" + slot, gMeinTeil(slot), merk);
   return aus("empfehlung-" + slot, gEmpfehlung(slot), merk);
 }
+
+/* ═══════════ Werkstatt-Wissen (Liam 2026-10-01) ═══════════
+   Der Guide als Fahrrad-Experte fuer jedes Rad in der App: Bremsen,
+   Schaltung, Kette, Inspektion, Marken -- in einfacher Sprache, Fachwoerter
+   sofort erklaert, Arbeiten als nummerierte Schritte, bei Bremsen immer mit
+   Sicherheitshinweis. Die Antwort passt sich an das Rad im Aufbau an (welche
+   Bremse, welche Schaltung, welche Kette). Nennt die Frage eine Marke ("Wie
+   entluefte ich eine Magura?"), gilt die. Ist nichts bekannt, kommt die
+   allgemeine Anleitung und die Frage nach dem Teil. */
+const gT = k => build[k] && !entfaellt(build, k) ? findeTeil(k, build[k]) : null;
+const gWortDa = (q, re) => (q || []).some(x => re.test(x.w));
+const gSicher = (de, en) => `<p class="g-sicher"><b>${tx("Sicherheit:", "Safety:")}</b> ${tx(de, en)}</p>`;
+const gOl = l => "<ol>" + l.map(x => "<li>" + x + "</li>").join("") + "</ol>";
+const gUl = l => "<ul>" + l.map(x => "<li>" + x + "</li>").join("") + "</ul>";
+const gFrage = (de, en) => `<p class="g-nach">${tx(de, en)}</p>`;
+
+/* Bremse: Marke, Fluessigkeit, Entlueft-Art. DOT zieht Wasser und greift Lack
+   an; Mineraloel ist harmloser. Niemals mischen. */
+const G_BREMS = {
+  shimano:{m:"Shimano", oel:"min", fl:["Shimano-Mineralöl", "Shimano mineral oil"], art:"trichter"},
+  magura:{m:"Magura", oel:"min", fl:["Magura Royal Blood (Mineralöl)", "Magura Royal Blood (mineral oil)"], art:"spritze"},
+  trp:{m:"TRP", oel:"min", fl:["TRP-Mineralöl", "TRP mineral oil"], art:"trichter"},
+  tektro:{m:"Tektro", oel:"min", fl:["Tektro-Mineralöl", "Tektro mineral oil"], art:"trichter"},
+  trickstuff:{m:"Trickstuff", oel:"min", fl:["Trickstuff Bionol (Mineralöl)", "Trickstuff Bionol (mineral oil)"], art:"spritze"},
+  sramMin:{m:"SRAM", oel:"min", fl:["SRAM Maven Mineral Oil", "SRAM Maven mineral oil"], art:"sram"},
+  sram:{m:"SRAM", oel:"dot", fl:["DOT 5.1", "DOT 5.1"], art:"sram"},
+  hope:{m:"Hope", oel:"dot", fl:["DOT 5.1", "DOT 5.1"], art:"offen"},
+  hayes:{m:"Hayes", oel:"dot", fl:["DOT 5.1", "DOT 5.1"], art:"spritze"},
+  formulaMin:{m:"Formula", oel:"min", fl:["Formula-Mineralöl (Cura)", "Formula mineral oil (Cura)"], art:"spritze"},
+  formula:{m:"Formula", oel:"dot", fl:["DOT 4", "DOT 4"], art:"spritze"}
+};
+function gBremse(q){
+  /* zuerst, was die Frage nennt */
+  const n = (q || []).map(x => x.w).join(" ");
+  const ausFrage = /\b(maven|motive)\b/.test(n) ? "sramMin" : /\b(sram|avid)\b/.test(n) ? "sram"
+    : /\b(shimano|deore|slx|xtr|saint|zee)\b/.test(n) ? "shimano" : /\b(magura|mt[45578])\b/.test(n) ? "magura"
+    : /\bhope\b/.test(n) ? "hope" : /\btrp\b/.test(n) ? "trp" : /\btektro\b/.test(n) ? "tektro" : /\bhayes\b/.test(n) ? "hayes"
+    : /\b(trickstuff|maxima|direttissima)\b/.test(n) ? "trickstuff" : /\bcura\b/.test(n) ? "formulaMin" : /\bformula\b/.test(n) ? "formula" : null;
+  if(ausFrage) return {...G_BREMS[ausFrage], teil:null, frage:true};
+  const t = gT("bremsen");
+  if(!t) return null;
+  if(t.mount === "Felge") return {felge:true, teil:t, m:t.m};
+  const id = String(t.id).split("|")[0], m = (t.m || "").toLowerCase();
+  const k = m === "sram" ? (/maven|motive/.test(id) ? "sramMin" : "sram") : m === "formula" ? (/cura/.test(id) ? "formulaMin" : "formula")
+    : G_BREMS[m] ? m : null;
+  return k ? {...G_BREMS[k], teil:t} : {m:t.m, teil:t, oel:null};
+}
+const gBremsKopf = b => !b ? "" : b.felge ? tx(`An deinem Rad: <b>${esc(b.teil.n)}</b> (Felgenbremse).`, `On your bike: <b>${esc(b.teil.n)}</b> (rim brake).`)
+  : b.teil ? tx(`An deinem Rad: <b>${esc(b.teil.n)}</b>${b.fl ? ` — Bremsflüssigkeit <b>${sp2(b.fl)}</b>` : ""}.`, `On your bike: <b>${esc(b.teil.n)}</b>${b.fl ? ` — brake fluid <b>${sp2(b.fl)}</b>` : ""}.`)
+  : tx(`Für <b>${esc(b.m)}</b>: Bremsflüssigkeit <b>${sp2(b.fl)}</b>.`, `For <b>${esc(b.m)}</b>: brake fluid <b>${sp2(b.fl)}</b>.`);
+const gOhneBremse = () => gFrage("Welche Bremse hast du? Trag sie unter <b>Bremsen</b> ein oder nenn mir die Marke (z. B. „Shimano“ oder „Magura“) — dann sage ich dir genau, was du brauchst.",
+  "Which brake do you have? Add it under <b>Brakes</b> or tell me the brand (e.g. “Shimano” or “Magura”) — then I'll tell you exactly what you need.");
+
+function gWSchleift(q){
+  const b = gBremse(q);
+  if(b && b.felge) return gWFelge(q);
+  const h = tx("Schleifen heißt: Die <b>Bremsscheibe</b> (die Metallscheibe an der Nabe) berührt beim Drehen einen <b>Bremsbelag</b> (die Reibklötze im Bremssattel). Das kostet Kraft und nervt — ist aber meist schnell behoben.",
+      "Rubbing means the <b>rotor</b> (the metal disc on the hub) touches a <b>brake pad</b> (the friction blocks in the caliper) as it turns. It costs energy and is annoying — but usually quick to fix.")
+    + (b ? "<br>" + gBremsKopf(b) : "")
+    + gOl([tx("<b>Laufrad prüfen:</b> Steckachse ganz rein und fest? Sitzt das Rad schief, schleift es schon deshalb.", "<b>Check the wheel:</b> is the thru-axle fully in and tight? A crooked wheel rubs for that reason alone."),
+      tx("<b>Sattel ausrichten:</b> Die zwei Schrauben, die den <b>Bremssattel</b> (das Gehäuse um die Scheibe) halten, eine halbe Umdrehung lösen. Bremshebel ziehen und festhalten — der Sattel richtet sich dabei mittig aus.", "<b>Align the caliper:</b> loosen the two bolts holding the <b>caliper</b> (the housing around the rotor) half a turn. Pull the brake lever and hold it — the caliper centres itself."),
+      tx("Hebel weiter gezogen halten und die Schrauben <b>abwechselnd</b> festziehen (meist 6–8 Nm, steht am Sattel). Loslassen, Rad drehen.", "Keep the lever pulled and tighten the bolts <b>alternately</b> (usually 6–8 Nm, marked on the caliper). Let go, spin the wheel."),
+      tx("Schleift es noch: Von hinten durch den Spalt gegen das Licht schauen. Ist die <b>Scheibe verbogen</b> (sie „eiert“ an einer Stelle), vorsichtig mit einem Scheibenrichter oder einem sauberen Gabelschlüssel richten — ohne die Bremsfläche mit Fingern anzufassen.", "Still rubbing: look through the gap from behind against the light. If the <b>rotor is bent</b> (wobbles at one spot), carefully true it with a rotor truing tool or a clean spanner — without touching the braking surface with your fingers."),
+      tx("Kommt ein <b>Kolben</b> (der Stempel, der den Belag drückt) nicht mehr ganz zurück: Rad raus, Beläge raus, Kolben mit einem Kunststoffhebel vorsichtig zurückdrücken und ein paar Mal pumpen lassen — dabei einen Abstandshalter einlegen.", "If a <b>piston</b> (the plunger that pushes the pad) no longer fully retracts: wheel out, pads out, gently push the piston back with a plastic lever and let it pump a few times — with a spacer in place.")])
+    + gSicher("Nach der Arbeit immer im Stand prüfen: Hebel fest, Rad bremst sofort. Nie einen Schraubenzieher als Hebel an den Kolben — und Bremse nie ohne Scheibe oder Abstandshalter ziehen. Wenn du unsicher bist: Fachwerkstatt.",
+      "After the job always check while standing still: lever firm, wheel stops at once. Never lever the pistons with a screwdriver — and never pull the brake without a rotor or spacer in place. If in doubt: bike shop.");
+  return {h:h + (b ? "" : gOhneBremse()), ak:["slot:bremsen"], chips:[{id:"w-quietscht", t:gTitel("w-quietscht")}, {id:"w-belaege", t:gTitel("w-belaege")}]};
+}
+function gWQuietscht(q){
+  const b = gBremse(q);
+  const h = tx("Quietschen hat fast immer eine von vier Ursachen: <b>Öl oder Fett</b> auf Scheibe oder Belag, <b>verglaste Beläge</b> (die Oberfläche ist durch Hitze glatt und hart geworden), nicht <b>eingebremste</b> neue Teile oder ein schief sitzender Sattel.",
+      "Squealing almost always has one of four causes: <b>oil or grease</b> on rotor or pads, <b>glazed pads</b> (heat made the surface smooth and hard), new parts that weren't <b>bedded in</b>, or a misaligned caliper.")
+    + (b && !b.felge ? "<br>" + gBremsKopf(b) : "")
+    + gOl([tx("Scheibe mit <b>Isopropanol</b> (Reinigungsalkohol aus der Apotheke) oder Bremsenreiniger und einem sauberen Tuch abwischen. Kein Kettenöl, kein Pflegespray in die Nähe!", "Wipe the rotor with <b>isopropyl alcohol</b> or brake cleaner and a clean cloth. No chain oil or care spray anywhere near it!"),
+      tx("Beläge ausbauen und anschauen: glänzend und glatt → mit feinem Schleifpapier (Körnung 120–180) auf einer ebenen Fläche anrauen. Riechen sie nach Öl oder sind dunkel fleckig → <b>tauschen</b>, Öl kriegt man aus Belägen nicht mehr heraus.", "Remove the pads and look: shiny and smooth → roughen them on fine sandpaper (120–180 grit) on a flat surface. Smell of oil or dark stains → <b>replace</b> them, oil never comes out of pads."),
+      tx("Sattel neu ausrichten (Schrauben lösen, Hebel ziehen, abwechselnd festziehen).", "Re-align the caliper (loosen the bolts, pull the lever, tighten alternately)."),
+      tx("<b>Einbremsen:</b> 20–30 Mal aus etwa 20 km/h kräftig bis fast zum Stillstand bremsen, ohne zu blockieren. Erst danach greift die Bremse voll — und bleibt meist leise.", "<b>Bed in:</b> brake firmly 20–30 times from about 20 km/h to almost a stop, without locking up. Only then does the brake bite fully — and usually stays quiet.")])
+    + tx("Gut zu wissen: <b>Sinterbeläge</b> (metallisch) sind von Natur aus lauter, halten aber länger und vertragen Hitze. <b>Organische</b> sind leiser und beißen stärker, verschleißen aber schneller.",
+      "Good to know: <b>sintered pads</b> (metallic) are louder by nature but last longer and handle heat. <b>Organic</b> pads are quieter and bite harder but wear faster.")
+    + gSicher("Ölige Beläge bremsen deutlich schwächer — nicht damit fahren, sondern tauschen. Nach jeder Reinigung erst einbremsen, bevor es bergab geht.",
+      "Oily pads brake much worse — don't ride them, replace them. After any cleaning, bed the brake in before you head downhill.");
+  return {h:h, ak:["slot:bremsen"], chips:[{id:"w-belaege", t:gTitel("w-belaege")}, {id:"w-schleift", t:gTitel("w-schleift")}]};
+}
+function gWEntlueften(q){
+  const b = gBremse(q);
+  if(b && b.felge) return gWFelge(q);
+  const art = b && b.art, dot = b && b.oel === "dot";
+  const weg = {
+    trichter:tx("Bei dieser Bremse arbeitet man mit einem <b>Trichter</b> oben am Hebel: Öl kommt von unten per Spritze in den Sattel und steigt nach oben, die Luft blubbert im Trichter heraus.", "This brake uses a <b>funnel</b> on top of the lever: oil goes in at the caliper from below with a syringe and rises up, the air bubbles out into the funnel."),
+    spritze:tx("Bei dieser Bremse drückt man mit einer <b>Spritze</b> unten am Sattel Öl hinein; oben am Hebel fängt eine zweite Spritze oder ein Beutel das alte Öl und die Luft auf.", "With this brake you push oil in with a <b>syringe</b> at the caliper; a second syringe or bag at the lever catches the old oil and the air."),
+    sram:tx("SRAM arbeitet mit <b>zwei Spritzen</b>: eine am Sattel (meist mit dem „Bleeding Edge“-Adapter), eine am Hebel. Man drückt hin und her und zieht mit Unterdruck die Luft heraus.", "SRAM uses <b>two syringes</b>: one at the caliper (usually with the “Bleeding Edge” adapter), one at the lever. You push back and forth and pull the air out with vacuum."),
+    offen:tx("Hope hat einen <b>offenen Ausgleichsbehälter</b> am Hebel: Deckel ab, Flüssigkeit oben nachfüllen, am Sattel das Entlüftungsventil öffnen und mit dem Hebel durchpumpen.", "Hope has an <b>open reservoir</b> at the lever: lid off, top up from above, open the bleed nipple at the caliper and pump the fluid through with the lever.")};
+  const h = tx("<b>Entlüften</b> heißt: Luftblasen aus der Bremsleitung holen. Luft lässt sich zusammendrücken — der Hebel wird dann weich, „schwammig“, oder lässt sich bis zum Lenker ziehen. Höchste Zeit, wenn der <b>Druckpunkt</b> (der Moment, ab dem der Hebel fest wird) wandert.",
+      "<b>Bleeding</b> means getting air bubbles out of the brake line. Air compresses — the lever goes soft, “spongy”, or pulls to the bar. It's time when the <b>bite point</b> (where the lever goes firm) wanders.")
+    + (b ? "<br>" + gBremsKopf(b) + (art && weg[art] ? " " + weg[art] : "") : "")
+    + gOl([tx("Bereitlegen: das <b>Entlüftungskit des Herstellers</b>, die richtige Flüssigkeit, Handschuhe, Lappen, Isopropanol. Die Anleitung des Herstellers daneben öffnen.", "Get ready: the <b>maker's bleed kit</b>, the correct fluid, gloves, rags, isopropyl alcohol. Keep the maker's instructions open."),
+      tx("Laufrad ausbauen, <b>Beläge raus</b> und einen Abstandshalter (Bleed-Block) zwischen die Kolben stecken. So kann nichts verölen und die Kolben bleiben, wo sie hingehören.", "Remove the wheel, <b>take the pads out</b> and put a spacer (bleed block) between the pistons. That way nothing gets contaminated and the pistons stay put."),
+      tx("Hebel so drehen, dass der <b>Ausgleichsbehälter waagerecht</b> und oben ist — Luft steigt immer zum höchsten Punkt.", "Turn the lever so the <b>reservoir is level</b> and on top — air always rises to the highest point."),
+      tx("Flüssigkeit <b>langsam von unten (Sattel) nach oben (Hebel)</b> drücken, bis oben keine Blasen mehr kommen. Zwischendurch Hebel ein paar Mal ziehen und Leitung leicht beklopfen.", "Push fluid <b>slowly from the bottom (caliper) to the top (lever)</b> until no more bubbles appear. Pull the lever a few times in between and tap the hose gently."),
+      tx("Alles verschließen, Reste sauber abwischen, Beläge und Rad wieder einbauen, Druckpunkt im Stand prüfen.", "Close everything, wipe off any residue, refit pads and wheel, check the bite point while standing still."),
+      tx("Kurz <b>einbremsen</b> (siehe Beläge), dann erst richtig fahren.", "Briefly <b>bed in</b> (see pads), only then ride properly.")])
+    + (dot ? tx("<b>DOT</b> zieht mit der Zeit Wasser aus der Luft und greift Lack an — bei DOT-Bremsen etwa <b>einmal im Jahr</b> komplett tauschen und Spritzer sofort abwaschen.", "<b>DOT</b> absorbs water from the air over time and attacks paint — on DOT brakes replace it fully <b>about once a year</b> and wash off any spills at once.") : "")
+    + gSicher("Nie Mineralöl und DOT verwechseln oder mischen — das zerstört die Dichtungen, die Bremse kann ausfallen. Fühlt sich der Hebel danach nicht fest an: nicht fahren. Entlüften ist eine der heikleren Arbeiten — im Zweifel macht das die Fachwerkstatt in 20 Minuten.",
+      "Never confuse or mix mineral oil and DOT — it destroys the seals and the brake can fail. If the lever doesn't feel firm afterwards: don't ride. Bleeding is one of the trickier jobs — if in doubt, a bike shop does it in 20 minutes.");
+  return {h:h + (b ? "" : gOhneBremse()), ak:["slot:bremsen"], chips:[{id:"bremsenpflege", t:gTitel("bremsenpflege")}]};
+}
+function gWBelaege(q){
+  const b = gBremse(q);
+  if(b && b.felge) return gWFelge(q);
+  const h = tx("<b>Bremsbeläge</b> sind die Reibklötze im Sattel. Wechseln, wenn die Belagschicht dünner als etwa <b>0,5–1 mm</b> ist (zusammen mit der Metallplatte meist unter 2,5–3 mm), wenn es metallisch kratzt oder wenn sie verölt sind.",
+      "<b>Brake pads</b> are the friction blocks in the caliper. Replace them when the pad material is thinner than about <b>0.5–1 mm</b> (usually under 2.5–3 mm including the metal backing), when they scrape metallically or when they're contaminated with oil.")
+    + (b ? "<br>" + gBremsKopf(b) + tx(" Nimm Beläge, die genau für dieses Bremsenmodell gemacht sind — die Form unterscheidet sich je Modell.", " Use pads made for exactly this brake model — the shape differs between models.") : "")
+    + gOl([tx("Laufrad ausbauen.", "Remove the wheel."),
+      tx("Sicherungssplint oder -schraube am Sattel lösen und die alten Beläge samt Feder herausziehen.", "Undo the retaining pin or bolt on the caliper and pull the old pads out together with the spring."),
+      tx("Kolben mit einem <b>Kunststoffhebel</b> ganz zurückdrücken — neue Beläge sind dicker. Bei Bedarf vorher den Hebel-Deckel einen Spalt öffnen, falls Flüssigkeit steigt.", "Push the pistons fully back with a <b>plastic tyre lever</b> — new pads are thicker. If fluid rises, open the lever cap slightly first."),
+      tx("Neue Beläge mit Feder einsetzen, Splint sichern. Belagfläche dabei <b>nicht anfassen</b> — Hautfett reicht für Quietschen.", "Fit the new pads with the spring, secure the pin. <b>Don't touch</b> the pad surface — skin oil is enough to cause squeal."),
+      tx("Rad einbauen, Hebel mehrmals ziehen, bis der Druckpunkt wieder fest ist.", "Refit the wheel, pull the lever several times until the bite point is firm again."),
+      tx("<b>Einbremsen:</b> 20–30 kräftige Bremsungen aus etwa 20 km/h bis fast zum Stillstand.", "<b>Bed in:</b> 20–30 firm stops from about 20 km/h to almost standstill.")])
+    + tx("Und die <b>Scheibe</b>? Auf ihr steht die Mindestdicke eingraviert (meist 1,5–1,8 mm, „MIN TH“). Mit einem Messschieber prüfen — ist sie dünner, mit tauschen.",
+      "And the <b>rotor</b>? Its minimum thickness is engraved on it (usually 1.5–1.8 mm, “MIN TH”). Check with calipers — if it's thinner, replace it too.")
+    + gSicher("Ohne eingebremste Beläge ist die Bremskraft am Anfang deutlich schwächer. Nach dem Wechsel die ersten Meter langsam fahren und testen.",
+      "Without bedding in, braking power is noticeably weaker at first. Ride the first few metres slowly and test.");
+  return {h:h + (b ? "" : gOhneBremse()), ak:["slot:bremsen"], chips:[{id:"w-quietscht", t:gTitel("w-quietscht")}]};
+}
+function gWFelge(q){
+  const b = gBremse(q), hs = b && b.felge && /hs33|magura/i.test(b.teil.n);
+  const h = (b && b.felge ? gBremsKopf(b) + "<br>" : "")
+    + tx("<b>Felgenbremsen</b> drücken Gummiklötze direkt auf die Felgenflanke (die Seitenwand der Felge). Es gibt sie mit Seilzug (<b>V-Brake</b>, Cantilever) oder hydraulisch (<b>Magura HS33</b>, beliebt im Trial).",
+      "<b>Rim brakes</b> press rubber blocks straight onto the rim's braking surface (its side wall). They come cable-operated (<b>V-brake</b>, cantilever) or hydraulic (<b>Magura HS33</b>, popular in trials).")
+    + gOl([tx("<b>Beläge ausrichten:</b> Sie sollen ganz auf der Flanke liegen — nie auf dem Reifen und nicht unter der Felge.", "<b>Align the pads:</b> they must sit fully on the braking surface — never on the tyre and not below the rim."),
+      tx("Vorne etwa <b>1 mm früher</b> anliegen lassen als hinten („Vorspur“) — das verhindert Quietschen.", "Let the front edge touch about <b>1 mm earlier</b> than the rear (“toe-in”) — that prevents squeal."),
+      tx("Abstand zur Felge je Seite etwa 1–2 mm; bei V-Brakes mit der kleinen Federschraube an jedem Arm mittig einstellen, mit der Einstellschraube am Hebel die Zugspannung.", "Gap to the rim about 1–2 mm per side; on V-brakes centre with the small spring screw on each arm, cable tension with the barrel adjuster at the lever."),
+      tx("Verschleiß prüfen: Die Rillen im Belag müssen sichtbar sein. Viele Felgen haben eine Verschleißmarke (Rille oder Punkt) — ist sie weg, Felge tauschen.", "Check wear: the grooves in the pad must be visible. Many rims have a wear indicator (groove or dot) — once it's gone, replace the rim.")])
+    + (hs ? tx("Die HS33 ist hydraulisch (Mineralöl Royal Blood): Den Belagabstand stellt man mit dem Drehrad am Hebel nach.", "The HS33 is hydraulic (Royal Blood mineral oil): adjust pad clearance with the dial on the lever.") : "")
+    + tx("<b>Rücktrittbremse</b> (Bremse durch Rückwärtstreten, in der Nabe): Wichtig ist, dass der <b>Bremsarm</b> an der Kettenstrebe fest verschraubt ist und die Kette nicht durchhängt — sonst springt sie ab und die Bremse ist weg.",
+      "<b>Coaster brake</b> (brakes when you pedal backwards, inside the hub): make sure the <b>brake arm</b> is bolted firmly to the chainstay and the chain isn't slack — otherwise it jumps off and you lose the brake.")
+    + gSicher("Nasse Felgen bremsen deutlich schlechter — früher bremsen. Eine abgenutzte Felgenflanke kann brechen: auf die Verschleißmarke achten.",
+      "Wet rims brake much worse — brake earlier. A worn rim wall can fail: watch the wear indicator.");
+  return {h:h, ak:["slot:bremsen"]};
+}
+function gWBremsMarken(){
+  const b = gBremse([]);
+  const h = (b && b.teil ? gBremsKopf(b) + "<br>" : "") + tx("Alle großen Marken bremsen gut — die Unterschiede liegen im <b>Gefühl am Hebel</b>, in der <b>Bremsflüssigkeit</b> und im Service:",
+      "All major brands brake well — the differences are in the <b>lever feel</b>, the <b>brake fluid</b> and servicing:")
+    + gUl([tx("<b>Shimano</b> (Deore, SLX, XT, XTR, Saint): Mineralöl, kräftiger Biss, leichte Hebel, günstige Ersatzteile. Manche Modelle zeigen bei viel Hitze einen wandernden Druckpunkt.", "<b>Shimano</b> (Deore, SLX, XT, XTR, Saint): mineral oil, strong bite, light levers, cheap spares. Some models show a wandering bite point under a lot of heat."),
+      tx("<b>SRAM</b>: Level, G2, Code mit DOT 5.1 — sehr fein dosierbar (Dosierbarkeit: wie genau man die Kraft steuern kann). Maven und Motive mit Mineralöl, Maven sehr stark.", "<b>SRAM</b>: Level, G2, Code with DOT 5.1 — very fine modulation (how precisely you can control the force). Maven and Motive with mineral oil, Maven very powerful."),
+      tx("<b>Magura</b> (MT-Serie, Gustav, HS33): Mineralöl (Royal Blood), leicht, viel Kraft fürs Geld; die einfachen Hebel sind aus Kunststoff.", "<b>Magura</b> (MT series, Gustav, HS33): mineral oil (Royal Blood), light, lots of power for the money; the basic levers are plastic."),
+      tx("<b>Hope</b> (Tech 4): aus dem Vollen gefräst, langlebig, jedes Teil einzeln zu haben, DOT 5.1 — teurer.", "<b>Hope</b> (Tech 4): machined, durable, every part available separately, DOT 5.1 — pricier."),
+      tx("<b>TRP</b> und <b>Tektro</b>: gehören zusammen — Tektro günstig an vielen Kompletträdern, TRP (z. B. DH-R Evo) stark für Gravity. Mineralöl.", "<b>TRP</b> and <b>Tektro</b>: same company — Tektro affordable on many complete bikes, TRP (e.g. DH-R Evo) strong for gravity. Mineral oil."),
+      tx("<b>Formula, Hayes, Trickstuff</b>: kleinere Marken; Trickstuff ist die teure Spitze mit enormer Kraft.", "<b>Formula, Hayes, Trickstuff</b>: smaller brands; Trickstuff is the pricey top end with enormous power.")])
+    + tx("<b>Kompatibilität:</b> Hebel und Sattel bleiben bei einer Marke. Scheiben gibt es als <b>6-Loch</b> oder <b>Center Lock</b> — eine 6-Loch-Scheibe passt per Adapter auf eine Center-Lock-Nabe, umgekehrt nicht. Größe und Adapter prüft die App.",
+      "<b>Compatibility:</b> lever and caliper stay with one brand. Rotors are <b>6-bolt</b> or <b>Center Lock</b> — a 6-bolt rotor fits a Center Lock hub with an adapter, not the other way round. The app checks size and adapters.");
+  return {h:h, ak:["slot:bremsen"], chips:[{id:"b12", t:gTitel("b12")}, {id:"scheiben", t:gTitel("scheiben")}]};
+}
+
+/* Schaltung: welches System ist verbaut? */
+function gAntrieb(q){
+  const n = (q || []).map(x => x.w).join(" ");
+  if(/\b(transmission|t ?type|udh)\b/.test(n)) return {sys:"tt", frage:true};
+  if(/\bdi2\b/.test(n)) return {sys:"di2", frage:true};
+  if(/\b(nabenschaltung|rohloff|pinion|nexus|alfine|enviolo)\b/.test(n)) return {sys:"nabe", frage:true};
+  const sw = gT("schaltwerk"), ka = build.kassette ? findeTeil("kassette", build.kassette) : null;
+  if(!sw && ka && ka.gaenge === 1) return {sys:"ss", ka:ka};
+  if(!sw) return /\bshimano\b/.test(n) ? {sys:"mech", m:"Shimano", frage:true} : /\b(sram|eagle)\b/.test(n) ? {sys:"mech", m:"SRAM", frage:true} : null;
+  const sys = sw.iface === "T-Type" ? "tt" : sw.iface === "Shimano Di2" ? "di2" : "mech";
+  return {sys:sys, sw:sw, m:sw.m, ka:ka, ke:gT("kette"), sh:gT("schalthebel")};
+}
+const gAntriebKopf = a => a && a.sw ? tx(`An deinem Rad: <b>${esc(a.sw.n)}</b>${a.ka ? ` mit <b>${esc(a.ka.n)}</b>` : ""}.`, `On your bike: <b>${esc(a.sw.n)}</b>${a.ka ? ` with <b>${esc(a.ka.n)}</b>` : ""}.`) : "";
+const gOhneAntrieb = () => gFrage("Welche Schaltung hast du — Shimano, SRAM Eagle, SRAM Transmission oder eine Nabenschaltung? Trag das <b>Schaltwerk</b> ein, dann wird die Anleitung genau.",
+  "Which drivetrain do you have — Shimano, SRAM Eagle, SRAM Transmission or a hub gear? Add the <b>derailleur</b> and the instructions get precise.");
+
+function gWSchaltung(q){
+  const a = gAntrieb(q);
+  if(a && a.sys === "ss") return {h:tx("Dein Rad fährt <b>Singlespeed</b> (ein Gang) — da gibt es nichts zu schalten. Wichtig ist nur die <b>Kettenspannung</b>: Die Kette soll in der Mitte etwa 1 cm auf und ab gehen, nicht mehr.",
+    "Your bike is <b>singlespeed</b> (one gear) — nothing to shift. What matters is <b>chain tension</b>: the chain should move about 1 cm up and down in the middle, no more."), ak:["slot:kette"]};
+  if(a && a.sys === "nabe") return gWNabe(q);
+  let h = tx("Das <b>Schaltwerk</b> ist der Arm hinten am Rad, der die Kette von Ritzel zu Ritzel schiebt. „Einstellen“ heißt: Es soll bei jedem Klick genau unter dem richtigen <b>Ritzel</b> (Zahnrad der Kassette) stehen.",
+      "The <b>derailleur</b> is the arm at the back that moves the chain from cog to cog. “Adjusting” means it should sit exactly under the right <b>cog</b> (sprocket of the cassette) with every click.")
+    + (a && a.sw ? "<br>" + gAntriebKopf(a) : "");
+  if(a && a.sys === "tt"){
+    h += tx(" SRAM <b>Transmission</b> ist anders: kein Schaltauge, keine Begrenzungsschrauben, kein Zug. Das Schaltwerk wird direkt an der Achse (UDH) verschraubt.", " SRAM <b>Transmission</b> is different: no hanger, no limit screws, no cable. The derailleur bolts straight to the axle (UDH).")
+      + gOl([tx("Hinterrad richtig eingebaut, Steckachse mit dem vorgeschriebenen Drehmoment fest.", "Rear wheel correctly fitted, thru-axle tightened to the specified torque."),
+        tx("Schaltwerk mit der <b>Einstell-Lehre</b> (liegt bei) auf das richtige Ritzel ausrichten und die Schraube an der Achse nach Anleitung festziehen — Fullys dabei im <b>Sag</b> (eingefedert wie beim Sitzen).", "Align the derailleur with the <b>setup key</b> (included) to the correct cog and tighten the axle bolt per the manual — full-suspension bikes in <b>sag</b> (compressed as when seated)."),
+        tx("Feinjustage elektronisch: in der <b>SRAM-AXS-App</b> oder am Pod (AXS-Taste halten und schalten) Schritt für Schritt nach innen oder außen.", "Fine-tune electronically: in the <b>SRAM AXS app</b> or at the pod (hold the AXS button and shift) step by step inwards or outwards."),
+        tx("Akku am Schaltwerk geladen? Ein leerer Akku ist der häufigste „Defekt“.", "Is the derailleur battery charged? A flat battery is the most common “fault”.")]);
+  } else if(a && a.sys === "di2"){
+    h += tx(" Bei <b>Shimano Di2</b> schaltet ein Motor statt Zug — eingestellt wird elektronisch.", " With <b>Shimano Di2</b> a motor shifts instead of a cable — adjustment is electronic.")
+      + gOl([tx("Akku laden, Schaltauge prüfen (gerade?).", "Charge the battery, check the hanger (straight?)."),
+        tx("Begrenzungsschrauben H und L wie bei mechanisch einstellen (siehe unten).", "Set limit screws H and L like on a mechanical one (see below)."),
+        tx("Feinjustage im Einstellmodus der <b>Shimano-E-Tube-App</b> — Schritt für Schritt, bis es auf jedem Ritzel leise läuft.", "Fine-tune in the adjustment mode of the <b>Shimano E-Tube app</b> — step by step until it runs quietly on every cog.")]);
+  } else {
+    h += gOl([tx("<b>Schaltauge prüfen:</b> das kleine Metallteil, an dem das Schaltwerk hängt. Von hinten schauen — steht das Schaltwerk schief, ist es verbogen. Dann zuerst richten oder tauschen (häufigste Ursache!).", "<b>Check the hanger:</b> the small metal part the derailleur hangs on. Look from behind — if the derailleur is crooked, it's bent. Straighten or replace it first (most common cause!)."),
+      tx("Aufs <b>kleinste Ritzel</b> schalten. Mit der <b>H-Schraube</b> (High) das obere Schaltröllchen genau unter dieses Ritzel stellen.", "Shift to the <b>smallest cog</b>. Use the <b>H screw</b> (high) to set the upper jockey wheel exactly under that cog."),
+      tx("Aufs <b>größte Ritzel</b> schalten. Mit der <b>L-Schraube</b> (Low) so begrenzen, dass das Schaltwerk nicht in die Speichen kann.", "Shift to the <b>largest cog</b>. Use the <b>L screw</b> (low) so the derailleur can't go into the spokes."),
+      tx("Abstand oberes Röllchen zum größten Ritzel mit der <b>B-Schraube</b> einstellen — " + (a && a.m === "SRAM" ? "bei SRAM Eagle mit der B-Gap-Lehre, Fullys im Sag." : "bei Shimano laut Anleitung etwa 5–6 mm.") , "Set the gap between the upper jockey wheel and the largest cog with the <b>B screw</b> — " + (a && a.m === "SRAM" ? "on SRAM Eagle with the B-gap tool, full-suspension bikes in sag." : "on Shimano about 5–6 mm per the manual.")),
+      tx("<b>Zugspannung:</b> Schaltet es zögerlich auf <b>größere</b> Ritzel, die Einstellschraube am Schaltwerk oder Hebel eine Viertelumdrehung <b>herausdrehen</b> (mehr Spannung). Zögert es zu <b>kleineren</b>, hineindrehen.", "<b>Cable tension:</b> if it hesitates going to <b>bigger</b> cogs, turn the barrel adjuster at the derailleur or shifter a quarter turn <b>out</b> (more tension). If it hesitates going to <b>smaller</b> ones, turn it in."),
+      tx("Alle Gänge durchschalten, dabei treten. Läuft es leise und klickt sauber: fertig. Bleibt es hakelig, ist oft der <b>Schaltzug</b> (das Stahlseil) rostig oder die Hülle verdreckt — tauschen.", "Run through all gears while pedalling. Quiet and clean clicks: done. If it stays sticky, the <b>gear cable</b> (steel wire) is often rusty or the housing dirty — replace them.")]);
+  }
+  h += a && a.sys === "tt"
+    ? gSicher("Ein falsch ausgerichtetes Transmission-Schaltwerk kann in die Speichen geraten — das Drehmoment an der Achse genau nach Anleitung. Im Zweifel montiert es die Werkstatt.",
+        "A badly aligned Transmission derailleur can end up in the spokes — use exactly the torque in the manual at the axle. If in doubt, let a shop fit it.")
+    : gSicher("Ein falsch eingestelltes Schaltwerk kann in die Speichen geraten und Rad und Rahmen beschädigen — die L-Schraube nie weglassen. Bei verbogenem Schaltauge im Zweifel in die Werkstatt.",
+        "A badly adjusted derailleur can end up in the spokes and damage wheel and frame — never skip the L screw. With a bent hanger, if in doubt go to a shop.");
+  return {h:h + (a ? "" : gOhneAntrieb()), ak:["slot:schaltwerk"], chips:[{id:"schaltprobleme", t:gTitel("schaltprobleme")}, {id:"w-kettewechseln", t:gTitel("w-kettewechseln")}]};
+}
+function gWSchaltprobleme(q){
+  const a = gAntrieb(q);
+  const h = tx("Wenn die Kette springt, rattert oder nicht sauber schaltet, ist es meist eines dieser Dinge — in dieser Reihenfolge prüfen:", "If the chain skips, rattles or won't shift cleanly, it's usually one of these — check them in this order:")
+    + (a && a.sw ? "<br>" + gAntriebKopf(a) : "")
+    + gOl([tx("<b>Zugspannung</b> — Einstellschraube eine Viertel- bis halbe Umdrehung drehen (siehe „Schaltung einstellen“).", "<b>Cable tension</b> — turn the barrel adjuster a quarter to half a turn (see “Adjust gears”)."),
+      a && a.sys === "tt" ? tx("<b>Transmission:</b> Kein Schaltauge — aber die Ausrichtung an der Achse kann sich verstellen. Mit der Lehre neu ausrichten, Akku prüfen.", "<b>Transmission:</b> no hanger — but the alignment at the axle can shift. Re-align with the setup key, check the battery.")
+        : tx("<b>Schaltauge verbogen?</b> Nach einem Sturz der Klassiker. Von hinten schauen, ob Schaltwerk und Ritzel parallel stehen.", "<b>Hanger bent?</b> The classic after a crash. Look from behind whether derailleur and cogs are parallel."),
+      tx("<b>Kette verschlissen?</b> Mit einer Kettenlehre messen. Eine gelängte Kette springt vor allem auf den oft genutzten Ritzeln.", "<b>Chain worn?</b> Measure with a chain checker. A stretched chain skips mostly on the most-used cogs."),
+      tx("<b>Kassette oder Kettenblatt verschlissen?</b> Haifischzahn-Form der Zähne = tauschen. Springt eine neue Kette auf alten Ritzeln, ist die Kassette durch.", "<b>Cassette or chainring worn?</b> Shark-fin teeth = replace. If a new chain skips on old cogs, the cassette is done."),
+      tx("<b>Steifes Kettenglied</b>: Kurbel rückwärts drehen und schauen, ob ein Glied am Schaltwerk „hüpft“ — vorsichtig seitlich biegen oder ölen.", "<b>Stiff link</b>: spin the cranks backwards and watch for a link that “jumps” at the derailleur — flex it sideways gently or oil it.")])
+    + tx("Gemischte Systeme (z. B. Shimano-Hebel mit SRAM-Schaltwerk) schalten nie ganz sauber — die App warnt davor.", "Mixed systems (e.g. Shimano shifter with SRAM derailleur) never shift quite cleanly — the app warns about it.");
+  return {h:h + (a ? "" : gOhneAntrieb()), ak:["slot:schaltwerk"], chips:[{id:"w-schaltung", t:gTitel("w-schaltung")}, {id:"kette", t:gTitel("kette")}]};
+}
+function gWKetteWechseln(q){
+  const a = gAntrieb(q), ke = a && a.ke, tt = a && a.sys === "tt";
+  const g = a && a.ka ? a.ka.gaenge : ke ? ke.gaenge : 12;
+  const schloss = tt ? tx("SRAM <b>Flattop PowerLock</b> (nur einmal verwenden)", "SRAM <b>Flattop PowerLock</b> (single use)")
+    : a && a.m === "SRAM" ? tx("SRAM <b>PowerLock</b> passend zur Gangzahl (12-fach nur einmal verwenden)", "SRAM <b>PowerLock</b> matching the speed (12-speed is single use)")
+    : a && a.m === "Shimano" ? tx("Shimano <b>Quick-Link</b> passend zur Gangzahl", "Shimano <b>Quick-Link</b> matching the speed")
+    : tx("ein <b>Kettenschloss</b> passend zu Marke und Gangzahl", "a <b>quick link</b> matching brand and speed");
+  const h = tx("Eine Kette wechselt man, wenn sie <b>gelängt</b> ist — die Gelenke nutzen sich ab, die Kette wird dadurch länger und frisst sonst Kassette und Kettenblatt mit.",
+      "You replace a chain once it has <b>stretched</b> — the joints wear, the chain gets longer and would otherwise eat the cassette and chainring too.")
+    + (ke ? "<br>" + tx(`An deinem Rad: <b>${esc(ke.n)}</b> — neu kaufen in genau dieser Art${tt ? " (Transmission braucht die Flattop-Kette)" : ""}.`, `On your bike: <b>${esc(ke.n)}</b> — buy exactly this type${tt ? " (Transmission needs the Flattop chain)" : ""}.`) : "")
+    + gOl([tx(`<b>Messen:</b> Kettenlehre einlegen. Bei ${g >= 11 ? "11- und 12-fach ab <b>0,5 %</b>" : "bis 10-fach ab <b>0,75 %</b>"} wechseln.`, `<b>Measure:</b> fit a chain checker. Replace at ${g >= 11 ? "<b>0.5 %</b> on 11- and 12-speed" : "<b>0.75 %</b> up to 10-speed"}.`),
+      tx("Alte Kette öffnen: am Kettenschloss mit einer Kettenschlosszange, sonst mit dem <b>Kettennieter</b> (Werkzeug, das einen Bolzen herausdrückt).", "Open the old chain: at the quick link with quick-link pliers, otherwise with a <b>chain tool</b> (pushes a pin out)."),
+      tt ? tx("<b>Länge:</b> Bei Transmission nicht abzählen, sondern nach SRAMs <b>Kettenlängen-Tabelle</b> (AXS-App oder Anleitung) — sie hängt von Kettenstrebe und Kettenblatt ab.", "<b>Length:</b> on Transmission don't count, use SRAM's <b>chain length chart</b> (AXS app or manual) — it depends on chainstay and chainring.")
+        : tx("<b>Länge:</b> Neue Kette ohne Schaltwerk um das <b>größte Ritzel und das Kettenblatt</b> legen, dann laut Anleitung des Herstellers ein Gliederpaar dazugeben. Beim Fully den Hinterbau dabei auf <b>Sag</b> einfedern (Dämpfer-Luft ablassen), weil sich die Kettenstrebe beim Einfedern verlängert. Oder: einfach so viele Glieder wie die alte Kette.", "<b>Length:</b> wrap the new chain around the <b>largest cog and the chainring</b> bypassing the derailleur, then add one link pair per the maker's manual. On a full-suspension bike compress the rear to <b>sag</b> (let air out of the shock), as the chainstay lengthens under compression. Or simply use as many links as the old chain."),
+      tx("Kürzen mit dem Kettennieter, durch das Schaltwerk fädeln (richtiger Weg um die Führungsplatte!), mit " + schloss + " schließen.", "Shorten with the chain tool, thread it through the derailleur (correct path around the cage tab!), close it with " + schloss + "."),
+      tx("Schloss durch kräftiges Treten bei gezogener Hinterradbremse einrasten lassen, dann alle Gänge durchschalten.", "Seat the link by pushing hard on the pedal with the rear brake held, then run through all gears.")])
+    + gSicher("Ein nicht eingerastetes oder wiederverwendetes Einweg-Schloss kann unter Last aufgehen — Sturzgefahr. Ketten-Öl nie auf Bremsscheiben bringen.",
+      "A quick link that isn't seated or a reused single-use link can open under load — crash risk. Never get chain oil on the rotors.");
+  return {h:h + (a ? "" : gOhneAntrieb()), ak:["slot:kette"], chips:[{id:"w-kettepflege", t:gTitel("w-kettepflege")}, {id:"kette", t:gTitel("kette")}]};
+}
+function gWKettenVerschleiss(q){
+  const a = gAntrieb(q), ke = a && a.ke, g = a && a.ka ? a.ka.gaenge : ke ? ke.gaenge : 12;
+  return {h:tx("Ketten <b>längen</b> sich mit der Zeit: Die kleinen Gelenke nutzen sich ab. Gemessen wird mit einer <b>Kettenlehre</b> (ein Prüfwerkzeug für ein paar Euro, das man zwischen die Glieder steckt).",
+      "Chains <b>stretch</b> over time: the little joints wear. You measure with a <b>chain checker</b> (a cheap gauge you slot between the links).")
+    + (ke ? "<br>" + tx(`An deinem Rad: <b>${esc(ke.n)}</b>.`, `On your bike: <b>${esc(ke.n)}</b>.`) : "")
+    + gUl([tx(`Wechseln bei <b>${g >= 11 ? "0,5 %" : "0,75 %"}</b> (${g >= 11 ? "11- und 12-fach" : "bis 10-fach"}).`, `Replace at <b>${g >= 11 ? "0.5 %" : "0.75 %"}</b> (${g >= 11 ? "11- and 12-speed" : "up to 10-speed"}).`),
+      tx("Je nach Wetter und Pflege hält eine Kette etwa <b>1.000–3.000 km</b>, am E-MTB oft weniger.", "Depending on weather and care a chain lasts about <b>1,000–3,000 km</b>, often less on an e-MTB."),
+      tx("Rechtzeitig wechseln spart Geld: Eine Kette kostet 20–60 €, eine Kassette, die man mitverschlissen hat, 60–400 €.", "Replacing in time saves money: a chain costs €20–60, a cassette worn out along with it €60–400.")]),
+    ak:["slot:kette"], chips:[{id:"w-kettewechseln", t:gTitel("w-kettewechseln")}, {id:"w-kettepflege", t:gTitel("w-kettepflege")}]};
+}
+function gWKettePflege(){
+  return {h:tx("Eine saubere, geölte Kette schaltet leiser und hält doppelt so lang.", "A clean, lubed chain shifts more quietly and lasts twice as long.")
+    + gOl([tx("Grob reinigen: Lappen um die Kette, Kurbel rückwärts drehen. Bei viel Dreck einen Kettenreiniger oder Entfetter nehmen, danach abtrocknen.", "Rough clean: wrap a rag round the chain and spin the cranks backwards. With heavy grime use a chain cleaner or degreaser, then dry it."),
+      tx("<b>Öl</b> auf jedes Glied geben — innen, wo die Kette die Ritzel berührt. Bei Nässe ein „Wet Lube“ (zäh, hält länger), bei Staub ein „Dry Lube“ oder Wachs.", "Put <b>lube</b> on every link — on the inside, where the chain touches the cogs. In the wet a “wet lube” (thick, lasts longer), in dust a “dry lube” or wax."),
+      tx("Ein paar Minuten einziehen lassen, dann den Überschuss <b>gründlich abwischen</b> — außen sammelt überschüssiges Öl nur Dreck.", "Let it soak in for a few minutes, then <b>wipe off</b> the excess thoroughly — oil on the outside just collects dirt."),
+      tx("Faustregel: nach Regenfahrten oder alle 100–200 km.", "Rule of thumb: after wet rides or every 100–200 km.")])
+    + gSicher("Kettenöl und Sprays nie in die Nähe der Bremsscheiben — Bremsseite beim Ölen mit einem Lappen abdecken. Nicht mit dem Hochdruckreiniger auf Lager und Naben zielen.",
+      "Keep chain lube and sprays away from the rotors — cover the brake side with a rag. Don't aim a pressure washer at bearings and hubs."), ak:["slot:kette"]};
+}
+function gWInspektion(){
+  const g = gT("gabel"), d = gT("daempfer"), r = gT("rahmen"), b = gBremse([]);
+  const fed = [g && /fox|marzocchi/i.test(g.m) ? tx(`${esc(g.n)}: Service laut Fox etwa alle <b>125 Betriebsstunden</b> oder jährlich.`, `${esc(g.n)}: service per Fox about every <b>125 riding hours</b> or yearly.`)
+      : g && /rockshox/i.test(g.m) ? tx(`${esc(g.n)}: kleiner Service (Tauchrohre, Öl) laut RockShox alle <b>50 Stunden</b>, Dämpfung alle 200.`, `${esc(g.n)}: small service (lowers, oil) per RockShox every <b>50 hours</b>, damper every 200.`) : null,
+    d && /fox/i.test(d.m) ? tx(`${esc(d.n)}: Luftkammer-Service etwa alle 125 Stunden.`, `${esc(d.n)}: air can service about every 125 hours.`)
+      : d && /rockshox/i.test(d.m) ? tx(`${esc(d.n)}: Luftkammer-Service alle 50 Stunden.`, `${esc(d.n)}: air can service every 50 hours.`) : null].filter(Boolean);
+  const h = tx("Eine kurze Kontrolle verhindert die meisten Pannen. So oft lohnt sich was:", "A quick check prevents most breakdowns. Here's how often what matters:")
+    + `<p><b>${tx("Vor jeder Fahrt (1 Minute)", "Before every ride (1 minute)")}</b></p>` + gUl([
+      tx("Beide Bremsen ziehen: Hebel fest, Rad steht.", "Pull both brakes: lever firm, wheel stops."),
+      tx("Reifendruck mit dem Daumen prüfen, besser mit Manometer.", "Check tyre pressure with your thumb, better with a gauge."),
+      tx("Steckachsen bzw. Schnellspanner zu, Lenker und Vorbau fest.", "Thru-axles or quick releases closed, bar and stem tight.")])
+    + `<p><b>${tx("Einmal im Monat", "Once a month")}</b></p>` + gUl([
+      tx("Kette messen und ölen, Bremsbeläge ansehen.", "Measure and lube the chain, look at the brake pads."),
+      tx("<b>Steuersatz</b> (Lager, in dem sich die Gabel dreht): Vorderbremse ziehen, Rad vor und zurück schieben — klackt es, nachstellen.", "<b>Headset</b> (the bearing the fork turns in): pull the front brake, rock the bike back and forth — if it clunks, adjust it."),
+      tx("Schrauben mit dem <b>Drehmomentschlüssel</b> nachziehen — der Wert steht meist neben der Schraube (z. B. „5 Nm“). Bei Carbon besonders wichtig.", "Re-torque bolts with a <b>torque wrench</b> — the value is usually printed next to the bolt (e.g. “5 Nm”). Especially important with carbon."),
+      tx("Hinterbau: Rahmen festhalten, Hinterrad seitlich bewegen — Spiel heißt: Lager prüfen.", "Rear end: hold the frame, move the rear wheel sideways — play means: check the bearings.")])
+    + `<p><b>${tx("Einmal im Jahr", "Once a year")}</b></p>` + gUl([
+      tx("Werkstatt-Inspektion: Züge, Lager, Laufräder zentrieren.", "Shop service: cables, bearings, wheel truing."),
+      b && b.oel === "dot" ? tx("Bremse entlüften — deine Bremse fährt DOT, das sollte jährlich neu.", "Bleed the brakes — yours runs DOT, which should be replaced yearly.") : tx("Bremsflüssigkeit prüfen, bei weichem Hebel entlüften.", "Check the brake fluid, bleed if the lever is soft."),
+      ...fed, r && r.motor ? tx("E-MTB: Software beim Händler aktualisieren, Akku kühl und bei 30–60 % Ladung lagern.", "E-MTB: have the dealer update the software, store the battery cool at 30–60 % charge.") : null].filter(Boolean))
+    + gSicher("Risse im Rahmen, an Lenker oder Kurbel, eine weiche Bremse oder Spiel im Steuersatz: nicht fahren, Fachwerkstatt.",
+      "Cracks in the frame, bar or crank, a soft brake or headset play: don't ride, go to a shop.");
+  return {h:h, chips:[{id:"service", t:gTitel("service")}, {id:"w-kettepflege", t:gTitel("w-kettepflege")}]};
+}
+function gWPlatten(){
+  const lr = gT("laufraeder");
+  return {h:tx("Ein Platten unterwegs ist meist in zehn Minuten behoben — mit dem richtigen Werkzeug im Rucksack: Pumpe, Reifenheber, Ersatzschlauch, Flickzeug und bei Tubeless ein <b>Reifen-Plug</b> (Gummiwurst zum Stopfen).",
+      "A flat on the trail is usually fixed in ten minutes — with the right kit in your pack: pump, tyre levers, spare tube, patch kit and, for tubeless, a <b>tyre plug</b> (rubber strip to plug holes).")
+    + `<p><b>${tx("Tubeless (ohne Schlauch, mit Dichtmilch)", "Tubeless (no tube, with sealant)")}</b></p>`
+    + gOl([tx("Rad drehen, bis die <b>Dichtmilch</b> (Flüssigkeit im Reifen, die kleine Löcher selbst verschließt) das Loch erreicht, kurz warten, aufpumpen.", "Spin the wheel until the <b>sealant</b> (liquid in the tyre that plugs small holes itself) reaches the hole, wait a moment, pump up."),
+      tx("Hält es nicht: einen <b>Plug</b> mit dem Werkzeug ins Loch stecken, Überstand abschneiden, aufpumpen.", "If it won't hold: push a <b>plug</b> into the hole with the tool, trim the excess, pump up."),
+      tx("Großer Riss: Schlauch einlegen (Ventil vorher raus) und nach Hause fahren.", "Big cut: fit a tube (remove the valve first) and ride home.")])
+    + `<p><b>${tx("Mit Schlauch", "With a tube")}</b></p>`
+    + gOl([tx("Luft raus, mit Reifenhebeln eine Reifenseite von der Felge hebeln, Schlauch herausziehen.", "Let the air out, lever one side of the tyre off the rim, pull out the tube."),
+      tx("Ursache suchen: Mit den Fingern vorsichtig innen im Reifen tasten — steckt noch ein Dorn drin, platzt der neue Schlauch sofort wieder.", "Find the cause: carefully feel inside the tyre — if a thorn is still in there, the new tube will pop at once."),
+      tx("Neuen Schlauch leicht aufpumpen, einlegen, Reifen mit den Daumen zurückdrücken (ohne Hebel, sonst kneift man den Schlauch).", "Inflate the new tube slightly, fit it, push the tyre back with your thumbs (no levers, or you pinch the tube)."),
+      tx("Auf den richtigen Druck pumpen.", "Pump to the correct pressure.")])
+    + (lr ? tx(`Deine Felge hat <b>${lr.iw} mm</b> Maulweite (Innenbreite).`, `Your rim has <b>${lr.iw} mm</b> inner width.`) : ""),
+    chips:[{id:"tubeless", t:gTitel("tubeless")}, {id:"reifendruck", t:gTitel("reifendruck")}]};
+}
+function gWNabe(){
+  return {h:tx("Bei einer <b>Nabenschaltung</b> sitzen die Gänge geschützt in der Hinterradnabe (oder als <b>Getriebe</b> im Tretlager) statt außen am Rad.",
+      "With a <b>hub gear</b> the gears sit sealed inside the rear hub (or as a <b>gearbox</b> at the bottom bracket) instead of out in the open.")
+    + gUl([tx("<b>Rohloff Speedhub</b>: 14 Gänge, extrem haltbar, schaltet auch im Stand. Ölwechsel etwa einmal im Jahr bzw. alle 5.000 km. Teuer und etwas schwerer.", "<b>Rohloff Speedhub</b>: 14 gears, extremely durable, shifts while stationary. Oil change about once a year or every 5,000 km. Expensive and a bit heavier."),
+      tx("<b>Pinion</b>: Getriebe im Tretlager, 9 bis 12 Gänge — der Rahmen muss dafür gebaut sein.", "<b>Pinion</b>: gearbox at the bottom bracket, 9 to 12 gears — the frame has to be built for it."),
+      tx("<b>Shimano Nexus / Alfine</b>: 5 bis 11 Gänge, typisch an Stadt- und Trekkingrädern.", "<b>Shimano Nexus / Alfine</b>: 5 to 11 gears, typical on city and trekking bikes."),
+      tx("<b>Enviolo</b>: stufenlos — kein Klicken, sondern ein Drehen.", "<b>Enviolo</b>: stepless — no clicks, just a twist.")])
+    + tx("<b>Kettenschaltung oder Nabe?</b> Die Kettenschaltung ist leichter, effizienter, günstiger und hat mehr Bandbreite — deshalb fährt sie fast jedes Mountainbike. Die Nabe ist wartungsarm und unempfindlich gegen Dreck und Stürze. Im Katalog der App stehen Kettenschaltungen.",
+      "<b>Derailleur or hub?</b> Derailleurs are lighter, more efficient, cheaper and have more range — which is why almost every mountain bike uses one. Hubs are low-maintenance and shrug off dirt and crashes. The app's catalogue lists derailleur drivetrains.")
+    + tx("Einstellen bei Nabenschaltungen mit Zug: Gang laut Anleitung einlegen und die <b>Markierung</b> an der Nabe mit der Zug-Einstellschraube in Deckung bringen.", "Adjusting cable hub gears: select the gear named in the manual and line up the <b>marks</b> on the hub using the cable barrel adjuster."), chips:[{id:"schaltung", t:gTitel("schaltung")}]};
+}
+function gWAntriebMarken(){
+  const a = gAntrieb([]);
+  return {h:(a && a.sw ? gAntriebKopf(a) + "<br>" : "") + tx("Die wichtigsten Schaltungs-Marken — neutral verglichen:", "The main drivetrain brands — compared neutrally:")
+    + gUl([tx("<b>Shimano</b> (Deore, SLX, XT, XTR): schaltet unter Last sehr sanft, Kassetten auf <b>Micro Spline</b>-Freilauf; günstige Verschleißteile. <b>CUES/LinkGlide</b> ist extra robust fürs E-Bike.", "<b>Shimano</b> (Deore, SLX, XT, XTR): very smooth under load, cassettes on <b>Micro Spline</b> freehub; cheap wear parts. <b>CUES/LinkGlide</b> is extra tough for e-bikes."),
+      tx("<b>SRAM Eagle</b>: mechanisch oder funk (AXS), Kassetten meist auf <b>XD</b>-Freilauf. <b>Transmission</b>: wird direkt an der Achse verschraubt, sehr robust, braucht einen Rahmen mit <b>UDH</b>.", "<b>SRAM Eagle</b>: mechanical or wireless (AXS), cassettes mostly on <b>XD</b> freehub. <b>Transmission</b>: bolts straight to the axle, very tough, needs a frame with <b>UDH</b>."),
+      tx("<b>Campagnolo</b>: Rennrad und Gravel (z. B. Ekar 13-fach) — nicht mit MTB-Teilen von Shimano oder SRAM mischbar.", "<b>Campagnolo</b>: road and gravel (e.g. Ekar 13-speed) — not mixable with Shimano or SRAM MTB parts."),
+      tx("<b>microSHIFT</b> (Advent X) und <b>Box</b>: günstige, robuste Alternativen mit 9 oder 10 Gängen.", "<b>microSHIFT</b> (Advent X) and <b>Box</b>: affordable, tough alternatives with 9 or 10 speeds.")])
+    + tx("<b>Wichtigste Regel:</b> Schalthebel, Schaltwerk, Kassette und Kette aus <b>einem System</b> — jedes System zieht pro Klick anders viel Zug, und die Zahnprofile sind aufeinander abgestimmt. Die App prüft das bei jedem Teil.",
+      "<b>Main rule:</b> shifter, derailleur, cassette and chain from <b>one system</b> — each system pulls a different amount of cable per click, and the tooth profiles are matched. The app checks this for every part."),
+    ak:["slot:schaltwerk"], chips:[{id:"schaltung", t:gTitel("schaltung")}, {id:"b4", t:gTitel("b4")}]};
+}
+function gWMotoren(){
+  const r = gT("rahmen");
+  return {h:(r && r.motor ? tx(`An deinem Rad: <b>${esc(r.motor)}</b>${r.akku ? ` mit ${r.akku} Wh` : ""}.<br>`, `On your bike: <b>${esc(r.motor)}</b>${r.akku ? ` with ${r.akku} Wh` : ""}.<br>`) : "")
+    + tx("E-MTB-Motoren unterscheiden sich in <b>Drehmoment</b> (Nm — wie kräftig er schiebt), Gewicht, Geräusch und Werkstatt-Netz. <b>Wh</b> beim Akku heißt: wie viel Energie reinpasst — mehr Wh, mehr Reichweite.",
+      "E-MTB motors differ in <b>torque</b> (Nm — how hard it pushes), weight, noise and dealer network. <b>Wh</b> on the battery means how much energy it holds — more Wh, more range.")
+    + gUl([tx("<b>Bosch Performance Line CX</b>: sehr verbreitet, kräftig (85–100 Nm), riesiges Werkstatt-Netz.", "<b>Bosch Performance Line CX</b>: very widespread, powerful (85–100 Nm), huge dealer network."),
+      tx("<b>Shimano EP8 / EP801</b>: 85 Nm, natürlich zu fahren, eigene Kurbelaufnahme.", "<b>Shimano EP8 / EP801</b>: 85 Nm, natural feel, its own crank interface."),
+      tx("<b>Specialized</b> (Brose-Basis, 2.2 / 3.1): leise, eng mit Specialized-Akkus und -App verbunden.", "<b>Specialized</b> (Brose based, 2.2 / 3.1): quiet, tied to Specialized batteries and app."),
+      tx("<b>TQ HPR50</b>: leicht und leise (50 Nm) — für Light-E-MTBs.", "<b>TQ HPR50</b>: light and quiet (50 Nm) — for light e-MTBs."),
+      tx("<b>DJI Avinox, Yamaha, Fazua</b>: weitere Systeme, teils sehr stark (Avinox) oder sehr leicht (Fazua).", "<b>DJI Avinox, Yamaha, Fazua</b>: other systems, some very strong (Avinox) or very light (Fazua).")])
+    + tx("<b>Kompatibilität:</b> Akku, Display und Ladegerät sind immer herstellergebunden. Die Kurbel muss zur <b>Motorwelle</b> passen — die App prüft das.", "<b>Compatibility:</b> battery, display and charger are always brand-specific. The crank has to match the <b>motor spindle</b> — the app checks this.")
+    + gSicher("Am Motor und Akku nicht selbst schrauben — Software, Garantie und Brandschutz gehören in die Fachwerkstatt. Beschädigte Akkus nicht mehr laden.",
+      "Don't work on the motor or battery yourself — software, warranty and fire safety belong with a dealer. Never charge a damaged battery."),
+    ak:["slot:rahmen"], chips:[{id:"emtb", t:gTitel("emtb")}]};
+}
+function gWBremsfluessigkeit(q){
+  const b = gBremse(q);
+  return {h:(b && !b.felge ? gBremsKopf(b) + "<br>" : "") + tx("Es gibt zwei Arten <b>Bremsflüssigkeit</b> (das Öl in der Bremsleitung): <b>Mineralöl</b> (Shimano, Magura, TRP, Tektro, SRAM Maven/Motive) und <b>DOT</b> (SRAM Level/Code/G2, Hope, Hayes, Formula).",
+      "There are two kinds of <b>brake fluid</b> (the oil in the brake line): <b>mineral oil</b> (Shimano, Magura, TRP, Tektro, SRAM Maven/Motive) and <b>DOT</b> (SRAM Level/Code/G2, Hope, Hayes, Formula).")
+    + gUl([tx("<b>Mineralöl</b> ist hautfreundlicher und zieht kein Wasser.", "<b>Mineral oil</b> is kinder to skin and doesn't absorb water."),
+      tx("<b>DOT</b> verträgt viel Hitze, zieht aber Wasser aus der Luft — etwa jährlich tauschen. Es greift Lack an: Spritzer sofort abwaschen.", "<b>DOT</b> handles lots of heat but absorbs water from the air — replace about yearly. It attacks paint: wash off spills at once."),
+      tx("<b>Beläge</b>: organisch = leise, kräftiger Biss, schneller verschlissen; Sinter = langlebig, hitzefest, lauter.", "<b>Pads</b>: organic = quiet, strong bite, wear faster; sintered = durable, heat-resistant, louder.")])
+    + gSicher("Nur die Flüssigkeit verwenden, die auf dem Hebel oder Ausgleichsbehälter steht — die falsche lässt die Dichtungen aufquellen, die Bremse kann versagen.",
+      "Only use the fluid printed on the lever or reservoir — the wrong one makes the seals swell and the brake can fail."),
+    ak:["slot:bremsen"], chips:[{id:"w-entlueften", t:gTitel("w-entlueften")}, {id:"w-belaege", t:gTitel("w-belaege")}]};
+}
+/* Diese Themen schlagen Teile-Treffer: "meine Shimano XT quietscht" ist eine
+   Werkstattfrage, keine Frage nach dem Katalog-Eintrag */
+const G_WERKSTATT = new Set(["w-schleift", "w-quietscht", "w-entlueften", "w-belaege", "w-felge", "w-bremsmarken", "w-schaltung", "schaltprobleme",
+  "w-kettewechseln", "kette", "w-kettepflege", "w-inspektion", "w-platten", "w-nabe", "w-antriebsmarken", "w-motoren", "bremsenpflege"]);
+const G_WERKSTATT_WORT = / (schleif\w*|streif\w*|quietsch\w*|pfeif\w*|kreisch\w*|entlueft\w*|weich\w*|schwammig\w*|nachstell\w*|justier\w*|indexier\w*|springt|springen|rattert|klackert|knackt|knarzt|platt\w*|flick\w*|reinig\w*|putz\w*|schmier\w*|oel\w*|belaeg\w*|belag|einbrems\w*|reparier\w*|kaputt|defekt|inspektion\w*|wartung|squeal\w*|squeak\w*|rub\w*|bleed\w*|spongy|skip\w*|puncture|flat|clean\w*|lube|repair\w*|broken) /;
 
 /* ── Wissensbasis. k: Stichworte (deutsch und englisch, beliebige Form), t: Titel
    (dient auch als Vorschlag), a: Antwort oder Funktion, ak: Knoepfe.
@@ -9215,8 +9571,8 @@ const GUIDE = [
    a:["Für die meisten ist <b>Trail</b> der beste Start: kommt überall hoch und macht bergab Spaß. Ein Hardtail ist günstiger und leichter zu warten, ein Fully verzeiht mehr im Gelände. Am einfachsten: Starte den Assistenten, gib Budget und Größe an — er baut dir ein passendes Rad, und ich erkläre dir jedes Teil. Plan dazu Geld für Helm und Handschuhe ein.",
      "For most people <b>trail</b> is the best start: climbs anywhere and is fun downhill. A hardtail is cheaper and easier to maintain, a full-suspension bike forgives more off-road. Easiest: start the assistant, enter budget and size — it builds a matching bike and I'll explain every part. Budget for a helmet and gloves too."], ak:["wiz", "einstieg"]},
   {id:"ebike", k:"ebike emtb motor akku elektro elektrisch pedelec unterstuetzung electric", t:["Gibt es auch E-Bikes?", "Are there e-bikes too?"],
-   a:["E-MTB-Rahmen, Motoren und Akkus sind nicht im Katalog — geplant und geprüft werden Räder ohne Motor. Das Fahrwerk stellt der Federungsrechner aber auch fürs E-MTB ein: Wähl dort Light-E oder Full-Power-E (oder trag das gewogene Gewicht ein). Dann rechnet er mit dem Mehrgewicht von Motor und Akku — mehr Luft, mehr Spacer, langsamere Zugstufe.",
-     "E-MTB frames, motors and batteries aren't in the catalogue — the app plans and checks bikes without a motor. The suspension calculator sets up e-MTB suspension too, though: pick light-e or full-power-e there (or enter the weighed weight). It then accounts for the extra weight of motor and battery — more air, more spacers, slower rebound."], ak:["fed"]},
+   a:["Ja. Im Katalog stehen E-MTBs mit Bosch-, Shimano-, Specialized- und TQ-Motor — als Full Power und Light-E. Die App prüft dort auch, ob die Kurbel zur Motorwelle passt und ob Bremsen und Laufräder fürs Mehrgewicht reichen. Der Federungsrechner erkennt den E-MTB-Rahmen und rechnet mit dem Gewicht von Motor und Akku — mehr Luft, mehr Spacer, langsamere Zugstufe.",
+     "Yes. The catalogue has e-MTBs with Bosch, Shimano, Specialized and TQ motors — full power and light-e. The app also checks whether the crank fits the motor spindle and whether brakes and wheels handle the extra weight. The suspension calculator recognises the e-MTB frame and accounts for the weight of motor and battery — more air, more spacers, slower rebound."], ak:["fed", "slot:rahmen"]},
   {id:"ausstattung", k:"factory performance elite select ultimate kashima ausstattung linie linien version versionen modellvariante trim level", t:["Factory, Performance, Select, Ultimate — was ist der Unterschied?", "Factory, Performance, Select, Ultimate — what's the difference?"],
    a:["Das sind Ausstattungslinien desselben Modells. Bei <b>Fox</b>: Factory (beste Dämpfung, Kashima-Beschichtung), Performance Elite (meist dieselbe Dämpfung ohne Kashima), Performance (einfachere Dämpfung, weniger Knöpfe). Bei <b>RockShox</b>: Ultimate, Select+ und Select, absteigend. Standrohre und Maße sind gleich — der Unterschied liegt in Dämpfung, Einstellbarkeit und Gewicht.",
      "These are trim levels of the same model. <b>Fox</b>: Factory (best damper, Kashima coating), Performance Elite (usually the same damper without Kashima), Performance (simpler damper, fewer knobs). <b>RockShox</b>: Ultimate, Select+ and Select, descending. Stanchions and dimensions are the same — the difference is damping, adjustability and weight."]},
@@ -9286,9 +9642,21 @@ const GUIDE = [
   {id:"laufradsatz", k:"laufradsatz laufraeder felge felgen carbonfelge speichen nabe naben einrastpunkte freilaufgeraeusch wheelset wheels rim hub spokes", t:["Worauf kommt es beim Laufradsatz an?", "What matters in a wheelset?"],
    a:["Laufräder sind rotierende Masse — leichtere beschleunigen spürbar besser. <b>Felge</b>: Alu ist robust und günstig, Carbon leichter und steifer, aber teurer. Die <b>Maulweite</b> muss zur Reifenbreite passen. <b>Nabe</b>: Mehr Einrastpunkte greifen beim Antreten schneller. Achsmaß (Boost), Freilauf und Bremsaufnahme müssen zum Rest passen — die App prüft das.",
      "Wheels are rotating mass — lighter ones accelerate noticeably better. <b>Rim</b>: aluminium is tough and cheap, carbon lighter and stiffer but pricier. The <b>inner width</b> must suit the tyre width. <b>Hub</b>: more engagement points pick up faster when you pedal. Axle size (Boost), freehub and rotor mount must match the rest — the app checks that."], ak:["slot:laufraeder"]},
-  {id:"bremsenpflege", k:"mineraloel mineral dot bremsfluessigkeit entlueften entlueftung belaege belag bremsbelag bremsbelaege organisch resin sinter metallisch quietschen quietscht schleift fading bremst schwach druckpunkt pads bleed squeal", t:["Bremsbeläge, Mineralöl oder DOT?", "Brake pads, mineral oil or DOT?"],
-   a:["<b>Shimano</b> und Magura fahren Mineralöl, <b>SRAM</b> DOT-Flüssigkeit — niemals mischen, das zerstört die Dichtungen. <b>Beläge</b>: organisch beißen leise und kräftig, verschleißen aber schneller; Sinter (metallisch) halten länger und vertragen Hitze, quietschen eher. Wandert der Druckpunkt oder wird der Hebel weich: entlüften. Lässt die Bremskraft auf langen Abfahrten nach, helfen größere Scheiben und 4 Kolben.",
-     "<b>Shimano</b> and Magura use mineral oil, <b>SRAM</b> DOT fluid — never mix them, it destroys the seals. <b>Pads</b>: organic bite quietly and strongly but wear faster; sintered (metallic) last longer and handle heat, but squeal more. If the bite point wanders or the lever goes soft: bleed. If braking power fades on long descents, bigger rotors and 4 pistons help."]},
+  {id:"bremsenpflege", k:"mineraloel mineral dot bremsfluessigkeit fluessigkeit royal blood organisch resin sinter metallisch brake fluid organic sintered", t:["Bremsflüssigkeit: Mineralöl oder DOT?", "Brake fluid: mineral oil or DOT?"], a:gWBremsfluessigkeit},
+  {id:"w-schleift", k:"schleift schleifen streift streifen reibt bremsen bremse bremsscheibe scheibe sattel zentrieren ausrichten verbogen eiert klingelt rub rubs rubbing brake brakes rotor caliper align bent", t:["Die Bremse schleift — was tun?", "The brake rubs — what to do?"], a:gWSchleift},
+  {id:"w-quietscht", k:"bremse bremsen quietscht quietschen pfeift jault kreischt laut geraeusch vibriert rubbelt verglast oelig bremse squeal squeals squealing squeak squeaks noise loud glazed contaminated brake brakes", t:["Die Bremse quietscht — was tun?", "The brake squeals — what to do?"], a:gWQuietscht},
+  {id:"w-entlueften", k:"entlueften entlueftung entlueftet bremse bremsen hebel bremshebel weich schwammig druckpunkt durchziehen lenker wandert luft blasen bleed bleeding brake brakes spongy soft lever air bubbles", t:["Bremse entlüften — Schritt für Schritt", "Bleeding the brake — step by step"], a:gWEntlueften},
+  {id:"w-belaege", k:"bremse bremsen belaege belag bremsbelaege bremsbelag wechseln tauschen abgefahren verschlissen dicke einbremsen mindestdicke scheibe pads pad replace worn bed bedding brake brakes", t:["Bremsbeläge wechseln", "Replacing brake pads"], a:gWBelaege},
+  {id:"w-felge", k:"felgenbremse vbrake v brake einstellen nachstellen cantilever hs33 felgenflanke bremsgummi ruecktritt ruecktrittbremse ruecktrittsbremse rim brake coaster backpedal", t:["Felgenbremse und Rücktritt", "Rim brakes and coaster brakes"], a:gWFelge},
+  {id:"w-bremsmarken", k:"bremsenmarke bremsmarke magura hope trp tektro formula hayes trickstuff shimano sram bremse bremsen marke vergleich besser welche brake brand compare", t:["Welche Bremsen-Marke? Shimano, SRAM, Magura, Hope …", "Which brake brand? Shimano, SRAM, Magura, Hope …"], a:gWBremsMarken},
+  {id:"w-schaltung", k:"schaltung einstellen justieren indexieren nachstellen zugspannung begrenzungsschraube anschlagschraube bschraube schaltzug schaltwerk einstellschraube adjust adjusting index indexing limit screw cable tension derailleur setup gears gear shifting tune", t:["Schaltung einstellen — Schritt für Schritt", "Adjusting the gears — step by step"], a:gWSchaltung},
+  {id:"w-kettewechseln", k:"kette wechseln tauschen kuerzen laenge kettenlaenge kettenschloss powerlock quicklink kettennieter nieten montieren neue replace chain length quick link tool install new", t:["Kette wechseln — Schritt für Schritt", "Replacing the chain — step by step"], a:gWKetteWechseln},
+  {id:"w-kettepflege", k:"kette reinigen putzen oelen schmieren kettenoel wachs lube dreckig trocken rostig pflege clean cleaning lubricate wax dirty rusty", t:["Kette reinigen und ölen", "Cleaning and lubing the chain"], a:gWKettePflege},
+  {id:"w-inspektion", k:"inspektion check checkliste vor fahrt sicherheit kontrolle pruefen regelmaessig jaehrlich monatlich drehmoment schrauben steuersatz spiel inspection checklist before ride torque safety", t:["Inspektion: Was prüfe ich wann?", "Inspection: what to check when?"], a:gWInspektion},
+  {id:"w-platten", k:"platten plattfuss loch flicken schlauch dichtmilch milch plug wurst reifenheber luft verliert puncture flat repair tube sealant plug", t:["Platten unterwegs — was tun?", "Flat tyre on the trail — what to do?"], a:gWPlatten},
+  {id:"w-nabe", k:"nabenschaltung rohloff speedhub pinion getriebe nexus alfine enviolo kettenschaltung gearhub hub gear gearbox", t:["Nabenschaltung oder Kettenschaltung?", "Hub gear or derailleur?"], a:gWNabe},
+  {id:"w-antriebsmarken", k:"campagnolo campa microshift box ekar shimano sram schaltung schaltgruppe gruppe marke vergleich besser welche groupset drivetrain brand compare", t:["Schaltungs-Marken: Shimano, SRAM, Campagnolo …", "Drivetrain brands: Shimano, SRAM, Campagnolo …"], a:gWAntriebMarken},
+  {id:"w-motoren", k:"bosch cx shimano ep8 ep801 brose yamaha tq dji avinox fazua motor motoren antrieb nm drehmoment wh akku reichweite ebike emtb vergleich motor torque battery range", t:["E-Bike-Motoren: Bosch, Shimano, Specialized, TQ …", "E-bike motors: Bosch, Shimano, Specialized, TQ …"], a:gWMotoren},
   {id:"scheiben", k:"scheibengroesse scheibe 160 180 200 203 220 223 postmount adapter bremsaufnahme maximal rotor size mount", t:["Wie groß dürfen die Bremsscheiben sein?", "How big can the rotors be?"],
    a:["Rahmen und Gabel geben über ihre Aufnahme eine Mindestgröße vor — die <b>native</b> Größe, etwa Postmount 160, 180 oder 200 — und laut Hersteller eine Höchstgröße. Kleiner als nativ geht nicht. Größer geht mit einem Adapter um genau die Differenz: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (zwei 1,5-mm-Shims). Flat Mount und IS brauchen für die üblichen Postmount-Sättel immer einen Adapter. Die App rechnet das aus und zeigt es gelb mit „mit Adapter“. Üblich: 180 mm für XC und Trail, 200–220 mm für Enduro, Downhill und E-MTB.",
      "Frame and fork set a minimum size through their mount — the <b>native</b> size, e.g. post mount 160, 180 or 200 — and a maximum per the manufacturer. Smaller than native won't work. Bigger works with an adapter of exactly the difference: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (two 1.5 mm shims). Flat mount and IS always need an adapter for the usual post-mount calipers. The app works this out and shows it in yellow as “with adapter”. Typical: 180 mm for XC and trail, 200–220 mm for enduro, downhill and e-MTB."]},
@@ -9316,12 +9684,8 @@ const GUIDE = [
   {id:"sattel", k:"sattel sitzen sitzknochen hintern schmerzen taub saddle sitting sore", t:["Welcher Sattel?", "Which saddle?"],
    a:["Entscheidend ist die Breite passend zu deinen Sitzknochen — viele Radläden messen das. Am MTB sitzt du bergab kaum, bergauf dafür lange: Ein flacher Sattel mit Aussparung entlastet. Tun eher Knie oder Beine weh, liegt es an Sattelhöhe oder -position.",
      "What matters is a width that suits your sit bones — many bike shops measure this. On an MTB you hardly sit downhill but a lot uphill: a flat saddle with a cut-out relieves pressure. If your knees or legs hurt instead, it's the saddle height or position."]},
-  {id:"kette", k:"kette ketten kettenverschleiss verschleiss kettenlehre laengung gelaengt kettenwechsel wann chain wear stretch", t:["Wann muss die Kette gewechselt werden?", "When should the chain be replaced?"],
-   a:["Ketten längen sich. Mit einer Kettenlehre messen und bei 11- und 12-fach ab etwa 0,5 % wechseln. Wartest du zu lange, verschleißt die Kette Kassette und Kettenblatt mit. Je nach Wetter und Pflege hält eine Kette etwa 1.000–3.000 km.",
-     "Chains stretch. Measure with a chain checker and replace at about 0.5 % on 11- and 12-speed. Wait too long and the chain wears out the cassette and chainring with it. Depending on weather and care, a chain lasts about 1,000–3,000 km."]},
-  {id:"schaltprobleme", k:"schaltet schaltung kette springt einstellen justieren schaltauge verbogen indexierung zugspannung knackt shifting skips skipping adjust hanger bent", t:["Die Schaltung springt — was tun?", "The gears skip — what to do?"],
-   a:["Meist ist es eines von drei Dingen: Zugspannung (Einstellschraube am Schaltwerk oder Hebel eine halbe Umdrehung drehen), ein verbogenes Schaltauge oder eine verschlissene Kette. Bei SRAM Transmission gibt es kein Schaltauge zum Verbiegen — dort hilft meist das Neu-Einstellen nach Anleitung.",
-     "It's usually one of three things: cable tension (turn the barrel adjuster on the derailleur or shifter half a turn), a bent derailleur hanger or a worn chain. SRAM Transmission has no hanger to bend — there, re-adjusting per the manual usually helps."]},
+  {id:"kette", k:"kette ketten kettenverschleiss verschleiss kettenlehre laengung gelaengt wann chain wear stretch checker", t:["Wann muss die Kette gewechselt werden?", "When should the chain be replaced?"], a:gWKettenVerschleiss},
+  {id:"schaltprobleme", k:"kette schaltet springt springen rattert klackert schaltauge verbogen knackt sauber chain shifting skips skipping jumps hanger bent noisy", t:["Die Schaltung springt — was tun?", "The gears skip — what to do?"], a:gWSchaltprobleme},
   {id:"service", k:"service wartung pflege gabelservice daempferservice oel oelwechsel dichtungen dichtung abstreifer betriebsstunden stunden reinigen putzen maintenance clean servicing", t:["Wie oft Service an Gabel und Dämpfer?", "How often to service fork and shock?"],
    a:["Nach jeder Fahrt die Standrohre abwischen. Den kleinen Service (Öl, Abstreifer) je nach Hersteller etwa alle 50–125 Betriebsstunden, einen großen mit Dämpfung mindestens einmal im Jahr. Die genauen Zeiten stehen in der Anleitung — der Federungsrechner verlinkt sie.",
      "Wipe the stanchions after every ride. The small service (oil, wiper seals) roughly every 50–125 riding hours depending on the maker, a full one including the damper at least once a year. The exact intervals are in the manual — the suspension calculator links to it."], ak:["fed"]},
@@ -9479,8 +9843,8 @@ function guideAktion(id){ const a = gAktInfo(id); if(a) a[1](); }
 let gVerlauf = [];
 function gHalloText(){
   const r = gR();
-  return tx("Hi! Ich bin der Guide. Frag mich alles zur App oder zu deinem Rad — zum Beispiel „Was fehlt zur 100?“, „Welche Gabel soll ich nehmen?“, „Taugt mein Rad für Enduro?“ oder „Was ist Boost?“.",
-    "Hi! I'm the guide. Ask me anything about the app or your bike — for example “What's missing to get 100?”, “Which fork should I get?”, “Is my bike good for enduro?” or “What is Boost?”.")
+  return tx("Hi! Ich bin der Guide — dein Fahrrad-Experte in der App. Frag mich alles zur App, zu deinem Rad und zur Werkstatt — zum Beispiel „Was fehlt zur 100?“, „Welche Gabel soll ich nehmen?“, „Meine Bremse schleift“ oder „Wie stelle ich die Schaltung ein?“. Ich erkläre es einfach und Schritt für Schritt, passend zu den Teilen an deinem Rad.",
+    "Hi! I'm the guide — your bike expert in the app. Ask me anything about the app, your bike or the workshop — for example “What's missing to get 100?”, “Which fork should I get?”, “My brake rubs” or “How do I adjust my gears?”. I explain it simply and step by step, matched to the parts on your bike.")
     + (r.teile ? " " + tx(`Gerade offen: ${esc(MODUS_NAME[modus])} · ${esc(selNamen())} · Score ${r.gesamt}.`, `Open right now: ${esc(MODUS_NAME[modus])} · ${esc(selNamen())} · score ${r.gesamt}.`) : "");
 }
 function gVorschlaege(){
@@ -9493,7 +9857,7 @@ function gVorschlaege(){
   if(r.teile && r.gesamt < 100) add("zur100");
   if(r.teile >= 5) add("wofuer");
   if(!(koerper.groesse > 0)) add("fit");
-  add("federung"); add("b0"); add("b3"); add("anfaenger");
+  add("federung"); add("w-inspektion"); add("b0"); add("anfaenger");
   return c;
 }
 function gAusgabe(e, q){
@@ -9519,7 +9883,8 @@ function gAntwort(text, id){
   const worte = t0 ? q.map(y => y.w).filter(w => t0.x.such.indexOf(" " + w) >= 0) : [];
   /* Nennt die Frage ein Teil, meinen "passt", "kostet", "wiegt" dieses Teil
      ("Passt eine Lyrik?") -- nicht das ganze Rad */
-  if(t0 && t0.stark && (!gut || t0.stark >= 2 || t0.hit >= 2 || G_ALLGEMEIN.has(best.e.id))){
+  const werkstatt = gut && G_WERKSTATT.has(best.e.id) && best.p >= 3;
+  if(t0 && t0.stark && !werkstatt && (!gut || t0.stark >= 2 || t0.hit >= 2 || G_ALLGEMEIN.has(best.e.id))){
     const a = gTeilAntwort(teile, worte);
     if(gut && best.p >= 3) a.chips = [{id:best.e.id, t:sp2(best.e.t)}], a.auch = true;
     return a;
