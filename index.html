@@ -2031,7 +2031,7 @@ const o_ = (w, n, s, x) => Object.defineProperties({w:w, s:s || null, p:(x && x.
 const DIM_EN = {"Federweg":"Travel", "Kartusche":"Damper", "Ausführung":"Version", "Einbaumaß":"Eye-to-eye × stroke",
   "Freilauf":"Freehub", "Scheiben":"Rotors", "Durchmesser":"Diameter", "Hub":"Drop", "Rise":"Rise", "Klemmung":"Clamp",
   "Länge":"Length", "Kurbellänge":"Crank length", "Nabenbreite":"Hub width", "Steuerrohr":"Head tube", "Vorderachse":"Front axle",
-  "Kettenblatt":"Chainring", "Gehäuse":"Shell", "Einpressmaß":"Head tube standard"};
+  "Kettenblatt":"Chainring", "Gehäuse":"Shell", "Einpressmaß":"Head tube standard", "Welle":"Spindle"};
 const dimName = k => tx(k, DIM_EN[k] || k);
 const dezimal = v => [String(v).replace(".", ","), String(v)];
 const dim = (k, o, std) => { const i = o.findIndex(x => x.w === std); return {k:k, o:o, d:i < 0 ? 0 : i}; };
@@ -2083,11 +2083,19 @@ function SR(std){ return dim("Steuerrohr", ["gerade","tapered"].map(x => o_(x, x
 function VA(std){ return dim("Vorderachse", ["110x15","110x20"].map(a => o_(a, a === "110x15" ? "15 mm Boost" : "20 mm Boost", {va:a},
   {h:["Nabe per Endkappen umrüstbar", "hub converts with end caps"], kurz:[(a === "110x15" ? "VR 15 mm" : "VR 20 mm"), (a === "110x15" ? "front 15 mm" : "front 20 mm")]})), std); }
 function KB(zs, std){ return dim("Kettenblatt", zs.map(z => o_(z, [z + " Z.", z + "T"], {kb:z})), std); }
+/* Kurbelwelle je Tretlagerbreite: 68/73 mm (Trail, Enduro) oder 83 mm (DH).
+   Race Face (Cinch) und Hope tauschen dafuer nur die Welle; die 83er Welle
+   ist 10 mm laenger, jede Kurbelseite sitzt 5 mm weiter aussen -- die
+   Kettenlinie waechst um 5 mm. */
+function WE(kl){ return dim("Welle", [o_("68/73", ["68/73 mm", "68/73 mm"], {geh:73, kl:kl}, {kurz:["Welle 68/73", "spindle 68/73"]}),
+  o_("83", ["83 mm (DH)", "83 mm (DH)"], {geh:83, kl:kl + 5}, {kurz:["Welle 83 DH", "spindle 83 DH"], p:25, g:8})], "68/73"); }
 /* Innenlager: Gehaeuse des Rahmens und Welle der Kurbel muessen beide stimmen.
    Viele Lager gibt es je Gehaeusebreite als eigene Ausfuehrung -- die steht
    dann als Wahl am Teil, wie der Federweg an der Gabel. */
 const BB_NAME = {BSA68:"BSA 68 mm", BSA73:"BSA 73 mm", BSA83:"BSA 83 mm", PF92:"PressFit 92", PF107:"PressFit 107",
-  PF30:"PF30", Spanish:"Spanish BB"};
+  PF30:"PF30", BB30:"BB30 (73 mm)", T47:"T47 (68/73 mm)", Spanish:"Spanish BB"};
+/* Gehaeusebreite fuer die Kurbelwelle: 83er (BSA 83, PressFit 107) ist DH */
+const bbBreite = x => /83|107/.test(x || "") ? 83 : 73;
 const bbName = x => BB_NAME[x] || x;
 function GH(liste){ return dim("Gehäuse", liste.map(([w, gs]) => o_(w, w, {gehaeuse:gs}, {kurz:w})), liste[0][0]); }
 function IL(id, n, m, welle, gh, x){
@@ -2100,14 +2108,22 @@ const BSA = [["BSA 68/73", ["BSA68","BSA73"]]], BSA_DH = [["BSA 68/73", ["BSA68"
    Steuerrohr des Rahmens, die untere Lagerschale am Gabelschaft -- tapered
    (1,5″ unten) oder gerade 1 1/8″ (Doppelbruecke, Dirt, Trial). Die gaengigen
    Modelle gibt es in allen Massen, darum steht das Mass als Ausfuehrung am
-   Teil. Welches Mass der Rahmen genau hat (ZS44/ZS56, IS42/IS52 ...), steht
-   nicht fuer jeden Rahmen im Katalog -- der Chip am Teil sagt es dazu. */
-const SS_MASSE = [["ZS44 / ZS56", "tapered", "1.5"], ["IS42 / IS52", "tapered", "1.5"], ["ZS44 / EC56", "tapered", "1.5"],
-  ["ZS49 / ZS56 · 1 1/8″ unten", "dc", "1.125"], ["EC34 / EC34 · gerade", "gerade", "1.125"]];
+   Teil. Benannt nach SHIS (Standardized Headset Identification System):
+   ZS = semi-integriert, IS = integriert (Lager direkt im Rahmen), EC =
+   aussenliegende Schale; die Zahl ist der Bohrungsdurchmesser in mm. IS41
+   (Cane Creek) und IS42 (Campagnolo) sind NICHT tauschbar. Wo das Mass des
+   Rahmens belegt ist, steht es am Rahmen als steuerrohr -- dann muss es
+   genau stimmen (Liam 2026-10-01). */
+const SS_MASSE = [["ZS44 / ZS56", "tapered", "1.5", "ZS44/ZS56"], ["IS42 / IS52", "tapered", "1.5", "IS42/IS52"],
+  ["IS41 / IS52", "tapered", "1.5", "IS41/IS52"], ["ZS44 / IS52", "tapered", "1.5", "ZS44/IS52"], ["ZS44 / EC56", "tapered", "1.5", "ZS44/EC56"],
+  ["ZS56 / ZS56", "tapered", "1.5", "ZS56/ZS56"],
+  ["ZS49 / ZS56 · 1 1/8″ unten", "dc", "1.125", "ZS49/ZS56"], ["ZS56 / ZS56 · 1 1/8″ unten", "dc", "1.125", "ZS56/ZS56"],
+  ["EC34 / EC34 · gerade", "gerade", "1.125", "EC34/EC34"]];
+const ssStd = x => String(x || "").replace("/", " / ");
 function SS(id, n, m, x){
-  return {id:id, n:n, m:m, rohr:"tapered", unten:"1.5", e:x.e, g:x.g, p:x.p,
-    v:[dim("Einpressmaß", SS_MASSE.map(([w, rohr, unten]) => o_(w, rohr === "dc" ? [w + " (Doppelbrücke)", w.replace("unten", "lower") + " (dual crown)"]
-      : rohr === "gerade" ? [w + " 1 1/8″", w.replace("gerade", "straight") + " 1 1/8″"] : w + " · tapered", {rohr:rohr, unten:unten}, {kurz:w.split(" · ")[0]})), "ZS44 / ZS56")]};
+  return {id:id, n:n, m:m, rohr:"tapered", unten:"1.5", std:"ZS44/ZS56", e:x.e, g:x.g, p:x.p,
+    v:[dim("Einpressmaß", SS_MASSE.map(([w, rohr, unten, std]) => o_(w, rohr === "dc" ? [w + " (Doppelbrücke)", w.replace("unten", "lower") + " (dual crown)"]
+      : rohr === "gerade" ? [w + " 1 1/8″", w.replace("gerade", "straight") + " 1 1/8″"] : w + " · tapered", {rohr:rohr, unten:unten, std:std}, {kurz:w.split(" · ")[0]})), "ZS44 / ZS56")]};
 }
 
 /* Kartuschen je Gabelfamilie. Erste Zeile = Grundausführung des Eintrags;
@@ -2173,6 +2189,7 @@ EINBAU.trailEnduro = [...new Set(EINBAU.trail.concat(EINBAU.enduro))];
 function GB(id, n, m, x){
   const t = {id:id, n:n, m:m, travel:x.std, schaft:x.schaft || "tapered", va:x.va || "110x15", lr:x.lr || ["29","27.5"],
              offset:x.off || 44, maxReifen:x.mr || 66, maxScheibeVR:x.ms || 203, e:x.e, g:x.g, p:x.p};
+  if(x.pm) t.pmV = x.pm;                        /* Post Mount nativ fuer diese Scheibe, s. bremsAufnahme() */
   const v = [];
   if(x.ka) v.push(KA(typeof x.ka === "string" ? KART[x.ka] : x.ka, x.kaStd));
   if(x.fw && x.fw.length > 1) v.push(FW(x.fw, x.std));
@@ -2224,28 +2241,28 @@ const TR = {
 const K = {
 rahmen:[
  {id:"f-topfuel", n:"Trek Top Fuel Carbon", m:"Trek", seit:2023, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12",
-  bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:64, maxScheibeHR:200, udh:true,
+  bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:64, maxScheibeHR:180, pmHR:160, udh:true,
   daempfer:{el:185,hub:50,typ:"Trunnion"}, geo:{rs:1175,ks:435,lw:66.5,sw:76,  sr:430,ta:35}, ohne:[], fb:{h:"#1d2c4e",a:"#d6403a"}, e:E(5,3,0,0,0,0,0), g:2450, p:2799},
- {id:"f-stumpy", n:"Specialized Stumpjumper Alloy", m:"Specialized", seit:2021, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12",
-  bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:64, maxScheibeHR:203, udh:true,
+ {id:"f-stumpy", n:"Specialized Stumpjumper Alloy", m:"Specialized", seit:2021, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", steuerrohr:"IS42/IS52", ha:"148x12",
+  bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:64, maxScheibeHR:203, pmHR:180, udh:true,
   daempfer:{el:190,hub:45,typ:"Standard"}, geo:{rs:1210,ks:437,lw:65.5,sw:76.5,sr:430,ta:35}, ohne:[], fb:{h:"#49545f",a:"#e9ecef"}, e:E(3,5,3,0,0,0,0), g:3400, p:2099},
- {id:"f-hightower", n:"Santa Cruz Hightower C", m:"Santa Cruz", seit:2022, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12",
-  bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:64, maxScheibeHR:203, udh:true,
+ {id:"f-hightower", n:"Santa Cruz Hightower C", m:"Santa Cruz", seit:2022, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", steuerrohr:"IS41/IS52", ha:"148x12",
+  bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:64, maxScheibeHR:203, pmHR:180, udh:true,
   daempfer:{el:210,hub:55,typ:"Standard"}, geo:{rs:1215,ks:438,lw:65.5,sw:77,  sr:420,ta:35}, ohne:[], fb:{h:"#1f6f5c",a:"#e6e2d8"}, e:E(3,5,3,0,0,0,0), g:3100, p:3199},
  {id:"f-sentinel", n:"Radon Swoop AL", m:"Radon", seit:2022, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:false,
   daempfer:{el:216,hub:63,typ:"Standard"}, geo:{rs:1235,ks:440,lw:64.5,sw:77,  sr:440,ta:30}, ohne:[], fb:{h:"#23272c",a:"#f25c05"}, e:E(1,4,5,2,0,0,0), g:3500, p:1199},
- {id:"f-spectral", n:"Canyon Spectral CF", m:"Canyon", seit:2021, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12",
+ {id:"f-spectral", n:"Canyon Spectral CF", m:"Canyon", seit:2021, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", steuerrohr:"ZS44/IS52", ha:"148x12",
   bb:"BSA73", stuetze:30.9, einsteck:225, maxReifen:63, maxScheibeHR:203, udh:true,
   daempfer:{el:230,hub:60,typ:"Standard"}, geo:{rs:1220,ks:437,lw:64.5,sw:77.5,sr:430,ta:32}, ohne:[], fb:{h:"#2b2f36",a:"#00a3e0"}, e:E(1,4,5,2,0,0,0), g:2900, p:2499},
  {id:"f-tyee", n:"Propain Tyee CF", m:"Propain", seit:2022, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:245, maxReifen:65, maxScheibeHR:203, udh:false, udhAb:2023,
   daempfer:{el:210,hub:55,typ:"Standard"}, geo:{rs:1250,ks:442,lw:64,  sw:78,  sr:430,ta:28}, ohne:[], fb:{h:"#1a1d21",a:"#d1372f"}, e:E(0,3,5,3,0,0,0), g:3200, p:2299},
- {id:"f-capra", n:"YT Capra Core · Mullet", m:"YT", seit:2022, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12",
-  bb:"BSA73", stuetze:31.6, einsteck:250, maxReifen:66, maxScheibeHR:203, udh:true,
+ {id:"f-capra", n:"YT Capra Core · Mullet", m:"YT", seit:2022, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", steuerrohr:"ZS44/ZS56", ha:"148x12",
+  bb:"BSA73", stuetze:31.6, einsteck:250, maxReifen:66, maxScheibeHR:203, pmHR:180, udh:true,
   daempfer:{el:230,hub:65,typ:"Standard"}, geo:{rs:1255,ks:437,lw:63.5,sw:78,  sr:420,ta:22}, ohne:[], fb:{h:"#101216",a:"#c6ff00"}, e:E(0,2,5,4,0,0,0), g:3600, p:2699},
- {id:"f-metasx", n:"Commencal Meta SX · Mullet", m:"Commencal", seit:2022, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12",
-  bb:"PF92", stuetze:34.9, einsteck:230, maxReifen:68, maxScheibeHR:220, udh:false, udhAb:2023,
+ {id:"f-metasx", n:"Commencal Meta SX · Mullet", m:"Commencal", seit:2022, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", steuerrohr:"ZS56/ZS56", ha:"148x12",
+  bb:"PF92", stuetze:34.9, einsteck:230, maxReifen:68, maxScheibeHR:223, pmHR:200, udh:false, udhAb:2023,
   daempfer:{el:230,hub:62.5,typ:"Standard"}, geo:{rs:1265,ks:440,lw:63,  sw:78,  sr:410,ta:20}, ohne:[], fb:{h:"#0f1115",a:"#ff4d00"}, e:E(0,1,5,4,0,0,0), g:3900, p:1999},
  {id:"f-session", n:"Trek Session · Doppelbrücke", m:"Trek", seit:2023, lrV:"29", lrH:"29", maxGabel:200, schaft:"dc", ha:"157x12",
   bb:"BSA83", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, udh:true,
@@ -2271,21 +2288,21 @@ rahmen:[
  {id:"f-echo", n:"Echo Mark VI · Trial Mod 20″", m:"Echo", seit:2020, lrV:"20", lrH:"19", maxGabel:0, schaft:"tapered", ha:"116x10",
   bb:"Spanish", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:160, udh:false, klSoll:43,
   felgenbremse:true, daempfer:null, geo:{rs:1010,ks:355,lw:72,  sw:72,  sr:0,  ta:-50}, ohne:["daempfer","stuetze","sattel"], fb:{h:"#101418",a:"#00c2a8"}, e:E(0,0,0,0,0,0,5), g:1450, p:599},
- {id:"f-epic8", n:"Specialized Epic 8", m:"Specialized", seit:2024, geo:{rs:1168,ks:437,lw:67.5,sw:76.5,sr:430,ta:42}, fb:{h:"#b0132b",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Standard"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2100, p:3299},
- {id:"f-supercal", n:"Trek Supercaliber Gen 2", m:"Trek", seit:2023, geo:{rs:1160,ks:435,lw:67,sw:76,sr:420,ta:45}, fb:{h:"#1d2c4e",a:"#f0c419"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:210, maxReifen:61, maxScheibeHR:160, udh:true, daempfer:{el:0,hub:0,typ:"IsoStrut"}, ohne:[], e:E(5,3,0,0,0,0,0), g:1950, p:3499},
- {id:"f-sparkrc", n:"Scott Spark RC", m:"Scott", seit:2022, geo:{rs:1165,ks:437,lw:67,sw:76.5,sr:425,ta:42}, fb:{h:"#f0e6d2",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:165,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2050, p:3199},
+ {id:"f-epic8", n:"Specialized Epic 8", m:"Specialized", seit:2024, geo:{rs:1168,ks:437,lw:67.5,sw:76.5,sr:430,ta:42}, fb:{h:"#b0132b",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", steuerrohr:"IS42/IS52", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:215, maxReifen:61, maxScheibeHR:180, pmHR:160, udh:true, daempfer:{el:190,hub:45,typ:"Standard"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2100, p:3299},
+ {id:"f-supercal", n:"Trek Supercaliber Gen 2", m:"Trek", seit:2023, geo:{rs:1160,ks:435,lw:67,sw:76,sr:420,ta:45}, fb:{h:"#1d2c4e",a:"#f0c419"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:210, maxReifen:61, maxScheibeHR:160, pmHR:160, udh:true, daempfer:{el:0,hub:0,typ:"IsoStrut"}, ohne:[], e:E(5,3,0,0,0,0,0), g:1950, p:3499},
+ {id:"f-sparkrc", n:"Scott Spark RC", m:"Scott", seit:2022, geo:{rs:1165,ks:437,lw:67,sw:76.5,sr:425,ta:42}, fb:{h:"#f0e6d2",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:215, maxReifen:61, maxScheibeHR:180, pmHR:160, udh:true, daempfer:{el:165,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2050, p:3199},
  {id:"f-luxtrail", n:"Canyon Lux Trail", m:"Canyon", seit:2021, geo:{rs:1175,ks:437,lw:66.5,sw:76,sr:430,ta:40}, fb:{h:"#2b2f36",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:30.9, einsteck:220, maxReifen:61, maxScheibeHR:180, udh:false, udhAb:2024, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(5,4,0,0,0,0,0), g:2000, p:2499},
- {id:"f-oiz", n:"Orbea Oiz", m:"Orbea", seit:2022, geo:{rs:1162,ks:435,lw:67.5,sw:76,sr:425,ta:44}, fb:{h:"#0e3a5c",a:"#7ad1ff"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:false, udhAb:2023, daempfer:{el:190,hub:45,typ:"Standard"}, ohne:[], e:E(5,3,0,0,0,0,0), g:1980, p:2999},
+ {id:"f-oiz", n:"Orbea Oiz", m:"Orbea", seit:2022, geo:{rs:1162,ks:435,lw:67.5,sw:76,sr:425,ta:44}, fb:{h:"#0e3a5c",a:"#7ad1ff"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:215, maxReifen:61, maxScheibeHR:160, pmHR:160, hrAufnahme:"FM", udh:false, udhAb:2023, daempfer:{el:190,hub:45,typ:"Standard"}, ohne:[], e:E(5,3,0,0,0,0,0), g:1980, p:2999},
  {id:"f-blur", n:"Santa Cruz Blur TR", m:"Santa Cruz", seit:2022, geo:{rs:1170,ks:434,lw:66.5,sw:76.5,sr:420,ta:42}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:212, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Standard"}, ohne:[], e:E(5,4,0,0,0,0,0), g:1870, p:3399},
  {id:"f-anthem", n:"Giant Anthem Advanced", m:"Giant", seit:2022, geo:{rs:1166,ks:435,lw:67,sw:76,sr:425,ta:44}, fb:{h:"#16181c",a:"#00a94f"}, lrV:"29", lrH:"29", maxGabel:110, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:30.9, einsteck:215, maxReifen:61, maxScheibeHR:180, udh:true, daempfer:{el:165,hub:45,typ:"Trunnion"}, ohne:[], e:E(5,3,0,0,0,0,0), g:2120, p:2799},
  {id:"f-element", n:"Rocky Mountain Element", m:"Rocky Mountain", seit:2023, geo:{rs:1180,ks:437,lw:66,sw:76.5,sr:430,ta:38}, fb:{h:"#0f2b46",a:"#e94f1d"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:30.9, einsteck:220, maxReifen:62, maxScheibeHR:180, udh:true, daempfer:{el:190,hub:45,typ:"Standard"}, ohne:[], e:E(4,5,0,0,0,0,0), g:2250, p:2899},
- {id:"f-chisel", n:"Specialized Chisel", m:"Specialized", seit:2021, geo:{rs:1150,ks:432,lw:67.5,sw:75,sr:440,ta:65}, fb:{h:"#3f4a54",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:100, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:440, maxReifen:61, maxScheibeHR:180, udh:false, udhAb:2024, daempfer:null, ohne:["daempfer"], e:E(5,3,0,0,0,0,0), g:1450, p:999},
- {id:"f-fuelex", n:"Trek Fuel EX", m:"Trek", seit:2023, geo:{rs:1205,ks:437,lw:65,sw:77,sr:430,ta:35}, fb:{h:"#111318",a:"#e10600"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:185,hub:55,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:3050, p:2799},
- {id:"f-stumpy15", n:"Specialized Stumpjumper 15", m:"Specialized", seit:2025, geo:{rs:1210,ks:438,lw:64.5,sw:77,sr:425,ta:34}, fb:{h:"#2b3a55",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(3,5,4,0,0,0,0), g:2750, p:3499},
- {id:"f-ripmoaf", n:"Ibis Ripmo AF", m:"Ibis", seit:2020, geo:{rs:1230,ks:436,lw:64.5,sw:76.5,sr:420,ta:30}, fb:{h:"#1a1d21",a:"#f25c05"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:false, udhAb:2022, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(1,5,5,1,0,0,0), g:3400, p:1999},
- {id:"f-spur", n:"Transition Spur", m:"Transition", seit:2023, geo:{rs:1180,ks:435,lw:66,sw:76,sr:415,ta:40}, fb:{h:"#5b2d8e",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:220, maxReifen:61, maxScheibeHR:180, udh:false, udhAb:2025, daempfer:{el:190,hub:45,typ:"Standard"}, ohne:[], e:E(5,5,0,0,0,0,0), g:2050, p:2999},
+ {id:"f-chisel", n:"Specialized Chisel", m:"Specialized", seit:2021, geo:{rs:1150,ks:432,lw:67.5,sw:75,sr:440,ta:65}, fb:{h:"#3f4a54",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:100, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:440, maxReifen:61, maxScheibeHR:180, pmHR:160, udh:false, udhAb:2024, daempfer:null, ohne:["daempfer"], e:E(5,3,0,0,0,0,0), g:1450, p:999},
+ {id:"f-fuelex", n:"Trek Fuel EX", m:"Trek", seit:2023, geo:{rs:1205,ks:437,lw:65,sw:77,sr:430,ta:35}, fb:{h:"#111318",a:"#e10600"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, pmHR:180, udh:true, daempfer:{el:185,hub:55,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:3050, p:2799},
+ {id:"f-stumpy15", n:"Specialized Stumpjumper 15", m:"Specialized", seit:2025, geo:{rs:1210,ks:438,lw:64.5,sw:77,sr:425,ta:34}, fb:{h:"#2b3a55",a:"#e8e8e8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", steuerrohr:"IS42/IS52", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:235, maxReifen:64, maxScheibeHR:203, pmHR:200, udh:true, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(3,5,4,0,0,0,0), g:2750, p:3499},
+ {id:"f-ripmoaf", n:"Ibis Ripmo AF", m:"Ibis", seit:2020, geo:{rs:1230,ks:436,lw:64.5,sw:76.5,sr:420,ta:30}, fb:{h:"#1a1d21",a:"#f25c05"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, pmHR:160, udh:false, udhAb:2022, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(1,5,5,1,0,0,0), g:3400, p:1999},
+ {id:"f-spur", n:"Transition Spur", m:"Transition", seit:2023, geo:{rs:1180,ks:435,lw:66,sw:76,sr:415,ta:40}, fb:{h:"#5b2d8e",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:120, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:220, maxReifen:61, maxScheibeHR:180, pmHR:160, udh:false, udhAb:2025, daempfer:{el:190,hub:45,typ:"Standard"}, ohne:[], e:E(5,5,0,0,0,0,0), g:2050, p:2999},
  {id:"f-optic", n:"Norco Optic", m:"Norco", seit:2023, geo:{rs:1200,ks:435,lw:64.5,sw:77,sr:420,ta:34}, fb:{h:"#16181c",a:"#00b3a4"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:230, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:190,hub:45,typ:"Standard"}, ohne:[], e:E(2,5,3,0,0,0,0), g:2900, p:2399},
- {id:"f-occam", n:"Orbea Occam", m:"Orbea", seit:2023, geo:{rs:1205,ks:437,lw:65,sw:76.5,sr:425,ta:35}, fb:{h:"#0e3a5c",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:232, maxReifen:66, maxScheibeHR:203, udh:false, udhAb:2024, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2850, p:2599},
+ {id:"f-occam", n:"Orbea Occam", m:"Orbea", seit:2023, geo:{rs:1205,ks:437,lw:65,sw:76.5,sr:425,ta:35}, fb:{h:"#0e3a5c",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:232, maxReifen:66, maxScheibeHR:203, pmHR:180, udh:false, udhAb:2024, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2850, p:2599},
  {id:"f-genius", n:"Scott Genius", m:"Scott", seit:2022, geo:{rs:1215,ks:438,lw:64.5,sw:77.5,sr:420,ta:32}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:235, maxReifen:64, maxScheibeHR:203, udh:false, udhAb:2023, daempfer:{el:185,hub:55,typ:"Trunnion"}, ohne:[], e:E(2,5,4,0,0,0,0), g:2950, p:3199},
  {id:"f-trancex", n:"Giant Trance X", m:"Giant", seit:2022, geo:{rs:1200,ks:435,lw:65,sw:76.5,sr:425,ta:36}, fb:{h:"#16181c",a:"#00a94f"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:30.9, einsteck:230, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:185,hub:55,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2980, p:2299},
  {id:"f-trail429", n:"Pivot Trail 429", m:"Pivot", seit:2023, geo:{rs:1190,ks:432,lw:66,sw:76.5,sr:415,ta:38}, fb:{h:"#0f1115",a:"#e6c200"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"157x12", bb:"PF92", stuetze:31.6, einsteck:225, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:165,hub:45,typ:"Trunnion"}, ohne:[], e:E(4,5,2,0,0,0,0), g:2650, p:3599},
@@ -2293,32 +2310,32 @@ rahmen:[
  {id:"f-following", n:"Evil Following", m:"Evil", seit:2023, geo:{rs:1190,ks:435,lw:65.5,sw:76.5,sr:410,ta:36}, fb:{h:"#5b2d8e",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"157x12", bb:"BSA73", stuetze:30.9, einsteck:222, maxReifen:63, maxScheibeHR:203, udh:true, daempfer:{el:165,hub:45,typ:"Trunnion"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2750, p:3299},
  {id:"f-stereo177", n:"Cube Stereo ONE77", m:"Cube", seit:2023, geo:{rs:1205,ks:437,lw:65,sw:77,sr:430,ta:35}, fb:{h:"#101418",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:230, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(3,5,3,0,0,0,0), g:3000, p:1999},
  {id:"f-instinct", n:"Rocky Mountain Instinct", m:"Rocky Mountain", seit:2023, geo:{rs:1208,ks:438,lw:65,sw:77,sr:425,ta:35}, fb:{h:"#0f2b46",a:"#e94f1d"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:30.9, einsteck:232, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:52.5,typ:"Standard"}, ohne:[], e:E(3,5,3,0,0,0,0), g:2950, p:2699},
- {id:"f-slash", n:"Trek Slash", m:"Trek", seit:2024, geo:{rs:1250,ks:442,lw:63.5,sw:78,sr:420,ta:28}, fb:{h:"#111318",a:"#e10600"}, lrV:"29", lrH:"29", maxGabel:190, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:64, maxScheibeHR:220, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3300, p:3199},
- {id:"f-enduro", n:"Specialized Enduro", m:"Specialized", seit:2020, geo:{rs:1255,ks:440,lw:63.5,sw:78,sr:415,ta:26}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:65, maxScheibeHR:203, udh:false, udhAb:2025, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3250, p:3299},
- {id:"f-megatower", n:"Santa Cruz Megatower", m:"Santa Cruz", seit:2022, geo:{rs:1258,ks:441,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:64, maxScheibeHR:203, udh:false, udhAb:2023, daempfer:{el:230,hub:62.5,typ:"Standard"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3200, p:3999},
+ {id:"f-slash", n:"Trek Slash", m:"Trek", seit:2024, geo:{rs:1250,ks:442,lw:63.5,sw:78,sr:420,ta:28}, fb:{h:"#111318",a:"#e10600"}, lrV:"29", lrH:"29", maxGabel:190, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:64, maxScheibeHR:220, pmHR:200, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3300, p:3199},
+ {id:"f-enduro", n:"Specialized Enduro", m:"Specialized", seit:2020, geo:{rs:1255,ks:440,lw:63.5,sw:78,sr:415,ta:26}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", steuerrohr:"IS42/IS52", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:65, maxScheibeHR:220, pmHR:180, udh:false, udhAb:2025, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3250, p:3299},
+ {id:"f-megatower", n:"Santa Cruz Megatower", m:"Santa Cruz", seit:2022, geo:{rs:1258,ks:441,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", steuerrohr:"IS41/IS52", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:64, maxScheibeHR:223, pmHR:200, udh:false, udhAb:2023, daempfer:{el:230,hub:62.5,typ:"Standard"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3200, p:3999},
  {id:"f-torque", n:"Canyon Torque", m:"Canyon", seit:2023, geo:{rs:1262,ks:443,lw:63,sw:78,sr:410,ta:24}, fb:{h:"#2b2f36",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:250,hub:70,typ:"Standard"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3500, p:2299},
  {id:"f-strive", n:"Canyon Strive CFR", m:"Canyon", seit:2022, geo:{rs:1250,ks:440,lw:63.5,sw:78,sr:415,ta:28}, fb:{h:"#2b2f36",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3100, p:3499},
  {id:"f-giga", n:"Nukeproof Giga", m:"Nukeproof", seit:2021, geo:{rs:1265,ks:445,lw:63,sw:78,sr:410,ta:24}, fb:{h:"#3b2f2a",a:"#c85a2a"}, lrV:"29", lrH:"29", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:64, maxScheibeHR:203, udh:false, udhAb:2023, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3600, p:2199},
  {id:"f-rallon", n:"Orbea Rallon", m:"Orbea", seit:2022, geo:{rs:1252,ks:440,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#0e3a5c",a:"#ff8a00"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:60,typ:"Standard"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3250, p:2999},
  {id:"f-ransom", n:"Scott Ransom", m:"Scott", seit:2022, geo:{rs:1260,ks:443,lw:63,sw:78,sr:410,ta:25}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:false, udhAb:2024, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3450, p:3299},
  {id:"f-reign", n:"Giant Reign", m:"Giant", seit:2023, geo:{rs:1255,ks:438,lw:63.5,sw:78,sr:415,ta:24}, fb:{h:"#16181c",a:"#00a94f"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:30.9, einsteck:238, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:62.5,typ:"Trunnion"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3400, p:2199},
- {id:"f-sentinel2", n:"Transition Sentinel", m:"Transition", seit:2022, geo:{rs:1255,ks:440,lw:63.5,sw:78,sr:420,ta:28}, fb:{h:"#5b2d8e",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:65, maxScheibeHR:203, udh:false, udhAb:2024, daempfer:{el:205,hub:62.5,typ:"Trunnion"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3300, p:2499},
- {id:"f-hd6", n:"Ibis HD6 · Mullet", m:"Ibis", seit:2023, geo:{rs:1250,ks:439,lw:63.5,sw:78,sr:415,ta:28}, fb:{h:"#1a1d21",a:"#f25c05"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:238, maxReifen:64, maxScheibeHR:220, udh:false, udhAb:2024, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3100, p:3799},
- {id:"f-sb160", n:"Yeti SB160", m:"Yeti", seit:2023, geo:{rs:1252,ks:441,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#1f6f5c",a:"#101216"}, lrV:"29", lrH:"29", maxGabel:190, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3200, p:4299},
+ {id:"f-sentinel2", n:"Transition Sentinel", m:"Transition", seit:2022, geo:{rs:1255,ks:440,lw:63.5,sw:78,sr:420,ta:28}, fb:{h:"#5b2d8e",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:65, maxScheibeHR:203, pmHR:180, udh:false, udhAb:2024, daempfer:{el:205,hub:62.5,typ:"Trunnion"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3300, p:2499},
+ {id:"f-hd6", n:"Ibis HD6 · Mullet", m:"Ibis", seit:2023, geo:{rs:1250,ks:439,lw:63.5,sw:78,sr:415,ta:28}, fb:{h:"#1a1d21",a:"#f25c05"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:238, maxReifen:64, maxScheibeHR:220, pmHR:180, udh:false, udhAb:2024, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3100, p:3799},
+ {id:"f-sb160", n:"Yeti SB160", m:"Yeti", seit:2023, geo:{rs:1252,ks:441,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#1f6f5c",a:"#101216"}, lrV:"29", lrH:"29", maxGabel:190, schaft:"tapered", steuerrohr:"ZS44/ZS56", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:66, maxScheibeHR:203, pmHR:180, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3200, p:4299},
  {id:"f-foxy", n:"Mondraker Foxy", m:"Mondraker", seit:2023, geo:{rs:1240,ks:437,lw:64,sw:77.5,sr:415,ta:30}, fb:{h:"#101216",a:"#00c2a8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:235, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:[], e:E(0,4,5,2,0,0,0), g:3050, p:2699},
- {id:"f-metatr", n:"Commencal Meta TR", m:"Commencal", seit:2022, geo:{rs:1238,ks:438,lw:64,sw:77.5,sr:415,ta:30}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"PF92", stuetze:34.9, einsteck:235, maxReifen:65, maxScheibeHR:220, udh:false, udhAb:2023, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(0,4,5,2,0,0,0), g:3200, p:1799},
- {id:"f-spindrift", n:"Propain Spindrift", m:"Propain", seit:2022, geo:{rs:1262,ks:440,lw:63,sw:78,sr:410,ta:22}, fb:{h:"#1a1d21",a:"#d1372f"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,1,5,4,0,0,0), g:3500, p:2499},
+ {id:"f-metatr", n:"Commencal Meta TR", m:"Commencal", seit:2022, geo:{rs:1238,ks:438,lw:64,sw:77.5,sr:415,ta:30}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", steuerrohr:"ZS56/ZS56", ha:"148x12", bb:"PF92", stuetze:34.9, einsteck:235, maxReifen:65, maxScheibeHR:223, pmHR:200, udh:false, udhAb:2023, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(0,4,5,2,0,0,0), g:3200, p:1799},
+ {id:"f-spindrift", n:"Propain Spindrift", m:"Propain", seit:2022, geo:{rs:1262,ks:440,lw:63,sw:78,sr:410,ta:22}, fb:{h:"#1a1d21",a:"#d1372f"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, pmHR:180, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,1,5,4,0,0,0), g:3500, p:2499},
  {id:"f-tarvo", n:"Last Tarvo", m:"Last", seit:2020, geo:{rs:1250,ks:440,lw:63.5,sw:78,sr:410,ta:28}, fb:{h:"#23272c",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3000, p:3299},
- {id:"f-nomad", n:"Santa Cruz Nomad", m:"Santa Cruz", seit:2023, geo:{rs:1250,ks:437,lw:63.5,sw:78,sr:410,ta:22}, fb:{h:"#1f6f5c",a:"#ff2d55"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:64, maxScheibeHR:223, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3250, p:3899},
- {id:"f-demo", n:"Specialized Demo Race", m:"Specialized", seit:2023, geo:{rs:1290,ks:445,lw:62.5,sw:76,sr:380,ta:18}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"148x12", bb:"BSA83", stuetze:30.9, einsteck:130, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:225,hub:75,typ:"Trunnion"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4000, p:3799},
- {id:"f-v10", n:"Santa Cruz V10", m:"Santa Cruz", seit:2023, geo:{rs:1295,ks:447,lw:62,sw:76,sr:375,ta:17}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:203, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:130, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:250,hub:75,typ:"Standard"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4100, p:4299},
- {id:"f-supreme", n:"Commencal Supreme DH", m:"Commencal", seit:2022, geo:{rs:1288,ks:443,lw:62.5,sw:76,sr:370,ta:16}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"27.5", maxGabel:203, schaft:"dc", ha:"157x12", haAdapter:{"150x12":["Commencal-Umbaukit 157→150 für DH-Laufräder mit 12 × 150 mm", "Commencal 157→150 conversion kit for 12 × 150 mm DH wheels"]}, bb:"PF107", stuetze:31.6, einsteck:125, maxReifen:65, maxScheibeHR:223, udh:false, daempfer:{el:250,hub:75,typ:"Standard"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4200, p:2699},
- {id:"f-tues", n:"YT Tues", m:"YT", seit:2024, geo:{rs:1285,ks:442,lw:62.5,sw:76,sr:375,ta:18}, fb:{h:"#101216",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:203, schaft:"dc", ha:"148x12", bb:"BSA83", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:250,hub:75,typ:"Standard"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4150, p:2999},
+ {id:"f-nomad", n:"Santa Cruz Nomad", m:"Santa Cruz", seit:2023, geo:{rs:1250,ks:437,lw:63.5,sw:78,sr:410,ta:22}, fb:{h:"#1f6f5c",a:"#ff2d55"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", steuerrohr:"IS41/IS52", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:64, maxScheibeHR:223, pmHR:200, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3250, p:3899},
+ {id:"f-demo", n:"Specialized Demo Race", m:"Specialized", seit:2023, geo:{rs:1290,ks:445,lw:62.5,sw:76,sr:380,ta:18}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"148x12", bb:"BSA83", stuetze:30.9, einsteck:130, maxReifen:66, maxScheibeHR:220, pmHR:180, udh:false, daempfer:{el:225,hub:75,typ:"Trunnion"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4000, p:3799},
+ {id:"f-v10", n:"Santa Cruz V10", m:"Santa Cruz", seit:2023, geo:{rs:1295,ks:447,lw:62,sw:76,sr:375,ta:17}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:203, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:130, maxReifen:66, maxScheibeHR:220, pmHR:200, udh:false, daempfer:{el:250,hub:75,typ:"Standard"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4100, p:4299},
+ {id:"f-supreme", n:"Commencal Supreme DH", m:"Commencal", seit:2022, geo:{rs:1288,ks:443,lw:62.5,sw:76,sr:370,ta:16}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"27.5", maxGabel:203, schaft:"dc", steuerrohr:"ZS56/ZS56", ha:"157x12", haAdapter:{"150x12":["Commencal-Umbaukit 157→150 für DH-Laufräder mit 12 × 150 mm", "Commencal 157→150 conversion kit for 12 × 150 mm DH wheels"]}, bb:"PF107", stuetze:31.6, einsteck:125, maxReifen:65, maxScheibeHR:223, udh:false, daempfer:{el:250,hub:75,typ:"Standard"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4200, p:2699},
+ {id:"f-tues", n:"YT Tues", m:"YT", seit:2024, geo:{rs:1285,ks:442,lw:62.5,sw:76,sr:375,ta:18}, fb:{h:"#101216",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:203, schaft:"dc", ha:"148x12", bb:"BSA83", stuetze:31.6, einsteck:125, maxReifen:66, maxScheibeHR:220, pmHR:200, udh:true, daempfer:{el:250,hub:75,typ:"Standard"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4150, p:2999},
  {id:"f-sender", n:"Canyon Sender CFR", m:"Canyon", seit:2025, geo:{rs:1292,ks:446,lw:62,sw:76,sr:380,ta:17}, fb:{h:"#2b2f36",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:203, schaft:"dc", ha:"148x12", bb:"BSA83", stuetze:30.9, einsteck:130, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:250,hub:75,typ:"Standard"}, ohne:[], e:E(0,0,1,5,0,0,0), g:3950, p:3999},
  {id:"f-gambler", n:"Scott Gambler", m:"Scott", seit:2020, geo:{rs:1290,ks:445,lw:62.5,sw:76,sr:375,ta:18}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"29", lrH:"29", maxGabel:203, schaft:"dc", ha:"157x12", bb:"PF107", stuetze:31.6, einsteck:128, maxReifen:66, maxScheibeHR:220, udh:false, udhAb:2026, daempfer:{el:225,hub:75,typ:"Trunnion"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4200, p:3299},
  {id:"f-fuse", n:"Specialized Fuse", m:"Specialized", seit:2022, geo:{rs:1185,ks:428,lw:65,sw:75.5,sr:430,ta:62}, fb:{h:"#3f4a54",a:"#ff8a00"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:440, maxReifen:66, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,1,0,0), g:2600, p:899},
  {id:"f-roscoe", n:"Trek Roscoe", m:"Trek", seit:2022, geo:{rs:1190,ks:430,lw:65.5,sw:75,sr:425,ta:64}, fb:{h:"#1d2c4e",a:"#f0c419"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:435, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,1,0,0), g:2700, p:799},
- {id:"f-stoic", n:"Canyon Stoic", m:"Canyon", seit:2021, geo:{rs:1188,ks:427,lw:64.5,sw:75.5,sr:430,ta:60}, fb:{h:"#2b2f36",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:445, maxReifen:66, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(2,5,3,0,1,0,0), g:2550, p:799},
+ {id:"f-stoic", n:"Canyon Stoic", m:"Canyon", seit:2021, geo:{rs:1188,ks:427,lw:64.5,sw:75.5,sr:430,ta:60}, fb:{h:"#2b2f36",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", steuerrohr:"ZS44/IS52", ha:"148x12", bb:"BSA73", stuetze:30.9, einsteck:445, maxReifen:66, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(2,5,3,0,1,0,0), g:2550, p:799},
  {id:"f-honzo", n:"Kona Honzo", m:"Kona", seit:2021, geo:{rs:1195,ks:425,lw:65,sw:75,sr:435,ta:62}, fb:{h:"#16181c",a:"#e94f1d"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:450, maxReifen:66, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,2,0,0), g:2650, p:899},
  {id:"f-chameleon", n:"Santa Cruz Chameleon", m:"Santa Cruz", seit:2022, geo:{rs:1190,ks:430,lw:65.5,sw:75.5,sr:430,ta:60}, fb:{h:"#1f6f5c",a:"#ff2d55"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:445, maxReifen:66, maxScheibeHR:180, udh:true, daempfer:null, ohne:["daempfer"], e:E(3,5,2,0,2,0,0), g:2400, p:1099},
  {id:"f-marley", n:"Ragley Marley", m:"Ragley", seit:2021, geo:{rs:1195,ks:425,lw:64.5,sw:75,sr:430,ta:58}, fb:{h:"#3b2f2a",a:"#8bd34a"}, lrV:"27.5", lrH:"27.5", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:450, maxReifen:66, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(2,5,3,0,2,0,0), g:2800, p:649},
@@ -2327,70 +2344,96 @@ rahmen:[
  {id:"f-p3", n:"Specialized P.3", m:"Specialized", seit:2019, geo:{rs:1045,ks:380,lw:69.5,sw:71,sr:290,ta:8}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"26", lrH:"26", maxGabel:100, schaft:"tapered", ha:"135x10", bb:"PF30", stuetze:30.9, einsteck:115, maxReifen:58, maxScheibeHR:160, udh:false, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,2,1), g:2450, p:749},
  {id:"f-voltage", n:"Scott Voltage YZ · Dirt", m:"Scott", seit:2020, geo:{rs:1085,ks:402,lw:67,sw:72,sr:320,ta:10}, fb:{h:"#1a2b3a",a:"#c8102e"}, lrV:"26", lrH:"26", maxGabel:100, schaft:"tapered", ha:"135x10", bb:"PF92", stuetze:31.6, einsteck:120, maxReifen:60, maxScheibeHR:180, udh:false, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,5,4,1), g:2350, p:499},
  {id:"f-fourplay", n:"Inspired Fourplay", m:"Inspired", seit:2019, geo:{rs:1030,ks:380,lw:70.5,sw:72,sr:290,ta:-10}, fb:{h:"#141a22",a:"#00c2a8"}, lrV:"24", lrH:"24", maxGabel:0, schaft:"gerade", ha:"135x12", bb:"BSA73", stuetze:27.2, einsteck:110, maxReifen:62, maxScheibeHR:180, udh:false, klSoll:47, felgenbremse:true, daempfer:null, ohne:["daempfer"], e:E(0,0,0,0,2,1,4), g:2250, p:949},
- {id:"f-czar", n:"Czar Ion Kids 20″ · Street Trial", m:"Czar", seit:2022, geo:{rs:1005,ks:352,lw:72,sw:72,sr:0,ta:-50}, fb:{h:"#101418",a:"#ff2d55"}, lrV:"20", lrH:"20", maxGabel:0, schaft:"gerade", ha:"135x10", bb:"Spanish", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:160, udh:false, felgenbremse:true, daempfer:null, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1420, p:649}
+ {id:"f-czar", n:"Czar Ion Kids 20″ · Street Trial", m:"Czar", seit:2022, geo:{rs:1005,ks:352,lw:72,sw:72,sr:0,ta:-50}, fb:{h:"#101418",a:"#ff2d55"}, lrV:"20", lrH:"20", maxGabel:0, schaft:"gerade", ha:"135x10", bb:"Spanish", stuetze:null, einsteck:0, maxReifen:64, maxScheibeHR:160, udh:false, felgenbremse:true, daempfer:null, ohne:["daempfer","stuetze","sattel"], e:E(0,0,0,0,0,0,5), g:1420, p:649},
+ /* ── Erweiterung 2026-10-01: Daempfermass, Achsen, Tretlager und UDH laut
+    Hersteller-Support, Vital MTB und Tests (Pinkbike, enduro-mtb). Geometrie
+    ist Richtwert fuer Groesse L. ── */
+ {id:"f-5010", n:"Santa Cruz 5010 5 · Mullet", m:"Santa Cruz", seit:2022, geo:{rs:1220,ks:430,lw:65,sw:77,sr:430,ta:15}, fb:{h:"#1f6f5c",a:"#f2c14e"}, lrV:"29", lrH:"27.5", maxGabel:140, schaft:"tapered", steuerrohr:"IS41/IS52", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:220, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:50,typ:"Standard"}, ohne:[], e:E(1,5,3,1,0,1,0), g:2950, p:3299},
+ {id:"f-tallboy", n:"Santa Cruz Tallboy 5", m:"Santa Cruz", seit:2022, geo:{rs:1225,ks:432,lw:65.5,sw:76.5,sr:430,ta:40}, fb:{h:"#1f6f5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:130, schaft:"tapered", steuerrohr:"IS41/IS52", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:62, maxScheibeHR:203, udh:true, daempfer:{el:210,hub:50,typ:"Standard"}, ohne:[], e:E(3,5,2,0,0,0,0), g:2700, p:3299},
+ {id:"f-izzo", n:"YT Izzo", m:"YT", seit:2020, geo:{rs:1205,ks:438,lw:66,sw:76,sr:440,ta:38}, fb:{h:"#101216",a:"#00c2a8"}, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:61, maxScheibeHR:203, udh:false, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(3,5,2,0,0,0,0), g:2600, p:1999},
+ {id:"f-firebird", n:"Pivot Firebird · Super Boost", m:"Pivot", seit:2022, geo:{rs:1270,ks:441,lw:64,sw:76,sr:430,ta:20}, fb:{h:"#16181c",a:"#f25c05"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"157x12", bb:"PF92", stuetze:34.9, einsteck:250, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3600, p:4099},
+ {id:"f-hugene", n:"Propain Hugene", m:"Propain", seit:2022, geo:{rs:1230,ks:440,lw:65,sw:77,sr:430,ta:30}, fb:{h:"#16181c",a:"#00a3e0"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:64, maxScheibeHR:203, udh:false, daempfer:{el:210,hub:50,typ:"Standard"}, ohne:[], e:E(2,5,3,0,0,0,0), g:2800, p:2499},
+ {id:"f-rage", n:"Propain Rage CF · Doppelbrücke", m:"Propain", seit:2022, geo:{rs:1290,ks:445,lw:63,sw:76,sr:400,ta:15}, fb:{h:"#16181c",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:203, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:140, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:225,hub:75,typ:"Trunnion"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4100, p:3299},
+ {id:"f-one55", n:"Cube Stereo ONE55 C:62", m:"Cube", seit:2023, geo:{rs:1250,ks:440,lw:64.5,sw:77,sr:460,ta:30}, fb:{h:"#101418",a:"#8bd34a"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:[], e:E(1,4,5,2,0,0,0), g:3000, p:2299},
+ {id:"f-two15", n:"Cube Two15 · Doppelbrücke 27.5", m:"Cube", seit:2021, geo:{rs:1270,ks:445,lw:63,sw:75,sr:400,ta:10}, fb:{h:"#101418",a:"#e6e2d8"}, lrV:"27.5", lrH:"27.5", maxGabel:203, schaft:"dc", ha:"157x12", bb:"BSA83", stuetze:31.6, einsteck:150, maxReifen:66, maxScheibeHR:220, udh:false, daempfer:{el:250,hub:75,typ:"Standard"}, ohne:[], e:E(0,0,1,5,0,1,0), g:4200, p:2499},
+ {id:"f-status", n:"Specialized Status 160 · Mullet", m:"Specialized", seit:2021, geo:{rs:1260,ks:442,lw:63.5,sw:77,sr:440,ta:15}, fb:{h:"#2b3a55",a:"#ff8a00"}, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:34.9, einsteck:220, maxReifen:64, maxScheibeHR:203, udh:false, daempfer:{el:230,hub:60,typ:"Standard"}, ohne:[], e:E(0,3,5,3,0,2,0), g:3800, p:1499},
+ {id:"f-metaht", n:"Commencal Meta HT AM · Hardtail", m:"Commencal", seit:2021, geo:{rs:1230,ks:430,lw:65,sw:75.5,sr:440,ta:60}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA68", stuetze:31.6, einsteck:250, maxReifen:64, maxScheibeHR:203, pmHR:160, hrAufnahme:"IS", udh:false, daempfer:null, ohne:["daempfer"], e:E(1,4,4,1,2,1,0), g:2500, p:699},
+ /* ── E-MTB (Liam 2026-10-01) ── Motor und Akku stecken im Rahmen: g ist
+    Rahmen + Motor + Akku, p der Richtwert dafuer. Innenlager entfaellt, die
+    Kurbel sitzt direkt auf der Motorwelle (motorWelle). Bosch, Brose,
+    Specialized und TQ nutzen eine ISIS-Welle mit je eigenem Versatz,
+    Shimano EP eine eigene Verzahnung. Daempfermass, Laufraeder, Federweg,
+    Motor und Akku laut Hersteller/Vital MTB; UDH laut SRAMs E-MTB-Liste. */
+ {id:"f-rail", n:"Trek Rail+ Gen 5 · Mullet", m:"Trek", seit:2025, geo:{rs:1265,ks:450,lw:64,sw:77.5,sr:435,ta:25}, fb:{h:"#16181c",a:"#e10600"}, lrV:"29", lrH:"27.5", maxGabel:160, schaft:"tapered", ha:"148x12", bb:null, stuetze:34.9, einsteck:230, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:["innenlager"], motor:"Bosch Performance Line CX (Gen 5)", motorSys:"Bosch CX", motorWelle:"ISIS", akku:800, ebike:"full", e:E(0,4,5,2,0,0,0), g:10900, p:4299},
+ {id:"f-levo4", n:"Specialized Turbo Levo 4 · Mullet", m:"Specialized", seit:2025, geo:{rs:1270,ks:446,lw:63.5,sw:77.5,sr:430,ta:22}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"27.5", maxGabel:160, schaft:"tapered", ha:"148x12", bb:null, stuetze:34.9, einsteck:230, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:["innenlager"], motor:"Specialized 3.1", motorSys:"Specialized", motorWelle:"ISIS", akku:840, ebike:"full", e:E(1,5,4,1,0,0,0), g:10700, p:4799},
+ {id:"f-wild", n:"Orbea Wild", m:"Orbea", seit:2023, geo:{rs:1275,ks:455,lw:64,sw:77,sr:435,ta:25}, fb:{h:"#0e3a5c",a:"#ff8a00"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:null, stuetze:31.6, einsteck:230, maxReifen:66, maxScheibeHR:220, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:["innenlager"], motor:"Bosch Performance Line CX (Gen 4)", motorSys:"Bosch CX", motorWelle:"ISIS", akku:750, ebike:"full", e:E(0,3,5,3,0,0,0), g:10400, p:4199},
+ {id:"f-stereohy", n:"Cube Stereo Hybrid 160 HPC · 27.5", m:"Cube", seit:2023, geo:{rs:1260,ks:466,lw:65,sw:75.5,sr:460,ta:15}, fb:{h:"#101418",a:"#8bd34a"}, lrV:"27.5", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12", bb:null, stuetze:31.6, einsteck:220, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:["innenlager"], motor:"Bosch Performance Line CX (Gen 4)", motorSys:"Bosch CX", motorWelle:"ISIS", akku:750, ebike:"full", e:E(0,3,5,2,0,0,0), g:10500, p:2999},
+ {id:"f-decoy", n:"YT Decoy MX", m:"YT", seit:2023, geo:{rs:1265,ks:455,lw:64.5,sw:77.5,sr:445,ta:20}, fb:{h:"#101216",a:"#c6ff00"}, lrV:"29", lrH:"27.5", maxGabel:170, schaft:"tapered", ha:"148x12", bb:null, stuetze:31.6, einsteck:230, maxReifen:66, maxScheibeHR:203, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:["innenlager"], motor:"Shimano EP8", motorSys:"Shimano EP", motorWelle:"Shimano EP", akku:700, ebike:"full", e:E(0,3,5,3,0,0,0), g:9800, p:3299},
+ {id:"f-fuelexe", n:"Trek Fuel EXe · Light-E", m:"Trek", seit:2023, geo:{rs:1240,ks:440,lw:65,sw:76.5,sr:435,ta:32}, fb:{h:"#1d2c4e",a:"#d6403a"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:null, stuetze:34.9, einsteck:230, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:60,typ:"Trunnion"}, ohne:["innenlager"], motor:"TQ HPR50", motorSys:"TQ", motorWelle:"ISIS", akku:360, ebike:"light", e:E(2,5,3,0,0,0,0), g:6600, p:3999},
+ {id:"f-rise", n:"Orbea Rise · Light-E", m:"Orbea", seit:2023, geo:{rs:1235,ks:440,lw:65.5,sw:77,sr:430,ta:35}, fb:{h:"#0e3a5c",a:"#e6e2d8"}, lrV:"29", lrH:"29", maxGabel:150, schaft:"tapered", ha:"148x12", bb:null, stuetze:31.6, einsteck:230, maxReifen:64, maxScheibeHR:203, udh:false, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:["innenlager"], motor:"Shimano EP801-RS", motorSys:"Shimano EP", motorWelle:"Shimano EP", akku:540, ebike:"light", e:E(2,5,3,0,0,0,0), g:8100, p:3499}
 ],
 gabel:[
  /* ── RockShox ── */
- GB("g-sid",        "RockShox SID SL Ultimate", "RockShox", {lr:["29"], fw:[100,110], std:110, mr:60, ms:180, ka:"sid", e:E(5,2,0,0,0,0,0), g:1330, p:1049}),
- GB("g-sidult",     "RockShox SID Ultimate", "RockShox", {lr:["29"], fw:[110,120], std:120, mr:61, ms:180, ka:"sid", e:E(5,3,0,0,0,0,0), g:1500, p:1149}),
- GB("g-sidselp",    "RockShox SID Select+ · Charger RL", "RockShox", {lr:["29"], fw:[110,120], std:120, mr:61, ms:180, e:E(5,3,0,0,0,0,0), g:1570, p:849}),
- GB("g-sidsel",     "RockShox SID Select · Rush RL", "RockShox", {lr:["29"], fw:[110,120], std:120, mr:61, ms:180, e:E(4,3,0,0,0,0,0), g:1620, p:699}),
+ GB("g-sid",        "RockShox SID SL Ultimate", "RockShox", {pm:160, lr:["29"], fw:[100,110], std:110, mr:60, ms:200, ka:"sid", e:E(5,2,0,0,0,0,0), g:1330, p:1049}),
+ GB("g-sidult",     "RockShox SID Ultimate", "RockShox", {pm:160, lr:["29"], fw:[110,120], std:120, mr:61, ms:200, ka:"sid", e:E(5,3,0,0,0,0,0), g:1500, p:1149}),
+ GB("g-sidselp",    "RockShox SID Select+ · Charger RL", "RockShox", {pm:160, lr:["29"], fw:[110,120], std:120, mr:61, ms:200, e:E(5,3,0,0,0,0,0), g:1570, p:849}),
+ GB("g-sidsel",     "RockShox SID Select · Rush RL", "RockShox", {pm:160, lr:["29"], fw:[110,120], std:120, mr:61, ms:200, e:E(4,3,0,0,0,0,0), g:1620, p:699}),
  GB("g-reba",       "RockShox Reba RL", "RockShox", {lr:["29"], fw:[100,110,120], std:100, mr:60, ms:180, e:E(4,2,0,0,0,0,0), g:1700, p:499}),
  GB("g-recon",      "RockShox Recon Gold RL", "RockShox", {fw:[100,120,130,140,150], std:130, mr:61, e:E(3,4,1,0,0,0,0), g:1990, p:399}),
  GB("g-judy",       "RockShox Judy Silver TK", "RockShox", {fw:[100,110,120,130], std:120, mr:60, ms:180, e:E(3,3,0,0,0,0,0), g:2250, p:279}),
  GB("g-35",         "RockShox 35 Gold RL", "RockShox", {fw:[120,130,140,150,160], std:140, mr:64, e:E(2,4,2,0,0,0,0), g:2150, p:429}),
  GB("g-psylo",      "RockShox Psylo Gold RC", "RockShox", {fw:[140,150,160], std:150, e:E(1,5,4,1,0,0,0), g:2100, p:649}),
  GB("g-revelation", "RockShox Revelation RC", "RockShox", {fw:[120,130,140,150], std:150, e:E(1,5,3,0,0,0,0), g:2250, p:489}),
- GB("g-pike",       "RockShox Pike Ultimate", "RockShox", {fw:[120,130,140], std:140, ms:220, ka:"pikeUlt", e:E(2,5,3,0,0,0,0), g:1890, p:1049}),
- GB("g-pikesp",     "RockShox Pike Select+", "RockShox", {fw:[120,130,140], std:140, ms:220, ka:"sel31", e:E(2,5,3,0,0,0,0), g:1950, p:849}),
- GB("g-pikesel",    "RockShox Pike Select · Charger RC", "RockShox", {fw:[120,130,140], std:140, ms:220, e:E(2,5,3,0,0,0,0), g:1780, p:699}),
- GB("g-pikebase",   "RockShox Pike · Rush RC", "RockShox", {fw:[120,130,140], std:140, ms:220, e:E(2,4,2,0,0,0,0), g:1850, p:549}),
- GB("g-yari",       "RockShox Yari RC", "RockShox", {fw:[150,160,170], std:160, e:E(0,3,4,2,0,0,0), g:2380, p:549}),
- GB("g-lyrik",      "RockShox Lyrik Ultimate", "RockShox", {fw:[140,150,160,170], std:160, ms:220, ka:"lyrikUlt", e:E(0,4,5,2,0,0,0), g:2270, p:1299}),
- GB("g-lyrikselect","RockShox Lyrik Select+", "RockShox", {fw:[140,150,160], std:160, ms:220, ka:"sel31", e:E(0,3,5,2,0,0,0), g:2120, p:899}),
- GB("g-lyriksel",   "RockShox Lyrik Select · Charger RC", "RockShox", {fw:[140,150,160], std:160, ms:220, e:E(0,3,5,2,0,0,0), g:1930, p:749}),
- GB("g-lyrikbase",  "RockShox Lyrik · Rush RC", "RockShox", {fw:[140,150,160], std:160, ms:220, e:E(0,3,4,1,0,0,0), g:2000, p:649}),
- GB("g-zeb",        "RockShox ZEB Ultimate", "RockShox", {fw:[150,160,170,180,190], std:180, mr:71, ms:220, ka:"zebUlt", e:E(0,1,5,4,0,0,0), g:2550, p:1349}),
- GB("g-zebselect",  "RockShox ZEB Select+", "RockShox", {fw:[150,160,170,180,190], std:170, mr:71, ms:220, ka:"sel31", e:E(0,2,5,4,0,0,0), g:2380, p:949}),
- GB("g-zebsel",     "RockShox ZEB Select · Charger RC", "RockShox", {fw:[150,160,170,180,190], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2310, p:799}),
- GB("g-zebbase",    "RockShox ZEB · Rush RC", "RockShox", {fw:[150,160,170,180,190], std:170, mr:71, ms:220, e:E(0,2,4,3,0,0,0), g:2350, p:699}),
+ GB("g-pike",       "RockShox Pike Ultimate", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, ka:"pikeUlt", e:E(2,5,3,0,0,0,0), g:1890, p:1049}),
+ GB("g-pikesp",     "RockShox Pike Select+", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, ka:"sel31", e:E(2,5,3,0,0,0,0), g:1950, p:849}),
+ GB("g-pikesel",    "RockShox Pike Select · Charger RC", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, e:E(2,5,3,0,0,0,0), g:1780, p:699}),
+ GB("g-pikebase",   "RockShox Pike · Rush RC", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, e:E(2,4,2,0,0,0,0), g:1850, p:549}),
+ GB("g-yari",       "RockShox Yari RC", "RockShox", {pm:180, fw:[150,160,170], std:160, e:E(0,3,4,2,0,0,0), g:2380, p:549}),
+ GB("g-lyrik",      "RockShox Lyrik Ultimate", "RockShox", {pm:180, fw:[140,150,160,170], std:160, ms:220, ka:"lyrikUlt", e:E(0,4,5,2,0,0,0), g:2270, p:1299}),
+ GB("g-lyrikselect","RockShox Lyrik Select+", "RockShox", {pm:180, fw:[140,150,160], std:160, ms:220, ka:"sel31", e:E(0,3,5,2,0,0,0), g:2120, p:899}),
+ GB("g-lyriksel",   "RockShox Lyrik Select · Charger RC", "RockShox", {pm:180, fw:[140,150,160], std:160, ms:220, e:E(0,3,5,2,0,0,0), g:1930, p:749}),
+ GB("g-lyrikbase",  "RockShox Lyrik · Rush RC", "RockShox", {pm:180, fw:[140,150,160], std:160, ms:220, e:E(0,3,4,1,0,0,0), g:2000, p:649}),
+ GB("g-zeb",        "RockShox ZEB Ultimate", "RockShox", {pm:200, fw:[150,160,170,180,190], std:180, mr:71, ms:220, ka:"zebUlt", e:E(0,1,5,4,0,0,0), g:2550, p:1349}),
+ GB("g-zebselect",  "RockShox ZEB Select+", "RockShox", {pm:200, fw:[150,160,170,180,190], std:170, mr:71, ms:220, ka:"sel31", e:E(0,2,5,4,0,0,0), g:2380, p:949}),
+ GB("g-zebsel",     "RockShox ZEB Select · Charger RC", "RockShox", {pm:200, fw:[150,160,170,180,190], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2310, p:799}),
+ GB("g-zebbase",    "RockShox ZEB · Rush RC", "RockShox", {pm:200, fw:[150,160,170,180,190], std:170, mr:71, ms:220, e:E(0,2,4,3,0,0,0), g:2350, p:699}),
  GB("g-domain",     "RockShox Domain RC", "RockShox", {fw:[160,170,180], std:180, mr:71, ms:220, e:E(0,1,4,4,0,0,0), g:2750, p:439}),
- GB("g-boxxer",     "RockShox BoXXer Ultimate · Doppelbrücke", "RockShox", {schaft:"dc", va:"110x20", fw:[180,190,200], std:200, off:56, mr:71, ms:220, ka:"boxxerUlt", e:E(0,0,0,5,0,0,0), g:2850, p:1799}),
- GB("g-boxxerselect","RockShox BoXXer Select · Charger RC · Doppelbrücke", "RockShox", {schaft:"dc", va:"110x20", fw:[180,190,200], std:200, off:56, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2980, p:999}),
+ GB("g-boxxer",     "RockShox BoXXer Ultimate · Doppelbrücke", "RockShox", {pm:200, schaft:"dc", va:"110x20", fw:[180,190,200], std:200, off:56, mr:71, ms:220, ka:"boxxerUlt", e:E(0,0,0,5,0,0,0), g:2850, p:1799}),
+ GB("g-boxxerselect","RockShox BoXXer Select · Charger RC · Doppelbrücke", "RockShox", {pm:200, schaft:"dc", va:"110x20", fw:[180,190,200], std:200, off:56, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2980, p:999}),
  GB("g-pikedj",     "RockShox Pike DJ", "RockShox", {lr:["26"], va:"110x20", fw:[100], std:100, off:42, mr:62, ms:180, e:E(0,0,0,0,5,5,1), g:2050, p:549}),
  /* ── Fox ── */
- GB("g-fox32sc",    "Fox 32 Step-Cast Factory", "Fox", {lr:["29"], fw:[100], std:100, mr:58, ms:180, ka:"fox32", e:E(5,1,0,0,0,0,0), g:1260, p:1099}),
- GB("g-fox32scp",   "Fox 32 Step-Cast Performance · GRIP", "Fox", {lr:["29"], fw:[100], std:100, mr:58, ms:180, e:E(5,1,0,0,0,0,0), g:1390, p:849}),
+ GB("g-fox32sc",    "Fox 32 Step-Cast Factory", "Fox", {pm:160, lr:["29"], fw:[100], std:100, mr:58, ms:180, ka:"fox32", e:E(5,1,0,0,0,0,0), g:1260, p:1099}),
+ GB("g-fox32scp",   "Fox 32 Step-Cast Performance · GRIP", "Fox", {pm:160, lr:["29"], fw:[100], std:100, mr:58, ms:180, e:E(5,1,0,0,0,0,0), g:1390, p:849}),
  GB("g-fox34slf",   "Fox 34 SL Factory", "Fox", {lr:["29"], fw:[110,120,130], std:130, mr:61, ka:"fox34sl", e:E(5,5,1,0,0,0,0), g:1475, p:1199}),
  GB("g-fox34slpe",  "Fox 34 SL Performance Elite", "Fox", {lr:["29"], fw:[110,120,130], std:130, mr:61, ka:"fox34sl", e:E(5,5,1,0,0,0,0), g:1490, p:999}),
  GB("g-fox34slp",   "Fox 34 SL Performance · GRIP", "Fox", {lr:["29"], fw:[110,120,130], std:130, mr:61, e:E(4,4,1,0,0,0,0), g:1550, p:849}),
- GB("g-fox34sc",    "Fox 34 Step-Cast Factory · FIT4", "Fox", {lr:["29"], fw:[120], std:120, mr:61, ms:180, e:E(5,4,0,0,0,0,0), g:1560, p:1249}),
- GB("g-fox34",      "Fox 34 Factory", "Fox", {lr:["29","27.5"], fw:[120,130,140,150], std:130, mr:62, ka:"fox34", e:E(4,5,1,0,0,0,0), g:1790, p:1199}),
- GB("g-fox34perf",  "Fox 34 Performance · GRIP", "Fox", {fw:[120,130,140,150], std:140, mr:62, e:E(3,5,1,0,0,0,0), g:1850, p:849}),
+ GB("g-fox34sc",    "Fox 34 Step-Cast Factory · FIT4", "Fox", {pm:160, lr:["29"], fw:[120], std:120, mr:61, ms:180, e:E(5,4,0,0,0,0,0), g:1560, p:1249}),
+ GB("g-fox34",      "Fox 34 Factory", "Fox", {pm:180, lr:["29","27.5"], fw:[120,130,140,150], std:130, mr:62, ka:"fox34", e:E(4,5,1,0,0,0,0), g:1790, p:1199}),
+ GB("g-fox34perf",  "Fox 34 Performance · GRIP", "Fox", {pm:180, fw:[120,130,140,150], std:140, mr:62, e:E(3,5,1,0,0,0,0), g:1850, p:849}),
  GB("g-fox36slf",   "Fox 36 SL Factory", "Fox", {lr:["29"], fw:[120,130,140], std:140, mr:64, ms:230, ka:"fox36sl", kaStd:"GRIP X", e:E(3,5,3,0,0,0,0), g:1915, p:1349}),
  GB("g-fox36slpe",  "Fox 36 SL Performance Elite", "Fox", {lr:["29"], fw:[120,130,140], std:140, mr:64, ms:230, ka:"fox36sl", kaStd:"GRIP X", e:E(3,5,3,0,0,0,0), g:1930, p:1149}),
  GB("g-fox36slp",   "Fox 36 SL Performance · GRIP", "Fox", {lr:["29"], fw:[120,130,140], std:140, mr:64, ms:230, e:E(2,5,3,0,0,0,0), g:1880, p:899}),
- GB("g-fox36",      "Fox 36 Factory", "Fox", {fw:[140,150,160,170], std:160, ms:230, ka:"fox36", kaStd:"GRIP X", e:E(0,3,5,2,0,0,0), g:2210, p:1429}),
- GB("g-fox36pe",    "Fox 36 Performance Elite", "Fox", {fw:[140,150,160], std:160, ms:230, ka:"fox36pe", e:E(0,3,5,2,0,0,0), g:2230, p:1199}),
- GB("g-fox36perf",  "Fox 36 Performance · GRIP", "Fox", {fw:[140,150,160], std:160, ms:230, e:E(0,4,5,2,0,0,0), g:2180, p:899}),
- GB("g-rhythm",     "Fox 36 Rhythm · GRIP", "Fox", {fw:[150,160], std:160, ms:230, e:E(0,3,5,2,0,0,0), g:2210, p:849}),
+ GB("g-fox36",      "Fox 36 Factory", "Fox", {pm:180, fw:[140,150,160,170], std:160, ms:230, ka:"fox36", kaStd:"GRIP X", e:E(0,3,5,2,0,0,0), g:2210, p:1429}),
+ GB("g-fox36pe",    "Fox 36 Performance Elite", "Fox", {pm:180, fw:[140,150,160], std:160, ms:230, ka:"fox36pe", e:E(0,3,5,2,0,0,0), g:2230, p:1199}),
+ GB("g-fox36perf",  "Fox 36 Performance · GRIP", "Fox", {pm:180, fw:[140,150,160], std:160, ms:230, e:E(0,4,5,2,0,0,0), g:2180, p:899}),
+ GB("g-rhythm",     "Fox 36 Rhythm · GRIP", "Fox", {pm:180, fw:[150,160], std:160, ms:230, e:E(0,3,5,2,0,0,0), g:2210, p:849}),
  GB("g-fox38",      "Fox 38 Factory", "Fox", {fw:[160,170,180], std:170, mr:71, ms:230, ka:"fox38", e:E(0,2,5,4,0,0,0), g:2530, p:1549}),
  GB("g-fox38pe",    "Fox 38 Performance Elite", "Fox", {fw:[160,170,180], std:170, mr:71, ms:230, ka:"fox38", e:E(0,2,5,4,0,0,0), g:2580, p:1299}),
  GB("g-fox38perf",  "Fox 38 Performance · GRIP", "Fox", {fw:[160,170,180], std:180, mr:71, ms:230, e:E(0,1,5,4,0,0,0), g:2620, p:999}),
- GB("g-fox40",      "Fox 40 Factory · Doppelbrücke", "Fox", {schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:220, ka:"fox40", e:E(0,0,0,5,0,0,0), g:2900, p:1899}),
- GB("g-fox40perf",  "Fox 40 Performance · Doppelbrücke", "Fox", {schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2950, p:1399}),
+ GB("g-fox40",      "Fox 40 Factory · Doppelbrücke", "Fox", {pm:203, schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:230, ka:"fox40", e:E(0,0,0,5,0,0,0), g:2900, p:1899}),
+ GB("g-fox40perf",  "Fox 40 Performance · Doppelbrücke", "Fox", {pm:203, schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:230, e:E(0,0,0,5,0,0,0), g:2950, p:1399}),
  GB("g-fox831",     "Fox 831 Performance", "Fox", {lr:["26","27.5"], va:"110x20", fw:[100], std:100, off:41, mr:62, e:E(0,0,0,0,5,4,1), g:1990, p:899}),
  /* ── Marzocchi ── */
  GB("g-z2",         "Marzocchi Bomber Z2 · Rail", "Marzocchi", {fw:[130,140,150], std:140, mr:64, e:E(2,5,2,0,0,0,0), g:2050, p:499}),
- GB("g-z1",         "Marzocchi Bomber Z1 · GRIP", "Marzocchi", {fw:[150,160,170,180], std:160, e:E(0,3,5,3,0,0,0), g:2260, p:699}),
- GB("g-z1coil",     "Marzocchi Bomber Z1 Coil · GRIP", "Marzocchi", {fw:[150,160,170,180], std:170, e:E(0,2,5,4,0,0,0), g:2550, p:749}),
- GB("g-bomber58",   "Marzocchi Bomber 58 · Doppelbrücke", "Marzocchi", {schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2980, p:1599}),
+ GB("g-z1",         "Marzocchi Bomber Z1 · GRIP", "Marzocchi", {pm:180, fw:[150,160,170,180], std:160, e:E(0,3,5,3,0,0,0), g:2260, p:699}),
+ GB("g-z1coil",     "Marzocchi Bomber Z1 Coil · GRIP", "Marzocchi", {pm:180, fw:[150,160,170,180], std:170, e:E(0,2,5,4,0,0,0), g:2550, p:749}),
+ GB("g-bomber58",   "Marzocchi Bomber 58 · Doppelbrücke", "Marzocchi", {pm:203, schaft:"dc", va:"110x20", fw:[203], std:203, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2980, p:1599}),
  GB("g-bomberdj",   "Marzocchi Bomber DJ", "Marzocchi", {lr:["26"], va:"110x20", fw:[100], std:100, off:42, mr:62, ms:180, e:E(0,0,0,0,5,4,1), g:2180, p:449}),
  /* ── Öhlins, Formula, Manitou, DVO, Cane Creek, EXT, DT Swiss, MRP ── */
  GB("g-rxf34",      "Öhlins RXF34 m.2", "Öhlins", {lr:["29"], fw:[120,130,140], std:130, mr:62, e:E(4,5,2,0,0,0,0), g:1790, p:1149}),
  GB("g-rxf36",      "Öhlins RXF36 m.2 Air", "Öhlins", {fw:[150,160,170], std:160, e:E(0,3,5,2,0,0,0), g:2150, p:1249}),
  GB("g-rxf36coil",  "Öhlins RXF36 m.2 Coil", "Öhlins", {fw:[150,160,170], std:160, e:E(0,2,5,3,0,0,0), g:2400, p:1349}),
- GB("g-rxf38",      "Öhlins RXF38 m.2", "Öhlins", {fw:[160,170,180], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2540, p:1399}),
+ GB("g-rxf38",      "Öhlins RXF38 m.2", "Öhlins", {pm:200, fw:[160,170,180], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2540, p:1399}),
  GB("g-dh38",       "Öhlins DH38 m.1 · Doppelbrücke", "Öhlins", {schaft:"dc", va:"110x20", fw:[200], std:200, off:52, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2950, p:2199}),
  GB("g-selva",      "Formula Selva R", "Formula", {fw:[150,160,170,180], std:160, e:E(0,3,5,2,0,0,0), g:2150, p:849}),
  GB("g-selvav",     "Formula Selva V · Coil", "Formula", {fw:[160,170,180], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2450, p:1049}),
@@ -2398,7 +2441,7 @@ gabel:[
  GB("g-markhor",    "Manitou Markhor", "Manitou", {lr:["29"], fw:[100,120], std:100, mr:60, ms:180, e:E(4,3,0,0,0,0,0), g:1750, p:449}),
  GB("g-machete",    "Manitou Machete", "Manitou", {fw:[130,140,150], std:140, mr:64, e:E(2,5,2,0,1,1,0), g:1880, p:499}),
  GB("g-mattoc",     "Manitou Mattoc Pro", "Manitou", {fw:[140,150,160,170], std:160, e:E(0,3,5,2,0,0,0), g:2090, p:849}),
- GB("g-mezzer",     "Manitou Mezzer Pro", "Manitou", {fw:[150,160,170,180], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2480, p:999}),
+ GB("g-mezzer",     "Manitou Mezzer Pro", "Manitou", {pm:180, fw:[150,160,170,180], std:170, mr:71, ms:220, e:E(0,2,5,4,0,0,0), g:2480, p:999}),
  GB("g-dorado",     "Manitou Dorado Pro · Doppelbrücke", "Manitou", {schaft:"dc", va:"110x20", fw:[203], std:203, off:48, mr:71, ms:220, e:E(0,0,0,5,0,0,0), g:2870, p:1999}),
  GB("g-circus",     "Manitou Circus Expert · 1 1/8″ gerade", "Manitou", {schaft:"gerade", lr:["26"], va:"110x20", fw:[100], std:100, off:41, mr:60, ms:180, e:E(0,0,0,0,5,4,1), g:2250, p:389}),
  GB("g-sapphire",   "DVO Sapphire D1", "DVO", {lr:["29"], fw:[130,140,150], std:140, mr:64, e:E(2,5,3,0,0,0,0), g:1930, p:849}),
@@ -2548,7 +2591,13 @@ laufraeder:[
  {id:"w-hopemx", n:"Hope Fortus 30 · Mullet 29/27.5", m:"Hope", lrV:"29", lrH:"27.5", iw:30, freilauf:"XD",
   va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(0,4,5,4,0,0,0), g:1880, p:899, v:[VA("110x15"), NB(["148x12","150x12","157x12"], "148x12"), FL("XD")]},
  {id:"w-hope27", n:"Hope Fortus 30 · 27.5", m:"Hope", lrV:"27.5", lrH:"27.5", iw:30, freilauf:"XD",
-  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(1,4,5,4,0,0,0), g:1800, p:899, v:[VA("110x15"), NB(["148x12","150x12","157x12"], "148x12"), FL("XD")]}
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(1,4,5,4,0,0,0), g:1800, p:899, v:[VA("110x15"), NB(["148x12","150x12","157x12"], "148x12"), FL("XD")]},
+ /* E-MTB-Laufradsatz: DT Swiss Hybrid-Linie, fuer die hoehere Systemlast
+    von E-MTBs freigegeben (Richtwert 150 kg System) */
+ {id:"w-dthx", n:"DT Swiss HX 1700 Spline 30 · Mullet E-MTB", m:"DT Swiss", lrV:"29", lrH:"27.5", iw:30, freilauf:"Micro Spline",
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:150, e:E(0,4,5,3,0,0,0), g:2150, p:699, v:[VA("110x15"), FL("Micro Spline")]},
+ {id:"w-dthx29", n:"DT Swiss HX 1700 Spline 30 · 29 E-MTB", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline",
+  va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:150, e:E(0,4,5,3,0,0,0), g:2200, p:699, v:[VA("110x15"), FL("Micro Spline")]}
 ],
 reifen:[
  {id:"t-rekon", n:"Maxxis Rekon Race 2.35", m:"Maxxis", groessen:["29","27.5"], breite:60, iw:[23,30], grip:1.5, e:E(5,2,0,0,0,0,0), g:690, p:64},
@@ -2670,7 +2719,7 @@ schaltwerk:[
  {id:"sw-x0t",     n:"SRAM X0 Eagle Transmission", m:"SRAM", gaenge:12, iface:"T-Type", maxRitzel:52, maxKB:38, udhPflicht:true, fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:442, p:549},
  {id:"sw-cues", n:"Shimano CUES RD-U6020-10 SGS", m:"Shimano", gaenge:10, iface:"Shimano LinkGlide", maxRitzel:48, maxKB:36, udhPflicht:false, fb:"#8a9096", e:E(4,4,1,0,1,1,0), g:330, p:42},
  {id:"sw-advent", n:"microSHIFT Advent X", m:"microSHIFT", gaenge:10, iface:"microSHIFT Advent X", maxRitzel:48, maxKB:38, udhPflicht:false, fb:"#16181c", e:E(3,4,2,0,1,1,0), g:345, p:49},
- {id:"sw-saint", n:"Shimano Saint RD-M820 SS", m:"Shimano", gaenge:10, iface:"Shimano", maxRitzel:28, maxKB:40, udhPflicht:false, fb:"#7f868d", e:E(0,1,3,5,4,4,0), g:320, p:149},
+ {id:"sw-saint", n:"Shimano Saint RD-M820 SS", m:"Shimano", gaenge:10, iface:"Shimano", maxRitzel:36, maxKB:40, udhPflicht:false, fb:"#7f868d", e:E(0,1,3,5,4,4,0), g:320, p:149},
  {id:"sw-gxdh", n:"SRAM GX DH 7-fach · Medium Cage", m:"SRAM", gaenge:7, iface:"X-Actuation", maxRitzel:28, maxKB:38, udhPflicht:false, fb:"#1a1c1f", e:E(0,1,3,5,3,3,0), g:263, p:109},
  {id:"sw-x01dh", n:"SRAM X01 DH 7-fach", m:"SRAM", gaenge:7, iface:"X-Actuation", maxRitzel:28, maxKB:38, udhPflicht:false, fb:"#1a1c1f", e:E(0,1,3,5,4,4,0), g:257, p:219},
  {id:"sw-x01", n:"SRAM X01 Eagle", m:"SRAM", gaenge:12, iface:"Eagle", maxRitzel:52, maxKB:38, udhPflicht:false, fb:"#1a1c1f", e:E(4,5,5,2,0,0,0), g:276, p:249},
@@ -2749,30 +2798,30 @@ kette:[
 kurbel:[
  {id:"k-nx", n:"SRAM NX Eagle DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,4,3,1,0,0,0), g:780, p:99, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-slx", n:"Shimano SLX M7100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#b9bec4", e:E(3,5,4,1,0,0,0), g:680, p:149, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
- {id:"k-race", n:"Race Face Aeffect R · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(3,5,4,2,1,1,0), g:720, p:129, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-race", n:"Race Face Aeffect R · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(3,5,4,2,1,1,0), g:720, p:129, v:[KL([165, 170, 175],170), KB([30, 32, 34],32), WE(52)]},
  {id:"k-gx", n:"SRAM GX Eagle DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(4,5,4,1,0,0,0), g:650, p:179, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-xt", n:"Shimano XT M8100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#b9bec4", e:E(4,5,4,1,0,0,0), g:620, p:199, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
  {id:"k-x0t", n:"SRAM X0 Eagle Transmission DUB", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,5,5,2,0,0,0), g:590, p:399, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
- {id:"k-hope", n:"Hope Evo Crank · 30 mm", m:"Hope", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#6b4fa8", e:E(3,5,5,3,2,2,1), g:610, p:399, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-hope", n:"Hope Evo Crank · 30 mm", m:"Hope", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#6b4fa8", e:E(3,5,5,3,2,2,1), g:610, p:399, v:[KL([165, 170, 175],170), KB([30, 32, 34],32), WE(52)]},
  {id:"k-xtr", n:"Shimano XTR M9100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#c5cad0", e:E(5,4,3,0,0,0,0), g:530, p:449, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
  {id:"k-nextSB", n:"Race Face Next R · Super Boost", m:"Race Face", iface:"30 mm", kl:56.5, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(0,1,4,5,0,0,0), g:520, p:449, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-dirt", n:"Race Face Ride 170 · 25 Z. Dirt", m:"Race Face", iface:"30 mm", kl:49, kb:25, laenge:170, gaenge:1, fb:"#16181c", e:E(0,0,0,1,5,5,1), g:820, p:99},
  {id:"k-trial", n:"Trial-Kurbel 170 · Freilauf 18 Z.", m:"Trial", iface:"ISIS", kl:47, kb:18, laenge:170, gaenge:1, fb:"#2a2f35", e:E(0,0,0,0,1,0,5), g:940, p:289},
  {id:"k-trialmod", n:"Trial Mod Kurbel 165 · Freilauf 18 Z.", m:"Trial", iface:"ISIS", kl:43, kb:18, laenge:165, gaenge:1, fb:"#2a2f35", e:E(0,0,0,0,0,0,5), g:890, p:279},
  {id:"k-deore", n:"Shimano Deore M6100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:12, fb:"#8a9096", e:E(3,5,3,1,0,0,0), g:720, p:89, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
- {id:"k-saint", n:"Shimano Saint M820", m:"Shimano", iface:"Hollowtech II", kl:52, kb:34, laenge:170, gaenge:10, fb:"#7f868d", e:E(0,1,4,5,4,4,0), g:790, p:229, v:[KL([165, 170, 175],170), KB([32, 34, 36],34)]},
+ {id:"k-saint", n:"Shimano Saint FC-M820 · 68/73", m:"Shimano", iface:"Hollowtech II", kl:50.4, kb:34, laenge:170, gaenge:10, fb:"#7f868d", e:E(0,1,4,5,4,4,0), g:790, p:229, v:[KL([165, 170, 175],170), KB([32, 34, 36],34)]},
  {id:"k-zee", n:"Shimano Zee M645", m:"Shimano", iface:"Hollowtech II", kl:52, kb:34, laenge:170, gaenge:10, fb:"#8a9096", e:E(0,1,3,5,5,5,0), g:830, p:149, v:[KL([165, 170, 175],170), KB([32, 34, 36],34)]},
  {id:"k-stylo", n:"SRAM Stylo 6K DUB", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(3,4,3,1,1,1,0), g:700, p:129, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-descendant", n:"Truvativ Descendant 6K DUB", m:"Truvativ", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(2,5,5,3,2,2,0), g:680, p:169, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-x01", n:"SRAM X01 Eagle DUB Carbon", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, fb:"#1a1c1f", e:E(4,5,5,2,0,0,0), g:490, p:349, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-xx1", n:"SRAM XX1 Eagle DUB Carbon", m:"SRAM", iface:"DUB", kl:52, kb:32, laenge:175, gaenge:12, fb:"#c9a227", e:E(5,5,4,1,0,0,0), g:460, p:479, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
- {id:"k-atlas", n:"Race Face Atlas 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(1,5,5,4,3,3,0), g:760, p:249, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ {id:"k-atlas", n:"Race Face Atlas 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#16181c", e:E(1,5,5,4,3,3,0), g:760, p:249, v:[KL([165, 170, 175],170), KB([30, 32, 34],32), WE(52)]},
  {id:"k-nextsl", n:"Race Face Next SL Carbon", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:175, gaenge:12, fb:"#101214", e:E(5,5,3,0,0,0,0), g:430, p:549, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
  {id:"k-eewings", n:"Cane Creek eeWings Titan", m:"Cane Creek", iface:"30 mm", kl:52, kb:32, laenge:175, gaenge:12, fb:"#b9bec4", e:E(3,5,5,3,2,2,0), g:400, p:999, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
  {id:"k-praxis", n:"Praxis Girder Carbon", m:"Praxis", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, fb:"#101214", e:E(3,5,4,1,0,0,0), g:560, p:399, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-hopesb", n:"Hope Evo · Super Boost", m:"Hope", iface:"30 mm", kl:56.5, kb:32, laenge:170, gaenge:12, fb:"#6b4fa8", e:E(0,1,4,5,0,0,0), g:620, p:449, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
- {id:"k-saintsb", n:"Shimano Saint M820 Super Boost", m:"Shimano", iface:"Hollowtech II", kl:56.5, kb:34, laenge:165, gaenge:10, fb:"#7f868d", e:E(0,0,3,5,2,2,0), g:840, p:249, v:[KL([165, 170, 175],165), KB([32, 34, 36],34)]},
- {id:"k-x01dh", n:"SRAM X01 DH DUB 83 Carbon", m:"SRAM", iface:"DUB", kl:56.5, kb:34, laenge:165, gaenge:11, fuer:[7,10], fb:"#1a1c1f", e:E(0,0,3,5,2,2,0), g:780, p:369, v:[KL([165, 170],165), KB([32, 34, 36],34)]},
+ {id:"k-saintsb", n:"Shimano Saint FC-M825 · 83 mm", m:"Shimano", iface:"Hollowtech II", kl:57.9, geh:83, kb:34, laenge:165, gaenge:10, fb:"#7f868d", e:E(0,0,3,5,2,2,0), g:840, p:249, v:[KL([165, 170, 175],165), KB([32, 34, 36],34)]},
+ {id:"k-x01dh", n:"SRAM X01 DH DUB 83 Carbon", m:"SRAM", iface:"DUB", kl:56.5, geh:83, kb:34, laenge:165, gaenge:11, fuer:[7,10], fb:"#1a1c1f", e:E(0,0,3,5,2,2,0), g:780, p:369, v:[KL([165, 170],165), KB([32, 34, 36],34)]},
  {id:"k-gxt", n:"SRAM GX Eagle Transmission DUB", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,0,0,0), g:690, p:229, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-e90", n:"SRAM Eagle 90 Transmission DUB", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,0,0,0), g:740, p:159, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-e70", n:"SRAM Eagle 70 Transmission DUB", m:"SRAM", iface:"DUB", kl:55, kb:32, laenge:170, gaenge:12, e:E(2,5,4,2,0,0,0), g:790, p:119, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
@@ -2781,9 +2830,17 @@ kurbel:[
  {id:"k-sx", n:"SRAM SX Eagle PowerSpline", m:"SRAM", iface:"PowerSpline", kl:52, kb:32, laenge:170, gaenge:12, e:E(2,3,2,0,0,0,0), g:900, p:59, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
  {id:"k-deore11", n:"Shimano Deore M5100 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:175, gaenge:11, e:E(3,4,2,0,1,1,0), g:780, p:69, v:[KL([165, 170, 175],175), KB([30, 32, 34],32)]},
  {id:"k-cues", n:"Shimano CUES FC-U6000 Hollowtech II", m:"Shimano", iface:"Hollowtech II", kl:52, kb:32, laenge:170, gaenge:10, e:E(3,4,1,0,1,1,0), g:800, p:49, v:[KL([165, 170, 175],170), KB([32, 34, 36],32)]},
- {id:"k-turbine", n:"Race Face Turbine · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,1,1,0), g:650, p:229, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
- {id:"k-era", n:"Race Face Era Carbon · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, e:E(4,5,5,2,0,0,0), g:420, p:699, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
- {id:"k-desccarbon", n:"Truvativ Descendant Carbon DUB", m:"Truvativ", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,1,1,0), g:520, p:279, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]}
+ {id:"k-turbine", n:"Race Face Turbine · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,1,1,0), g:650, p:229, v:[KL([165, 170, 175],170), KB([30, 32, 34],32), WE(52)]},
+ {id:"k-era", n:"Race Face Era Carbon · 30 mm", m:"Race Face", iface:"30 mm", kl:52, kb:32, laenge:170, gaenge:12, e:E(4,5,5,2,0,0,0), g:420, p:699, v:[KL([165, 170, 175],170), KB([30, 32, 34],32), WE(52)]},
+ {id:"k-desccarbon", n:"Truvativ Descendant Carbon DUB", m:"Truvativ", iface:"DUB", kl:52, kb:32, laenge:170, gaenge:12, e:E(3,5,5,2,1,1,0), g:520, p:279, v:[KL([165, 170, 175],170), KB([30, 32, 34],32)]},
+ /* E-MTB-Kurbeln: sitzen auf der Motorwelle, ohne Innenlager. motor = fuer
+    welche Antriebe der Hersteller sie freigibt (Versatz/Q-Faktor),
+    motorWelle = Aufnahme. Kettenlinie gibt der Motor vor (kl: null). */
+ {id:"k-ex0t", n:"SRAM X0 Eagle Transmission E-MTB · Bosch", m:"SRAM", iface:"E-MTB", motorWelle:"ISIS", motor:["Bosch CX"], kl:null, kb:34, laenge:165, gaenge:12, e:E(1,5,5,3,0,0,0), g:640, p:389, v:[KL([155, 160, 165],165), KB([32, 34, 36],34)]},
+ {id:"k-eaeffect", n:"Race Face Aeffect R E-Bike · Bosch", m:"Race Face", iface:"E-MTB", motorWelle:"ISIS", motor:["Bosch CX"], kl:null, kb:34, laenge:165, gaenge:12, e:E(1,5,4,2,0,0,0), g:590, p:179, v:[KL([160, 165, 170],165)]},
+ {id:"k-eshimano", n:"Shimano FC-EM900 · EP8/EP801", m:"Shimano", iface:"E-MTB", motorWelle:"Shimano EP", motor:["Shimano EP"], kl:null, kb:34, laenge:165, gaenge:12, fuer:[10, 11], e:E(1,5,4,2,0,0,0), g:610, p:129, v:[KL([160, 165, 170],165), KB([32, 34, 36],34)]},
+ {id:"k-ehelix", n:"e*thirteen Helix Race e*spec Carbon", m:"e*thirteen", iface:"E-MTB", motorWelle:"ISIS", motor:["Bosch SX", "Brose", "TQ", "DJI Avinox", "Specialized"], kl:null, kb:34, laenge:165, gaenge:12, e:E(2,5,4,2,0,0,0), g:430, p:469, v:[KL([150, 155, 160, 165],165)]},
+ {id:"k-epraxis", n:"Praxis eCrank Type 3 · Levo 4", m:"Praxis", iface:"E-MTB", motorWelle:"ISIS", motor:["Specialized"], kl:null, kb:34, laenge:160, gaenge:12, e:E(1,5,4,2,0,0,0), g:560, p:249, v:[KL([155, 160, 165],160)]}
 ],
 bremsen:[
  {id:"b-deore", n:"Shimano Deore M6120 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:180, mount:"Center Lock", fb:"#8a9096", e:E(1,5,4,2,3,3,0), g:1210, p:149, v:[SCH("Shimano",180,180)]},
@@ -3013,7 +3070,13 @@ innenlager:[
  IL("il-hope30",   "Hope Edelstahl Innenlager · 30 mm",     "Hope",      "30 mm",         BSA,    {e:E(3,5,5,5,4,4,0), g:110, p:106}),
  IL("il-hopepf30", "Hope Edelstahl Pressfit 46 × 30 mm",    "Hope",      "30 mm",         [["PF30", ["PF30"]]], {e:E(2,4,5,4,5,5,0), g:95, p:120}),
  IL("il-trialbsa", "Trial-Innenlager ISIS · BSA",           "Trial",     "ISIS",          BSA,    {e:E(0,0,0,0,2,1,5), g:230, p:45}),
- IL("il-trialsp",  "Trial-Innenlager ISIS · Spanish",       "Trial",     "ISIS",          [["Spanish BB", ["Spanish"]]], {e:E(0,0,0,0,2,1,5), g:220, p:55})
+ IL("il-trialsp",  "Trial-Innenlager ISIS · Spanish",       "Trial",     "ISIS",          [["Spanish BB", ["Spanish"]]], {e:E(0,0,0,0,2,1,5), g:220, p:55}),
+ /* T47: 47-mm-Gewinde, aussenliegende Lager fuer 68/73-mm-Gehaeuse (Hope,
+    Wolf Tooth); BB30: 42-mm-Bohrung, Lager direkt eingepresst. Stand 2026-10-01 */
+ IL("il-hopet47",  "Hope T47 Innenlager · 30 mm",           "Hope",      "30 mm",         [["T47 68/73", ["T47"]]], {e:E(3,5,5,4,4,4,0), g:115, p:129}),
+ IL("il-hopet4724","Hope T47 Innenlager · 24 mm",           "Hope",      "Hollowtech II", [["T47 68/73", ["T47"]]], {e:E(3,5,5,4,4,4,0), g:110, p:129}),
+ IL("il-wtt47dub", "Wolf Tooth T47 External 68/73 · DUB",   "Wolf Tooth","DUB",           [["T47 68/73", ["T47"]]], {e:E(4,5,5,4,3,3,0), g:90,  p:139}),
+ IL("il-ebbb30",   "Enduro Bearings BB30-Lagersatz · 30 mm","Enduro Bearings","30 mm",    [["BB30 (73)", ["BB30"]]], {e:E(4,4,3,2,3,3,0), g:60,  p:45})
 ],
 
 /* Optional: Steuersatz. Preise und Gewichte als Richtwerte nach UVP der
@@ -3348,7 +3411,8 @@ function optionPasst(slotKey, d, o, b){
     case "Scheiben": {
       const g = b.gabel ? findeTeil("gabel", b.gabel) : null;
       if(!g && !r) return null;
-      return (!g || s.sV <= g.maxScheibeVR) && (!r || s.sH <= r.maxScheibeHR);
+      /* kleiner als die native Post-Mount-Aufnahme geht nicht, groesser mit Adapter */
+      return (!g || (s.sV <= g.maxScheibeVR && !(g.pmV && s.sV < g.pmV))) && (!r || (s.sH <= r.maxScheibeHR && !(r.pmHR && (r.hrAufnahme || "PM") === "PM" && s.sH < r.pmHR)));
     }
     case "Durchmesser": return r && r.stuetze ? parseFloat(s.d) === r.stuetze : null;
     case "Nabenbreite": return r ? s.ha === r.ha : null;
@@ -3358,10 +3422,11 @@ function optionPasst(slotKey, d, o, b){
     case "Einpressmaß": {
       const g = b.gabel ? findeTeil("gabel", b.gabel) : null;
       if(!g && !r) return null;
-      return (!r || (r.schaft === "gerade") === (s.rohr === "gerade")) && (!g || (g.schaft === "tapered") === (s.unten === "1.5"));
+      return (!r || (r.steuerrohr ? r.steuerrohr === s.std : (r.schaft === "gerade") === (s.rohr === "gerade"))) && (!g || (g.schaft === "tapered") === (s.unten === "1.5"));
     }
     case "Hub": return r && r.einsteck > 0 ? s.einbau <= r.einsteck : null;
     case "Gehäuse": return r && r.bb ? s.gehaeuse.indexOf(r.bb) >= 0 : null;
+    case "Welle": return r && r.bb && !r.motor ? s.geh === bbBreite(r.bb) : null;
     case "Klemmung": {
       const x = slotKey === "lenker" ? (b.vorbau ? findeTeil("vorbau", b.vorbau) : null)
                                      : (b.lenker ? findeTeil("lenker", b.lenker) : null);
@@ -3392,6 +3457,8 @@ function kandidaten(slotKey, b){
 function entfaellt(b, slotKey){
   const r = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
   if(r && r.ohne && r.ohne.indexOf(slotKey) >= 0) return true;
+  /* E-MTB: die Kurbel sitzt auf der Motorwelle, ein Innenlager gibt es nicht */
+  if(slotKey === "innenlager" && r && r.motor) return true;
   /* Rahmenlager gibt es nur am Hinterbau eines Fullys */
   if(slotKey === "rahmenlager" && r && (!r.daempfer || (r.ohne && r.ohne.indexOf("daempfer") >= 0))) return true;
   /* Singlespeed und Trial fahren eine feste Uebersetzung -- Hebel und
@@ -3411,7 +3478,7 @@ const zaehlt = (b, s) => !entfaellt(b, s.k) && (!s.opt || !!b[s.k]);
 const START = {
   rahmen:"f-stumpy", gabel:"g-pike", daempfer:"d-deluxe|ultimate~190x45m", laufraeder:"w-newmen|microspline",
   reifenVR:"t-kryptotal", reifenHR:"t-dhr2", schalthebel:"sh-xt", schaltwerk:"sw-xt", kassette:"ka-xt", kette:"ke-m8100", kurbel:"k-xt",
-  bremsen:"b-xt", lenker:"l-race", vorbau:"v-race", stuetze:"s-fox349", sattel:"sa-ergon",
+  bremsen:"b-xt|180180", lenker:"l-race", vorbau:"v-race", stuetze:"s-fox349", sattel:"sa-ergon",
   innenlager:"il-mt800", pedale:"pe-oneupa", griffe:"gr-ge1"
 };
 const PLAN_START = {budget:0, fahrer:0, mSchalt:"", mBrems:"", mFed:"", prio:"pl", lr:"", federung:"", pedal:""};
@@ -3857,13 +3924,48 @@ const lagerDa = (kurbel, rahmen) => !rahmen || !rahmen.bb || K.innenlager.some(i
   (il.v ? il.v[0].o.some(o => o.s.gehaeuse.indexOf(rahmen.bb) >= 0) : il.gehaeuse.indexOf(rahmen.bb) >= 0));
 
 function sollKettenlinie(rahmen, schaltwerk){
-  if(!rahmen) return null;
+  if(!rahmen || rahmen.motor) return null;          /* E-MTB: Kettenlinie gibt der Motor vor */
   if(rahmen.klSoll != null) return rahmen.klSoll;
   if(rahmen.ha === "157x12") return 56.5;
   if(rahmen.ha === "142x12") return 49;
   if(rahmen.ha === "135x10" || rahmen.ha === "135x12") return 47;
   if(rahmen.ha === "150x12") return null;              /* DH-Sondermass: keine belastbare Vorgabe */
+  /* DH-Rahmen mit 148er Hinterbau und 83er Gehaeuse (Demo, Tues, Sender):
+     die Kettenlinie legt der Rahmenhersteller mit Kurbel und Kettenblatt
+     fest -- es gibt keine Norm, gegen die sich pruefen liesse */
+  if(rahmen.ha === "148x12" && bbBreite(rahmen.bb) === 83) return null;
   return schaltwerk && schaltwerk.iface === "T-Type" ? 55 : 52;
+}
+
+/* Bremsaufnahme (Liam 2026-10-01): Post Mount ist fuer genau eine
+   Scheibengroesse gebaut -- die "native" (PM160, PM180, PM200 ...). Jede
+   groessere Scheibe braucht einen Adapter um genau die Differenz:
+   PM180 + 23 mm = 203 mm, PM200 + 3 mm = 203 mm (zwei 1,5-mm-Shims).
+   Kleiner als nativ geht nicht -- der Sattel saesse ueber dem Scheibenrand.
+   Flat Mount (FM) und IS brauchen fuer die Post-Mount-Saettel im Katalog
+   immer einen eigenen Adapter. Nur wo die Aufnahme belegt ist (Hersteller-
+   Support, Datenblatt), wird gerechnet -- sonst zaehlt allein die Freigabe. */
+const A = (t,x,sl,txt) => ({level:"warnung", adapter:true, titel:t, text:txt, slots:sl, fixSlot:x});
+function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe){
+  if(!nativ || !scheibe) return;
+  const posEn = pos === "vorn" ? "Front" : "Rear", wer = slot === "gabel" ? tx("Die Gabel", "The fork") : tx("Der Rahmen", "The frame");
+  const d = scheibe - nativ, art = typ || "PM";
+  if(art === "PM" && d < 0)
+    out.push(F(tx(`Bremsscheibe ${pos} zu klein für die Aufnahme`, `${posEn} rotor too small for the mount`),"bremsen",[slot,"bremsen"],
+      tx(`${wer} hat eine Post-Mount-Aufnahme für <code>${nativ} mm</code> direkt. Eine <code>${scheibe}-mm</code>-Scheibe ist kleiner als die Aufnahme — der Sattel säße über dem Scheibenrand, die Beläge greifen ins Leere. Kleinste Scheibe hier: <code>${nativ} mm</code>.`,
+         `${wer} has a post mount for <code>${nativ} mm</code> direct. A <code>${scheibe} mm</code> rotor is smaller than the mount — the caliper would sit beyond the rotor edge and the pads would miss. Smallest rotor here: <code>${nativ} mm</code>.`)));
+  else if(art === "PM" && d > 0)
+    out.push(A(tx(`Bremsscheibe ${pos} nur mit Adapter`, `${posEn} rotor needs an adapter`),"bremsen",[slot,"bremsen"],
+      tx(`Rechnung: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${d === 3 ? "Dafür reichen zwei 1,5-mm-Distanzscheiben (Shim-Kit, z. B. SRAM 200 → 203)." : `Dafür braucht es einen Post-Mount-Adapter <code>+${d} mm</code> (rund 10–25 €), der den Sattel nach außen setzt.`} Liegt den meisten Bremsen nicht bei — mitbestellen.`,
+         `Calculation: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${d === 3 ? "Two 1.5 mm shims do the job (shim kit, e.g. SRAM 200 → 203)." : `That takes a <code>+${d} mm</code> post-mount adapter (about €10–25) that moves the caliper outwards.`} Most brakes don't include it — order it too.`)));
+  else if(art === "FM")
+    out.push(A(tx(`Flat-Mount-Aufnahme ${pos}`, `${posEn} flat mount`),"bremsen",[slot,"bremsen"],
+      tx(`${wer} hat <code>Flat Mount ${nativ}</code>, die Bremse einen Post-Mount-Sattel. Dazu gehört ein Flat-Mount-auf-Post-Mount-Adapter für <code>${scheibe} mm</code> — oft beim Rahmen dabei, sonst beim Hersteller.${d > 0 ? ` Rechnung: <code>FM${nativ} + ${d} mm = ${scheibe} mm</code>.` : ""}`,
+         `${wer} has <code>flat mount ${nativ}</code>, the brake a post-mount caliper. That needs a flat-mount-to-post-mount adapter for <code>${scheibe} mm</code> — often included with the frame, otherwise from the manufacturer.${d > 0 ? ` Calculation: <code>FM${nativ} + ${d} mm = ${scheibe} mm</code>.` : ""}`)));
+  else if(art === "IS")
+    out.push(A(tx(`IS-Aufnahme ${pos}`, `${posEn} IS mount`),"bremsen",[slot,"bremsen"],
+      tx(`${wer} hat die ältere <code>IS</code>-Aufnahme (International Standard, ${nativ} mm). Post-Mount-Sättel sitzen dort nur mit einem IS-auf-PM-Adapter für <code>${scheibe} mm</code>.`,
+         `${wer} has the older <code>IS</code> mount (International Standard, ${nativ} mm). Post-mount calipers only fit with an IS-to-PM adapter for <code>${scheibe} mm</code>.`)));
 }
 
 function pruefe(b){
@@ -3895,9 +3997,23 @@ function pruefe(b){
   if(rahmen && gabel){
     if(gabel.schaft !== rahmen.schaft){
       const nm = x => x === "tapered" ? tx("konisch (tapered)", "tapered") : x === "gerade" ? tx("1 1/8″ gerade", "1 1/8″ straight") : tx("Doppelbrücke", "dual crown");
-      out.push(F(tx("Gabelschaft passt nicht ins Steuerrohr", "Fork steerer doesn't fit the head tube"),"gabel",["rahmen","gabel"],
-        tx(`Rahmen <code>${nm(rahmen.schaft)}</code>, Gabel <code>${nm(gabel.schaft)}</code>. ${gabel.schaft === "dc" ? "Eine Doppelbrückengabel braucht einen Rahmen mit DH-Freigabe — kein Adapterfall." : rahmen.schaft === "tapered" ? "Ein gerader Schaft lässt sich mit passendem Steuersatz-Unterteil oft fahren, aber nicht mit jedem Rahmen. Beim Hersteller prüfen." : "Ein konischer Schaft passt nicht in ein gerades Steuerrohr."}`,
-           `Frame <code>${nm(rahmen.schaft)}</code>, fork <code>${nm(gabel.schaft)}</code>. ${gabel.schaft === "dc" ? "A dual-crown fork needs a frame rated for DH — no adapter will fix that." : rahmen.schaft === "tapered" ? "A straight steerer often works with the right lower headset cup, but not with every frame. Check with the manufacturer." : "A tapered steerer won't fit a straight head tube."}`)));
+      /* Gerader 1 1/8″-Schaft im konischen Steuerrohr: geht mit einem
+         Reduzier-Unterteil (etwa ZS56/30) -- ein Adapterfall, kein Ende.
+         So laufen auch Doppelbrueckengabeln in DH-Rahmen. (Liam 2026-10-01) */
+      if(rahmen.schaft === "tapered" && gabel.schaft === "gerade")
+        out.push(A(tx("Gerader Gabelschaft nur mit Reduzier-Unterteil", "Straight steerer only with a reducer lower cup"),"gabel",["rahmen","gabel"],
+          tx(`Rahmen <code>${nm(rahmen.schaft)}</code>, Gabel <code>${nm(gabel.schaft)}</code>. Unten sitzt dann statt der 1,5″-Schale ein Reduzier-Unterteil für 1 1/8″ (etwa <code>ZS56/30</code> oder <code>IS52/30</code>, je nach Rahmen). Beim Steuersatz die Ausführung mit 1 1/8″ unten wählen.`,
+             `Frame <code>${nm(rahmen.schaft)}</code>, fork <code>${nm(gabel.schaft)}</code>. The lower 1.5″ cup is replaced by a reducer cup for 1 1/8″ (e.g. <code>ZS56/30</code> or <code>IS52/30</code>, depending on the frame). Pick the headset version with a 1 1/8″ lower.`)));
+      /* Einfachbrueckengabel im DH-Rahmen: das Steuerrohr nimmt den konischen
+         Schaft auf, aber Geometrie und Freigabe sind fuer die Doppelbruecke */
+      else if(rahmen.schaft === "dc" && gabel.schaft === "tapered")
+        out.push(W(tx("Einfachbrückengabel im DH-Rahmen", "Single-crown fork in a DH frame"),"gabel",["rahmen","gabel"],
+          tx(`<code>${rahmen.n}</code> ist für eine Doppelbrückengabel gebaut. Eine Einfachbrücke passt ins Steuerrohr, baut aber niedriger: der Lenkwinkel wird steiler, das Tretlager sinkt, und die Rahmenfreigabe gilt für die Doppelbrücke.`,
+             `<code>${rahmen.n}</code> is built for a dual-crown fork. A single crown fits the head tube but sits lower: the head angle steepens, the bottom bracket drops, and the frame rating assumes a dual crown.`)));
+      else
+        out.push(F(tx("Gabelschaft passt nicht ins Steuerrohr", "Fork steerer doesn't fit the head tube"),"gabel",["rahmen","gabel"],
+          tx(`Rahmen <code>${nm(rahmen.schaft)}</code>, Gabel <code>${nm(gabel.schaft)}</code>. ${gabel.schaft === "dc" ? "Eine Doppelbrückengabel braucht einen Rahmen mit DH-Freigabe — kein Adapterfall." : rahmen.schaft === "gerade" ? "Ein konischer Schaft passt nicht in ein gerades Steuerrohr." : "Eine gerade Einfachbrückengabel ist für diesen DH-Rahmen nicht vorgesehen."}`,
+             `Frame <code>${nm(rahmen.schaft)}</code>, fork <code>${nm(gabel.schaft)}</code>. ${gabel.schaft === "dc" ? "A dual-crown fork needs a frame rated for DH — no adapter will fix that." : rahmen.schaft === "gerade" ? "A tapered steerer won't fit a straight head tube." : "A straight single-crown fork isn't intended for this DH frame."}`)));
     }
     if(rahmen.maxGabel === 0 && gabel.travel > 0){
       out.push(F(tx("Dieser Rahmen ist für eine Starrgabel gebaut", "This frame is built for a rigid fork"),"gabel",["rahmen","gabel"],
@@ -4125,7 +4241,14 @@ function pruefe(b){
         tx(`Der Hinterbau <code>${rahmen.ha}</code>${schaltwerk && schaltwerk.iface === "T-Type" ? " mit Transmission" : ""} verlangt <code>${soll} mm</code> Kettenlinie, die Kurbel liefert <code>${kurbel.kl} mm</code>. Die Kette läuft dauerhaft schräg: Rasseln, Abwurf, sichtbarer Verschleiß nach wenigen hundert Kilometern.`,
            `The <code>${rahmen.ha}</code> rear end${schaltwerk && schaltwerk.iface === "T-Type" ? " with Transmission" : ""} needs <code>${soll} mm</code> chainline, the crank gives <code>${kurbel.kl} mm</code>. The chain always runs at an angle: rattling, dropped chains, visible wear after a few hundred kilometres.`)));
     }
-    if(!innenlager){
+    /* DH-Rahmen mit 83er Gehaeuse brauchen die laengere DH-Welle, und
+       umgekehrt -- sonst klemmt die Kurbel nicht oder steht 10 mm ueber */
+    const rGeh = bbBreite(rahmen.bb), kGeh = kurbel.geh || 73;
+    if(!rahmen.motor && rahmen.bb && ["ISIS", "PowerSpline"].indexOf(kurbel.iface) < 0 && kGeh !== rGeh)
+      out.push(F(tx("Kurbelwelle passt nicht zur Gehäusebreite", "Crank spindle doesn't suit the shell width"),"kurbel",["rahmen","kurbel"],
+        tx(`Der Rahmen hat <code>${bbName(rahmen.bb)}</code>, die Kurbel ist für ein <code>${kGeh === 83 ? "83-mm-DH" : "68/73-mm"}</code>-Gehäuse gebaut. ${kGeh === 83 ? "Die DH-Welle ist 10 mm zu lang — die Kurbel lässt sich nicht spielfrei klemmen." : "Die Welle ist 10 mm zu kurz für das DH-Gehäuse."} ${kurbel.v && kurbel.v.some(d => d.k === "Welle") ? "Diese Kurbel gibt es mit passender Welle — direkt am Teil umstellen." : "Gebraucht wird die " + (rGeh === 83 ? "83-mm-DH" : "68/73-mm") + "-Version der Kurbel."}`,
+           `The frame has <code>${bbName(rahmen.bb)}</code>, the crank is made for a <code>${kGeh === 83 ? "83 mm DH" : "68/73 mm"}</code> shell. ${kGeh === 83 ? "The DH spindle is 10 mm too long — the crank can't be clamped without play." : "The spindle is 10 mm too short for the DH shell."} ${kurbel.v && kurbel.v.some(d => d.k === "Welle") ? "This crank comes with the right spindle — switch it right on the part." : "You need the " + (rGeh === 83 ? "83 mm DH" : "68/73 mm") + " version of the crank."}`)));
+    if(!innenlager && !rahmen.motor){
       const gibt = lagerDa(kurbel, rahmen);
       out.push(H(tx("Passendes Innenlager mitbestellen", "Order a matching bottom bracket"),"innenlager",["rahmen","kurbel"],
         tx(`<code>${bbName(rahmen.bb)}</code> trifft auf eine <code>${kurbel.iface}</code>-Welle. ${gibt
@@ -4135,6 +4258,28 @@ function pruefe(b){
           ? "They work together, but only with the right bearing — and most cranks don't include it (€25–120). The matching ones are listed under Bottom bracket."
           : "There's no bearing for this in the catalogue — such combinations usually need an adapter bottom bracket. Ask the frame or crank maker before you order."}`)));
     }
+  }
+  /* E-MTB: Kurbel auf der Motorwelle (Liam 2026-10-01). Bosch, Brose,
+     Specialized, TQ und DJI nutzen ISIS, aber mit eigenem Versatz -- eine
+     Kurbel fuer einen anderen ISIS-Motor sitzt, steht aber schief zur Kette
+     oder streift am Gehaeuse. Shimano EP hat eine eigene Verzahnung. */
+  if(rahmen && kurbel){
+    if(rahmen.motor && !kurbel.motorWelle)
+      out.push(F(tx("E-MTB braucht eine Motor-Kurbel", "E-MTB needs a motor crank"),"kurbel",["rahmen","kurbel"],
+        tx(`<code>${rahmen.n}</code> hat einen <code>${rahmen.motor}</code>-Motor. Die Kurbel sitzt dort direkt auf der Motorwelle (<code>${rahmen.motorWelle}</code>) — eine normale Kurbel mit <code>${kurbel.iface}</code>-Welle passt nicht, ein Innenlager gibt es nicht.`,
+           `<code>${rahmen.n}</code> has a <code>${rahmen.motor}</code> motor. The crank mounts straight onto the motor spindle (<code>${rahmen.motorWelle}</code>) — a regular crank with a <code>${kurbel.iface}</code> spindle won't fit, and there's no bottom bracket.`)));
+    else if(!rahmen.motor && kurbel.motorWelle)
+      out.push(F(tx("Motor-Kurbel ohne Motor", "Motor crank without a motor"),"kurbel",["rahmen","kurbel"],
+        tx(`<code>${kurbel.n}</code> ist für die Welle eines E-MTB-Motors gebaut. <code>${rahmen.n}</code> hat ein normales Tretlager — dafür braucht es eine Kurbel mit Innenlager.`,
+           `<code>${kurbel.n}</code> is made for an e-MTB motor spindle. <code>${rahmen.n}</code> has a regular bottom bracket — it needs a crank with a bottom bracket.`)));
+    else if(rahmen.motor && kurbel.motorWelle !== rahmen.motorWelle)
+      out.push(F(tx("Kurbel passt nicht auf die Motorwelle", "Crank doesn't fit the motor spindle"),"kurbel",["rahmen","kurbel"],
+        tx(`<code>${rahmen.motor}</code> hat eine <code>${rahmen.motorWelle}</code>-Aufnahme, <code>${kurbel.n}</code> ist für <code>${kurbel.motorWelle}</code> gebaut.`,
+           `The <code>${rahmen.motor}</code> has a <code>${rahmen.motorWelle}</code> interface, <code>${kurbel.n}</code> is made for <code>${kurbel.motorWelle}</code>.`)));
+    else if(rahmen.motor && kurbel.motor && kurbel.motor.indexOf(rahmen.motorSys) < 0)
+      out.push(W(tx("Kurbel für einen anderen Motor gebaut", "Crank made for a different motor"),"kurbel",["rahmen","kurbel"],
+        tx(`Die Welle passt (<code>${rahmen.motorWelle}</code>), aber <code>${kurbel.n}</code> ist für <code>${kurbel.motor.join(", ")}</code> freigegeben, nicht für <code>${rahmen.motor}</code>. Jeder Motor hat einen eigenen Versatz: Kettenlinie und Abstand zum Gehäuse stimmen dann nicht.`,
+           `The spindle fits (<code>${rahmen.motorWelle}</code>), but <code>${kurbel.n}</code> is approved for <code>${kurbel.motor.join(", ")}</code>, not for the <code>${rahmen.motor}</code>. Each motor has its own offset: chainline and clearance to the housing won't be right.`)));
   }
   /* Innenlager: sitzt es im Rahmen, und nimmt es die Welle der Kurbel auf? */
   if(innenlager && rahmen && rahmen.bb && innenlager.gehaeuse.indexOf(rahmen.bb) < 0)
@@ -4164,7 +4309,11 @@ function pruefe(b){
   }
   /* Steuersatz (optional): Steuerrohr des Rahmens und Schaft der Gabel */
   const steuersatz = t.steuersatz;
-  if(steuersatz && rahmen && (rahmen.schaft === "gerade") !== (steuersatz.rohr === "gerade"))
+  if(steuersatz && rahmen && rahmen.steuerrohr && steuersatz.std !== rahmen.steuerrohr)
+    out.push(F(tx("Steuersatz passt nicht ins Steuerrohr", "Headset doesn't fit the head tube"),"steuersatz",["rahmen","steuersatz"],
+      tx(`Das Steuerrohr von <code>${rahmen.n}</code> ist <code>${ssStd(rahmen.steuerrohr)}</code>, der Steuersatz ist <code>${ssStd(steuersatz.std)}</code>. ${/IS4[12]/.test(rahmen.steuerrohr + steuersatz.std) && rahmen.steuerrohr.slice(0, 2) === steuersatz.std.slice(0, 2) ? "IS41 und IS42 sehen gleich aus, unterscheiden sich aber um 0,8 mm im Lagersitz — das Lager wackelt oder klemmt." : "Bohrung und Lagerart müssen genau stimmen — ZS-Schalen gehen nicht in einen IS-Sitz und umgekehrt."} Am Teil die Ausführung <code>${ssStd(rahmen.steuerrohr)}</code> wählen.`,
+         `The head tube of the <code>${rahmen.n}</code> is <code>${ssStd(rahmen.steuerrohr)}</code>, the headset is <code>${ssStd(steuersatz.std)}</code>. ${/IS4[12]/.test(rahmen.steuerrohr + steuersatz.std) && rahmen.steuerrohr.slice(0, 2) === steuersatz.std.slice(0, 2) ? "IS41 and IS42 look alike but the bearing seat differs by 0.8 mm — the bearing rocks or binds." : "Bore and bearing type must match exactly — ZS cups don't go into an IS seat and vice versa."} Pick the <code>${ssStd(rahmen.steuerrohr)}</code> version on the part.`)));
+  else if(steuersatz && rahmen && !rahmen.steuerrohr && (rahmen.schaft === "gerade") !== (steuersatz.rohr === "gerade"))
     out.push(F(tx("Steuersatz passt nicht ins Steuerrohr", "Headset doesn't fit the head tube"),"steuersatz",["rahmen","steuersatz"],
       tx(`Der Rahmen hat ein ${rahmen.schaft === "gerade" ? "gerades 1 1/8″-Steuerrohr" : "konisches (tapered) Steuerrohr"}, der Steuersatz ist für ${steuersatz.rohr === "gerade" ? "ein gerades" : "ein konisches"} gebaut. Die Lagerschalen sitzen dann nicht.`,
          `The frame has a ${rahmen.schaft === "gerade" ? "straight 1 1/8″ head tube" : "tapered head tube"}, the headset is made for a ${steuersatz.rohr === "gerade" ? "straight" : "tapered"} one. The cups won't sit.`)));
@@ -4172,6 +4321,10 @@ function pruefe(b){
     out.push(F(tx("Steuersatz-Unterteil passt nicht zur Gabel", "Lower headset cup doesn't fit the fork"),"steuersatz",["gabel","steuersatz"],
       tx(`<code>${gabel.n}</code> hat einen ${gabel.schaft === "tapered" ? "konischen Schaft (1,5″ unten)" : "geraden 1 1/8″-Schaft"}, das Unterteil ist für ${steuersatz.unten === "1.5" ? "1,5″" : "1 1/8″"} gebaut. Am Teil die Ausführung wählen, die zur Gabel passt.`,
          `<code>${gabel.n}</code> has a ${gabel.schaft === "tapered" ? "tapered steerer (1.5″ lower)" : "straight 1 1/8″ steerer"}, the lower cup is made for ${steuersatz.unten === "1.5" ? "1.5″" : "1 1/8″"}. Pick the version on the part that fits the fork.`)));
+  else if(steuersatz && rahmen && !rahmen.steuerrohr)
+    out.push(H(tx("Einpressmaß am Rahmen prüfen", "Check the frame's headset standard"),"steuersatz",["rahmen","steuersatz"],
+      tx(`Für <code>${rahmen.n}</code> ist die genaue Steuerrohr-Norm nicht hinterlegt. Gewählt ist <code>${ssStd(steuersatz.std)}</code> — vor dem Bestellen beim Rahmenhersteller nachsehen (SHIS-Angabe wie <code>ZS44/28.6 | ZS56/40</code>).`,
+         `The exact head tube standard of the <code>${rahmen.n}</code> isn't on file. Selected is <code>${ssStd(steuersatz.std)}</code> — check with the frame maker before ordering (SHIS code like <code>ZS44/28.6 | ZS56/40</code>).`)));
   if(hat("trial") && sel.length === 1 && kassette && kassette.gaenge > 1)
     out.push(W(tx("Kein Trial-Antrieb", "Not a trials drivetrain"),"kassette",["kassette"],
       tx(`Trial fährt eine feste Übersetzung um <code>18:12</code> mit dem Freilauf in der Kurbel — das erlaubt Kurbelstellung halten und Rückwärtstreten. Ein Schaltwerk ist dort Ballast und bricht beim ersten Pedal Kick.`,
@@ -4189,13 +4342,23 @@ function pruefe(b){
       if(rahmen && bremsen.sH > rahmen.maxScheibeHR) out.push(F(tx("Bremsscheibe hinten zu groß", "Rear rotor too big"),"bremsen",["rahmen","bremsen"],
         tx(`Der Rahmen ist bis <code>${rahmen.maxScheibeHR} mm</code> freigegeben, die Bremse kommt mit <code>${bremsen.sH} mm</code>. Größere Scheiben hebeln am Hinterbau.`,
            `The frame is rated up to <code>${rahmen.maxScheibeHR} mm</code>, the brake comes with <code>${bremsen.sH} mm</code>. Bigger rotors put extra leverage on the rear end.`)));
+      else if(rahmen) bremsAufnahme(out, "hinten", "rahmen", rahmen, rahmen.pmHR, rahmen.hrAufnahme, bremsen.sH);
       if(gabel && bremsen.sV > gabel.maxScheibeVR) out.push(F(tx("Bremsscheibe vorn zu groß für die Gabel", "Front rotor too big for the fork"),"bremsen",["gabel","bremsen"],
         tx(`Gabelfreigabe <code>${gabel.maxScheibeVR} mm</code>, montiert werden sollen <code>${bremsen.sV} mm</code>.`,
            `Fork rating <code>${gabel.maxScheibeVR} mm</code>, planned is <code>${bremsen.sV} mm</code>.`)));
+      else if(gabel) bremsAufnahme(out, "vorn", "gabel", gabel, gabel.pmV, gabel.vrAufnahme, bremsen.sV);
       if(laufraeder && laufraeder.naben !== bremsen.mount) out.push(H(tx("Scheibenaufnahme abweichend", "Different rotor mount"),"bremsen",["laufraeder","bremsen"],
         tx(`Naben in <code>${laufraeder.naben}</code>, die Bremse kommt üblich mit <code>${bremsen.mount}</code>-Scheiben. Kein Problem — du brauchst nur Scheiben in der passenden Aufnahme (25–60 € je Scheibe).`,
            `Hubs are <code>${laufraeder.naben}</code>, the brake usually comes with <code>${bremsen.mount}</code> rotors. No problem — you just need rotors with the matching mount (€25–60 each).`)));
     }
+    if(rahmen && rahmen.ebike === "full" && bremsen.mount !== "Felge" && bremsen.kolben === 2 && !(hat("enduro") || hat("dh")))
+      out.push(W(tx("Zwei Kolben am E-MTB", "Two pistons on an e-MTB"),"bremsen",["rahmen","bremsen"],
+        tx(`Ein Full-Power-E-MTB wiegt mit Fahrer rund 25 kg mehr als ein Trailbike — die Bremse muss diese Energie bergab in Wärme umsetzen. Shimano und SRAM empfehlen für E-MTBs 4-Kolben-Bremsen mit 200/203-mm-Scheiben.`,
+           `A full-power e-MTB carries about 25 kg more than a trail bike — the brake has to turn that energy into heat on the descent. Shimano and SRAM recommend 4-piston brakes with 200/203 mm rotors for e-MTBs.`)));
+    else if(rahmen && rahmen.ebike === "full" && bremsen.mount !== "Felge" && bremsen.sV < 200)
+      out.push(H(tx("Kleine Scheibe vorn am E-MTB", "Small front rotor on an e-MTB"),"bremsen",["rahmen","bremsen"],
+        tx(`<code>${bremsen.sV} mm</code> vorn am Full-Power-E-MTB: die Hersteller empfehlen mindestens 200/203 mm, sonst wird die Scheibe auf langen Abfahrten heiß.`,
+           `<code>${bremsen.sV} mm</code> up front on a full-power e-MTB: makers recommend at least 200/203 mm, otherwise the rotor overheats on long descents.`)));
     if((hat("enduro") || hat("dh")) && bremsen.kolben === 2)
       out.push(W(tx("Zwei Kolben für diesen Einsatz", "Two pistons for this kind of riding"),"bremsen",["bremsen"],
         tx(`Bei ${selNamen()} fadet eine 2-Kolben-Bremse auf langen Abfahrten spürbar. Kein Montagefehler, aber die erste Stelle, an der es unangenehm wird.`,
@@ -4267,13 +4430,14 @@ function pruefe(b){
 
 /* ═══════════ 6 · Bewertung ═══════════ */
 
-const ABZUG = {fehler:26, warnung:9, hinweis:2};
+/* Ein Adapterfall ist gelb, aber kein Kompromiss am Fahren -- er kostet weniger */
+const ABZUG = {fehler:26, warnung:9, hinweis:2, adapter:4};
 const eignung = t => { if(!t || !t.e) return 0; let s = 0; for(const d of sel) s += t.e[d] || 0; return s/sel.length; };
 
 function bewerte(b){
   const funde = pruefe(b);
   let tech = 100;
-  for(const f of funde) tech -= ABZUG[f.level];
+  for(const f of funde) tech -= f.adapter ? ABZUG.adapter : ABZUG[f.level];
   tech = Math.max(0, Math.min(100, tech));
 
   let sum = 0, gew = 0, schwach = null, schwachV = 99;
@@ -4303,6 +4467,7 @@ function echteFehler(b){
 
 /* Klartext statt Fachwort an den Befunden */
 const STUFE = zweisprachig({fehler:["passt nicht", "doesn't fit"], warnung:["Kompromiss", "compromise"], hinweis:["Tipp", "tip"]}, ["fehler", "warnung", "hinweis"]);
+const stufeTxt = f => f.adapter ? tx("mit Adapter", "with adapter") : STUFE[f.level] || f.level;
 function urteil(r){
   const zn = selNamen();
   /* Ein leeres Rad hat keinen Zustand, ueber den sich urteilen liesse. Vorher
@@ -4693,6 +4858,14 @@ function generiereKern(lockern, sparsam){
     /* Aelteres Modelljahr nur fuer Rahmen, die es damals schon so gab */
     const damals = t => !(t.seit && jahrAktiv() < t.seit);
     if(k === "rahmen" && liste.some(damals)) liste = liste.filter(damals);
+    /* E-MTB-Rahmen nur, wenn das Rad ein E-MTB werden soll (Typ im
+       Federungsrechner) -- sonst baut der Assistent analoge Raeder */
+    const eWunsch = build && (build.radTyp === "fullE" || build.radTyp === "lightE");
+    if(k === "rahmen"){
+      const eTyp = build && build.radTyp === "lightE" ? "light" : "full";
+      const passend = liste.filter(t => eWunsch ? t.motor && t.ebike === eTyp : !t.motor);
+      if(passend.length) liste = passend;
+    }
     /* Vorlieben, wo es passende Teile gibt -- beim Rahmen nur unter denen, die
        zur Disziplin taugen: ein Wunsch nach 27,5″ macht aus dem Downhiller
        kein Hardtail */
@@ -6295,9 +6468,10 @@ function specsVon(slotKey, t){
       t.maxGabel ? tx("Gabel bis ", "Fork up to ") + t.maxGabel : tx("Starrgabel", "Rigid fork"),
       t.daempfer ? (t.daempfer.typ === "IsoStrut" ? "Trek IsoStrut" : t.daempfer.el + "×" + t.daempfer.hub + " " + t.daempfer.typ) : tx("ungefedert hinten", "no rear suspension"),
       t.ha, t.bb, t.stuetze ? tx("Stütze ", "Post ") + t.stuetze : tx("ohne Stütze", "no seatpost"), t.udh ? "UDH" : t.udhAb ? tx("UDH ab ", "UDH from ") + t.udhAb : null,
-      t.felgenbremse ? tx("Bremssockel", "Rim brake bosses") : null); break;
+      t.felgenbremse ? tx("Bremssockel", "Rim brake bosses") : null, t.steuerrohr ? ssStd(t.steuerrohr) : null,
+      t.pmHR ? (t.hrAufnahme === "FM" ? "FM" : "PM") + t.pmHR + tx(" hinten", " rear") : null, t.motor ? t.motor + (t.akku ? " · " + t.akku + " Wh" : "") : null); break;
     case "gabel": c.push(t.travel ? t.travel + " mm" : tx("starr", "rigid"), t.lr.join("/") + "″", t.va,
-      t.schaft === "dc" ? tx("Doppelbrücke", "Dual crown") : t.schaft === "gerade" ? "1 1/8″" : "tapered", "Offset " + t.offset); break;
+      t.schaft === "dc" ? tx("Doppelbrücke", "Dual crown") : t.schaft === "gerade" ? "1 1/8″" : "tapered", "Offset " + t.offset, t.pmV ? "PM" + t.pmV : null); break;
     case "daempfer": c.push(t.typ === "IsoStrut" ? "Trek IsoStrut" : t.el + " × " + t.hub + " mm", t.typ === "IsoStrut" ? null : t.typ); break;
     case "laufraeder": c.push(tx("VR ", "F ") + t.lrV + "″ " + achsName(t.va), tx("HR ", "R ") + t.lrH + "″ " + achsName(t.ha),
       tx("Freilauf ", "Freehub ") + t.freilauf, t.naben, tx("Maulweite ", "Inner width ") + t.iw, "max. " + t.maxSys + " kg"); break;
@@ -6310,15 +6484,15 @@ function specsVon(slotKey, t){
       t.spanne[0] + "–" + t.spanne[1] + tx(" Z.", "T"), t.freilauf, t.tType ? "T-Type" : null); break;
     case "kette": c.push(t.gaenge === 1 ? "Singlespeed" : t.gaenge + tx("-fach", "-speed"), t.fuer ? tx("auch " + t.fuer.join("/") + "-fach DH", "also " + t.fuer.join("/") + "-speed DH") : null,
       t.iface || "Standard"); break;
-    case "kurbel": c.push(t.iface, tx("Kettenlinie ", "Chainline ") + t.kl, t.kb + tx(" Z.", "T"), t.laenge + " mm"); break;
+    case "kurbel": c.push(t.motorWelle ? tx("Motorwelle ", "Motor spindle ") + t.motorWelle : t.iface, t.motor ? t.motor.join(" / ") : null,
+      t.kl ? tx("Kettenlinie ", "Chainline ") + t.kl : null, t.kb + tx(" Z.", "T"), t.laenge + " mm", t.geh === 83 ? tx("83-mm-DH-Gehäuse", "83 mm DH shell") : null); break;
     case "bremsen": c.push(t.mount === "Felge" ? tx("Felgenbremse", "Rim brake") : t.kolben + tx(" Kolben", "-piston"),
       t.mount === "Felge" ? tx("beidseitig", "front and rear") : t.sV + "/" + t.sH + " mm", t.mount === "Felge" ? tx("Felge", "Rim") : t.mount); break;
     case "lenker": c.push(t.klemm + tx(" mm Klemmung", " mm clamp"), t.breite + " mm", t.rise + " mm Rise"); break;
     case "vorbau": c.push(t.klemm + tx(" mm Klemmung", " mm clamp"), t.laenge + " mm", t.dm ? "Direct Mount" : null); break;
     case "sattel": c.push(t.oval ? tx("Streben " + t.oval + " mm oval", t.oval + " mm oval rails") : null); break;
     case "stuetze": c.push(t.d + " mm", t.hub ? t.hub + tx(" mm Hub", " mm drop") : tx("starr", "rigid"), tx("Einbau ", "Insertion ") + t.einbau + " mm"); break;
-    case "steuersatz": c.push(t.rohr === "dc" ? tx("unten 1 1/8″ · Doppelbrücke", "lower 1 1/8″ · dual crown") : t.rohr === "gerade" ? tx("gerade 1 1/8″", "straight 1 1/8″") : tx("tapered · unten 1,5″", "tapered · lower 1.5″"),
-      tx("Einpressmaß beim Rahmenhersteller prüfen", "check your frame's headset standard")); break;
+    case "steuersatz": c.push(ssStd(t.std), t.rohr === "dc" ? tx("unten 1 1/8″ · Doppelbrücke", "lower 1 1/8″ · dual crown") : t.rohr === "gerade" ? tx("gerade 1 1/8″", "straight 1 1/8″") : tx("tapered · unten 1,5″", "tapered · lower 1.5″")); break;
     case "rahmenlager": c.push(sp2(t.typ), tx("Satz passend zum Rahmen bestellen", "order the kit for your frame")); break;
     case "innenlager": c.push(t.gehaeuse.map(bbName).join(" / "), t.welle === "Hollowtech II" ? "24 mm (Hollowtech II)" : t.welle === "DUB" ? tx("DUB 28,99 mm", "DUB 28.99 mm") : t.welle, t.breit ? "Wide · CL55" : null); break;
     case "pedale": c.push(t.typ === "Klick" ? tx("Klick · ", "Clipless · ") + t.sys : "Flat", t.g + tx(" g/Paar", " g/pair")); break;
@@ -8423,7 +8597,7 @@ function gBefunde(){
   const liste = r.funde.filter(f => f.level !== "hinweis"), tipps = r.funde.length - liste.length;
   if(!liste.length) return {h:tx("Alles passt zusammen — keine Konflikte, keine Kompromisse.", "Everything fits together — no conflicts, no compromises.")
     + (tipps ? " " + tx(`In der Prüfung stehen noch ${gZahl(tipps, "Tipp", "Tipps", "", "")}.`, `The check has ${gZahl(tipps, "", "", "tip", "tips")}.`) : ""), ak:["view:befunde"]};
-  const z = liste.slice(0, 5).map(f => `<li><b>${esc(gOhneTags(f.titel))}</b> — ${esc(STUFE[f.level])}</li>`).join("");
+  const z = liste.slice(0, 5).map(f => `<li><b>${esc(gOhneTags(f.titel))}</b> — ${esc(stufeTxt(f))}</li>`).join("");
   return {h:tx(`${liste.length === 1 ? "Eine Sache passt" : liste.length + " Sachen passen"} nicht ganz:`, `${liste.length === 1 ? "One thing doesn't" : liste.length + " things don't"} quite fit:`)
     + `<ul>${z}</ul>` + (liste.length > 5 ? tx(`… und ${liste.length - 5} weitere. `, `… and ${liste.length - 5} more. `) : "")
     + tx("In der Prüfung steht zu jedem Punkt, welches Teil ihn löst.", "The check tab says which part fixes each one."), ak:["view:befunde"]};
@@ -8624,7 +8798,7 @@ function gZur100(){
   h += `<br><b>${tx("Woher sie kommen", "Where they go")}</b><ul>`;
   if(funde.length){
     const zuViel = funde.reduce((a, x) => a + ABZUG[x.f.level], 0) > 100;
-    h += `<li>${tx("Passform", "Fit")} ${r.tech}: ` + funde.slice(0, 3).map(x => `${esc(gOhneTags(x.f.titel))} (${esc(STUFE[x.f.level])}${zuViel ? "" : ", ~" + gPkt(x.p)})`).join("; ")
+    h += `<li>${tx("Passform", "Fit")} ${r.tech}: ` + funde.slice(0, 3).map(x => `${esc(gOhneTags(x.f.titel))} (${esc(stufeTxt(x.f))}${zuViel ? "" : ", ~" + gPkt(x.p)})`).join("; ")
       + (funde.length > 3 ? tx(` und ${funde.length - 3} weitere`, ` and ${funde.length - 3} more`) : "") + "</li>";
   } else h += `<li>${tx("Passform", "Fit")} ${r.tech}: ${tx("alles passt, hier fehlt nichts", "everything fits, nothing missing here")}</li>`;
   if(schwach.length) h += `<li>${tx("Einsatz", "Purpose")} ${r.chara} ${tx("für", "for")} ${esc(selNamen())}: `
@@ -8749,7 +8923,7 @@ function gWarum(k){
     return {h:tx(`${esc(s.label)}: passt — keine Konflikte, keine Kompromisse.`, `${esc(s.label)}: fits — no conflicts, no compromises.`)
       + (t && t.e && eignung(t) < 3.5 ? " " + tx(`Zu ${esc(selNamen())} passt das Teil aber nur mäßig (${gEig(eignung(t))}/5) — das kostet Einsatz-Punkte.`, `It only suits ${esc(selNamen())} moderately, though (${gEig(eignung(t))}/5) — that costs purpose points.`) : ""), ak:["slot:" + k]};
   }
-  const h = f.slice(0, 3).map(x => `<b>${esc(gOhneTags(x.titel))}</b> (${esc(STUFE[x.level])}) — ${esc(gOhneTags(x.text))}`).join("<br><br>");
+  const h = f.slice(0, 3).map(x => `<b>${esc(gOhneTags(x.titel))}</b> (${esc(stufeTxt(x))}) — ${esc(gOhneTags(x.text))}`).join("<br><br>");
   return {h:h, ak:["slot:" + (f[0].fixSlot || k), "view:befunde"]};
 }
 
@@ -9100,14 +9274,17 @@ const GUIDE = [
    a:["<b>Shimano</b> und Magura fahren Mineralöl, <b>SRAM</b> DOT-Flüssigkeit — niemals mischen, das zerstört die Dichtungen. <b>Beläge</b>: organisch beißen leise und kräftig, verschleißen aber schneller; Sinter (metallisch) halten länger und vertragen Hitze, quietschen eher. Wandert der Druckpunkt oder wird der Hebel weich: entlüften. Lässt die Bremskraft auf langen Abfahrten nach, helfen größere Scheiben und 4 Kolben.",
      "<b>Shimano</b> and Magura use mineral oil, <b>SRAM</b> DOT fluid — never mix them, it destroys the seals. <b>Pads</b>: organic bite quietly and strongly but wear faster; sintered (metallic) last longer and handle heat, but squeal more. If the bite point wanders or the lever goes soft: bleed. If braking power fades on long descents, bigger rotors and 4 pistons help."]},
   {id:"scheiben", k:"scheibengroesse scheibe 160 180 200 203 220 223 postmount adapter bremsaufnahme maximal rotor size mount", t:["Wie groß dürfen die Bremsscheiben sein?", "How big can the rotors be?"],
-   a:["Rahmen und Gabel geben über ihre Aufnahme eine Mindestgröße vor (meist Postmount 160 oder 180 mm) und laut Hersteller eine Höchstgröße. Größere Scheiben gehen über einen Adapter. Üblich: 180 mm für XC und Trail, 200–220 mm für Enduro und Downhill — größer bremst kräftiger und überhitzt später.",
-     "Frame and fork set a minimum size through their mount (usually post mount 160 or 180 mm) and a maximum per the manufacturer. Bigger rotors go on with an adapter. Typical: 180 mm for XC and trail, 200–220 mm for enduro and downhill — bigger brakes harder and overheats later."]},
+   a:["Rahmen und Gabel geben über ihre Aufnahme eine Mindestgröße vor — die <b>native</b> Größe, etwa Postmount 160, 180 oder 200 — und laut Hersteller eine Höchstgröße. Kleiner als nativ geht nicht. Größer geht mit einem Adapter um genau die Differenz: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (zwei 1,5-mm-Shims). Flat Mount und IS brauchen für die üblichen Postmount-Sättel immer einen Adapter. Die App rechnet das aus und zeigt es gelb mit „mit Adapter“. Üblich: 180 mm für XC und Trail, 200–220 mm für Enduro, Downhill und E-MTB.",
+     "Frame and fork set a minimum size through their mount — the <b>native</b> size, e.g. post mount 160, 180 or 200 — and a maximum per the manufacturer. Smaller than native won't work. Bigger works with an adapter of exactly the difference: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (two 1.5 mm shims). Flat mount and IS always need an adapter for the usual post-mount calipers. The app works this out and shows it in yellow as “with adapter”. Typical: 180 mm for XC and trail, 200–220 mm for enduro, downhill and e-MTB."]},
   {id:"achse", k:"achse steckachse schnellspanner 15x110 20x110 12x148 12x157 12x142 15x100 axle thru", t:["Welche Achsen gibt es?", "Which axles are there?"],
    a:["Heute fast immer Steckachsen. <b>Vorn</b>: 15×110 (Boost) an Trail und Enduro, 20×110 an Downhill-Doppelbrücken. <b>Hinten</b>: 12×148 (Boost) oder 12×157 (Super Boost, DH). Ältere Räder: 15×100 vorn, 12×142 hinten. Nabe und Rahmen oder Gabel müssen gleich sein.",
      "Almost always thru-axles now. <b>Front</b>: 15×110 (Boost) on trail and enduro, 20×110 on downhill dual crowns. <b>Rear</b>: 12×148 (Boost) or 12×157 (Super Boost, DH). Older bikes: 15×100 front, 12×142 rear. Hub and frame or fork must match."]},
   {id:"steuerrohr", k:"steuerrohr steuersatz tapered konisch zs44 zs56 schaft gabelschaft headset steerer", t:["Steuersatz und Gabelschaft?", "Headset and steerer?"],
-   a:["Die meisten MTB-Gabeln haben einen <b>tapered</b> Schaft: unten 1,5″, oben 1 1/8″. Der Steuersatz muss zu den Maßen des Steuerrohrs im Rahmen passen (etwa ZS44/ZS56). Doppelbrücken-Gabeln haben einen geraden Schaft. Die App prüft Gabel und Rahmen — und wenn du unter „Rahmen“ einen Steuersatz einträgst (freiwillig), auch den gegen beide.",
-     "Most MTB forks have a <b>tapered</b> steerer: 1.5″ at the bottom, 1 1/8″ at the top. The headset must match the head tube dimensions of the frame (e.g. ZS44/ZS56). Dual-crown forks have a straight steerer. The app checks fork and frame — and if you add a headset under “Frame” (optional), it checks that against both."], ak:["slot:steuersatz"]},
+   a:["Die meisten MTB-Gabeln haben einen <b>tapered</b> Schaft: unten 1,5″, oben 1 1/8″. Doppelbrücken-, Dirt- und Trialgabeln oft einen geraden 1 1/8″-Schaft — der passt mit einem Reduzier-Unterteil auch in ein konisches Steuerrohr, umgekehrt nie. Der Steuersatz muss genau die Norm des Rahmens treffen, angegeben als SHIS: <b>ZS</b> = semi-integriert, <b>IS</b> = integriert, <b>EC</b> = außenliegende Schale, die Zahl ist die Bohrung in mm (etwa ZS44/ZS56 oder IS42/IS52). IS41 und IS42 sehen gleich aus, passen aber nicht gegeneinander. Wo die Norm des Rahmens belegt ist, prüft die App sie genau.",
+     "Most MTB forks have a <b>tapered</b> steerer: 1.5″ at the bottom, 1 1/8″ at the top. Dual-crown, dirt and trials forks often have a straight 1 1/8″ steerer — it fits a tapered head tube with a reducer lower cup, never the other way round. The headset must match the frame's standard exactly, given as SHIS: <b>ZS</b> = semi-integrated, <b>IS</b> = integrated, <b>EC</b> = external cup, the number is the bore in mm (e.g. ZS44/ZS56 or IS42/IS52). IS41 and IS42 look alike but don't interchange. Where the frame's standard is on file, the app checks it exactly."], ak:["slot:steuersatz"]},
+  {id:"emtb", k:"emtb e-mtb ebike e-bike pedelec motor akku bosch shimano ep8 ep801 brose specialized tq light full power kurbel motorwelle isis", t:["Was ist beim E-MTB anders?", "What's different on an e-MTB?"],
+   a:["Motor und Akku sitzen im Rahmen. Statt Innenlager hat das Rad eine <b>Motorwelle</b>: die Kurbel muss genau für diesen Motor gebaut sein. Bosch, Brose/Specialized, TQ und DJI nutzen eine ISIS-Welle, aber jeder mit eigenem Versatz — Shimano EP hat eine eigene Verzahnung. Ein Full-Power-E-MTB wiegt rund 22–25 kg: 4-Kolben-Bremsen mit 200/203-mm-Scheiben und E-MTB-freigegebene Laufräder sind Pflicht. Der Federungsrechner rechnet mit dem Mehrgewicht automatisch, sobald ein E-MTB-Rahmen im Aufbau ist.",
+     "Motor and battery sit in the frame. Instead of a bottom bracket the bike has a <b>motor spindle</b>: the crank has to be made for exactly that motor. Bosch, Brose/Specialized, TQ and DJI use an ISIS spindle, each with its own offset — Shimano EP has its own spline. A full-power e-MTB weighs around 22–25 kg: 4-piston brakes with 200/203 mm rotors and e-MTB-rated wheels are a must. The suspension calculator accounts for the extra weight automatically as soon as an e-MTB frame is in the build."], ak:["slot:rahmen"]},
   {id:"lager", k:"lager rahmenlager hinterbaulager steuerlager lagersatz optional freiwillig spiel knackt bearing bearings pivot", t:["Muss ich Lager eintragen?", "Do I have to add bearings?"],
    a:["Lager sind freiwillig. Unter „Rahmen“ gibt es zwei Plätze dafür: <b>Steuersatz</b> (die Lager, in denen sich die Gabel dreht) und <b>Rahmenlager</b> (der Lagersatz im Hinterbau, nur bei Fullys). Leer fehlt nichts — sie zählen nur, wenn du etwas einträgst, etwa weil ein Lager Spiel hat oder du aufrüsten willst. Das <b>Innenlager</b> für die Kurbel ist dagegen ein fester Platz.",
      "Bearings are optional. Under “Frame” there are two slots for them: <b>headset</b> (the bearings the fork turns in) and <b>frame bearings</b> (the kit in the rear linkage, full-suspension only). Left empty, nothing is missing — they only count once you add something, say because a bearing has play or you want an upgrade. The <b>bottom bracket</b> for the cranks, on the other hand, is a regular slot."], ak:["slot:steuersatz"]},
@@ -9583,7 +9760,10 @@ const RADTYP = {
   fullE:{n:["Full-Power-E-MTB (~23–26 kg)", "Full-power e-MTB (~23–26 kg)"], kg:24.5, uV:4.1, uH:4.6}
 };
 const FW_AV = 0.40, FW_AH = 0.65, FW_RV = 0.45, FW_REF = RADTYP.analog;
-const radTyp = b => RADTYP[(b && b.radTyp) || "analog"] ? (b && b.radTyp) || "analog" : "analog";
+/* Ohne eigene Angabe nimmt der Rechner den Typ aus dem Rahmen: E-MTB-Rahmen
+   tragen ebike:"full" oder "light" */
+const radTypRahmen = b => { const r = b && b.rahmen ? findeTeil("rahmen", b.rahmen) : null; return r && r.ebike ? (r.ebike === "light" ? "lightE" : "fullE") : null; };
+const radTyp = b => { const t = (b && b.radTyp) || radTypRahmen(b) || "analog"; return RADTYP[t] ? t : "analog"; };
 /* Kurz fuer die Karte: womit diese Seite rechnet und warum */
 function sgText(sg, seite){
   const eq = seite === "v" ? sg.eqV : sg.eqH, last = seite === "v" ? sg.lastV : sg.lastH, diff = Math.round((eq - sg.mF) * 10) / 10;
@@ -9594,9 +9774,11 @@ function sgText(sg, seite){
 function systemGewicht(b, e, r){
   const typ = radTyp(b), T = RADTYP[typ];
   const aufbau = e && e.gewicht > 10000 ? e.gewicht / 1000 : null;
-  /* Summe des Aufbaus nur beim analogen Rad: der Katalog kennt keine Motoren */
-  const mR = b && b.radKg > 5 ? b.radKg : typ === "analog" && aufbau ? aufbau : T.kg;
-  const quelle = b && b.radKg > 5 ? "eigen" : typ === "analog" && aufbau ? "aufbau" : "typ";
+  /* Summe des Aufbaus beim analogen Rad -- und beim E-MTB, wenn der Rahmen
+     aus dem Katalog kommt (dann stecken Motor und Akku in seinem Gewicht) */
+  const mitMotor = typ === "analog" || !!radTypRahmen(b);
+  const mR = b && b.radKg > 5 ? b.radKg : mitMotor && aufbau ? aufbau : T.kg;
+  const quelle = b && b.radKg > 5 ? "eigen" : mitMotor && aufbau ? "aufbau" : "typ";
   const mF = systemKg(), k = vorneFaktor(r).f;
   const lastV = (mf, mrg, kk) => mf * FW_AV * kk + mrg * FW_RV;
   const lastH = (mf, mrg) => mf * FW_AH + mrg * (1 - FW_RV);
@@ -11058,7 +11240,7 @@ function zeichne(){
   const sortiert = r.funde.slice().sort((a,b) => rang[a.level] - rang[b.level]);
   $("findings").innerHTML = sortiert.length
     ? sortiert.map(f => `<div class="find ${f.level}">
-        <div class="find-t"><span class="pill">${STUFE[f.level] || f.level}</span>${esc(f.titel)}</div><p>${f.text}</p>
+        <div class="find-t"><span class="pill">${stufeTxt(f)}</span>${esc(f.titel)}</div><p>${f.text}</p>
         ${f.fixSlot ? `<div><button class="btn ghost sm" data-slot="${f.fixSlot}">${tx("Teil wechseln", "Change part")}</button></div>` : ""}
       </div>`).join("")
     : `<div class="clean"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>

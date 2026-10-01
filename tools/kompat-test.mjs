@@ -17,6 +17,7 @@ import { execSync } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { FAELLE } from './kompat-faelle.mjs';
+import { RAEDER } from './kompat-raeder.mjs';
 
 const require = createRequire(import.meta.url);
 let pw;
@@ -52,10 +53,18 @@ const ergebnisse = await seite.evaluate(faelle => {
   const out = [];
   for(const f of faelle){
     try{
+      /* patch: Werte eines Katalogteils fuer diesen Fall ueberschreiben (Normen,
+         die kein Rahmen im Katalog hat, etwa T47) -- danach zurueck */
+      const alt = [];
+      for(const sl in f.patch || {}){
+        const [id, werte] = f.patch[sl], t = K[quelleOf(slotOf(sl))].find(x => x.id === id);
+        alt.push([t, Object.fromEntries(Object.keys(werte).map(k => [k, t[k]]))]);
+        Object.assign(t, werte);
+      }
       /* startrad: das Rad, mit dem die App startet -- es muss immer gruen sein */
       const b = f.startrad ? {...START} : leerBau();
       for(const s in f.teile || {}) b[s] = teilId(s, f.teile[s]);
-      sel = f.sel || ['trail']; jahrWahl[modus] = f.jahr || AKTUELL;
+      sel = f.sel || ['trail']; jahrWahl[modus] = f.jahr || AKTUELL; plan.fahrer = f.fahrer || 0;
       const bef = pruefe(b);
       const rot = bef.filter(x => x.level === 'fehler').map(x => x.titel);
       const gelb = bef.filter(x => x.level === 'warnung').map(x => x.titel);
@@ -69,11 +78,18 @@ const ergebnisse = await seite.evaluate(faelle => {
         const ampel = rot.length ? 'rot' : gelb.filter(t => !(f.ignoriere || []).includes(t)).length ? 'gelb' : 'gruen';
         if(ampel !== f.ampel) probleme.push(`Ampel ${ampel} statt ${f.ampel} (rot: ${rot.join(' | ') || '–'} · gelb: ${gelb.join(' | ') || '–'})`);
       }
+      /* Komplettrad: vollstaendig, nichts Rotes, und gelb nur, was erwartet ist */
+      if(f.rad){
+        if(gelb.includes('Aufbau unvollständig')) probleme.push('Aufbau unvollständig: ' + (bef.find(x => x.titel === 'Aufbau unvollständig').text.replace(/<[^>]+>/g, '')));
+        for(const t of gelb) if(!(f.gelb || []).includes(t)) probleme.push(`unerwartet GELB „${t}“`);
+        for(const t of rot) probleme.push(`ROT „${t}“`);
+      }
+      for(const [t, w] of alt) Object.assign(t, w);
       out.push({name:f.name, ok:!probleme.length, probleme, rot, gelb});
     }catch(e){ out.push({name:f.name, ok:false, probleme:['Ausnahme: ' + e.message], rot:[], gelb:[]}); }
   }
   return out;
-}, FAELLE);
+}, FAELLE.concat(RAEDER.map(r => ({...r, rad:true}))));
 
 let fehl = 0;
 for(const e of ergebnisse){
@@ -81,6 +97,6 @@ for(const e of ergebnisse){
   else { fehl++; console.log('  FEHL ' + e.name + '\n         ' + e.probleme.join('\n         ')); }
 }
 if(jsFehler.length){ fehl++; console.log('JS-Fehler in der Seite:\n  ' + jsFehler.join('\n  ')); }
-console.log(`\n${ergebnisse.length - fehl} von ${ergebnisse.length} Fällen bestanden.`);
+console.log(`\n${ergebnisse.length - fehl} von ${ergebnisse.length} Fällen bestanden (davon ${RAEDER.length} komplette Testräder).`);
 await browser.close();
 process.exit(fehl ? 1 : 0);

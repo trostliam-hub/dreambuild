@@ -316,6 +316,9 @@ verlässt es nicht. Als PWA installierbar und offline lauffähig.
     tools/preise.py               liest die Produktfeeds, schreibt die Preise
     tools/kompat-test.mjs         prüft das Regelwerk gegen feste Testfälle
     tools/kompat-faelle.mjs       die Testfälle (Rahmen, Achsen, Freiläufe, Lager …)
+    tools/kompat-raeder.mjs       61 echte Testräder als Komplettaufbau
+    tools/katalog-export.mjs      schreibt den Katalog als docs/katalog.json
+    docs/datenbank.md             Aufbau der Datenbank, Normfelder, alle Befunde
     .github/workflows/preise.yml  startet preise.py alle sechs Stunden
     preise.json                   Angebote je Teil (von der Action geschrieben)
     preisverlauf.json             günstigster Preis je Teil und Tag
@@ -451,19 +454,43 @@ nur ins Secret, nie in eine Datei — das Repo ist öffentlich.
 `node tools/kompat-test.mjs` lädt die App in Chromium (Playwright) und spielt
 feste Aufbauten durch: welcher Befund rot, gelb oder nur Hinweis sein muss —
 und welcher nicht kommen darf. Kippt eine Änderung an Katalog oder Regeln ein
-bekanntes Ergebnis, schlägt der Test an (Rückgabewert 1). Neue Fälle kommen in
-`tools/kompat-faelle.mjs`; Teile mit Ausführung als `["w-hopemx", {Nabenbreite:"150x12"}]`.
+bekanntes Ergebnis, schlägt der Test an (Rückgabewert 1).
 
-Abgedeckt (Stand 01.10.2026): SRAM UDH / Transmission je Rahmen und Baujahr,
-T-Type-Kassette und Flattop-Kette, Hinterachsen 135/142/148/150/157 inkl.
-Umbaukit (gelb), Vorderachse 15/20 mm, Freiläufe HG / Micro Spline / XD,
-Innenlager BSA 68/73/83, PF92, Spanish, DUB / DUB Wide, 24 / 30 mm, ISIS,
-PowerSpline, Kettenlinie 52 / 55 / 56,5 und das Startrad der App.
+- `tools/kompat-faelle.mjs`: 118 Regelfälle je Norm — SRAM UDH / Transmission
+  je Rahmen und Baujahr, T-Type, Achsen 135/142/148/150/157 inkl. Umbaukit,
+  Vorderachse 15/20, Freiläufe HG / Micro Spline / XD, Innenlager BSA 68/73/83,
+  PF92, PF107, PF30, BB30, T47, Spanish, DUB / DUB Wide, 24 / 30 mm, ISIS,
+  PowerSpline, 83-mm-DH-Kurbeln, Kettenlinie 52 / 55 / 56,5, Bremsaufnahmen
+  (PM nativ + Adapter-Rechnung, Flat Mount, IS), Steuersatz nach SHIS
+  (ZS44/ZS56, IS41/IS52, IS42/IS52, ZS56/ZS56 …), gerader Schaft im konischen
+  Rohr, Lenkerklemmung, E-MTB-Motorwelle.
+- `tools/kompat-raeder.mjs`: 61 echte Räder als Komplettaufbau nach
+  Serienausstattung, von XC bis Downhill, Dirt, Slope, Trial, Hardtail und
+  E-MTB (Bosch, Shimano EP, Specialized, TQ). Jedes muss vollständig sein, darf
+  nichts Rotes haben und gelb nur dort, wo die Serie einen Adapter verbaut.
 
-Datenkorrekturen dabei: Trek Session hat UDH; Commencal Meta SX erst ab 2023
-mit UDH; Specialized Enduro erst ab 2025; Transition Sentinel (Carbon) erst
-ab 2024; Commencal Supreme DH V5 hat 157 mm hinten (150 nur mit Umbaukit);
-Canyon Sender CFR ab 2025 mit 148 mm und UDH.
+Neue Fälle kommen in die beiden Dateien; Teile mit Ausführung als
+`["w-hopemx", {Nabenbreite:"150x12"}]`. Aufbau der Datenbank, alle Normfelder
+und alle Befunde: [docs/datenbank.md](docs/datenbank.md). Den Katalog als JSON
+schreibt `node tools/katalog-export.mjs` nach `docs/katalog.json`.
+
+Ampel: rot = passt nicht (mit Begründung), gelb = Kompromiss oder „mit
+Adapter“ (etwa Post-Mount-Adapter: PM180 + 23 mm = 203 mm), Tipp = grün.
+
+Datenkorrekturen (01.10.2026): Trek Session hat UDH; Commencal Meta SX erst ab
+2023 mit UDH; Specialized Enduro erst ab 2025; Transition Sentinel (Carbon)
+erst ab 2024; Commencal Supreme DH V5 hat 157 mm hinten (150 nur mit
+Umbaukit); Canyon Sender CFR ab 2025 mit 148 mm und UDH; Shimano Saint
+FC-M820 hat 50,4 mm Kettenlinie, die 83-mm-Version FC-M825 57,9 mm; Saint-
+Schaltwerk RD-M820 bis 36 Zähne (FR-Modus); SID-Familie bis 200-mm-Scheibe,
+Fox 40 (2025) bis 230; Megatower 2, Meta SX/TR V5 bis 223, Enduro bis 220,
+Top Fuel bis 180, Oiz Flat Mount 160.
+
+Neu im Katalog: 7 E-MTBs (Trek Rail+, Specialized Turbo Levo 4, Orbea Wild,
+Cube Stereo Hybrid 160, YT Decoy MX, Trek Fuel EXe, Orbea Rise), 10 Rahmen
+(Santa Cruz 5010 und Tallboy, YT Izzo, Pivot Firebird, Propain Hugene und
+Rage, Cube Stereo ONE55 und Two15, Specialized Status 160, Commencal Meta HT
+AM), 5 E-MTB-Kurbeln, 2 E-MTB-Laufradsätze, Innenlager für T47 und BB30.
 
 ## Grafik-Prüfung
 
