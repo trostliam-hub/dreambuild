@@ -2080,8 +2080,12 @@ function LA(ls, std){ return dim("Länge", ls.map(l => o_(l, dezimal(l).map(z =>
 function KL(ls, std){ return dim("Kurbellänge", ls.map(l => o_(l, l + " mm", {laenge:l})), std); }
 function NB(has, std){ return dim("Nabenbreite", has.map(h => o_(h, h.replace("x", " × ") + " mm", {ha:h}, {kurz:["hinten " + h.replace("x", "×"), "rear " + h.replace("x", "×")]})), std); }
 function SR(std){ return dim("Steuerrohr", ["gerade","tapered"].map(x => o_(x, x === "gerade" ? ["1 1/8″ gerade", "1 1/8″ straight"] : "tapered", {schaft:x})), std); }
-function VA(std){ return dim("Vorderachse", ["110x15","110x20"].map(a => o_(a, a === "110x15" ? "15 mm Boost" : "20 mm Boost", {va:a},
-  {h:["Nabe per Endkappen umrüstbar", "hub converts with end caps"], kurz:[(a === "110x15" ? "VR 15 mm" : "VR 20 mm"), (a === "110x15" ? "front 15 mm" : "front 20 mm")]})), std); }
+/* Vorderachse: Boost 15/20 per Endkappen; manche Naben (Hope Pro 5) gibt es
+   auch als Non-Boost 100x15 fuer aeltere Gabeln -- das ist eine andere Nabe */
+const VA_NAME = {"110x15":["15 mm Boost", "15 mm Boost", "VR 15 mm", "front 15 mm"], "110x20":["20 mm Boost", "20 mm Boost", "VR 20 mm", "front 20 mm"],
+  "100x15":["15 × 100 mm (Non-Boost)", "15 × 100 mm (non-Boost)", "VR 15×100", "front 15×100"]};
+function VA(std, liste){ return dim("Vorderachse", (liste || ["110x15","110x20"]).map(a => o_(a, [VA_NAME[a][0], VA_NAME[a][1]], {va:a},
+  {h:a === "100x15" ? ["Non-Boost-Nabe für ältere Gabeln", "non-Boost hub for older forks"] : ["Nabe per Endkappen umrüstbar", "hub converts with end caps"], kurz:[VA_NAME[a][2], VA_NAME[a][3]]})), std); }
 function KB(zs, std){ return dim("Kettenblatt", zs.map(z => o_(z, [z + " Z.", z + "T"], {kb:z})), std); }
 /* Kurbelwelle je Tretlagerbreite: 68/73 mm (Trail, Enduro) oder 83 mm (DH).
    Race Face (Cinch) und Hope tauschen dafuer nur die Welle; die 83er Welle
@@ -2519,7 +2523,7 @@ laufraeder:[
  {id:"w-dtex", n:"DT Swiss EX 1700 Spline", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"XD",
   va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:130, fb:"#16181c", fbn:"#3a3f45", e:E(1,4,5,3,0,0,0), g:1950, p:749, v:[VA("110x15"), FL("XD")]},
  {id:"w-hope", n:"Hope Fortus 30 · Pro 5", m:"Hope", lrV:"29", lrH:"29", iw:30, freilauf:"XD",
-  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#16181c", fbn:"#6b4fa8", e:E(2,5,5,2,0,0,0), g:1890, p:899, v:[VA("110x15"), NB(["148x12","150x12","157x12"], "148x12"), FL("XD")]},
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, fb:"#16181c", fbn:"#6b4fa8", e:E(2,5,5,2,0,0,0), g:1890, p:899, v:[VA("110x15", ["100x15","110x15","110x20"]), NB(["142x12","148x12","150x12","157x12"], "148x12"), FL("XD")]},
  {id:"w-dt1501", n:"DT Swiss XM 1501 Spline One", m:"DT Swiss", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline",
   va:"110x15", ha:"148x12", naben:"Center Lock", maxSys:120, fb:"#16181c", fbn:"#b0b6bc", e:E(4,5,3,0,0,0,0), g:1750, p:999, v:[VA("110x15"), FL("Micro Spline")]},
  {id:"w-reserve", n:"Reserve 30 SL Carbon", m:"Reserve", lrV:"29", lrH:"29", iw:30, freilauf:"Micro Spline",
@@ -2587,11 +2591,11 @@ laufraeder:[
  {id:"w-horizon", n:"Nukeproof Horizon V2", m:"Nukeproof", lrV:"29", lrH:"29", iw:30, freilauf:"HG",
   va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:125, e:E(1,5,5,2,0,0,0), g:1950, p:549, v:[FL("HG")]},
  {id:"w-hope35", n:"Hope Fortus 35W · Pro 5", m:"Hope", lrV:"29", lrH:"29", iw:35, freilauf:"XD",
-  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(0,4,5,4,0,0,0), g:2050, p:949, v:[VA("110x15"), NB(["148x12","150x12","157x12"], "148x12"), FL("XD")]},
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(0,4,5,4,0,0,0), g:2050, p:949, v:[VA("110x15", ["100x15","110x15","110x20"]), NB(["142x12","148x12","150x12","157x12"], "148x12"), FL("XD")]},
  {id:"w-hopemx", n:"Hope Fortus 30 · Mullet 29/27.5", m:"Hope", lrV:"29", lrH:"27.5", iw:30, freilauf:"XD",
-  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(0,4,5,4,0,0,0), g:1880, p:899, v:[VA("110x15"), NB(["148x12","150x12","157x12"], "148x12"), FL("XD")]},
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(0,4,5,4,0,0,0), g:1880, p:899, v:[VA("110x15", ["100x15","110x15","110x20"]), NB(["142x12","148x12","150x12","157x12"], "148x12"), FL("XD")]},
  {id:"w-hope27", n:"Hope Fortus 30 · 27.5", m:"Hope", lrV:"27.5", lrH:"27.5", iw:30, freilauf:"XD",
-  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(1,4,5,4,0,0,0), g:1800, p:899, v:[VA("110x15"), NB(["148x12","150x12","157x12"], "148x12"), FL("XD")]},
+  va:"110x15", ha:"148x12", naben:"6-Loch", maxSys:130, e:E(1,4,5,4,0,0,0), g:1800, p:899, v:[VA("110x15", ["100x15","110x15","110x20"]), NB(["142x12","148x12","150x12","157x12"], "148x12"), FL("XD")]},
  /* E-MTB-Laufradsatz: DT Swiss Hybrid-Linie, fuer die hoehere Systemlast
     von E-MTBs freigegeben (Richtwert 150 kg System) */
  {id:"w-dthx", n:"DT Swiss HX 1700 Spline 30 · Mullet E-MTB", m:"DT Swiss", lrV:"29", lrH:"27.5", iw:30, freilauf:"Micro Spline",
@@ -4069,10 +4073,22 @@ function pruefe(b){
         tx(`Rahmen <code>${rahmen.ha}</code> gegen Laufrad <code>${laufraeder.ha}</code>. Einbaubreite ist ein hartes Maß — das bräuchte eine andere Nabe, nicht nur Endkappen.`,
            `Frame <code>${rahmen.ha}</code> vs wheel <code>${laufraeder.ha}</code>. Hub spacing is a hard dimension — this needs a different hub, not just end caps.`)));
   }
-  if(gabel && laufraeder && laufraeder.va !== gabel.va)
-    out.push(F(tx("Vorderachse passt nicht", "Front axle doesn't fit"),"laufraeder",["gabel","laufraeder"],
-      tx(`Gabel <code>${gabel.va}</code> gegen Vorderrad <code>${laufraeder.va}</code>. Endkappen lassen sich manchmal tauschen, der Achsdurchmesser nie.`,
-         `Fork <code>${gabel.va}</code> vs front wheel <code>${laufraeder.va}</code>. End caps can sometimes be swapped, the axle diameter never.`)));
+  /* Vorderachse: gleiche Breite, anderer Durchmesser (Boost 15 <-> 20 mm)
+     tauschen viele Naben per Endkappen -- gibt es den Satz in der Achse der
+     Gabel, ist das ein Adapterfall. Boost (110) gegen Non-Boost (100) ist
+     eine andere Nabe. (Liam 2026-10-01) */
+  if(gabel && laufraeder && laufraeder.va !== gabel.va){
+    const breite = x => String(x).split("x")[0];
+    const endkappen = breite(laufraeder.va) === breite(gabel.va) && laufraeder.v && laufraeder.v.some(d => d.k === "Vorderachse" && d.o.some(o => o.w === gabel.va));
+    if(endkappen)
+      out.push(A(tx("Vorderachse nur mit anderen Endkappen", "Front axle only with different end caps"),"laufraeder",["gabel","laufraeder"],
+        tx(`Gabel <code>${achsName(gabel.va)}</code>, Vorderrad <code>${achsName(laufraeder.va)}</code>. Die Nabe von <code>${laufraeder.nb || laufraeder.n}</code> lässt sich per Endkappen auf <code>${achsName(gabel.va)}</code> umbauen (rund 20–40 €) — oder gleich in dieser Achse bestellen.`,
+           `Fork <code>${achsName(gabel.va)}</code>, front wheel <code>${achsName(laufraeder.va)}</code>. The <code>${laufraeder.nb || laufraeder.n}</code> hub converts to <code>${achsName(gabel.va)}</code> with end caps (about €20–40) — or order it in that axle straight away.`)));
+    else
+      out.push(F(tx("Vorderachse passt nicht", "Front axle doesn't fit"),"laufraeder",["gabel","laufraeder"],
+        tx(`Gabel <code>${achsName(gabel.va)}</code> gegen Vorderrad <code>${achsName(laufraeder.va)}</code>. ${breite(laufraeder.va) !== breite(gabel.va) ? "Boost (110 mm) und Non-Boost (100 mm) haben verschiedene Nabenbreiten — das braucht eine andere Nabe, nicht nur Endkappen." : "Für diese Nabe gibt es keine Endkappen auf die andere Achse."}`,
+           `Fork <code>${achsName(gabel.va)}</code> vs front wheel <code>${achsName(laufraeder.va)}</code>. ${breite(laufraeder.va) !== breite(gabel.va) ? "Boost (110 mm) and non-Boost (100 mm) have different hub widths — that needs a different hub, not just end caps." : "There are no end caps for this hub to switch axles."}`)));
+  }
   if(kassette && laufraeder && laufraeder.freilauf !== kassette.freilauf){
     const tr = kassette.freilauf.indexOf("Trial") === 0 || laufraeder.freilauf.indexOf("Trial") === 0;
     const umstellbar = laufraeder.v && laufraeder.v.some(d => d.k === "Freilauf");
@@ -6258,10 +6274,10 @@ function verlaufSvg(t){
 }
 
 /* ═══════════ Anzeigehilfen ═══════════ */
-const ACHSE = {"110x15":"Boost 110×15", "100x15":"100×15", "110x20":"DH 110×20", "100x20":"100×20",
+const ACHSE = {"110x15":"Boost 110×15", "100x15":"15×100 (Non-Boost)", "110x20":"DH 110×20", "100x20":"100×20",
   "148x12":"Boost 148×12", "157x12":"Super Boost 157×12", "142x12":"142×12",
   "135x10":"135 mm Schnellspanner", "116x10":"116 mm Trial", "135x12":"135×12 Steckachse", "150x12":"DH 150×12"};
-const ACHSE_EN = {"135x10":"135 mm quick release", "135x12":"135×12 thru-axle"};
+const ACHSE_EN = {"135x10":"135 mm quick release", "135x12":"135×12 thru-axle", "100x15":"15×100 (non-Boost)"};
 const achsName = a => (sprache === "en" && ACHSE_EN[a]) || ACHSE[a] || a;
 const massTxt = d => d.typ === "IsoStrut" ? tx("Trek IsoStrut (rahmeneigen)", "Trek IsoStrut (frame-specific)") : d.el + " × " + d.hub + " mm " + d.typ;
 /* Welche Kassetten auf welchen Freilaufkoerper passen -- die Frage, an der

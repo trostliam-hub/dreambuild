@@ -15551,6 +15551,13 @@
       "vorgabe": "110x15",
       "optionen": [
        {
+        "wert": "100x15",
+        "name": "15 × 100 mm (Non-Boost)",
+        "setzt": {
+         "va": "100x15"
+        }
+       },
+       {
         "wert": "110x15",
         "name": "15 mm Boost",
         "setzt": {
@@ -15570,6 +15577,13 @@
       "dimension": "Nabenbreite",
       "vorgabe": "148x12",
       "optionen": [
+       {
+        "wert": "142x12",
+        "name": "142 × 12 mm",
+        "setzt": {
+         "ha": "142x12"
+        }
+       },
        {
         "wert": "148x12",
         "name": "148 × 12 mm",
@@ -18295,6 +18309,13 @@
       "vorgabe": "110x15",
       "optionen": [
        {
+        "wert": "100x15",
+        "name": "15 × 100 mm (Non-Boost)",
+        "setzt": {
+         "va": "100x15"
+        }
+       },
+       {
         "wert": "110x15",
         "name": "15 mm Boost",
         "setzt": {
@@ -18314,6 +18335,13 @@
       "dimension": "Nabenbreite",
       "vorgabe": "148x12",
       "optionen": [
+       {
+        "wert": "142x12",
+        "name": "142 × 12 mm",
+        "setzt": {
+         "ha": "142x12"
+        }
+       },
        {
         "wert": "148x12",
         "name": "148 × 12 mm",
@@ -18395,6 +18423,13 @@
       "vorgabe": "110x15",
       "optionen": [
        {
+        "wert": "100x15",
+        "name": "15 × 100 mm (Non-Boost)",
+        "setzt": {
+         "va": "100x15"
+        }
+       },
+       {
         "wert": "110x15",
         "name": "15 mm Boost",
         "setzt": {
@@ -18414,6 +18449,13 @@
       "dimension": "Nabenbreite",
       "vorgabe": "148x12",
       "optionen": [
+       {
+        "wert": "142x12",
+        "name": "142 × 12 mm",
+        "setzt": {
+         "ha": "142x12"
+        }
+       },
        {
         "wert": "148x12",
         "name": "148 × 12 mm",
@@ -18495,6 +18537,13 @@
       "vorgabe": "110x15",
       "optionen": [
        {
+        "wert": "100x15",
+        "name": "15 × 100 mm (Non-Boost)",
+        "setzt": {
+         "va": "100x15"
+        }
+       },
+       {
         "wert": "110x15",
         "name": "15 mm Boost",
         "setzt": {
@@ -18514,6 +18563,13 @@
       "dimension": "Nabenbreite",
       "vorgabe": "148x12",
       "optionen": [
+       {
+        "wert": "142x12",
+        "name": "142 × 12 mm",
+        "setzt": {
+         "ha": "142x12"
+        }
+       },
        {
         "wert": "148x12",
         "name": "148 × 12 mm",

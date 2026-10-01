@@ -456,9 +456,9 @@ feste Aufbauten durch: welcher Befund rot, gelb oder nur Hinweis sein muss —
 und welcher nicht kommen darf. Kippt eine Änderung an Katalog oder Regeln ein
 bekanntes Ergebnis, schlägt der Test an (Rückgabewert 1).
 
-- `tools/kompat-faelle.mjs`: 118 Regelfälle je Norm — SRAM UDH / Transmission
+- `tools/kompat-faelle.mjs`: 124 Regelfälle je Norm — SRAM UDH / Transmission
   je Rahmen und Baujahr, T-Type, Achsen 135/142/148/150/157 inkl. Umbaukit,
-  Vorderachse 15/20, Freiläufe HG / Micro Spline / XD, Innenlager BSA 68/73/83,
+  Vorderachse Boost/Non-Boost und 15/20 (Endkappen), Freiläufe HG / Micro Spline / XD, Innenlager BSA 68/73/83,
   PF92, PF107, PF30, BB30, T47, Spanish, DUB / DUB Wide, 24 / 30 mm, ISIS,
   PowerSpline, 83-mm-DH-Kurbeln, Kettenlinie 52 / 55 / 56,5, Bremsaufnahmen
   (PM nativ + Adapter-Rechnung, Flat Mount, IS), Steuersatz nach SHIS

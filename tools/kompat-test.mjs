@@ -61,6 +61,7 @@ const ergebnisse = await seite.evaluate(faelle => {
         alt.push([t, Object.fromEntries(Object.keys(werte).map(k => [k, t[k]]))]);
         Object.assign(t, werte);
       }
+      if(alt.length) VARIANTEN.clear();          /* Ausfuehrungen neu aus dem geaenderten Teil bilden */
       /* startrad: das Rad, mit dem die App startet -- es muss immer gruen sein */
       const b = f.startrad ? {...START} : leerBau();
       for(const s in f.teile || {}) b[s] = teilId(s, f.teile[s]);
@@ -85,6 +86,7 @@ const ergebnisse = await seite.evaluate(faelle => {
         for(const t of rot) probleme.push(`ROT „${t}“`);
       }
       for(const [t, w] of alt) Object.assign(t, w);
+      if(alt.length) VARIANTEN.clear();
       out.push({name:f.name, ok:!probleme.length, probleme, rot, gelb});
     }catch(e){ out.push({name:f.name, ok:false, probleme:['Ausnahme: ' + e.message], rot:[], gelb:[]}); }
   }

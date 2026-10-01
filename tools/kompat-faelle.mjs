@@ -15,7 +15,7 @@
  */
 const UNV = "Aufbau unvollständig";
 const UDH = "Transmission braucht ein UDH-Ausfallende";
-const HA = "Hinterachse passt nicht", HA_KIT = "Hinterachse nur mit Umbaukit", VA = "Vorderachse passt nicht";
+const HA = "Hinterachse passt nicht", HA_KIT = "Hinterachse nur mit Umbaukit", VA = "Vorderachse passt nicht", VA_EK = "Vorderachse nur mit anderen Endkappen";
 const FL = "Freilaufkörper passt nicht zur Kassette";
 const IL_GEH = "Innenlager passt nicht ins Tretlagergehäuse", IL_WELLE = "Kurbelwelle passt nicht ins Innenlager";
 const KL = "Kettenlinie stimmt nicht";
@@ -59,7 +59,13 @@ export const FAELLE = [
   {name:"Achse: Canyon Sender 2025 (148) + 157-DH-Laufrad ist rot", jahr:2025, sel:["dh"], teile:{rahmen:"f-sender", laufraeder:"w-dtfr29"}, rot:[HA]},
   {name:"Achse: Dirt 135x10 + 142x12 Laufrad ist rot", sel:["dirt"], teile:{rahmen:"f-absolut", laufraeder:"w-dirt26"}, rot:[HA]},
   {name:"Achse: Dirt 135x10 + 135x10 Laufrad passt", sel:["dirt"], teile:{rahmen:"f-absolut", laufraeder:"w-dirt26qr"}, nicht:[HA]},
-  {name:"Vorderachse: Fox 38 (15 mm) + DH-Laufrad 20 mm ist rot", teile:{gabel:"g-fox38", laufraeder:"w-dtfr29"}, rot:[VA]},
+  {name:"Vorderachse: Fox 38 (15 mm) + DT FR 1950 in 20 mm ist gelb (Endkappen)", teile:{gabel:"g-fox38", laufraeder:["w-dtfr29", {Vorderachse:"110x20"}]}, gelb:[VA_EK], nicht:[VA]},
+  {name:"Vorderachse: Fox 38 (15 mm) + e*thirteen LG1 (nur 20 mm) ist rot", teile:{gabel:"g-fox38", laufraeder:"w-e13lg1"}, rot:[VA]},
+  {name:"Vorderachse: Non-Boost-Gabel 15×100 + Boost-Laufrad 15×110 ist rot", patch:{gabel:["g-pike", {va:"100x15"}]}, teile:{gabel:"g-pike", laufraeder:["w-hope", {Vorderachse:"110x15"}]}, rot:[VA], nicht:[VA_EK]},
+  {name:"Vorderachse: Non-Boost-Gabel 15×100 + Hope Pro 5 in 15×100 passt", patch:{gabel:["g-pike", {va:"100x15"}]}, teile:{gabel:"g-pike", laufraeder:["w-hope", {Vorderachse:"100x15"}]}, nicht:[VA, VA_EK]},
+  {name:"Achse: Non-Boost-Rahmen 142×12 + Hope Pro 5 in 142 passt", patch:{rahmen:["f-fuelex", {ha:"142x12"}]}, teile:{rahmen:"f-fuelex", laufraeder:["w-hope", {Nabenbreite:"142x12"}]}, nicht:[HA, HA_KIT]},
+  {name:"Achse: Non-Boost-Rahmen 142×12 + Boost-Laufrad 148 ist rot", patch:{rahmen:["f-fuelex", {ha:"142x12"}]}, teile:{rahmen:"f-fuelex", laufraeder:["w-hope", {Nabenbreite:"148x12"}]}, rot:[HA]},
+  {name:"Kettenlinie: 142 (Soll 49) + Boost-Kurbel 52 ist gelb", patch:{rahmen:["f-fuelex", {ha:"142x12"}]}, teile:{rahmen:"f-fuelex", kurbel:"k-xt"}, gelb:[KL]},
   {name:"Vorderachse: Fox 40 (20 mm) + DH-Laufrad 20 mm passt", sel:["dh"], teile:{gabel:"g-fox40", laufraeder:"w-dtfr29"}, nicht:[VA]},
 
   /* ── Freilauf: HG / Micro Spline / XD ── */

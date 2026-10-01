@@ -52,7 +52,7 @@ Scheibe.
 | `ohne` | Slots, die am Rahmen entfallen | z. B. `["daempfer"]`, `["innenlager"]` |
 
 ### Gabel
-`travel` (+ Ausführung Federweg), `schaft`, `va` (`110x15`, `110x20`, `100x20`),
+`travel` (+ Ausführung Federweg), `schaft`, `va` (`110x15`, `110x20`, `100x15`, `100x20`),
 `lr` (freigegebene Laufradgrößen), `maxReifen`, `maxScheibeVR`, `pmV` (native
 Post-Mount-Aufnahme, nur wo belegt), `offset`.
 
@@ -106,7 +106,8 @@ für Post-Mount-Sättel immer einen Adapter (gelb).
 Flattop-Kette Pflicht, Kettenlinie 55 mm.
 
 **Achsen:** 148 ≠ 157 ≠ 150 ≠ 142/135 – rot; Hersteller-Umbaukit → gelb.
-Vorderachse 15 ≠ 20 mm – rot.
+Vorderachse: Boost 110 ≠ Non-Boost 100 – rot; 15 ↔ 20 mm bei gleicher Breite
+per Endkappen → gelb, wenn es die Nabe in der anderen Achse gibt.
 
 **Freilauf:** HG, Micro Spline und XD sind nicht tauschbar (rot); wo der
 Laufradsatz den passenden Freilauf als Ausführung hat, nennt der Befund das.
@@ -150,7 +151,8 @@ eine Doppelbrückengabel · Stützendurchmesser passt nicht · Stütze lässt si
 nicht weit genug versenken
 
 gelb mit Adapter: Bremsscheibe … nur mit Adapter · Flat-Mount-Aufnahme … ·
-IS-Aufnahme … · Gerader Gabelschaft nur mit Reduzier-Unterteil
+IS-Aufnahme … · Gerader Gabelschaft nur mit Reduzier-Unterteil · Vorderachse
+nur mit anderen Endkappen
 
 gelb: Hinterachse nur mit Umbaukit · Weiter Spagat zwischen den Disziplinen ·
 Modelljahr älter als diese Generation · Einfachbrückengabel im DH-Rahmen ·
