@@ -361,7 +361,7 @@ Actions -> Veroeffentlichen -> *Run workflow*, geht auch am Handy.
 
 ## Betreiber-Modus
 
-App einmal mit `#betreiber` am Ende der Adresse öffnen und den PIN eingeben. Dann stehen unter ⋮
+Unter ⋮ → App & Profil in der Kachel „Betreiber-PIN“ den PIN eintragen (oder die App mit `#betreiber` öffnen). Dann stehen unter ⋮
 die Prüfliste bis zur Veröffentlichung, die Impressum-Angaben, Affiliate-Links,
 Netzwerk-IDs und Feeds. Normale Nutzer sehen davon nichts.
 
