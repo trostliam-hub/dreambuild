@@ -4969,13 +4969,13 @@ async function btPruefen(pin){
 }
 let btFehlversuche = 0, btSperreBis = 0, btMeldung = "", btLaeuft = false;
 function oeffneBetreiberPin(){
-  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">CrankScore</span>Betreiber-Modus</h3>${zuBtn}</div>
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">CrankScore</span>${tx("Betreiber-Modus", "Operator mode")}</h3>${zuBtn}</div>
     <div class="sheet-b">
-      <p class="hint" style="margin:0 0 10px">Gib deinen PIN ein. Das Gerät merkt sich das — danach geht <code>#betreiber</code> ohne PIN, bis du es unter ⋮ abmeldest.</p>
+      <p class="hint" style="margin:0 0 10px">${tx("Gib deinen PIN ein. Das Gerät merkt sich das — danach geht <code>#betreiber</code> ohne PIN, bis du es unter ⋮ abmeldest.", "Enter your PIN. This device remembers it — after that <code>#betreiber</code> works without a PIN until you sign out under ⋮.")}</p>
       <form id="bt-form" autocomplete="off">
         <div class="fld"><label for="bt-pin">PIN</label>
           <input id="bt-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="••••••"></div>
-        <button class="btn wide" type="submit"${btLaeuft ? " disabled" : ""}>${btLaeuft ? "Prüfe …" : "Entsperren"}</button>
+        <button class="btn wide" type="submit"${btLaeuft ? " disabled" : ""}>${btLaeuft ? tx("Prüfe …", "Checking …") : tx("Entsperren", "Unlock")}</button>
       </form>
       ${btMeldung ? `<p class="pro-hin">${btMeldung}</p>` : ""}
     </div>`);
@@ -5021,7 +5021,7 @@ function betreiberLink(imStart){
   try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
   if(btFrei()){
     linkVerwaltung = true; sichern(); if(!imStart) zeichne();
-    setTimeout(() => zeigeToast("Betreiber-Modus an — unter ⋮ stehen Impressum, Links und Netzwerk."), 400);
+    setTimeout(() => zeigeToast(tx("Betreiber-Modus an — unter ⋮ stehen Impressum, Links und Netzwerk.", "Operator mode on — legal details, links and network are under ⋮.")), 400);
   } else setTimeout(oeffneBetreiberPin, 300);
   return true;
 }
@@ -12106,7 +12106,7 @@ document.addEventListener("click", e => {
   if(T("[data-btabmelden]")){
     try{ localStorage.removeItem("mtb.betreiberok"); }catch(e){}
     linkVerwaltung = false; sichern(); zeichne(); oeffneMenu();
-    zeigeToast("Abgemeldet — #betreiber fragt auf diesem Gerät wieder nach dem PIN."); return;
+    zeigeToast(tx("Abgemeldet — #betreiber fragt auf diesem Gerät wieder nach dem PIN.", "Signed out — #betreiber asks for the PIN again on this device.")); return;
   }
   const rc = T("[data-recht]");
   if(rc){ oeffneRecht(rc.dataset.recht); return; }
