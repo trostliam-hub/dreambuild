@@ -4984,6 +4984,7 @@ function oeffneBetreiberPin(){
 /* ausMenu: die PIN-Kachel unter ⋮ -- Fehler und Erfolg bleiben im Menue */
 async function btEntsperren(pin, ausMenu){
   const neu = ausMenu ? oeffneMenu : oeffneBetreiberPin;
+  if(!String(pin || "").trim()){ btMeldung = tx("Bitte den PIN eingeben.", "Please enter the PIN."); neu(); return; }
   if(Date.now() < btSperreBis){ btMeldung = tx(`Zu viele Versuche — warte ${Math.ceil((btSperreBis - Date.now()) / 1000)} Sekunden.`, `Too many attempts — wait ${Math.ceil((btSperreBis - Date.now()) / 1000)} seconds.`); neu(); return; }
   btLaeuft = true; btMeldung = ""; neu();
   const ok = await btPruefen(String(pin || "").trim());
@@ -5311,7 +5312,8 @@ const proGeraet = () => "CrankScore · " + ((/iPhone|iPad|Android|Macintosh|Wind
 async function proFreischalten(code){
   code = String(code || "").trim();
   proMeldung = "";
-  if(!/^[A-Za-z0-9-]{16,64}$/.test(code)) proMeldung = tx("Das sieht nicht wie ein Code aus. Er steht in der Mail von Lemon Squeezy, etwa 38A1B2C3-….", "That doesn't look like a code. It's in the email from Lemon Squeezy, something like 38A1B2C3-….");
+  if(!code) proMeldung = tx("Bitte gib den Code aus deiner Kauf-Mail ein.", "Please enter the code from your purchase email.");
+  else if(!/^[A-Za-z0-9-]{16,64}$/.test(code)) proMeldung = tx("Das sieht nicht wie ein Code aus. Er steht in der Mail von Lemon Squeezy, etwa 38A1B2C3-….", "That doesn't look like a code. It's in the email from Lemon Squeezy, something like 38A1B2C3-….");
   else if(!proStore()) proMeldung = tx("Pro ist noch nicht eingerichtet — der Verkauf startet bald.", "Pro isn't set up yet — sales start soon.");
   if(proMeldung){ oeffnePro(); return; }
   proLaeuft = true; oeffnePro();
@@ -9513,6 +9515,14 @@ const fSichern = () => { try{ localStorage.setItem("mtb.fprofil", JSON.stringify
 const fFertig = () => plan.fahrer > 0 && FFRAGEN.every(f => fprofil[f.k]);
 const fLv = k => { const f = FFRAGEN.find(x => x.k === k), o = f && f.o.find(x => x[0] === fprofil[k]); return o ? o[3] : 0; };
 const fKlemm = (v, a, b) => Math.max(a, Math.min(b, v));
+/* Hinweis direkt unter einem Eingabefeld; null nimmt ihn weg */
+function feldHinweis(el, text){
+  if(!el || !el.parentElement) return;
+  el.setAttribute("aria-invalid", text ? "true" : "false");
+  let hin = el.parentElement.querySelector(".fld-fehler");
+  if(text && !hin){ hin = document.createElement("span"); hin.className = "fld-fehler"; hin.setAttribute("role", "alert"); el.insertAdjacentElement("afterend", hin); }
+  if(hin){ hin.hidden = !text; if(text) hin.textContent = text; }
+}
 /* Ausruestung einzeln statt pauschal 4 kg (Liams Brief 2026-09-30: "inkl.
    kompletter Fahrtmontur"). Schuhe und Kleidung sind immer dabei; ohne
    Angabe bleibt es bei 4 kg wie bisher. Eigener Wert geht vor. */
@@ -12413,11 +12423,8 @@ document.addEventListener("input", e => {
     const GR = {fahrer:[30, 180], budget:[0, 100000]}, gr = GR[k];
     const raus = !isNaN(v) && gr && (v < gr[0] || v > gr[1]);
     plan[k] = isNaN(v) || v < 0 || raus ? 0 : v;
-    pl.setAttribute("aria-invalid", raus ? "true" : "false");
-    let hin = pl.parentElement.querySelector(".fld-fehler");
-    if(raus && !hin){ hin = document.createElement("span"); hin.className = "fld-fehler"; pl.insertAdjacentElement("afterend", hin); }
-    if(hin){ hin.hidden = !raus; if(raus) hin.textContent = k === "fahrer" ? tx(`Bitte ein Gewicht zwischen ${gr[0]} und ${gr[1]} kg eingeben.`, `Please enter a weight between ${gr[0]} and ${gr[1]} kg.`)
-      : tx(`Bitte höchstens ${gr[1].toLocaleString("de-DE")} € eingeben.`, `Please enter at most €${gr[1].toLocaleString("en")}.`); }
+    feldHinweis(pl, !raus ? null : k === "fahrer" ? tx(`Bitte ein Gewicht zwischen ${gr[0]} und ${gr[1]} kg eingeben.`, `Please enter a weight between ${gr[0]} and ${gr[1]} kg.`)
+      : tx(`Bitte höchstens ${gr[1].toLocaleString("de-DE")} € eingeben.`, `Please enter at most €${gr[1].toLocaleString("en")}.`));
     sichern(); zeichne();
     const btn = $("modal").querySelector(".sheet-f .btn.wide");
     if(btn && wizOffen()) btn.disabled = !(plan[pl.dataset.plan] > 0);
@@ -12428,13 +12435,16 @@ document.addEventListener("input", e => {
   if(e.target && e.target.dataset && e.target.dataset.fradkg){
     const v = parseFloat(String(e.target.value).replace(",", "."));
     build.radKg = v >= 8 && v <= 35 ? v : null; sichern();
+    feldHinweis(e.target, e.target.value && build.radKg == null ? tx("Ein Rad wiegt hier zwischen 8 und 35 kg — sonst rechnet die App mit dem Richtwert.", "A bike weighs between 8 and 35 kg here — otherwise the app uses the typical value.") : null);
   }
   if(e.target && e.target.dataset && e.target.dataset.fcm){
     const v = parseInt(e.target.value, 10);
     fprofil.cm = v >= 130 && v <= 215 ? v : null; fSichern();
+    feldHinweis(e.target, e.target.value && fprofil.cm == null ? tx("Bitte eine Größe zwischen 130 und 215 cm eingeben.", "Please enter a height between 130 and 215 cm.") : null);
   }
   if(e.target && e.target.dataset && e.target.dataset.fmkg){
     const v = parseFloat(String(e.target.value).replace(",", "."));
+    feldHinweis(e.target, e.target.value && !(v > 0 && v <= 25) ? tx("Bitte zwischen 0,5 und 25 kg — sonst zählen die gewählten Teile.", "Please between 0.5 and 25 kg — otherwise the selected items count.") : null);
     const m = fprofil.montur || {teile:["halbschale", "huefte"]};
     fprofil.montur = {teile:m.teile || [], eigen:v > 0 && v <= 25 ? v : null}; fSichern();
     const su = $("ff-summe"); if(su) su.textContent = tx(`Ausrüstung ${zahlTxt(monturKg())} kg · gerechnet mit ${zahlTxt(systemKg())} kg`, `Gear ${monturKg()} kg · calculating with ${systemKg()} kg`);
