@@ -525,12 +525,21 @@ Fokus-Ring um den Schließen-Knopf (jetzt nur bei Tastatur-Bedienung).
 
 Seit 02.10.2026 verhält sich die App auf iOS und Android wie eine native App:
 
-- **Kein Zoom:** Das viewport-Tag sperrt Pinch-Zoom (`user-scalable=no`,
-  `maximum-scale=1`). iOS Safari ignoriert das seit iOS 10, dort blockiert
-  `gesturestart`/`gesturechange` die Zwei-Finger-Geste. `touch-action:
-  manipulation` auf Seite und Listen verhindert den Doppeltipp-Zoom.
-  `overscroll-behavior-y: none` verhindert das Gummiband und
-  Ziehen-zum-Neuladen.
+- **Kein Zoom:**
+  - Das viewport-Tag sperrt Pinch-Zoom (`user-scalable=no`, `maximum-scale=1`).
+  - iOS Safari ignoriert das seit iOS 10, dort blockiert
+    `gesturestart`/`gesturechange` die Zwei-Finger-Geste.
+  - Auf Android übergehen Samsung Internet, Firefox („Zoom auf allen
+    Websites“) und Chrome mit „Zoom erzwingen“ das Tag. Dort sperrt
+    `touch-action: pan-x pan-y` auf jedem Element Pinch und Doppeltipp, und
+    ein Skript fängt jede Zwei-Finger-Bewegung ab. Nicht `manipulation`: das
+    erlaubt Pinch-Zoom ausdrücklich.
+  - Getestet, indem der Test das viewport-Tag zur Laufzeit zoombar macht: Seite,
+    Schublade, Guide und waagerechte Leisten bleiben bei Pinch und Doppeltipp
+    auf Zoom 1. Jede der beiden Sperren hält auch allein (das Skript allein
+    nicht auf waagerechten Leisten).
+  - `overscroll-behavior-y: none` verhindert das Gummiband und
+    Ziehen-zum-Neuladen.
 - **Keine Textauswahl, kein Kopier-Menü:**
   - `user-select: none` und `-webkit-touch-callout: none` gelten für alles.
     Ausnahmen sind Eingabefelder und die Klasse `.waehlbar` (Impressum,
