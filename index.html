@@ -384,7 +384,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .pro-code label{font-size:13.5px;font-weight:650;color:var(--ink-2)}
 .pro-code > div{display:flex;gap:8px}
 .pro-code input{flex:1;min-width:0;height:46px;padding:0 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface-2);
-  color:var(--ink);font-family:var(--f-mono);font-size:15px}
+  color:var(--ink);font-family:var(--f-mono);font-size:16px}     /* unter 16 px zoomt iOS beim Antippen */
 .pro-code input:focus{outline:none;border-color:var(--anod);box-shadow:0 0 0 3px var(--anod-soft)}
 .pro-code .btn{min-height:46px}
 .pro-hin{font-size:13px;color:var(--bad);line-height:1.45;margin:4px 2px 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
@@ -663,9 +663,10 @@ a.btn{text-decoration:none}
 .empty-note{font-size:13px;color:var(--ink-3);line-height:1.5;padding:4px 0;margin:0}
 
 /* ── Tableiste: schwebt, Glas, Icons ueber der Beschriftung ── */
-/* Abstand der Leiste zum unteren Rand: auf dem iPhone knapp ueber dem Home-Balken
-   (Schutzzone minus 14 px), ohne Schutzzone 10 px. */
-:root{--tabs-unten:max(10px, calc(env(safe-area-inset-bottom,0px) - 14px))}
+/* Abstand der Leiste zum unteren Rand: auf dem iPhone ganz ueber der Schutzzone
+   des Home-Balkens -- vorher ragte sie 14 px hinein, und ein Wisch nach oben
+   am unteren Rand traf statt des Balkens den Reiter. Ohne Schutzzone 10 px. */
+:root{--tabs-unten:max(10px, env(safe-area-inset-bottom,0px))}
 .tabs{position:fixed;left:12px;right:12px;bottom:var(--tabs-unten);z-index:45;
   max-width:520px;margin:0 auto;height:var(--tabs-h);padding:6px;border-radius:999px;
   background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);
@@ -1819,6 +1820,43 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 :root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 img{max-width:100%}
 [hidden]{display:none!important}
+
+/* ── Natives App-Gefuehl auf iOS und Android (Liam 2026-10-02) ──
+   Kein Doppeltipp-Zoom, kein Gummiband und kein Ziehen-zum-Neuladen am
+   Seitenende. Langes Druecken markiert keinen Text und oeffnet kein
+   Kopier-, Link- oder Bild-Menue -- ausser in Eingabefeldern und in Texten,
+   die man wirklich kopieren will (Klasse .waehlbar: Impressum, Datenschutz,
+   Kopierfeld). Pinch-Zoom sperren viewport-Tag und gesturestart (Skript). */
+html,body{touch-action:manipulation;overscroll-behavior-y:none}
+/* touch-action wirkt nur bis zum naechsten Scrollbehaelter -- darin noch einmal */
+.sheet-b,.ei-b,.ls-b,.g-liste{touch-action:manipulation}
+*{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+input,textarea,[contenteditable="true"],.waehlbar,.waehlbar *{-webkit-touch-callout:default;-webkit-user-select:text;-khtml-user-select:text;
+  -moz-user-select:text;-ms-user-select:text;user-select:text}
+img,svg,a{-webkit-user-drag:none}
+/* Volle Hoehe: dvh folgt der ein- und ausfahrenden Adressleiste, vh als Rueckfall */
+body{min-height:100vh;min-height:100dvh}
+
+/* ── Safe Areas im Querformat: Notch und Dynamic Island sitzen dann seitlich.
+   Kopfzeile, Inhalt, Leisten und Schubladen ruecken um die Aussparung ein;
+   Hintergruende laufen bis zum Rand durch. Ohne Aussparung ist env() 0. ── */
+:root{--sa-l:env(safe-area-inset-left,0px);--sa-r:env(safe-area-inset-right,0px)}
+.top{padding-left:var(--sa-l);padding-right:var(--sa-r)}
+.wrap,.modus,.profile,.bar{padding-left:max(16px, var(--sa-l));padding-right:max(16px, var(--sa-r))}
+.tabs,.upd-pop,.toast{left:max(12px, var(--sa-l));right:max(12px, var(--sa-r))}
+.scrim,.ei,.ls-b{padding-left:var(--sa-l);padding-right:var(--sa-r)}
+.ls-nav{padding-left:max(18px, var(--sa-l));padding-right:max(18px, var(--sa-r))}
+
+/* ── Tippflaechen: mindestens gut 30 px hoch, ohne das Schriftbild zu
+   veraendern (Polster plus gleich grosser Gegenrand). ── */
+.wie{padding:9px 12px;margin:-5px 0}
+.linkbtn{padding:7px 2px;margin:-7px -2px;border-radius:6px}
+.ek-n{padding:6px 0;margin:-6px 0}
+/* Rueckmeldung beim Antippen auch fuer Links und Karten, die keine Knoepfe sind */
+a:active,label:active,[role="button"]:active{opacity:.6}
+.linkbtn:active,.wie:active,.ek-n:active{opacity:.6;transform:none}
+.kopier-feld{width:100%;min-height:220px;resize:vertical;padding:12px;border-radius:var(--r-s);border:1px solid var(--line);
+  background:var(--surface-2);color:var(--ink);font:14px/1.5 var(--f-mono)}
 </style>
 </head>
 <body>
@@ -3642,7 +3680,7 @@ function oeffneRecht(art){
   const imp = art === "impressum";
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${tx("Rechtliches", "Legal")}</span>${imp ? tx("Impressum", "Legal notice") : tx("Datenschutz", "Privacy")}</h3>${zuBtn}</div>
-    <div class="sheet-b recht">
+    <div class="sheet-b recht waehlbar">
       ${sprache === "en" ? `<p class="hint" lang="en"><b>Note:</b> ${imp ? "The legal notice (Impressum)" : "The privacy policy"} is published in German, as German law requires;
         the German text below is binding. ${imp ? "CrankScore is funded by the Pro version and by commissions: shop links marked “Ad” are affiliate links — your price doesn't change."
         : "In short: CrankScore has no account, no login, no analytics or tracking tools and sets no cookies. What you enter stays on your device. Only if you buy and unlock Pro does the app check your licence code with Lemon Squeezy. Product images are loaded directly from the shop's server; affiliate links lead to the shop via a partner network."}</p>` : ""}
@@ -6135,10 +6173,10 @@ function oeffneEigen(slotKey){
         ein Teil, das genauso gebaut ist — gleiche Achse, gleiche Klemmung, gleiches Einbaumaß. Mit diesen Maßen prüft
         die App dein Teil.`, `For anything that isn't in the catalogue. Under <b>Same specs as</b> pick a part that's built
         the same way — same axle, same clamp, same shock size. The app checks your part with those specs.`)}</p>
-      <div class="fld"><label for="eg-n">Name</label><input id="eg-n" type="text" autocomplete="off" placeholder="${tx("z. B.", "e.g.")} Intend Edge 170"></div>
-      <div class="fld"><label for="eg-m">${tx("Marke", "Brand")}</label><input id="eg-m" type="text" autocomplete="off" placeholder="${tx("z. B.", "e.g.")} Intend"></div>
-      <div class="fld"><label for="eg-p">${tx("Preis in €", "Price in €")}</label><input id="eg-p" type="number" inputmode="numeric" min="0" placeholder="0"></div>
-      <div class="fld"><label for="eg-g">${tx("Gewicht in g", "Weight in g")}</label><input id="eg-g" type="number" inputmode="numeric" min="0" placeholder="0"></div>
+      <div class="fld"><label for="eg-n">Name</label><input id="eg-n" type="text" autocomplete="off" maxlength="60" placeholder="${tx("z. B.", "e.g.")} Intend Edge 170"></div>
+      <div class="fld"><label for="eg-m">${tx("Marke", "Brand")}</label><input id="eg-m" type="text" autocomplete="off" maxlength="40" placeholder="${tx("z. B.", "e.g.")} Intend"></div>
+      <div class="fld"><label for="eg-p">${tx("Preis in €", "Price in €")}</label><input id="eg-p" type="number" inputmode="numeric" min="0" max="50000" placeholder="0"></div>
+      <div class="fld"><label for="eg-g">${tx("Gewicht in g", "Weight in g")}</label><input id="eg-g" type="number" inputmode="numeric" min="0" max="30000" placeholder="0"></div>
       <div class="fld"><label for="eg-v">${tx("Maße wie", "Same specs as")}</label><select id="eg-v">${liste.map(t =>
         `<option value="${esc(t.id)}"${cur && t === cur ? " selected" : ""}>${esc(t.n)}</option>`).join("")}</select></div>
       <p class="hint" id="eg-fehler" hidden style="color:var(--bad);margin:-6px 0 12px">${tx("Bitte einen Namen eintragen.", "Please enter a name.")}</p>
@@ -6147,8 +6185,16 @@ function oeffneEigen(slotKey){
 }
 function eigenSpeichern(slotKey){
   const q = quelleOf(slotOf(slotKey));
-  const name = ($("eg-n").value || "").trim();
+  const name = ($("eg-n").value || "").replace(/\s+/g, " ").trim().slice(0, 60);
   if(!name){ $("eg-fehler").hidden = false; $("eg-n").focus(); return; }
+  $("eg-fehler").hidden = true;
+  /* Preis und Gewicht: vorher wurden -50 € still zu 0 und 10 Mio. € einfach uebernommen */
+  const pz = feldZahl($("eg-p")), gz = feldZahl($("eg-g"));
+  const pMist = pz.kaputt || $("eg-p").validity.badInput, gMist = gz.kaputt || $("eg-g").validity.badInput;
+  const pFehl = pMist || pz.v < 0 || pz.v > 50000, gFehl = gMist || gz.v < 0 || gz.v > 30000;
+  feldHinweis($("eg-p"), pMist ? NUR_ZIFFERN() : pFehl ? tx("Bitte einen Preis zwischen 0 und 50.000 € eingeben.", "Please enter a price between €0 and €50,000.") : null);
+  feldHinweis($("eg-g"), gMist ? NUR_ZIFFERN() : gFehl ? tx("Bitte ein Gewicht zwischen 0 und 30.000 g eingeben.", "Please enter a weight between 0 and 30,000 g.") : null);
+  if(pFehl || gFehl){ (pFehl ? $("eg-p") : $("eg-g")).focus(); return; }
   const vorlage = findeTeil(slotKey, $("eg-v").value);
   if(!vorlage) return;
   const t = {};
@@ -6156,9 +6202,9 @@ function eigenSpeichern(slotKey){
     if(["id","n","m","p","g","v","wahl","basisId","seit","eigen"].indexOf(f) < 0) t[f] = vorlage[f];
   t.id = "x-" + Date.now().toString(36);
   t.n = name;
-  t.m = ($("eg-m").value || "").trim() || tx("Eigenes Teil", "Own part");
-  t.p = Math.max(0, Math.round(parseFloat($("eg-p").value) || 0));
-  t.g = Math.max(0, Math.round(parseFloat($("eg-g").value) || 0));
+  t.m = ($("eg-m").value || "").replace(/\s+/g, " ").trim().slice(0, 40) || tx("Eigenes Teil", "Own part");
+  t.p = Math.round(pz.v) || 0;
+  t.g = Math.round(gz.v) || 0;
   t.eigen = true;
   /* Masse bleiben waehlbar wie bei der Vorlage -- Federweg, Einbaumass,
      Freilauf, Hub. Kartusche und Ausfuehrung nicht: die gehoeren zur Vorlage,
@@ -8380,6 +8426,15 @@ function tourEnde(){
   try{ localStorage.setItem("mtb.tour", "1"); }catch(e){}
   window.scrollTo({top:0, behavior:bewegungAus() ? "auto" : "smooth"});
 }
+/* Safe Areas in Pixeln (Notch, Home-Balken, Aussparung im Querformat) --
+   fuer alles, was per Skript platziert wird. Ohne Aussparung alles 0. */
+function sicherRand(){
+  const p = document.createElement("div");
+  p.style.cssText = "position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)";
+  document.body.appendChild(p);
+  const c = getComputedStyle(p), r = {t:parseFloat(c.paddingTop) || 0, r:parseFloat(c.paddingRight) || 0, b:parseFloat(c.paddingBottom) || 0, l:parseFloat(c.paddingLeft) || 0};
+  p.remove(); return r;
+}
 /* Scheinwerfer und Karte an die Station setzen; scrollt erst, wenn das Ziel
    nicht ganz im Bild ist (oben die Kopfzeile, unten die Reiter) */
 function tourZeigen(){
@@ -8399,20 +8454,22 @@ function tourZeigen(){
       ${tour.i > 0 && !letzte ? `<button class="btn ghost sm" data-tour="zurueck" aria-label="${tx("Zurück", "Back")}">${ic(IC.zurueck, 16)}</button>` : ""}
       <button class="btn sm${letzte ? " glanz" : ""}" data-tour="weiter">${letzte ? tx("Los geht's", "Let's go") : tour.i === 0 ? tx("Zeig mir alles", "Show me") : tx("Weiter", "Next")}</button></div>`;
   const setzen = () => {
-    const vw = window.innerWidth, vh = window.innerHeight, kw = Math.min(360, vw - 32);
+    /* Karte bleibt aus Notch, Home-Balken und seitlicher Aussparung heraus */
+    const sr = sicherRand(), li = 16 + sr.l, re = 16 + sr.r, ob = 12 + sr.t, un = 12 + sr.b;
+    const vw = window.innerWidth, vh = window.innerHeight, kw = Math.min(360, vw - li - re);
     karte.style.width = kw + "px";
     if(s.mitte){
       licht.classList.add("leer"); ring.classList.add("leer");
-      karte.style.left = Math.round((vw - kw) / 2) + "px";
-      karte.style.top = Math.max(16, Math.round((vh - karte.offsetHeight) / 2)) + "px";
+      karte.style.left = Math.round(li + (vw - li - re - kw) / 2) + "px";
+      karte.style.top = Math.max(ob + 4, Math.round((vh - karte.offsetHeight) / 2)) + "px";
     } else {
       const e = tourZiel(s); if(!e){ tourSchritt(1); return; }
       const box = tourBox(e);
       [licht, ring].forEach(x => { x.classList.remove("leer"); Object.assign(x.style, box.stil); });
       const kh = karte.offsetHeight, unten = box.t + box.h + 14, oben = box.t - kh - 14;
-      const top = Math.max(12, Math.min(vh - kh - 12, unten + kh <= vh - 12 ? unten : oben >= 12 ? oben : vh - kh - 12));
+      const top = Math.max(ob, Math.min(vh - kh - un, unten + kh <= vh - un ? unten : oben >= ob ? oben : vh - kh - un));
       karte.style.top = Math.round(top) + "px";
-      karte.style.left = Math.round(Math.max(16, Math.min(vw - kw - 16, box.l + box.w / 2 - kw / 2))) + "px";
+      karte.style.left = Math.round(Math.max(li, Math.min(vw - kw - re, box.l + box.w / 2 - kw / 2))) + "px";
     }
     requestAnimationFrame(() => karte.classList.add("rein"));
     const w = karte.querySelector('[data-tour="weiter"]'); if(w){ try{ w.focus({preventScroll:true}); }catch(err){} }
@@ -10080,6 +10137,18 @@ const fSichern = () => { try{ localStorage.setItem("mtb.fprofil", JSON.stringify
 const fFertig = () => plan.fahrer > 0 && FFRAGEN.every(f => fprofil[f.k]);
 const fLv = k => { const f = FFRAGEN.find(x => x.k === k), o = f && f.o.find(x => x[0] === fprofil[k]); return o ? o[3] : 0; };
 const fKlemm = (v, a, b) => Math.max(a, Math.min(b, v));
+/* Zahl aus einem Eingabefeld: Ziffern mit Komma oder Punkt, auch negativ
+   (das meldet dann das Feld selbst). "1e5", "+5", Buchstaben und
+   Sonderzeichen gelten als kaputt. Halbfertiges wie "82," meldet der Browser
+   als badInput -- das zaehlt waehrend des Tippens als leer, ohne Hinweis. */
+function feldZahl(el){
+  if(!el || (el.validity && el.validity.badInput)) return {v:NaN, kaputt:false};
+  const s = String(el.value == null ? "" : el.value).trim().replace(",", ".");
+  if(!s) return {v:NaN, kaputt:false};
+  if(!/^-?\d+(\.\d+)?$/.test(s)) return {v:NaN, kaputt:true};
+  return {v:parseFloat(s), kaputt:false};
+}
+const NUR_ZIFFERN = () => tx("Bitte nur Ziffern eingeben.", "Please enter digits only.");
 /* Hinweis direkt unter einem Eingabefeld; null nimmt ihn weg */
 function feldHinweis(el, text){
   if(!el || !el.parentElement) return;
@@ -11068,7 +11137,7 @@ function federFrageHtml(){
     <p class="qs">${tx(`Alles, was mitfedert. Schuhe, Kleidung und Handschuhe rechnet die App mit ${MONTUR_GRUND} kg.`, `Everything the suspension carries. Shoes, clothes and gloves count as ${MONTUR_GRUND} kg.`)}</p>
     <div class="ff-montur">${MONTUR.map(([k, n, w]) => `<button class="qopt ff-chip" data-fmont="${k}" aria-pressed="${(m.teile || []).indexOf(k) >= 0}">${sp2(n)}<small>${zahlTxt(w)} kg</small></button>`).join("")}</div>
     <div class="fld"><label for="f-mkg">${tx("Oder eigener Wert in kg (gewogen)", "Or your own value in kg (weighed)")}</label>
-      <input id="f-mkg" type="number" inputmode="decimal" min="0" max="25" step="0.5" value="${m.eigen || ""}" placeholder="${tx("leer = aus den Teilen", "empty = from the items")}" data-fmkg="1"></div>
+      <input id="f-mkg" type="text" inputmode="decimal" autocomplete="off" maxlength="5" value="${m.eigen ? zahlTxt(m.eigen) : ""}" placeholder="${tx("leer = aus den Teilen", "empty = from the items")}" data-fmkg="1"></div>
     <p class="ff-summe" id="ff-summe">${tx(`Ausrüstung ${zahlTxt(monturKg())} kg · gerechnet mit ${zahlTxt(systemKg())} kg`, `Gear ${monturKg()} kg · calculating with ${systemKg()} kg`)}</p>
     <button class="btn wide" data-ffmontur="1">${fEinzeln ? tx("Fertig", "Done") : tx("Weiter", "Next")}</button>
     ${fEinzeln ? "" : `<button class="btn ghost sm" data-ffzurueck="1" style="margin-top:12px">${tx("Zurück", "Back")}</button>`}`;
@@ -11079,7 +11148,7 @@ function federFrageHtml(){
     <p class="qs">${tx("Motor und Akku wiegen mit — ein E-MTB braucht mehr Luft, mehr Spacer und eine langsamere Zugstufe. Gilt für diesen Aufbau.", "Motor and battery add weight — an e-MTB needs more air, more spacers and slower rebound. Applies to this build.")}</p>
     <div class="ff-opts">${Object.keys(RADTYP).map(k => `<button class="qopt ff-opt" data-frad="${k}" aria-pressed="${k === typ}">${sp2(RADTYP[k].n)}<small>${k === "analog" ? tx("ohne Motor", "no motor") : tx(`Richtwert ${zahlTxt(RADTYP[k].kg)} kg`, `typical ${RADTYP[k].kg} kg`)}</small></button>`).join("")}</div>
     <div class="fld"><label for="f-radkg">${tx("Gewogenes Radgewicht in kg (freiwillig)", "Weighed bike weight in kg (optional)")}</label>
-      <input id="f-radkg" type="number" inputmode="decimal" min="8" max="35" step="0.1" value="${build.radKg || ""}" placeholder="${typ === "analog" ? tx("leer = aus deinem Aufbau", "empty = from your build") : tx(`leer = ${zahlTxt(RADTYP[typ].kg)} kg`, `empty = ${RADTYP[typ].kg} kg`)}" data-fradkg="1"></div>
+      <input id="f-radkg" type="text" inputmode="decimal" autocomplete="off" maxlength="5" value="${build.radKg ? zahlTxt(build.radKg) : ""}" placeholder="${typ === "analog" ? tx("leer = aus deinem Aufbau", "empty = from your build") : tx(`leer = ${zahlTxt(RADTYP[typ].kg)} kg`, `empty = ${RADTYP[typ].kg} kg`)}" data-fradkg="1"></div>
     <button class="btn wide" data-ffrad="1">${fEinzeln ? tx("Fertig", "Done") : tx("Weiter", "Next")}</button>
     ${fEinzeln ? "" : `<button class="btn ghost sm" data-ffzurueck="1" style="margin-top:12px">${tx("Zurück", "Back")}</button>`}`;
   }
@@ -11201,13 +11270,25 @@ function einkaufText(){
 }
 function kopiere(txt){
   const ok = () => zeigeToast(tx("Einkaufsliste kopiert.", "Shopping list copied."));
-  const alt = () => { try{ const ta = document.createElement("textarea"); ta.value = txt; ta.setAttribute("readonly", "");
+  const alt = () => { let g = false; try{ const ta = document.createElement("textarea"); ta.value = txt; ta.setAttribute("readonly", "");
     ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select();
-    const g = document.execCommand("copy"); ta.remove(); if(g) ok(); else zeigeToast(tx("Kopieren ging nicht — bitte markieren und kopieren.", "Copying didn't work — please select and copy.")); }catch(e){} };
+    g = document.execCommand("copy"); ta.remove(); }catch(e){}
+    if(g) ok(); else kopierFeld(txt); };
   try{ if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(ok, alt); return; } }catch(e){}
   alt();
 }
 
+/* Geht Kopieren gar nicht (alter Browser, keine Berechtigung): Text in einem
+   Feld zeigen, das man markieren kann -- sonst ist mit der Auswahlsperre
+   kein Weg mehr an den Text. */
+function kopierFeld(txt){
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${tx("Einkaufsliste", "Shopping list")}</span>${tx("Selbst kopieren", "Copy it yourself")}</h3>${zuBtn}</div>
+    <div class="sheet-b"><p class="hint" style="margin:0 0 4px">${tx("Automatisch kopieren ging hier nicht. Halte den Text gedrückt, tippe auf „Alles auswählen“ und dann auf „Kopieren“.",
+      "Automatic copying didn't work here. Press and hold the text, tap “Select all” and then “Copy”.")}</p>
+    <textarea class="kopier-feld waehlbar" readonly rows="12" aria-label="${tx("Einkaufsliste", "Shopping list")}">${esc(txt)}</textarea></div>`);
+  const f = $("modal").querySelector(".kopier-feld");
+  if(f) try{ f.focus({preventScroll:true}); f.setSelectionRange(0, f.value.length); }catch(e){}
+}
 /* Vorschlaege (Upgrades, Sparen) kosten die meiste Rechenzeit beim Zeichnen:
    jeder Kandidat jedes Slots wird einmal bewertet. Sichtbar sind sie nur im
    Reiter Upgrades oder in der Seitenleiste am breiten Bildschirm -- sonst
@@ -11482,8 +11563,8 @@ function zeichne(){
         <span>${v.l}</span><span class="kst">−${eur(v.kosten)}</span></button>`).join("")}</div>
 
       <span class="mk-lab">${tx("Geforderter Preis", "Asking price")}</span>
-      <input class="mk-preis" id="mk-preis" type="number" inputmode="numeric" min="0" step="10"
-        value="${markt.preis || ""}" placeholder="${tx("z. B. 1800", "e.g. 1800")}" data-marktpreis="1">
+      <div><input class="mk-preis" id="mk-preis" type="number" inputmode="numeric" min="0" max="100000" step="10"
+        value="${markt.preis || ""}" placeholder="${tx("z. B. 1800", "e.g. 1800")}" data-marktpreis="1"></div>
 
       ${m ? `<div style="margin-top:13px">
         <div class="rechnung"><span>${tx("Teile einzeln gekauft", "Parts bought individually")}</span><span class="w">${eur(m.teileEinzeln)}</span></div>
@@ -11872,6 +11953,16 @@ function freigeben(){
   b.position = b.top = b.left = b.right = b.width = "";
   window.scrollTo(0, sperrY);
 }
+/* Natives App-Gefuehl: iOS Safari ignoriert user-scalable=no seit iOS 10 --
+   Pinch-Zoom dort ueber die Gesten-Ereignisse sperren (Android haelt sich an
+   das viewport-Tag). Langes Druecken oeffnet am Handy kein Kontextmenue
+   (Bild sichern, Link teilen); in Eingabefeldern und markierbaren Texten schon. */
+["gesturestart", "gesturechange", "gestureend"].forEach(t => document.addEventListener(t, e => e.preventDefault(), {passive:false}));
+document.addEventListener("contextmenu", e => {
+  try{ if(!window.matchMedia("(pointer:coarse)").matches) return; }catch(err){ return; }
+  if(e.target.closest && e.target.closest('input, textarea, [contenteditable="true"], .waehlbar')) return;
+  e.preventDefault();
+});
 /* Wischen ausserhalb der Liste, oder ueber ihr Ende hinaus, geht nirgendwohin.
    Seitlich wischen in der Jahresleiste bleibt erlaubt. */
 let wischX = 0, wischY = 0;
@@ -12973,8 +13064,10 @@ document.addEventListener("input", e => {
   }
   const mp = e.target.closest("[data-marktpreis]");
   if(mp){
-    const v = parseInt(mp.value, 10);
-    markt.preis = isNaN(v) || v < 0 ? 0 : v;
+    const z = feldZahl(mp), v = Math.round(z.v), raus = !isNaN(v) && (v < 0 || v > 100000);
+    markt.preis = isNaN(v) || raus ? 0 : v;
+    feldHinweis(mp, z.kaputt ? NUR_ZIFFERN() : !raus ? null : v < 0 ? tx("Bitte keinen negativen Preis eingeben.", "Please don't enter a negative price.")
+      : tx("Bitte höchstens 100.000 € eingeben.", "Please enter at most €100,000."));
     sichern();
     /* Nur die Bewertung neu zeichnen waere schoener, aber zeichne() setzt das
        Feld neu und der Fokus ginge verloren. Deshalb gezielt aktualisieren. */
@@ -12989,11 +13082,13 @@ document.addEventListener("input", e => {
   if(pl){
     /* Plausible Grenzen: 99 999 kg Fahrer rechnete sonst Luftdruecke jenseits
        jeder Gabel. Ausserhalb gilt das Feld als leer, und darunter steht warum. */
-    const v = parseInt(pl.value, 10), k = pl.dataset.plan;
+    const z = feldZahl(pl), v = Math.round(z.v), k = pl.dataset.plan;
     const GR = {fahrer:[30, 180], budget:[0, 100000]}, gr = GR[k];
     const raus = !isNaN(v) && gr && (v < gr[0] || v > gr[1]);
     plan[k] = isNaN(v) || v < 0 || raus ? 0 : v;
-    feldHinweis(pl, !raus ? null : k === "fahrer" ? tx(`Bitte ein Gewicht zwischen ${gr[0]} und ${gr[1]} kg eingeben.`, `Please enter a weight between ${gr[0]} and ${gr[1]} kg.`)
+    /* Negatives Budget bekam vorher "Bitte höchstens 100.000 €" */
+    feldHinweis(pl, z.kaputt ? NUR_ZIFFERN() : !raus ? null : k === "fahrer" ? tx(`Bitte ein Gewicht zwischen ${gr[0]} und ${gr[1]} kg eingeben.`, `Please enter a weight between ${gr[0]} and ${gr[1]} kg.`)
+      : v < 0 ? tx("Bitte keinen negativen Betrag eingeben.", "Please don't enter a negative amount.")
       : tx(`Bitte höchstens ${gr[1].toLocaleString("de-DE")} € eingeben.`, `Please enter at most €${gr[1].toLocaleString("en")}.`));
     sichern(); zeichne();
     const btn = $("modal").querySelector(".sheet-f .btn.wide");
@@ -13003,18 +13098,18 @@ document.addEventListener("input", e => {
     if(ffw) ffw.disabled = !(plan.fahrer > 0);
   }
   if(e.target && e.target.dataset && e.target.dataset.fradkg){
-    const v = parseFloat(String(e.target.value).replace(",", "."));
+    const z = feldZahl(e.target), v = z.v;
     build.radKg = v >= 8 && v <= 35 ? v : null; sichern();
-    feldHinweis(e.target, e.target.value && build.radKg == null ? tx("Ein Rad wiegt hier zwischen 8 und 35 kg — sonst rechnet die App mit dem Richtwert.", "A bike weighs between 8 and 35 kg here — otherwise the app uses the typical value.") : null);
+    feldHinweis(e.target, z.kaputt ? NUR_ZIFFERN() : e.target.value.trim() && build.radKg == null ? tx("Ein Rad wiegt hier zwischen 8 und 35 kg — sonst rechnet die App mit dem Richtwert.", "A bike weighs between 8 and 35 kg here — otherwise the app uses the typical value.") : null);
   }
   if(e.target && e.target.dataset && e.target.dataset.fcm){
-    const v = parseInt(e.target.value, 10);
+    const z = feldZahl(e.target), v = Math.round(z.v);
     fprofil.cm = v >= 130 && v <= 215 ? v : null; fSichern();
-    feldHinweis(e.target, e.target.value && fprofil.cm == null ? tx("Bitte eine Größe zwischen 130 und 215 cm eingeben.", "Please enter a height between 130 and 215 cm.") : null);
+    feldHinweis(e.target, z.kaputt ? NUR_ZIFFERN() : e.target.value && fprofil.cm == null ? tx("Bitte eine Größe zwischen 130 und 215 cm eingeben.", "Please enter a height between 130 and 215 cm.") : null);
   }
   if(e.target && e.target.dataset && e.target.dataset.fmkg){
-    const v = parseFloat(String(e.target.value).replace(",", "."));
-    feldHinweis(e.target, e.target.value && !(v > 0 && v <= 25) ? tx("Bitte zwischen 0,5 und 25 kg — sonst zählen die gewählten Teile.", "Please between 0.5 and 25 kg — otherwise the selected items count.") : null);
+    const z = feldZahl(e.target), v = z.v;
+    feldHinweis(e.target, z.kaputt ? NUR_ZIFFERN() : e.target.value.trim() && !(v > 0 && v <= 25) ? tx("Bitte einen Wert zwischen 0,5 und 25 kg eingeben — sonst zählen die gewählten Teile.", "Please enter a value between 0.5 and 25 kg — otherwise the selected items count.") : null);
     const m = fprofil.montur || {teile:["halbschale", "huefte"]};
     fprofil.montur = {teile:m.teile || [], eigen:v > 0 && v <= 25 ? v : null}; fSichern();
     const su = $("ff-summe"); if(su) su.textContent = tx(`Ausrüstung ${zahlTxt(monturKg())} kg · gerechnet mit ${zahlTxt(systemKg())} kg`, `Gear ${monturKg()} kg · calculating with ${systemKg()} kg`);

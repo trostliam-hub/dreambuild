@@ -521,6 +521,50 @@ Sparvorschlägen dem Namen die halbe Breite, „Übernehmen“ ragte im Assisten
 bei 320 px aus dem Bild, und nach jedem Öffnen einer Schublade stand ein
 Fokus-Ring um den Schließen-Knopf (jetzt nur bei Tastatur-Bedienung).
 
+## Handy: wie eine native App
+
+Seit 02.10.2026 verhält sich die App auf iOS und Android wie eine native App:
+
+- **Kein Zoom:** Das viewport-Tag sperrt Pinch-Zoom (`user-scalable=no`,
+  `maximum-scale=1`). iOS Safari ignoriert das seit iOS 10, dort blockiert
+  `gesturestart`/`gesturechange` die Zwei-Finger-Geste. `touch-action:
+  manipulation` auf Seite und Listen verhindert den Doppeltipp-Zoom.
+  `overscroll-behavior-y: none` verhindert das Gummiband und
+  Ziehen-zum-Neuladen.
+- **Keine Textauswahl, kein Kopier-Menü:**
+  - `user-select: none` und `-webkit-touch-callout: none` gelten für alles.
+    Ausnahmen sind Eingabefelder und die Klasse `.waehlbar` (Impressum,
+    Datenschutz, Kopierfeld).
+  - Langes Drücken öffnet am Handy kein Kontextmenü (Bild sichern, Link teilen).
+  - Klappt „Liste kopieren“ nicht automatisch, zeigt die App den Text in einem
+    markierbaren Feld.
+- **Volle Höhe und Safe Areas:**
+  - `100dvh` folgt der Adressleiste, mit `100vh` als Rückfall.
+  - Kopfzeile, Inhalt, Tableiste, Hinweise, Schubladen, Einrichtung und
+    Rundgang halten Abstand zu Notch, Dynamic Island und Home-Balken.
+  - Im Querformat halten sie auch Abstand zur seitlichen Aussparung.
+  - Die Tableiste sitzt ganz über der Schutzzone des Home-Balkens.
+- **Tippen:** Alle Bedienelemente sind mindestens gut 30 px hoch und geben beim
+  Antippen sichtbar nach. Felder haben mindestens 16 px Schrift, sonst zoomt
+  iOS beim Antippen.
+- **Eingaben:**
+  - Zahlenfelder nehmen nur Ziffern (mit Komma oder Punkt).
+  - Bei negativen Werten, „1e5“, Sonderzeichen und Werten außerhalb plausibler
+    Grenzen steht ein Hinweis unter dem Feld, und die App rechnet nicht damit.
+  - Kommazahlen (Ausrüstung, Radgewicht) nutzen ein Textfeld mit
+    Dezimal-Tastatur, weil manche Browser aus „8,5“ sonst 85 machen.
+
+Geprüft mit Playwright auf iPhone SE, Galaxy S, iPhone 13 mini, iPhone 15,
+Pixel 8, iPhone 15 Pro Max und iPhone 15 quer:
+- echte Touch-Geräte mit simulierter Notch, Home-Balken und seitlicher
+  Aussparung;
+- 23 Ansichten je Gerät, Deutsch und Englisch, dunkel und hell;
+- jedes Eingabefeld mit 17 kaputten Werten, alle Dropdowns, Touch-Gesten
+  (Schieberegler, Wischen, Reiter).
+
+Ergebnis: kein Überlauf, nichts unter Notch oder Home-Balken, keine zu kleinen
+Tippflächen, keine Konsolenfehler.
+
 ## Grenzen
 
 Live-Preise gibt es nur für Teile, die ein Partnershop im Feed führt, und nur
