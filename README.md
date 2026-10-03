@@ -297,12 +297,33 @@ wird bei Knöpfen mit vielen Klicks nie empfohlen): Flowtrails und zügiges
 Tempo machen die LSC fester, ruppiges Gelände die HSC offener, Sprünge und
 Bikepark die HSC fester, das gewünschte Gefühl beides. Die Grundeinstellung
 des Herstellers gilt also für einen ruhigen Tourenfahrer.
-Jede Karte zeigt eine Vergleichstabelle aller drei Modi (Luft, Sag, jeder
+In der Ansicht *Profi* zeigt jede Karte eine Vergleichstabelle aller drei Modi (Luft, Sag, jeder
 verstellbare Knopf, Zugstufe; Tippen auf einen Spaltenkopf wechselt den Modus)
 und darunter zu jedem Knopf des gewählten Modus eine Kachel mit Strich-Skala
 (ein Strich je Klick oder Stufe, langer Strich = Grundeinstellung). Dazu der
 Link zur offiziellen Hersteller-Anleitung und optional das eigene Top-Cap-Foto
 mit markierten Knöpfen.
+
+**Fahrwerk einfach (Anfänger-Ansicht).** Oben im Rechner schaltet *Einfach /
+Profi* die Ansicht um; *Einfach* ist der Start und merkt sich die Wahl. Je eine
+Karte VORNE (Gabel) und HINTEN (Dämpfer) mit großen Kacheln für Luftdruck
+(oder Federhärte), Sag in % und mm und Tokens; darunter nur die Knöpfe, die
+man wirklich dreht, in Alltagssprache: *Härte beim Einfedern (Druckstufe)*,
+*Ausfeder-Geschwindigkeit (Rebound)*, der Kletterhebel — jeweils mit Richtung
+(„9 Klicks aufdrehen (von ganz geschlossen)“ mit −, „Mitte, dann 2 Klicks
+zudrehen“ mit +) und wo der Knopf sitzt. HSC, HSR, ABO/HBO und die
+Vergleichstabelle bleiben in *Profi*. Neben jedem Wert ein (i) mit einem Satz
+als Tipp („Kommst du nach einem Sprung zu schnell hoch? Drehe 2 Klicks zu
+(+).“). Der Sag-Check ist ein Barometer (grün = Ziel ±2 %, gelb ±5 %): den
+gemessenen Sag mit dem Regler oder mit −/+ einstellen, die App sagt, ob es
+passt oder auf wie viel PSI man pumpen bzw. ablassen soll (höchstens 20 % pro
+Schritt, dann nachmessen; bei Stahlfeder eine Stufe ±50 lbs). Der Messwert
+gilt nur für das Teil, an dem gemessen wurde. Rund 85 % weniger Text als die
+Profi-Ansicht (191 statt 1.323 Wörter im Testaufbau).
+**Trail-Karte:** alle Werte beider Federelemente auf einer Bildschirmseite
+ohne Scrollen — Luft, Sag, Druckstufe und Rebound mit −/+, Hebel oben in der
+Zeile — zum Screenshotten für unterwegs; auf dem iPhone SE hochkant, im
+Querformat und am Desktop vorne und hinten nebeneinander.
 
 **Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
 mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut

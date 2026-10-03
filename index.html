@@ -544,7 +544,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .fed-tok b{font-size:15px;color:var(--ink)}
 .ff-montur{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
 .ff-summe{font-size:13px;color:var(--ink-2);margin:4px 0 10px}
-.ff-chip{cursor:pointer;font:inherit}
+.ff-chip{cursor:pointer;font:inherit;min-height:32px}
 .fed-ds{display:flex;flex-direction:column;gap:2px;padding:8px 2px;border-top:1px solid var(--line-soft)}
 .fed-dk{font-size:12.5px;font-weight:750;color:var(--ink)}
 .fed-dz{font-size:13px;color:var(--ink-2);line-height:1.4}
@@ -1936,6 +1936,143 @@ button.coach-kopf:active:not(:disabled){transform:none;opacity:.7}
 .up-abgelehnt > span{flex-basis:100%}
 .chip-wieder{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:5px 12px;border-radius:999px;background:var(--surface-2);font-size:12.5px;font-weight:650;color:var(--ink-2)}
 .chip-wieder b{color:var(--anod);font-weight:700}
+/* ── Fahrwerk einfach (Liam 2026-10-03): Karten, grosse Zahlen, Sag-Check ── */
+.fx{gap:12px}
+.fx > *{flex:none}
+.fx-oben{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.fx-modus{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:14px;background:var(--sunk)}
+.fx-modus button{min-height:40px;border-radius:10px;font-size:14px;font-weight:750;color:var(--ink-2)}
+.fx-modus button[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
+.fx-trail{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:0 14px;border-radius:14px;flex:none;
+  background:var(--anod-soft);color:var(--anod);font-size:13px;font-weight:750}
+.fx-profil{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13.5px;color:var(--ink-2)}
+.fx-profil b{color:var(--ink)}
+.fx-link{font-size:13px;font-weight:700;color:var(--anod);min-height:36px;padding:0 4px;flex:none}
+.fx-seg{margin-top:0}
+.fx-karte{background:var(--surface-2);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:10px;border:1px solid var(--hair)}
+.fx-kopf{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 10px;align-items:center}
+.fx-ort{grid-row:span 2;font-size:10.5px;font-weight:800;letter-spacing:.1em;padding:7px 9px;border-radius:10px;background:var(--grad);color:#fff}
+.fx-kopf b{font-size:17px;font-weight:800;line-height:1.2}
+.fx-teil{font-size:12.5px;color:var(--ink-3);overflow-wrap:anywhere;line-height:1.3}
+.fx-kacheln{display:grid;gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.fx-kacheln.n3 .haupt{grid-column:1 / -1}
+.fx-kachel{background:var(--surface);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.fx-kachel.haupt{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--anod) 55%,transparent),0 12px 32px -16px color-mix(in srgb,var(--anod) 85%,transparent)}
+.fx-k{display:flex;align-items:center;justify-content:space-between;gap:4px;font-size:11px;font-weight:750;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;min-height:22px}
+.fx-kachel > b{font-family:var(--f-head);font-size:30px;font-weight:800;line-height:1.05;letter-spacing:-.03em;color:var(--ink);overflow-wrap:anywhere}
+.fx-kachel.haupt > b{font-size:40px;color:var(--anod)}
+.fx-kachel > b small{font-size:14px;font-weight:750;margin-left:3px;color:var(--ink-3);letter-spacing:0}
+.fx-wort{font-size:18px;letter-spacing:-.01em}
+.fx-s{font-size:12px;color:var(--ink-3);line-height:1.3;overflow-wrap:anywhere}
+.fx-i{width:32px;height:32px;margin:-8px -8px -8px 0;display:inline-grid;place-items:center;flex:none;border-radius:999px;vertical-align:middle}
+.fx-i span{width:19px;height:19px;border-radius:999px;display:grid;place-items:center;font:800 11px/1 var(--f-head);text-transform:none;
+  color:var(--anod);background:var(--anod-soft);box-shadow:0 0 10px -2px color-mix(in srgb,var(--anod) 65%,transparent)}
+.fx-i[aria-expanded="true"] span{background:var(--anod);color:var(--on-anod)}
+.fx-tipps:not(:has(.fx-tipp:not([hidden]))){display:none}
+.fx-tipp{margin:0;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.45;color:var(--ink);
+  background:var(--anod-soft);border:1px solid color-mix(in srgb,var(--anod) 30%,transparent);box-shadow:0 0 24px -12px var(--anod);animation:plopp .3s var(--feder)}
+.fx-sag{background:var(--surface);border-radius:16px;padding:12px}
+.fx-sag-kopf{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.fx-status{padding:3px 10px;border-radius:999px;font-size:12px;letter-spacing:0;text-transform:none}
+.fx-status.gut{background:var(--gut-soft);color:var(--gut)}
+.fx-status.mittel{background:var(--warn-soft);color:var(--warn)}
+.fx-status.schlecht{background:var(--bad-soft);color:var(--bad)}
+.fx-baro{position:relative;height:14px;margin:14px 6px 6px;border-radius:999px;
+  background:linear-gradient(90deg,var(--bad-soft) 0 var(--yl),var(--warn-soft) var(--yl) var(--gl),color-mix(in srgb,var(--gut) 60%,transparent) var(--gl) var(--gr),var(--warn-soft) var(--gr) var(--yr),var(--bad-soft) var(--yr) 100%)}
+.fx-baro-ziel{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;border-radius:2px;background:var(--gut)}
+.fx-baro-mark{position:absolute;top:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:999px;background:var(--ink);border:3px solid var(--surface);
+  box-shadow:0 0 0 2px var(--gut),0 0 16px var(--gut);transition:left .25s var(--feder)}
+/* Regler liegt unsichtbar ueber dem Barometer; Daumen 22 px, um je 11 px
+   ueberstehend -- so trifft die Daumenmitte genau 0 bis 100 % der Leiste */
+.fx-baro-in{position:absolute;left:-11px;right:-11px;top:50%;height:44px;margin:-22px 0 0;width:calc(100% + 22px);opacity:0;cursor:pointer;-webkit-appearance:none;appearance:none;background:transparent}
+.fx-baro-in::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:44px}
+.fx-baro-in::-moz-range-thumb{width:22px;height:44px;border:none}
+.fx-baro:has(.fx-baro-in:focus-visible) .fx-baro-mark{outline:2px solid var(--anod);outline-offset:3px}
+.fx-baro-mark{pointer-events:none}
+.fx-baro:active .fx-baro-mark{transition:none}
+.fx-baro-mark.mittel{box-shadow:0 0 0 2px var(--warn),0 0 16px var(--warn)}
+.fx-baro-mark.schlecht{box-shadow:0 0 0 2px var(--bad),0 0 16px var(--bad)}
+.fx-baro-l{display:flex;justify-content:space-between;gap:6px;font-size:11px;color:var(--ink-3)}
+.fx-mess{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;gap:8px;margin-top:10px}
+.fx-pm{width:48px;height:48px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line-soft);font:700 24px/1 var(--f-head);color:var(--ink)}
+.fx-mw{display:flex;flex-direction:column;align-items:center;line-height:1.2;text-align:center}
+.fx-mw b{font-family:var(--f-head);font-size:22px;font-weight:800}
+.fx-mw small{font-size:11.5px;color:var(--ink-3)}
+.fx-rat{margin:8px 0 0;font-size:13px;line-height:1.4;color:var(--ink-2);text-align:center}
+.fx-rat.gut{color:var(--gut);font-weight:700}
+.fx-rat b{color:var(--ink)}
+.fx-klicks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.fx-z{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:6px 10px;align-items:center;background:var(--surface);border-radius:14px;padding:10px}
+.fx-z .fx-tipp{grid-column:1 / -1}
+.fx-zi{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--anod-soft);color:var(--anod)}
+.fx-zi.druck{background:var(--warn-soft);color:var(--warn)}
+.fx-zi.hebel,.fx-zi.profi{background:var(--surface-2);color:var(--ink-2)}
+.fx-zt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fx-zn{display:flex;align-items:center;flex-wrap:wrap;gap:0 5px;font-size:12px;color:var(--ink-3);line-height:1.3}
+.fx-zn b{font-size:13px;color:var(--ink-2);font-weight:700}
+.fx-zf{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.fx-tun{font-size:15px;font-weight:750;color:var(--ink);line-height:1.3}
+.fx-tun small{font-size:12px;font-weight:600;color:var(--ink-3)}
+.fx-wo{font-size:11.5px;color:var(--ink-3);line-height:1.3}
+.fx-zeichen{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font:800 20px/1 var(--f-head)}
+.fx-zeichen.auf{background:color-mix(in srgb,var(--weicher) 18%,transparent);color:var(--weicher)}
+.fx-zeichen.zu{background:color-mix(in srgb,var(--fester) 18%,transparent);color:var(--fester)}
+.fx-trailgross{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 16px;border-radius:18px;color:var(--ink);
+  background:linear-gradient(135deg,color-mix(in srgb,var(--anod) 22%,transparent),color-mix(in srgb,#3ddc84 12%,transparent));border:1px solid color-mix(in srgb,var(--anod) 35%,transparent)}
+.fx-trailgross svg{color:var(--anod);flex:none}
+.fx-trailgross span{display:flex;flex-direction:column}
+.fx-trailgross b{font-size:15px;font-weight:800}
+.fx-trailgross small{font-size:12px;color:var(--ink-3)}
+.fx-mehr{background:var(--surface-2);border-radius:16px;padding:0 14px}
+.fx-mehr summary{min-height:46px;display:flex;align-items:center;font-size:14px;font-weight:750;cursor:pointer;list-style:none}
+.fx-mehr summary::-webkit-details-marker{display:none}
+.fx-mehr summary::after{content:"";margin-left:auto;width:8px;height:8px;border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.fx-mehr[open] summary::after{transform:rotate(225deg)}
+.fx-mehr ol,.fx-mehr ul{margin:0 0 12px;padding-left:20px;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.fx-mehr li{margin:3px 0}
+.fx-hinweis{margin:0;font-size:12px;color:var(--ink-3);text-align:center}
+.fx-karten{display:flex;flex-direction:column;gap:12px}
+/* breites Fenster (Desktop): Gabel und Daempfer nebeneinander */
+@media (min-width:900px){.fx-karten{display:grid;grid-template-columns:1fr 1fr;align-items:start}}
+/* Trail-Karte (eigene Klassen: tk-* gehoert der Tour) */
+.trk{max-width:460px}
+.trk-i{background:linear-gradient(135deg,#3ddc84,#0fa0bd)}
+.trk-sek{background:var(--surface-2);border-radius:18px;padding:10px 10px 10px;margin-bottom:8px}
+.trk-sk{display:flex;align-items:center;gap:8px;margin:0 2px 8px;min-width:0;min-height:24px}
+.trk-sk b{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--anod);flex:none}
+.trk-sk span{font-size:12.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trk-heb{margin-left:auto;flex:none;font-style:normal;font-size:11.5px;color:var(--ink-3);background:var(--surface);border-radius:999px;padding:3px 9px}
+.trk-heb b{font-size:11.5px;letter-spacing:0;color:var(--gut)}
+/* oben Luft und Sag je halb, darunter die Knoepfe in einer Reihe (bei 4 zwei Reihen) */
+.trk-werte{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.trk-w{grid-column:span 2}
+.trk-w.s3{grid-column:span 3}
+.trk-w.s6{grid-column:span 6}
+.trk-w{background:var(--surface);border-radius:12px;padding:7px 8px 8px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.trk-l{display:flex;align-items:center;justify-content:space-between;gap:4px;min-height:18px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.trk-l span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trk-w b{font-family:var(--f-head);font-size:clamp(15px,4.6vw,19px);font-weight:800;line-height:1.15;letter-spacing:-.02em;overflow-wrap:anywhere}
+.trk-w b small{font-size:.6em;font-weight:700;color:var(--ink-3);margin-left:4px;letter-spacing:0}
+.trk-w.haupt b{font-size:clamp(22px,7vw,28px);color:var(--anod)}
+.trk-w > small{font-size:11px;color:var(--ink-3);font-weight:650;line-height:1.2}
+.trk-l i{font-style:normal;flex:none;display:grid;place-items:center;width:18px;height:18px;border-radius:6px;font:800 14px/1 var(--f-head);letter-spacing:0}
+.trk-l i.zu{background:color-mix(in srgb,var(--fester) 18%,transparent);color:var(--fester)}
+.trk-l i.auf{background:color-mix(in srgb,var(--weicher) 18%,transparent);color:var(--weicher)}
+.trk-fuss{margin:2px 0 0;font-size:11.5px;color:var(--ink-3);text-align:center;line-height:1.4}
+.trk-fuss b{color:var(--ink-2)}
+/* Breit (Querformat, Tablet): vorne und hinten nebeneinander -- passt so
+   auch im Querformat ohne Scrollen */
+@media (min-width:700px){
+  .adp.trk{max-width:860px;width:calc(100% - 32px)}
+  .trk-teile{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+  .trk-teile > .trk-sek{margin:0}
+}
+@media (min-width:700px) and (max-height:520px){
+  .adp.trk .adp-kopf{margin-bottom:6px}
+  .trk-w{padding:5px 8px 6px}
+  .trk-w.haupt b{font-size:24px}
+  .trk-fuss{margin:0}
+}
 /* Tauschen statt Adapter: ganze Breite unter der Zeile, im Fenster gross */
 .ad-tausch{grid-column:1 / -1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;
   min-height:44px;padding:8px 12px;border-radius:14px;color:var(--ink);background:var(--anod-soft);border:1px solid color-mix(in srgb,var(--anod) 30%,transparent)}
@@ -11426,6 +11563,224 @@ function federFrageHtml(){
     <div class="ff-opts">${f.o.map(o => `<button class="qopt ff-opt" data-ff="${f.k}|${o[0]}" aria-pressed="${fprofil[f.k] === o[0]}">${o[1]}<small>${o[2]}</small></button>`).join("")}</div>
     <button class="btn ghost sm" data-ffzurueck="1" style="margin-top:12px">${tx("Zurück", "Back")}</button>`;
 }
+/* ═══════════ Fahrwerk einfach (Liam 2026-10-03) ═══════════
+   Einsteiger wurden von PSI, LSC, HSR, Tokens und Textmassen erschlagen. Jetzt
+   oben ein Umschalter: "Einfach" (Standard) zeigt je Federelement eine Karte
+   mit grossen Zahlen, einem Sag-Check zum Nachmessen und den wichtigsten
+   Klicks in Alltagssprache -- mit Richtung [−]/[+] und einem (i) mit einem
+   Satz Tipp. "Profi" zeigt alles wie bisher (HSC/HSR, Bottom-Out, Tokens im
+   Detail, Kinematik, Knopf-Skizzen). Die Trail-Karte fasst alles auf einem
+   Bildschirm zusammen. Gerechnet wird mit denselben Werten (federRechnen). */
+let fedProfi = false;
+try{ fedProfi = localStorage.getItem("mtb.fedprofi") === "1"; }catch(e){}
+/* gemessener Sag in mm je Platz -- gilt nur fuer das Teil, an dem gemessen wurde */
+const fedSagMess = {};
+const fxMess = (slot, x) => { const g = fedSagMess[slot]; return g && g.id === x.t.id ? g.v : null; };
+const FX_TIPP = {
+  luft:["Mit einer Dämpferpumpe aufpumpen, 5× einfedern und nachmessen — nie über den Maximaldruck.", "Pump up with a shock pump, compress 5× and measure again — never above the maximum pressure."],
+  feder:["Die Härte steht auf der Stahlfeder. Zwischen zwei Größen: weicher = mehr Grip, härter = mehr Halt.", "The rate is printed on the coil. Between two sizes: softer = more grip, firmer = more support."],
+  sag:["So weit sinkt das Rad ein, wenn du in Fahrposition draufstehst — Gummiring runter, aufsitzen, absteigen, messen.", "How far the bike sinks when you stand on it in riding position — push the O-ring down, get on, get off, measure."],
+  tokens:["Tokens machen nur das Ende des Federwegs straffer: mehr Schutz vor Durchschlagen, der Anfang bleibt weich.", "Tokens only firm up the end of the travel: more protection against bottoming out, the start stays soft."],
+  zugV:["Kommst du nach einem Sprung zu schnell hoch? Drehe 2 Klicks zu (+).", "Do you pop up too fast after a jump? Turn 2 clicks in (+)."],
+  zugH:["Kickt das Heck nach Wurzeln oder Absätzen hoch? Drehe 2 Klicks zu (+).", "Does the rear kick up after roots or drops? Turn 2 clicks in (+)."],
+  druckV:["Taucht die Gabel beim Bremsen tief ein? Drehe 2 Klicks zu (+).", "Does the fork dive under braking? Turn 2 clicks in (+)."],
+  druckH:["Wippt das Heck beim Treten oder sackt in Anliegern weg? Drehe 2 Klicks zu (+).", "Does the rear bob when pedalling or sag in berms? Turn 2 clicks in (+)."],
+  hebel:["Bergauf darfst du ihn schließen — bergab immer offen, sonst arbeitet die Federung nicht.", "You can close it for climbing — always open for descents, otherwise the suspension can't work."],
+  profi:["Feinabstimmung für Fortgeschrittene — im Profi-Modus erklärt.", "Fine-tuning for advanced riders — explained in Pro mode."]
+};
+const fxTipp = k => sp2(FX_TIPP[k] || FX_TIPP.profi);
+/* Welche Knoepfe Einsteiger sehen: Ausfedern, Einfedern, Hebel. HSC, HSR und
+   Bottom-Out sind Profi-Sache. */
+function fxArt(name){
+  if(/^(Zugstufe|LSR)$/.test(name)) return "zug";
+  if(/^(LSC|Druckstufe|Open-Mode)$/.test(name)) return "druck";
+  if(/^(Lockout|Druckstufenhebel|Kletterhebel|Climb Switch)$/.test(name)) return "hebel";
+  return "profi";
+}
+/* Ein Knopf in Alltagssprache: was tun, ab wo, in welche Richtung */
+function fxKnopf(z, slot){
+  const art = fxArt(z[0]), vis = z[2], h = z[3], v = slot === "gabel";
+  const kl = n => n === 1 ? tx("Klick", "click") : tx("Klicks", "clicks");
+  const r = {art:art, roh:z[0], wo:(vis && vis.wo) || (h && h.wo) || "", tipp:art === "zug" ? (v ? "zugV" : "zugH") : art === "druck" ? (v ? "druckV" : "druckH") : art,
+    name:art === "zug" ? tx("Ausfeder-Geschwindigkeit", "Rebound speed") : art === "druck" ? tx("Härte beim Einfedern", "Compression firmness") : art === "hebel" ? knopfName(z[0]) : knopfName(z[0]),
+    fach:art === "zug" ? tx("Rebound · Zugstufe", "") : art === "druck" ? tx("Druckstufe", "") : "", tun:esc(z[1]), von:"", zeichen:"", kurz:""};
+  const ausMitte = m => !m ? [tx("Auf die Mitte", "Set to the middle"), "", "", tx("Mitte", "middle")]
+    : m > 0 ? [tx(`Mitte, dann ${m} ${kl(m)} zudrehen`, `Middle, then ${m} ${kl(m)} in`), "", "+", tx(`Mitte +${m}`, `middle +${m}`)]
+    : [tx(`Mitte, dann ${-m} ${kl(-m)} aufdrehen`, `Middle, then ${-m} ${kl(-m)} out`), "", "−", tx(`Mitte −${-m}`, `middle −${-m}`)];
+  let t = null;
+  if(vis && vis.zug && vis.n != null){
+    const offen = vis.ab === "offen", n = offen ? vis.n - vis.pos : vis.pos;
+    t = offen ? [tx(`${n} ${kl(n)} zudrehen`, `${n} ${kl(n)} in`), tx("von ganz offen", "from fully open"), "+", tx(`${n} zu`, `${n} in`)]
+      : [tx(`${n} ${kl(n)} aufdrehen`, `${n} ${kl(n)} out`), tx("von ganz geschlossen", "from fully closed"), "−", tx(`${n} auf`, `${n} out`)];
+  }
+  else if(vis && vis.zug){
+    const m = vis.mitte || 0;
+    t = !m ? [tx("Grundwert laut Tabelle", "Base value from the chart"), tx("steht am Holm oder im Handbuch", "on the fork leg or in the manual"), "", tx("Grundwert", "base")]
+      : m > 0 ? [tx(`Grundwert, dann ${m} ${kl(m)} zu`, `Base value, then ${m} ${kl(m)} in`), "", "+", tx(`Grundw. +${m}`, `base +${m}`)]
+      : [tx(`Grundwert, dann ${-m} ${kl(-m)} auf`, `Base value, then ${-m} ${kl(-m)} out`), "", "−", tx(`Grundw. −${-m}`, `base −${-m}`)];
+  }
+  else if(vis && vis.stufen){
+    const s = stellName(vis.o[vis.an]);
+    t = [tx(`Stufe ${s}`, `Position ${s}`), tx(`von ${vis.o.length}`, `of ${vis.o.length}`), "", tx(`Stufe ${s}`, `pos. ${s}`)];
+  }
+  else if(vis && vis.skala === "zahl"){
+    const g = knopfLesen(vis).gross;
+    t = [tx(`Auf ${g} stellen`, `Set to ${g}`), tx("Zahl steht auf dem Knopf", "number printed on the knob"), "", g];
+  }
+  else if(vis && vis.skala) t = ausMitte(parseInt(String(knopfLesen(vis).gross).replace("−", "-"), 10) || 0);
+  else if(vis && vis.n != null){
+    const offen = vis.ab === "offen", n = vis.pos - (vis.min || 0);
+    t = offen ? [tx(`${n} ${kl(n)} zudrehen`, `${n} ${kl(n)} in`), tx("von ganz offen", "from fully open"), "+", tx(`${n} zu`, `${n} in`)]
+      : [tx(`${n} ${kl(n)} aufdrehen`, `${n} ${kl(n)} out`), tx("von ganz geschlossen", "from fully closed"), "−", tx(`${n} auf`, `${n} out`)];
+  }
+  else if(vis && vis.mitte != null) t = ausMitte(vis.mitte);
+  else if(h && h.o){
+    const s = stellName(h.o[h.an]);
+    t = [s.charAt(0).toUpperCase() + s.slice(1), tx("bergab immer so", "always for descents"), "", s];
+  }
+  if(t){ r.tun = t[0]; r.von = t[1]; r.zeichen = t[2]; r.kurz = t[3]; }
+  else r.kurz = esc(String(z[1]).split(" · ")[0]);
+  return r;
+}
+const fxId = (slot, k) => "fxt-" + slot + "-" + k;
+const fxI = (slot, k, lbl) => `<button class="fx-i" data-fxtipp="${fxId(slot, k)}" aria-expanded="false" aria-controls="${fxId(slot, k)}" aria-label="${tx("Tipp", "Tip")}: ${esc(lbl)}"><span aria-hidden="true">i</span></button>`;
+/* Sag-Check: Ziel als gruene Zone, darunter der gemessene Wert mit −/+.
+   Mehr Sag als Ziel = zu weich: Luft rauf (bei Luftfedern sinkt der Sag
+   ungefaehr im selben Verhaeltnis -- gedaempft, dann nachmessen). */
+function fxSagHtml(slot, x){
+  const m = x.modi[fedModus], mm = slot === "gabel" ? x.t.travel : x.t.hub, schritt = slot === "gabel" ? 1 : 0.5;
+  if(!(mm > 0) || !(m.sagMm > 0)) return "";     /* ohne Hub (IsoStrut) gibt es nichts zu messen */
+  const ziel = m.sag, zielMm = m.sagMm, mess = fxMess(slot, x) != null ? fxMess(slot, x) : zielMm;
+  const pz = Math.round(mess / mm * 1000) / 10, d = pz - ziel, ad = Math.abs(d);
+  const status = ad <= 2 ? "gut" : ad <= 5 ? "mittel" : "schlecht";
+  const lo = Math.max(0, ziel - 15), hi = ziel + 15, pos = v => Math.max(0, Math.min(100, (v - lo) / (hi - lo) * 100)).toFixed(1);
+  let rat;
+  if(status === "gut") rat = tx("Passt — so lassen.", "Spot on — leave it.");
+  else if(x.coil) rat = d > 0 ? tx("Zu weich: nächsthärtere Feder (+50 lbs).", "Too soft: next firmer spring (+50 lbs).") : tx("Zu hart: nächstweichere Feder (−50 lbs).", "Too firm: next softer spring (−50 lbs).");
+  else {
+    const max = slot === "gabel" ? (FED_MAX[(x.tab || {}).tab] || 999) : 300;
+    /* hoechstens 20 % pro Schritt -- Sag und Druck haengen nicht linear
+       zusammen, also lieber zweimal messen als einmal weit daneben */
+    const f = Math.max(0.8, Math.min(1.2, 1 + 0.75 * (pz / ziel - 1)));
+    const neu = Math.min(max, Math.round(m.psi * f)), dp = Math.abs(neu - m.psi);
+    rat = d > 0 ? tx(`Zu weich: auf etwa <b>${neu} PSI</b> pumpen (+${dp}), dann nachmessen.`, `Too soft: pump to about <b>${neu} PSI</b> (+${dp}), then measure again.`)
+      : tx(`Zu hart: auf etwa <b>${neu} PSI</b> ablassen (−${dp}), dann nachmessen.`, `Too firm: let out to about <b>${neu} PSI</b> (−${dp}), then measure again.`);
+  }
+  const statusTxt = {gut:tx("Optimal", "Optimal"), mittel:d > 0 ? tx("Etwas weich", "A bit soft") : tx("Etwas straff", "A bit firm"), schlecht:d > 0 ? tx("Zu weich", "Too soft") : tx("Zu straff", "Too firm")}[status];
+  return `<div class="fx-sag" id="fxs-${slot}">
+    <div class="fx-sag-kopf"><span>${tx("Sag-Check", "Sag check")}</span><span class="fx-status ${status}">${statusTxt}</span></div>
+    <div class="fx-baro" style="--yl:${pos(ziel - 5)}%;--gl:${pos(ziel - 2)}%;--gr:${pos(ziel + 2)}%;--yr:${pos(ziel + 5)}%">
+      <span class="fx-baro-ziel" style="left:${pos(ziel)}%"></span><span class="fx-baro-mark ${status}" style="left:${pos(pz)}%"></span>
+      <input class="fx-baro-in" type="range" data-fxsagin="${slot}" min="${Math.floor(lo * mm / 100 / schritt) * schritt}" max="${Math.ceil(hi * mm / 100 / schritt) * schritt}" step="${schritt}" value="${mess}"
+        aria-label="${tx("Gemessener Sag", "Measured sag")}" aria-valuetext="${zahlDe(mess)} mm · ${zahlDe(pz)} % · ${statusTxt}"></div>
+    <div class="fx-baro-l"><span>${tx("straff", "firm")}</span><span>${tx("Ziel", "target")} ${ziel - 2}–${ziel + 2} %</span><span>${tx("weich", "soft")}</span></div>
+    <div class="fx-mess"><button class="fx-pm" data-fxsag="${slot}|-${schritt}" aria-label="${tx("weniger Sag gemessen", "less sag measured")}">−</button>
+      <span class="fx-mw"><b>${zahlDe(mess)} mm</b><small>${tx("gemessen", "measured")} · ${zahlDe(pz)} %</small></span>
+      <button class="fx-pm" data-fxsag="${slot}|${schritt}" aria-label="${tx("mehr Sag gemessen", "more sag measured")}">+</button></div>
+    <p class="fx-rat ${status}">${rat}</p>
+  </div>`;
+}
+/* Nur Anzeige erneuern -- der Regler bleibt, sonst bricht das Ziehen ab */
+function fxSagNeu(slot){
+  const f = federRechnen(), x = slot === "gabel" ? f.gabel : f.daempfer, el = $("fxs-" + slot);
+  if(!x || !el) return;
+  const t = document.createElement("div"); t.innerHTML = fxSagHtml(slot, x);
+  const n = t.firstElementChild;
+  [".fx-sag-kopf", ".fx-mw", ".fx-rat", ".fx-baro-mark"].forEach(q => { const a = el.querySelector(q), b = n.querySelector(q);
+    if(a && b){ a.className = b.className; a.innerHTML = b.innerHTML; a.style.cssText = b.style.cssText; } });
+  const ia = el.querySelector(".fx-baro-in"), ib = n.querySelector(".fx-baro-in");
+  if(ia && ib){ if(+ia.value !== +ib.value) ia.value = ib.value; ia.setAttribute("aria-valuetext", ib.getAttribute("aria-valuetext")); }
+}
+function fxKarte(slot, x){
+  const v = slot === "gabel", m = x.modi[fedModus];
+  const tipps = [], kacheln = [];
+  const kachel = (k, lbl, gross, einheit, sub, haupt) => {
+    tipps.push(`<p class="fx-tipp" id="${fxId(slot, k)}" hidden>${fxTipp(k)}</p>`);
+    kacheln.push(`<div class="fx-kachel${haupt ? " haupt" : ""}"><span class="fx-k">${esc(lbl)}${fxI(slot, k, lbl)}</span><b>${gross}${einheit ? `<small>${einheit}</small>` : ""}</b><span class="fx-s">${sub}</span></div>`);
+  };
+  if(x.coil){
+    if(x.rate) kachel("feder", tx("Federhärte", "Spring rate"), x.rate, " lbs", tx("Stahlfeder", "coil"), true);
+    else kachel("feder", tx("Feder", "Spring"), `<span class="fx-wort">${esc(x.feder)}</span>`, "", tx("Stahlfeder", "coil"), true);
+  }
+  else kachel("luft", tx("Luftdruck", "Air pressure"), m.psi, " PSI", m.grenze ? tx("Maximaldruck!", "maximum pressure!") : `${barVon(m.psi)} bar`, true);
+  kachel("sag", "Sag", m.sag, " %", m.sagMm > 0 ? `${zahlDe(m.sagMm)} mm` : "");
+  const tk = x.tokens;
+  if(tk && !x.coil){
+    const g = tk.soll != null ? String(tk.soll) : tk.delta ? (tk.delta > 0 ? "+" : "−") + Math.abs(tk.delta) : "±0";
+    const s = tk.delta ? (tk.delta > 0 ? tx(`${tk.delta} mehr als ab Werk`, `${tk.delta} more than stock`) : tx(`${-tk.delta} weniger als ab Werk`, `${-tk.delta} fewer than stock`)) : tx("wie ab Werk", "as stock");
+    kachel("tokens", tk.name, g, "", s);
+  }
+  const knoepfe = x.ds[fedModus].map(z => fxKnopf(z, slot)).filter(k => fedProfi || k.art !== "profi");
+  const icon = {zug:`<path d="M12 19V5M6 11l6-6 6 6"/>`, druck:`<path d="M12 5v14M6 13l6 6 6-6"/>`, hebel:`<path d="M5 19h14M12 19v-8M12 11l5-6"/>`, profi:`<circle cx="12" cy="12" r="7"/><path d="M12 9v6M9 12h6"/>`};
+  const zeilen = knoepfe.map((k, i) => {
+    return `<li class="fx-z"><span class="fx-zi ${k.art}" aria-hidden="true">${ic(icon[k.art], 16)}</span>
+      <div class="fx-zt"><span class="fx-zn"><b>${esc(k.name)}</b><span class="fx-zf">${k.fach ? `<small>(${esc(k.fach)})</small>` : ""}${fxI(slot, "k" + i, k.name)}</span></span>
+        <span class="fx-tun">${k.tun}${k.von ? ` <small>(${esc(k.von)})</small>` : ""}</span>${k.wo ? `<span class="fx-wo">${esc(k.wo)}</span>` : ""}</div>
+      ${k.zeichen ? `<span class="fx-zeichen ${k.zeichen === "+" ? "zu" : "auf"}" title="${k.zeichen === "+" ? tx("zudrehen: straffer/langsamer", "turn in: firmer/slower") : tx("aufdrehen: weicher/schneller", "turn out: softer/faster")}">${k.zeichen}</span>` : ""}
+      <p class="fx-tipp" id="${fxId(slot, "k" + i)}" hidden>${fxTipp(k.tipp)}</p></li>`;
+  }).join("");
+  return `<section class="fx-karte">
+    <div class="fx-kopf"><span class="fx-ort">${v ? tx("VORNE", "FRONT") : tx("HINTEN", "REAR")}</span><b>${v ? tx("Federgabel", "Fork") : tx("Dämpfer", "Shock")}</b><span class="fx-teil">${esc(x.t.nb || x.t.n)}</span></div>
+    <div class="fx-kacheln n${kacheln.length}">${kacheln.join("")}</div>
+    <div class="fx-tipps">${tipps.join("")}</div>
+    ${fxSagHtml(slot, x)}
+    ${zeilen ? `<ul class="fx-klicks">${zeilen}</ul>` : ""}
+  </section>`;
+}
+function fedEinfachHtml(){
+  if(!(plan.fahrer > 0)) return federErgebnisHtml();
+  const f = federRechnen();
+  if(!f.gabel && !f.daempfer) return federErgebnisHtml();
+  return `<div class="fx-profil"><span>${tx(`Für <b>${plan.fahrer} kg</b> + ${zahlTxt(monturKg())} kg Ausrüstung`, `For <b>${plan.fahrer} kg</b> + ${monturKg()} kg gear`)}</span>
+      <button class="fx-link" data-ffneu="1">${tx("Profil ändern", "Change profile")}</button></div>
+    <div class="fm-seg fx-seg" role="group" aria-label="${tx("Wofür?", "What for?")}">${FMODI.map(k =>
+      `<button data-fmodus="${k}" aria-pressed="${k === fedModus}">${esc(modusKurz(k))}</button>`).join("")}</div>
+    <div class="fx-karten">${f.gabel ? fxKarte("gabel", f.gabel) : ""}${f.daempfer ? fxKarte("daempfer", f.daempfer) : ""}</div>
+    <button class="fx-trailgross" data-fxtrail="1">${ic(`<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/>`, 18)}<span><b>${tx("Trail-Karte", "Trail card")}</b><small>${tx("Alles auf einen Blick — für unterwegs", "Everything at a glance — for the trail")}</small></span></button>
+    <details class="fx-mehr"><summary>${tx("So stellst du es ein", "How to set it up")}</summary><ol>
+      <li>${tx("Luft pumpen, 5× einfedern, nachmessen.", "Pump air, compress 5×, measure again.")}</li>
+      <li>${tx("Sag messen und oben eintragen.", "Measure sag and enter it above.")}</li>
+      <li>${tx("Klicks: erst ganz drehen, dann zählen.", "Clicks: turn fully, then count.")}</li></ol></details>
+    <details class="fx-mehr"><summary>${tx("Nach der ersten Fahrt", "After the first ride")}</summary><ul>
+      <li>${tx("Nach Sprüngen hochgeschleudert → Ausfedern 2 Klicks zu (+)", "Kicked up after jumps → rebound 2 clicks in (+)")}</li>
+      <li>${tx("Taucht beim Bremsen weg → Einfedern 2 Klicks zu (+)", "Dives under braking → compression 2 clicks in (+)")}</li>
+      <li>${tx("Schlägt durch → 5 % mehr Luft", "Bottoms out → 5 % more air")}</li>
+      <li>${tx("Nutzt nie den ganzen Federweg → 5 % weniger Luft", "Never uses full travel → 5 % less air")}</li></ul></details>
+    <p class="fx-hinweis">${tx("Startwerte — die Tabelle an Gabel und Dämpfer hat Vorrang.", "Starting values — the chart on fork and shock takes priority.")}</p>`;
+}
+/* ═══ Trail-Karte: alles auf einem Bildschirm, ohne Scrollen ═══ */
+function oeffneTrailKarte(knopf){
+  if(!(plan.fahrer > 0)) return;
+  const f = federRechnen();
+  if(!f.gabel && !f.daempfer) return;
+  adVon = knopf || null;
+  let el = $("ad-pop");
+  if(!el){ el = document.createElement("div"); el.id = "ad-pop"; document.body.appendChild(el); }
+  const teil = (slot, x) => {
+    const m = x.modi[fedModus], alle = x.ds[fedModus].map(z => fxKnopf(z, slot));
+    /* Hebel stehen oben in der Zeile, Drehknoepfe als Kacheln (hoechstens zwei) */
+    const ks = alle.filter(k => k.art === "zug" || k.art === "druck"), heb = alle.filter(k => k.art === "hebel");
+    /* Etikett oben (mit Dreh-Zeichen), Wert gross darunter */
+    const n = ks.length, breit = n === 1 ? " s6" : n === 2 || n === 4 ? " s3" : "";
+    const w = (lbl, gross, unter, haupt, zeichen, kl) => `<div class="trk-w${haupt ? " haupt" : ""}${kl}"><span class="trk-l"><span>${lbl}</span>${zeichen
+      ? `<i class="${zeichen === "+" ? "zu" : "auf"}" aria-label="${zeichen === "+" ? tx("zudrehen", "turn in") : tx("aufdrehen", "turn out")}">${zeichen}</i>` : ""}</span><b>${gross}</b>${unter ? `<small>${unter}</small>` : ""}</div>`;
+    const werte = [x.coil ? w(tx("Feder", "Spring"), x.rate ? `${x.rate}<small>lbs</small>` : `<span class="fx-wort">${esc(x.feder)}</span>`, "", true, "", " s3")
+        : w(tx("Luft", "Air"), `${m.psi}<small>PSI</small>`, "", true, "", " s3"),
+      w("Sag", `${m.sag}<small>%</small>`, m.sagMm > 0 ? `${zahlDe(m.sagMm)} mm` : "", false, "", " s3")]
+      .concat(ks.map(k => w(k.art === "zug" ? "Rebound" : k.art === "druck" ? tx("Druckstufe", "Compression") : k.art === "hebel" ? tx("Hebel", "Lever") : esc(k.name), esc(k.kurz), "", false, k.zeichen, breit)));
+    return `<div class="trk-sek"><div class="trk-sk"><b>${slot === "gabel" ? tx("VORNE", "FRONT") : tx("HINTEN", "REAR")}</b><span>${esc(x.t.nb || x.t.n)}</span>${heb.map(k =>
+      `<em class="trk-heb">${esc(k.name)}: <b>${esc(k.kurz)}</b></em>`).join("")}</div><div class="trk-werte">${werte.join("")}</div></div>`;
+  };
+  el.innerHTML = `<div class="adp-scrim" data-adzu="1"><div class="adp trk" role="dialog" aria-modal="true" aria-labelledby="trk-h" tabindex="-1">
+    <div class="adp-kopf"><span class="adp-i trk-i" aria-hidden="true">${ic(`<path d="M4 18 9 9l4 6 3-4 4 7z"/>`, 18)}</span>
+      <div class="adp-tt"><span class="adp-sub">${tx("Trail-Karte", "Trail card")} · ${esc(modusKurz(fedModus))}</span><h3 id="trk-h">${tx("Dein Fahrwerk", "Your suspension")}</h3></div>
+      <button class="iconbtn adp-zu" data-adzu="1" aria-label="${tx("Schließen", "Close")}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="trk-teile">${f.gabel ? teil("gabel", f.gabel) : ""}${f.daempfer ? teil("daempfer", f.daempfer) : ""}</div>
+    <p class="trk-fuss">${tx(`${plan.fahrer} kg + ${zahlTxt(monturKg())} kg Ausrüstung · <b>−</b> aufdrehen, <b>+</b> zudrehen · Tipp: Screenshot machen`, `${plan.fahrer} kg + ${monturKg()} kg gear · <b>−</b> turn out, <b>+</b> turn in · Tip: take a screenshot`)}</p>
+  </div></div>`;
+  const d = el.querySelector(".adp");
+  try{ d.focus({preventScroll:true}); }catch(e){ d.focus(); }
+}
 function oeffneFederung(){
   if(!istPro()){ oeffnePro("feder"); return; }
   if(!fFertig() && !fFragenOffen){
@@ -11437,15 +11792,20 @@ function oeffneFederung(){
       <div class="sheet-b">${federFrageHtml()}</div>`);
     return;
   }
+  const kopfF = `<div class="sheet-h"><h3><span class="sub">${tx("Federungsrechner", "Suspension calculator")}</span>${tx("Fahrwerk einstellen", "Set up suspension")}</h3>${zuBtn}</div>`;
+  const umschalter = `<div class="fx-oben"><div class="fx-modus" role="group" aria-label="${tx("Ansicht", "View")}">
+      <button data-fedprofi="0" aria-pressed="${!fedProfi}">${tx("Einfach", "Simple")}</button><button data-fedprofi="1" aria-pressed="${fedProfi}">${tx("Profi", "Pro")}</button></div>
+    <button class="fx-trail" data-fxtrail="1" aria-label="${tx("Trail-Karte öffnen", "Open trail card")}">${ic(`<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/>`, 16)}${tx("Trail-Karte", "Trail card")}</button></div>`;
+  if(!fedProfi){ zeigeSheet(kopfF + `<div class="sheet-b fx">${umschalter}${fedEinfachHtml()}</div>`); return; }
   /* Jede Antwort ein Knopf: Tippen oeffnet nur diesen Schritt */
   const chip = (i, t) => `<button class="chip ff-chip" data-ffedit="${i}" title="${tx("ändern", "change")}">${esc(t)} ✎</button>`;
   const chips = [chip(0, plan.fahrer + " kg" + (fprofil.cm ? " · " + fprofil.cm + " cm" : "")),
     chip(1, tx(`Ausrüstung ${zahlTxt(monturKg())} kg`, `gear ${monturKg()} kg`)),
     chip(2, sp2(RADTYP[radTyp(build)].n).replace(/ \(.*\)$/, "") + (build.radKg ? " · " + zahlTxt(build.radKg) + " kg" : ""))].concat(FFRAGEN.map((f, i) => {
     const o = f.o.find(x => x[0] === fprofil[f.k]); return o ? chip(i + F_VOR, o[1]) : ""; })).join("");
-  zeigeSheet(`
-    <div class="sheet-h"><h3><span class="sub">${tx("Federungsrechner", "Suspension calculator")}</span>${tx("Fahrwerk einstellen", "Set up suspension")}</h3>${zuBtn}</div>
+  zeigeSheet(kopfF + `
     <div class="sheet-b">
+      ${umschalter}
       <div class="ff-profil"><span class="leit-sub">${tx("Dein Fahrprofil", "Your riding profile")}</span><div class="specs">${chips}</div>
         <p class="ff-summe">${tx(`Du mit Ausrüstung ${zahlTxt(systemKg())} kg. Wie das Rad mitzählt, steht in jeder Karte. Tippe auf eine Angabe, um sie zu ändern.`, `You with gear ${systemKg()} kg. How the bike counts is shown in each card. Tap any entry to change it.`)}</p>
         <ul class="ff-gruende">${stilGruende().map(g => `<li>${esc(g)}</li>`).join("")}</ul>
@@ -13282,6 +13642,29 @@ document.addEventListener("click", e => {
   if(adi){ oeffneAdapterInfo(adi.dataset.adinfo, adi); return; }
   const adz = T("[data-adzu]");
   if(adz && (adz.tagName === "BUTTON" || e.target === adz)){ schliesseAdapterInfo(); return; }
+  const fpr = T("[data-fedprofi]");
+  if(fpr){ fedProfi = fpr.dataset.fedprofi === "1"; try{ localStorage.setItem("mtb.fedprofi", fedProfi ? "1" : "0"); }catch(err){}
+    oeffneFederung(); const sb = $("modal").querySelector(".sheet-b"); if(sb) sb.scrollTop = 0; return; }
+  const fxt = T("[data-fxtipp]");
+  if(fxt){
+    const p = document.getElementById(fxt.dataset.fxtipp), auf = p && p.hidden;
+    const karte = fxt.closest(".fx-karte");
+    if(karte){ karte.querySelectorAll(".fx-tipp").forEach(x => { x.hidden = true; }); karte.querySelectorAll("[data-fxtipp]").forEach(x => x.setAttribute("aria-expanded", "false")); }
+    if(p && auf){ p.hidden = false; fxt.setAttribute("aria-expanded", "true"); }
+    return;
+  }
+  const fxs = T("[data-fxsag]");
+  if(fxs){
+    const [slot, d] = fxs.dataset.fxsag.split("|"), f = federRechnen(), x = slot === "gabel" ? f.gabel : f.daempfer;
+    if(!x) return;
+    const m = x.modi[fedModus], mm = slot === "gabel" ? x.t.travel : x.t.hub;
+    const alt = fxMess(slot, x) != null ? fxMess(slot, x) : m.sagMm;
+    fedSagMess[slot] = {id:x.t.id, v:Math.max(0, Math.min(mm * 0.6, Math.round((alt + parseFloat(d)) * 2) / 2))};
+    fxSagNeu(slot);
+    return;
+  }
+  const fxtr = T("[data-fxtrail]");
+  if(fxtr){ oeffneTrailKarte(fxtr); return; }
   const upn = T("[data-upnein]");
   if(upn){ upAblehnen(upn.dataset.upnein); return; }
   if(T("[data-upzurueck]")){ if(upRueck){ const k = upRueck; upRueck = null; upWieder(k); zeigeToast(tx("Wieder da.", "Back again.")); } return; }
@@ -13596,7 +13979,8 @@ document.addEventListener("click", e => {
   if(fmo){
     fedModus = fmo.dataset.fmodus;
     try{ localStorage.setItem("mtb.fmodus", fedModus); }catch(e){}
-    $("fed-erg").innerHTML = federErgebnisHtml(); return;
+    if($("fed-erg")) $("fed-erg").innerHTML = federErgebnisHtml(); else oeffneFederung();
+    return;
   }
   const tcm = T("[data-tcmark]");
   if(tcm){
@@ -13664,6 +14048,9 @@ document.addEventListener("click", e => {
 const wizOffen = () => !!$("modal").querySelector(".steps");
 
 document.addEventListener("input", e => {
+  const fsi = e.target.closest && e.target.closest("[data-fxsagin]");
+  if(fsi){ const sl = fsi.dataset.fxsagin, f = federRechnen(), x = sl === "gabel" ? f.gabel : f.daempfer;
+    if(x){ fedSagMess[sl] = {id:x.t.id, v:+fsi.value}; fxSagNeu(sl); } return; }
   const eik = e.target.closest && e.target.closest("[data-eik]");
   if(eik){ eiSetze(eik.dataset.eik, +eik.value, true); return; }
   const su = e.target.closest("[data-suche]");
