@@ -1862,6 +1862,119 @@ a:active,label:active,[role="button"]:active{opacity:.6}
 .linkbtn:active,.wie:active,.ek-n:active{opacity:.6;transform:none}
 .kopier-feld{width:100%;min-height:220px;resize:vertical;padding:12px;border-radius:var(--r-s);border:1px solid var(--line);
   background:var(--surface-2);color:var(--ink);font:14px/1.5 var(--f-mono)}
+/* ── Adapter: Zeile mit (i), Info-Fenster, Guide (Liam 2026-10-03) ── */
+.ad-zeile{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:9px 8px 9px 14px;
+  background:linear-gradient(90deg,var(--warn-soft),transparent 75%),var(--surface);border-top:1px solid var(--line-soft)}
+.ad-ic{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:var(--warn);background:var(--warn-soft)}
+.ad-t{display:flex;flex-direction:column;gap:1px;min-width:0}
+.ad-k{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);font-weight:800;line-height:1.3}
+.ad-t b{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.3;overflow-wrap:anywhere}
+.ad-r{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);overflow-wrap:anywhere}
+.ad-p{display:flex;flex-direction:column;align-items:flex-end;font-size:13.5px;font-weight:750;white-space:nowrap}
+.ad-p small{font-size:11px;font-weight:600;color:var(--ink-3)}
+.ad-info{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:999px;transition:transform .12s ease}
+.ad-info span{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;font:800 14px/1 var(--f-head);color:var(--anod);
+  background:var(--anod-soft);border:1.5px solid color-mix(in srgb,var(--anod) 55%,transparent);box-shadow:0 0 14px -2px color-mix(in srgb,var(--anod) 55%,transparent)}
+@media (hover:hover){.ad-info:hover span{background:var(--anod);color:var(--on-anod)}}
+.ad-info:active span{transform:scale(.88)}
+.ad-info.klein{width:32px;height:32px;margin:-6px 0}
+.ad-info.klein span{width:22px;height:22px;font-size:12.5px}
+.find .ad-zeile{border:1px solid var(--line-soft);border-radius:14px;margin-top:4px}
+.ek-an{display:flex;align-items:center;gap:4px;font-size:13.5px;font-weight:650;line-height:1.3;overflow-wrap:anywhere}
+.ek-ad .ek-k{color:var(--warn)}
+.mit-ad b{color:var(--warn)}
+/* Info-Fenster: Glas, dezentes Leuchten, liegt ueber allem ausser Rundgang */
+.adp-scrim{position:fixed;inset:0;z-index:88;display:grid;place-items:end center;background:rgba(4,4,12,.42);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:einblenden .2s ease;touch-action:none;overscroll-behavior:contain;
+  padding:12px max(12px, var(--sa-r)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px, var(--sa-l))}
+@media (min-width:640px){.adp-scrim{place-items:center}}
+.adp{position:relative;width:100%;max-width:440px;max-height:calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
+  overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:16px 16px 14px;border-radius:26px;outline:none;
+  background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:saturate(180%) blur(28px);backdrop-filter:saturate(180%) blur(28px);
+  border:1px solid color-mix(in srgb,var(--anod) 32%,var(--hair));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 0 46px -12px color-mix(in srgb,var(--anod) 70%,transparent),var(--shadow-hoch);animation:plopp .36s var(--feder)}
+.adp-kopf{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.adp-i{width:36px;height:36px;flex:none;border-radius:12px;display:grid;place-items:center;color:#fff;font:800 18px/1 var(--f-head);
+  background:var(--grad);box-shadow:0 6px 20px -6px rgba(224,80,138,.75)}
+.adp-tt{flex:1;min-width:0}
+.adp-sub{display:block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:750;margin-bottom:2px}
+.adp-tt h3{font-size:17px;font-weight:800;line-height:1.25;letter-spacing:-.02em}
+.adp-tt h3 span{color:var(--ink-3);font-weight:650}
+.adp-zu{flex:none;background:var(--surface-2);box-shadow:none}
+.adp-rech{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border-radius:14px;background:var(--warn-soft);margin-bottom:8px}
+.adp-rech span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);font-weight:800}
+.adp-rech code{font-family:var(--f-mono);font-size:15px;font-weight:600;color:var(--ink);overflow-wrap:anywhere}
+.ad-grafik{display:block;width:100%;height:auto;margin:2px 0 8px}
+.adp-txt{font-size:14px;line-height:1.55;color:var(--ink-2);margin:0 0 8px}
+.adp-txt b,.adp-det b{color:var(--ink)}
+.adp-det{font-size:12.5px;line-height:1.5;color:var(--ink-3);margin:0 0 10px}
+.adp-fakt{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;padding:10px 0;border-top:1px solid var(--line-soft);font-size:11.5px;color:var(--ink-3)}
+.adp-fakt > span{display:flex;flex-direction:column}
+.adp-fakt b{font-size:15px;color:var(--ink);font-weight:800}
+.adp-fakt .adp-auto{flex-direction:row;align-items:center;gap:5px;color:var(--gut);font-weight:650;flex:1 1 170px}
+.adp-alt{width:100%;margin:0 0 8px}
+.adp-guide{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;padding:12px 14px;border-radius:16px;color:var(--ink);
+  background:linear-gradient(135deg,color-mix(in srgb,var(--anod) 22%,transparent),color-mix(in srgb,#e0508a 14%,transparent));
+  border:1px solid color-mix(in srgb,var(--anod) 35%,transparent)}
+.adp-guide b{display:block;font-size:13.5px;font-weight:750;line-height:1.3}
+.adp-gk{display:block;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--anod);font-weight:800;margin-bottom:2px}
+/* Skizzen */
+.ad-grafik text,.ag-mini text{font:600 11px var(--f-sans);fill:var(--ink-2)}
+.ad-grafik .ag-klein,.ag-mini .ag-klein{font-size:9.5px;fill:var(--ink-3)}
+.ad-grafik .ag-mitte{text-anchor:middle}
+.ad-grafik .ag-neu-t{fill:var(--anod)}
+.ag-nabe{fill:var(--sunk);stroke:var(--line)}
+.ag-alt{fill:none;stroke:var(--ink-3);stroke-width:2;stroke-dasharray:5 4}
+.ag-neu{fill:none;stroke:var(--anod);stroke-width:3.5;stroke-linecap:round}
+.ag-sattel-alt{fill:none;stroke:var(--ink-3);stroke-width:1.5;stroke-dasharray:3 3}
+.ag-sattel{fill:var(--warn)}
+.ag-pfeil{fill:none;stroke:var(--warn);stroke-width:2.2;stroke-linecap:round}
+.ag-kappe-alt{fill:var(--ink-3);opacity:.55}
+.ag-kappe{fill:var(--warn)}
+.ag-achse{fill:var(--anod);opacity:.85}
+.ag-mass{fill:none;stroke:var(--ink-3);stroke-width:1.2}
+.ag-rahmen{fill:var(--sunk);stroke:var(--line);stroke-width:1.5}
+.ag-loch{fill:var(--surface);stroke:var(--line)}
+.ag-adapter{fill:none;stroke:var(--warn);opacity:.9}
+.ag-welle{fill:var(--anod);opacity:.85}
+.ag-schraube{fill:none;stroke:var(--ink-2);stroke-width:2.4;stroke-linecap:round}
+/* Guide */
+.adg{gap:10px}
+/* In der Flex-Spalte schrumpfen Elemente mit overflow sonst auf null (Reiter, Tabellen) */
+.adg > *{flex:none}
+.adg-reiter{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;overscroll-behavior-x:contain}
+.adg-reiter button{flex:none;padding:8px 14px;min-height:36px;border-radius:999px;font-size:13px;font-weight:700;background:var(--surface-2);color:var(--ink-2)}
+.adg-reiter button[aria-selected="true"]{background:var(--ink);color:var(--ground)}
+.adg-meins{display:flex;flex-direction:column;gap:6px;margin:0}
+.adg-meins button{text-align:left;padding:10px 12px;border-radius:14px;background:var(--warn-soft);display:flex;flex-direction:column;gap:2px}
+.adg-meins button span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);font-weight:800}
+.adg-meins button b{font-size:14px;line-height:1.3}
+.adg-meins.ok{flex-direction:row;align-items:center;gap:6px;font-size:13px;color:var(--gut);font-weight:650}
+.adg-lead{font-size:14.5px;line-height:1.55;color:var(--ink-2);margin:4px 0 0}
+.adg-lead b{color:var(--ink)}
+.adg-formel{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:12px;border-radius:16px;background:var(--surface-2);font-weight:700;font-size:14px}
+.adg-formel span{padding:5px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--line-soft)}
+.adg-formel i{font-style:normal;color:var(--ink-3)}
+.adg-formel b{padding:5px 10px;border-radius:10px;background:var(--warn-soft);color:var(--warn)}
+.adg-bsp{font-size:13px;color:var(--ink-2);line-height:1.5;margin:0}
+.adg h4{font-size:15px;font-weight:800;margin:8px 0 0;letter-spacing:-.01em}
+.adg-drei{display:grid;grid-template-columns:1fr;gap:8px}
+@media (min-width:700px){.adg-drei{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.adg-drei > div{display:grid;grid-template-columns:92px minmax(0,1fr);grid-template-rows:auto 1fr;gap:2px 10px;align-items:start;padding:10px;border-radius:16px;background:var(--surface-2)}
+.adg-drei b{font-size:13.5px}
+.adg-drei span{font-size:12px;color:var(--ink-2);line-height:1.45}
+.ag-mini{width:92px;height:auto;grid-row:span 2}
+.adg-tab{overflow-x:auto;border-radius:14px;border:1px solid var(--line-soft)}
+.adg-tab table{width:100%;border-collapse:collapse;font-size:12.5px}
+.adg-tab th{text-align:left;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:8px 10px;background:var(--surface-2)}
+.adg-tab td{padding:8px 10px;border-top:1px solid var(--line-soft);color:var(--ink-2)}
+.adg-ja,.adg-nein,.adg-ok{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:750;white-space:nowrap}
+.adg-ja{background:var(--warn-soft);color:var(--warn)}
+.adg-nein{background:var(--bad-soft);color:var(--bad)}
+.adg-ok{background:var(--gut-soft);color:var(--gut)}
+.adg-liste{margin:0;padding-left:18px;font-size:13px;line-height:1.5;color:var(--ink-2)}
+.adg-liste li{margin:3px 0}
+.adg code{font-family:var(--f-mono);font-size:11.5px;background:var(--surface-2);padding:1px 5px;border-radius:6px}
 </style>
 </head>
 <body>
@@ -3995,27 +4108,68 @@ function sollKettenlinie(rahmen, schaltwerk){
    Flat Mount (FM) und IS brauchen fuer die Post-Mount-Saettel im Katalog
    immer einen eigenen Adapter. Nur wo die Aufnahme belegt ist (Hersteller-
    Support, Datenblatt), wird gerechnet -- sonst zaehlt allein die Freigabe. */
-const A = (t,x,sl,txt) => ({level:"warnung", adapter:true, titel:t, text:txt, slots:sl, fixSlot:x});
+const A = (t,x,sl,txt,ad) => ({level:"warnung", adapter:true, titel:t, text:txt, slots:sl, fixSlot:x, ad:ad || null});
+/* ═══ Adapter (Liam 2026-10-03) ═══
+   Jeder Adapterfall bringt das Teil gleich mit: Name, Richtpreis, Gewicht,
+   die Rechnung und den Grund in Klartext. Der Adapter ist Pflicht und damit
+   automatisch gewaehlt -- er zaehlt in Preis, Gewicht und Einkaufsliste und
+   steht als eigene Zeile unter dem Teil, an das er geschraubt wird (wo).
+   grafik: Daten fuer die Skizze im Info-Fenster. alt: wie es ohne Adapter
+   ginge (Ausfuehrung eines Teils umstellen), sofern der Katalog das hergibt.
+   Preise sind Richtwerte fuer Markenadapter (Shimano, SRAM, Hope, Magura). */
+const adPreisPM = d => d <= 5 ? 8 : d <= 25 ? 17 : 24;
+const adGewPM = d => d <= 5 ? 6 : d <= 25 ? 42 : 60;
+const halb = d => zahlDe(Math.round(d / 2 * 10) / 10);
 function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe){
   if(!nativ || !scheibe) return;
   const posEn = pos === "vorn" ? "Front" : "Rear", wer = slot === "gabel" ? tx("Die Gabel", "The fork") : tx("Der Rahmen", "The frame");
-  const d = scheibe - nativ, art = typ || "PM";
+  const deine = slot === "gabel" ? tx("Deine Gabel", "Your fork") : tx("Dein Rahmen", "Your frame");
+  const d = scheibe - nativ, art = typ || "PM", v = pos === "vorn", posTx = v ? tx("vorn", "front") : tx("hinten", "rear");
+  /* Ohne Adapter ginge es mit der nativen Scheibe -- die UI sucht die Ausfuehrung */
+  const alt = {slot:"bremsen", dim:"Scheiben", pos:v ? "v" : "h", mm:nativ,
+    txt:tx(`Ohne Adapter: Scheibe ${pos} ${nativ} mm`, `No adapter: ${posEn.toLowerCase()} rotor ${nativ} mm`)};
+  const basis = {id:"brems-" + (v ? "v" : "h"), art:"bremse", guide:"bremse", wo:slot, pos:posTx, alt:alt,
+    grafik:{typ:"scheibe", aufnahme:art, nativ:nativ, scheibe:scheibe}};
   if(art === "PM" && d < 0)
     out.push(F(tx(`Bremsscheibe ${pos} zu klein für die Aufnahme`, `${posEn} rotor too small for the mount`),"bremsen",[slot,"bremsen"],
       tx(`${wer} hat eine Post-Mount-Aufnahme für <code>${nativ} mm</code> direkt. Eine <code>${scheibe}-mm</code>-Scheibe ist kleiner als die Aufnahme — der Sattel säße über dem Scheibenrand, die Beläge greifen ins Leere. Kleinste Scheibe hier: <code>${nativ} mm</code>.`,
          `${wer} has a post mount for <code>${nativ} mm</code> direct. A <code>${scheibe} mm</code> rotor is smaller than the mount — the caliper would sit beyond the rotor edge and the pads would miss. Smallest rotor here: <code>${nativ} mm</code>.`)));
-  else if(art === "PM" && d > 0)
+  else if(art === "PM" && d > 0){
+    const shims = d === 3;
     out.push(A(tx(`Bremsscheibe ${pos} nur mit Adapter`, `${posEn} rotor needs an adapter`),"bremsen",[slot,"bremsen"],
-      tx(`Rechnung: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${d === 3 ? "Dafür reichen zwei 1,5-mm-Distanzscheiben (Shim-Kit, z. B. SRAM 200 → 203)." : `Dafür braucht es einen Post-Mount-Adapter <code>+${d} mm</code> (rund 10–25 €), der den Sattel nach außen setzt.`} Liegt den meisten Bremsen nicht bei — mitbestellen.`,
-         `Calculation: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${d === 3 ? "Two 1.5 mm shims do the job (shim kit, e.g. SRAM 200 → 203)." : `That takes a <code>+${d} mm</code> post-mount adapter (about €10–25) that moves the caliper outwards.`} Most brakes don't include it — order it too.`)));
+      tx(`Rechnung: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${shims ? "Dafür reichen zwei 1,5-mm-Distanzscheiben (Shim-Kit, z. B. SRAM 200 → 203)." : `Dafür braucht es einen Post-Mount-Adapter <code>+${d} mm</code>, der den Sattel nach außen setzt.`} Ist automatisch im Aufbau dabei.`,
+         `Calculation: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${shims ? "Two 1.5 mm shims do the job (shim kit, e.g. SRAM 200 → 203)." : `That takes a <code>+${d} mm</code> post-mount adapter that moves the caliper outwards.`} It's included in the build automatically.`),
+      Object.assign(basis, {
+        n:shims ? tx("PM-Distanzscheiben +3 mm", "PM shims +3 mm") : tx(`Post-Mount-Adapter +${d} mm`, `Post-mount adapter +${d} mm`),
+        kurz:`PM ${nativ} → ${scheibe} mm`, rechnung:`PM ${nativ} + ${d} mm = ${scheibe} mm`,
+        p:adPreisPM(d), g:adGewPM(d), such:shims ? "Post Mount Spacer 3 mm" : `Post Mount Adapter ${nativ} ${scheibe}`,
+        grund:tx(`${deine} besitzt eine Post-Mount-Direktaufnahme für <b>${nativ}-mm</b>-Bremsscheiben. Du hast ${pos} jedoch eine <b>${scheibe}-mm</b>-Scheibe gewählt. Um die Differenz von <b>${d} mm</b> auszugleichen und den Bremssattel in die richtige Position zu bringen, brauchst du zwingend ${shims ? "<b>zwei 1,5-mm-Distanzscheiben (PM +3 mm)</b>" : `einen <b>PM +${d} mm</b> Adapter`}.`,
+                 `${deine} has a post-mount direct mount for <b>${nativ} mm</b> rotors. But you chose a <b>${scheibe} mm</b> rotor at the ${posTx}. To make up the difference of <b>${d} mm</b> and put the caliper in the right place you definitely need ${shims ? "<b>two 1.5 mm shims (PM +3 mm)</b>" : `a <b>PM +${d} mm</b> adapter`}.`),
+        detail:tx(`Die ${d} mm sind der Unterschied im <b>Durchmesser</b>. Der Sattel rückt dabei um den halben Wert nach außen — <b>${halb(d)} mm</b>, genau so weit, wie der Scheibenrand jetzt weiter außen liegt (Radius).`,
+                  `The ${d} mm is the difference in <b>diameter</b>. The caliper moves out by half of it — <b>${halb(d)} mm</b>, exactly as far as the rotor edge now sits further out (radius).`)})));
+  }
   else if(art === "FM")
     out.push(A(tx(`Flat-Mount-Aufnahme ${pos}`, `${posEn} flat mount`),"bremsen",[slot,"bremsen"],
       tx(`${wer} hat <code>Flat Mount ${nativ}</code>, die Bremse einen Post-Mount-Sattel. Dazu gehört ein Flat-Mount-auf-Post-Mount-Adapter für <code>${scheibe} mm</code> — oft beim Rahmen dabei, sonst beim Hersteller.${d > 0 ? ` Rechnung: <code>FM${nativ} + ${d} mm = ${scheibe} mm</code>.` : ""}`,
-         `${wer} has <code>flat mount ${nativ}</code>, the brake a post-mount caliper. That needs a flat-mount-to-post-mount adapter for <code>${scheibe} mm</code> — often included with the frame, otherwise from the manufacturer.${d > 0 ? ` Calculation: <code>FM${nativ} + ${d} mm = ${scheibe} mm</code>.` : ""}`)));
+         `${wer} has <code>flat mount ${nativ}</code>, the brake a post-mount caliper. That needs a flat-mount-to-post-mount adapter for <code>${scheibe} mm</code> — often included with the frame, otherwise from the manufacturer.${d > 0 ? ` Calculation: <code>FM${nativ} + ${d} mm = ${scheibe} mm</code>.` : ""}`),
+      Object.assign(basis, {alt:null,
+        n:tx(`Flat-Mount-auf-PM-Adapter ${scheibe} mm`, `Flat-mount-to-PM adapter ${scheibe} mm`),
+        kurz:`FM ${nativ} → PM ${scheibe}`, rechnung:d > 0 ? `FM ${nativ} + ${d} mm = ${scheibe} mm` : `FM ${nativ} → PM ${scheibe}`,
+        p:25, g:50, such:`Flat Mount Post Mount Adapter ${scheibe}`,
+        grund:tx(`${deine} hat eine <b>Flat-Mount</b>-Aufnahme (FM ${nativ}): Der Sattel liegt flach auf, die Schrauben kommen von unten. Deine Bremse hat aber einen <b>Post-Mount</b>-Sattel mit zwei Gewindeaugen. Der Adapter verbindet beide Systeme und setzt den Sattel für die <b>${scheibe}-mm</b>-Scheibe${d > 0 ? ` — ${d} mm über der Aufnahme` : ""}.`,
+                 `${deine} has a <b>flat mount</b> (FM ${nativ}): the caliper sits flat and the bolts come from below. Your brake has a <b>post-mount</b> caliper with two threaded bosses. The adapter joins both systems and places the caliper for the <b>${scheibe} mm</b> rotor${d > 0 ? ` — ${d} mm above the mount` : ""}.`),
+        detail:tx("Oft liegt der Adapter dem Rahmen bei — dann kannst du ihn aus der Einkaufsliste streichen.", "The adapter often comes with the frame — then you can strike it off the shopping list.")})));
   else if(art === "IS")
     out.push(A(tx(`IS-Aufnahme ${pos}`, `${posEn} IS mount`),"bremsen",[slot,"bremsen"],
       tx(`${wer} hat die ältere <code>IS</code>-Aufnahme (International Standard, ${nativ} mm). Post-Mount-Sättel sitzen dort nur mit einem IS-auf-PM-Adapter für <code>${scheibe} mm</code>.`,
-         `${wer} has the older <code>IS</code> mount (International Standard, ${nativ} mm). Post-mount calipers only fit with an IS-to-PM adapter for <code>${scheibe} mm</code>.`)));
+         `${wer} has the older <code>IS</code> mount (International Standard, ${nativ} mm). Post-mount calipers only fit with an IS-to-PM adapter for <code>${scheibe} mm</code>.`),
+      Object.assign(basis, {alt:null,
+        n:tx(`IS-auf-PM-Adapter ${scheibe} mm`, `IS-to-PM adapter ${scheibe} mm`),
+        kurz:`IS ${nativ} → PM ${scheibe}`, rechnung:d > 0 ? `IS ${nativ} + ${d} mm = ${scheibe} mm` : `IS ${nativ} → PM ${scheibe}`,
+        p:15, g:45, such:`IS Post Mount Adapter ${scheibe}`,
+        grund:tx(`${deine} hat die ältere <b>IS-Aufnahme</b> (International Standard): zwei Laschen mit <b>51 mm</b> Lochabstand, die Schrauben laufen quer, parallel zur Achse. Heutige Bremssättel sind <b>Post Mount</b>. Der Adapter übersetzt IS auf PM und setzt den Sattel für deine <b>${scheibe}-mm</b>-Scheibe${d > 0 ? ` (IS ${nativ} + ${d} mm)` : ""}.`,
+                 `${deine} has the older <b>IS mount</b> (International Standard): two tabs <b>51 mm</b> apart, bolts running sideways, parallel to the axle. Today's calipers are <b>post mount</b>. The adapter converts IS to PM and places the caliper for your <b>${scheibe} mm</b> rotor${d > 0 ? ` (IS ${nativ} + ${d} mm)` : ""}.`),
+        detail:tx("IS-Adapter gibt es je Scheibengröße — beim Kauf auf „IS → PM“ und die Größe achten.", "IS adapters come per rotor size — look for “IS → PM” and the size when buying.")})));
 }
 
 function pruefe(b){
@@ -4052,8 +4206,16 @@ function pruefe(b){
          So laufen auch Doppelbrueckengabeln in DH-Rahmen. (Liam 2026-10-01) */
       if(rahmen.schaft === "tapered" && gabel.schaft === "gerade")
         out.push(A(tx("Gerader Gabelschaft nur mit Reduzier-Unterteil", "Straight steerer only with a reducer lower cup"),"gabel",["rahmen","gabel"],
-          tx(`Rahmen <code>${nm(rahmen.schaft)}</code>, Gabel <code>${nm(gabel.schaft)}</code>. Unten sitzt dann statt der 1,5″-Schale ein Reduzier-Unterteil für 1 1/8″ (etwa <code>ZS56/30</code> oder <code>IS52/30</code>, je nach Rahmen). Beim Steuersatz die Ausführung mit 1 1/8″ unten wählen.`,
-             `Frame <code>${nm(rahmen.schaft)}</code>, fork <code>${nm(gabel.schaft)}</code>. The lower 1.5″ cup is replaced by a reducer cup for 1 1/8″ (e.g. <code>ZS56/30</code> or <code>IS52/30</code>, depending on the frame). Pick the headset version with a 1 1/8″ lower.`)));
+          tx(`Rahmen <code>${nm(rahmen.schaft)}</code>, Gabel <code>${nm(gabel.schaft)}</code>. Unten sitzt dann statt der 1,5″-Schale ein Reduzier-Unterteil für 1 1/8″ (etwa <code>ZS56/30</code> oder <code>IS52/30</code>, je nach Rahmen). Ist automatisch im Aufbau dabei.`,
+             `Frame <code>${nm(rahmen.schaft)}</code>, fork <code>${nm(gabel.schaft)}</code>. The lower 1.5″ cup is replaced by a reducer cup for 1 1/8″ (e.g. <code>ZS56/30</code> or <code>IS52/30</code>, depending on the frame). It's included in the build automatically.`),
+          (() => { const unten = rahmen.steuerrohr ? rahmen.steuerrohr.split("/")[1] : "ZS56", sch = unten + "/30";
+            return {id:"steuer", art:"steuersatz", guide:"steuersatz", wo:"gabel", pos:"",
+              n:tx(`Reduzier-Unterteil ${sch}`, `Reducer lower cup ${sch}`), kurz:tx(`1,5″ → 1 1/8″ · ${sch}`, `1.5″ → 1 1/8″ · ${sch}`),
+              rechnung:tx("Ø 1,5″ (38,1 mm) → Ø 1 1/8″ (28,6 mm)", "Ø 1.5″ (38.1 mm) → Ø 1 1/8″ (28.6 mm)"), p:32, g:45, such:`Steuersatz Unterteil ${unten} 1 1/8`,
+              grafik:{typ:"steuer", unten:unten},
+              grund:tx(`Dein Rahmen hat ein <b>konisches</b> Steuerrohr${rahmen.steuerrohr ? ` (<b>${ssStd(rahmen.steuerrohr)}</b>)` : ""}: unten ist Platz für ein Lager um einen <b>1,5″</b>-Schaft (38,1 mm). Deine Gabel hat aber einen <b>geraden 1 1/8″</b>-Schaft (28,6 mm) — unten fehlen also <b>9,5 mm</b> Durchmesser. Ein Reduzier-Unterteil (<b>${sch}</b>) sitzt außen in der 1,5″-Aufnahme und führt innen den 1 1/8″-Schaft. Ohne würde die Gabel unten im Lager wackeln.`,
+                       `Your frame has a <b>tapered</b> head tube${rahmen.steuerrohr ? ` (<b>${ssStd(rahmen.steuerrohr)}</b>)` : ""}: at the bottom there's room for a bearing around a <b>1.5″</b> steerer (38.1 mm). Your fork has a <b>straight 1 1/8″</b> steerer (28.6 mm) — so <b>9.5 mm</b> of diameter is missing at the bottom. A reducer lower cup (<b>${sch}</b>) sits in the 1.5″ seat and guides the 1 1/8″ steerer inside. Without it the fork would rattle in the lower bearing.`),
+              detail:tx("Die /30 am Ende ist der Sitz des Gabelkonus: 30 mm für 1 1/8″, 40 mm für 1,5″. Wählst du den Steuersatz, nimm die Ausführung mit 1 1/8″ unten.", "The /30 at the end is the crown race seat: 30 mm for 1 1/8″, 40 mm for 1.5″. When you choose a headset, take the version with a 1 1/8″ lower.")}; })()));
       /* Einfachbrueckengabel im DH-Rahmen: das Steuerrohr nimmt den konischen
          Schaft auf, aber Geometrie und Freigabe sind fuer die Doppelbruecke */
       else if(rahmen.schaft === "dc" && gabel.schaft === "tapered")
@@ -4110,10 +4272,19 @@ function pruefe(b){
     /* Gibt der Rahmenhersteller ein Umbaukit fuer dieses Achsmass heraus
        (Commencal Supreme DH V5: 157 -> 150), ist es ein Adapterfall */
     const kit = laufraeder.ha !== rahmen.ha && rahmen.haAdapter && rahmen.haAdapter[laufraeder.ha];
-    if(kit)
-      out.push(W(tx("Hinterachse nur mit Umbaukit", "Rear axle only with a conversion kit"),"laufraeder",["rahmen","laufraeder"],
-        tx(`Rahmen <code>${rahmen.ha}</code>, Laufrad <code>${laufraeder.ha}</code>. Passt mit dem <code>${sp2(kit)}</code> — das Kit muss mitbestellt werden.`,
-           `Frame <code>${rahmen.ha}</code>, wheel <code>${laufraeder.ha}</code>. Works with the <code>${sp2(kit)}</code> — order the kit as well.`)));
+    if(kit){
+      const bR = parseInt(rahmen.ha, 10), bL = parseInt(laufraeder.ha, 10);
+      out.push(A(tx("Hinterachse nur mit Umbaukit", "Rear axle only with a conversion kit"),"laufraeder",["rahmen","laufraeder"],
+        tx(`Rahmen <code>${rahmen.ha}</code>, Laufrad <code>${laufraeder.ha}</code>. Passt mit dem <code>${sp2(kit)}</code> — ist automatisch im Aufbau dabei.`,
+           `Frame <code>${rahmen.ha}</code>, wheel <code>${laufraeder.ha}</code>. Works with the <code>${sp2(kit)}</code> — it's included in the build automatically.`),
+        {id:"achse-h", art:"achse", guide:"achse", wo:"rahmen", pos:tx("hinten", "rear"),
+          n:sp2(kit), kurz:`${rahmen.ha} → ${laufraeder.ha}`, rechnung:tx(`Ausfallende ${bR} mm − Nabe ${bL} mm = ${bR - bL} mm Ausgleich`, `Dropouts ${bR} mm − hub ${bL} mm = ${bR - bL} mm to fill`),
+          p:45, g:60, such:`${rahmen.m} ${rahmen.n.replace(rahmen.m, "").trim()} ${bL} Umbaukit`,
+          alt:{slot:"laufraeder", dim:"Nabenbreite", wert:rahmen.ha, txt:tx(`Ohne Adapter: Hinterrad gleich in ${rahmen.ha}`, `No adapter: rear wheel in ${rahmen.ha}`)},
+          grund:tx(`Dein Rahmen hat hinten <b>${bR} mm</b> zwischen den Ausfallenden, die Nabe deines Hinterrads ist <b>${bL} mm</b> breit. <b>${rahmen.m}</b> bietet dafür ein eigenes Umbaukit an: Es füllt die <b>${bR - bL} mm</b> Unterschied mit passenden Ausfallenden bzw. Distanzstücken und sorgt dafür, dass Laufrad und Bremsscheibe mittig sitzen.`,
+                   `Your frame has <b>${bR} mm</b> between the rear dropouts, your rear hub is <b>${bL} mm</b> wide. <b>${rahmen.m}</b> offers its own conversion kit for this: it fills the <b>${bR - bL} mm</b> difference with matching dropouts or spacers and keeps wheel and rotor centred.`),
+          detail:tx("Das Kit kommt vom Rahmenhersteller — andere Distanzstücke passen nicht.", "The kit comes from the frame maker — other spacers won't fit.")}));
+    }
     else if(laufraeder.ha !== rahmen.ha)
       out.push(F(tx("Hinterachse passt nicht", "Rear axle doesn't fit"),"laufraeder",["rahmen","laufraeder"],
         tx(`Rahmen <code>${rahmen.ha}</code> gegen Laufrad <code>${laufraeder.ha}</code>. Einbaubreite ist ein hartes Maß — das bräuchte eine andere Nabe, nicht nur Endkappen.`,
@@ -4128,8 +4299,18 @@ function pruefe(b){
     const endkappen = breite(laufraeder.va) === breite(gabel.va) && laufraeder.v && laufraeder.v.some(d => d.k === "Vorderachse" && d.o.some(o => o.w === gabel.va));
     if(endkappen)
       out.push(A(tx("Vorderachse nur mit anderen Endkappen", "Front axle only with different end caps"),"laufraeder",["gabel","laufraeder"],
-        tx(`Gabel <code>${achsName(gabel.va)}</code>, Vorderrad <code>${achsName(laufraeder.va)}</code>. Die Nabe von <code>${laufraeder.nb || laufraeder.n}</code> lässt sich per Endkappen auf <code>${achsName(gabel.va)}</code> umbauen (rund 20–40 €) — oder gleich in dieser Achse bestellen.`,
-           `Fork <code>${achsName(gabel.va)}</code>, front wheel <code>${achsName(laufraeder.va)}</code>. The <code>${laufraeder.nb || laufraeder.n}</code> hub converts to <code>${achsName(gabel.va)}</code> with end caps (about €20–40) — or order it in that axle straight away.`)));
+        tx(`Gabel <code>${achsName(gabel.va)}</code>, Vorderrad <code>${achsName(laufraeder.va)}</code>. Die Nabe von <code>${laufraeder.nb || laufraeder.n}</code> lässt sich per Endkappen auf <code>${achsName(gabel.va)}</code> umbauen — oder gleich in dieser Achse bestellen.`,
+           `Fork <code>${achsName(gabel.va)}</code>, front wheel <code>${achsName(laufraeder.va)}</code>. The <code>${laufraeder.nb || laufraeder.n}</code> hub converts to <code>${achsName(gabel.va)}</code> with end caps — or order it in that axle straight away.`),
+        (() => { const [bG, dG] = String(gabel.va).split("x"), dR = String(laufraeder.va).split("x")[1], nabe = laufraeder.nb || laufraeder.n;
+          return {id:"achse-v", art:"achse", guide:"achse", wo:"laufraeder", pos:tx("vorn", "front"),
+            n:tx(`Endkappen ${dR} → ${dG} mm`, `End caps ${dR} → ${dG} mm`), kurz:`${laufraeder.va} → ${gabel.va}`,
+            rechnung:tx(`${bG} mm Breite bleibt · Achse Ø ${dR} → ${dG} mm`, `${bG} mm width stays · axle Ø ${dR} → ${dG} mm`), p:30, g:20,
+            such:`${suchName({n:nabe})} Endkappen ${dG}mm`,
+            alt:{slot:"laufraeder", dim:"Vorderachse", wert:gabel.va, txt:tx(`Ohne Adapter: Vorderrad gleich in ${achsName(gabel.va)}`, `No adapter: front wheel in ${achsName(gabel.va)}`)},
+            grafik:{typ:"achse", breite:bG, von:dR, zu:dG},
+            grund:tx(`Deine Gabel hat eine <b>${dG}-mm</b>-Steckachse bei <b>${bG} mm</b> Einbaubreite. Die Nabe deines Vorderrads ist für eine <b>${dR}-mm</b>-Achse eingestellt. Die Breite stimmt — nur der Durchmesser der Achse nicht: <b>${dR} statt ${dG} mm</b>. Mit anderen <b>Endkappen</b> (die Hülsen links und rechts in der Nabe) passt die Nabe auf die Achse der Gabel.`,
+                     `Your fork has a <b>${dG} mm</b> thru-axle at <b>${bG} mm</b> width. Your front hub is set up for a <b>${dR} mm</b> axle. The width matches — only the axle diameter doesn't: <b>${dR} instead of ${dG} mm</b>. With different <b>end caps</b> (the sleeves left and right in the hub) the hub fits the fork's axle.`),
+            detail:tx(`Endkappen gibt es beim Nabenhersteller (${esc(laufraeder.m || "")}), passend zum Nabenmodell. Umbau ohne Werkzeug oder mit zwei Konusschlüsseln, fünf Minuten.`, `End caps come from the hub maker (${esc(laufraeder.m || "")}), matching the hub model. Swapping takes no tools or two cone spanners, five minutes.`)}; })()));
     else
       out.push(F(tx("Vorderachse passt nicht", "Front axle doesn't fit"),"laufraeder",["gabel","laufraeder"],
         tx(`Gabel <code>${achsName(gabel.va)}</code> gegen Vorderrad <code>${achsName(laufraeder.va)}</code>. ${breite(laufraeder.va) !== breite(gabel.va) ? "Boost (110 mm) und Non-Boost (100 mm) haben verschiedene Nabenbreiten — das braucht eine andere Nabe, nicht nur Endkappen." : "Für diese Nabe gibt es keine Endkappen auf die andere Achse."}`,
@@ -4310,7 +4491,25 @@ function pruefe(b){
       out.push(F(tx("Kurbelwelle passt nicht zur Gehäusebreite", "Crank spindle doesn't suit the shell width"),"kurbel",["rahmen","kurbel"],
         tx(`Der Rahmen hat <code>${bbName(rahmen.bb)}</code>, die Kurbel ist für ein <code>${kGeh === 83 ? "83-mm-DH" : "68/73-mm"}</code>-Gehäuse gebaut. ${kGeh === 83 ? "Die DH-Welle ist 10 mm zu lang — die Kurbel lässt sich nicht spielfrei klemmen." : "Die Welle ist 10 mm zu kurz für das DH-Gehäuse."} ${kurbel.v && kurbel.v.some(d => d.k === "Welle") ? "Diese Kurbel gibt es mit passender Welle — direkt am Teil umstellen." : "Gebraucht wird die " + (rGeh === 83 ? "83-mm-DH" : "68/73-mm") + "-Version der Kurbel."}`,
            `The frame has <code>${bbName(rahmen.bb)}</code>, the crank is made for a <code>${kGeh === 83 ? "83 mm DH" : "68/73 mm"}</code> shell. ${kGeh === 83 ? "The DH spindle is 10 mm too long — the crank can't be clamped without play." : "The spindle is 10 mm too short for the DH shell."} ${kurbel.v && kurbel.v.some(d => d.k === "Welle") ? "This crank comes with the right spindle — switch it right on the part." : "You need the " + (rGeh === 83 ? "83 mm DH" : "68/73 mm") + " version of the crank."}`)));
-    if(!innenlager && !rahmen.motor){
+    if(!innenlager && !rahmen.motor && !lagerDa(kurbel, rahmen) && /^(BB30|PF30)$/.test(rahmen.bb) && ["Hollowtech II", "DUB"].indexOf(kurbel.iface) >= 0){
+      /* BB30/PF30 sind fuer 30-mm-Wellen gebaut. Duennere Wellen (24 mm
+         Hollowtech II, 28,99 mm DUB) laufen dort mit einem Konverter-Lager --
+         ein Adapterfall, kein Ende. (Liam 2026-10-03) */
+      const wd = kurbel.iface === "DUB" ? "28,99" : "24", wdEn = kurbel.iface === "DUB" ? "28.99" : "24", bohr = rahmen.bb === "PF30" ? "46" : "42";
+      out.push(A(tx("Innenlager nur mit Konverter", "Bottom bracket only with a converter"),"kurbel",["rahmen","kurbel"],
+        tx(`<code>${bbName(rahmen.bb)}</code> ist für 30-mm-Wellen gebaut, die Kurbel hat <code>${kurbel.iface}</code> (${wd} mm). Das geht mit einem Konverter-Innenlager — ist automatisch im Aufbau dabei.`,
+           `<code>${bbName(rahmen.bb)}</code> is made for 30 mm spindles, the crank has <code>${kurbel.iface}</code> (${wdEn} mm). That works with a converter bottom bracket — it's included in the build automatically.`),
+        {id:"lager", art:"lager", guide:"lager", wo:"kurbel", pos:"",
+          n:tx(`Konverter-Innenlager ${bbName(rahmen.bb)} → ${kurbel.iface}`, `Converter bottom bracket ${bbName(rahmen.bb)} → ${kurbel.iface}`),
+          kurz:tx(`Ø ${bohr} mm Gehäuse → Ø ${wd} mm Welle`, `Ø ${bohr} mm shell → Ø ${wdEn} mm spindle`),
+          rechnung:tx(`Gehäuse Ø ${bohr} mm · Welle Ø ${wd} statt 30 mm`, `Shell Ø ${bohr} mm · spindle Ø ${wdEn} instead of 30 mm`), p:75, g:95,
+          such:`${rahmen.bb} ${kurbel.iface === "DUB" ? "DUB" : "24mm Shimano"} Innenlager`,
+          grafik:{typ:"lager", bohr:bohr, welle:kurbel.iface === "DUB" ? 29 : 24},
+          grund:tx(`Dein Rahmen hat ein <b>${bbName(rahmen.bb)}</b>-Tretlager: eine glatte Bohrung mit <b>Ø ${bohr} mm</b>, gebaut für Kurbeln mit <b>30-mm</b>-Welle. Deine Kurbel hat eine <b>${kurbel.iface}</b>-Welle mit nur <b>${wd} mm</b>. Ein Konverter-Innenlager füllt die Lücke: außen sitzt es im ${bohr}-mm-Gehäuse, innen tragen die Lager die dünnere Welle.`,
+                   `Your frame has a <b>${bbName(rahmen.bb)}</b> bottom bracket: a plain bore of <b>Ø ${bohr} mm</b>, made for cranks with a <b>30 mm</b> spindle. Your crank has a <b>${kurbel.iface}</b> spindle of only <b>${wdEn} mm</b>. A converter bottom bracket bridges the gap: on the outside it sits in the ${bohr} mm shell, on the inside its bearings carry the thinner spindle.`),
+          detail:tx("Konverter gibt es eingepresst oder verschraubt (Thread-Fit) — verschraubt knackt weniger.", "Converters come pressed in or threaded together (thread-fit) — threaded ones creak less.")}));
+    }
+    else if(!innenlager && !rahmen.motor){
       const gibt = lagerDa(kurbel, rahmen);
       out.push(H(tx("Passendes Innenlager mitbestellen", "Order a matching bottom bracket"),"innenlager",["rahmen","kurbel"],
         tx(`<code>${bbName(rahmen.bb)}</code> trifft auf eine <code>${kurbel.iface}</code>-Welle. ${gibt
@@ -4517,9 +4716,12 @@ function bewerte(b){
     if(eig < schwachV){ schwachV = eig; schwach = {slot:s, teil:teil, eig:eig}; }
   }
   const chara = gew ? Math.max(0, Math.round(sum/gew/5*100)) : 0;
+  /* Pflicht-Adapter sind automatisch gewaehlt: sie kosten und wiegen mit */
+  const adapter = funde.filter(f => f.ad).map(f => f.ad);
+  for(const a of adapter){ preis += a.p || 0; gewicht += a.g || 0; }
   return {funde:funde, tech:Math.round(tech), chara:chara,
           gesamt:Math.round(tech*0.62 + chara*0.38),
-          gewicht:gewicht, preis:preis, teile:teile, moeglich:moeglich, schwach:schwach};
+          gewicht:gewicht, preis:preis, teile:teile, moeglich:moeglich, schwach:schwach, adapter:adapter};
 }
 const harteFehler = b => pruefe(b).filter(f => f.level === "fehler").length;
 function echteFehler(b){
@@ -4544,6 +4746,10 @@ function urteil(r){
   if(plan.budget > 0 && r.preis > plan.budget) return tx(`<b>${eur(r.preis - plan.budget)} über Budget.</b> Technisch sauber, aber zu teuer.`, `<b>${eur(r.preis - plan.budget)} over budget.</b> Technically clean, but too expensive.`);
   if(r.chara < 55 && r.schwach) return tx(`Technisch sauber, aber uneinig: <b>${r.schwach.slot.label}</b> zieht in eine andere Richtung als ${zn}.`,
     `Technically clean, but mixed: the <b>${r.schwach.slot.label.toLowerCase()}</b> pulls in a different direction than ${zn}.`);
+  const ad = r.adapter || [];
+  if(ad.length && r.funde.every(f => f.level !== "warnung" || f.ad))
+    return `<span class="mit-ad">${tx(`<b>Kompatibel mit Adapter.</b> ${ad.length === 1 ? "Ein Adapter ist" : ad.length + " Adapter sind"} automatisch dabei (${eur(ad.reduce((x, a) => x + a.p, 0))}).`,
+      `<b>Compatible with adapter.</b> ${ad.length === 1 ? "One adapter is" : ad.length + " adapters are"} included automatically (${eur(ad.reduce((x, a) => x + a.p, 0))}).`)}</span>`;
   if(r.tech < 90) return tx(`Fahrbar, mit Kompromissen. Der Reiter Prüfung sagt, welche.`, `Rideable, with compromises. The Check tab tells you which.`);
   if(r.chara >= 85) return tx(`<b>Stimmig.</b> Alles zieht in Richtung ${zn}.`, `<b>Spot on.</b> Everything pulls towards ${zn}.`);
   return tx(`Sauberer Aufbau für ${zn}.`, `Clean build for ${zn}.`);
@@ -5079,8 +5285,12 @@ function bilanz(b){
   return {f:f, w:w};
 }
 const udhDa = r => !!r && !!(r.udh || (r.udhAb && jahrAktiv() >= r.udhAb));
+/* Mit den Pflicht-Adaptern -- sonst landet der Assistent knapp ueber dem Budget,
+   das die Anzeige (bewerte) dann meldet */
 const summe = b => { let p = 0; for(const s of SLOTS){ if(entfaellt(b,s.k)) continue;
-  const t = b[s.k] ? findeTeil(s.k, b[s.k]) : null; if(t) p += preisVon(t); } return p; };
+  const t = b[s.k] ? findeTeil(s.k, b[s.k]) : null; if(t) p += preisVon(t); }
+  for(const f of pruefe(b)) if(f.ad) p += f.ad.p || 0;
+  return p; };
 
 function budgetPass(b, budget, quals, treue){
   treue = treue || {};
@@ -6574,7 +6784,8 @@ function specsVon(slotKey, t){
 function slotLevel(funde, slotKey){
   let lvl = null;
   for(const f of funde){
-    if(f.slots.indexOf(slotKey) < 0) continue;
+    /* Ein Adapter faerbt nur das Teil, an dem er sitzt -- dort steht auch seine Zeile */
+    if((f.ad ? [f.ad.wo] : f.slots).indexOf(slotKey) < 0) continue;
     if(f.level === "fehler") return "fehler";
     if(f.level === "warnung") lvl = "warnung";
   }
@@ -9152,6 +9363,8 @@ function gAbsicht(text){
   /* Werkstattfragen ("meine Bremse schleift, was soll ich tun?") gehoeren der
      Wissensbasis -- nicht der Teile-Empfehlung, auch wenn "soll" drinsteht */
   if(G_WERKSTATT_WORT.test(n) && !hat(/ (empfiehl\w*|empfehl\w*|recommend\w*|budget|kaufen|buy) /)) return null;
+  /* Adapterfragen ("which brake adapter fits") sind Wissen, keine Teile-Empfehlung */
+  if(hat(/ (adapter\w*|endkappe\w*|end caps?|reduzier\w*|reducer|konverter|converter|shims?|distanzscheibe\w*) /)) return null;
   /* Wertung: was fehlt zur 100, was zieht runter, welcher Tausch bringt am meisten */
   if((B.hundert && !B.mass && !slot)
     || (hat(/ (nur|only|just|bloss|lediglich) [1-9]\d /) && !B.mass)
@@ -9719,7 +9932,17 @@ const GUIDE = [
   {id:"w-nabe", k:"nabenschaltung rohloff speedhub pinion getriebe nexus alfine enviolo kettenschaltung gearhub hub gear gearbox", t:["Nabenschaltung oder Kettenschaltung?", "Hub gear or derailleur?"], a:gWNabe},
   {id:"w-antriebsmarken", k:"campagnolo campa microshift box ekar shimano sram schaltung schaltgruppe gruppe marke vergleich besser welche groupset drivetrain brand compare", t:["Schaltungs-Marken: Shimano, SRAM, Campagnolo …", "Drivetrain brands: Shimano, SRAM, Campagnolo …"], a:gWAntriebMarken},
   {id:"w-motoren", k:"bosch cx shimano ep8 ep801 brose yamaha tq dji avinox fazua motor motoren antrieb nm drehmoment wh akku reichweite ebike emtb vergleich motor torque battery range", t:["E-Bike-Motoren: Bosch, Shimano, Specialized, TQ …", "E-bike motors: Bosch, Shimano, Specialized, TQ …"], a:gWMotoren},
-  {id:"scheiben", k:"scheibengroesse scheibe 160 180 200 203 220 223 postmount adapter bremsaufnahme maximal rotor size mount", t:["Wie groß dürfen die Bremsscheiben sein?", "How big can the rotors be?"],
+  {id:"w-adapter", k:"adapter bremsadapter postmount post mount pm flat mount fm is2000 is aufnahme distanzscheibe shim welcher passt plus brake adapter which",
+   t:["Welcher Bremsadapter passt?", "Which brake adapter fits?"],
+   a:["Rechne <b>Scheibe minus Aufnahme</b>: 203 mm Scheibe an PM 180 = <b>PM +23</b>, 220 an PM 200 = <b>+20</b>, 203 an PM 200 = zwei 1,5-mm-Distanzscheiben (+3). Kleiner als die Aufnahme geht nie. Flat Mount und IS2000 brauchen immer einen eigenen Adapter auf Post Mount. Braucht dein Aufbau einen, ist er schon automatisch dabei — mit (i) daneben, das die Rechnung zeigt.",
+     "Work out <b>rotor minus mount</b>: a 203 mm rotor on PM 180 = <b>PM +23</b>, 220 on PM 200 = <b>+20</b>, 203 on PM 200 = two 1.5 mm shims (+3). Smaller than the mount never works. Flat mount and IS2000 always need their own adapter to post mount. If your build needs one, it's already included automatically — with an (i) next to it that shows the calculation."],
+   ak:["adguide:bremse"]},
+  {id:"w-adapter2", k:"endkappen endkappe umruesten umbausatz reduzierschale reduzier unterteil konverter innenlager adapter end caps reducer converter",
+   t:["Endkappen, Reduzierschale, Konverter?", "End caps, reducer cup, converter?"],
+   a:["Drei Adapter, die oft gebraucht werden: <b>Endkappen</b> ändern den Achsdurchmesser einer Nabe (15 ↔ 20 mm), nie die Breite. Ein <b>Reduzier-Unterteil</b> setzt eine gerade 1 1/8″-Gabel in ein konisches Steuerrohr. Ein <b>Konverter-Innenlager</b> bringt eine dünne Welle (24 mm, DUB) in ein BB30/PF30-Gehäuse. Im Guide steht, was geht und was nicht.",
+     "Three adapters you often need: <b>end caps</b> change a hub's axle diameter (15 ↔ 20 mm), never the width. A <b>reducer lower cup</b> fits a straight 1 1/8″ fork into a tapered head tube. A <b>converter bottom bracket</b> puts a thin spindle (24 mm, DUB) into a BB30/PF30 shell. The guide shows what works and what doesn't."],
+   ak:["adguide:achse"]},
+  {id:"scheiben", k:"scheibengroesse scheibe scheiben bremsscheibe bremsscheiben duerfen 160 180 200 203 220 223 postmount bremsaufnahme maximal rotor rotors size mount", t:["Wie groß dürfen die Bremsscheiben sein?", "How big can the rotors be?"],
    a:["Rahmen und Gabel geben über ihre Aufnahme eine Mindestgröße vor — die <b>native</b> Größe, etwa Postmount 160, 180 oder 200 — und laut Hersteller eine Höchstgröße. Kleiner als nativ geht nicht. Größer geht mit einem Adapter um genau die Differenz: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (zwei 1,5-mm-Shims). Flat Mount und IS brauchen für die üblichen Postmount-Sättel immer einen Adapter. Die App rechnet das aus und zeigt es gelb mit „mit Adapter“. Üblich: 180 mm für XC und Trail, 200–220 mm für Enduro, Downhill und E-MTB.",
      "Frame and fork set a minimum size through their mount — the <b>native</b> size, e.g. post mount 160, 180 or 200 — and a maximum per the manufacturer. Smaller than native won't work. Bigger works with an adapter of exactly the difference: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (two 1.5 mm shims). Flat mount and IS always need an adapter for the usual post-mount calipers. The app works this out and shows it in yellow as “with adapter”. Typical: 180 mm for XC and trail, 200–220 mm for enduro, downhill and e-MTB."]},
   {id:"achse", k:"achse steckachse schnellspanner 15x110 20x110 12x148 12x157 12x142 15x100 axle thru", t:["Welche Achsen gibt es?", "Which axles are there?"],
@@ -9885,6 +10108,7 @@ function gAktInfo(id){
     case "einstieg": return [tx("Einstieg wiederholen", "Repeat the setup"), () => oeffneEinstieg("voll")];
     case "wiz": return modus === "traum" ? [tx("Assistent starten", "Start assistant"), () => oeffneWiz(0)] : null;
     case "menu": return [tx("Einstellungen öffnen", "Open settings"), () => oeffneMenu()];
+    case "adguide": return AD_GUIDE[arg] ? [tx("Adapter-Guide öffnen", "Open the adapter guide"), () => oeffneAdapterGuide(arg)] : null;
     case "disz": return [tx("Disziplin wählen", "Choose discipline"), () => { schliesse(); oeffneDisz(); }];
     case "datenschutz": return [tx("Datenschutz lesen", "Read privacy policy"), () => oeffneRecht("datenschutz")];
     case "view": return ansicht[arg] ? [ansicht[arg], () => { schliesse(); const b = document.querySelector(`.tabs [data-view="${arg}"]`);
@@ -11243,10 +11467,14 @@ function einkaufHtml(r){
   const fehl = r.funde.filter(f => f.level === "fehler").length;
   return `${fehl ? `<div class="mixbox no" style="margin-bottom:10px">${tx(`<b>Erst klären, dann bestellen.</b>
       ${fehl === 1 ? "Ein Teil passt" : fehl + " Teile passen"} nicht zum Rest. Was genau, steht im Reiter Prüfung.`, `<b>Sort it out first, then order.</b> ${fehl === 1 ? "One part doesn't" : fehl + " parts don't"} fit the rest. Exactly what is in the Check tab.`)}</div>` : ""}
-    <div class="ek-summe"><span>${teile.length} ${teile.length === 1 ? tx("Teil", "part") : tx("Teile", "parts")}${offen ? tx(` · ${offen} noch offen`, ` · ${offen} still open`) : ""}</span><b>${eur(r.preis)}</b></div>
+    <div class="ek-summe"><span>${teile.length} ${teile.length === 1 ? tx("Teil", "part") : tx("Teile", "parts")}${(r.adapter || []).length ? ` + ${r.adapter.length} ${tx("Adapter", r.adapter.length === 1 ? "adapter" : "adapters")}` : ""}${offen ? tx(` · ${offen} noch offen`, ` · ${offen} still open`) : ""}</span><b>${eur(r.preis)}</b></div>
     ${teile.map(x => `<div class="ek">
       <div><span class="ek-k">${x.s.label}</span><button class="ek-n" data-detail="${x.s.k}|${x.t.id}">${esc(x.t.n)}</button>${ekFit(x.s.k)}</div>
       <div class="ek-r"><span>${kachelPreis(x.t)}</span>${affHtml(x.t, true)}</div></div>`).join("")}
+    ${(r.adapter || []).map(a => `<div class="ek ek-ad">
+      <div><span class="ek-k">${tx("Adapter", "Adapter")}${a.pos ? " · " + esc(a.pos) : ""} · ${tx("Pflicht", "required")}</span>
+        <span class="ek-an"><span>${esc(a.n)}</span><button class="ad-info klein" data-adinfo="${esc(a.id)}" aria-label="${tx("Warum dieser Adapter?", "Why this adapter?")}"><span aria-hidden="true">i</span></button></span></div>
+      <div class="ek-r"><span class="p">${eur(a.p)}</span>${affHtml({id:"ad-" + a.id, n:a.such}, true)}</div></div>`).join("")}
     <div class="ek-knoepfe"><button class="btn ghost sm" data-ekkopie="1">${tx("Liste kopieren", "Copy list")}</button></div>
     <p class="pv-recht">${tx(`Tippe einen Namen an für alle Angebote und den Preisverlauf. Vor dem Bestellen die Maße gegen das
       Datenblatt deines Rahmens prüfen. Wer nicht selbst schraubt: Liste kopieren und in die Werkstatt mitnehmen.`, "Tap a name for all offers and the price history. Before ordering, check the dimensions against your frame's data sheet. If you don't wrench yourself: copy the list and take it to the bike shop.")}
@@ -11266,6 +11494,7 @@ function einkaufText(){
     const t = findeTeil(s.k, build[s.k]);
     return t ? `${s.label}: ${t.n} — ${eur(preisVon(t))}` : "";
   }).filter(Boolean);
+  for(const a of r.adapter || []) z.push(`${tx("Adapter", "Adapter")}${a.pos ? " " + a.pos : ""}: ${a.n} (${a.rechnung}) — ${eur(a.p)}`);
   const l = build.lenker ? findeTeil("lenker", build.lenker) : null;
   const fit = !f ? [] : ["", tx(`Für den Fahrer (${f.h} cm, Schritt ${f.schritt} cm):`, `For the rider (${f.h} cm, inseam ${f.schritt} cm):`), tx(`Rahmengröße ${f.groesse}`, `Frame size ${f.groesse}`)]
     .concat(l && l.breite > f.lenker + 5 ? [tx(`Lenker auf ${f.lenker} mm kürzen`, `Cut bar to ${f.lenker} mm`)] : [],
@@ -11293,6 +11522,219 @@ function kopierFeld(txt){
     <textarea class="kopier-feld waehlbar" readonly rows="12" aria-label="${tx("Einkaufsliste", "Shopping list")}">${esc(txt)}</textarea></div>`);
   const f = $("modal").querySelector(".kopier-feld");
   if(f) try{ f.focus({preventScroll:true}); f.setSelectionRange(0, f.value.length); }catch(e){}
+}
+/* ═══════════ Adapter: Zeile, Info-Fenster, Guide (Liam 2026-10-03) ═══════════
+   Ein Pflicht-Adapter steht als eigene Zeile unter dem Teil, an das er
+   geschraubt wird -- mit Preis, Gewicht und einem (i). Das (i) oeffnet ein
+   Glas-Fenster: Rechnung, Skizze, der Grund in Klartext, wie es ohne Adapter
+   ginge, und der Weg in den passenden Guide. Das Fenster liegt ueber allem
+   (auch ueber Schubladen) und geht mit X, Tipp daneben oder Escape zu. */
+const AD_SVG = `<path d="M9 7V3M15 7V3"/><path d="M6 7h12v4a6 6 0 0 1-12 0z"/><path d="M12 17v4"/>`;
+const AD_GUIDE = {
+  bremse:["Welcher Bremsadapter passt zu meinem Bike?", "Which brake adapter fits my bike?"],
+  achse:["Welche Endkappen passen zu meiner Gabel?", "Which end caps fit my fork?"],
+  lager:["Welches Innenlager passt in meinen Rahmen?", "Which bottom bracket fits my frame?"],
+  steuersatz:["Welcher Steuersatz passt zu Rahmen und Gabel?", "Which headset fits my frame and fork?"]
+};
+const adGuideTitel = g => AD_GUIDE[g] ? tx(AD_GUIDE[g][0], AD_GUIDE[g][1]) : "";
+function adZeile(a){
+  const art = modus === "traum" ? tx("Pflicht-Adapter · automatisch", "Required adapter · automatic") : tx("Adapter · am Rad nötig", "Adapter · needed on the bike");
+  const warum = tx("Warum dieser Adapter?", "Why this adapter?");
+  return `<div class="ad-zeile">
+    <span class="ad-ic" aria-hidden="true">${ic(AD_SVG, 16)}</span>
+    <span class="ad-t"><span class="ad-k">${art}${a.pos ? " · " + esc(a.pos) : ""}</span><b>${esc(a.n)}</b><span class="ad-r">${esc(a.kurz)}</span></span>
+    <span class="ad-p">${eur(a.p)}<small>${a.g} g</small></span>
+    <button class="ad-info" data-adinfo="${esc(a.id)}" aria-label="${warum}: ${esc(a.n)}" title="${warum}"><span aria-hidden="true">i</span></button>
+  </div>`;
+}
+const adFinden = id => (gR().adapter || []).find(a => a.id === id) || null;
+/* Ohne Adapter: Ausfuehrung des Teils, die den Adapter ueberfluessig macht */
+function adAlternative(a){
+  if(!a || !a.alt) return null;
+  const sk = a.alt.slot, cur = build[sk] ? findeTeil(sk, build[sk]) : null;
+  if(!cur || !cur.v || !cur.wahl) return null;
+  const i = cur.v.findIndex(d => d.k === a.alt.dim);
+  if(i < 0) return null;
+  const j = cur.v[i].o.findIndex(o => a.alt.wert ? o.w === a.alt.wert
+    : o.s && (a.alt.pos === "v" ? o.s.sV === a.alt.mm && o.s.sH === cur.sH : o.s.sH === a.alt.mm && o.s.sV === cur.sV));
+  return j < 0 || j === cur.wahl[i] ? null : {daten:sk + "|" + i + "|" + j, txt:a.alt.txt};
+}
+
+/* Skizzen, schematisch. Farben ueber die Design-Variablen, damit hell und dunkel stimmen. */
+function adGrafik(a){
+  const g = a.grafik || {}, T = (x, y, s, kl) => `<text x="${x}" y="${y}" class="${kl || ""}">${s}</text>`;
+  if(g.typ === "scheibe"){
+    const cx = 18, cy = 150, r = mm => (mm - 100) + 22, rN = r(g.nativ), rS = r(g.scheibe), th = 38 * Math.PI / 180;
+    const bogen = (rr, kl) => `<path class="${kl}" d="M${cx + rr} ${cy} A${rr} ${rr} 0 0 0 ${cx} ${cy - rr}"/>`;
+    const sattel = (rr, kl) => { const x = cx + (rr - 5) * Math.cos(th), y = cy - (rr - 5) * Math.sin(th);
+      return `<rect class="${kl}" x="${(x - 17).toFixed(1)}" y="${(y - 7).toFixed(1)}" width="34" height="14" rx="5" transform="rotate(${90 - 38} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; };
+    /* Pfeil radial nach aussen, knapp unter den Saetteln: vom alten zum neuen Scheibenrand */
+    const pfeil = (() => { if(g.scheibe <= g.nativ) return ""; const ph = 20 * Math.PI / 180, c = Math.cos(ph), sn = Math.sin(ph);
+      const x1 = cx + rN * c, y1 = cy - rN * sn, x2 = cx + rS * c, y2 = cy - rS * sn, sp = 5;
+      const kx = x2 - sp * c, ky = y2 + sp * sn, nx = sn * 4, ny = c * 4;
+      return `<path class="ag-pfeil" d="M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)} M${(kx - nx).toFixed(1)} ${(ky - ny).toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)} L${(kx + nx).toFixed(1)} ${(ky + ny).toFixed(1)}"/>`; })();
+    const d = g.scheibe - g.nativ, auf = g.aufnahme === "PM" ? "PM" : g.aufnahme;
+    return `<svg class="ad-grafik" viewBox="0 0 344 156" role="img" aria-label="${tx(`Skizze: Aufnahme ${auf} ${g.nativ}, Scheibe ${g.scheibe} mm`, `Sketch: ${auf} ${g.nativ} mount, ${g.scheibe} mm rotor`)}">
+      <circle class="ag-nabe" cx="${cx}" cy="${cy}" r="14"/>
+      ${bogen(rN, "ag-alt")}${bogen(rS, "ag-neu")}
+      ${sattel(rN, "ag-sattel-alt")}${sattel(rS, "ag-sattel")}${pfeil}
+      <g class="ag-leg" transform="translate(176 24)">
+        <path class="ag-alt" d="M0 0h22"/>${T(30, 4, tx(`Aufnahme ${auf} ${g.nativ}`, `${auf} ${g.nativ} mount`))}
+        <path class="ag-neu" d="M0 26h22"/>${T(30, 30, tx(`Deine Scheibe ${g.scheibe} mm`, `Your rotor ${g.scheibe} mm`))}
+        ${d > 0 ? `<rect class="ag-sattel" x="2" y="45" width="18" height="10" rx="3"/>${T(30, 54, tx(`Sattel +${halb(d)} mm`, `Caliper +${halb(d)} mm`))}
+        ${T(30, 70, tx(`nach außen (${d} ÷ 2)`, `outwards (${d} ÷ 2)`), "ag-klein")}` : ""}
+      </g>
+      ${T(176, 146, tx("schematisch", "schematic"), "ag-klein")}
+    </svg>`;
+  }
+  if(g.typ === "achse"){
+    const dick = x => Math.max(8, Math.round(+x * 1.25));
+    const nabe = (y, dm, kl, txt) => `<g transform="translate(0 ${y})">
+      <rect class="ag-nabe" x="70" y="-19" width="150" height="38" rx="10"/>
+      <rect class="${kl}" x="54" y="${-dick(dm) / 2 - 4}" width="18" height="${dick(dm) + 8}" rx="3"/><rect class="${kl}" x="218" y="${-dick(dm) / 2 - 4}" width="18" height="${dick(dm) + 8}" rx="3"/>
+      <rect class="ag-achse" x="30" y="${-dick(dm) / 2}" width="230" height="${dick(dm)}" rx="${dick(dm) / 2}"/>
+      ${T(268, 4, txt)}</g>`;
+    return `<svg class="ad-grafik" viewBox="0 0 330 150" role="img" aria-label="${tx(`Skizze: Nabe ${g.breite} mm, Achse ${g.von} auf ${g.zu} mm`, `Sketch: ${g.breite} mm hub, axle ${g.von} to ${g.zu} mm`)}">
+      ${nabe(34, g.von, "ag-kappe-alt", tx(`jetzt Ø ${g.von}`, `now Ø ${g.von}`))}
+      ${nabe(96, g.zu, "ag-kappe", tx(`neu Ø ${g.zu}`, `new Ø ${g.zu}`))}
+      <path class="ag-mass" d="M54 132h182M54 127v10M236 127v10"/>${T(118, 147, tx(`${g.breite} mm bleibt`, `${g.breite} mm stays`), "ag-klein")}
+    </svg>`;
+  }
+  if(g.typ === "steuer" || g.typ === "lager"){
+    /* Querschnitt: aussen die Aufnahme im Rahmen, innen der Schaft bzw. die Welle, dazwischen der Adapter */
+    const st = g.typ === "steuer", aussen = st ? 38.1 : +g.bohr, innen = st ? 28.6 : +g.welle, k = 1.15;
+    const ring = (x, mit) => `<g transform="translate(${x} 74)">
+      <circle class="ag-rahmen" r="${aussen * k + 7}"/><circle class="ag-loch" r="${aussen * k}"/>
+      ${mit ? `<circle class="ag-adapter" r="${(aussen * k + innen * k) / 2}" stroke-width="${aussen * k - innen * k}"/>` : ""}
+      <circle class="ag-welle" r="${innen * k}"/></g>`;
+    const nA = st ? tx("1,5″ · 38,1 mm", "1.5″ · 38.1 mm") : `Ø ${zahlDe(aussen)} mm`, nI = st ? tx("1 1/8″ · 28,6 mm", "1 1/8″ · 28.6 mm") : `Ø ${innen === 29 ? zahlDe(28.99) : innen} mm`;
+    return `<svg class="ad-grafik" viewBox="0 0 320 168" role="img" aria-label="${st ? tx("Skizze: Steuerrohr unten 1,5 Zoll, Schaft 1 1/8 Zoll, Reduzierschale dazwischen", "Sketch: lower head tube 1.5 inch, steerer 1 1/8 inch, reducer cup between")
+        : tx(`Skizze: Gehäuse ${aussen} mm, Welle ${innen} mm, Konverter dazwischen`, `Sketch: shell ${aussen} mm, spindle ${innen} mm, converter between`)}">
+      ${ring(80, false)}${ring(240, true)}
+      ${T(80, 158, tx("ohne: Spalt", "without: gap"), "ag-mitte")}${T(240, 158, st ? tx("mit Reduzierschale", "with reducer cup") : tx("mit Konverter", "with converter"), "ag-mitte")}
+      ${T(160, 18, (st ? tx("Rahmen ", "Frame ") : tx("Gehäuse ", "Shell ")) + nA, "ag-mitte ag-klein")}${T(160, 32, (st ? tx("Gabelschaft ", "Steerer ") : tx("Welle ", "Spindle ")) + nI, "ag-mitte ag-klein ag-neu-t")}
+    </svg>`;
+  }
+  return "";
+}
+
+let adVon = null;
+function oeffneAdapterInfo(id, knopf){
+  const a = adFinden(id);
+  if(!a) return;
+  adVon = knopf || null;
+  let el = $("ad-pop");
+  if(!el){ el = document.createElement("div"); el.id = "ad-pop"; document.body.appendChild(el); }
+  const alt = adAlternative(a);
+  el.innerHTML = `<div class="adp-scrim" data-adzu="1"><div class="adp" role="dialog" aria-modal="true" aria-labelledby="adp-h" tabindex="-1">
+    <div class="adp-kopf"><span class="adp-i" aria-hidden="true">i</span>
+      <div class="adp-tt"><span class="adp-sub">${tx("Warum brauche ich diesen Adapter?", "Why do I need this adapter?")}</span>
+        <h3 id="adp-h">${esc(a.n)}${a.pos ? ` <span>· ${esc(a.pos)}</span>` : ""}</h3></div>
+      <button class="iconbtn adp-zu" data-adzu="1" aria-label="${tx("Schließen", "Close")}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="adp-rech"><span>${tx("Rechnung", "Calculation")}</span><code>${esc(a.rechnung)}</code></div>
+    ${adGrafik(a)}
+    <p class="adp-txt">${a.grund}</p>
+    ${a.detail ? `<p class="adp-det">${a.detail}</p>` : ""}
+    <div class="adp-fakt"><span><b>${eur(a.p)}</b>${tx("Richtpreis", "typical price")}</span><span><b>${a.g} g</b>${tx("Gewicht", "weight")}</span>
+      <span class="adp-auto">${ic(`<path d="M20 6 9 17l-5-5"/>`, 14)}${modus === "traum" ? tx("automatisch in Preis, Gewicht und Einkaufsliste", "automatically in price, weight and shopping list")
+        : tx("in Preis und Gewicht eingerechnet", "counted in price and weight")}</span></div>
+    ${alt ? `<button class="btn ghost sm adp-alt" data-advar="${esc(alt.daten)}">${esc(alt.txt)}</button>` : ""}
+    <button class="adp-guide" data-adguide="${esc(a.guide)}"><span><span class="adp-gk">CrankScore Guide</span><b>${adGuideTitel(a.guide)}</b></span>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  </div></div>`;
+  const d = el.querySelector(".adp");
+  try{ d.focus({preventScroll:true}); }catch(e){ d.focus(); }
+}
+function schliesseAdapterInfo(){
+  const el = $("ad-pop");
+  if(!el || !el.innerHTML) return false;
+  el.innerHTML = "";
+  if(adVon && document.body.contains(adVon)){ try{ adVon.focus({preventScroll:true}); }catch(e){} }
+  adVon = null;
+  return true;
+}
+
+/* ═══ Guide: Adapter verstehen ═══ */
+let adGuideThema = "bremse";
+function adMontage(art){
+  /* Drei Aufnahmen nebeneinander, schematisch: Bein/Strebe, Aufnahme, Sattel */
+  if(art === "PM") return `<svg class="ag-mini" viewBox="0 0 120 84" aria-hidden="true"><rect class="ag-rahmen" x="10" y="6" width="22" height="74" rx="9"/>
+    <rect class="ag-rahmen" x="30" y="20" width="16" height="10" rx="3"/><rect class="ag-rahmen" x="30" y="52" width="16" height="10" rx="3"/>
+    <rect class="ag-sattel" x="46" y="14" width="30" height="54" rx="8"/><path class="ag-schraube" d="M60 25h-26M60 57h-26"/></svg>`;
+  if(art === "FM") return `<svg class="ag-mini" viewBox="0 0 120 84" aria-hidden="true"><rect class="ag-rahmen" x="6" y="50" width="108" height="18" rx="9"/>
+    <rect class="ag-sattel" x="34" y="22" width="52" height="28" rx="8"/><path class="ag-schraube" d="M46 78V36M74 78V36"/></svg>`;
+  return `<svg class="ag-mini" viewBox="0 0 120 84" aria-hidden="true"><rect class="ag-rahmen" x="10" y="6" width="22" height="74" rx="9"/>
+    <rect class="ag-rahmen" x="30" y="14" width="26" height="16" rx="5"/><rect class="ag-rahmen" x="30" y="56" width="26" height="16" rx="5"/>
+    <circle class="ag-loch" cx="44" cy="22" r="4"/><circle class="ag-loch" cx="44" cy="64" r="4"/>
+    <path class="ag-mass" d="M66 22v42M62 22h8M62 64h8"/><text x="74" y="47" class="ag-klein">51</text></svg>`;
+}
+function adGuideMeins(thema){
+  /* Was in deinem Aufbau steckt -- der Guide fangt bei deinem Rad an */
+  const ads = (gR().adapter || []).filter(a => a.guide === thema);
+  if(!ads.length) return `<p class="adg-meins ok">${ic(`<path d="M20 6 9 17l-5-5"/>`, 14)}${tx("In deinem Aufbau braucht es dafür gerade keinen Adapter.", "Your build doesn't need an adapter for this right now.")}</p>`;
+  return `<div class="adg-meins">${ads.map(a => `<button data-adinfo="${esc(a.id)}"><span>${tx("Dein Aufbau", "Your build")}${a.pos ? " · " + esc(a.pos) : ""}</span><b>${esc(a.n)}</b><code>${esc(a.rechnung)}</code></button>`).join("")}</div>`;
+}
+function adGuideInhalt(thema){
+  const tab = (z, kopf) => `<div class="adg-tab"><table><thead><tr>${kopf.map(k => `<th>${k}</th>`).join("")}</tr></thead><tbody>${z.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  const ja = `<span class="adg-ja">${tx("Adapter", "adapter")}</span>`, nein = `<span class="adg-nein">${tx("geht nicht", "no")}</span>`, ok = `<span class="adg-ok">${tx("passt", "fits")}</span>`;
+  if(thema === "bremse") return `
+    <p class="adg-lead">${tx("Jede Aufnahme ist für <b>eine</b> Scheibengröße gebaut — die native. Größer geht mit Adapter, kleiner nie.", "Every mount is built for <b>one</b> rotor size — the native one. Bigger works with an adapter, smaller never.")}</p>
+    <div class="adg-formel"><span>${tx("Scheibe", "Rotor")}</span><i>−</i><span>${tx("Aufnahme", "Mount")}</span><i>=</i><b>${tx("Adapter", "Adapter")}</b></div>
+    <p class="adg-bsp">${tx("Beispiel: 203 mm Scheibe − PM 180 = <b>PM +23 mm</b>. Der Sattel rückt dabei um die Hälfte nach außen (11,5 mm) — so viel, wie die Scheibe am Rand größer ist.", "Example: 203 mm rotor − PM 180 = <b>PM +23 mm</b>. The caliper moves out by half (11.5 mm) — as much as the rotor grows at its edge.")}</p>
+    <h4>${tx("Die drei Aufnahmen", "The three mounts")}</h4>
+    <div class="adg-drei">
+      <div>${adMontage("PM")}<b>Post Mount (PM)</b><span>${tx("Zwei Gewindeaugen, der Sattel wird direkt verschraubt. Standard am MTB — PM 160, 180 oder 200.", "Two threaded bosses, the caliper bolts on directly. MTB standard — PM 160, 180 or 200.")}</span></div>
+      <div>${adMontage("FM")}<b>Flat Mount (FM)</b><span>${tx("Sattel liegt flach auf, Schrauben von unten. Vor allem XC und Gravel — FM 140/160. MTB-Sättel brauchen einen FM→PM-Adapter.", "Caliper sits flat, bolts from below. Mostly XC and gravel — FM 140/160. MTB calipers need an FM→PM adapter.")}</span></div>
+      <div>${adMontage("IS")}<b>IS2000</b><span>${tx("Zwei Laschen mit 51 mm Abstand, Schrauben quer zur Scheibe. Älter, nativ 160 mm — immer mit IS→PM-Adapter.", "Two tabs 51 mm apart, bolts across the rotor. Older, native 160 mm — always with an IS→PM adapter.")}</span></div>
+    </div>
+    <h4>${tx("Häufige Adapter", "Common adapters")}</h4>
+    ${tab([["PM 160", "180 mm", "+20"], ["PM 180", "200 mm", "+20 (SRAM)"], ["PM 180", "203 mm", "+23 (Shimano, Magura)"], ["PM 200", "203 mm", tx("+3 · zwei 1,5-mm-Scheiben", "+3 · two 1.5 mm shims")],
+      ["PM 200", "220 mm", "+20"], ["PM 203", "223 mm", "+20"], ["PM 180", "220 mm", "+40"], ["PM 200", "180 mm", nein]],
+      [tx("Aufnahme", "Mount"), tx("Scheibe", "Rotor"), tx("Adapter", "Adapter")])}
+    <h4>${tx("Gut zu wissen", "Good to know")}</h4>
+    <ul class="adg-liste"><li>${tx("Die Aufnahme steht auf Gabel oder Rahmen, im Datenblatt — und in CrankScore als Chip am Teil (z. B. „PM200“).", "The mount is printed on the fork or frame, in the spec sheet — and in CrankScore as a chip on the part (e.g. “PM200”).")}</li>
+      <li>${tx("Die Freigabe zählt mit: Mehr als die erlaubte Maximalgröße geht auch mit Adapter nicht.", "The rating still applies: no adapter makes a rotor above the maximum allowed size OK.")}</li>
+      <li>${tx("Schrauben mit mittelfester Schraubensicherung, 6–8 Nm (Herstellerangabe beachten). Danach den Sattel über der Scheibe ausrichten.", "Bolts with medium-strength threadlocker, 6–8 Nm (follow the maker's spec). Then align the caliper over the rotor.")}</li></ul>`;
+  if(thema === "achse") return `
+    <p class="adg-lead">${tx("Endkappen sind die Hülsen links und rechts in der Nabe. Mit ihnen ändert sich der <b>Achsdurchmesser</b> — die <b>Breite</b> nicht.", "End caps are the sleeves on both sides of the hub. They change the <b>axle diameter</b> — not the <b>width</b>.")}</p>
+    <div class="adg-formel"><span>${tx("gleiche Breite", "same width")}</span><i>+</i><span>${tx("anderer Ø", "other Ø")}</span><i>=</i><b>${tx("Endkappen", "end caps")}</b></div>
+    <h4>${tx("Vorderrad", "Front wheel")}</h4>
+    ${tab([["100 × 9 " + tx("Schnellspanner", "QR"), "100 × 15", ja], ["110 × 15 Boost", "110 × 20 Boost", ja], ["100 × 15", "110 × 15 Boost", nein], ["110 × 20", "100 × 20 (DH alt)", nein]],
+      [tx("Nabe", "Hub"), tx("Gabel", "Fork"), ""])}
+    <h4>${tx("Hinterrad", "Rear wheel")}</h4>
+    ${tab([["135 × QR", "142 × 12", ja], ["142 × 12", "148 × 12 Boost", nein], ["148 × 12", "157 × 12 Super Boost", nein]], [tx("Nabe", "Hub"), tx("Rahmen", "Frame"), ""])}
+    <ul class="adg-liste"><li>${tx("Endkappen gibt es nur passend zum Nabenmodell — beim Nabenhersteller nach dem Umrüstsatz fragen.", "End caps only come to match the hub model — ask the hub maker for the conversion kit.")}</li>
+      <li>${tx("Breite umrüsten (100 ↔ 110, 142 ↔ 148) heißt andere Nabe. Es gibt Umbausätze, aber das Laufrad sitzt dann nicht mittig — wir raten ab.", "Changing width (100 ↔ 110, 142 ↔ 148) means a different hub. Conversion kits exist, but the wheel then isn't centred — we advise against it.")}</li></ul>`;
+  if(thema === "lager") return `
+    <p class="adg-lead">${tx("Das Innenlager verbindet zwei Maße: das <b>Gehäuse</b> im Rahmen und die <b>Welle</b> der Kurbel. Passen beide nicht direkt, hilft ein Konverter — aber nur in eine Richtung.", "The bottom bracket joins two sizes: the <b>shell</b> in the frame and the crank's <b>spindle</b>. If they don't match directly, a converter helps — but only one way.")}</p>
+    <div class="adg-formel"><span>${tx("großes Gehäuse", "big shell")}</span><i>+</i><span>${tx("dünne Welle", "thin spindle")}</span><i>=</i><b>${tx("Konverter", "converter")}</b></div>
+    ${tab([["BSA 68/73", tx("geschraubt", "threaded"), "24 · DUB · 30 mm", ok], ["T47", tx("geschraubt, 47 mm", "threaded, 47 mm"), "24 · DUB · 30 mm", ok], ["PressFit 92", tx("gepresst, 41 mm", "pressed, 41 mm"), "24 · DUB · 30 mm", ok],
+      ["BB30", tx("Lager direkt, 42 mm", "bearings direct, 42 mm"), "30 mm", ok], ["BB30", "", "24 · DUB", ja], ["PF30", tx("Schalen, 46 mm", "cups, 46 mm"), "30 mm · DUB", ok], ["PF30", "", "24 mm", ja], ["BSA 83 / PF107", "DH", tx("nur DH-Kurbel", "DH crank only"), nein]],
+      [tx("Gehäuse", "Shell"), tx("Art", "Type"), tx("Welle", "Spindle"), ""])}
+    <ul class="adg-liste"><li>${tx("Wellen: Shimano Hollowtech II 24 mm, SRAM DUB 28,99 mm, Race Face/Hope/Praxis 30 mm.", "Spindles: Shimano Hollowtech II 24 mm, SRAM DUB 28.99 mm, Race Face/Hope/Praxis 30 mm.")}</li>
+      <li>${tx("Andersherum (dicke Welle in kleines Gehäuse) gibt es keinen Adapter — nur Lager mit sehr dünnen Lagerringen, und die halten kürzer.", "The other way round (thick spindle in a small shell) there's no adapter — only bearings with very thin races, and those wear faster.")}</li>
+      <li>${tx("Die Breite muss stimmen: Eine DH-Kurbel (83 mm) passt nicht in ein 73-mm-Gehäuse, auch nicht mit Adapter.", "Width must match: a DH crank (83 mm) won't fit a 73 mm shell, not even with an adapter.")}</li></ul>`;
+  return `
+    <p class="adg-lead">${tx("Steuersätze werden nach <b>SHIS</b> benannt: Bauart und Bohrung oben, dann unten — z. B. <code>ZS44/28.6 | ZS56/40</code>.", "Headsets are named after <b>SHIS</b>: type and bore at the top, then the bottom — e.g. <code>ZS44/28.6 | ZS56/40</code>.")}</p>
+    <ul class="adg-liste"><li><b>ZS</b> ${tx("(Zero Stack): Schale steckt im Steuerrohr, Lager innen.", "(zero stack): cup sits in the head tube, bearing inside.")}</li>
+      <li><b>EC</b> ${tx("(External Cup): Schale außen am Rohr.", "(external cup): cup outside the tube.")}</li>
+      <li><b>IS</b> ${tx("(Integrated): Lager sitzt direkt im Rahmen, ohne Schale.", "(integrated): bearing sits directly in the frame, no cup.")}</li>
+      <li>${tx("Die Zahl hinter dem Schrägstrich unten ist der Gabelkonus: <b>/40</b> für einen 1,5″-Schaft, <b>/30</b> für 1 1/8″.", "The number after the slash at the bottom is the crown race: <b>/40</b> for a 1.5″ steerer, <b>/30</b> for 1 1/8″.")}</li></ul>
+    ${tab([[tx("konisch", "tapered"), tx("konisch", "tapered"), ok], [tx("konisch", "tapered"), tx("gerade 1 1/8″", "straight 1 1/8″"), ja + " " + tx("Reduzier-Unterteil …/30", "reducer cup …/30")],
+      [tx("gerade 1 1/8″", "straight 1 1/8″"), tx("konisch", "tapered"), nein], [tx("DH (Doppelbrücke)", "DH (dual crown)"), tx("Doppelbrücke", "dual crown"), ok]],
+      [tx("Steuerrohr", "Head tube"), tx("Gabelschaft", "Steerer"), ""])}
+    <p class="adg-bsp">${tx("Ein Reduzier-Unterteil sitzt außen in der 1,5″-Aufnahme und führt innen den dünneren Schaft. Den Steuersatz dann in der Ausführung „1 1/8″ unten“ kaufen.", "A reducer lower cup sits in the 1.5″ seat and guides the thinner steerer inside. Buy the headset in the “1 1/8″ lower” version.")}</p>`;
+}
+function oeffneAdapterGuide(thema){
+  if(AD_GUIDE[thema]) adGuideThema = thema;
+  const th = adGuideThema;
+  const reiter = [["bremse", tx("Bremse", "Brake")], ["achse", tx("Achse", "Axle")], ["lager", tx("Innenlager", "Bottom bracket")], ["steuersatz", tx("Steuersatz", "Headset")]];
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">CrankScore Guide</span>${adGuideTitel(th)}</h3>${zuBtn}</div>
+    <div class="sheet-b adg">
+      <div class="adg-reiter" role="tablist">${reiter.map(([k, n]) => `<button role="tab" aria-selected="${k === th}" data-adguide="${k}">${n}</button>`).join("")}</div>
+      ${adGuideMeins(th)}
+      ${adGuideInhalt(th)}
+    </div>`);
 }
 /* Vorschlaege (Upgrades, Sparen) kosten die meiste Rechenzeit beim Zeichnen:
    jeder Kandidat jedes Slots wird einmal bewertet. Sichtbar sind sie nur im
@@ -11651,7 +12093,7 @@ function zeichne(){
         ${chips ? `<span class="specs">${chips}</span>` : ""}
         ${kachelZusatz(s.k, t)}
         <span class="slot-r">${t ? kachelPreis(t) : `<span class="g">${s.opt ? tx("optional", "optional") : tx("offen", "open")}</span>`}</span>
-      </button>${t ? varLeiste(s.k, t) : ""}`;
+      </button>${t ? varLeiste(s.k, t) : ""}${(r.adapter || []).filter(a => a.wo === s.k).map(adZeile).join("")}`;
     }).join("");
     /* Der Punkt am Thema fasst zusammen, was darin steckt: roter Konflikt,
        gelbe Einschränkung, grün wenn vollständig und sauber. */
@@ -11707,7 +12149,7 @@ function zeichne(){
   const sortiert = r.funde.slice().sort((a,b) => rang[a.level] - rang[b.level]);
   $("findings").innerHTML = sortiert.length
     ? sortiert.map(f => `<div class="find ${f.level}">
-        <div class="find-t"><span class="pill">${stufeTxt(f)}</span>${esc(f.titel)}</div><p>${f.text}</p>
+        <div class="find-t"><span class="pill">${stufeTxt(f)}</span>${esc(f.titel)}</div><p>${f.text}</p>${f.ad ? adZeile(f.ad) : ""}
         ${f.fixSlot ? `<div><button class="btn ghost sm" data-slot="${f.fixSlot}">${tx("Teil wechseln", "Change part")}</button></div>` : ""}
       </div>`).join("")
     : `<div class="clean"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
@@ -12019,7 +12461,7 @@ function zeigeSheet(html){
     if(f){ if(!tastaturNav) f.setAttribute("tabindex", "-1"); try{ f.focus({preventScroll:true}); }catch(e){ f.focus(); } }
   }
 }
-function schliesse(){ $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; profUmbenennen = null; profLoeschFrage = null;
+function schliesse(){ schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; profUmbenennen = null; profLoeschFrage = null;
   if(tourAnstehend) setTimeout(() => { if(tourAnstehend) tourStart(); }, 700); }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen" data-ta="Schließen|Close">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
@@ -12672,6 +13114,24 @@ function oeffneMenu(){
 const slotUndTeil = x => { const i = x.indexOf("|"); return [x.slice(0, i), x.slice(i + 1)]; };
 document.addEventListener("click", e => {
   const T = q => e.target.closest(q);
+  const adi = T("[data-adinfo]");
+  if(adi){ oeffneAdapterInfo(adi.dataset.adinfo, adi); return; }
+  const adz = T("[data-adzu]");
+  if(adz && (adz.tagName === "BUTTON" || e.target === adz)){ schliesseAdapterInfo(); return; }
+  const adv = T("[data-advar]");
+  if(adv){
+    const q = adv.dataset.advar.split("|"), sk = q[0], cur = build[sk] ? findeTeil(sk, build[sk]) : null;
+    schliesseAdapterInfo();
+    if(cur && cur.v){
+      const w = cur.wahl.slice(); w[+q[1]] = +q[2];
+      build[sk] = varianteNachIndex(rohTeil(quelleOf(slotOf(sk)), cur.basisId), w).id;
+      sichern(); zeichne();
+      zeigeToast(tx("Umgestellt — der Adapter entfällt.", "Switched — no adapter needed."));
+    }
+    return;
+  }
+  const adg = T("[data-adguide]");
+  if(adg){ schliesseAdapterInfo(); oeffneAdapterGuide(adg.dataset.adguide); return; }
   if(T("[data-zu]") || (e.target.classList && e.target.classList.contains("scrim"))){ schliesse(); return; }
 
   /* Guide */
@@ -13151,7 +13611,7 @@ document.addEventListener("keydown", e => {
   if(e.key === "Enter" && e.target.closest && e.target.closest("[data-profname]")){
     profUmbenennen = null; sichern(); zeichne(); oeffneProfile(); return;
   }
-  if(e.key === "Escape") schliesse();
+  if(e.key === "Escape"){ if(schliesseAdapterInfo()) return; schliesse(); }
 });
 /* Guide: Frage abschicken, per Enter oder Pfeil */
 document.addEventListener("submit", e => {

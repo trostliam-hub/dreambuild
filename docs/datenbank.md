@@ -90,7 +90,7 @@ Lenker/Vorbau `klemm` (31.8 / 35), Vorbau `dm` (Direct Mount), Stütze `d`,
 |---|---|---|
 | **rot** – `fehler` | Inkompatibel, mit Begründung | 26 |
 | **gelb** – `warnung` | Kompromiss | 9 |
-| **gelb** – `warnung` + `adapter` | Passt mit Adapter/Umbau, Pille „mit Adapter“ | 4 |
+| **gelb** – `warnung` + `adapter` | Passt mit Adapter/Umbau, Pille „mit Adapter“; der Adapter ist automatisch im Aufbau (`ad`) | 4 |
 | Tipp – `hinweis` | Grün, nur Hinweis | 2 |
 
 ## Regeln (Auszug der wichtigsten Normen)
@@ -152,9 +152,19 @@ nicht weit genug versenken
 
 gelb mit Adapter: Bremsscheibe … nur mit Adapter · Flat-Mount-Aufnahme … ·
 IS-Aufnahme … · Gerader Gabelschaft nur mit Reduzier-Unterteil · Vorderachse
-nur mit anderen Endkappen
+nur mit anderen Endkappen · Hinterachse nur mit Umbaukit · Innenlager nur mit
+Konverter
 
-gelb: Hinterachse nur mit Umbaukit · Weiter Spagat zwischen den Disziplinen ·
+Jeder dieser Befunde trägt ein Adapter-Teil `ad` (seit 03.10.2026):
+`id`, `art` (bremse/achse/lager/steuersatz), `n` (Name), `kurz`, `rechnung`,
+`p` (Richtpreis €), `g` (Gramm), `wo` (Slot, an den er geschraubt wird —
+nur dieser wird gelb), `pos` (vorn/hinten), `grund` und `detail` (Klartext,
+HTML), `grafik` (Daten für die Skizze), `alt` (Ausführung, mit der er
+entfällt), `guide` (Thema im Adapter-Guide), `such` (Suchbegriff für den
+Shop). `bewerte()` zählt die Adapter in Preis und Gewicht und gibt sie als
+`adapter` zurück.
+
+gelb: Weiter Spagat zwischen den Disziplinen ·
 Modelljahr älter als diese Generation · Einfachbrückengabel im DH-Rahmen ·
 Abweichender Hub · Laufradsatz nicht für diesen Einsatz freigegeben ·
 Felgenmaulweite passt nicht zum Reifen · Vorderreifen greift schwächer als der

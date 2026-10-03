@@ -75,6 +75,17 @@ const ergebnisse = await seite.evaluate(faelle => {
       for(const t of f.gelb || []) if(!gelb.includes(t)) probleme.push(`fehlt GELB „${t}“`);
       for(const t of f.hinweis || []) if(!hin.includes(t)) probleme.push(`fehlt HINWEIS „${t}“`);
       for(const t of f.nicht || []) if(rot.includes(t) || gelb.includes(t) || hin.includes(t)) probleme.push(`darf nicht kommen: „${t}“`);
+      /* Adapter: jeder Adapterfall bringt ein vollstaendiges Adapter-Teil mit
+         (Name, Preis, Gewicht, Rechnung, Grund, Guide, Platz im Aufbau) */
+      const ads = bef.filter(x => x.ad).map(x => x.ad);
+      for(const x of bef) if(x.adapter && !x.ad) probleme.push(`Adapterfall ohne Adapter-Teil: „${x.titel}“`);
+      for(const a of ads) for(const k of ['id', 'n', 'p', 'g', 'rechnung', 'grund', 'guide', 'wo'])
+        if(!a[k]) probleme.push(`Adapter „${a.n || a.id}“ ohne ${k}`);
+      for(const e of f.adapter || []){
+        if(!ads.some(a => Object.keys(e).every(k => String(a[k]) === String(e[k]))))
+          probleme.push(`fehlt ADAPTER ${JSON.stringify(e)} (da: ${ads.map(a => a.n + ' / ' + a.rechnung + ' / ' + a.wo + ' / ' + a.p + ' €').join(' | ') || '–'})`);
+      }
+      if(f.keinAdapter && ads.length) probleme.push('Adapter, wo keiner sein darf: ' + ads.map(a => a.n).join(', '));
       if(f.ampel){
         const ampel = rot.length ? 'rot' : gelb.filter(t => !(f.ignoriere || []).includes(t)).length ? 'gelb' : 'gruen';
         if(ampel !== f.ampel) probleme.push(`Ampel ${ampel} statt ${f.ampel} (rot: ${rot.join(' | ') || '–'} · gelb: ${gelb.join(' | ') || '–'})`);

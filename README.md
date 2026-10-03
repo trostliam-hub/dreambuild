@@ -470,7 +470,7 @@ feste Aufbauten durch: welcher Befund rot, gelb oder nur Hinweis sein muss —
 und welcher nicht kommen darf. Kippt eine Änderung an Katalog oder Regeln ein
 bekanntes Ergebnis, schlägt der Test an (Rückgabewert 1).
 
-- `tools/kompat-faelle.mjs`: 124 Regelfälle je Norm — SRAM UDH / Transmission
+- `tools/kompat-faelle.mjs`: 137 Regelfälle je Norm — SRAM UDH / Transmission
   je Rahmen und Baujahr, T-Type, Achsen 135/142/148/150/157 inkl. Umbaukit,
   Vorderachse Boost/Non-Boost und 15/20 (Endkappen), Freiläufe HG / Micro Spline / XD, Innenlager BSA 68/73/83,
   PF92, PF107, PF30, BB30, T47, Spanish, DUB / DUB Wide, 24 / 30 mm, ISIS,
@@ -505,6 +505,55 @@ Cube Stereo Hybrid 160, YT Decoy MX, Trek Fuel EXe, Orbea Rise), 10 Rahmen
 (Santa Cruz 5010 und Tallboy, YT Izzo, Pivot Firebird, Propain Hugene und
 Rage, Cube Stereo ONE55 und Two15, Specialized Status 160, Commencal Meta HT
 AM), 5 E-MTB-Kurbeln, 2 E-MTB-Laufradsätze, Innenlager für T47 und BB30.
+
+## Adapter-System
+
+Seit 03.10.2026 ist jeder Adapter ein echtes Teil im Aufbau, keine Fußnote mehr.
+
+- **Automatisch gewählt:** Erkennt die Prüfung einen Fall, den ein Adapter löst,
+  hängt sie den passenden Adapter an. Er kommt mit Name, Richtpreis, Gewicht,
+  Rechnung und Begründung. Der Adapter ist Pflicht: Er zählt in Preis, Gewicht,
+  Einkaufsliste und kopierte Liste. Weg ist er nur, wenn du die Teile änderst.
+- **Wo er steht:** Als Zeile unter dem Teil, an das er geschraubt wird:
+  - Bremsadapter an Gabel oder Rahmen
+  - Endkappen am Laufrad
+  - Reduzier-Unterteil an der Gabel
+  - Konverter-Lager an der Kurbel
+  - Achs-Umbaukit am Rahmen
+
+  Nur dieses Teil wird gelb. Das Urteil oben lautet „Kompatibel mit Adapter“.
+- **Fälle:**
+
+  | Fall | Adapter | Richtpreis |
+  |---|---|---|
+  | Post Mount kleiner als Scheibe | PM +Differenz (z. B. PM 180 + 23 mm = 203 mm) | 17–24 € |
+  | PM 200 auf 203 | Distanzscheiben +3 mm | 8 € |
+  | Flat Mount | FM-auf-PM-Adapter | 25 € |
+  | IS2000 | IS-auf-PM-Adapter | 15 € |
+  | Vorderachse 15 ↔ 20 mm, gleiche Breite | Endkappen | 30 € |
+  | Hinterbau mit Hersteller-Umbaukit (Commencal 157 → 150) | Umbaukit | 45 € |
+  | Gerade Gabel im konischen Rohr | Reduzier-Unterteil …/30 | 32 € |
+  | BB30/PF30 mit 24-mm- oder DUB-Welle | Konverter-Innenlager | 75 € |
+
+- **(i) daneben:** Öffnet ein Glas-Fenster mit Rechnung, einer Skizze nach den
+  echten Maßen und dem Grund in Klartext. Bei Bremsen steht dort auch, um wie
+  viel der Sattel nach außen rückt (halbe Differenz = Radius). Es zeigt auch,
+  wie es ohne Adapter ginge, als Knopf (z. B. „Scheibe vorn 180 mm“). Unten
+  führt ein Link in den passenden CrankScore Guide. Schließen mit X, Tipp
+  daneben oder Escape. Am Handy ist das Fenster unten angedockt und scrollt in
+  sich.
+- **CrankScore Guide „Adapter verstehen“:** Reiter Bremse, Achse, Innenlager
+  und Steuersatz. Er beginnt mit dem, was in deinem Aufbau steckt, und zeigt:
+  - die Formel
+  - Skizzen der drei Bremsaufnahmen (PM, FM, IS2000)
+  - Tabellen, was mit Adapter geht und was nie
+  - SHIS erklärt
+
+  Der Chat-Guide verweist bei Fragen wie „Welcher Bremsadapter passt?“ dorthin.
+- **Prüfung:** `tools/kompat-test.mjs` verlangt zu jedem Adapterfall ein
+  vollständiges Adapter-Teil und prüft in 13 eigenen Fällen Name, Rechnung,
+  Preis und Platz. Die Oberfläche ist am Handy mit 25 Prüfungen getestet
+  (Erkennen, Zeile, (i), Schließen, Guide, Prüfung, Einkaufsliste, ohne Adapter).
 
 ## Grafik-Prüfung
 
