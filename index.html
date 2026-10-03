@@ -1912,7 +1912,12 @@ a:active,label:active,[role="button"]:active{opacity:.6}
 .adp-fakt > span{display:flex;flex-direction:column}
 .adp-fakt b{font-size:15px;color:var(--ink);font-weight:800}
 .adp-fakt .adp-auto{flex-direction:row;align-items:center;gap:5px;color:var(--gut);font-weight:650;flex:1 1 170px}
-/* ── Naechster Schritt einklappbar, Upgrades ablehnbar (Liam 2026-10-03) ── */
+/* ── Naechster Schritt einklappbar, Upgrades ablehnbar (Liam 2026-10-03) ──
+   Die Karte steht ueber dem Score -- am Handy nur im Reiter Aufbau, wie vorher */
+.coach-platz{padding:12px max(16px, var(--sa-r)) 0 max(16px, var(--sa-l))}
+.coach-platz:empty{display:none}
+.coach-platz > .coach{max-width:1180px;margin:0 auto}
+@media (max-width:819px){body:not([data-view="aufbau"]) .coach-platz{display:none}}
 .sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
 button.coach-kopf{width:100%;text-align:left;min-height:34px;padding:0;background:none;border-radius:10px}
 button.coach-kopf:active:not(:disabled){transform:none;opacity:.7}
@@ -2039,6 +2044,8 @@ button.coach-kopf:active:not(:disabled){transform:none;opacity:.7}
   </div>
 </div>
 <div class="profile"><div class="profile-in" id="profile" role="group" aria-label="Profile" data-ta="Profile|Profiles"></div></div>
+<!-- Naechster Schritt ueber dem Score (Liam 2026-10-03: "der Guide oben, der Score unten") -->
+<div class="coach-platz" id="coach-platz"></div>
 
 <!-- Uebersicht wie bei Bevel: drei Ringe nebeneinander, in der Mitte der
      Score, links Passform, rechts Einsatz. Darunter ein Satz und die zwei
@@ -12221,7 +12228,8 @@ function zeichne(){
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
   </button>`;
 
-  $("aufbau").innerHTML = diszHinweis() + coachKarte(r) + fitTeaser() + leitKarte(r) + marktkarte + fotokarte + (leitAus ? leerHinweis + cta : "") + GRUPPEN.map((g, gi) => {
+  $("coach-platz").innerHTML = coachKarte(r);
+  $("aufbau").innerHTML = diszHinweis() + fitTeaser() + leitKarte(r) + marktkarte + fotokarte + (leitAus ? leerHinweis + cta : "") + GRUPPEN.map((g, gi) => {
     /* Optionale Lager zaehlen nur mit, wenn sie eingetragen sind */
     const meine = SLOTS.filter(s => s.grp === g.n && zaehlt(build, s));
     if(!meine.length) return "";                       /* Thema ganz ohne Slot am Rahmen */

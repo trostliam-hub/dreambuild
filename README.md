@@ -40,7 +40,7 @@ Kennzahlen in der Gesundheits-App Bevel: in der Mitte groß der *Score*
 rechts *Einsatz* (orange). Tippen auf einen Ring erklärt die Zahlen. Darunter
 ein Satz zum Stand und zwei Kacheln: *Preis* (mit Budget als Tankanzeige —
 wie viel frei ist oder dass es drüber liegt) und *Gewicht* (mit „x von y
-Teilen“). Direkt darunter die Karte **Nächster Schritt**: statt aller Listen
+Teilen“). Darüber (seit 03.10.2026, vorher darunter) die Karte **Nächster Schritt**: statt aller Listen
 der eine Schritt, der das Rad jetzt am meisten weiterbringt — zuerst ein
 harter Konflikt (am liebsten kostenlos: dasselbe Teil, andere Ausführung),
 dann beim Traumrad über Budget der größte Sparzug bei gleichen Maßen, sonst
