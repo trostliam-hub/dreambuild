@@ -47,7 +47,21 @@ dann beim Traumrad über Budget der größte Sparzug bei gleichen Maßen, sonst
 das beste echte Upgrade mit Punkten, Preis und Gewicht. Ein Knopf baut es
 ein, ein zweiter fragt den Guide „Was fehlt zur 100?“. Gerechnet wird mit
 denselben Vorschlägen wie im Reiter Upgrades; beim Gebrauchtrad und bei
-leerem Aufbau fehlt die Karte. Das Design dazu: echtes Schwarz (hell: iOS-
+leerem Aufbau fehlt die Karte.
+
+Die Karte lässt sich ein- und ausklappen: Ein Tipp auf die Kopfzeile lässt
+nur „Nächster Schritt“ und den Schritt in einer Zeile stehen. Der Zustand
+bleibt gespeichert und gilt für alle Räder.
+
+Vorschläge lassen sich **ablehnen** (seit 03.10.2026), im Nächsten Schritt
+wie in Upgrades und Sparvorschlägen. Ablehnen heißt „ich behalte dieses
+Teil“:
+- Für den Slot kommt dann weder ein Upgrade noch ein billigerer Ersatz, mit
+  „Rückgängig“ im Hinweis.
+- Das gilt je Rad und nur solange dort dasselbe Teil sitzt. Wer die
+  Laufräder später selbst tauscht, bekommt wieder Vorschläge.
+- Konflikte werden weiter gemeldet.
+- Im Reiter Upgrades stehen die abgelehnten Slots mit „wieder zeigen“. Das Design dazu: echtes Schwarz (hell: iOS-
 Grau), Graphit-Karten ohne Rand mit großen Radien, Beschriftungen in normaler
 Schreibung statt gesperrter Versalien, Knöpfe schlicht weiß auf schwarz
 (hell umgekehrt), der bunte Verlauf Orange → Pink → Violett nur noch am

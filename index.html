@@ -1912,6 +1912,25 @@ a:active,label:active,[role="button"]:active{opacity:.6}
 .adp-fakt > span{display:flex;flex-direction:column}
 .adp-fakt b{font-size:15px;color:var(--ink);font-weight:800}
 .adp-fakt .adp-auto{flex-direction:row;align-items:center;gap:5px;color:var(--gut);font-weight:650;flex:1 1 170px}
+/* ── Naechster Schritt einklappbar, Upgrades ablehnbar (Liam 2026-10-03) ── */
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+button.coach-kopf{width:100%;text-align:left;min-height:34px;padding:0;background:none;border-radius:10px}
+button.coach-kopf:active:not(:disabled){transform:none;opacity:.7}
+.coach-tit{flex:none}
+.coach-kurz{display:none;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);font-weight:700}
+.coach-pfeil{flex:none;margin-left:auto;color:var(--ink-3);transform:rotate(180deg);transition:transform .25s var(--feder)}
+.coach.zu{padding-top:12px;padding-bottom:12px}
+.coach.zu > :not(.coach-kopf){display:none}
+.coach.zu .coach-kurz{display:block}
+.coach.zu .coach-tit{color:var(--ink-3);font-weight:650}
+.coach.zu .coach-pfeil{transform:none}
+.up-nein{font-size:12px;font-weight:650;color:var(--ink-3);padding:6px 4px;min-height:32px;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+@media (hover:hover){.up-nein:hover{color:var(--ink)}}
+.up-abgelehnt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding:12px 0 2px;margin-top:6px;border-top:1px solid var(--line-soft);font-size:12.5px;color:var(--ink-3)}
+.up-abgelehnt.oben{border-top:0;margin:0 0 6px;padding-top:0}
+.up-abgelehnt > span{flex-basis:100%}
+.chip-wieder{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:5px 12px;border-radius:999px;background:var(--surface-2);font-size:12.5px;font-weight:650;color:var(--ink-2)}
+.chip-wieder b{color:var(--anod);font-weight:700}
 /* Tauschen statt Adapter: ganze Breite unter der Zeile, im Fenster gross */
 .ad-tausch{grid-column:1 / -1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;
   min-height:44px;padding:8px 12px;border-radius:14px;color:var(--ink);background:var(--anod-soft);border:1px solid color-mix(in srgb,var(--anod) 30%,transparent)}
@@ -4921,6 +4940,8 @@ function guenstigere(slotKey, b){
 function sparPlan(b){
   const out = [];
   for(const sl of SLOTS){
+    /* Abgelehnt heisst "ich behalte dieses Teil" -- auch kein billigeres */
+    if(b === build && b[sl.k] && upAbgelehnt(sl.k, findeTeil(sl.k, b[sl.k]))) continue;
     const g = guenstigere(sl.k, b);
     if(g.length) out.push({slot:sl, ...g[0], anzahl:g.length});
   }
@@ -11833,13 +11854,52 @@ const breit = () => { try{ return window.matchMedia("(min-width:820px)").matches
    fuellt sich, sobald die Vorschlaege berechnet sind. Bis dahin steht der
    letzte Stand da, wenn sich am Rad nichts geaendert hat, sonst ein
    Platzhalter. */
+/* Abgelehnte Upgrades (Liam 2026-10-03: "die bringen mir nichts, habe ja gute
+   Laufraeder"): je Rad und je Slot, solange dort dasselbe Teil sitzt. Wird das
+   Teil getauscht, kommen wieder Vorschlaege. Konflikte und Sparvorschlaege
+   bleiben davon unberuehrt. */
+const upNein = () => { const p = aktivesProfil(modus); return p ? (p.nein = p.nein || {}) : {}; };
+const upAbgelehnt = (k, jetzt) => !!jetzt && upNein()[k] === basisVon(jetzt.id);
+let upRueck = null;
+function upAblehnen(k){
+  const jetzt = build[k] ? findeTeil(k, build[k]) : null, s = slotOf(k);
+  if(!jetzt || !s) return;
+  upNein()[k] = basisVon(jetzt.id); upRueck = k;
+  sichern(); zeichne();
+  const el = $("toast");
+  if(!el) return;
+  el.innerHTML = `${esc(tx(`Keine Vorschläge mehr für ${s.label} (${jetzt.nb || jetzt.n}).`, `No more suggestions for the ${s.label.toLowerCase()} (${jetzt.nb || jetzt.n}).`))} <button class="toast-zurueck" data-upzurueck="1">${tx("Rückgängig", "Undo")}</button>`;
+  el.hidden = false;
+  clearTimeout(zeigeToast.z); zeigeToast.z = setTimeout(() => { el.hidden = true; upRueck = null; }, 7000);
+}
+function upWieder(k){
+  delete upNein()[k];
+  sichern(); zeichne();
+}
+/* Die Karte laesst sich einklappen: dann steht nur noch die Kopfzeile mit dem
+   Schritt in einer Zeile da. Gilt fuer alle Raeder, bleibt gespeichert. */
+let coachZu = false;
+try{ coachZu = localStorage.getItem("mtb.coachzu") === "1"; }catch(e){}
 let coachHtml = "", coachSchluessel = "";
-const coachStand = () => JSON.stringify([modus, build, sel, plan.budget, sprache]);
-const coachKopf = () => `<div class="coach-kopf"><span class="coach-ic">${ic(IC.traum, 15)}</span>${tx("Nächster Schritt", "Next step")}</div>`;
+const coachStand = () => JSON.stringify([modus, build, sel, plan.budget, sprache, upNein()]);
+const coachKopf = kurz => `<button class="coach-kopf" data-coachzu="1" aria-expanded="${!coachZu}" aria-controls="coach">
+  <span class="coach-ic">${ic(IC.traum, 15)}</span><span class="coach-tit">${tx("Nächster Schritt", "Next step")}</span>
+  ${kurz ? `<span class="coach-kurz">${esc(kurz)}</span>` : ""}
+  <svg class="coach-pfeil" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  <span class="sr">${coachZu ? tx("aufklappen", "expand") : tx("einklappen", "collapse")}</span></button>`;
 function coachKarte(r){
   if(!r.teile || modus === "markt") return "";
-  return `<section class="coach" id="coach" aria-live="polite" style="--n:0">${coachSchluessel === coachStand() ? coachHtml
+  return `<section class="coach${coachZu ? " zu" : ""}" id="coach" aria-live="polite" style="--n:0">${coachSchluessel === coachStand() ? coachHtml
     : coachKopf() + `<div class="coach-laedt" aria-label="${tx("Rechne …", "Calculating …")}"><i></i><i></i></div>`}</section>`;
+}
+function coachUmschalten(){
+  coachZu = !coachZu;
+  try{ localStorage.setItem("mtb.coachzu", coachZu ? "1" : "0"); }catch(e){}
+  const c = $("coach");
+  if(!c) return;
+  c.classList.toggle("zu", coachZu);
+  const k = c.querySelector(".coach-kopf");
+  if(k){ k.setAttribute("aria-expanded", String(!coachZu)); const sr = k.querySelector(".sr"); if(sr) sr.textContent = coachZu ? tx("aufklappen", "expand") : tx("einklappen", "collapse"); }
 }
 function coachInhalt(r, u, spar){
   const pm = x => Math.abs(x) < 1 ? tx("gleicher Preis", "same price") : (x > 0 ? "+" : "−") + eur(Math.abs(x));
@@ -11872,29 +11932,38 @@ function coachInhalt(r, u, spar){
     h = tx(`${eur(v.spart)} sparen: ${v.slot.label}`, `Save ${eur(v.spart)}: ${v.slot.label.toLowerCase()}`);
     t = statt({teil:v.teil, jetzt:jetzt}) + tx(` — gleiche Maße, gleiche Passform. `, ` — same dimensions, same fit. `)
       + (rest > 0 ? tx(`Danach noch ${eur(rest)} über Budget.`, `Then still ${eur(rest)} over budget.`) : tx("Danach bist du im Budget.", "Then you're within budget."));
-    knopf = einbau(v, tx("Tauschen", "Swap"));
+    knopf = einbau(v, tx("Tauschen", "Swap")) + `<button class="btn ghost sm" data-upnein="${v.slot.k}">${tx("Ablehnen", "Dismiss")}</button>`;
   }else if(u.upgrades.length){
     const v = u.upgrades[0];
     h = tx(`+${v.d} ${v.d === 1 ? "Punkt" : "Punkte"} mit neuem Teil: ${v.slot.label}`, `+${v.d} ${v.d === 1 ? "point" : "points"} with a new ${v.slot.label.toLowerCase()}`);
     /* Preis und Gewicht bleiben zusammen in einer Zeile -- sonst stand "−170 g" allein */
     t = statt(v) + ` <span class="nw">· ${pm(v.mehr)} · ${gm(v.gd)}</span>`;
-    knopf = einbau(v, tx("Einbauen", "Fit"));
+    knopf = einbau(v, tx("Einbauen", "Fit")) + `<button class="btn ghost sm" data-upnein="${v.slot.k}">${tx("Ablehnen", "Dismiss")}</button>`;
   }else if(r.gesamt >= 100){
     h = tx("100 von 100 — nichts zu tun", "100 out of 100 — nothing to do");
     t = tx(`Alles passt zusammen und zu ${esc(selNamen())}.`, `Everything fits together and suits ${esc(selNamen())}.`);
   }else{
-    h = tx(`${r.gesamt} von 100 — ausgereizt`, `${r.gesamt} out of 100 — maxed out`);
-    t = tx("Kein einzelnes Teil hebt den Score, ohne woanders ein Rückschritt zu sein. Der Guide zeigt, woher die fehlenden Punkte kommen.",
+    const nein = Object.keys(upNein()).length;
+    h = nein ? tx(`${r.gesamt} von 100 — so willst du es`, `${r.gesamt} out of 100 — the way you want it`) : tx(`${r.gesamt} von 100 — ausgereizt`, `${r.gesamt} out of 100 — maxed out`);
+    t = nein ? tx("Alle übrigen Vorschläge hast du abgelehnt. Im Reiter Upgrades kannst du sie wieder einblenden.", "You've dismissed all remaining suggestions. You can bring them back in the Upgrades tab.")
+      : tx("Kein einzelnes Teil hebt den Score, ohne woanders ein Rückschritt zu sein. Der Guide zeigt, woher die fehlenden Punkte kommen.",
       "No single part raises the score without being a step back somewhere else. The guide shows where the missing points come from.");
   }
   const frage = r.gesamt < 100 ? tx("Was fehlt zur 100?", "What's missing to get 100?") : tx("Wofür ist mein Rad gut?", "What is my bike good for?");
-  return coachKopf() + `<p class="coach-h">${h}</p><p class="coach-t">${t}</p>
+  return coachKopf(gOhneTags(h)) + `<p class="coach-h">${h}</p><p class="coach-t">${t}</p>
     <div class="coach-knoepfe">${knopf}<button class="btn ghost sm" data-coachfrage="${esc(frage)}">${ic(IC.guide, 14)}${esc(frage)}</button></div>`;
 }
 
 /* Shop-Link als eigene Zeile unter einem Vorschlag: neben dem Knopf nahm er dem
    Namen die halbe Breite, und "RockShox Recon Gold RL · 130 mm" brach dreimal um */
 const shopZeile = t => { const a = affHtml(t, true); return a ? `<div class="up-shop">${a}</div>` : ""; };
+/* Abgelehnte Slots, solange dort noch dasselbe Teil sitzt -- mit Weg zurueck */
+function upAbgelehntHtml(oben){
+  const n = upNein(), l = SLOTS.filter(s => n[s.k] && build[s.k] && upAbgelehnt(s.k, findeTeil(s.k, build[s.k])));
+  if(!l.length) return "";
+  return `<div class="up-abgelehnt${oben ? " oben" : ""}"><span>${tx("Abgelehnt — dafür keine Vorschläge:", "Dismissed — no suggestions for:")}</span>
+    ${l.map(s => `<button class="chip-wieder" data-upwieder="${s.k}" aria-label="${tx(`${s.label} wieder vorschlagen`, `Suggest ${s.label.toLowerCase()} again`)}">${esc(s.label)}<b>${tx("wieder zeigen", "show again")}</b></button>`).join("")}</div>`;
+}
 function vorschlaegeZeichnen(){
   vorschlagTimer = 0;
   const r = bewerte(build);
@@ -11902,7 +11971,7 @@ function vorschlaegeZeichnen(){
   const statt = v => `<div class="up-statt">${tx("statt", "instead of")} ${esc(v.jetzt.n)}</div>`;
   const kopf = t => `<div class="up-kopf">${t}</div>`;
   $("upgrades").innerHTML = !u.anzahl
-    ? `<p class="empty-note">${r.teile ? tx("Kein Teil aus dem Katalog macht deinen Aufbau besser, ohne ein Rückschritt zu sein. Ab hier entscheidet der Fahrer, nicht das Teil.", "No part in the catalogue makes your build better without being a step back somewhere. From here on it's the rider, not the part.")
+    ? upAbgelehntHtml(true) + `<p class="empty-note">${r.teile ? tx("Kein Teil aus dem Katalog macht deinen Aufbau besser, ohne ein Rückschritt zu sein. Ab hier entscheidet der Fahrer, nicht das Teil.", "No part in the catalogue makes your build better without being a step back somewhere. From here on it's the rider, not the part.")
         : tx("Trag zuerst Teile ein — dann stehen hier Upgrades für genau dein Rad.", "Enter parts first — then upgrades for exactly your bike appear here.")}</p>`
     : (u.einstellen.length ? kopf(tx("Kostenlos: nur umstellen", "Free: just change a setting")) + u.einstellen.map(v => `
       <div class="up">
@@ -11922,9 +11991,11 @@ function vorschlaegeZeichnen(){
         <div><div class="up-n">${esc(v.teil.n)}</div>${statt(v)}
           <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div></div>
         <div class="up-r"><span class="delta">+${v.d} ${v.d === 1 ? tx("Punkt", "point") : tx("Punkte", "points")}</span>
-          <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">${tx("Einbauen", "Fit")}</button></div>
+          <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">${tx("Einbauen", "Fit")}</button>
+          <button class="up-nein" data-upnein="${v.slot.k}">${tx("Ablehnen", "Dismiss")}</button></div>
         ${shopZeile(v.teil)}
-      </div>`).join("") : "");
+      </div>`).join("") : "")
+    + upAbgelehntHtml();
 
   const spar = sparPlan(build);
   coachHtml = coachInhalt(r, u, modus === "traum" ? spar : []); coachSchluessel = coachStand();
@@ -11943,6 +12014,7 @@ function vorschlaegeZeichnen(){
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
             <span class="minus">−${eur(v.spart)}</span>
             <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">${tx("Tauschen", "Swap")}</button>
+            <button class="up-nein" data-upnein="${v.slot.k}">${tx("Ablehnen", "Dismiss")}</button>
           </div>
           ${shopZeile(v.teil)}
         </div>`).join("")
@@ -12414,6 +12486,7 @@ function upgrades(r){
         if(fehlerAn(pr, s.k) < fJetzt){ einstellen.push({slot:s, teil:pa, jetzt:jetzt, d:pr.gesamt - r.gesamt, aenderung:pa.aenderung}); continue; }
       }
     }
+    if(!fJetzt && upAbgelehnt(s.k, jetzt)) continue;   /* "brauche ich nicht" -- nur bei Konflikten wieder */
     const qJetzt = grundpreis(jetzt);
     let besterErsatz = null;
     for(const kand of kandidaten(s.k, build)){
@@ -13201,6 +13274,12 @@ document.addEventListener("click", e => {
   if(adi){ oeffneAdapterInfo(adi.dataset.adinfo, adi); return; }
   const adz = T("[data-adzu]");
   if(adz && (adz.tagName === "BUTTON" || e.target === adz)){ schliesseAdapterInfo(); return; }
+  const upn = T("[data-upnein]");
+  if(upn){ upAblehnen(upn.dataset.upnein); return; }
+  if(T("[data-upzurueck]")){ if(upRueck){ const k = upRueck; upRueck = null; upWieder(k); zeigeToast(tx("Wieder da.", "Back again.")); } return; }
+  const upw = T("[data-upwieder]");
+  if(upw){ upWieder(upw.dataset.upwieder); return; }
+  if(T("[data-coachzu]")){ coachUmschalten(); return; }
   const adt = T("[data-adtausch]");
   if(adt){ adTauschen(adt.dataset.adtausch); return; }
   if(T("[data-adzurueck]")){ adZurueck(); return; }
