@@ -1912,7 +1912,18 @@ a:active,label:active,[role="button"]:active{opacity:.6}
 .adp-fakt > span{display:flex;flex-direction:column}
 .adp-fakt b{font-size:15px;color:var(--ink);font-weight:800}
 .adp-fakt .adp-auto{flex-direction:row;align-items:center;gap:5px;color:var(--gut);font-weight:650;flex:1 1 170px}
-.adp-alt{width:100%;margin:0 0 8px}
+/* Tauschen statt Adapter: ganze Breite unter der Zeile, im Fenster gross */
+.ad-tausch{grid-column:1 / -1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;
+  min-height:44px;padding:8px 12px;border-radius:14px;color:var(--ink);background:var(--anod-soft);border:1px solid color-mix(in srgb,var(--anod) 30%,transparent)}
+@media (hover:hover){.ad-tausch:hover{border-color:var(--anod)}}
+.ad-ti{color:var(--anod);display:grid}
+.ad-tt{display:flex;flex-direction:column;min-width:0}
+.ad-tt b{font-size:13px;font-weight:750;color:var(--anod);line-height:1.3;overflow-wrap:anywhere}
+.ad-tt span{font-size:11.5px;color:var(--ink-3);line-height:1.3;overflow-wrap:anywhere}
+.ad-td{font-size:12px;font-weight:750;color:var(--ink-2);white-space:nowrap}
+.ad-tausch.gross{margin:0 0 8px;padding:11px 14px}
+.toast-zurueck{margin-left:6px;padding:3px 12px;min-height:30px;border-radius:999px;color:inherit;font-weight:800;
+  background:color-mix(in srgb,var(--surface) 20%,transparent)}
 .adp-guide{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;padding:12px 14px;border-radius:16px;color:var(--ink);
   background:linear-gradient(135deg,color-mix(in srgb,var(--anod) 22%,transparent),color-mix(in srgb,#e0508a 14%,transparent));
   border:1px solid color-mix(in srgb,var(--anod) 35%,transparent)}
@@ -4120,15 +4131,16 @@ const A = (t,x,sl,txt,ad) => ({level:"warnung", adapter:true, titel:t, text:txt,
 const adPreisPM = d => d <= 5 ? 8 : d <= 25 ? 17 : 24;
 const adGewPM = d => d <= 5 ? 6 : d <= 25 ? 42 : 60;
 const halb = d => zahlDe(Math.round(d / 2 * 10) / 10);
-function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe){
+function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe, bremse){
   if(!nativ || !scheibe) return;
   const posEn = pos === "vorn" ? "Front" : "Rear", wer = slot === "gabel" ? tx("Die Gabel", "The fork") : tx("Der Rahmen", "The frame");
   const deine = slot === "gabel" ? tx("Deine Gabel", "Your fork") : tx("Dein Rahmen", "Your frame");
   const d = scheibe - nativ, art = typ || "PM", v = pos === "vorn", posTx = v ? tx("vorn", "front") : tx("hinten", "rear");
-  /* Ohne Adapter ginge es mit der nativen Scheibe -- die UI sucht die Ausfuehrung */
-  const alt = {slot:"bremsen", dim:"Scheiben", pos:v ? "v" : "h", mm:nativ,
-    txt:tx(`Ohne Adapter: Scheibe ${pos} ${nativ} mm`, `No adapter: ${posEn.toLowerCase()} rotor ${nativ} mm`)};
-  const basis = {id:"brems-" + (v ? "v" : "h"), art:"bremse", guide:"bremse", wo:slot, pos:posTx, alt:alt,
+  /* Tausch ohne Adapter: eine Bremse mit Scheibe in nativer Groesse an dieser
+     Stelle -- die andere Seite so nah wie moeglich an der bisherigen */
+  const tausch = {slot:"bremsen", dim:"Scheiben", ok:x => (v ? x.sV : x.sH) === nativ,
+    naeh:x => Math.abs(v ? x.sH - (bremse ? bremse.sH : x.sH) : x.sV - (bremse ? bremse.sV : x.sV))};
+  const basis = {id:"brems-" + (v ? "v" : "h"), art:"bremse", guide:"bremse", wo:slot, pos:posTx, tausch:tausch,
     grafik:{typ:"scheibe", aufnahme:art, nativ:nativ, scheibe:scheibe}};
   if(art === "PM" && d < 0)
     out.push(F(tx(`Bremsscheibe ${pos} zu klein für die Aufnahme`, `${posEn} rotor too small for the mount`),"bremsen",[slot,"bremsen"],
@@ -4152,7 +4164,7 @@ function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe){
     out.push(A(tx(`Flat-Mount-Aufnahme ${pos}`, `${posEn} flat mount`),"bremsen",[slot,"bremsen"],
       tx(`${wer} hat <code>Flat Mount ${nativ}</code>, die Bremse einen Post-Mount-Sattel. Dazu gehört ein Flat-Mount-auf-Post-Mount-Adapter für <code>${scheibe} mm</code> — oft beim Rahmen dabei, sonst beim Hersteller.${d > 0 ? ` Rechnung: <code>FM${nativ} + ${d} mm = ${scheibe} mm</code>.` : ""}`,
          `${wer} has <code>flat mount ${nativ}</code>, the brake a post-mount caliper. That needs a flat-mount-to-post-mount adapter for <code>${scheibe} mm</code> — often included with the frame, otherwise from the manufacturer.${d > 0 ? ` Calculation: <code>FM${nativ} + ${d} mm = ${scheibe} mm</code>.` : ""}`),
-      Object.assign(basis, {alt:null,
+      Object.assign(basis, {tausch:null,
         n:tx(`Flat-Mount-auf-PM-Adapter ${scheibe} mm`, `Flat-mount-to-PM adapter ${scheibe} mm`),
         kurz:`FM ${nativ} → PM ${scheibe}`, rechnung:d > 0 ? `FM ${nativ} + ${d} mm = ${scheibe} mm` : `FM ${nativ} → PM ${scheibe}`,
         p:25, g:50, such:`Flat Mount Post Mount Adapter ${scheibe}`,
@@ -4163,7 +4175,7 @@ function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe){
     out.push(A(tx(`IS-Aufnahme ${pos}`, `${posEn} IS mount`),"bremsen",[slot,"bremsen"],
       tx(`${wer} hat die ältere <code>IS</code>-Aufnahme (International Standard, ${nativ} mm). Post-Mount-Sättel sitzen dort nur mit einem IS-auf-PM-Adapter für <code>${scheibe} mm</code>.`,
          `${wer} has the older <code>IS</code> mount (International Standard, ${nativ} mm). Post-mount calipers only fit with an IS-to-PM adapter for <code>${scheibe} mm</code>.`),
-      Object.assign(basis, {alt:null,
+      Object.assign(basis, {tausch:null,
         n:tx(`IS-auf-PM-Adapter ${scheibe} mm`, `IS-to-PM adapter ${scheibe} mm`),
         kurz:`IS ${nativ} → PM ${scheibe}`, rechnung:d > 0 ? `IS ${nativ} + ${d} mm = ${scheibe} mm` : `IS ${nativ} → PM ${scheibe}`,
         p:15, g:45, such:`IS Post Mount Adapter ${scheibe}`,
@@ -4209,7 +4221,7 @@ function pruefe(b){
           tx(`Rahmen <code>${nm(rahmen.schaft)}</code>, Gabel <code>${nm(gabel.schaft)}</code>. Unten sitzt dann statt der 1,5″-Schale ein Reduzier-Unterteil für 1 1/8″ (etwa <code>ZS56/30</code> oder <code>IS52/30</code>, je nach Rahmen). Ist automatisch im Aufbau dabei.`,
              `Frame <code>${nm(rahmen.schaft)}</code>, fork <code>${nm(gabel.schaft)}</code>. The lower 1.5″ cup is replaced by a reducer cup for 1 1/8″ (e.g. <code>ZS56/30</code> or <code>IS52/30</code>, depending on the frame). It's included in the build automatically.`),
           (() => { const unten = rahmen.steuerrohr ? rahmen.steuerrohr.split("/")[1] : "ZS56", sch = unten + "/30";
-            return {id:"steuer", art:"steuersatz", guide:"steuersatz", wo:"gabel", pos:"",
+            return {id:"steuer", art:"steuersatz", guide:"steuersatz", wo:"gabel", pos:"", tausch:{slot:"gabel", dim:"Steuerrohr", ok:x => x.schaft === "tapered"},
               n:tx(`Reduzier-Unterteil ${sch}`, `Reducer lower cup ${sch}`), kurz:tx(`1,5″ → 1 1/8″ · ${sch}`, `1.5″ → 1 1/8″ · ${sch}`),
               rechnung:tx("Ø 1,5″ (38,1 mm) → Ø 1 1/8″ (28,6 mm)", "Ø 1.5″ (38.1 mm) → Ø 1 1/8″ (28.6 mm)"), p:32, g:45, such:`Steuersatz Unterteil ${unten} 1 1/8`,
               grafik:{typ:"steuer", unten:unten},
@@ -4280,7 +4292,7 @@ function pruefe(b){
         {id:"achse-h", art:"achse", guide:"achse", wo:"rahmen", pos:tx("hinten", "rear"),
           n:sp2(kit), kurz:`${rahmen.ha} → ${laufraeder.ha}`, rechnung:tx(`Ausfallende ${bR} mm − Nabe ${bL} mm = ${bR - bL} mm Ausgleich`, `Dropouts ${bR} mm − hub ${bL} mm = ${bR - bL} mm to fill`),
           p:45, g:60, such:`${rahmen.m} ${rahmen.n.replace(rahmen.m, "").trim()} ${bL} Umbaukit`,
-          alt:{slot:"laufraeder", dim:"Nabenbreite", wert:rahmen.ha, txt:tx(`Ohne Adapter: Hinterrad gleich in ${rahmen.ha}`, `No adapter: rear wheel in ${rahmen.ha}`)},
+          tausch:{slot:"laufraeder", dim:"Nabenbreite", ok:x => x.ha === rahmen.ha},
           grund:tx(`Dein Rahmen hat hinten <b>${bR} mm</b> zwischen den Ausfallenden, die Nabe deines Hinterrads ist <b>${bL} mm</b> breit. <b>${rahmen.m}</b> bietet dafür ein eigenes Umbaukit an: Es füllt die <b>${bR - bL} mm</b> Unterschied mit passenden Ausfallenden bzw. Distanzstücken und sorgt dafür, dass Laufrad und Bremsscheibe mittig sitzen.`,
                    `Your frame has <b>${bR} mm</b> between the rear dropouts, your rear hub is <b>${bL} mm</b> wide. <b>${rahmen.m}</b> offers its own conversion kit for this: it fills the <b>${bR - bL} mm</b> difference with matching dropouts or spacers and keeps wheel and rotor centred.`),
           detail:tx("Das Kit kommt vom Rahmenhersteller — andere Distanzstücke passen nicht.", "The kit comes from the frame maker — other spacers won't fit.")}));
@@ -4306,7 +4318,7 @@ function pruefe(b){
             n:tx(`Endkappen ${dR} → ${dG} mm`, `End caps ${dR} → ${dG} mm`), kurz:`${laufraeder.va} → ${gabel.va}`,
             rechnung:tx(`${bG} mm Breite bleibt · Achse Ø ${dR} → ${dG} mm`, `${bG} mm width stays · axle Ø ${dR} → ${dG} mm`), p:30, g:20,
             such:`${suchName({n:nabe})} Endkappen ${dG}mm`,
-            alt:{slot:"laufraeder", dim:"Vorderachse", wert:gabel.va, txt:tx(`Ohne Adapter: Vorderrad gleich in ${achsName(gabel.va)}`, `No adapter: front wheel in ${achsName(gabel.va)}`)},
+            tausch:{slot:"laufraeder", dim:"Vorderachse", ok:x => x.va === gabel.va},
             grafik:{typ:"achse", breite:bG, von:dR, zu:dG},
             grund:tx(`Deine Gabel hat eine <b>${dG}-mm</b>-Steckachse bei <b>${bG} mm</b> Einbaubreite. Die Nabe deines Vorderrads ist für eine <b>${dR}-mm</b>-Achse eingestellt. Die Breite stimmt — nur der Durchmesser der Achse nicht: <b>${dR} statt ${dG} mm</b>. Mit anderen <b>Endkappen</b> (die Hülsen links und rechts in der Nabe) passt die Nabe auf die Achse der Gabel.`,
                      `Your fork has a <b>${dG} mm</b> thru-axle at <b>${bG} mm</b> width. Your front hub is set up for a <b>${dR} mm</b> axle. The width matches — only the axle diameter doesn't: <b>${dR} instead of ${dG} mm</b>. With different <b>end caps</b> (the sleeves left and right in the hub) the hub fits the fork's axle.`),
@@ -4499,7 +4511,7 @@ function pruefe(b){
       out.push(A(tx("Innenlager nur mit Konverter", "Bottom bracket only with a converter"),"kurbel",["rahmen","kurbel"],
         tx(`<code>${bbName(rahmen.bb)}</code> ist für 30-mm-Wellen gebaut, die Kurbel hat <code>${kurbel.iface}</code> (${wd} mm). Das geht mit einem Konverter-Innenlager — ist automatisch im Aufbau dabei.`,
            `<code>${bbName(rahmen.bb)}</code> is made for 30 mm spindles, the crank has <code>${kurbel.iface}</code> (${wdEn} mm). That works with a converter bottom bracket — it's included in the build automatically.`),
-        {id:"lager", art:"lager", guide:"lager", wo:"kurbel", pos:"",
+        {id:"lager", art:"lager", guide:"lager", wo:"kurbel", pos:"", tausch:{slot:"kurbel", ok:x => x.iface === "30 mm" || (rahmen.bb === "PF30" && x.iface === "DUB")},
           n:tx(`Konverter-Innenlager ${bbName(rahmen.bb)} → ${kurbel.iface}`, `Converter bottom bracket ${bbName(rahmen.bb)} → ${kurbel.iface}`),
           kurz:tx(`Ø ${bohr} mm Gehäuse → Ø ${wd} mm Welle`, `Ø ${bohr} mm shell → Ø ${wdEn} mm spindle`),
           rechnung:tx(`Gehäuse Ø ${bohr} mm · Welle Ø ${wd} statt 30 mm`, `Shell Ø ${bohr} mm · spindle Ø ${wdEn} instead of 30 mm`), p:75, g:95,
@@ -4603,11 +4615,11 @@ function pruefe(b){
       if(rahmen && bremsen.sH > rahmen.maxScheibeHR) out.push(F(tx("Bremsscheibe hinten zu groß", "Rear rotor too big"),"bremsen",["rahmen","bremsen"],
         tx(`Der Rahmen ist bis <code>${rahmen.maxScheibeHR} mm</code> freigegeben, die Bremse kommt mit <code>${bremsen.sH} mm</code>. Größere Scheiben hebeln am Hinterbau.`,
            `The frame is rated up to <code>${rahmen.maxScheibeHR} mm</code>, the brake comes with <code>${bremsen.sH} mm</code>. Bigger rotors put extra leverage on the rear end.`)));
-      else if(rahmen) bremsAufnahme(out, "hinten", "rahmen", rahmen, rahmen.pmHR, rahmen.hrAufnahme, bremsen.sH);
+      else if(rahmen) bremsAufnahme(out, "hinten", "rahmen", rahmen, rahmen.pmHR, rahmen.hrAufnahme, bremsen.sH, bremsen);
       if(gabel && bremsen.sV > gabel.maxScheibeVR) out.push(F(tx("Bremsscheibe vorn zu groß für die Gabel", "Front rotor too big for the fork"),"bremsen",["gabel","bremsen"],
         tx(`Gabelfreigabe <code>${gabel.maxScheibeVR} mm</code>, montiert werden sollen <code>${bremsen.sV} mm</code>.`,
            `Fork rating <code>${gabel.maxScheibeVR} mm</code>, planned is <code>${bremsen.sV} mm</code>.`)));
-      else if(gabel) bremsAufnahme(out, "vorn", "gabel", gabel, gabel.pmV, gabel.vrAufnahme, bremsen.sV);
+      else if(gabel) bremsAufnahme(out, "vorn", "gabel", gabel, gabel.pmV, gabel.vrAufnahme, bremsen.sV, bremsen);
       if(laufraeder && laufraeder.naben !== bremsen.mount) out.push(H(tx("Scheibenaufnahme abweichend", "Different rotor mount"),"bremsen",["laufraeder","bremsen"],
         tx(`Naben in <code>${laufraeder.naben}</code>, die Bremse kommt üblich mit <code>${bremsen.mount}</code>-Scheiben. Kein Problem — du brauchst nur Scheiben in der passenden Aufnahme (25–60 € je Scheibe).`,
            `Hubs are <code>${laufraeder.naben}</code>, the brake usually comes with <code>${bremsen.mount}</code> rotors. No problem — you just need rotors with the matching mount (€25–60 each).`)));
@@ -11545,19 +11557,91 @@ function adZeile(a){
     <span class="ad-t"><span class="ad-k">${art}${a.pos ? " · " + esc(a.pos) : ""}</span><b>${esc(a.n)}</b><span class="ad-r">${esc(a.kurz)}</span></span>
     <span class="ad-p">${eur(a.p)}<small>${a.g} g</small></span>
     <button class="ad-info" data-adinfo="${esc(a.id)}" aria-label="${warum}: ${esc(a.n)}" title="${warum}"><span aria-hidden="true">i</span></button>
+    ${modus === "traum" ? adTauschKnopf(a) : ""}
   </div>`;
 }
 const adFinden = id => (gR().adapter || []).find(a => a.id === id) || null;
-/* Ohne Adapter: Ausfuehrung des Teils, die den Adapter ueberfluessig macht */
-function adAlternative(a){
-  if(!a || !a.alt) return null;
-  const sk = a.alt.slot, cur = build[sk] ? findeTeil(sk, build[sk]) : null;
-  if(!cur || !cur.v || !cur.wahl) return null;
-  const i = cur.v.findIndex(d => d.k === a.alt.dim);
-  if(i < 0) return null;
-  const j = cur.v[i].o.findIndex(o => a.alt.wert ? o.w === a.alt.wert
-    : o.s && (a.alt.pos === "v" ? o.s.sV === a.alt.mm && o.s.sH === cur.sH : o.s.sH === a.alt.mm && o.s.sV === cur.sV));
-  return j < 0 || j === cur.wahl[i] ? null : {daten:sk + "|" + i + "|" + j, txt:a.alt.txt};
+/* ── Tauschen statt Adapter (Liam 2026-10-03: "am besten direkt das passende
+   Teil") ── Gesucht wird im Slot, den der Adapter nennt (tausch.slot): jedes
+   Katalogteil in der Ausfuehrung, die ohne Adapter passt (tausch.ok auf die
+   Werte der Option, naeh waehlt bei mehreren die naechstliegende). Genommen
+   wird, was keinen neuen Konflikt bringt und den Adapter wirklich loswird --
+   zuerst dasselbe Teil in anderer Ausfuehrung, dann dieselbe Marke, dann der
+   beste Score, bei Gleichstand der kleinste Preisunterschied. */
+function adKandidaten(T){
+  const out = [];
+  for(const basis of katalog(quelleOf(slotOf(T.slot)))){
+    if(!basis.v){ if(T.ok(basis)) out.push(basis); continue; }
+    const bv = besteVariante(T.slot, basis, build);
+    const i = T.dim ? basis.v.findIndex(d => d.k === T.dim) : -1;
+    if(i < 0){ if(T.ok(bv)) out.push(bv); continue; }
+    const d = basis.v[i], js = d.o.map((o, j) => j).filter(j => T.ok(d.o[j].s || {}));
+    if(!js.length) continue;
+    if(T.naeh) js.sort((x, y) => T.naeh(d.o[x].s) - T.naeh(d.o[y].s));
+    const w = bv.wahl.slice(); w[i] = js[0];
+    out.push(varianteNachIndex(basis, w));
+  }
+  return out;
+}
+const adTauschCache = new Map();
+function adTausch(a){
+  if(!a || !a.tausch) return null;
+  const T = a.tausch, key = [a.id, modus, sprache, sel.join(","), jahrWahl[modus], SLOTS.map(x => build[x.k] || "").join(",")].join("|");
+  if(adTauschCache.has(key)) return adTauschCache.get(key);
+  const r0 = bewerte(build), f0 = r0.funde.filter(f => f.level === "fehler").length;
+  const jetzt = build[T.slot] ? findeTeil(T.slot, build[T.slot]) : null, bJetzt = jetzt ? basisVon(jetzt.id) : null;
+  let best = null;
+  for(const t of adKandidaten(T)){
+    if(jetzt && t.id === jetzt.id) continue;
+    const pr = bewerte({...build, [T.slot]:t.id});
+    if(pr.funde.filter(f => f.level === "fehler").length > f0) continue;
+    if(pr.adapter.some(x => x.id === a.id) || pr.adapter.length >= r0.adapter.length) continue;
+    const k = {t:t, gleich:basisVon(t.id) === bJetzt, marke:!!jetzt && t.m === jetzt.m, g:pr.gesamt, dp:pr.preis - r0.preis};
+    const wert = x => (x.gleich ? 1e7 : 0) + (x.marke ? 1e5 : 0) + x.g * 1000 - Math.abs(x.dp);
+    if(!best || wert(k) > wert(best)) best = k;
+  }
+  let res = null;
+  if(best){
+    const d = T.dim && best.t.v ? best.t.v.find(x => x.k === T.dim) : null, o = d ? d.o[best.t.wahl[best.t.v.indexOf(d)]] : null;
+    const ausf = o ? (o.kurz || o.n) : "";
+    res = {slot:T.slot, id:best.t.id, gleich:best.gleich, dp:best.dp, g:best.g,
+      name:best.gleich ? ausf : (best.t.nb || best.t.n) + (ausf ? " · " + ausf : ""),
+      txt:best.gleich ? tx(`Ohne Adapter: ${ausf}`, `No adapter: ${ausf}`) : tx(`Tauschen: ${best.t.nb || best.t.n}`, `Swap: ${best.t.nb || best.t.n}`)};
+  }
+  adTauschCache.set(key, res);
+  if(adTauschCache.size > 60) adTauschCache.delete(adTauschCache.keys().next().value);
+  return res;
+}
+const adDp = dp => Math.abs(dp) < 1 ? tx("gleicher Preis", "same price") : (dp > 0 ? "+" : "−") + eur(Math.abs(dp));
+function adTauschKnopf(a, gross){
+  const t = adTausch(a);
+  if(!t) return "";
+  return `<button class="ad-tausch${gross ? " gross" : ""}" data-adtausch="${esc(a.id)}">
+    <span class="ad-ti" aria-hidden="true">${ic(`<path d="M7 7h11l-3-3M17 17H6l3 3"/>`, 16)}</span>
+    <span class="ad-tt"><b>${esc(t.txt)}</b>${!t.gleich && t.name !== t.txt ? `<span>${esc(t.name)}</span>` : ""}</span>
+    <span class="ad-td">${adDp(t.dp)}</span></button>`;
+}
+/* Getauscht wird sofort -- mit "Rueckgaengig" im Hinweis */
+let adRueck = null;
+function adTauschen(id){
+  const a = adFinden(id), t = adTausch(a);
+  schliesseAdapterInfo();
+  if(!t){ zeigeToast(tx("Dafür gibt es gerade kein passendes Teil ohne Adapter.", "There's no matching part without an adapter right now.")); return; }
+  adRueck = {slot:t.slot, id:build[t.slot]};
+  build[t.slot] = t.id;
+  frischSlot = t.slot;
+  sichern(); zeichne();
+  const el = $("toast");
+  if(!el) return;
+  el.innerHTML = `${esc(tx(`Getauscht — ${a.n} entfällt.`, `Swapped — ${a.n} is no longer needed.`))} <button class="toast-zurueck" data-adzurueck="1">${tx("Rückgängig", "Undo")}</button>`;
+  el.hidden = false;
+  clearTimeout(zeigeToast.z); zeigeToast.z = setTimeout(() => { el.hidden = true; adRueck = null; }, 7000);
+}
+function adZurueck(){
+  if(!adRueck) return;
+  build[adRueck.slot] = adRueck.id; adRueck = null;
+  sichern(); zeichne();
+  zeigeToast(tx("Zurückgetauscht.", "Swapped back."));
 }
 
 /* Skizzen, schematisch. Farben ueber die Design-Variablen, damit hell und dunkel stimmen. */
@@ -11625,7 +11709,6 @@ function oeffneAdapterInfo(id, knopf){
   adVon = knopf || null;
   let el = $("ad-pop");
   if(!el){ el = document.createElement("div"); el.id = "ad-pop"; document.body.appendChild(el); }
-  const alt = adAlternative(a);
   el.innerHTML = `<div class="adp-scrim" data-adzu="1"><div class="adp" role="dialog" aria-modal="true" aria-labelledby="adp-h" tabindex="-1">
     <div class="adp-kopf"><span class="adp-i" aria-hidden="true">i</span>
       <div class="adp-tt"><span class="adp-sub">${tx("Warum brauche ich diesen Adapter?", "Why do I need this adapter?")}</span>
@@ -11638,7 +11721,7 @@ function oeffneAdapterInfo(id, knopf){
     <div class="adp-fakt"><span><b>${eur(a.p)}</b>${tx("Richtpreis", "typical price")}</span><span><b>${a.g} g</b>${tx("Gewicht", "weight")}</span>
       <span class="adp-auto">${ic(`<path d="M20 6 9 17l-5-5"/>`, 14)}${modus === "traum" ? tx("automatisch in Preis, Gewicht und Einkaufsliste", "automatically in price, weight and shopping list")
         : tx("in Preis und Gewicht eingerechnet", "counted in price and weight")}</span></div>
-    ${alt ? `<button class="btn ghost sm adp-alt" data-advar="${esc(alt.daten)}">${esc(alt.txt)}</button>` : ""}
+    ${adTauschKnopf(a, true)}
     <button class="adp-guide" data-adguide="${esc(a.guide)}"><span><span class="adp-gk">CrankScore Guide</span><b>${adGuideTitel(a.guide)}</b></span>
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
   </div></div>`;
@@ -13118,18 +13201,9 @@ document.addEventListener("click", e => {
   if(adi){ oeffneAdapterInfo(adi.dataset.adinfo, adi); return; }
   const adz = T("[data-adzu]");
   if(adz && (adz.tagName === "BUTTON" || e.target === adz)){ schliesseAdapterInfo(); return; }
-  const adv = T("[data-advar]");
-  if(adv){
-    const q = adv.dataset.advar.split("|"), sk = q[0], cur = build[sk] ? findeTeil(sk, build[sk]) : null;
-    schliesseAdapterInfo();
-    if(cur && cur.v){
-      const w = cur.wahl.slice(); w[+q[1]] = +q[2];
-      build[sk] = varianteNachIndex(rohTeil(quelleOf(slotOf(sk)), cur.basisId), w).id;
-      sichern(); zeichne();
-      zeigeToast(tx("Umgestellt — der Adapter entfällt.", "Switched — no adapter needed."));
-    }
-    return;
-  }
+  const adt = T("[data-adtausch]");
+  if(adt){ adTauschen(adt.dataset.adtausch); return; }
+  if(T("[data-adzurueck]")){ adZurueck(); return; }
   const adg = T("[data-adguide]");
   if(adg){ schliesseAdapterInfo(); oeffneAdapterGuide(adg.dataset.adguide); return; }
   if(T("[data-zu]") || (e.target.classList && e.target.classList.contains("scrim"))){ schliesse(); return; }

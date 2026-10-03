@@ -159,8 +159,9 @@ Jeder dieser Befunde trägt ein Adapter-Teil `ad` (seit 03.10.2026):
 `id`, `art` (bremse/achse/lager/steuersatz), `n` (Name), `kurz`, `rechnung`,
 `p` (Richtpreis €), `g` (Gramm), `wo` (Slot, an den er geschraubt wird —
 nur dieser wird gelb), `pos` (vorn/hinten), `grund` und `detail` (Klartext,
-HTML), `grafik` (Daten für die Skizze), `alt` (Ausführung, mit der er
-entfällt), `guide` (Thema im Adapter-Guide), `such` (Suchbegriff für den
+HTML), `grafik` (Daten für die Skizze), `tausch` (wo und wie ein Teil ohne
+Adapter gesucht wird: `slot`, optional `dim`, `ok(werte)`, `naeh(werte)`;
+`adTausch()` wählt daraus das Teil für den Tauschen-Knopf), `guide` (Thema im Adapter-Guide), `such` (Suchbegriff für den
 Shop). `bewerte()` zählt die Adapter in Preis und Gewicht und gibt sie als
 `adapter` zurück.
 

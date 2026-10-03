@@ -470,7 +470,7 @@ feste Aufbauten durch: welcher Befund rot, gelb oder nur Hinweis sein muss —
 und welcher nicht kommen darf. Kippt eine Änderung an Katalog oder Regeln ein
 bekanntes Ergebnis, schlägt der Test an (Rückgabewert 1).
 
-- `tools/kompat-faelle.mjs`: 137 Regelfälle je Norm — SRAM UDH / Transmission
+- `tools/kompat-faelle.mjs`: 138 Regelfälle je Norm — SRAM UDH / Transmission
   je Rahmen und Baujahr, T-Type, Achsen 135/142/148/150/157 inkl. Umbaukit,
   Vorderachse Boost/Non-Boost und 15/20 (Endkappen), Freiläufe HG / Micro Spline / XD, Innenlager BSA 68/73/83,
   PF92, PF107, PF30, BB30, T47, Spanish, DUB / DUB Wide, 24 / 30 mm, ISIS,
@@ -535,11 +535,23 @@ Seit 03.10.2026 ist jeder Adapter ein echtes Teil im Aufbau, keine Fußnote mehr
   | Gerade Gabel im konischen Rohr | Reduzier-Unterteil …/30 | 32 € |
   | BB30/PF30 mit 24-mm- oder DUB-Welle | Konverter-Innenlager | 75 € |
 
+- **Tauschen statt Adapter:** Unter jeder Adapterzeile steht ein Knopf, der
+  das passende Teil direkt einsetzt — mit Preisunterschied, sofort umgestellt
+  und mit „Rückgängig“ im Hinweis. Gesucht wird so:
+  1. dasselbe Teil in anderer Ausführung (z. B. „Ohne Adapter: Scheiben
+     180/180“, Vorderrad in 15 mm, Gabel tapered)
+  2. sonst das beste Teil aus dem Katalog: kein neuer Konflikt, der Adapter
+     fällt weg, gleiche Marke bevorzugt, dann bester Score, dann kleinster
+     Preisunterschied (z. B. SRAM mit 200er-Scheiben an einer PM-200-Gabel
+     statt Shimano 203)
+
+  Gibt es kein solches Teil (Flat Mount: jeder Sattel im Katalog braucht dort
+  einen Adapter), fehlt der Knopf.
 - **(i) daneben:** Öffnet ein Glas-Fenster mit Rechnung, einer Skizze nach den
   echten Maßen und dem Grund in Klartext. Bei Bremsen steht dort auch, um wie
-  viel der Sattel nach außen rückt (halbe Differenz = Radius). Es zeigt auch,
-  wie es ohne Adapter ginge, als Knopf (z. B. „Scheibe vorn 180 mm“). Unten
-  führt ein Link in den passenden CrankScore Guide. Schließen mit X, Tipp
+  viel der Sattel nach außen rückt (halbe Differenz = Radius). Darunter steht
+  derselbe Tauschen-Knopf, unten führt ein Link in den passenden CrankScore
+  Guide. Schließen mit X, Tipp
   daneben oder Escape. Am Handy ist das Fenster unten angedockt und scrollt in
   sich.
 - **CrankScore Guide „Adapter verstehen“:** Reiter Bremse, Achse, Innenlager
@@ -551,9 +563,9 @@ Seit 03.10.2026 ist jeder Adapter ein echtes Teil im Aufbau, keine Fußnote mehr
 
   Der Chat-Guide verweist bei Fragen wie „Welcher Bremsadapter passt?“ dorthin.
 - **Prüfung:** `tools/kompat-test.mjs` verlangt zu jedem Adapterfall ein
-  vollständiges Adapter-Teil und prüft in 13 eigenen Fällen Name, Rechnung,
-  Preis und Platz. Die Oberfläche ist am Handy mit 25 Prüfungen getestet
-  (Erkennen, Zeile, (i), Schließen, Guide, Prüfung, Einkaufsliste, ohne Adapter).
+  vollständiges Adapter-Teil und prüft in 14 eigenen Fällen Name, Rechnung,
+  Preis, Platz und den Tausch. Die Oberfläche ist am Handy mit 29 Prüfungen getestet
+  (Erkennen, Zeile, (i), Schließen, Guide, Prüfung, Einkaufsliste, Tauschen, Rückgängig).
 
 ## Grafik-Prüfung
 

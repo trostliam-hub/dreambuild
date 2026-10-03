@@ -86,6 +86,22 @@ const ergebnisse = await seite.evaluate(faelle => {
           probleme.push(`fehlt ADAPTER ${JSON.stringify(e)} (da: ${ads.map(a => a.n + ' / ' + a.rechnung + ' / ' + a.wo + ' / ' + a.p + ' €').join(' | ') || '–'})`);
       }
       if(f.keinAdapter && ads.length) probleme.push('Adapter, wo keiner sein darf: ' + ads.map(a => a.n).join(', '));
+      /* Tauschen-Knopf: wo einer angeboten wird, muss er den Adapter loswerden,
+         ohne neuen Konflikt (die Suche arbeitet auf dem App-Aufbau "build") */
+      if(ads.length && typeof adTausch === 'function'){
+        const vorher = {...build}; Object.assign(build, b); adTauschCache.clear();
+        try{
+          for(const a of ads){
+            const t = adTausch(a);
+            if(!t) continue;
+            const pr = pruefe({...b, [t.slot]:t.id});
+            if(pr.some(x => x.ad && x.ad.id === a.id)) probleme.push(`Tausch für „${a.n}“ lässt den Adapter stehen`);
+            if(pr.filter(x => x.level === 'fehler').length > rot.length) probleme.push(`Tausch für „${a.n}“ bringt einen neuen Konflikt`);
+            if(f.tausch && f.tausch[a.id] && t.name !== f.tausch[a.id]) probleme.push(`Tausch für „${a.n}“: „${t.name}“ statt „${f.tausch[a.id]}“`);
+          }
+          for(const id in f.tausch || {}) if(f.tausch[id] === null && ads.some(a => a.id === id && adTausch(a))) probleme.push(`Tausch für ${id} angeboten, obwohl keiner gehen darf`);
+        } finally { Object.assign(build, vorher); adTauschCache.clear(); }
+      }
       if(f.ampel){
         const ampel = rot.length ? 'rot' : gelb.filter(t => !(f.ignoriere || []).includes(t)).length ? 'gelb' : 'gruen';
         if(ampel !== f.ampel) probleme.push(`Ampel ${ampel} statt ${f.ampel} (rot: ${rot.join(' | ') || '–'} · gelb: ${gelb.join(' | ') || '–'})`);
