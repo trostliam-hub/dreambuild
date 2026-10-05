@@ -100,7 +100,7 @@ Gewicht, Schulterbreite, Schrittlänge, Spannweite und Handschuhgröße — beim
 Traumrad dazu Budget, Vorlieben (Laufradgröße, Hardtail oder Fully, Flat- oder
 Klickpedal — nur die Optionen, für die es einen zur Disziplin passenden Rahmen
 gibt), Wunschmarken und Schwerpunkt. Jede Antwort wirkt: Die
-Fahrstil-Fragen füllen den Federungsrechner, die Erfahrung schaltet die
+Fahrstil-Fragen füllen das Fahrwerk-Setup, die Erfahrung schaltet die
 Leitkarte, Budget, Vorlieben und Marken gehen in den Assistenten (eine
 Rahmen-Vorliebe, die das Budget sprengen würde, lässt er fallen und sagt es), und am Ende baut der
 Assistent das Rad gleich in den eigenen Maßen. Überspringen geht jederzeit,
@@ -159,7 +159,7 @@ Fortschrittspunkten, Zurück und Überspringen; am Ende Konfetti. Auf breiten
 Bildschirmen zeigt er auf die Spalten statt auf die Reiter, Pfeiltasten
 blättern, Esc beendet. Unter ⋮ → *App & Profil* stehen ganz oben zwei große
 Knöpfe: *Einstieg wiederholen* und *App-Rundgang*; darunter die Hilfe als
-erklärte Zeilen (Fit, Federungsrechner, Begriffe, Anleitung ein/aus).
+erklärte Zeilen (Fit, Setup, Begriffe, Anleitung ein/aus).
 Wer im Einstieg „Ganz neu dabei“ wählt, bekommt an jeder Teilekachel einen Satz,
 was das Teil tut. Oben im Aufbau führt eine Leitkarte Schritt für Schritt: je
 Modus drei bis vier Schritte, abgehakt, was erledigt ist, ein Knopf für den
@@ -211,7 +211,7 @@ Beiwort sind. Antworten zur App lesen den aktuellen Aufbau (Wertung, Konflikte,
 Budget, Gewicht, Fit, Federung, Gebrauchtangebot). Nennt man ein Teil („Passt
 eine Fox 38?“), sucht der Guide es im Katalog und prüft mit der passenden
 Ausführung, ob neue Konflikte entstehen. Unter jeder Antwort Knöpfe, die direkt
-an die richtige Stelle führen (Federungsrechner, Fit, Prüfung, Teileliste mit
+an die richtige Stelle führen (Setup, Fit, Prüfung, Teileliste mit
 Suche …). Alles bleibt auf dem Gerät und läuft offline.
 
 Vor der Stichwortsuche erkennt der Guide **Absichten** — Fragen zum eigenen
@@ -240,7 +240,7 @@ Geprüft mit drei Fragenreihen (206 Fragen, Deutsch und Englisch, mit
 Umgangssprache und Tippfehlern); die dritte war vor dem Feinschliff unbekannt
 und kam auf 42 von 48 — danach 47 von 48.
 
-**Federungsrechner.** In der Gruppe Fahrwerk (und unter ⋮ → Hilfe): aus
+**Federungsrechner.** Im Reiter *Setup* (siehe unten): aus
 Fahrergewicht (+4 kg Ausrüstung) und einem Fahrprofil aus fünf Fragen
 (Gelände, Tempo bergab, Sprünge, gewünschtes Gefühl, Anteil bergauf) je Gabel und Dämpfer ein Luftdruck in psi/bar mit Sag-Ziel, bei
 Stahlfeder die Federhärte, dazu Druck- und Zugstufe — in drei Modi: *Pur
@@ -297,33 +297,68 @@ wird bei Knöpfen mit vielen Klicks nie empfohlen): Flowtrails und zügiges
 Tempo machen die LSC fester, ruppiges Gelände die HSC offener, Sprünge und
 Bikepark die HSC fester, das gewünschte Gefühl beides. Die Grundeinstellung
 des Herstellers gilt also für einen ruhigen Tourenfahrer.
-In der Ansicht *Profi* zeigt jede Karte eine Vergleichstabelle aller drei Modi (Luft, Sag, jeder
+Unter Setup → *Alle Rechenwerte & Herstellerinfos* zeigt jede Karte eine Vergleichstabelle aller drei Modi (Luft, Sag, jeder
 verstellbare Knopf, Zugstufe; Tippen auf einen Spaltenkopf wechselt den Modus)
 und darunter zu jedem Knopf des gewählten Modus eine Kachel mit Strich-Skala
 (ein Strich je Klick oder Stufe, langer Strich = Grundeinstellung). Dazu der
 Link zur offiziellen Hersteller-Anleitung und optional das eigene Top-Cap-Foto
 mit markierten Knöpfen.
 
-**Fahrwerk einfach (Anfänger-Ansicht).** Oben im Rechner schaltet *Einfach /
-Profi* die Ansicht um; *Einfach* ist der Start und merkt sich die Wahl. Je eine
-Karte VORNE (Gabel) und HINTEN (Dämpfer) mit großen Kacheln für Luftdruck
-(oder Federhärte), Sag in % und mm und Tokens; darunter nur die Knöpfe, die
-man wirklich dreht, in Alltagssprache: *Härte beim Einfedern (Druckstufe)*,
-*Ausfeder-Geschwindigkeit (Rebound)*, der Kletterhebel — jeweils mit Richtung
-(„9 Klicks aufdrehen (von ganz geschlossen)“ mit −, „Mitte, dann 2 Klicks
-zudrehen“ mit +) und wo der Knopf sitzt. HSC, HSR, ABO/HBO und die
-Vergleichstabelle bleiben in *Profi*. Neben jedem Wert ein (i) mit einem Satz
-als Tipp („Kommst du nach einem Sprung zu schnell hoch? Drehe 2 Klicks zu
-(+).“). Der Sag-Check ist ein Barometer (grün = Ziel ±2 %, gelb ±5 %): den
-gemessenen Sag mit dem Regler oder mit −/+ einstellen, die App sagt, ob es
-passt oder auf wie viel PSI man pumpen bzw. ablassen soll (höchstens 20 % pro
-Schritt, dann nachmessen; bei Stahlfeder eine Stufe ±50 lbs). Der Messwert
-gilt nur für das Teil, an dem gemessen wurde. Rund 85 % weniger Text als die
-Profi-Ansicht (191 statt 1.323 Wörter im Testaufbau).
-**Trail-Karte:** alle Werte beider Federelemente auf einer Bildschirmseite
-ohne Scrollen — Luft, Sag, Druckstufe und Rebound mit −/+, Hebel oben in der
-Zeile — zum Screenshotten für unterwegs; auf dem iPhone SE hochkant, im
-Querformat und am Desktop vorne und hinten nebeneinander.
+**Setup — eigener Reiter fürs Fahrwerk (Pro).** Fünfter Reiter unten (am
+Desktop der Knopf *Setup* oben rechts), für Einsteiger und Profis in einer
+Ansicht, aufgebaut nach der Methode aus dem GMBN-Video „Fahrwerk einstellen“:
+erst Gegendruck und SAG, dann Rebound, dann Druckstufe, dann auf der
+Teststrecke verfeinern — und alles aufschreiben.
+- *Start:* Nur das Gewicht ist Pflicht, dann stehen sofort Werte da. Die
+  übrigen Angaben (Ausrüstung, Radtyp, fünf Fahrstil-Fragen) sind eine Karte
+  „Genauer machen“ — bis dahin gilt ein mittleres Profil; im Fragebogen
+  überspringt „Rest überspringen“ den Rest. Ohne Pro zeigt der Reiter, was
+  drin ist, und den Knopf zu Pro.
+- *Auf einen Blick:* Modus (Downhill / Allround / Sprünge), darunter je
+  Federelement Luft (oder Feder), Sag, Rebound und Druckstufe als Kacheln,
+  HSC/HSR/ABO/HBO, Hebel und Tokens in einer Zeile. Antippen öffnet die
+  Trail-Karte. Eigenes Feintuning ist grün umrandet, ein laufender Test gelb.
+- *Dein Weg* in vier Schritten mit Haken, immer nur einer offen:
+  1. *Luft & SAG* — Zielwerte, „So misst du den SAG“ (volle Ausrüstung, an
+     die Wand lehnen oder Helfer, Ring an die Dichtung, kein Ring: Kabelbinder,
+     vorne im Stehen, hinten im Sitzen) und je Federelement ein SAG-Barometer
+     mit Regler und −/+ (grau, solange nicht gemessen). Rat: auf wie viel PSI
+     pumpen bzw. ablassen (höchstens 20 % pro Schritt); „Auf … PSI gepumpt“
+     merkt den Druck als Abgleich (als Faktor, damit die Modi ihren Abstand
+     behalten) und bittet ums Nachmessen. Passt beides, hakt sich der Schritt ab.
+  2. *Rebound* — zu schnell / zu langsam in einem Satz, die Knöpfe in
+     Alltagssprache mit Richtung, Bordsteintest vorne, vorne etwas schneller
+     als hinten; HSR aufklappbar.
+  3. *Druckstufe* — LSC/Druckstufe und Hebel; HSC und Durchschlagschutz
+     aufklappbar.
+  4. *Testfahrt & Feintuning* — Knopf und Richtung wählen, die App sagt
+     „3 Klicks schneller (−)“ und die neue Stellung. Nach der Runde
+     *Besser* → weiter in die Richtung, *Schlechter* → zurück und feiner
+     (3 → 2 → 1; ging schon der erste Schritt schief, einmal die andere
+     Richtung), *Gleich* → fertig. Keine Stellung wird zweimal gefahren,
+     am Anschlag wird geklemmt. Der beste Wert bleibt als eigenes Feintuning
+     (in Klicks gegenüber dem Rechenwert, gilt in allen Modi).
+- *Fühlt sich falsch an?* — acht Symptome (Kick nach Sprüngen, hart in
+  Wurzelfeldern, hart trotz SAG, schwammig, schlägt durch, unruhig nach
+  Landungen, nutzt den Federweg nicht, wippt) mit Ursache und dem passenden
+  Knopf des eigenen Fahrwerks (HSC/HSR, sonst der normale; ohne Knopf Luft,
+  Feder oder Token). „Ausprobieren“ startet damit direkt Schritt 4.
+- *Notizbuch* — Standard-Setup speichern und zurückholen, Notizen mit 👍 😐 👎;
+  jede Testrunde, jeder Druck-Abgleich und jedes Ergebnis landet automatisch
+  darin. Gemerkt wird je Kombination aus Gabel und Dämpfer (`mtb.setup`).
+- *Gut zu wissen* — Klicks zählen, High- vs. Low-Speed, Tokens, Balance,
+  warum man nicht einfach von Freunden abschreibt. Darunter aufklappbar alle
+  Rechenwerte mit Modus-Vergleich, Knopf-Skalen, Herstellerlinks und
+  Top-Cap-Foto.
+
+Die Knopf-Texte („9 Klicks aufdrehen (von ganz geschlossen)“ mit −, „Mitte,
+dann 2 Klicks zudrehen“ mit +) zählen bei Cane Creek und Kitsuma richtig ab
+ganz offen und bei der Cane-Creek-HSC in Umdrehungen (vorher stand dort die
+Zählung ab ganz zu). Der alte Schalter *Einfach / Profi* ist weg.
+**Trail-Karte:** alle Werte beider Federelemente (mit eigenem Feintuning) auf
+einer Bildschirmseite ohne Scrollen — zum Screenshotten für unterwegs; auf
+dem iPhone SE hochkant, im Querformat und am Desktop vorne und hinten
+nebeneinander.
 
 **Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
 mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut
@@ -420,7 +455,7 @@ aus zeigt die App wie für Free-Nutzer. Pro bringt:
   Wer vorher schon mehrere hatte, behält sie; nur neue kommen nicht dazu.
   „Einstieg wiederholen“ legt auch in Free ein neues Profil an, damit ein
   gebautes Rad nie überschrieben wird.
-- **Federungsrechner.** In Free öffnet der Knopf die Pro-Seite, und der Guide
+- **Setup (Fahrwerk).** In Free zeigt der Reiter nur, was drin ist, und den Weg zu Pro; der Guide
   nennt keine Drücke, sondern erklärt nur Sag, Zug- und Druckstufe.
 - **Guide ohne Limit.** Free: 10 Fragen am Tag, der Zähler steht oben im Guide.
 
