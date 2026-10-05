@@ -247,16 +247,20 @@ Stahlfeder die Federhärte, dazu Druck- und Zugstufe — in drei Modi: *Pur
 Downhill*, *Allround* und *Pur Sprünge*. Grundlage sind die
 Herstellertabellen (Fox Owner's Manuals 2025 für 32/34/36/38/40,
 RockShox-Tabellen für Pike, Lyrik, ZEB, SID, Domain, BoXXer, Recon, Reba,
-LinearXL ab Modelljahr 2027); Gabeln ohne eigene Tabelle bekommen den Wert
-ihrer Klasse und sagen das. Druckstufen ab der Grundeinstellung des
+LinearXL ab Modelljahr 2027). Einen Druck gibt es nur, wenn die Tabelle zur
+Gabel *und* zu ihrem Baujahr passt (Fox ab 2021, RockShox ab 2023, LinearXL ab
+2027); sonst nennt die App keinen Wert, sondern den Weg dorthin: Aufkleber an
+der Gabel, Trailhead bzw. FOX-App, dann per SAG einstellen. Hat man im
+Onboarding den aktuellen Druck eingetragen, startet sie dort. Druckstufen ab der Grundeinstellung des
 Herstellers (GRIP X2 5/10, GRIP X 10/10 von zu, sonst Mitte) und so, wie es auf
 dem Knopf steht: RockShox Charger 3.2 hat Zahlen (LSC −7 bis +7 = 15
 Stellungen, HSC −2 bis +2 = 5 Stellungen) — die App sagt „auf +2 stellen“;
 Charger 3 und 3.1 sowie der RC2T-Dämpfer haben Striche von − bis + und werden
 ab der Mitte gezählt; Fox ab ganz zu, Cane Creek ab ganz offen. Fox GRIP,
 GRIP SL und FIT4 haben einen Hebel mit drei Stufen (bergab offen). Lyrik und
-ZEB ab 2027 haben dazu den Durchschlagschutz ABO (5 Stufen). Dämpfer: Luft
-rund Körpergewicht in lb, skaliert mit der geschätzten Hinterbau-Übersetzung;
+ZEB ab 2027 haben dazu den Durchschlagschutz ABO (5 Stufen). Dämpfer: Luft-Startwert
+nach FOX = Gewicht mit Ausrüstung in lb (RockShox nennt bewusst keinen
+Pauschalwert, weil es vom Rahmen abhängt) — den Ausschlag gibt der SAG;
 Stahlfeder = Last hinten × Übersetzung / (Hub × Sag). Die Dämpfer-Druckstufe
 richtet sich nach Modell *und* Ausführung: RockShox RC2T (Super Deluxe und
 Vivid Ultimate) mit HSC und LSC in je 5 Stellungen, die Stahlfeder-Versionen
@@ -266,18 +270,23 @@ nur LSC und LSR), Float X mit LSC 11, Float DPS mit Open-Mode-Adjust,
 Cane Creek DB IL (gezählt ab offen, HSC in Umdrehungen), Kitsuma mit Climb
 Switch in drei Stufen, Öhlins TTX; Select+ und Performance zeigen nur den
 Kletterhebel, Select (R) keine Druckstufe.
-Drei Modi, oben im Rechner umschaltbar, jeder mit eigener Luft, eigenem Sag,
-eigener Druck- und Zugstufe (nach den Tuning-Guides von Fox und RockShox sowie
-ENDURO, BikeRadar, MBR): *Pur Downhill* — 6 % weniger Luft, 3 % mehr Sag, LSC
-und HSC je drei Stufen offener, Zugstufe drei Klicks schneller, HBO/ABO eine
-Stufe fester: weicher, spricht schneller an, sackt bei Schlagfolgen nicht weg,
-fängt harte Schläge bei Tempo ab; *Allround* — genau das
-Fahrprofil; *Pur Sprünge* — 5 % mehr Luft (oder ein Volumen-Spacer), 2 % weniger
-Sag, LSC zwei Stufen fester gegen Einsacken im Absprung, HSC fester für
-Landungen, Zugstufe langsamer gegen Aushebeln am Kicker. Kurze Federwege (bis
-130 mm) haben weniger Reserve: bergab nicht ganz so weich, beim Springen mehr
-Luft und HSC; lange (ab 180 mm, Doppelbrücke) brauchen beim Springen weniger
-Luft. Je Knopf wird Allround auf ganze Klicks gerundet, jeder Modus kommt als
+Drei Profile, oben im Setup umschaltbar, jedes mit eigenen gespeicherten
+Werten (Recherche 2026-10-05: RockShox Welcome Guides, Fox Owner's Manuals,
+BikeRadar, GMBN) — ohne Pauschalregel wie „für Sprünge alles härter“:
+*Downhill* (Grip, Kontrolle, berechenbar auf steil, schnell, ruppig) — 2 %
+mehr Sag (RockShox DH: 30–35 % hinten), 4 % weniger Luft, HSC offener für Grip
+auf Wurzeln und Steinen, Zugstufe einen Klick schneller gegen Packing, hinten
+LSC einen Klick offener für Traktion; die LSC der Gabel bleibt, sonst taucht
+sie auf Steilstücken beim Bremsen ab; wer schnell oder ruppig fährt, bekommt
+einen Spacer mehr als Reserve. *Allround* — genau das Fahrprofil, die Basis.
+*Sprünge* (Halt am Absprung, kontrollierte Landung) nach Sprunggröße und
+Erfahrung: klein — LSC +1, 1 % weniger Sag, Einsteiger Zugstufe einen Klick
+langsamer; groß — LSC +2, HSC +1, ein Spacer mehr statt viel mehr Luft
+(Progression), 3 % mehr Luft, 2 % weniger Sag, Zugstufe langsamer. Jedes
+Profil sagt, was es kostet (Downhill: weniger Pop, wippt mehr; Sprünge:
+weniger Grip und Komfort im Ruppigen). Kurze Federwege haben weniger Reserve,
+lange (Doppelbrücke) brauchen beim Springen weniger Luft.
+Je Knopf wird Allround auf ganze Klicks gerundet, jeder Modus kommt als
 eigene ganze Klicks dazu, dann werden alle drei gemeinsam in den
 Einstellbereich geschoben — so steht Allround nie am Anschlag, und Downhill
 ist in jedem Profil weicher, Sprünge fester (geprüft an 27.864 Kombinationen
@@ -288,8 +297,9 @@ in echten Klicks ab ganz zu (Schildkröte), wo die Klickzahl bekannt ist:
 Charger 3.x 18, RockShox Super Deluxe und Deluxe Luft 15, Stahlfeder und Vivid
 20, Fox GRIP X 16, Float X 16, Öhlins TTX22m.2 7; mit getrennter High- und
 Low-Speed-Zugstufe (HSR/LSR) Fox GRIP X2, GRIP2, Float X2, DHX2 und Cane Creek
-Kitsuma. Der Startwert folgt dem Gewicht wie die Fox-Tabellen (rund 2 Klicks
-je 10 kg, bei 80 kg die Mitte); eine Tabelle auf der Gabel hat Vorrang. Ohne
+Kitsuma. Bei FOX folgt der Startwert dem Gewicht wie die Fox-Tabellen (rund 2
+Klicks je 10 kg, bei 80 kg die Mitte); ohne Herstellertabelle gilt die Mitte
+des Bereichs (GMBN) — eine Tabelle auf der Gabel oder Trailhead hat Vorrang. Ohne
 bekannte Klickzahl zählt die Zugstufe ab dem eigenen Grundwert (Bordsteintest).
 Jede Antwort verschiebt Low- und High-Speed um feste Stufen (eine Stufe =
 12 % des Einstellbereichs, ab drei Stufen zählt jede weitere halb, ganz zu
@@ -306,55 +316,68 @@ mit markierten Knöpfen.
 
 **Setup — eigener Reiter fürs Fahrwerk (Pro).** Fünfter Reiter unten (am
 Desktop der Knopf *Setup* oben rechts), für Einsteiger und Profis in einer
-Ansicht, aufgebaut nach der Methode aus dem GMBN-Video „Fahrwerk einstellen“:
-erst Gegendruck und SAG, dann Rebound, dann Druckstufe, dann auf der
-Teststrecke verfeinern — und alles aufschreiben.
-- *Start:* Nur das Gewicht ist Pflicht, dann stehen sofort Werte da. Die
-  übrigen Angaben (Ausrüstung, Radtyp, fünf Fahrstil-Fragen) sind eine Karte
-  „Genauer machen“ — bis dahin gilt ein mittleres Profil; im Fragebogen
-  überspringt „Rest überspringen“ den Rest. Ohne Pro zeigt der Reiter, was
-  drin ist, und den Knopf zu Pro.
-- *Auf einen Blick:* Modus (Downhill / Allround / Sprünge), darunter je
-  Federelement Luft (oder Feder), Sag, Rebound und Druckstufe als Kacheln,
-  HSC/HSR/ABO/HBO, Hebel und Tokens in einer Zeile. Antippen öffnet die
-  Trail-Karte. Eigenes Feintuning ist grün umrandet, ein laufender Test gelb.
-- *Dein Weg* in vier Schritten mit Haken, immer nur einer offen:
-  1. *Luft & SAG* — Zielwerte, „So misst du den SAG“ (volle Ausrüstung, an
-     die Wand lehnen oder Helfer, Ring an die Dichtung, kein Ring: Kabelbinder,
-     vorne im Stehen, hinten im Sitzen) und je Federelement ein SAG-Barometer
-     mit Regler und −/+ (grau, solange nicht gemessen). Rat: auf wie viel PSI
-     pumpen bzw. ablassen (höchstens 20 % pro Schritt); „Auf … PSI gepumpt“
-     merkt den Druck als Abgleich (als Faktor, damit die Modi ihren Abstand
-     behalten) und bittet ums Nachmessen. Passt beides, hakt sich der Schritt ab.
-  2. *Rebound* — zu schnell / zu langsam in einem Satz, die Knöpfe in
-     Alltagssprache mit Richtung, Bordsteintest vorne, vorne etwas schneller
-     als hinten; HSR aufklappbar.
-  3. *Druckstufe* — LSC/Druckstufe und Hebel; HSC und Durchschlagschutz
-     aufklappbar.
-  4. *Testfahrt & Feintuning* — Knopf und Richtung wählen, die App sagt
-     „3 Klicks schneller (−)“ und die neue Stellung. Nach der Runde
-     *Besser* → weiter in die Richtung, *Schlechter* → zurück und feiner
-     (3 → 2 → 1; ging schon der erste Schritt schief, einmal die andere
-     Richtung), *Gleich* → fertig. Keine Stellung wird zweimal gefahren,
-     am Anschlag wird geklemmt. Der beste Wert bleibt als eigenes Feintuning
-     (in Klicks gegenüber dem Rechenwert, gilt in allen Modi).
-- *Fühlt sich falsch an?* — acht Symptome (Kick nach Sprüngen, hart in
-  Wurzelfeldern, hart trotz SAG, schwammig, schlägt durch, unruhig nach
-  Landungen, nutzt den Federweg nicht, wippt) mit Ursache und dem passenden
-  Knopf des eigenen Fahrwerks (HSC/HSR, sonst der normale; ohne Knopf Luft,
-  Feder oder Token). „Ausprobieren“ startet damit direkt Schritt 4.
-- *Notizbuch* — Standard-Setup speichern und zurückholen, Notizen mit 👍 😐 👎;
-  jede Testrunde, jeder Druck-Abgleich und jedes Ergebnis landet automatisch
-  darin. Gemerkt wird je Kombination aus Gabel und Dämpfer (`mtb.setup`).
-- *Gut zu wissen* — Klicks zählen, High- vs. Low-Speed, Tokens, Balance,
-  warum man nicht einfach von Freunden abschreibt. Darunter aufklappbar alle
-  Rechenwerte mit Modus-Vergleich, Knopf-Skalen, Herstellerlinks und
-  Top-Cap-Foto.
+Ansicht; Gabel und Dämpfer klar getrennt (Umschalter *Gabel · vorne* /
+*Dämpfer · hinten*). Ziel: Einsteiger wissen, was sie einstellen, wie und
+warum; Profis prüfen, verstellen und vergleichen schnell. Alle Werte sind
+Ausgangspunkte und stehen so in der App.
+- *Onboarding-Assistent* (Start ohne Gewicht, später über *Deine Angaben*):
+  Gewicht ohne Ausrüstung, was mitfedert (Helm, Tasche, Rucksack, Protektoren
+  oder gewogen), Körpergröße; Rad (Rahmen, Modelljahr, Rahmengröße, Analog /
+  Light-E / Full-E, Radgewicht); Gabel und Dämpfer mit Modelljahr und bei
+  Stahlfeder der Federhärte; welche Einsteller es wirklich gibt
+  (vorausgewählt nach Herstellerdaten, abwählbar — weg aus den Karten;
+  angehakt ohne Daten: ab der Mitte); Erfahrung, Gelände, Tempo, Sprünge,
+  Gefühl, Anteil bergauf; Profil; was gerade eingestellt ist (Druck, SAG,
+  Klicks — mit dem Bezugspunkt des Herstellers); Probleme und Wünsche. Jede
+  Frage hat „Warum fragen wir das?“, „Weiß ich nicht“ (mit Hinweis, wo man
+  es findet) und bei Rad, Gabel, Dämpfer, Einstellern und Ist-Werten eine
+  Illustration mit nummerierten Markern. Es kommt nur, was zählt (Hardtail:
+  keine Dämpferfragen, kein „bergauf“). Am Ende eine Übersicht, jede Zeile
+  änderbar. Gespeichert am Rad (`build.fw`); neue Gabel, neuer Dämpfer oder
+  neuer Rahmen setzen nur deren Angaben zurück.
+- *Profile* Downhill / Allround / Sprünge als Karten mit Fokus; „Was ändert
+  sich?“ zeigt je Federelement jede Abweichung von Allround mit Grund und den
+  Preis dafür. Jedes Profil speichert eigenen Druck, eigene Klicks und eine
+  eigene Grundeinstellung (★).
+- *Dein nächster Schritt* — Luft vorne/hinten, SAG, Rebound, Druckstufe,
+  Testfahrt; *Zeigen* öffnet die passende Karte, *Erledigt* hakt ab.
+- *Aktionen:* SAG messen, Testfahrt, Vergleichen, Deine Angaben; darunter
+  *Auf einen Blick* (öffnet die Trail-Karte).
+- *Einstellkarten* in der Reihenfolge des Einstellens (Luft oder Feder, SAG,
+  Rebound, Druckstufe, Hebel; aufklappbar die Profi-Einsteller HSC, HSR,
+  Durchschlagschutz, Tokens) — nur Einsteller, die das Fahrwerk hat. Jede
+  Karte: Wert und Herkunft (Tabelle, Startwert, Empfehlung, dein Wert),
+  −/+ bzw. eigener Druck mit Maximaldruck, *So stellst du es ein* (Ort,
+  Bezugspunkt und Drehrichtung je Hersteller: Fox ab ganz zu, Charger 3 ab
+  der Mitte, Cane Creek ab ganz offen; ↻ zu = langsamer/straffer, ↺ auf =
+  schneller/weicher) mit Illustration, *Was es bewirkt* mit Begriff zum
+  Antippen, *Warum dieser Wert* (Tabelle, Fahrstil, Profil, eigenes
+  Feintuning) mit Quellen-Links, *Zu viel / zu wenig*.
+- *Geführte SAG-Messung* in sechs Schritten (vorbereiten, Startdruck,
+  O-Ring, aufsitzen, messen, Ergebnis) mit Barometer; Rat in psi höchstens
+  20 % pro Schritt, „Auf … psi gepumpt“ merkt den Druck und bittet ums
+  Nachmessen.
+- *Testfahrt-Assistent:* „Fühlt sich gut an“ speichert die Grundeinstellung;
+  sonst Rückfragen (wo, wie: hart, schlägt durch, taucht ab, kickt, wenig
+  Grip, unruhig, wippt, nutzt den Federweg nicht; je nach Gefühl SAG
+  gemessen?, wird es bei Schlagfolgen härter?, hart oder nervös?) und dann
+  genau *eine* Änderung mit Grund und erwarteter Wirkung, innerhalb des
+  Knopfbereichs und unter dem Maximaldruck. *Besser* bleibt, *gleich* und
+  *schlechter* stellen zurück und schlagen das Nächste vor. Bekannte
+  Probleme aus dem Onboarding sind direkt wählbar. Profis testen einen Knopf
+  systematisch (3 → 2 → 1 Klick).
+- *Vergleichen:* drei Profile nebeneinander oder Empfehlung, dein Wert,
+  Grundeinstellung und „Vorher“ (aus dem Onboarding); Abweichungen markiert.
+- *Grundeinstellung* je Profil speichern, zurück zur Grundeinstellung, auf
+  Empfehlung zurücksetzen. *Notizbuch* mit 👍 😐 👎; jede Änderung, Messung
+  und Testfahrt landet darin (je Kombination aus Gabel und Dämpfer,
+  `mtb.setup`, alte Stände werden übernommen).
+- *Gut zu wissen:* Begriffe (SAG, Rebound, Druckstufe, LSC, HSC, LSR/HSR,
+  Token, Progression, Packing, Durchschlagen, psi/bar, Hub, Klicks zählen) und
+  die Quellen: FOX Owner's Manuals, Tuning Guides und Quick-Start-Videos,
+  RockShox Welcome Guides, Charger-3-Setup, Trailhead und Videos, Cane Creek,
+  GMBN, Pinkbike, BikeRadar. Darunter aufklappbar alle Rechenwerte.
 
-Die Knopf-Texte („9 Klicks aufdrehen (von ganz geschlossen)“ mit −, „Mitte,
-dann 2 Klicks zudrehen“ mit +) zählen bei Cane Creek und Kitsuma richtig ab
-ganz offen und bei der Cane-Creek-HSC in Umdrehungen (vorher stand dort die
-Zählung ab ganz zu). Der alte Schalter *Einfach / Profi* ist weg.
 **Trail-Karte:** alle Werte beider Federelemente (mit eigenem Feintuning) auf
 einer Bildschirmseite ohne Scrollen — zum Screenshotten für unterwegs; auf
 dem iPhone SE hochkant, im Querformat und am Desktop vorne und hinten
