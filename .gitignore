@@ -15,3 +15,7 @@ desktop.ini
 
 # Python
 __pycache__/
+
+# Tests (npm install / npm test)
+node_modules/
+test-ergebnis.json

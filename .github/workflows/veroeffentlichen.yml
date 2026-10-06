@@ -1,9 +1,19 @@
 # Veroeffentlichen fuer CrankScore.
 #
-# Macht bei jedem Push auf main das, was App-veroeffentlichen.cmd auf dem PC
-# macht: Cache-Name in mtb-sw.js und APP_VERSION in index.html bekommen einen
-# neuen Stempel (Berliner Zeit), dann baut GitHub Pages neu. Ohne den Stempel
-# saehe die installierte App keine neue Fassung.
+# Bei jedem Push auf main:
+#   1. pruefen: npm test (Syntax, Kompatibilitaet, Setup/Speicher). Schlaegt
+#      ein Test fehl, wird NICHT gestempelt und NICHT veroeffentlicht
+#      (Pruefbericht 06.10., Befund 03).
+#   2. stempeln: Cache-Name in mtb-sw.js und APP_VERSION in index.html bekommen
+#      einen neuen Stempel (Berliner Zeit). Veroeffentlicht wird nur die
+#      gepruefte Revision -- kamen zwischendurch andere App-Aenderungen dazu,
+#      bricht der Lauf ab (der neuere Push prueft sich selbst).
+#   3. veroeffentlichen: Steht die Pages-Quelle auf "GitHub Actions"
+#      (Settings -> Pages -> Source), laedt dieser Lauf genau die gepruefte,
+#      gestempelte Revision hoch -- nur dann ist der Test ein echtes Tor.
+#      Steht sie noch auf "Deploy from a branch", baut Pages jeden Push auf
+#      main selbst, auch ungetestete; der Lauf warnt dann ausdruecklich.
+#      Danach wartet der Lauf, bis der neue Stempel live ist.
 #
 # - Pushes, die schon gestempelt sind (etwa vom PC-Skript), bleiben unberuehrt.
 # - Die Live-Preise aendern nur preise.json und loesen das hier nicht aus.
@@ -24,19 +34,53 @@ on:
       - "fonts/**"
       - "icon-*.png"
   workflow_dispatch:
+    inputs:
+      testfehler:
+        description: "Gate-Probe: einen Test absichtlich scheitern lassen (dann wird nichts veroeffentlicht)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
   pages: write
+  id-token: write
 
 concurrency:
   group: veroeffentlichen
   cancel-in-progress: false
 
 jobs:
-  stempeln:
+  pruefen:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Abhaengigkeiten (feste Versionen aus package-lock.json)
+        run: npm ci --no-audit --no-fund
+      - name: Browser fuer die Tests
+        run: npx playwright install --with-deps chromium
+      - name: Tests
+        env:
+          CRANKSCORE_TEST_FEHLER: ${{ github.event_name == 'workflow_dispatch' && inputs.testfehler && '1' || '' }}
+        run: npm test
+      - name: Testbericht aufheben
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-ergebnis
+          path: test-ergebnis.json
+          if-no-files-found: warn
+
+  stempeln:
+    needs: pruefen
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    outputs:
+      sha: ${{ steps.ergebnis.outputs.sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -58,6 +102,8 @@ jobs:
 
       - name: Version stempeln und hochladen
         if: steps.pruef.outputs.noetig == 'ja'
+        env:
+          GEPRUEFT: ${{ github.sha }}
         run: |
           STAMP=$(TZ=Europe/Berlin date +%Y%m%d-%H%M)
           sed -i "s/var CACHE = '[^']*'/var CACHE = 'dreambuild-$STAMP'/" mtb-sw.js
@@ -70,19 +116,106 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add mtb-sw.js index.html
           git commit -q -m "App aktualisiert (Version $STAMP)"
-          # Die Live-Preise koennen gleichzeitig pushen -- dann nachziehen.
+          # Die Live-Preise koennen gleichzeitig pushen -- dann nachziehen. Danach
+          # darf sich gegenueber der geprueften Revision nur Stempel und Preise
+          # unterscheiden, sonst wird nicht veroeffentlicht.
           for i in 1 2 3; do
-            if git pull --rebase -q origin main && git push -q origin HEAD:main; then
-              echo "Veroeffentlicht: Version $STAMP"
-              exit 0
+            if git pull --rebase -q origin main; then
+              ANDERS=$(git diff --name-only "$GEPRUEFT" HEAD | grep -vE '^(index\.html|mtb-sw\.js|preise\.json|preisverlauf\.json|README\.md|CLAUDE\.md|\.gitignore|package(-lock)?\.json|tools/.*|\.github/.*)$' || true)
+              CODE=$(git diff "$GEPRUEFT" HEAD -- index.html mtb-sw.js | grep -E '^[+-][^+-]' | grep -vE "APP_VERSION = '|var CACHE = '" || true)
+              if [ -n "$ANDERS" ] || [ -n "$CODE" ]; then
+                echo "::error::Seit dem Test kamen weitere App-Aenderungen dazu ($ANDERS) -- dieser Lauf veroeffentlicht nicht; der neuere Push wird selbst geprueft."
+                exit 1
+              fi
+              if git push -q origin HEAD:main; then
+                echo "Veroeffentlicht: Version $STAMP"
+                exit 0
+              fi
             fi
             sleep 5
           done
           echo "Hochladen fehlgeschlagen."
           exit 1
 
-      - name: Pages neu bauen
+      - name: Revision fuer die Veroeffentlichung
+        id: ergebnis
+        run: |
+          # HEAD ist hier entweder der eigene Stempel-Commit (geprueft + Stempel,
+          # evtl. + Preise) oder -- schon gestempelt -- die gepruefte Revision.
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "Veroeffentlicht wird $(git rev-parse HEAD)"
+
+  veroeffentlichen:
+    needs: stempeln
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.stempeln.outputs.sha }}
+          fetch-depth: 0
+
+      - name: Pages-Quelle
+        id: quelle
         env:
           GH_TOKEN: ${{ github.token }}
-        # Ein Push mit dem Action-Token loest den Pages-Bau nicht in jedem Fall aus.
-        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" > /dev/null || true
+        run: |
+          TYP=$(gh api "repos/${{ github.repository }}/pages" --jq .build_type 2>/dev/null || echo unbekannt)
+          echo "typ=$TYP" >> "$GITHUB_OUTPUT"
+          if [ "$TYP" != "workflow" ]; then
+            echo "::warning::Pages veroeffentlicht direkt aus dem Branch main ($TYP) -- jeder Push geht live, auch wenn die Tests scheitern. Fuer ein echtes Test-Tor: Settings -> Pages -> Source: GitHub Actions."
+          fi
+
+      - name: Seite zusammenstellen (nur, was die App braucht)
+        if: steps.quelle.outputs.typ == 'workflow'
+        run: |
+          mkdir _site
+          cp index.html mtb-sw.js manifest.webmanifest links.json icon-*.png _site/
+          cp -r fonts docs _site/
+          for f in preise.json preisverlauf.json; do [ -f "$f" ] && cp "$f" _site/ || true; done
+
+      - uses: actions/configure-pages@v5
+        if: steps.quelle.outputs.typ == 'workflow'
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.quelle.outputs.typ == 'workflow'
+        with:
+          path: _site
+      - uses: actions/deploy-pages@v4
+        if: steps.quelle.outputs.typ == 'workflow'
+
+      - name: Stand merken (fuer die Live-Preise)
+        if: steps.quelle.outputs.typ == 'workflow'
+        run: |
+          git tag -f veroeffentlicht "${{ needs.stempeln.outputs.sha }}"
+          git push -q -f origin refs/tags/veroeffentlicht
+
+      - name: Pages neu bauen (Branch-Quelle)
+        if: steps.quelle.outputs.typ != 'workflow'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # Ein Push mit dem Action-Token loest den Pages-Bau nicht in jedem Fall
+        # aus. Laesst er sich nicht anstossen (laeuft schon), steht das als
+        # Warnung im Lauf -- ob die Fassung live ist, prueft der naechste Schritt.
+        run: |
+          if ! gh api -X POST "repos/${{ github.repository }}/pages/builds" > /dev/null 2> fehler.txt; then
+            echo "::warning::Pages-Bau liess sich nicht anstossen: $(cat fehler.txt)"
+          fi
+
+      - name: Live-Stand pruefen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          STAMP=$(grep -oE "APP_VERSION = '[^']+'" index.html | head -1 | cut -d"'" -f2)
+          URL=$(gh api "repos/${{ github.repository }}/pages" --jq .html_url)
+          echo "Erwarte Version $STAMP unter $URL"
+          for i in $(seq 1 45); do
+            if curl -fsSL "${URL%/}/index.html?pruef=$RANDOM$i" | grep -q "APP_VERSION = '$STAMP'"; then
+              echo "Live: Version $STAMP"
+              exit 0
+            fi
+            sleep 20
+          done
+          echo "::error::Version $STAMP ist nach 15 Minuten nicht live unter $URL -- Pages-Bau pruefen."
+          exit 1

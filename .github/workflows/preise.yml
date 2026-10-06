@@ -18,6 +18,7 @@ on:
 permissions:
   contents: write
   pages: write
+  id-token: write
 
 concurrency:
   group: live-preise
@@ -27,6 +28,8 @@ jobs:
   preise:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    environment:
+      name: github-pages
     steps:
       - uses: actions/checkout@v4
 
@@ -40,6 +43,7 @@ jobs:
         run: python tools/preise.py
 
       - name: Neue Preise hochladen
+        id: hoch
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -53,6 +57,38 @@ jobs:
           git commit -q -m "Live-Preise $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase -q origin main
           git push -q origin HEAD:main
-          # Pages neu bauen lassen -- ein Push mit dem Action-Token loest das
-          # nicht in jedem Fall selbst aus.
-          gh api -X POST "repos/${{ github.repository }}/pages/builds" > /dev/null || true
+          echo "neu=ja" >> "$GITHUB_OUTPUT"
+
+      # Pages-Quelle "GitHub Actions": nicht main ausliefern (koennte
+      # ungetesteten App-Code enthalten), sondern den zuletzt geprueften,
+      # veroeffentlichten Stand (Tag "veroeffentlicht") mit den neuen Preisen.
+      - name: Pages-Quelle
+        id: quelle
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: echo "typ=$(gh api "repos/${{ github.repository }}/pages" --jq .build_type 2>/dev/null || echo unbekannt)" >> "$GITHUB_OUTPUT"
+
+      - name: Pages neu bauen (Branch-Quelle)
+        if: steps.hoch.outputs.neu == 'ja' && steps.quelle.outputs.typ != 'workflow'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh api -X POST "repos/${{ github.repository }}/pages/builds" > /dev/null 2> fehler.txt; then
+            echo "::warning::Pages-Bau liess sich nicht anstossen: $(cat fehler.txt)"
+          fi
+
+      - name: Seite aus dem veroeffentlichten Stand plus neue Preise
+        if: steps.hoch.outputs.neu == 'ja' && steps.quelle.outputs.typ == 'workflow'
+        run: |
+          git fetch -q origin "refs/tags/veroeffentlicht:refs/tags/veroeffentlicht"
+          mkdir _site
+          git archive veroeffentlicht index.html mtb-sw.js manifest.webmanifest links.json fonts docs $(git ls-tree --name-only veroeffentlicht | grep '^icon-') | tar -x -C _site
+          for f in preise.json preisverlauf.json; do [ -f "$f" ] && cp "$f" _site/ || true; done
+      - uses: actions/configure-pages@v5
+        if: steps.hoch.outputs.neu == 'ja' && steps.quelle.outputs.typ == 'workflow'
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.hoch.outputs.neu == 'ja' && steps.quelle.outputs.typ == 'workflow'
+        with:
+          path: _site
+      - uses: actions/deploy-pages@v4
+        if: steps.hoch.outputs.neu == 'ja' && steps.quelle.outputs.typ == 'workflow'

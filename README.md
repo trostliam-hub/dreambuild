@@ -443,15 +443,52 @@ was angezeigt wird. Die Sprache liegt in `localStorage` unter `mtb.sprache`.
 
 ## Veroeffentlichen
 
-Doppelklick auf `App-veroeffentlichen.cmd`. Das Skript installiert bei Bedarf die
-GitHub CLI, meldet einmalig an, legt das Repo an, laedt hoch, schaltet Pages ein
-und oeffnet die fertige Adresse:
+Veroeffentlichen heisst: auf `main` pushen. Die Action
+`.github/workflows/veroeffentlichen.yml` macht dann der Reihe nach:
 
-    https://<dein-name>.github.io/dreambuild/
+1. **pruefen** — `npm test` (siehe *Tests*). Schlaegt etwas fehl, wird nicht
+   gestempelt und nicht veroeffentlicht; der Testbericht haengt am Lauf.
+2. **stempeln** — `APP_VERSION` in `index.html` und der Cache-Name in
+   `mtb-sw.js` bekommen einen neuen Stempel. Veroeffentlicht wird nur die
+   gepruefte Revision: Kamen seit dem Test weitere App-Aenderungen auf `main`,
+   bricht der Lauf ab, und der neuere Push prueft sich selbst.
+3. **veroeffentlichen** — mit Pages-Quelle *GitHub Actions* laedt der Lauf
+   genau diese Revision hoch (nur, was die App braucht) und merkt sie im Tag
+   `veroeffentlicht`; die Live-Preise liefern dann diesen Stand mit neuen
+   Preisen aus. Danach wartet der Lauf, bis der neue Stempel live ist, und
+   meldet einen Fehler, wenn nicht.
 
-Jeder weitere Doppelklick laedt nur die Aenderungen nach. Die Adresse bleibt gleich.
+**Wichtig:** Steht unter *Settings → Pages → Source* noch „Deploy from a
+branch“, baut GitHub Pages jeden Push auf `main` selbst — auch einen, dessen
+Tests scheitern (dann fehlt nur der Stempel). Ein echtes Test-Tor ist es erst
+mit Quelle *GitHub Actions*; bis dahin steht in jedem Lauf eine Warnung.
+
+`App-veroeffentlichen.cmd` braucht es nur noch, um vom PC aus `links.json` aus
+den Downloads zu uebernehmen; es pusht auf `main`, und dieselbe Action prueft
+und veroeffentlicht.
 
 Auf dem iPhone in **Safari** oeffnen, dann Teilen -> Zum Home-Bildschirm.
+
+## Tests
+
+Einmal einrichten (Node 18 oder neuer):
+
+    npm ci
+    npx playwright install chromium
+
+Dann jederzeit:
+
+    npm test
+
+prueft die Syntax von `index.html`, alle Kompatibilitaetsfaelle aus
+`tools/kompat-faelle.mjs` und `tools/kompat-raeder.mjs` (jeder muss gelaufen
+und bestanden sein) und die Setup- und Speicherpruefungen aus
+`tools/setup-test.mjs` (Speicherung je Rad, SAG je Fahrprofil, Speicherfehler,
+Datensicherung, keine erfundenen Fahrwerkswerte ueber alle Gabeln und
+Daempfer). Ergebnis mit Revision, Zahlen und Fehlern in `test-ergebnis.json`.
+Einzeln: `npm run test:kompat`, `npm run test:setup`. Playwright ist in
+`package.json`/`package-lock.json` auf eine feste Version gesetzt. Jeder Push
+ausserhalb von `main` laeuft durch `.github/workflows/tests.yml`.
 
 ## Aktualisierung
 

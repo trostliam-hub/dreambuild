@@ -2311,6 +2311,8 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .fw-st-w.breit{grid-column:1 / -1;justify-content:space-between}
 .fw-st-w.breit input{text-align:left;font-size:20px}
 .fw-st-r{font-size:12.5px;line-height:1.45;color:var(--ink-3)}
+.fw-haken{display:flex;align-items:center;gap:8px;min-height:40px;font-size:13.5px;color:var(--ink-2)}
+.fw-haken input{width:20px;height:20px;accent-color:var(--anod)}
 .fw-warn{margin:0;padding:10px 12px;border-radius:12px;background:var(--warn-soft);color:var(--ink);font-size:13px;line-height:1.45}
 .fw-st-r .fw-link{min-height:32px}
 .fw-gross{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;width:100%;font-size:14.5px}
@@ -4420,7 +4422,7 @@ function marktCheckHtml(){
     [netzWert("awinId") ? "ok" : "no", "Awin Publisher-ID", netzWert("awinId") ? "" : "Unten unter Netzwerk eintragen"],
     [ohneMid.length ? "no" : "ok", "Advertiser-IDs der Shops", ohneMid.length ? "Fehlt für: " + ohneMid.join(", ") : ""],
     [proKauf() && proStore() ? "ok" : "no", "Pro-Verkauf eingerichtet", proKauf() && proStore() ? "" : "Kauf-Link und Store-ID unten unter Pro-Verkauf"],
-    [linksOffen() ? "no" : "ok", "Alles veröffentlicht", linksOffen() ? "links.json speichern, dann App-veroeffentlichen.cmd" : ""],
+    [linksOffen() ? "no" : "ok", "Alles veröffentlicht", linksOffen() ? "links.json speichern, ins Repo legen und auf main pushen (oder App-veroeffentlichen.cmd)" : ""],
     [Object.keys(live.teile).length ? "ok" : "no", "Live-Preise laufen", Object.keys(live.teile).length ? "" : "Feed-Adressen ins GitHub-Secret PREIS_FEEDS"],
     ["hand", "Impressum und Datenschutz prüfen lassen", "Entwurf, keine Rechtsberatung — z. B. IT-Rechtskanzlei oder Händlerbund"],
     ["hand", "Einnahmen steuerlich klären", "Gewerbe und Kleinunternehmerregelung mit Finanzamt oder Steuerberater"]
@@ -4651,7 +4653,110 @@ function laden(){
 /* Speichern mit Rueckmeldung (Bericht 06.10., Befund 07): jeder Eintrag
    einzeln, ein Fehler wird gemeldet statt verschluckt. Die Profile stehen
    zuerst -- sie sind das Wertvollste. */
-function lsSetzen(k, v){ try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
+function lsSetzen(k, v){ if(sicherungLaeuft) return true; try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
+/* ═══ Datensicherung (Bericht 06.10., Befund 08) ═══
+   Alle Nutzerdaten als eine Datei: Raeder aller Profile, Fahrerangaben,
+   Fahrprofil, Fahrwerk-Setup mit Notizen, Einstellungen -- auf Wunsch mit
+   Fotos. Nicht enthalten: Lizenz, Betreiber-Daten, Feed-Zwischenspeicher,
+   Guide-Zaehler. Beim Laden: Format und Inhalt pruefen, Vorschau zeigen,
+   erst nach Bestaetigung ersetzen; geht dabei etwas schief, kommt der alte
+   Stand zurueck. */
+const SICHERUNG_FORMAT = "crankscore-sicherung", SICHERUNG_VERSION = 1;
+const SICHERUNG_OHNE = /^mtb\.(pro|betreiberok|linkadmin|links|betreiber|feed|guidezahl|updweg|aff|frisch)$/;
+const SICHERUNG_BILD = /^mtb\.(foto|topcap)\./;
+let sicherungLaeuft = false, sicherungNeu = null, sicherungFotos = true;
+const sicherungSchluessel = () => { const out = []; for(let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if(/^mtb\./.test(k) && !SICHERUNG_OHNE.test(k)) out.push(k); } return out; };
+function sicherungErstellen(mitFotos){
+  const daten = {};
+  for(const k of sicherungSchluessel()) if(mitFotos || !SICHERUNG_BILD.test(k)) daten[k] = localStorage.getItem(k);
+  return {format:SICHERUNG_FORMAT, version:SICHERUNG_VERSION, app:APP_VERSION, erstellt:new Date().toISOString(), fotos:!!mitFotos, daten:daten};
+}
+function sicherungSpeichern(){
+  const ok = sichern(); suSichern();
+  let text;
+  try{ text = JSON.stringify(sicherungErstellen(sicherungFotos)); }catch(e){ zeigeToast(tx("Die Sicherung ließ sich nicht erstellen.", "The backup couldn't be created.")); return; }
+  const datei = "crankscore-sicherung-" + new Date().toISOString().slice(0, 10) + ".json";
+  try{
+    const url = URL.createObjectURL(new Blob([text], {type:"application/json"})), a = document.createElement("a");
+    a.href = url; a.download = datei; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+    zeigeToast(ok ? tx(`Sicherung „${datei}“ gespeichert (${Math.round(text.length / 1024)} KB).`, `Backup “${datei}” saved (${Math.round(text.length / 1024)} KB).`)
+      : tx("Sicherung gespeichert — aber die letzten Änderungen ließen sich nicht speichern und fehlen darin.", "Backup saved — but your latest changes couldn't be stored and are missing from it."), 6000);
+  }catch(e){ zeigeToast(tx("Herunterladen ging nicht — der Browser blockiert Downloads.", "Download failed — the browser blocks downloads.")); }
+}
+/* Pruefen ohne etwas zu aendern: {fehler} oder {daten, vorschau} */
+function sicherungPruefen(text){
+  let o;
+  try{ o = JSON.parse(text); }catch(e){ return {fehler:tx("Die Datei ist keine gültige Sicherung (kein lesbares JSON).", "The file isn't a valid backup (no readable JSON).")}; }
+  if(!o || typeof o !== "object" || o.format !== SICHERUNG_FORMAT) return {fehler:tx("Das ist keine CrankScore-Sicherung.", "That's not a CrankScore backup.")};
+  if(!(o.version >= 1)) return {fehler:tx("Die Sicherung hat keine gültige Versionsangabe.", "The backup has no valid version.")};
+  if(o.version > SICHERUNG_VERSION) return {fehler:tx(`Diese Sicherung (Format ${o.version}) ist neuer als die App — erst die App aktualisieren.`, `This backup (format ${o.version}) is newer than the app — update the app first.`)};
+  if(!o.daten || typeof o.daten !== "object" || Array.isArray(o.daten)) return {fehler:tx("Die Sicherung enthält keine Daten.", "The backup contains no data.")};
+  const daten = {}, ignoriert = [];
+  for(const k in o.daten){
+    const v = o.daten[k];
+    if(!/^mtb\.[A-Za-z0-9_.\-]{1,90}$/.test(k) || SICHERUNG_OHNE.test(k) || typeof v !== "string" || v.length > 8e6){ ignoriert.push(k); continue; }
+    if(/^[\[{]/.test(v)){ try{ JSON.parse(v); }catch(e){ return {fehler:tx(`Der Eintrag „${k}“ ist beschädigt — die Sicherung wird nicht geladen.`, `The entry “${k}” is damaged — the backup won't be loaded.`)}; } }
+    daten[k] = v;
+  }
+  const json = k => { try{ return daten[k] ? JSON.parse(daten[k]) : null; }catch(e){ return null; } };
+  const pr = json("mtb.profile");
+  if(daten["mtb.profile"] && !(pr && pr.liste && typeof pr.liste === "object" && MODI.every(m => !pr.liste[m] || Array.isArray(pr.liste[m]))))
+    return {fehler:tx("Die Radprofile in der Sicherung sind beschädigt — die Sicherung wird nicht geladen.", "The bike profiles in the backup are damaged — the backup won't be loaded.")};
+  if(!Object.keys(daten).length) return {fehler:tx("Die Sicherung enthält keine Daten.", "The backup contains no data.")};
+  const raeder = {};
+  for(const m of MODI) raeder[m] = pr && Array.isArray(pr.liste[m]) ? pr.liste[m].map(p => { try{ return profilName(p, m); }catch(e){ return "?"; } }) : [];
+  const setup = json("mtb.setup") || {};
+  return {daten:daten, fotos:!!o.fotos, ignoriert:ignoriert, vorschau:{app:String(o.app || "?"), erstellt:String(o.erstellt || ""), raeder:raeder,
+    setup:Object.keys(setup).filter(k => setup[k] && setup[k].log).length, notizen:Object.keys(setup).reduce((n, k) => n + ((setup[k] && setup[k].log) || []).length, 0),
+    fahrer:+daten["mtb.fahrer"] || 0, bilder:Object.keys(daten).filter(k => SICHERUNG_BILD.test(k)).length}};
+}
+function sicherungVorschauHtml(s){
+  const v = s.vorschau, d = v.erstellt ? new Date(v.erstellt) : null;
+  const hier = MODI.reduce((n, m) => n + profile[m].length, 0), dort = MODI.reduce((n, m) => n + v.raeder[m].length, 0);
+  return `<div class="sheet-h"><h3><span class="sub">${tx("Datensicherung", "Backup")}</span>${tx("Sicherung laden?", "Load backup?")}</h3>${zuBtn}</div>
+    <div class="sheet-b fw-wz">
+      <p class="fw-wz-lead">${tx(`Erstellt am ${d && !isNaN(d) ? d.toLocaleString(ortsform()) : "?"} mit App-Version ${esc(v.app)}.`, `Created on ${d && !isNaN(d) ? d.toLocaleString(ortsform()) : "?"} with app version ${esc(v.app)}.`)}</p>
+      <ul class="fw-check">
+        ${MODI.map(m => `<li>${ic(IC.traum, 18)}<span><b>${esc(MODUS_NAME[m])}: ${v.raeder[m].length}</b> ${v.raeder[m].map(esc).join(", ")}</span></li>`).join("")}
+        <li>${ic(SU_IC.gabel, 18)}<span><b>${tx("Fahrwerk-Setup", "Suspension setup")}:</b> ${tx(`${v.setup} ${v.setup === 1 ? "Rad" : "Räder"}, ${v.notizen} ${v.notizen === 1 ? "Eintrag" : "Einträge"} im Notizbuch`, `${v.setup} ${v.setup === 1 ? "bike" : "bikes"}, ${v.notizen} notebook ${v.notizen === 1 ? "entry" : "entries"}`)}</span></li>
+        <li>${ic(OB_I, 18)}<span><b>${tx("Fahrergewicht", "Rider weight")}:</b> ${v.fahrer ? v.fahrer + " kg" : "—"} · <b>${tx("Fotos", "Photos")}:</b> ${s.fotos ? v.bilder : tx("nicht enthalten — deine Fotos hier bleiben", "not included — your photos here stay")}</span></li>
+      </ul>
+      <p class="fw-warn">${tx(`Das <b>ersetzt</b> alles auf diesem Gerät: ${hier} ${hier === 1 ? "Rad" : "Räder"} hier werden durch ${dort} aus der Sicherung ersetzt. Lizenz und Einstellungen des Betreibers bleiben unberührt.`,
+        `This <b>replaces</b> everything on this device: ${hier} ${hier === 1 ? "bike" : "bikes"} here are replaced by ${dort} from the backup. Licence and operator settings stay untouched.`)}</p>
+      ${s.ignoriert.length ? `<p class="su-hint">${tx(`${s.ignoriert.length} Einträge werden übersprungen (nicht erlaubt oder unbekannt).`, `${s.ignoriert.length} entries are skipped (not allowed or unknown).`)}</p>` : ""}
+    </div><div class="sheet-f fw-wz-f"><button class="btn ghost" data-zu="1">${tx("Abbrechen", "Cancel")}</button><button class="btn" data-sicherung="anwenden">${tx("Ersetzen und neu laden", "Replace and reload")}</button></div>`;
+}
+/* Ersetzen mit Rueckfall: erst den alten Stand merken, dann schreiben; scheitert
+   ein Eintrag (Speicher voll), kommt alles Alte zurueck */
+function sicherungAnwenden(s){
+  const alt = {}, bilderBleiben = !s.fotos;
+  for(const k of sicherungSchluessel()) alt[k] = localStorage.getItem(k);
+  sicherungLaeuft = true;
+  try{
+    for(const k in alt) if(!(bilderBleiben && SICHERUNG_BILD.test(k))) localStorage.removeItem(k);
+    for(const k in s.daten) localStorage.setItem(k, s.daten[k]);
+    return true;
+  }catch(e){
+    try{ for(const k of sicherungSchluessel()) localStorage.removeItem(k); for(const k in alt) localStorage.setItem(k, alt[k]); }catch(e2){}
+    sicherungLaeuft = false;
+    return false;
+  }
+}
+function sicherungWaehlen(){
+  const i = document.createElement("input");
+  i.type = "file"; i.accept = ".json,application/json"; i.hidden = true; i.id = "sicherung-in";
+  i.addEventListener("change", () => {
+    const f = i.files && i.files[0]; i.remove();
+    if(!f) return;
+    if(f.size > 40e6){ zeigeToast(tx("Die Datei ist zu groß für eine Sicherung.", "The file is too large for a backup."), 5000); return; }
+    const r = new FileReader();
+    r.onload = () => { const s = sicherungPruefen(String(r.result || "")); if(s.fehler){ zeigeToast(s.fehler, 7000); return; } sicherungNeu = s; zeigeSheet(sicherungVorschauHtml(s)); };
+    r.onerror = () => zeigeToast(tx("Die Datei ließ sich nicht lesen.", "The file couldn't be read."));
+    r.readAsText(f);
+  });
+  document.body.appendChild(i); i.click();
+}
 let speicherFehlerT = 0;
 function speicherFehler(was){
   if(Date.now() - speicherFehlerT < 20000) return;
@@ -15500,7 +15605,7 @@ function oeffneMenu(){
           deinen Link. Einfügen kannst du einen Awin-Link, einen Amazon-Link oder einfach die Produktseite eines Shops —
           die macht die App mit deiner Publisher- und Advertiser-ID selbst zum Awin-Link.<br>
           <b>Für alle online:</b> „links.json speichern“ (landet in Downloads), dann <code>App-veroeffentlichen.cmd</code>
-          doppelklicken. Das Skript nimmt die Datei mit.</p>
+          doppelklicken — das Skript nimmt die Datei mit und pusht auf main; die Action testet und veröffentlicht.</p>
         ${n ? `<details class="lk-liste"><summary>Alle Links anzeigen</summary>${Object.keys(g.teile).map(id => g.teile[id].map((x, i) =>
             `<div class="lk-z"><span class="lk-s">${esc(teilName(id))}</span><a class="lk-u" href="${esc(linkZiel(x.l))}" target="_blank" rel="noopener">${esc(x.s)} · ${esc(kurzUrl(x.l))}</a>
              <span class="lk-v ${linkVerdient(x.l) ? "ok" : "aus"}">${linkVerdient(x.l) ? "mit Provision" : "ohne Provision"}</span>
@@ -15575,6 +15680,13 @@ function oeffneMenu(){
         <span>${tx("Version vom", "Version of")} ${versionText(APP_VERSION)}</span>
       </div>
 
+      <div class="grp-h" style="margin-top:14px"><h2>${tx("Deine Daten", "Your data")}</h2><div class="rule"></div></div>
+      <p class="hint" style="margin:0 0 8px">${tx("Alle Räder, Fahrerangaben, Fahrwerk-Setup und Notizen als Datei — für ein neues Gerät oder bevor du Browserdaten löschst. Die Daten liegen sonst nur in diesem Browser.", "All bikes, rider details, suspension setup and notes as a file — for a new device or before you clear browser data. Otherwise the data only lives in this browser.")}</p>
+      <label class="fw-haken"><input type="checkbox" data-sicherungfotos="1"${sicherungFotos ? " checked" : ""}> ${tx("Fotos mitsichern (Datei wird größer)", "Include photos (larger file)")}</label>
+      <div class="lk-knoepfe" style="margin:6px 0 4px">
+        <button class="btn ghost sm" data-sicherung="export">${tx("Sicherung speichern", "Save backup")}</button>
+        <button class="btn ghost sm" data-sicherung="import">${tx("Sicherung laden", "Load backup")}</button>
+      </div>
       <div style="margin:10px 0 2px"><button class="btn ghost wide" data-reset="1">${tx("Dieses Profil zurücksetzen", "Reset this profile")}</button></div>
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Rechtliches", "Legal")}</h2><div class="rule"></div></div>
       <div class="lk-knoepfe" style="margin:0 0 6px">
@@ -15598,6 +15710,17 @@ document.addEventListener("click", e => {
   const T = q => e.target.closest(q);
   const adi = T("[data-adinfo]");
   if(adi){ oeffneAdapterInfo(adi.dataset.adinfo, adi); return; }
+  const sich = T("[data-sicherung]");
+  if(sich){
+    const w = sich.dataset.sicherung;
+    if(w === "export") sicherungSpeichern();
+    else if(w === "import") sicherungWaehlen();
+    else if(w === "anwenden" && sicherungNeu){
+      if(sicherungAnwenden(sicherungNeu)){ sicherungNeu = null; try{ sessionStorage.setItem("mtb.geladen", "1"); }catch(e){} location.reload(); }
+      else zeigeToast(tx("Laden fehlgeschlagen (Speicher voll?) — dein bisheriger Stand ist unverändert.", "Loading failed (storage full?) — your previous state is unchanged."), 8000);
+    }
+    return;
+  }
   const adz = T("[data-adzu]");
   if(adz && (adz.tagName === "BUTTON" || e.target === adz)){ schliesseAdapterInfo(); return; }
   const fxt = T("[data-fxtipp]");
@@ -16252,6 +16375,7 @@ document.addEventListener("input", e => {
   }
 });
 document.addEventListener("change", e => {
+  if(e.target && e.target.dataset && e.target.dataset.sicherungfotos){ sicherungFotos = e.target.checked; return; }
   /* Regler losgelassen, Zahl fertig getippt: Setup neu zeichnen */
   if(e.target.dataset && e.target.dataset.fxsagin){ setupZeichnen(); return; }
   if(e.target.dataset && e.target.dataset.fwin){ if(e.target.dataset.fwin === "kg") zeichne(); else setupZeichnen(); return; }
@@ -16483,6 +16607,7 @@ try{
     setTimeout(() => zeigeToast(tx("Aktualisiert — Version vom ", "Updated — version of ") + versionText(APP_VERSION) + "."), 400);
   }
   if(/[?&]v=/.test(location.search)) history.replaceState(null, "", location.pathname);
+  if(sessionStorage.getItem("mtb.geladen")){ sessionStorage.removeItem("mtb.geladen"); setTimeout(() => zeigeToast(tx("Sicherung geladen.", "Backup loaded.")), 400); }
 }catch(e){}
 </script>
 </body>
