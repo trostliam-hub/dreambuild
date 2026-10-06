@@ -75,7 +75,7 @@ Seite): hell, große Überschriften, schwarzer Knopf „Kostenlos starten“, ei
 weiches Farbband mit dem gezeichneten Rad im Kopf, dann „Kennt die Teile von“
 mit laufenden Markennamen und drei Zahlen (Teile, Marken, Prüfregeln — aus dem
 Katalog gezählt), je Funktion eine große hellgraue Karte mit Handy-Vorschau und
-Farbschein (Wertung, Prüfung, Nächster Schritt, Dein Fit, Gebrauchtrad), ein
+Farbschein (Wertung, Prüfung, Upgrades, Deine Größe, Gebrauchtrad), ein
 dunkler Abschnitt für den Guide mit leuchtender Kugel, „Und das ist nicht
 alles“ zum Wischen, Free oder Pro, eine dunkelgrüne Karte zur Privatsphäre,
 „Bereit, wenn du es bist“ und eine Fußzeile mit Impressum und Datenschutz.
@@ -87,27 +87,37 @@ installierten App nicht; sonst unter ⋮ → Über CrankScore oder über die Adr
 mit `#start` — der Link für TikTok:
 https://trostliam-hub.github.io/dreambuild/#start
 
-**Einstieg.** Beim ersten Öffnen ein Rundgang über den ganzen Bildschirm — auch
-einmal für alle, die die App schon vorher hatten (ein schon gebautes oder
-eingetragenes Rad bleibt dabei unangetastet, das Ergebnis landet in einem
-neuen Profil). Gleich oben die Sprachwahl Deutsch / English, dazu ein
-gezeichnetes Rad, gestaffelt einfliegende Karten und Konfetti am Ende: Was hast
-du vor (neues Rad, eigenes Rad, Gebrauchtrad)? Wie lange fährst du schon? Wo
-fährst du am liebsten (die sieben Disziplinen in Alltagssprache)? Vier
-Fahrstil-Fragen (Tempo bergab, Sprünge, Fahrwerksgefühl, Anteil bergauf), der
-gewünschte Charakter des Rads (verspielt, ausgewogen, laufruhig), Größe und
-Gewicht, Schulterbreite, Schrittlänge, Spannweite und Handschuhgröße — beim
-Traumrad dazu Budget, Vorlieben (Laufradgröße, Hardtail oder Fully, Flat- oder
-Klickpedal — nur die Optionen, für die es einen zur Disziplin passenden Rahmen
-gibt), Wunschmarken und Schwerpunkt. Jede Antwort wirkt: Die
-Fahrstil-Fragen füllen das Fahrwerk-Setup, die Erfahrung schaltet die
-Leitkarte, Budget, Vorlieben und Marken gehen in den Assistenten (eine
-Rahmen-Vorliebe, die das Budget sprengen würde, lässt er fallen und sagt es), und am Ende baut der
-Assistent das Rad gleich in den eigenen Maßen. Überspringen geht jederzeit,
-wiederholen unter ⋮ → Hilfe → Einführung & Fragen oder unter Profile →
-Einführung wiederholen.
+**Ein Weg je Aufgabe** (Doppelungen-Prüfung 06.10.2026). Jede Aufgabe hat
+genau einen Ort:
 
-**Dein Fit.** Aus Körpergröße, Schrittlänge, Schulterbreite und Spannweite (was
+| Aufgabe | Der eine Weg |
+|---|---|
+| Rad oder Angebot anlegen, wechseln, umbenennen, löschen | Radverwaltung (Stift neben den Rädern) → „Rad anlegen“ / „Angebot anlegen“; die Leiste darunter wechselt nur |
+| Körpermaße, Gewicht, Erfahrung | Einstellungen → Fahrerprofil (derselbe Editor wie im ersten Einstieg) |
+| Disziplin, Budget, Marken, Vorlieben eines Rads | Bauziel (Disziplin oben antippen); beim Traumrad mit Assistent und Vorschlag |
+| Teile wählen | Aufbau |
+| Konflikte lösen | Prüfung (dort auch die kostenlose Umstellung und der Ersatz) |
+| Besser oder günstiger | Upgrades (Upgrades und „Günstiger, gleiche Maße“) |
+| Bestellen | Kaufen; am Desktop daneben nur die Summe |
+| Fahrwerk | Setup in der Navigation (Handy: Reiter, Desktop: Kopf) |
+| Hilfe | Einstellungen → Hilfe: Guide, Begriffe, Über CrankScore, Rundgang |
+
+**Einstieg.** Beim ersten Öffnen ein Rundgang über den ganzen Bildschirm.
+Gleich oben die Sprachwahl Deutsch / English, dazu ein gezeichnetes Rad,
+gestaffelt einfliegende Karten und Konfetti am Ende: Was hast du vor (neues
+Rad, eigenes Rad, Gebrauchtrad)? Danach die Schritte des Fahrerprofils:
+Erfahrung, gewünschter Charakter des Rads (verspielt, ausgewogen, laufruhig),
+Größe und Gewicht, Schulterbreite, Schrittlänge, Spannweite und
+Handschuhgröße, dann die eigene Größe. Beim Traumrad geht es danach im
+Bauziel weiter (Disziplin, Budget, Vorlieben, Wunschmarken, Schwerpunkt —
+nur die Vorlieben, für die es einen zur Disziplin passenden Rahmen gibt), beim
+eigenen Rad und beim Angebot mit dem Rahmen. Ein schon gebautes oder
+eingetragenes Rad bleibt unangetastet: dann kommt ein neues Rad dazu, und die
+App sagt es. Den Fahrstil fürs Fahrwerk fragt das Setup selbst.
+Überspringen geht jederzeit; einen zweiten Fragenkatalog zum Wiederholen gibt
+es nicht — Fahrer ändert man im Fahrerprofil, Räder im Bauziel.
+
+**Deine Größe.** Aus Körpergröße, Schrittlänge, Schulterbreite und Spannweite (was
 fehlt, wird aus der Größe geschätzt und so markiert): Rahmengröße (gemittelte
 Größentabelle, Specialized S1–S6, zwischen zwei Größen entscheidet der
 gewünschte Charakter), Ziel-Reach, Lenkerbreite (halb Schultern, halb
@@ -152,22 +162,23 @@ Modells und nur, wenn die Prüfung dadurch nicht schlechter wird. Einkaufsliste
 und kopierter Text nennen Rahmengröße, Lenkerkürzung und Sattelhöhe für die
 Werkstatt. Die Maße gelten wie das Fahrergewicht für alle Profile.
 
-**Für Einsteiger.** Nach dem Einstieg kommt einmal ein **Rundgang**: ein
-Scheinwerfer wandert über die echten Bedienelemente (Wertung, Modi, Teile,
-Prüfung, Upgrades, Kaufen, Disziplin, Menü), daneben eine Karte mit einem Satz,
-Fortschrittspunkten, Zurück und Überspringen; am Ende Konfetti. Auf breiten
-Bildschirmen zeigt er auf die Spalten statt auf die Reiter, Pfeiltasten
-blättern, Esc beendet. Unter ⋮ → *App & Profil* stehen ganz oben zwei große
-Knöpfe: *Einstieg wiederholen* und *App-Rundgang*; darunter die Hilfe als
-erklärte Zeilen (Fit, Setup, Begriffe, Anleitung ein/aus).
-Wer im Einstieg „Ganz neu dabei“ wählt, bekommt an jeder Teilekachel einen Satz,
-was das Teil tut. Oben im Aufbau führt eine Leitkarte Schritt für Schritt: je
-Modus drei bis vier Schritte, abgehakt, was erledigt ist, ein Knopf für den
-nächsten. Die Erklärung der Wertung steht direkt an der Wertung. Ausführungen
-(Einbaumaß, Federweg …) sind eingeklappt, bis man sie ändern will; die
-Teilekachel nennt dann nur das Modell, damit nichts doppelt steht. Der Reiter
-*Kaufen* hat eine Einkaufsliste mit Shop-Knöpfen, als Text kopierbar für die
-Werkstatt.
+**Für Einsteiger.** Der **Rundgang** startet nur auf Wunsch (Einstellungen →
+Hilfe → App-Rundgang): ein Scheinwerfer wandert über die echten
+Bedienelemente (Wertung, Modi, Teile, Prüfung, Upgrades, Kaufen, Setup,
+Bauziel, Menü), daneben eine Karte mit einem Satz, Fortschrittspunkten,
+Zurück und Überspringen; am Ende Konfetti. Auf breiten Bildschirmen zeigt er
+auf die Spalten statt auf die Reiter, Pfeiltasten blättern, Esc beendet.
+Wer im Fahrerprofil „Ganz neu dabei“ wählt, bekommt an jeder Teilekachel einen
+Satz, was das Teil tut. Über dem Score steht **eine Aufgabenkarte** „Nächster
+Schritt“: je Modus die Schritte als Status (Bauziel, fehlende Teile,
+Konflikte und Prüfung, beim Traumrad Budget, zuletzt Upgrades oder Kaufen) und
+genau ein Knopf für den aktuellen Schritt. Übernehmen oder Ablehnen gibt es
+dort nicht — das geht nur in der Prüfung bzw. unter Upgrades. Die Karte lässt
+sich ausblenden und unter Hilfe wieder zeigen. Die Erklärung der Wertung steht
+direkt an der Wertung. Ausführungen (Einbaumaß, Federweg …) sind eingeklappt,
+bis man sie ändern will; die Teilekachel nennt dann nur das Modell, damit
+nichts doppelt steht. Der Reiter *Kaufen* hat eine Einkaufsliste mit
+Shop-Knöpfen, als Text kopierbar für die Werkstatt.
 
 **Sieben Disziplinen,** einzeln oder gemischt: Cross Country, Trail, Enduro,
 Downhill, Dirtjump, Slopestyle, Trial. Mischungen werden auf Machbarkeit
@@ -328,13 +339,15 @@ Ansicht; Gabel und Dämpfer klar getrennt (Umschalter *Gabel · vorne* /
 *Dämpfer · hinten*). Ziel: Einsteiger wissen, was sie einstellen, wie und
 warum; Profis prüfen, verstellen und vergleichen schnell. Alle Werte sind
 Ausgangspunkte und stehen so in der App.
-- *Onboarding-Assistent* (Start ohne Gewicht, später über *Deine Angaben*):
-  Gewicht ohne Ausrüstung, was mitfedert (Helm, Tasche, Rucksack, Protektoren
-  oder gewogen), Körpergröße; Rad (Rahmen, Modelljahr, Rahmengröße, Analog /
-  Light-E / Full-E, Radgewicht); Gabel und Dämpfer mit Modelljahr und bei
+- *Deine Angaben* — der eine Editor für die Setup-Daten (ohne Gewicht führt
+  das Setup erst ins Fahrerprofil; Gewicht, Größe und Erfahrung kommen von
+  dort und werden hier nur angezeigt): was mitfedert (Helm, Tasche, Rucksack,
+  Protektoren oder gewogen); Rad (Rahmen und Modelljahr aus dem Aufbau,
+  Rahmengröße, Analog / Light-E / Full-E, Radgewicht); Gabel und Dämpfer
+  (Teile aus dem Aufbau, nur angezeigt) mit eigenem Modelljahr und bei
   Stahlfeder der Federhärte; welche Einsteller es wirklich gibt
   (vorausgewählt nach Herstellerdaten, abwählbar — weg aus den Karten;
-  angehakt ohne Daten: ab der Mitte); Erfahrung, Gelände, Tempo, Sprünge,
+  angehakt ohne Daten: ab der Mitte); Gelände, Tempo, Sprünge,
   Gefühl, Anteil bergauf; Profil; was gerade eingestellt ist (Druck, SAG,
   Klicks — mit dem Bezugspunkt des Herstellers); Probleme und Wünsche. Jede
   Frage hat „Warum fragen wir das?“, „Weiß ich nicht“ (mit Hinweis, wo man
@@ -349,8 +362,11 @@ Ausgangspunkte und stehen so in der App.
   eigene Grundeinstellung (★).
 - *Dein nächster Schritt* — Luft vorne/hinten, SAG, Rebound, Druckstufe,
   Testfahrt; *Zeigen* öffnet die passende Karte, *Erledigt* hakt ab.
-- *Aktionen:* SAG messen, Testfahrt, Vergleichen, Deine Angaben; darunter
-  *Auf einen Blick* (öffnet die Trail-Karte).
+  Fehlen Angaben, sagt ein Hinweis oben nur, wie viele — bearbeitet wird
+  ausschließlich unter *Deine Angaben*.
+- *Aktionen:* Testfahrt (starten oder fortsetzen), Trail-Karte, Vergleichen,
+  Deine Angaben. SAG wird in der SAG-Karte des gewählten Federelements
+  gestartet; *Dein nächster Schritt* führt mit *Zeigen* dorthin.
 - *Einstellkarten* in der Reihenfolge des Einstellens (Luft oder Feder, SAG,
   Rebound, Druckstufe, Hebel; aufklappbar die Profi-Einsteller HSC, HSR,
   Durchschlagschutz, Tokens) — nur Einsteller, die das Fahrwerk hat. Jede
@@ -361,10 +377,11 @@ Ausgangspunkte und stehen so in der App.
   schneller/weicher) mit Illustration, *Was es bewirkt* mit Begriff zum
   Antippen, *Warum dieser Wert* (Tabelle, Fahrstil, Profil, eigenes
   Feintuning) mit Quellen-Links, *Zu viel / zu wenig*.
-- *Geführte SAG-Messung* in sechs Schritten (vorbereiten, Startdruck,
+- *Geführte SAG-Messung* für das gewählte Federelement in sechs Schritten (vorbereiten, Startdruck,
   O-Ring, aufsitzen, messen, Ergebnis) mit Barometer; Rat in psi höchstens
   20 % pro Schritt, „Auf … psi gepumpt“ merkt den Druck und bittet ums
-  Nachmessen.
+  Nachmessen. Fragt die Testfahrt nach dem SAG, misst sie dasselbe Element
+  und führt danach zurück in die Testfahrt.
 - *Testfahrt-Assistent:* „Fühlt sich gut an“ speichert die Grundeinstellung;
   sonst Rückfragen (wo, wie: hart, schlägt durch, taucht ab, kickt, wenig
   Grip, unruhig, wippt, nutzt den Federweg nicht; je nach Gefühl SAG
@@ -485,8 +502,11 @@ prueft die Syntax von `index.html`, alle Kompatibilitaetsfaelle aus
 und bestanden sein) und die Setup- und Speicherpruefungen aus
 `tools/setup-test.mjs` (Speicherung je Rad, SAG je Fahrprofil, Speicherfehler,
 Datensicherung, keine erfundenen Fahrwerkswerte ueber alle Gabeln und
-Daempfer). Ergebnis mit Revision, Zahlen und Fehlern in `test-ergebnis.json`.
-Einzeln: `npm run test:kompat`, `npm run test:setup`. Playwright ist in
+Daempfer) sowie „Ein Weg je Aufgabe" aus `tools/wege-test.mjs` (keine
+doppelten Einstiege, Fahrerprofil, Bauziel, Aufgabenkarte, Setup, Migration,
+Handy/Desktop, Deutsch/Englisch). Ergebnis mit Revision, Zahlen und Fehlern in
+`test-ergebnis.json`.
+Einzeln: `npm run test:kompat`, `npm run test:setup`, `npm run test:wege`. Playwright ist in
 `package.json`/`package-lock.json` auf eine feste Version gesetzt. Jeder Push
 ausserhalb von `main` laeuft durch `.github/workflows/tests.yml`.
 
@@ -526,8 +546,8 @@ aus zeigt die App wie für Free-Nutzer. Pro bringt:
 
 - **Unbegrenzt Räder.** Free: ein Rad je Modus (Traumrad, Mein Rad, Gebraucht).
   Wer vorher schon mehrere hatte, behält sie; nur neue kommen nicht dazu.
-  „Einstieg wiederholen“ legt auch in Free ein neues Profil an, damit ein
-  gebautes Rad nie überschrieben wird.
+  Der erste Einstieg legt auch in Free ein neues Rad an, wenn schon eins
+  gebaut ist, damit es nie überschrieben wird.
 - **Setup (Fahrwerk).** In Free zeigt der Reiter nur, was drin ist, und den Weg zu Pro; der Guide
   nennt keine Drücke, sondern erklärt nur Sag, Zug- und Druckstufe.
 - **Guide ohne Limit.** Free: 10 Fragen am Tag, der Zähler steht oben im Guide.

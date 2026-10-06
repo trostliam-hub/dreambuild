@@ -4,6 +4,7 @@
  * 2. Kompatibilitaet (tools/kompat-test.mjs): jeder Fall aus kompat-faelle.mjs
  *    und kompat-raeder.mjs muss gelaufen UND bestanden sein
  * 3. Setup und Speicher (tools/setup-test.mjs)
+ * 4. Ein Weg je Aufgabe (tools/wege-test.mjs)
  *
  * Schreibt test-ergebnis.json (Revision, Zahlen, Fehler) und endet mit
  * Exit-Code 1, sobald etwas fehlschlaegt oder weniger Tests liefen als
@@ -47,6 +48,11 @@ const lauf = (datei, muster, erwartet) => {
 {
   const r = lauf('setup-test.mjs', /SETUP: (\d+) von (\d+) Prüfungen bestanden/, null);
   teil('Setup und Speicher', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
+/* 4. Ein Weg je Aufgabe */
+{
+  const r = lauf('wege-test.mjs', /WEGE: (\d+) von (\d+) Prüfungen bestanden/, null);
+  teil('Ein Weg je Aufgabe', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
 }
 if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:'absichtlich fehlgeschlagen (CRANKSCORE_TEST_FEHLER=1)'});
 
