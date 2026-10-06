@@ -248,10 +248,15 @@ Downhill*, *Allround* und *Pur Sprünge*. Grundlage sind die
 Herstellertabellen (Fox Owner's Manuals 2025 für 32/34/36/38/40,
 RockShox-Tabellen für Pike, Lyrik, ZEB, SID, Domain, BoXXer, Recon, Reba,
 LinearXL ab Modelljahr 2027). Einen Druck gibt es nur, wenn die Tabelle zur
-Gabel *und* zu ihrem Baujahr passt (Fox ab 2021, RockShox ab 2023, LinearXL ab
-2027); sonst nennt die App keinen Wert, sondern den Weg dorthin: Aufkleber an
-der Gabel, Trailhead bzw. FOX-App, dann per SAG einstellen. Hat man im
-Onboarding den aktuellen Druck eingetragen, startet sie dort. Druckstufen ab der Grundeinstellung des
+Gabel *und* zu ihrem bestätigten Baujahr passt (Fox ab 2021, RockShox ab 2023,
+LinearXL ab 2027; ohne Baujahr kein Wert) und das Gewicht innerhalb der Tabelle
+liegt (keine Verlängerung über die Tabellenenden). Sonst nennt die App keinen
+Wert, sondern den Weg dorthin: Aufkleber an der Gabel, Trailhead bzw. FOX-App,
+dann per SAG einstellen. Hat man im Onboarding den aktuellen Druck eingetragen,
+startet sie dort. Ein Maximaldruck steht nur da, wo er für das Modell belegt
+ist; jeder gespeicherte Druck wird gegen 10 psi bis Maximum (ohne bekanntes
+Maximum 400 psi) geprüft. Fahrstil- und Profilanpassungen sind als
+„App-Anpassung“ gekennzeichnet, nicht als Herstellerwert. Druckstufen ab der Grundeinstellung des
 Herstellers (GRIP X2 5/10, GRIP X 10/10 von zu, sonst Mitte) und so, wie es auf
 dem Knopf steht: RockShox Charger 3.2 hat Zahlen (LSC −7 bis +7 = 15
 Stellungen, HSC −2 bis +2 = 5 Stellungen) — die App sagt „auf +2 stellen“;
@@ -259,8 +264,11 @@ Charger 3 und 3.1 sowie der RC2T-Dämpfer haben Striche von − bis + und werden
 ab der Mitte gezählt; Fox ab ganz zu, Cane Creek ab ganz offen. Fox GRIP,
 GRIP SL und FIT4 haben einen Hebel mit drei Stufen (bergab offen). Lyrik und
 ZEB ab 2027 haben dazu den Durchschlagschutz ABO (5 Stufen). Dämpfer: Luft-Startwert
-nach FOX = Gewicht mit Ausrüstung in lb (RockShox nennt bewusst keinen
-Pauschalwert, weil es vom Rahmen abhängt) — den Ausschlag gibt der SAG;
+nur bei FOX = Gewicht mit Ausrüstung in lb (Faustregel aus dem Owner's Guide);
+RockShox und andere nennen bewusst keinen Pauschalwert, dort kommt kein Wert,
+sondern Trailhead/Anleitung und SAG. Stahlfeder hinten nur mit bekanntem
+Hinterbau-Federweg (Rahmendaten oder Onboarding), nie aus der Gabelfreigabe
+geschätzt; Tokens als Stückzahl nur mit bekannter Werksbestückung und Maximum;
 Stahlfeder = Last hinten × Übersetzung / (Hub × Sag). Die Dämpfer-Druckstufe
 richtet sich nach Modell *und* Ausführung: RockShox RC2T (Super Deluxe und
 Vivid Ultimate) mit HSC und LSC in je 5 Stellungen, die Stahlfeder-Versionen
@@ -368,6 +376,11 @@ Ausgangspunkte und stehen so in der App.
   systematisch (3 → 2 → 1 Klick).
 - *Vergleichen:* drei Profile nebeneinander oder Empfehlung, dein Wert,
   Grundeinstellung und „Vorher“ (aus dem Onboarding); Abweichungen markiert.
+- *Speicher:* Setup-Daten je Radprofil (Profil-ID + Gabel + Dämpfer);
+  Kopieren nimmt sie mit, Löschen entfernt sie. SAG-Messung und Haken gelten
+  je Fahrprofil und nur für den Druck, bei dem gemessen wurde. Ist der
+  Speicher voll, sagt die App es; Fotos werden nicht mehr still verworfen.
+  Ein harter Konflikt an Gabel oder Dämpfer sperrt die Einstellwerte.
 - *Grundeinstellung* je Profil speichern, zurück zur Grundeinstellung, auf
   Empfehlung zurücksetzen. *Notizbuch* mit 👍 😐 👎; jede Änderung, Messung
   und Testfahrt landet darin (je Kombination aus Gabel und Dämpfer,
