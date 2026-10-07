@@ -93,19 +93,24 @@ genau einen Ort:
 | Aufgabe | Der eine Weg |
 |---|---|
 | Rad oder Angebot anlegen, wechseln, umbenennen, löschen | Radverwaltung (Stift neben den Rädern) → „Rad anlegen“ / „Angebot anlegen“; die Leiste darunter wechselt nur |
-| Körpermaße, Gewicht, Erfahrung | Einstellungen → Fahrerprofil (derselbe Editor wie im ersten Einstieg) |
-| Disziplin, Budget, Marken, Vorlieben eines Rads | Bauziel (Disziplin oben antippen); beim Traumrad mit Assistent und Vorschlag |
+| Körpermaße, Gewicht, Erfahrung | Einstellungen → Fahrerprofil (derselbe Editor wie im ersten Einstieg). Jede Angabe darf „nicht angegeben“ bleiben; ohne Körpergröße schätzt und empfiehlt die App nichts, ohne Gewicht nennt die Prüfung die Laufrad-Freigabe „nicht geprüft“. |
+| Disziplin, Budget, Marken, Vorlieben eines Rads | Bauziel (Disziplin oben antippen) — der einzige dauerhafte Einstieg; einmalig auch am Ende der Ersteinrichtung und nach „Rad anlegen“. Beim Traumrad mit Assistent und Vorschlag. |
+| Ausführungen an die Körpergröße anpassen | Aufbau („An meine Größe anpassen“, nur wenn es etwas anzupassen gibt); das Größen-Blatt zeigt nur an |
+| Rahmen-Modelljahr | Aufbau, beim Rahmen. Ein abweichendes altes Setup-Jahr wird dort entschieden („übernehmen“ / „behalten“). |
 | Teile wählen | Aufbau |
 | Konflikte lösen | Prüfung (dort auch die kostenlose Umstellung und der Ersatz) |
 | Besser oder günstiger | Upgrades (Upgrades und „Günstiger, gleiche Maße“) |
 | Bestellen | Kaufen; am Desktop daneben nur die Summe |
 | Fahrwerk | Setup in der Navigation (Handy: Reiter, Desktop: Kopf) |
-| Hilfe | Einstellungen → Hilfe: Guide, Begriffe, Über CrankScore, Rundgang |
+| Guide | Sprechblase im Kopf (nicht zusätzlich im Menü) |
+| Hilfe | Einstellungen → Hilfe: Begriffe, Über CrankScore, Rundgang (freiwillig) |
 
 **Einstieg.** Beim ersten Öffnen ein Rundgang über den ganzen Bildschirm.
 Gleich oben die Sprachwahl Deutsch / English, dazu ein gezeichnetes Rad,
 gestaffelt einfliegende Karten und Konfetti am Ende: Was hast du vor (neues
-Rad, eigenes Rad, Gebrauchtrad)? Danach die Schritte des Fahrerprofils:
+Rad, eigenes Rad, Gebrauchtrad)? Danach die Schritte des Fahrerprofils
+(jede Angabe darf leer bleiben, ohne Körpergröße zeigt die App keine
+geschätzten Maße und keine Empfehlung):
 Erfahrung, gewünschter Charakter des Rads (verspielt, ausgewogen, laufruhig),
 Größe und Gewicht, Schulterbreite, Schrittlänge, Spannweite und
 Handschuhgröße, dann die eigene Größe. Beim Traumrad geht es danach im
@@ -172,7 +177,8 @@ Wer im Fahrerprofil „Ganz neu dabei“ wählt, bekommt an jeder Teilekachel ei
 Satz, was das Teil tut. Über dem Score steht **eine Aufgabenkarte** „Nächster
 Schritt“: je Modus die Schritte als Status (Bauziel, fehlende Teile,
 Konflikte und Prüfung, beim Traumrad Budget, zuletzt Upgrades oder Kaufen) und
-genau ein Knopf für den aktuellen Schritt. Übernehmen oder Ablehnen gibt es
+höchstens ein Knopf für den aktuellen Schritt — beim Bauziel keiner, dort
+steht nur der Hinweis auf die Disziplin oben. Übernehmen oder Ablehnen gibt es
 dort nicht — das geht nur in der Prüfung bzw. unter Upgrades. Die Karte lässt
 sich ausblenden und unter Hilfe wieder zeigen. Die Erklärung der Wertung steht
 direkt an der Wertung. Ausführungen (Einbaumaß, Federweg …) sind eingeklappt,

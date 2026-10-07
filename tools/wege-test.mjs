@@ -251,7 +251,6 @@ const PRUEFUNGEN = [
     const r = await ev(() => {
       koerper.groesse = 0; plan.fahrer = 0; kSichern(); sichern();
       oeffneEinstieg('fahrer');
-      const na = !!document.querySelector('#er-na-groesse:not([hidden])') || true;
       for(let i = 0; i < 6 && $('modal').querySelector('.ei'); i++){ const w = $('modal').querySelector('[data-eiweiter]'); if(w) w.click(); else break; }
       const nachDurchklicken = {g:koerper.groesse, kg:plan.fahrer, ls:JSON.parse(localStorage.getItem('mtb.koerper') || '{}').groesse || 0};
       oeffneEinstieg('fahrer'); ei.schritt = 2; eiZeigen();
@@ -291,8 +290,58 @@ const PRUEFUNGEN = [
     await neu();
     const r = await ev(() => { zeichne(); const kopf = document.querySelectorAll('header [data-guide]').length; oeffneMenu(); const menu = $('modal').querySelectorAll('[data-guide]').length, tour = $('modal').querySelectorAll('[data-hilfe="tour"]').length; schliesse();
       oeffneEinstieg('voll'); ei.schritt = eiSchritte().indexOf('fertig'); ei.ziel = 'real'; eiZeigen(); const txt = $('modal').textContent; schliesse();
-      return {kopf, menu, tour, hinweis:/Nächster Schritt/.test(txt) && /Rundgang/.test(txt) && /Guide/.test(txt), autoTour:!!tour && false}; });
+      return {kopf, menu, tour, hinweis:/Nächster Schritt/.test(txt) && /Rundgang/.test(txt) && /Guide/.test(txt)}; });
     return {ok:r.kopf === 1 && r.menu === 0 && r.tour === 1 && r.hinweis, info:r}; }],
+  ['APP-003/1 Migration einmalig: erstmalig uebernommen, bewusst geleert bleibt leer (2x Neuladen, Radwechsel), vorhandene Nichtangabe bleibt', async () => {
+    const lese = () => ev(() => ({g:koerper.groesse, mig:koerper.cmMig, cm:fprofil.cm, ls:JSON.parse(localStorage.getItem('mtb.koerper') || '{}').groesse || 0}));
+    /* echte erstmalige Migration */
+    await seite.goto(URL0);
+    await ev(() => { localStorage.clear(); localStorage.setItem('mtb.einstieg2', '1'); localStorage.setItem('mtb.tour', '1'); localStorage.setItem('mtb.fprofil', JSON.stringify({cm:183})); });
+    await seite.reload(); await bereit();
+    const erst = await lese();
+    /* ueber die Oberflaeche entfernen */
+    await ev(() => { oeffneEinstieg('fahrer'); ei.schritt = eiSchritte().indexOf('koerper'); eiZeigen(); $('modal').querySelector('[data-eileer="groesse"]').click(); eiSkip(); });
+    const geleert = await lese();
+    await seite.reload(); await bereit(); const reload1 = await lese();
+    await seite.reload(); await bereit(); const reload2 = await lese();
+    await ev(() => { const a = aktivId[modus]; profilNeu(); profilWechseln(a); wechsle('real'); wechsle('traum'); });
+    await seite.reload(); await bereit(); const radwechsel = await lese();
+    /* vorhandene bewusste Nichtangabe (nach der Migration gespeichert) mit anderem Altwert */
+    await ev(() => { localStorage.setItem('mtb.koerper', JSON.stringify({groesse:0, cmMig:1})); localStorage.setItem('mtb.fprofil', JSON.stringify({cm:190})); });
+    await seite.reload(); await bereit(); const vorhanden = await lese();
+    const r = {erst, geleert, reload1, reload2, radwechsel, vorhanden};
+    return {ok:erst.g === 183 && erst.ls === 183 && erst.mig === 1 && erst.cm === 183
+      && [geleert, reload1, reload2, radwechsel].every(x => x.g === 0 && x.ls === 0 && x.cm === 183) && vorhanden.g === 0 && vorhanden.cm === 190, info:r}; }],
+  ...['de', 'en'].map(spr => [`APP-003/2 Ohne Koerpergroesse keine persoenlichen Empfehlungen im ganzen Einstieg (${spr})`, async () => {
+    await seite.goto(URL0); await ev(s => { localStorage.clear(); localStorage.setItem('mtb.sprache', s); localStorage.setItem('mtb.einstieg2', '1'); localStorage.setItem('mtb.tour', '1'); }, spr);
+    await seite.reload(); await bereit();
+    await ev(() => { oeffneEinstieg('voll'); });
+    const klick = async q => { await ev(q => $('modal').querySelector(q).click(), q); await warte(450); };
+    await klick('[data-eiweiter]');                 /* hallo */
+    await klick('[data-eiwahl="ziel|traum"]');      /* ziel, springt selbst weiter */
+    const schritt = () => ev(() => eiSchritte()[ei.schritt]);
+    const s1 = await schritt(); await klick('[data-eiweiter]');  /* erfahrung: Ohne Angabe weiter */
+    const s2 = await schritt(); await klick('[data-eiweiter]');  /* charakter: Ohne Angabe weiter */
+    const s3 = await schritt(); await klick('[data-eiweiter]');  /* koerper: Regler unberuehrt */
+    const masse = await ev(() => { const m = $('modal'), sicht = id => { const e = $(id); return !!e && !e.hidden; };
+      return {schritt:eiSchritte()[ei.schritt], lenker:!!$('ei-lenker'), cockpit:!!$('ei-cockpit'), mmText:/\d{3}\s?mm/.test(m.querySelector('.ei-b').textContent),
+        werte:['schulter', 'schritt', 'spann'].map(k => sicht('er-v-' + k)), na:['schulter', 'schritt', 'spann'].map(k => sicht('er-na-' + k)),
+        geschaetzt:[...m.querySelectorAll('.er-sch')].filter(e => !e.hidden).length, knopf:m.querySelector('[data-eiweiter]').textContent.trim()}; });
+    await klick('[data-eiweiter]');
+    const fit = await ev(() => ({schritt:eiSchritte()[ei.schritt], text:$('modal').querySelector('.ei-b').textContent, mm:/\d{3}\s?mm/.test($('modal').querySelector('.ei-b').textContent)}));
+    const gespeichert = await ev(() => ({g:koerper.groesse, kg:plan.fahrer, schulter:koerper.schulter || 0, schritt:koerper.schritt || 0, spann:koerper.spann || 0}));
+    /* Positivfall: echte Groesse eingetragen -> Lenker und Schaetzung erscheinen, Ergebnis wird gerechnet */
+    const positiv = await ev(() => { ei.schritt = eiSchritte().indexOf('koerper'); eiZeigen(); eiSetze('groesse', 181);
+      ei.schritt = eiSchritte().indexOf('masse'); eiZeigen(); const lenkerVor = ($('ei-lenker') || {}).textContent || '';
+      eiSetze('schulter', 46); const lenkerNach = ($('ei-lenker') || {}).textContent || '';
+      const geschaetzt = [...$('modal').querySelectorAll('.er-sch')].filter(e => !e.hidden).length;
+      ei.schritt = eiSchritte().indexOf('fit'); eiZeigen(); const fitMm = /\d{3}\s?mm/.test($('modal').querySelector('.ei-b').textContent);
+      eiSkip(); return {lenkerVor, lenkerNach, geschaetzt, fitMm, schulter:koerper.schulter}; });
+    const r = {s1, s2, s3, masse, fit:{schritt:fit.schritt, mm:fit.mm, ohneText:spr === 'de' ? /Ohne Körpergröße/.test(fit.text) : /Without your height/.test(fit.text)}, gespeichert, positiv};
+    return {ok:s1 === 'erfahrung' && s2 === 'charakter' && s3 === 'koerper' && masse.schritt === 'masse' && !masse.lenker && !masse.cockpit && !masse.mmText
+      && masse.werte.every(v => !v) && masse.na.every(Boolean) && masse.geschaetzt === 0 && masse.knopf === (spr === 'de' ? 'Weiter' : 'Next')
+      && fit.schritt === 'fit' && !fit.mm && r.fit.ohneText && Object.values(gespeichert).every(v => v === 0)
+      && /\d{3} mm/.test(positiv.lenkerVor) && /\d{3} mm/.test(positiv.lenkerNach) && positiv.lenkerVor !== positiv.lenkerNach && positiv.geschaetzt === 2 && positiv.fitMm && positiv.schulter === 46, info:r}; }]),
 ];
 if(process.env.CRANKSCORE_TEST_FEHLER === '1') PRUEFUNGEN.push(['Absichtlicher Fehlschlag (CRANKSCORE_TEST_FEHLER=1)', async () => ({ok:false, info:'Gate-Probe'})]);
 

@@ -8876,26 +8876,34 @@ const eiOpt = (art, w, icon, t, s, an, tag, j) => `<button class="ei-opt" data-e
   <span class="eo-ic">${ic(icon, 24)}</span><span class="eo-t"><b>${t}</b><span>${s}</span>${tag ? `<i class="eo-tag">${tag}</i>` : ""}</span></button>`;
 const eiWeiterBtn = (txt) => `<button class="btn wide gross" data-eiweiter="1">${txt || tx("Weiter", "Next")}</button>`;
 const eiFit = () => fitRechnen({...koerper, groesse:koerper.groesse || 178});
+/* Startposition der Regler. Ohne Koerpergroesse wird nichts geschaetzt: die
+   Regler fuer Schulter, Schritt und Spannweite stehen dann nur in der Mitte
+   und zeigen "nicht angegeben" (APP-003) */
 function eiWert(k){
   if(k === "groesse") return koerper.groesse || 178;
   if(k === "fahrer") return plan.fahrer || 78;
-  const f = eiFit();
-  return f ? f[k] : 0;
+  if(koerper[k] > 0) return koerper[k];
+  if(koerper.groesse > 0){ const f = eiFit(); return f ? f[k] : 0; }
+  const [min, max, st] = EI_BEREICH[k]; return Math.round((min + max) / 2 / st) * st;
 }
 const eiFmt = (k, v) => zahlDe(v);
 /* Groesse und Gewicht duerfen unbekannt bleiben (APP-002): Der Regler steht
    dann auf einem Startwert, gespeichert wird aber erst, wenn man ihn bewegt.
    "Nicht angeben" leert den Wert wieder. */
-const eiLeer = k => k === "groesse" ? !(koerper.groesse > 0) : k === "fahrer" ? !(plan.fahrer > 0) : false;
+const eiGesetzt = k => k === "fahrer" ? plan.fahrer > 0 : koerper[k] > 0;
+/* "nicht angegeben": Groesse/Gewicht ohne Wert; Schulter, Schritt, Spannweite
+   ohne Wert und ohne Groesse (mit Groesse sind sie "geschaetzt") */
+const eiLeer = k => !eiGesetzt(k) && (k === "groesse" || k === "fahrer" || !(koerper.groesse > 0));
+const EI_OPT = ["groesse", "fahrer", "schulter", "schritt", "spann"];
 function eiRegler(k, l, u, hin, sch){
-  const [min, max, st] = EI_BEREICH[k], w = eiWert(k), opt = k === "groesse" || k === "fahrer", leer = eiLeer(k);
+  const [min, max, st] = EI_BEREICH[k], w = eiWert(k), opt = EI_OPT.indexOf(k) >= 0, leer = eiLeer(k);
   return `<div class="ei-regler${leer ? " leer" : ""}" id="er-box-${k}">
     <div class="er-kopf"><label for="er-${k}">${l}${sch != null ? `<span class="er-sch" id="er-sch-${k}"${sch ? "" : " hidden"}>${tx("geschätzt", "estimated")}</span>` : ""}</label>
       <span class="er-wert">${opt ? `<span class="er-na" id="er-na-${k}"${leer ? "" : " hidden"}>${tx("nicht angegeben", "not given")}</span>` : ""}<output id="er-v-${k}" for="er-${k}"${leer ? " hidden" : ""}>${eiFmt(k, w)}</output><small${leer ? " hidden" : ""} id="er-u-${k}">${u}</small></span></div>
     <div class="er-reihe"><button class="er-pm" data-eistep="${k}|-${st}" aria-label="${tx(l + " weniger", l + " less")}">−</button>
       <input class="er" id="er-${k}" type="range" min="${min}" max="${max}" step="${st}" value="${w}" data-eik="${k}" style="--p:${((w - min) / (max - min) * 100).toFixed(1)}%">
       <button class="er-pm" data-eistep="${k}|${st}" aria-label="${tx(l + " mehr", l + " more")}">+</button></div>
-    ${opt ? `<button class="er-leer" id="er-leer-${k}" data-eileer="${k}"${leer ? " hidden" : ""}>${tx("Nicht angeben", "Leave blank")}</button>` : ""}
+    ${opt ? `<button class="er-leer" id="er-leer-${k}" data-eileer="${k}"${eiGesetzt(k) ? "" : " hidden"}>${tx("Nicht angeben", "Leave blank")}</button>` : ""}
     ${hin ? `<p class="er-h">${hin}</p>` : ""}</div>`;
 }
 /* Sprachwahl: steht auf der Begruessung, damit man sie vor der ersten Frage sieht */
@@ -8955,25 +8963,28 @@ const EI_SCHRITT = {
       f:eiWeiterBtn()};
   },
   masse: () => {
-    const f = eiFit();
+    /* Empfehlungen nur mit Koerpergroesse -- ohne sie keine geschaetzten Masse und kein Lenker */
+    const hatG = koerper.groesse > 0, f = hatG ? eiFit() : null;
     return {h:`
       <p class="ei-sub" style="--i:0">${tx("Deine Maße · 2 von 2", "Your measurements · 2 of 2")}</p>
       <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Schultern, Beine, Arme", "Shoulders, legs, arms")}</h2>
-      <p class="ei-qs" style="--i:2">${tx("Daraus werden Lenkerbreite, Kurbel und Sattelstütze. Weißt du ein Maß nicht, schätzt die App es aus deiner Größe.",
-        "These give bar width, cranks and seatpost. If you don't know a measurement, the app estimates it from your height.")}</p>
-      <div class="ei-cockpit" style="--i:3"><div id="ei-cockpit">${cockpitSvg(f)}</div>
+      <p class="ei-qs" style="--i:2">${hatG ? tx("Daraus werden Lenkerbreite, Kurbel und Sattelstütze. Weißt du ein Maß nicht, schätzt die App es aus deiner Größe.",
+        "These give bar width, cranks and seatpost. If you don't know a measurement, the app estimates it from your height.")
+        : tx("Ohne Körpergröße schätzt die App hier nichts und rechnet keine Empfehlung für Lenker, Kurbel oder Sattelstütze. Maße, die du kennst, kannst du trotzdem eintragen.",
+        "Without your height the app estimates nothing here and works out no recommendation for bar, cranks or seatpost. You can still enter measurements you know.")}</p>
+      ${hatG ? `<div class="ei-cockpit" style="--i:3"><div id="ei-cockpit">${cockpitSvg(f)}</div>
         <div class="ck-unter"><span>${tx("Deine Lenkerbreite", "Your bar width")}<br><i id="ei-lk-spanne">${lkSpanne(f)}</i></span>
-          <b id="ei-lenker" aria-live="polite">${f.lenker} mm</b></div></div>
+          <b id="ei-lenker" aria-live="polite">${f.lenker} mm</b></div></div>` : ""}
       <div style="--i:4">${eiRegler("schulter", tx("Schulterbreite", "Shoulder width"), "cm", tx("Von Schulterknochen zu Schulterknochen — die zwei knöchernen Spitzen außen an den Schultern. Am besten misst jemand anderes, gerade von hinten.",
-        "From shoulder bone to shoulder bone — the two bony points on the outside of your shoulders. Best measured by someone else, straight from behind."), !(koerper.schulter > 0))}</div>
+        "From shoulder bone to shoulder bone — the two bony points on the outside of your shoulders. Best measured by someone else, straight from behind."), !(koerper.schulter > 0) && hatG)}</div>
       <div style="--i:5">${eiRegler("schritt", tx("Schrittlänge", "Inseam"), "cm", tx("Barfuß an die Wand, ein Buch waagerecht fest in den Schritt ziehen, von der Buchoberkante bis zum Boden messen.",
-        "Barefoot against a wall, pull a book firmly up into your crotch, keep it level and measure from its top edge to the floor."), !(koerper.schritt > 0))}</div>
+        "Barefoot against a wall, pull a book firmly up into your crotch, keep it level and measure from its top edge to the floor."), !(koerper.schritt > 0) && hatG)}</div>
       <div style="--i:6">${eiRegler("spann", tx("Spannweite", "Arm span"), "cm", tx("Arme seitlich waagerecht ausstrecken, Fingerspitze bis Fingerspitze. Meist so viel wie die Körpergröße.",
-        "Stretch your arms out level to the sides, fingertip to fingertip. Usually about the same as your height."), !(koerper.spann > 0))}</div>
+        "Stretch your arms out level to the sides, fingertip to fingertip. Usually about the same as your height."), !(koerper.spann > 0) && hatG)}</div>
       <div class="ei-regler" style="--i:7"><div class="er-kopf"><label>${tx("Handschuhgröße", "Glove size")}</label><span class="er-h0">${tx("für die Griffdicke", "for grip thickness")}</span></div>
         <div class="er-chips" role="group" aria-label="${tx("Handschuhgröße", "Glove size")}">${["S", "M", "L", "XL"].map(g => `<button data-eiwahl="hand|${g}" aria-pressed="${koerper.hand === g}">${g}</button>`).join("")}
           <button data-eiwahl="hand|" aria-pressed="${!koerper.hand}">${tx("Weiß nicht", "Don't know")}</button></div></div>`,
-      f:eiWeiterBtn(tx("Mein Fit ansehen", "See my fit"))};
+      f:eiWeiterBtn(hatG ? tx("Mein Fit ansehen", "See my fit") : "")};
   },
   fit: () => ({h:`
     <p class="ei-sub" style="--i:0">${tx("Auswertung", "Result")} · ${esc(selNamen())}</p>
@@ -9103,6 +9114,8 @@ function eiLive(){
   const f = eiFit();
   if(!f) return;
   const fg = $("ei-figur"); if(fg) fg.innerHTML = figurSvg(f.h, eiWert("fahrer"));
+  /* Ohne Koerpergroesse: nur die Figur, keine Groesse, kein Lenker, keine Schaetzung */
+  if(!(koerper.groesse > 0)){ const gr0 = $("ei-gr"); if(gr0) gr0.textContent = "—"; return; }
   const gr = $("ei-gr");
   const grT = koerper.groesse > 0 ? f.groesse : "—";
   if(gr && gr.textContent !== grT){ gr.textContent = grT; gr.classList.remove("plopp"); void gr.offsetWidth; gr.classList.add("plopp"); }
@@ -10957,8 +10970,13 @@ const fSichern = () => { if(!lsSetzen("mtb.fprofil", JSON.stringify(fprofil))) s
 /* Migration (Doppelungen-Pruefung 2026-10-06): Das Setup fragte die
    Koerpergroesse selbst (fprofil.cm). Jetzt gilt nur das Fahrerprofil. Wer
    dort noch keine Groesse hat, bekommt die aus dem Setup; fprofil.cm bleibt
-   unveraendert gespeichert, wird aber nicht mehr gelesen. */
-if(!(koerper.groesse > 0) && fprofil.cm >= 130 && fprofil.cm <= 215){ koerper.groesse = Math.round(fprofil.cm); kSichern(); }
+   unveraendert gespeichert, wird aber nicht mehr gelesen. Das geschieht genau
+   einmal (koerper.cmMig, APP-003): wer die Groesse danach mit "Nicht angeben"
+   leert, bekommt sie beim naechsten Start nicht wieder eingesetzt. */
+if(!koerper.cmMig){
+  if(!(koerper.groesse > 0) && fprofil.cm >= 130 && fprofil.cm <= 215) koerper.groesse = Math.round(fprofil.cm);
+  koerper.cmMig = 1; kSichern();
+}
 const fFertig = () => plan.fahrer > 0 && FFRAGEN.every(f => fprofil[f.k]);
 const fLv = k => { const f = FFRAGEN.find(x => x.k === k), o = f && f.o.find(x => x[0] === fprofil[k]); return o ? o[3] : 0; };
 const fKlemm = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -14996,10 +15014,13 @@ const kombiZeile = () => `<div class="kombi"><button class="btn ghost sm" data-k
         ${kombiModus ? `<span>${tx("Tippen fügt hinzu oder nimmt weg.", "Tapping adds or removes.")}</span>` : ""}</div>`;
 /* ── Bauziel-Editor ──
    Der eine Ort fuer Disziplin, Budget, Marken und Vorlieben eines Rads
-   (Doppelungen-Pruefung 2026-10-06). Geoeffnet ueber die Disziplin oben, beim
-   Anlegen eines Traumrads und aus der Aufgabenkarte. Beim eigenen Rad und beim
-   Angebot gibt es nur die Disziplin -- dort gibt es nichts zu rechnen. Alles
-   gilt nur fuer das offene Rad, nie fuer alle. */
+   (Doppelungen-Pruefung 2026-10-06). Dauerhafter Einstieg ist allein die
+   Disziplin oben (#btn-disz). Als einmaliger Schritt oeffnet er sich am Ende
+   der Ersteinrichtung und direkt nach "Rad anlegen" beim Traumrad; die
+   Aufgabenkarte zeigt das Bauziel nur als Status, ohne Knopf (APP-002).
+   Beim eigenen Rad und beim Angebot gibt es Disziplin und Budget auf einer
+   Seite -- dort wird kein Aufbau gerechnet. Alles gilt nur fuer das offene
+   Rad, nie fuer alle. */
 let wizStep = 0, wizErgebnis = null, wizInfo = null, wizFit = [];
 /* Disziplin waehlen: standardmaessig genau eine. Mischen muss man bewusst
    einschalten -- vorher landete ein Tipp auf Downhill neben dem voreingestellten
@@ -15678,7 +15699,7 @@ document.addEventListener("click", e => {
   if(ew){ eiWahl(ew); return; }
   if(T("[data-eiweiter]")){ eiWeiter(); return; }
   const eil = T("[data-eileer]");
-  if(eil){ if(eil.dataset.eileer === "groesse"){ koerper.groesse = 0; kSichern(); } else { plan.fahrer = 0; sichern(); } eiZeigen(true); return; }
+  if(eil){ const k = eil.dataset.eileer; if(k === "fahrer"){ plan.fahrer = 0; sichern(); } else if(EI_OPT.indexOf(k) >= 0){ koerper[k] = 0; kSichern(); } eiZeigen(true); return; }
   if(T("[data-eizurueck]")){ eiZurueck(); return; }
   if(T("[data-eiskip]")){ eiSkip(); return; }
   const tk = T("[data-tour]");
