@@ -841,6 +841,8 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .filt .treffer{margin-left:auto;align-self:center;font-size:11.5px;color:var(--ink-3);font-weight:600}
 .jahrleiste{background:var(--surface);padding:12px 14px 13px;display:flex;flex-direction:column;gap:8px}
 .sheet-b > .jahrleiste{border:1px solid var(--hair);border-radius:var(--r);background:var(--surface-2)}
+.jl-konflikt{margin:2px 0 0}
+.jl-k2{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .jl-k{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
 .jl-reihe{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;
   overscroll-behavior-x:contain}
@@ -1317,6 +1319,9 @@ body.tastatur .sheet-b{padding-bottom:14px}
 /* Regler fuer Koerpermasse und Budget */
 .ei-regler{margin:0 0 12px;padding:13px 14px 12px;border-radius:18px;background:var(--surface);border:1px solid var(--hair)}
 .ei-regler.nackt{background:none;border:none;padding:0}
+.ei-regler.leer .er{opacity:.45}
+.er-na{font-size:13px;font-weight:700;color:var(--ink-3)}
+.er-leer{margin-top:8px;font-size:12.5px;font-weight:650;color:var(--ink-3);text-decoration:underline;text-underline-offset:3px;min-height:32px;padding:4px 0}
 .er-kopf{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .er-kopf label{font-size:13.5px;font-weight:700;color:var(--ink-2);display:flex;align-items:center;flex-wrap:wrap;gap:6px}
 .er-wert{font-family:var(--f-head);font-size:27px;font-weight:800;letter-spacing:-.03em;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -7231,8 +7236,13 @@ function jahrLeiste(){
       : tx(`Aus ${j <= AKTUELL - 8 ? "älteren Jahrgängen" : j} gibt es den Rahmen nur noch gebraucht: rund ${eur(jetzt)} statt ${eur(neu)} neu.`,
            `From ${j <= AKTUELL - 8 ? "older model years" : j} the frame is only available used: about ${eur(jetzt)} instead of ${eur(neu)} new.`);
   } else h = tx("Legt fest, wie alt der Rahmen ist — und damit seinen Preis.", "Sets how old the frame is — and with it, its price.");
+  /* Altes Setup-Rahmenjahr (fw.rj, bis 06.10. im Setup abgefragt) weicht ab:
+     hier im zustaendigen Editor entscheiden, nichts still ueberschreiben */
+  const rj = (build.fw || {}).rj, konflikt = typeof rj === "number" && rj > 1990 && rj !== j;
   return `<div class="jahrleiste"><span class="jl-k">${tx("Modelljahr", "Model year")}</span>
-    <div class="jl-reihe">${jahrKnoepfe()}</div><span class="jl-h">${h}</span></div>`;
+    <div class="jl-reihe">${jahrKnoepfe()}</div><span class="jl-h">${h}</span>
+    ${konflikt ? `<div class="mixbox w jl-konflikt">${tx(`Im Setup hattest du für diesen Rahmen <b>${rj}</b> angegeben, hier steht <b>${j}</b>. Welches stimmt?`, `In Setup you entered <b>${rj}</b> for this frame, here it says <b>${j}</b>. Which is right?`)}
+      <div class="jl-k2"><button class="btn sm" data-rjwahl="setup">${tx(`${rj} übernehmen`, `Use ${rj}`)}</button><button class="btn ghost sm" data-rjwahl="aufbau">${tx(`${j} behalten`, `Keep ${j}`)}</button></div></div>` : ""}</div>`;
 }
 
 /* Ausfuehrung an der Kachel: je Dimension eine Reihe Knoepfe. Was nicht zum
@@ -7492,9 +7502,10 @@ function leitSchritte(r){
   if(modus === "traum"){
     const st = [
       {t:tx("Bauziel festlegen", "Set the build goal"), fertig: plan.budget > 0,
+       /* Kein eigener Knopf: das Bauziel hat genau einen dauerhaften Weg, die Disziplin oben (APP-002) */
        d: plan.budget > 0 ? tx(`${esc(selNamen())} · Budget ${eur(plan.budget)}.`, `${esc(selNamen())} · budget ${eur(plan.budget)}.`)
-         : tx("Disziplin, Budget und Wunschmarken — daraus rechnet die App einen passenden Aufbau.", "Discipline, budget and favourite brands — the app works out a matching build from them."),
-       act:`data-wiz="0"`, cta:tx("Bauziel festlegen", "Set build goal")},
+         : tx(`Tipp oben auf „${esc(selNamen())}“: Disziplin, Budget und Wunschmarken — daraus rechnet die App einen passenden Aufbau.`, `Tap “${esc(selNamen())}” at the top: discipline, budget and favourite brands — the app works out a matching build from them.`),
+       act:"", cta:""},
       {t:tx("Teile ansehen und anpassen", "Review and adjust parts"), fertig: !offen.length,
        d: offen.length ? tx(`Noch offen: ${offenTxt}.`, `Still open: ${offenTxt}.`) : tx("Alle Teile gewählt.", "All parts chosen."),
        act: zurListe, cta: nx ? tx(`${nx.label} wählen`, `Choose ${nx.label.toLowerCase()}`) : tx("Zur Teileliste", "Go to parts list")},
@@ -7561,7 +7572,7 @@ function leitKarte(r){
     ${geschafft ? "" : `<ol class="leit-schritte">${st.map((s, i) => `<li class="leit-s${s.fertig ? " fertig" : ""}${i === jetzt ? " jetzt" : ""}"${i === jetzt ? ` aria-current="step"` : ""}>
         <span class="leit-n">${s.fertig ? HAKEN : i + 1}</span>
         <span class="leit-x"><b>${s.t}</b>${i === jetzt || s.fertig ? `<span>${s.d}</span>` : ""}</span></li>`).join("")}</ol>`}
-    ${jetzt >= 0 ? `<button class="btn wide leit-cta" ${st[jetzt].act}>${st[jetzt].cta}</button>` : ""}
+    ${jetzt >= 0 && st[jetzt].act ? `<button class="btn wide leit-cta" ${st[jetzt].act}>${st[jetzt].cta}</button>` : ""}
   </section>`;
 }
 
@@ -7580,7 +7591,7 @@ try{ const q = JSON.parse(localStorage.getItem("mtb.koerper") || "null");
   if(q && typeof q === "object" && !Array.isArray(q)) koerper = {...KOERPER_START, ...q}; }catch(e){}
 const kSichern = () => { if(!lsSetzen("mtb.koerper", JSON.stringify(koerper))) speicherFehler(); };
 /* Kurzfassung des Fahrerprofils fuer die Einstellungen */
-const fahrerKurz = () => [koerper.groesse > 0 ? koerper.groesse + " cm" : "", plan.fahrer > 0 ? plan.fahrer + " kg" : "",
+const fahrerKurz = () => [koerper.groesse > 0 ? koerper.groesse + " cm" : tx("Größe nicht angegeben", "height not given"), plan.fahrer > 0 ? plan.fahrer + " kg" : tx("Gewicht nicht angegeben", "weight not given"),
   koerper.erfahrung ? (EI_ERF.find(x => x[0] === koerper.erfahrung) || [])[1] || "" : ""].filter(Boolean).join(" · ");
 
 /* Groessentabelle, gemittelt ueber Santa Cruz, YT, Canyon und Commencal:
@@ -8803,8 +8814,7 @@ function oeffneFit(){
       ${fitErgebnisHtml(f)}
       ${fb.length ? `<div class="grp-h" style="margin-top:18px"><h2>${tx("Dein Aufbau", "Your build")}</h2><div class="rule"></div></div>
         ${fb.map(fitFundHtml).join("")}` : ""}
-      ${modus === "traum" && fb.some(x => x.s !== "ok" && x.slot !== "lenker") ? `<div class="fit-knoepfe">
-        <button class="btn" data-fitanpassen="1">${tx("Ausführungen an mich anpassen", "Adjust versions to me")}</button></div>` : ""}
+      ${modus === "traum" && fitAenderungen().length ? `<p class="hint" style="margin:12px 0 0">${tx("Die passenden Ausführungen stellst du im Aufbau ein — oben steht dort „An meine Größe anpassen“.", "You set the matching versions in the build — at the top it says “Adjust to my size”.")}</p>` : ""}
     </div>`);
   eiZaehlen($("modal"));
 }
@@ -8873,14 +8883,19 @@ function eiWert(k){
   return f ? f[k] : 0;
 }
 const eiFmt = (k, v) => zahlDe(v);
+/* Groesse und Gewicht duerfen unbekannt bleiben (APP-002): Der Regler steht
+   dann auf einem Startwert, gespeichert wird aber erst, wenn man ihn bewegt.
+   "Nicht angeben" leert den Wert wieder. */
+const eiLeer = k => k === "groesse" ? !(koerper.groesse > 0) : k === "fahrer" ? !(plan.fahrer > 0) : false;
 function eiRegler(k, l, u, hin, sch){
-  const [min, max, st] = EI_BEREICH[k], w = eiWert(k);
-  return `<div class="ei-regler">
+  const [min, max, st] = EI_BEREICH[k], w = eiWert(k), opt = k === "groesse" || k === "fahrer", leer = eiLeer(k);
+  return `<div class="ei-regler${leer ? " leer" : ""}" id="er-box-${k}">
     <div class="er-kopf"><label for="er-${k}">${l}${sch != null ? `<span class="er-sch" id="er-sch-${k}"${sch ? "" : " hidden"}>${tx("geschätzt", "estimated")}</span>` : ""}</label>
-      <span class="er-wert"><output id="er-v-${k}" for="er-${k}">${eiFmt(k, w)}</output><small>${u}</small></span></div>
+      <span class="er-wert">${opt ? `<span class="er-na" id="er-na-${k}"${leer ? "" : " hidden"}>${tx("nicht angegeben", "not given")}</span>` : ""}<output id="er-v-${k}" for="er-${k}"${leer ? " hidden" : ""}>${eiFmt(k, w)}</output><small${leer ? " hidden" : ""} id="er-u-${k}">${u}</small></span></div>
     <div class="er-reihe"><button class="er-pm" data-eistep="${k}|-${st}" aria-label="${tx(l + " weniger", l + " less")}">−</button>
       <input class="er" id="er-${k}" type="range" min="${min}" max="${max}" step="${st}" value="${w}" data-eik="${k}" style="--p:${((w - min) / (max - min) * 100).toFixed(1)}%">
       <button class="er-pm" data-eistep="${k}|${st}" aria-label="${tx(l + " mehr", l + " more")}">+</button></div>
+    ${opt ? `<button class="er-leer" id="er-leer-${k}" data-eileer="${k}"${leer ? " hidden" : ""}>${tx("Nicht angeben", "Leave blank")}</button>` : ""}
     ${hin ? `<p class="er-h">${hin}</p>` : ""}</div>`;
 }
 /* Sprachwahl: steht auf der Begruessung, damit man sie vor der ersten Frage sieht */
@@ -8918,14 +8933,14 @@ const EI_SCHRITT = {
     <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Wie lange fährst du schon?", "How long have you been riding?")}</h2>
     <p class="ei-qs" style="--i:2">${tx("Danach richtet sich, wie viel die App erklärt.", "This decides how much the app explains.")}</p>
     <div class="ei-opts" style="--i:3">${EI_ERF.map(([w, t, s], j) => eiOpt("erfahrung", w, IC[w], t, s, koerper.erfahrung === w, "", j)).join("")}</div>`,
-    f: koerper.erfahrung ? eiWeiterBtn() : ""}),
+    f: eiWeiterBtn(koerper.erfahrung ? "" : tx("Ohne Angabe weiter", "Continue without"))}),
   charakter: () => ({h:`
     <p class="ei-sub" style="--i:0">${tx("Dein Rad", "Your bike")}</p>
     <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Wie soll es sich anfühlen?", "How should it feel?")}</h2>
     <p class="ei-qs" style="--i:2">${tx("Liegst du zwischen zwei Rahmengrößen, entscheidet das: kleiner ist wendiger, größer ruhiger. Auch Lenker und Vorbau richten sich danach.",
       "If you're between two frame sizes, this decides: smaller is more agile, bigger is calmer. Bar and stem follow it too.")}</p>
     <div class="ei-opts" style="--i:3">${EI_CHAR.map(([w, t, s], j) => eiOpt("charakter", w, IC[w], t, s, koerper.charakter === w, "", j)).join("")}</div>`,
-    f: koerper.charakter ? eiWeiterBtn() : ""}),
+    f: eiWeiterBtn(koerper.charakter ? "" : tx("Ohne Angabe weiter", "Continue without"))}),
   koerper: () => {
     const h = eiWert("groesse"), f = eiFit();
     return {h:`
@@ -8934,7 +8949,7 @@ const EI_SCHRITT = {
       <p class="ei-qs" style="--i:2">${tx("Die Größe entscheidet über die Rahmengröße, das Gewicht über Luftdruck, Federhärte und die Freigabe der Laufräder.",
         "Height decides the frame size, weight decides air pressure, spring rate and the wheels' weight limit.")}</p>
       <div class="ei-figur" style="--i:3"><div id="ei-figur">${figurSvg(h, eiWert("fahrer"))}</div>
-        <div class="ei-gr"><b id="ei-gr" aria-live="polite">${f.groesse}</b><span>${tx("deine<br>Rahmengröße", "your<br>frame size")}</span></div></div>
+        <div class="ei-gr"><b id="ei-gr" aria-live="polite">${koerper.groesse > 0 ? f.groesse : "—"}</b><span>${tx("deine<br>Rahmengröße", "your<br>frame size")}</span></div></div>
       <div style="--i:4">${eiRegler("groesse", tx("Körpergröße", "Height"), "cm")}</div>
       <div style="--i:5">${eiRegler("fahrer", tx("Gewicht", "Weight"), "kg", tx("Ohne Rucksack und Schutzausrüstung — die rechnet das Setup dazu.", "Without backpack and protection — Setup adds those."))}</div>`,
       f:eiWeiterBtn()};
@@ -8963,7 +8978,7 @@ const EI_SCHRITT = {
   fit: () => ({h:`
     <p class="ei-sub" style="--i:0">${tx("Auswertung", "Result")} · ${esc(selNamen())}</p>
     <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Das passt zu dir", "This fits you")}</h2>
-    <div style="--i:2">${fitErgebnisHtml(eiFit())}</div>`,
+    <div style="--i:2">${koerper.groesse > 0 ? fitErgebnisHtml(eiFit()) : `<p class="ei-qs">${tx("Ohne Körpergröße rechnet die App keine Rahmengröße, keinen Lenker und keine Kurbel für dich — die Prüfung zeigt dann „Körpermaße fehlen“. Du kannst sie jederzeit unter Einstellungen › Fahrerprofil nachtragen.", "Without your height the app works out no frame size, bar or cranks for you — the check then shows “body measurements missing”. You can add them any time under Settings › Rider profile.")}</p>`}</div>`,
     f: ei.modus === "fahrer" ? eiWeiterBtn(tx("Fertig", "Done")) : eiWeiterBtn()}),
   fertig: () => {
     const f = fitRechnen();
@@ -8979,7 +8994,7 @@ const EI_SCHRITT = {
           "Start with the frame: it sets almost every dimension. Then the app shows what doesn't fit, what's worth it — and whether the bike fits you.")
         : tx("Trag ein, was in der Anzeige steht. Die App rechnet aus, was das Rad gebraucht wert ist — und ob es dir überhaupt passt.",
           "Enter what the listing says. The app works out what the bike is worth used — and whether it fits you at all.")}</p>
-      ${koerper.erfahrung === "neu" ? `<p class="ei-klein">${tx("Tipp: Unter ⋮ → Hilfe stehen alle Begriffe erklärt, von Boost bis Kettenlinie.", "Tip: under ⋮ → Help every term is explained, from Boost to chainline.")}</p>` : ""}</div>`,
+      <p class="ei-klein">${tx("Über dem Score zeigt dir „Nächster Schritt“, was als Nächstes dran ist. Fragen beantwortet der Guide (Sprechblase oben). Einen 30-Sekunden-Rundgang und alle Begriffe findest du unter ⋮ → Hilfe.", "Above the score, “Next step” shows what to do next. The guide (speech bubble at the top) answers questions. A 30-second tour and every term are under ⋮ → Help.")}</p></div>`,
       f:`<button class="btn wide gross glanz" data-eifertig="1">${cta}</button>`};
   }
 };
@@ -9032,12 +9047,8 @@ function eiZeigen(still){
   }
 }
 function eiWeiter(){
-  const st = eiSchritte(), id = st[ei.schritt];
-  /* Wer die Startwerte stehen laesst, meint sie */
-  if(id === "koerper"){
-    if(!(koerper.groesse > 0)){ koerper.groesse = 178; kSichern(); }
-    if(!(plan.fahrer > 0)){ plan.fahrer = 78; sichern(); }
-  }
+  const st = eiSchritte();
+  /* Kein Startwert wird still gespeichert -- unbekannt bleibt unbekannt */
   ei.warte = false;
   if(ei.schritt >= st.length - 1){ eiFertig(); return; }
   ei.schritt++; ei.rueck = false;
@@ -9082,7 +9093,10 @@ function eiSetze(k, v, vomRegler){
   clearTimeout(eiSpeicherZeit); eiSpeicherZeit = setTimeout(sichern, 300);
   const inp = $("er-" + k);
   if(inp){ if(!vomRegler) inp.value = v; inp.style.setProperty("--p", ((v - min) / (max - min) * 100).toFixed(1) + "%"); }
-  const o = $("er-v-" + k); if(o) o.textContent = eiFmt(k, v);
+  const o = $("er-v-" + k); if(o){ o.textContent = eiFmt(k, v); o.hidden = false; }
+  ["er-u-", "er-leer-"].forEach(p => { const e = $(p + k); if(e) e.hidden = false; });
+  const na = $("er-na-" + k); if(na) na.hidden = true;
+  const bx = $("er-box-" + k); if(bx) bx.classList.remove("leer");
   eiLive();
 }
 function eiLive(){
@@ -9090,7 +9104,8 @@ function eiLive(){
   if(!f) return;
   const fg = $("ei-figur"); if(fg) fg.innerHTML = figurSvg(f.h, eiWert("fahrer"));
   const gr = $("ei-gr");
-  if(gr && gr.textContent !== f.groesse){ gr.textContent = f.groesse; gr.classList.remove("plopp"); void gr.offsetWidth; gr.classList.add("plopp"); }
+  const grT = koerper.groesse > 0 ? f.groesse : "—";
+  if(gr && gr.textContent !== grT){ gr.textContent = grT; gr.classList.remove("plopp"); void gr.offsetWidth; gr.classList.add("plopp"); }
   const ck = $("ei-cockpit"); if(ck) ck.innerHTML = cockpitSvg(f);
   const lk = $("ei-lenker"); if(lk) lk.textContent = f.lenker + " mm";
   const lks = $("ei-lk-spanne"); if(lks) lks.textContent = lkSpanne(f);
@@ -13303,7 +13318,7 @@ function obInhalt(n, f, fw){
     r.q = tx("Welches Rad fährst du?", "Which bike do you ride?");
     r.html = `<div class="fw-teil"><span class="fw-el-ic rad">${ic(`<circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l4-8h6l2 8M10 8l2 8"/>`, 20)}</span><span><b>${rh ? esc(rh.n) : tx("Noch kein Rahmen gewählt", "No frame chosen yet")}</b>${rh ? `<small>${esc(rh.m || "")} · ${tx("Modelljahr", "model year")} ${jahrWahl[modus]}</small>` : ""}</span></div>
       <p class="su-hint">${tx("Rahmen und Modelljahr legst du im Aufbau fest — hier gelten dieselben Angaben.", "You set frame and model year in the build — the same details apply here.")}</p>
-      ${fw.rj > 1990 && fw.rj !== jahrWahl[modus] ? obTipp(tx(`Früher hattest du hier Modelljahr ${fw.rj} angegeben, im Aufbau steht ${jahrWahl[modus]}. Stimmt ${fw.rj}, stell es im Aufbau beim Rahmen um.`, `You previously entered model year ${fw.rj} here; the build says ${jahrWahl[modus]}. If ${fw.rj} is right, change it in the build at the frame.`)) : ""}
+      ${fw.rj > 1990 && fw.rj !== jahrWahl[modus] ? obTipp(tx(`Früher hattest du hier Modelljahr ${fw.rj} angegeben, im Aufbau steht ${jahrWahl[modus]}. Entscheiden kannst du im Aufbau beim Modelljahr des Rahmens.`, `You previously entered model year ${fw.rj} here; the build says ${jahrWahl[modus]}. You can decide in the build at the frame's model year.`)) : ""}
       ${obGruppe(tx("Rahmengröße", "Frame size"), GROESSEN.map(g => obWahl(`data-fwwk="gr|${g.g}"`, fw.gr === g.g, g.g, g.sp, "klein")).join("") + obWn("gr", wn.gr),
         tx("Damit deine Einstellungen eindeutig zu diesem Rad gehören und du für Händler oder Hersteller alles parat hast. In die Rechnung geht die Rahmengröße nicht ein — dafür deine Körpergröße.", "So your settings clearly belong to this bike and you have everything at hand for a shop or the maker. The frame size doesn't enter the calculation — your height does."), "gr", "jahre")}
       ${t === "gr" ? obTipp(tx("Aufkleber am Sitzrohr oder unter dem Tretlager — oft steht dort S1–S6 (Specialized) oder S/M/L.", "Sticker on the seat tube or under the bottom bracket — often S1–S6 (Specialized) or S/M/L.")) : ""}
@@ -14379,7 +14394,7 @@ function zeichne(){
       bewertet wird nur, was drin steht.`, "Start with the frame — it sets wheel size, axle dimensions and bottom bracket and so narrows down everything else. Leave open what you don't know; only what's entered gets rated.")}</p></div>` : "";
 
   $("coach-platz").innerHTML = leitKarte(r);
-  $("aufbau").innerHTML = diszHinweis() + marktkarte + fotokarte + (leitAus ? leerHinweis : "") + GRUPPEN.map((g, gi) => {
+  $("aufbau").innerHTML = diszHinweis() + fitAnpassKasten() + marktkarte + fotokarte + (leitAus ? leerHinweis : "") + GRUPPEN.map((g, gi) => {
     /* Optionale Lager zaehlen nur mit, wenn sie eingetragen sind */
     const meine = SLOTS.filter(s => s.grp === g.n && zaehlt(build, s));
     if(!meine.length) return "";                       /* Thema ganz ohne Slot am Rahmen */
@@ -14463,6 +14478,9 @@ function zeichne(){
       </div>`).join("") + `<div id="loesungen"></div>`
     : `<div class="clean"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
        ${tx("Keine Konflikte. Alle Maße passen.", "No conflicts. All dimensions fit.")}</div>`;
+  /* Ohne Gewicht im Fahrerprofil laesst sich die Laufrad-Freigabe nicht pruefen -- sagen, nicht still auslassen */
+  const lrT = build.laufraeder && !entfaellt(build, "laufraeder") ? findeTeil("laufraeder", build.laufraeder) : null;
+  if(lrT && lrT.maxSys && !(plan.fahrer > 0)) $("findings").innerHTML += `<div class="fit-leer nicht-geprueft"><span>${tx(`<b>Nicht geprüft: Systemgewicht.</b> Die Laufräder sind bis ${lrT.maxSys} kg freigegeben — ohne dein Gewicht (Einstellungen › Fahrerprofil) kann die App das nicht prüfen.`, `<b>Not checked: system weight.</b> The wheels are rated to ${lrT.maxSys} kg — without your weight (Settings › Rider profile) the app can't check it.`)}</span></div>`;
   /* Passt das Rad zum Fahrer? Eigene Rubrik, zaehlt nicht in die Wertung */
   const fitOffen = fitListe.filter(x => x.s !== "ok"), fitOk = fitListe.length - fitOffen.length;
   $("findings").innerHTML += fitListe.length
@@ -14603,6 +14621,19 @@ function rahmenDisziplin(r){
   return sel.length === 1 && beste.indexOf(sel[0]) >= 0 ? sel[0] : beste[0];
 }
 /* Hinweis, wenn Rahmen und gewaehlte Disziplin nicht zusammengehoeren */
+/* Welche Ausfuehrungen (Kurbel, Stuetze, Vorbau, Rise) die App an die
+   Koerpermasse anpassen wuerde -- schreibt nichts, nur Probe */
+function fitAenderungen(){
+  if(modus !== "traum" || !(koerper.groesse > 0)) return [];
+  const prot = []; fitAnpassen(build, prot); return prot;
+}
+/* Die eine Stelle zum Anpassen: im Aufbau (APP-002, vorher im Groessen-Blatt) */
+function fitAnpassKasten(){
+  const prot = fitAenderungen();
+  if(!prot.length) return "";
+  return `<div class="mixbox w" style="margin-bottom:14px">${tx(`<b>Nicht ganz deine Größe:</b> ${esc(prot.join(", "))}.`, `<b>Not quite your size:</b> ${esc(prot.join(", "))}.`)}
+    <div style="margin-top:8px"><button class="btn sm" data-fitanpassen="1">${tx("An meine Größe anpassen", "Adjust to my size")}</button></div></div>`;
+}
 function diszHinweis(){
   if(modus === "traum" || !build.rahmen) return "";
   const r = findeTeil("rahmen", build.rahmen), d = rahmenDisziplin(r);
@@ -15355,7 +15386,6 @@ function oeffneMenu(){
         <span><b>${tx("Fahrerprofil bearbeiten", "Edit rider profile")}</b><span>${fahrerKurz() || tx("Erfahrung, Körpermaße und Gewicht — gilt für alle Räder", "Experience, body measurements and weight — applies to every bike")}</span></span>${ic(IC.weiter, 16)}</button></div>
       <div class="grp-h" style="margin-top:16px"><h2>${tx("Hilfe", "Help")}</h2><div class="rule"></div></div>
       <div class="hilfe-liste">${[
-        ['data-guide="1"', IC.guide, tx("Frag den Guide", "Ask the guide"), tx("Fragen zur App oder zum Rad — mit Antwort sofort", "Questions about the app or the bike — answered instantly")],
         ['data-hilfe="begriffe"', IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie, SAG … einfach erklärt", "Boost, freehub, chainline, sag … explained simply")],
         ['data-startseite="1"', IC.traum, tx("Über CrankScore", "About CrankScore"), tx("Alles, was die App kann — auf einer Seite", "Everything the app does — on one page")],
         ['data-hilfe="tour"', IC.tour, tx("App-Rundgang", "App tour"), tx("In 30 Sekunden: wo was ist", "In 30 seconds: where everything is")]
@@ -15647,6 +15677,8 @@ document.addEventListener("click", e => {
   const ew = T("[data-eiwahl]");
   if(ew){ eiWahl(ew); return; }
   if(T("[data-eiweiter]")){ eiWeiter(); return; }
+  const eil = T("[data-eileer]");
+  if(eil){ if(eil.dataset.eileer === "groesse"){ koerper.groesse = 0; kSichern(); } else { plan.fahrer = 0; sichern(); } eiZeigen(true); return; }
   if(T("[data-eizurueck]")){ eiZurueck(); return; }
   if(T("[data-eiskip]")){ eiSkip(); return; }
   const tk = T("[data-tour]");
@@ -15662,8 +15694,7 @@ document.addEventListener("click", e => {
   if(T("[data-fitanpassen]")){
     const prot = [], neu = fitAnpassen(build, prot);
     if(prot.length){ setzeBau(neu); sichern(); zeichne(); zeigeToast(tx("Angepasst: ", "Adjusted: ") + prot.join(", ") + ".", 4200); }
-    else zeigeToast(tx("An den Ausführungen gibt es nichts zu ändern — der Rest heißt: anderes Teil wählen.", "Nothing to change in the versions — for the rest, pick a different part."), 4200);
-    oeffneFit(); return;
+    return;
   }
 
   const dt = T("[data-detail]");
@@ -15811,6 +15842,8 @@ document.addEventListener("click", e => {
 
 
 
+  const rjw = T("[data-rjwahl]");
+  if(rjw){ const fw = build.fw || {}; if(rjw.dataset.rjwahl === "setup" && fw.rj > 1990) jahrWahl[modus] = fw.rj; delete fw.rj; sichern(); zeichne(); if(offenerSlot === "rahmen") oeffneSlot("rahmen"); return; }
   const jr = T("[data-jahr]");
   if(jr){
     jahrWahl[modus] = parseInt(jr.dataset.jahr, 10);

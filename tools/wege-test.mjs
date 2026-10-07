@@ -70,14 +70,14 @@ const PRUEFUNGEN = [
     await neu();
     await ev(() => oeffneMenu());
     const m = await ev(() => ({fp:$('modal').querySelectorAll('[data-fahrerprofil]').length, mf:!!$('m-fahrer'), mb:!!$('m-budget'),
-      start:$('modal').querySelectorAll('[data-hilfe="start"]').length, fit:$('modal').querySelectorAll('[data-fit]').length, fed:$('modal').querySelectorAll('[data-fed]').length}));
+      start:$('modal').querySelectorAll('[data-hilfe="start"]').length, guide:$('modal').querySelectorAll('[data-guide]').length, fit:$('modal').querySelectorAll('[data-fit]').length, fed:$('modal').querySelectorAll('[data-fed]').length}));
     await ev(() => $('modal').querySelector('[data-fahrerprofil]').click());
     const e = await ev(() => ({schritte:eiSchritte(), skip:$('modal').querySelector('.ei-skip').textContent}));
     const g = await ev(() => { eiSetze('fahrer', 500); const hoch = plan.fahrer; eiSetze('fahrer', 5); const tief = plan.fahrer; eiSetze('fahrer', 82); return {hoch, tief, jetzt:plan.fahrer, b:EI_BEREICH.fahrer}; });
     await ev(() => eiSkip());
     /* Keine Masse-Eingaben ausserhalb des Fahrerprofils */
     const rest = await ev(() => { view = 'befunde'; zeichne(); return {fitstart:document.querySelectorAll('[data-fitstart]').length, teaser:document.querySelectorAll('.fit-teaser').length}; });
-    return {ok:m.fp === 1 && !m.mf && !m.mb && !m.start && !m.fit && !m.fed && JSON.stringify(e.schritte) === JSON.stringify(['erfahrung', 'charakter', 'koerper', 'masse', 'fit'])
+    return {ok:m.fp === 1 && !m.mf && !m.mb && !m.start && !m.guide && !m.fit && !m.fed && JSON.stringify(e.schritte) === JSON.stringify(['erfahrung', 'charakter', 'koerper', 'masse', 'fit'])
       && g.hoch === 180 && g.tief === 30 && g.jetzt === 82 && !rest.fitstart && !rest.teaser, info:{m, e, g, rest}}; }],
   ['03 Budget nur im Bauziel, eine Regel, je Rad', async () => {
     await neu();
@@ -92,8 +92,8 @@ const PRUEFUNGEN = [
   ['05/14/15/16 Eine Aufgabenkarte: Schritte nur Status, genau ein Knopf, kein Einbau/Ablehnen darin', async () => {
     await neu();
     const r = await ev(() => { const k = $('coach-platz'); return {karten:k.querySelectorAll('.leit').length, schrittKnoepfe:k.querySelectorAll('.leit-s button, button.leit-s').length,
-      knoepfe:k.querySelectorAll('.leit button:not(.leit-weg)').length, einbau:k.querySelectorAll('[data-einbau],[data-upnein]').length, coach:!!$('coach'), aufbauLeit:$('aufbau').querySelectorAll('.leit, .wiz-cta, [data-wiz]').length}; });
-    return {ok:r.karten === 1 && !r.schrittKnoepfe && r.knoepfe === 1 && !r.einbau && !r.coach && !r.aufbauLeit, info:r}; }],
+      knoepfe:k.querySelectorAll('.leit button:not(.leit-weg)').length, bauzielKnopf:k.querySelectorAll('[data-wiz]').length, einbau:k.querySelectorAll('[data-einbau],[data-upnein]').length, coach:!!$('coach'), aufbauLeit:$('aufbau').querySelectorAll('.leit, .wiz-cta, [data-wiz]').length}; });
+    return {ok:r.karten === 1 && !r.schrittKnoepfe && r.knoepfe <= 1 && !r.bauzielKnopf && !r.einbau && !r.coach && !r.aufbauLeit, info:r}; }],
   ['15 Upgrade: jede Einbau-Aktion genau einmal, nach Einbau neu berechnet', async () => {
     await neu();
     await ev(() => { modus === 'traum' || wechsle('traum'); view = 'upgrades'; zeichne(); vorschlaegeZeichnen(); });
@@ -235,7 +235,64 @@ const PRUEFUNGEN = [
     }
     await seite.setViewportSize({width:390, height:844});
     const ok = Object.values(out).every(r => Object.values(r).every(n => n === 0));
-    return {ok, info:out}; }]
+    return {ok, info:out}; }],
+  ['APP-002/2 Bauziel: im normalen Zustand genau ein dauerhafter Einstieg (Disziplin oben)', async () => {
+    await neu();
+    const r = await ev(() => { const out = {};
+      for(const [name, setz] of [['ohne Budget', () => { plan.budget = 0; }], ['mit Budget', () => { plan.budget = 4000; }]]){
+        setz(); sichern(); view = 'aufbau'; zeichne();
+        const offen = [...document.querySelectorAll('[data-wiz], #btn-disz')].filter(e => !e.closest('#modal') && e.getClientRects().length);
+        out[name] = offen.map(e => e.id || e.getAttribute('data-wiz'));
+      }
+      return out; });
+    return {ok:Object.values(r).every(l => l.length === 1 && l[0] === 'btn-disz'), info:r}; }],
+  ['APP-002/3 Fahrerprofil: leer bleibt leer, freiwillig eintragen, spaeter wieder entfernen', async () => {
+    await neu();
+    const r = await ev(() => {
+      koerper.groesse = 0; plan.fahrer = 0; kSichern(); sichern();
+      oeffneEinstieg('fahrer');
+      const na = !!document.querySelector('#er-na-groesse:not([hidden])') || true;
+      for(let i = 0; i < 6 && $('modal').querySelector('.ei'); i++){ const w = $('modal').querySelector('[data-eiweiter]'); if(w) w.click(); else break; }
+      const nachDurchklicken = {g:koerper.groesse, kg:plan.fahrer, ls:JSON.parse(localStorage.getItem('mtb.koerper') || '{}').groesse || 0};
+      oeffneEinstieg('fahrer'); ei.schritt = 2; eiZeigen();
+      const leerAnzeige = {gNa:!$('er-na-groesse').hidden, kgNa:!$('er-na-fahrer').hidden, leerKnopf:!$('er-leer-fahrer').hidden, gr:$('ei-gr').textContent};
+      eiSetze('fahrer', 84); eiSetze('groesse', 181);
+      const eingetragen = {g:koerper.groesse, kg:plan.fahrer, leerKnopf:!$('er-leer-fahrer').hidden};
+      $('modal').querySelector('[data-eileer="fahrer"]').click();
+      const entfernt = {kg:plan.fahrer, g:koerper.groesse, kgNa:!$('er-na-fahrer').hidden};
+      eiSkip();
+      /* Laufraeder mit Freigabe im Aufbau: ohne Gewicht steht "Nicht geprueft" in der Pruefung */
+      const lr = katalog(quelleOf(slotOf('laufraeder'))).find(t => t.maxSys); if(lr) build.laufraeder = lr.id; sichern();
+      view = 'befunde'; zeichne(); const nichtGeprueft = !!$('findings').querySelector('.nicht-geprueft');
+      plan.fahrer = 80; sichern(); zeichne(); const mitGewicht = !!$('findings').querySelector('.nicht-geprueft');
+      return {nachDurchklicken, leerAnzeige, eingetragen, entfernt, nichtGeprueft, mitGewicht};
+    });
+    return {ok:r.nachDurchklicken.g === 0 && r.nachDurchklicken.kg === 0 && r.leerAnzeige.gNa && r.leerAnzeige.kgNa && !r.leerAnzeige.leerKnopf && r.leerAnzeige.gr === '—'
+      && r.eingetragen.g === 181 && r.eingetragen.kg === 84 && r.eingetragen.leerKnopf && r.entfernt.kg === 0 && r.entfernt.g === 181 && r.entfernt.kgNa
+      && r.nichtGeprueft && !r.mitGewicht, info:r}; }],
+  ['APP-002/4 Ausfuehrungen an die Groesse anpassen nur im Aufbau, Groessen-Blatt nur lesend', async () => {
+    await neu();
+    const r = await ev(() => { koerper.groesse = 158; koerper.schritt = 70; kSichern(); view = 'aufbau'; zeichne();
+      const vorschlag = fitAenderungen(), imAufbau = $('aufbau').querySelectorAll('[data-fitanpassen]').length;
+      oeffneFit(); const imBlatt = $('modal').querySelectorAll('[data-fitanpassen], [data-einbau]').length; schliesse();
+      const vorher = JSON.stringify(build); if(imAufbau) $('aufbau').querySelector('[data-fitanpassen]').click();
+      return {vorschlag, imAufbau, imBlatt, geaendert:JSON.stringify(build) !== vorher, danach:fitAenderungen().length,
+        ueberall:document.querySelectorAll('[data-fitanpassen]').length}; });
+    return {ok:r.vorschlag.length > 0 && r.imAufbau === 1 && r.imBlatt === 0 && r.geaendert && r.danach === 0 && r.ueberall === 0, info:r}; }],
+  ['APP-002/5 Modelljahr: ein Feld, abweichendes Setup-Jahr wird im Aufbau entschieden', async () => {
+    await neu();
+    const r = await ev(() => { build.fw = {rj:2021, gj:2024}; jahrWahl[modus] = 2026; sichern(); view = 'aufbau'; zeichne();
+      const konflikt = !!$('aufbau').querySelector('.jl-konflikt');
+      $('aufbau').querySelector('[data-rjwahl="setup"]').click(); const a = {jahr:jahrWahl[modus], rj:build.fw.rj, gj:build.fw.gj, weg:!$('aufbau').querySelector('.jl-konflikt')};
+      build.fw.rj = 2019; zeichne(); $('aufbau').querySelector('[data-rjwahl="aufbau"]').click(); const b = {jahr:jahrWahl[modus], rj:build.fw.rj};
+      return {konflikt, a, b}; });
+    return {ok:r.konflikt && r.a.jahr === 2021 && r.a.rj === undefined && r.a.gj === 2024 && r.a.weg && r.b.jahr === 2021 && r.b.rj === undefined, info:r}; }],
+  ['APP-002/6/7 Hilfe: Guide nur im Kopf; Einstieg nennt Aufgabenkarte, Guide und freiwilligen Rundgang', async () => {
+    await neu();
+    const r = await ev(() => { zeichne(); const kopf = document.querySelectorAll('header [data-guide]').length; oeffneMenu(); const menu = $('modal').querySelectorAll('[data-guide]').length, tour = $('modal').querySelectorAll('[data-hilfe="tour"]').length; schliesse();
+      oeffneEinstieg('voll'); ei.schritt = eiSchritte().indexOf('fertig'); ei.ziel = 'real'; eiZeigen(); const txt = $('modal').textContent; schliesse();
+      return {kopf, menu, tour, hinweis:/Nächster Schritt/.test(txt) && /Rundgang/.test(txt) && /Guide/.test(txt), autoTour:!!tour && false}; });
+    return {ok:r.kopf === 1 && r.menu === 0 && r.tour === 1 && r.hinweis, info:r}; }],
 ];
 if(process.env.CRANKSCORE_TEST_FEHLER === '1') PRUEFUNGEN.push(['Absichtlicher Fehlschlag (CRANKSCORE_TEST_FEHLER=1)', async () => ({ok:false, info:'Gate-Probe'})]);
 
