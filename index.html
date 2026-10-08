@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#000000">
-<script>try{if(localStorage.getItem("mtb.design")==="hell")document.documentElement.dataset.theme="light";}catch(e){}</script>
+<script>try{if(localStorage.getItem("mtb.design")==="hell"){document.documentElement.dataset.theme="light";var m=document.querySelector('meta[name="theme-color"]');if(m)m.content="#f2f2f7";}}catch(e){}</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -120,7 +120,14 @@
   --shadow-hoch:0 2px 10px rgba(0,0,0,.6),0 24px 60px -22px rgba(0,0,0,.9);
   --r:18px; --r-s:12px; --r-karte:24px;
   --tabs-h:62px;
-  --feder:cubic-bezier(.2,.9,.3,1.15);
+  /* Bewegung (Liam 2026-10-08): kurz, ruhig, ohne Ueberschwingen. Antippen
+     110 ms, Kleines 180 ms, Blaetter und Umschalter 260 ms, Design 300 ms.
+     --feder heisst aus Gewohnheit so, federt aber nicht mehr nach. */
+  --t-tipp:110ms; --t-kurz:180ms; --t-mittel:260ms; --t-design:300ms;
+  --e-aus:cubic-bezier(.2,.8,.2,1); --e-ein:cubic-bezier(.4,0,1,1); --e-weich:cubic-bezier(.4,0,.2,1);
+  --feder:var(--e-aus);
+  --hub:8px; --hub-gross:24px; --zoom:.98;
+  color-scheme:dark;
 }
 :root[data-theme="light"]{
   --ground:#f2f2f7; --surface:#ffffff; --surface-2:#f4f4f7; --sunk:#e8e8ed;
@@ -136,6 +143,7 @@
   --glass:rgba(242,242,247,.88);
   --shadow:0 1px 2px rgba(0,0,0,.04),0 10px 28px -16px rgba(0,0,0,.14);
   --shadow-hoch:0 2px 6px rgba(0,0,0,.06),0 22px 48px -18px rgba(0,0,0,.22);
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 /* clip statt hidden: hidden macht html und body zu Scrollbehaeltern, und dann
@@ -150,19 +158,35 @@ body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-sans
 .delta,.minus,.grp-kopf .zahl,.treffer,.mk-preis,.app-stand span{font-variant-numeric:tabular-nums}
 h1,h2,h3{font-family:var(--f-head);margin:0;letter-spacing:-.02em;text-wrap:balance}
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:none;-webkit-appearance:none;
-  transition:transform .12s ease,background-color .15s,border-color .15s,color .15s,opacity .15s}
+  transition:transform var(--t-tipp) var(--e-aus),background-color var(--t-kurz) var(--e-weich),border-color var(--t-kurz) var(--e-weich),
+    color var(--t-kurz) var(--e-weich),opacity var(--t-kurz) var(--e-weich)}
 button:active:not(:disabled){transform:scale(.97)}
 :focus-visible{outline:2px solid var(--anod);outline-offset:2px;border-radius:6px}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* Designwechsel: alle Farben gleichzeitig und weich, nur waehrend des Wechsels
+   (Klasse kommt von setzeDesign) -- gezielte Farb-Eigenschaften statt "all" */
+:root.design-wechsel *,:root.design-wechsel *::before,:root.design-wechsel *::after{
+  transition-property:background-color,border-color,color,fill,stroke,box-shadow,outline-color,text-decoration-color,caret-color!important;
+  transition-duration:var(--t-design)!important;transition-timing-function:var(--e-weich)!important;transition-delay:0s!important}
+:root.design-wechsel .seg::before,:root.design-wechsel .modus-in::before{transition-property:transform,background-color,box-shadow!important}
+/* Bewegung reduzieren: nichts faehrt, zoomt, dreht oder laeuft endlos; Blaetter,
+   Hinweise und Fenster blenden nur kurz ueber (--hub und --zoom neutral) */
+@media (prefers-reduced-motion:reduce){
+  :root{--hub:0px;--hub-gross:0px;--zoom:1;--t-tipp:0ms;--t-kurz:120ms;--t-mittel:150ms;--t-design:0ms}
+  *,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;
+    transition-duration:1ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
+  .scrim,.scrim > .sheet,.toast,.upd-pop,.adp-scrim,.adp,.tour,.ei{animation-duration:150ms!important}
+  .scrim.weg,.scrim.weg > .sheet,.toast.weg{animation-duration:120ms!important}
+  button:active:not(:disabled),.rg:active:not(:disabled),.slot:active:not(:disabled),.shop:active{transform:none!important}
+}
 
 /* ── Kopfzeile: Glas, klebt oben ── */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--glass);
   -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
-  border-bottom:1px solid transparent;transition:border-color .2s}
+  border-bottom:1px solid transparent;transition:border-color var(--t-kurz) var(--e-weich)}
 body.klein .top{border-bottom-color:var(--hair)}
 .top-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:8px;min-height:56px}
 .kopf-links{display:grid;margin-right:auto;min-width:0;align-items:center;flex:none}
-.kopf-links > *{grid-area:1 / 1;transition:opacity .2s,transform .25s var(--feder)}
+.kopf-links > *{grid-area:1 / 1;transition:opacity var(--t-kurz) var(--e-weich),transform var(--t-mittel) var(--e-aus)}
 .brand{font-family:var(--f-head);font-weight:800;font-size:22px;letter-spacing:-.04em;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .brand i{font-style:normal;color:var(--ink-3);font-weight:700}
@@ -214,7 +238,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .modus-in{max-width:1180px;margin:0 auto;display:flex;background:var(--surface-2);border-radius:999px;padding:4px;gap:4px;position:relative}
 .modus-in::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 16px) / 3);
   border-radius:999px;background:var(--sunk);box-shadow:0 1px 3px rgba(0,0,0,.12),0 4px 12px -6px rgba(0,0,0,.25);
-  transition:transform .32s var(--feder)}
+  transition:transform var(--t-mittel) var(--e-weich)}
 .modus-in:has([data-modus="real"][aria-pressed="true"])::before{transform:translateX(calc(100% + 4px))}
 .modus-in:has([data-modus="markt"][aria-pressed="true"])::before{transform:translateX(calc(200% + 8px))}
 .modus-in button{flex:1;position:relative;z-index:1;padding:8px;border-radius:999px;font-size:13.5px;font-weight:650;
@@ -222,6 +246,27 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .modus-in button[aria-pressed="true"]{color:var(--ink)}
 /* Unter 300 px: "Mein Rad" und "Dream bike" bleiben einzeilig */
 @media (max-width:300px){.modus{padding-left:12px;padding-right:12px} .modus-in button{font-size:12.5px;padding:6px 4px}}
+/* Design-Schalter: dieselbe gleitende Pille wie beim Modus-Umschalter, im
+   Takt des Farbwechsels; das Symbol des gewaehlten Designs dreht sich gerade */
+.seg{display:flex;position:relative;background:var(--surface-2);border-radius:999px;padding:4px;gap:4px;max-width:380px}
+.seg::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 12px) / 2);border-radius:999px;background:var(--sunk);
+  box-shadow:0 1px 3px rgba(0,0,0,.12),0 4px 12px -6px rgba(0,0,0,.25);
+  transition:transform var(--t-design) var(--e-weich),background-color var(--t-design) var(--e-weich),box-shadow var(--t-design) var(--e-weich)}
+.seg[data-wahl="hell"]::before{transform:translateX(calc(100% + 4px))}
+.seg button{flex:1;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:8px 10px;
+  border-radius:999px;font-size:13.5px;font-weight:650;color:var(--ink-3)}
+.seg button[aria-pressed="true"]{color:var(--ink)}
+.seg svg{flex:none;transition:transform var(--t-design) var(--e-weich)}
+.seg button[aria-pressed="false"] svg{transform:rotate(-25deg) scale(.9)}
+:root.design-wechsel .seg svg{transition-property:transform,color,stroke!important}
+::view-transition{pointer-events:none}
+::view-transition-old(root),::view-transition-new(root){animation-duration:var(--t-design);animation-timing-function:var(--e-weich)}
+.seg{view-transition-name:design-schalter;transition:background-color var(--t-design) var(--e-weich)}
+::view-transition-old(design-schalter){display:none}
+::view-transition-new(design-schalter),::view-transition-group(design-schalter){animation:none}
+.seg button{transition:color var(--t-design) var(--e-weich),transform var(--t-tipp) var(--e-aus)}
+:root[data-theme="light"] .seg{background:var(--sunk)}
+:root[data-theme="light"] .seg::before{background:var(--surface)}
 /* Hell: Spur grau, Pille weiss -- wie der iOS-Umschalter */
 :root[data-theme="light"] .modus-in{background:var(--sunk)}
 :root[data-theme="light"] .modus-in::before{background:var(--surface)}
@@ -291,7 +336,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .rg svg{width:100%;max-width:96px;aspect-ratio:1;display:block;overflow:visible}
 .rg-gesamt svg{max-width:132px}
 .rg-bahn{fill:none;stroke:color-mix(in srgb,var(--rg-farbe) 16%,transparent);stroke-width:9}
-.rg-wert{fill:none;stroke:var(--rg-farbe);stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .6s var(--feder),stroke .3s}
+.rg-wert{fill:none;stroke:var(--rg-farbe);stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .5s var(--e-aus),stroke var(--t-mittel) var(--e-weich)}
 .rg-gesamt .rg-bahn,.rg-gesamt .rg-wert{stroke-width:8}
 .rg-pass{--rg-farbe:var(--m-pass)} .rg-eins{--rg-farbe:var(--m-eins)} .rg-gesamt{--rg-farbe:var(--wert-farbe,var(--gut))}
 .rg > b{position:absolute;left:0;right:0;top:0;aspect-ratio:1;max-width:96px;margin:0 auto;display:grid;place-items:center;
@@ -681,16 +726,21 @@ a.btn{text-decoration:none}
 
 /* ── Schublade (Bottom-Sheet) ── */
 .scrim{position:fixed;inset:0;background:rgba(5,8,10,.52);z-index:60;display:grid;place-items:end center;
-  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);animation:einblenden .2s ease;
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);animation:einblenden var(--t-mittel) var(--e-weich);
   overscroll-behavior:contain;touch-action:none}
+.scrim.ohne-ein{animation:none}
+.scrim.weg{animation:ausblenden var(--t-kurz) var(--e-ein) forwards;pointer-events:none}
+.scrim.weg > .sheet{animation:runter var(--t-kurz) var(--e-ein) forwards}
 .sheet{background:var(--surface);width:100%;max-width:820px;max-height:92dvh;position:relative;
   border-radius:26px 26px 0 0;display:flex;flex-direction:column;overflow:hidden;
-  box-shadow:var(--shadow-hoch);animation:hoch .38s var(--feder);touch-action:pan-x pan-y}
+  box-shadow:var(--shadow-hoch);animation:hoch var(--t-mittel) var(--e-aus);touch-action:pan-x pan-y}
 .sheet:focus{outline:none}
 .sheet::before{content:"";position:absolute;top:7px;left:50%;width:38px;height:5px;margin-left:-19px;
   border-radius:999px;background:var(--line);z-index:5}
 @keyframes einblenden{from{opacity:0}to{opacity:1}}
-@keyframes hoch{from{transform:translateY(40%);opacity:.3}to{transform:none;opacity:1}}
+@keyframes ausblenden{to{opacity:0}}
+@keyframes hoch{from{transform:translateY(var(--hub-gross));opacity:0}to{transform:none;opacity:1}}
+@keyframes runter{to{transform:translateY(var(--hub-gross));opacity:0}}
 @media (min-width:821px){.scrim{place-items:center}.sheet{border-radius:24px;max-height:86dvh}.sheet::before{display:none}}
 /* Tastatur am Handy offen: iOS verkleinert die Seite nicht, sondern schiebt sie
    hoch. Die Schublade folgt dem sichtbaren Bereich (visualViewport) -- Kopf
@@ -833,8 +883,8 @@ body.tastatur .sheet-b{padding-bottom:14px}
   bottom:calc(var(--tabs-h) + 12px + var(--tabs-unten));
   max-width:520px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 10px 12px 12px;
   background:var(--surface-2);color:var(--ink);border:1px solid var(--hair);border-radius:var(--r-karte);
-  box-shadow:var(--shadow-hoch);animation:plopp .5s var(--feder)}
-@keyframes plopp{0%{opacity:0;transform:translateY(26px) scale(.9)}100%{opacity:1;transform:none}}
+  box-shadow:var(--shadow-hoch);animation:plopp var(--t-mittel) var(--e-aus)}
+@keyframes plopp{0%{opacity:0;transform:translateY(var(--hub)) scale(var(--zoom))}100%{opacity:1;transform:none}}
 .upd-pop .ic{width:40px;height:40px;border-radius:13px;flex:none;display:grid;place-items:center;
   color:#fff;background:var(--grad)}
 .upd-pop .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;line-height:1.3}
@@ -848,7 +898,8 @@ body.tastatur .sheet-b{padding-bottom:14px}
 @keyframes dreh{to{transform:rotate(360deg)}}
 .toast{position:fixed;left:12px;right:12px;z-index:70;bottom:calc(var(--tabs-h) + 12px + var(--tabs-unten));
   max-width:420px;margin:0 auto;padding:12px 16px;border-radius:999px;background:var(--ink);color:var(--surface);
-  font-size:13px;font-weight:600;line-height:1.4;box-shadow:var(--shadow-hoch);text-align:center;animation:plopp .4s var(--feder)}
+  font-size:13px;font-weight:600;line-height:1.4;box-shadow:var(--shadow-hoch);text-align:center;animation:plopp var(--t-mittel) var(--e-aus)}
+.toast.weg{animation:ausblenden var(--t-kurz) var(--e-ein) forwards}
 @media (min-width:820px){ .upd-pop{bottom:20px} .toast{bottom:24px} }
 .app-stand{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:2px 0 14px}
 .app-stand span{font-size:12px;color:var(--ink-3)}
@@ -957,7 +1008,12 @@ body.tastatur .sheet-b{padding-bottom:14px}
   color:var(--ink-3);letter-spacing:0;margin-top:3px;line-height:1.38;text-transform:none;text-wrap:pretty}
 .grp-kopf .zahl{font-size:12px;font-weight:700;color:var(--ink-3);white-space:nowrap;
   background:var(--surface-2);border-radius:999px;padding:3px 10px}
-.grp-kopf .pfeil{color:var(--ink-3);transition:transform .25s var(--feder)}
+.grp-kopf .pfeil{color:var(--ink-3);transition:transform var(--t-mittel) var(--e-weich)}
+.grp.auf .grp-inhalt{animation:ei-hoch var(--t-mittel) var(--e-aus)}
+.grp.auf .grp-kopf .pfeil{animation:pfeil-auf var(--t-mittel) var(--e-weich)}
+.grp.zu-jetzt .grp-kopf .pfeil{animation:pfeil-zu var(--t-mittel) var(--e-weich)}
+@keyframes pfeil-auf{from{transform:rotate(-90deg)}}
+@keyframes pfeil-zu{from{transform:none}}
 .grp.eingeklappt .grp-kopf .pfeil{transform:rotate(-90deg)}
 .grp-inhalt{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line-soft)}
 .grp.eingeklappt .grp-inhalt{display:none}
@@ -1150,7 +1206,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
    die Regel oben schaltet jede Animation ab, und kein Element haengt
    unsichtbar in seinem Startzustand fest. */
 .ei{position:fixed;inset:0;z-index:80;background:var(--ground);display:flex;flex-direction:column;overflow:hidden;
-  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);animation:einblenden .35s ease}
+  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);animation:einblenden var(--t-mittel) var(--e-weich)}
 .ei-deko{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
 .ei-deko i{position:absolute;border-radius:50%;filter:blur(64px);opacity:.42}
 .ei-deko i:nth-child(1){width:340px;height:340px;background:#7b5cff;top:-140px;left:-120px;animation:schweben1 15s ease-in-out infinite alternate}
@@ -1171,16 +1227,16 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .ei-skip{font-size:13px;font-weight:650;color:var(--ink-3);padding:8px 2px;min-height:40px}
 @media (hover:hover){.ei-skip:hover{color:var(--ink)}}
 .ei-b{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;min-height:0}
-.ei-st{max-width:640px;margin:0 auto;padding:12px 16px 26px;animation:ei-rein .5s var(--feder) both}
+.ei-st{max-width:640px;margin:0 auto;padding:12px 16px 26px;animation:ei-rein var(--t-mittel) var(--e-aus) both}
 .ei-st.rueck{animation-name:ei-rein-rueck}
-.ei-st > *{animation:ei-hoch .6s var(--feder) both;animation-delay:calc(var(--i,0) * 60ms + 70ms)}
-.ei-opts > *{animation:ei-hoch .55s var(--feder) both;animation-delay:calc(var(--j,0) * 55ms + 180ms)}
+.ei-st > *{animation:ei-hoch .3s var(--e-aus) both;animation-delay:calc(min(var(--i,0), 6) * 35ms + 40ms)}
+.ei-opts > *{animation:ei-hoch .3s var(--e-aus) both;animation-delay:calc(min(var(--j,0), 6) * 30ms + 90ms)}
 .ei-st.still,.ei-st.still *,.ei-f.still > *{animation:none!important}
-@keyframes ei-rein{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
-@keyframes ei-rein-rueck{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
-@keyframes ei-hoch{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes ei-rein{from{opacity:0;transform:translateX(calc(var(--hub) * 2))}to{opacity:1;transform:none}}
+@keyframes ei-rein-rueck{from{opacity:0;transform:translateX(calc(var(--hub) * -2))}to{opacity:1;transform:none}}
+@keyframes ei-hoch{from{opacity:0;transform:translateY(var(--hub))}to{opacity:1;transform:none}}
 .ei-f{max-width:640px;width:100%;margin:0 auto;padding:10px 16px 14px;display:flex;flex-direction:column;gap:9px;flex:none}
-.ei-f > *{animation:ei-hoch .5s var(--feder) both .25s}
+.ei-f > *{animation:ei-hoch .3s var(--e-aus) both .12s}
 .ei-sub{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--anod);margin:4px 0 6px}
 .ei-q{font-family:var(--f-head);font-size:28px;font-weight:800;letter-spacing:-.035em;line-height:1.12;margin:0 0 8px;outline:none}
 .ei-qs{font-size:14.5px;color:var(--ink-3);line-height:1.5;margin:0 0 18px}
@@ -1191,7 +1247,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .ei-opt{display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px;align-items:center;text-align:left;width:100%;
   padding:14px;border-radius:18px;border:1px solid var(--hair);background:var(--surface);position:relative;overflow:hidden;
   box-shadow:var(--shadow)}
-.ei-opt::after{content:"";position:absolute;inset:0;background:var(--ink);opacity:0;transition:opacity .3s ease}
+.ei-opt::after{content:"";position:absolute;inset:0;background:var(--ink);opacity:0;transition:opacity var(--t-mittel) var(--e-weich)}
 .ei-opt > *{position:relative;z-index:1}
 @media (hover:hover){.ei-opt:hover{border-color:var(--line)}}
 .ei-opt[aria-pressed="true"]{border-color:transparent;color:var(--ground)}
@@ -1199,13 +1255,13 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .ei-opt[aria-pressed="true"] .eo-t span{color:color-mix(in srgb,var(--ground) 72%,transparent)}
 .ei-opt[aria-pressed="true"] .eo-ic{background:var(--grad);color:#fff}
 .ei-opt[aria-pressed="true"] .eo-tag{background:color-mix(in srgb,var(--ground) 14%,transparent);color:var(--ground)}
-.ei-opt.gewaehlt{animation:wahl .5s var(--feder)!important}
-@keyframes wahl{35%{transform:scale(1.035)}100%{transform:none}}
+.ei-opt.gewaehlt{animation:wahl var(--t-mittel) var(--e-weich)!important}
+@keyframes wahl{40%{transform:scale(.985)}100%{transform:none}}
 .eo-ic{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:var(--anod-soft);color:var(--anod);
-  transition:background-color .3s,color .3s}
+  transition:background-color var(--t-mittel) var(--e-weich),color var(--t-mittel) var(--e-weich)}
 .eo-t{min-width:0}
 .eo-t b{display:block;font-size:16px;font-weight:750;letter-spacing:-.012em;line-height:1.3}
-.eo-t span{display:block;font-size:13px;color:var(--ink-3);line-height:1.42;margin-top:2px;transition:color .3s}
+.eo-t span{display:block;font-size:13px;color:var(--ink-3);line-height:1.42;margin-top:2px;transition:color var(--t-mittel) var(--e-weich)}
 .eo-tag{display:inline-block;font-style:normal;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;
   padding:2px 8px;border-radius:999px;background:var(--anod-soft);color:var(--anod);margin-top:7px}
 .ei-opt.klein{padding:11px 13px;grid-template-columns:40px minmax(0,1fr)}
@@ -1223,8 +1279,8 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .btn.gross{padding:15px 18px;font-size:16px;border-radius:16px;font-weight:750;min-height:54px}
 .btn.glanz{position:relative;overflow:hidden}
 .btn.glanz::after{content:"";position:absolute;top:0;bottom:0;width:38%;left:-60%;pointer-events:none;
-  background:linear-gradient(100deg,transparent,color-mix(in srgb,var(--ground) 22%,transparent),transparent);transform:skewX(-20deg);animation:glanz 3.4s ease-in-out infinite 1.2s}
-@keyframes glanz{0%,62%{left:-60%}100%{left:135%}}
+  background:linear-gradient(100deg,transparent,color-mix(in srgb,var(--ground) 22%,transparent),transparent);transform:skewX(-20deg);animation:glanz 2.6s var(--e-weich) 1s 2 both}
+@keyframes glanz{0%,55%{transform:skewX(-20deg) translateX(0)}100%{transform:skewX(-20deg) translateX(520%)}}
 
 /* Zeichnungen: Rad, Figur und Cockpit. Farben je Design -- die Teile muessen
    auf OLED-Schwarz und auf Hell lesbar sein. */
@@ -1323,19 +1379,19 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .rs .r-mass{fill:none;stroke:var(--gut);stroke-width:7;stroke-linecap:round}
 .rs .r-hilf{fill:none;stroke:var(--gut);stroke-width:4;stroke-dasharray:14 12;opacity:.7}
 .rs text{font-family:var(--f-sans);font-weight:800;font-size:50px;fill:var(--gut);paint-order:stroke;stroke:var(--surface);stroke-width:14px;stroke-linejoin:round}
-.rs .zeichne{animation:zeichnen 1.1s cubic-bezier(.6,.1,.3,1) both;animation-delay:calc(var(--v,0) * 90ms + 500ms)}
-.rs .blende{animation:ei-einblenden .7s ease both;animation-delay:calc(var(--v,0) * 90ms + 150ms)}
+.rs .zeichne{animation:zeichnen .8s var(--e-weich) both;animation-delay:calc(var(--v,0) * 60ms + 250ms)}
+.rs .blende{animation:ei-einblenden .45s var(--e-weich) both;animation-delay:calc(var(--v,0) * 60ms + 100ms)}
 @keyframes zeichnen{from{stroke-dasharray:1 1;stroke-dashoffset:1}to{stroke-dasharray:1 1;stroke-dashoffset:0}}
 @keyframes ei-einblenden{from{opacity:0}}
 .rs .dreh{transform-box:fill-box;transform-origin:center;animation:dreh 1.4s linear infinite}
 .rs.faehrt .r-boden{animation:boden .9s linear infinite}
-.rs.faehrt .r-ganz{animation:reinrollen 1.3s cubic-bezier(.2,.8,.2,1) both,wippen 2.8s ease-in-out 1.4s infinite}
+.rs.faehrt .r-ganz{animation:reinrollen .8s var(--e-aus) both,wippen 2.8s ease-in-out .9s infinite}
 .rs .fahrt line{stroke:var(--anod);stroke-width:9;stroke-linecap:round;opacity:0;animation:fahrt 1.5s linear infinite}
 .rs .fahrt line:nth-child(2){animation-delay:.5s}
 .rs .fahrt line:nth-child(3){animation-delay:1s}
-@keyframes reinrollen{from{transform:translateX(-900px);opacity:0}to{transform:none;opacity:1}}
+@keyframes reinrollen{from{transform:translateX(-160px);opacity:0}to{transform:none;opacity:1}}
 @keyframes boden{to{stroke-dashoffset:-200}}
-@keyframes wippen{50%{transform:translateY(-8px)}}
+@keyframes wippen{50%{transform:translateY(-3px)}}
 @keyframes fahrt{0%{transform:translateX(160px);opacity:0}25%{opacity:.7}100%{transform:translateX(-340px);opacity:0}}
 
 /* Regler fuer Koerpermasse und Budget */
@@ -1418,9 +1474,9 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .ei-gr{display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:26px}
 .ei-gr b{width:96px;height:96px;border-radius:30px;display:grid;place-items:center;font-family:var(--f-head);font-size:40px;
   font-weight:800;letter-spacing:-.04em;color:#fff;background:var(--grad);box-shadow:0 18px 44px -14px rgba(224,80,138,.55)}
-.ei-gr b.plopp{animation:plopp-gross .5s var(--feder)}
+.ei-gr b.plopp{animation:plopp-gross .3s var(--e-aus)}
 .ei-gr span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:750;text-align:center;line-height:1.3}
-@keyframes plopp-gross{0%{transform:scale(.62);opacity:.35}60%{transform:scale(1.1)}100%{transform:none;opacity:1}}
+@keyframes plopp-gross{0%{transform:scale(.94);opacity:0}100%{transform:none;opacity:1}}
 
 /* Cockpit von vorn: Schultern, Arme, Lenker -- die Breite live */
 .ei-cockpit{border-radius:22px;border:1px solid var(--hair);padding:12px 8px 12px;margin:0 0 14px;
@@ -1483,9 +1539,9 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .fit-ring{position:relative;width:98px;height:98px;flex:none}
 .fit-ring svg{width:98px;height:98px;display:block}
 .fit-ring .hg{fill:none;stroke:var(--sunk);stroke-width:8}
-.fit-ring .vg{fill:none;stroke-width:8;stroke-linecap:round;animation:zeichnen 1.3s var(--feder) both .2s}
+.fit-ring .vg{fill:none;stroke-width:8;stroke-linecap:round;animation:zeichnen .8s var(--e-aus) both .15s}
 .fit-ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-head);font-size:34px;font-weight:800;
-  letter-spacing:-.04em;animation:plopp-gross .7s var(--feder) both .45s}
+  letter-spacing:-.04em;animation:plopp-gross .4s var(--e-aus) both .25s}
 .fit-held-t{display:flex;flex-direction:column;gap:3px;min-width:0}
 .fit-held-t > b{font-family:var(--f-head);font-size:22px;font-weight:800;letter-spacing:-.025em;line-height:1.15}
 .fit-held-t > span{font-size:12.5px;color:var(--ink-2);line-height:1.4}
@@ -1495,7 +1551,7 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .fit-rad-q{font-size:11.5px;color:var(--ink-3);text-align:center;margin:0 10px 8px;line-height:1.4}
 .fit-kacheln{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .fk{background:var(--surface);border:1px solid var(--hair);border-radius:18px;padding:12px 13px;display:flex;flex-direction:column;gap:2px;min-width:0;
-  animation:ei-hoch .55s var(--feder) both;animation-delay:calc(var(--i,0) * 65ms + 280ms)}
+  animation:ei-hoch .3s var(--e-aus) both;animation-delay:calc(min(var(--i,0), 6) * 35ms + 150ms)}
 .fk-k{display:flex;align-items:center;gap:7px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:750}
 .fk-k svg{color:var(--anod);flex:none}
 .fk > b{font-family:var(--f-head);font-size:23px;font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
@@ -1512,11 +1568,11 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 /* Fertig */
 .ei-fertig{text-align:center;padding-top:34px}
 .ei-haken{width:112px;height:112px;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;background:var(--grad);
-  box-shadow:0 22px 60px -16px rgba(224,80,138,.55);animation:plopp-gross .7s var(--feder) both}
-.ei-haken path{animation:zeichnen .6s ease both .45s}
+  box-shadow:0 22px 60px -16px rgba(224,80,138,.55);animation:plopp-gross .4s var(--e-aus) both}
+.ei-haken path{animation:zeichnen .45s var(--e-weich) both .25s}
 .ei-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:4px 0 16px}
 .ei-chips span{padding:7px 13px;border-radius:999px;background:var(--surface);border:1px solid var(--hair);font-size:13px;font-weight:650;
-  animation:ei-hoch .5s var(--feder) both;animation-delay:calc(var(--i,0) * 70ms + 450ms)}
+  animation:ei-hoch .3s var(--e-aus) both;animation-delay:calc(min(var(--i,0), 6) * 35ms + 250ms)}
 .ei-laden{text-align:center;padding-top:70px}
 .ei-kurbel{width:120px;height:120px;margin:0 auto 22px}
 .ei-kurbel svg{width:120px;height:120px;display:block;overflow:visible}
@@ -1529,26 +1585,26 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .konfetti{position:fixed;inset:0;pointer-events:none;z-index:95;overflow:hidden}
 
 /* Rundgang: Scheinwerfer auf echte Bedienelemente, Karte daneben */
-.tour{position:fixed;inset:0;z-index:90;animation:ei-einblenden .3s ease both}
-.tour.aus{opacity:0;transition:opacity .3s}
+.tour{position:fixed;inset:0;z-index:90;animation:ei-einblenden var(--t-mittel) var(--e-weich) both}
+.tour.aus{opacity:0;transition:opacity var(--t-kurz) var(--e-ein)}
 .tour-licht,.tour-ring{position:fixed;pointer-events:none;border-radius:18px;
-  transition:left .45s cubic-bezier(.3,.9,.3,1),top .45s cubic-bezier(.3,.9,.3,1),width .45s cubic-bezier(.3,.9,.3,1),height .45s cubic-bezier(.3,.9,.3,1),border-radius .45s,opacity .3s}
+  transition:left .32s var(--e-weich),top .32s var(--e-weich),width .32s var(--e-weich),height .32s var(--e-weich),border-radius .32s var(--e-weich),opacity var(--t-kurz) var(--e-weich)}
 .tour-licht{box-shadow:0 0 0 300vmax rgba(4,3,12,.76)}
 .tour-licht.leer{left:50%!important;top:45%!important;width:0!important;height:0!important}
 .tour-ring{border:2px solid var(--anod);animation:tourPuls 1.7s ease-out infinite}
 .tour-ring.leer{opacity:0}
 @keyframes tourPuls{0%{box-shadow:0 0 0 0 rgba(123,92,255,.55)}100%{box-shadow:0 0 0 16px rgba(123,92,255,0)}}
 .tour-karte{position:fixed;left:16px;top:40%;background:var(--surface);border:1px solid var(--hair);border-radius:22px;padding:16px 16px 14px;
-  box-shadow:0 26px 70px rgba(0,0,0,.55);opacity:0;transform:translateY(12px) scale(.97);
-  transition:opacity .28s ease,transform .38s cubic-bezier(.2,.9,.3,1.25)}
+  box-shadow:0 26px 70px rgba(0,0,0,.55);opacity:0;transform:translateY(var(--hub)) scale(var(--zoom));
+  transition:opacity var(--t-mittel) var(--e-weich),transform var(--t-mittel) var(--e-aus)}
 .tour-karte.rein{opacity:1;transform:none}
 .tour-karte.mitte{padding:18px 18px 16px}
 .tk-bild{margin:-4px -6px 8px;height:118px}
 .tk-bild svg{width:100%;height:100%;display:block}
 .tk-kopf{display:flex;align-items:center;gap:12px}
 .tk-ic{width:42px;height:42px;flex:none;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#ff7a45,#7b5cff);
-  box-shadow:0 8px 22px rgba(110,80,255,.45);animation:tourPop .5s cubic-bezier(.2,.9,.3,1.5) both}
-@keyframes tourPop{from{transform:scale(.4) rotate(-12deg);opacity:0}}
+  box-shadow:0 8px 22px rgba(110,80,255,.45);animation:tourPop var(--t-mittel) var(--e-aus) both}
+@keyframes tourPop{from{transform:scale(.9);opacity:0}}
 .tk-schritt{display:block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--anod-2);font-weight:800}
 .tour-karte h3{font-family:var(--f-head);font-size:20px;font-weight:800;letter-spacing:-.02em;margin:1px 0 0;line-height:1.15}
 .tour-karte p{font-size:14.5px;line-height:1.5;color:var(--ink-2);margin:10px 0 12px}
@@ -1556,7 +1612,7 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .tk-fuss .tk-skip{margin-right:auto}
 .tour-karte .btn:focus-visible,.tk-skip:focus-visible{outline:2px solid var(--anod);outline-offset:-4px}
 .tk-punkte{display:flex;gap:5px}
-.tk-punkte i{width:6px;height:6px;border-radius:999px;background:var(--line);transition:width .3s,background .3s}
+.tk-punkte i{width:6px;height:6px;border-radius:999px;background:var(--line);transition:width var(--t-mittel) var(--e-weich),background-color var(--t-mittel) var(--e-weich)}
 .tk-punkte i.war{background:var(--anod-2);opacity:.5}
 .tk-punkte i.an{width:18px;background:var(--anod)}
 .tk-skip{background:none;border:none;color:var(--ink-3);font-weight:700;font-size:13px;padding:8px 6px;cursor:pointer}
@@ -1571,7 +1627,7 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .hl-zeile span span{display:block;font-size:12px;margin-top:1px}
 .hl-ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--sunk);color:var(--anod)}
 .konfetti i{position:absolute;left:50%;top:38%;width:8px;height:14px;border-radius:2px;opacity:0;
-  animation:konfetti var(--d,2s) cubic-bezier(.16,.7,.36,1) forwards;animation-delay:var(--w,0s)}
+  animation:konfetti var(--d,1.4s) cubic-bezier(.16,.7,.36,1) forwards;animation-delay:var(--w,0s)}
 @keyframes konfetti{0%{transform:translate(0,0) rotate(0) scale(.5);opacity:1}
   28%{transform:translate(calc(var(--x) * .55),var(--y)) rotate(calc(var(--r) * .3)) scale(1);opacity:1}
   100%{transform:translate(var(--x),70vh) rotate(var(--r));opacity:0}}
@@ -1608,17 +1664,16 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
    Puls an der Wertung, ein Schimmer auf dem Assistenten */
 body.einflug .leit,body.einflug .grp,body.einflug .mk,
 body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
-  animation:ei-hoch .55s var(--feder) both;animation-delay:calc(var(--n,0) * 55ms)}
-.slot.frisch{animation:aufleuchten 1.3s ease}
+  animation:ei-hoch var(--t-mittel) var(--e-aus) both;animation-delay:calc(min(var(--n,0), 5) * 30ms)}
+.slot.frisch{animation:aufleuchten 1s var(--e-weich)}
 @keyframes aufleuchten{0%{background:var(--anod-soft);box-shadow:inset 0 0 0 2px var(--anod)}100%{box-shadow:inset 0 0 0 2px transparent}}
-.ring-wrap.puls svg{animation:puls .6s var(--feder)}
-@keyframes puls{40%{transform:scale(1.13)}100%{transform:none}}
-.sheet.frisch .opt:nth-child(-n+10),.sheet.frisch .dis,.sheet.frisch .erk,.sheet.frisch .fk{animation:ei-hoch .45s var(--feder) both}
-.sheet.frisch .opt:nth-child(2),.sheet.frisch .dis:nth-child(3){animation-delay:.04s}
-.sheet.frisch .opt:nth-child(3),.sheet.frisch .dis:nth-child(4){animation-delay:.08s}
-.sheet.frisch .opt:nth-child(4),.sheet.frisch .dis:nth-child(5){animation-delay:.12s}
-.sheet.frisch .opt:nth-child(5),.sheet.frisch .dis:nth-child(6){animation-delay:.16s}
-.sheet.frisch .opt:nth-child(n+6),.sheet.frisch .dis:nth-child(n+7){animation-delay:.2s}
+.ring-wrap.puls svg{animation:puls .36s var(--e-weich)}
+@keyframes puls{40%{transform:scale(1.04)}100%{transform:none}}
+.sheet.frisch .opt:nth-child(-n+10),.sheet.frisch .dis,.sheet.frisch .erk,.sheet.frisch .fk{animation:ei-hoch var(--t-mittel) var(--e-aus) both}
+.sheet.frisch .opt:nth-child(2),.sheet.frisch .dis:nth-child(3){animation-delay:.025s}
+.sheet.frisch .opt:nth-child(3),.sheet.frisch .dis:nth-child(4){animation-delay:.05s}
+.sheet.frisch .opt:nth-child(4),.sheet.frisch .dis:nth-child(5){animation-delay:.075s}
+.sheet.frisch .opt:nth-child(n+5),.sheet.frisch .dis:nth-child(n+6){animation-delay:.1s}
 @media (min-width:700px){.ei-q{font-size:32px}.ei-h1{font-size:48px}.fit-kacheln{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:360px){.ei-q{font-size:24px}.ei-h1{font-size:34px}.fk > b{font-size:20px}}
 
@@ -1788,8 +1843,8 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-fuss div b{font-size:15px;color:var(--l-ink2);font-weight:650}
 .ls-fuss div button{font-size:17px;color:var(--l-ink);padding:2px 0}
 /* Einblenden beim Scrollen */
-.ls-rein.zu{opacity:0;transform:translateY(28px)}
-.ls-rein.da{opacity:1;transform:none;transition:opacity .7s ease,transform .8s var(--feder)}
+.ls-rein.zu{opacity:0;transform:translateY(calc(var(--hub) * 2))}
+.ls-rein.da{opacity:1;transform:none;transition:opacity .45s var(--e-weich),transform .5s var(--e-aus)}
 @media (min-width:700px){.ls-hero h1{font-size:64px}.ls-titel h2,.ls-dunkel > h2,.ls-privat h2{font-size:48px}.ls-karte h3{font-size:36px}.ls-karte{padding:40px 40px 0}}
 @media (prefers-reduced-motion:reduce){.ls-band i,.ls-lauf > div,.ls-orb{animation:none}}
 </style>
@@ -1868,14 +1923,14 @@ a:active,label:active,[role="button"]:active{opacity:.6}
 .mit-ad b{color:var(--warn)}
 /* Info-Fenster: Glas, dezentes Leuchten, liegt ueber allem ausser Rundgang */
 .adp-scrim{position:fixed;inset:0;z-index:88;display:grid;place-items:end center;background:rgba(4,4,12,.42);
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:einblenden .2s ease;touch-action:none;overscroll-behavior:contain;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:einblenden var(--t-mittel) var(--e-weich);touch-action:none;overscroll-behavior:contain;
   padding:12px max(12px, var(--sa-r)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px, var(--sa-l))}
 @media (min-width:640px){.adp-scrim{place-items:center}}
 .adp{position:relative;width:100%;max-width:440px;max-height:calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
   overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:16px 16px 14px;border-radius:26px;outline:none;
   background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:saturate(180%) blur(28px);backdrop-filter:saturate(180%) blur(28px);
   border:1px solid color-mix(in srgb,var(--anod) 32%,var(--hair));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 0 46px -12px color-mix(in srgb,var(--anod) 70%,transparent),var(--shadow-hoch);animation:plopp .36s var(--feder)}
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 0 46px -12px color-mix(in srgb,var(--anod) 70%,transparent),var(--shadow-hoch);animation:plopp var(--t-mittel) var(--e-aus)}
 .adp-kopf{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
 .adp-i{width:36px;height:36px;flex:none;border-radius:12px;display:grid;place-items:center;color:#fff;font:800 18px/1 var(--f-head);
   background:var(--grad);box-shadow:0 6px 20px -6px rgba(224,80,138,.75)}
@@ -1921,7 +1976,7 @@ a:active,label:active,[role="button"]:active{opacity:.6}
   color:var(--anod);background:var(--anod-soft);box-shadow:0 0 10px -2px color-mix(in srgb,var(--anod) 65%,transparent)}
 .fx-i[aria-expanded="true"] span{background:var(--anod);color:var(--on-anod)}
 .fx-tipp{margin:0;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.45;color:var(--ink);
-  background:var(--anod-soft);border:1px solid color-mix(in srgb,var(--anod) 30%,transparent);box-shadow:0 0 24px -12px var(--anod);animation:plopp .3s var(--feder)}
+  background:var(--anod-soft);border:1px solid color-mix(in srgb,var(--anod) 30%,transparent);box-shadow:0 0 24px -12px var(--anod);animation:plopp var(--t-mittel) var(--e-aus)}
 .fx-sag{background:var(--surface);border-radius:16px;padding:12px}
 .fx-sag-kopf{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
 .fx-status{padding:3px 10px;border-radius:999px;font-size:12px;letter-spacing:0;text-transform:none}
@@ -2009,7 +2064,8 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .su-mehr{border-radius:14px;background:var(--surface-2);padding:0 14px;margin:10px 0 0}
 .su-mehr > summary{min-height:46px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:750;cursor:pointer;list-style:none}
 .su-mehr > summary::-webkit-details-marker{display:none}
-.su-mehr > summary::after{content:"";margin-left:auto;flex:none;width:8px;height:8px;border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.su-mehr > summary::after{content:"";margin-left:auto;flex:none;width:8px;height:8px;border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);transform:rotate(45deg) translateY(-2px);transition:transform var(--t-mittel) var(--e-weich)}
+details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .su-mehr[open] > summary::after{transform:rotate(225deg)}
 .su-mehr > :not(summary){margin-bottom:12px}
 .su-mehr p{font-size:13.5px;line-height:1.5;color:var(--ink-2);margin:0 0 12px}
@@ -8993,13 +9049,13 @@ function konfetti(){
   box.className = "konfetti"; box.setAttribute("aria-hidden", "true");
   const farben = ["#ff7a45", "#e0508a", "#7b5cff", "#3ddc84", "#ffb938", "#ff5c72", "#c4b8ff"];
   let h = "";
-  for(let i = 0; i < 80; i++){
-    const x = (Math.random() * 2 - 1) * 58, y = -(18 + Math.random() * 30), r = (Math.random() * 2 - 1) * 900;
-    h += `<i style="--x:${x.toFixed(1)}vw;--y:${y.toFixed(1)}vh;--r:${r.toFixed(0)}deg;--d:${(1.7 + Math.random() * 1.3).toFixed(2)}s;--w:${(Math.random() * .18).toFixed(2)}s;background:${farben[i % farben.length]}${i % 3 ? "" : ";border-radius:50%;width:9px;height:9px"}"></i>`;
+  for(let i = 0; i < 36; i++){
+    const x = (Math.random() * 2 - 1) * 40, y = -(12 + Math.random() * 18), r = (Math.random() * 2 - 1) * 360;
+    h += `<i style="--x:${x.toFixed(1)}vw;--y:${y.toFixed(1)}vh;--r:${r.toFixed(0)}deg;--d:${(1.1 + Math.random() * .5).toFixed(2)}s;--w:${(Math.random() * .12).toFixed(2)}s;background:${farben[i % farben.length]}${i % 3 ? "" : ";border-radius:50%;width:9px;height:9px"}"></i>`;
   }
   box.innerHTML = h;
   document.body.appendChild(box);
-  setTimeout(() => box.remove(), 3400);
+  setTimeout(() => box.remove(), 2000);
 }
 
 /* Das Fit-Blatt: Ergebnis, was am Aufbau zu dir passt, und ein Knopf, der
@@ -14486,8 +14542,16 @@ function setzeSprache(s, nachher){
 function einflug(){
   if(bewegungAus()) return;
   document.body.classList.add("einflug");
-  clearTimeout(einflug.z); einflug.z = setTimeout(() => document.body.classList.remove("einflug"), 1400);
+  clearTimeout(einflug.z); einflug.z = setTimeout(() => document.body.classList.remove("einflug"), 600);
 }
+/* Aufklappen (details): Inhalt blendet einmal kurz ein, aber nur, wenn man
+   selbst tippt -- nicht bei jedem Neuzeichnen eines schon offenen Bereichs */
+document.addEventListener("click", e => {
+  const s = e.target.closest && e.target.closest("details > summary");
+  if(!s || bewegungAus()) return;
+  const d = s.parentElement;
+  setTimeout(() => { if(d.open){ d.classList.add("auf"); setTimeout(() => d.classList.remove("auf"), 320); } }, 0);
+});
 /* Wertung hochzaehlen statt springen, mit einem Puls am Ring */
 function zaehle(el, ziel){
   const von = +el.dataset.w || 0;
@@ -14496,7 +14560,7 @@ function zaehle(el, ziel){
   if(von === ziel || bewegungAus()){ el.textContent = ziel; return; }
   const ring = el.closest(".ring-wrap");
   if(ring && Math.abs(ziel - von) >= 1){ ring.classList.remove("puls"); void ring.offsetWidth; ring.classList.add("puls"); }
-  const t0 = performance.now(), dauer = 650;
+  const t0 = performance.now(), dauer = 450;
   const schritt = t => { const p = Math.min(1, (t - t0) / dauer), e2 = 1 - Math.pow(1 - p, 3);
     el.textContent = Math.round(von + (ziel - von) * e2);
     if(p < 1) el.raf = requestAnimationFrame(schritt); };
@@ -15044,7 +15108,8 @@ function zeigeSheet(html){
     const neu = alt.querySelector(".sheet-b");
     if(neu && titel === (alt.querySelector(".sheet-h h3") || {}).textContent) neu.scrollTop = y;
   } else {
-    $("modal").innerHTML = `<div class="scrim" role="dialog" aria-modal="true"><div class="sheet frisch">${html}</div></div>`;
+    const dunkel = blattWeg(true);
+    $("modal").innerHTML = `<div class="scrim${dunkel ? " ohne-ein" : ""}" role="dialog" aria-modal="true"><div class="sheet frisch">${html}</div></div>`;
     const s = $("modal").querySelector(".sheet");
     setTimeout(() => { if(s) s.classList.remove("frisch"); }, 900);
   }
@@ -15060,7 +15125,107 @@ function zeigeSheet(html){
     if(f){ if(!tastaturNav) f.setAttribute("tabindex", "-1"); try{ f.focus({preventScroll:true}); }catch(e){ f.focus(); } }
   }
 }
-function schliesse(){ schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; profUmbenennen = null; profLoeschFrage = null; }
+/* Designwechsel (Liam 2026-10-08): Hintergrund, Karten, Schrift, Icons und
+   Raender gehen gleichzeitig in 300 ms ueber. Die Klasse design-wechsel gibt
+   allen Elementen nur fuer diese Zeit gezielte Farb-Uebergaenge; tippt man
+   schnell hin und her, laufen die Uebergaenge vom aktuellen Zwischenstand
+   zurueck und die Klasse bleibt, bis der letzte Wechsel fertig ist. Der
+   Schalter wird nur umgestellt, nicht neu gezeichnet. */
+/* Gemessen (Chromium, 4-fach gedrosselte CPU, 1.056 Elemente): Farbuebergaenge
+   an jedem Element schaffen 1 Bild in 400 ms, die View Transition 6 -- sie
+   blendet die ganze Ansicht als Ganzes ueber (iOS 18+, Chrome 111+). Tippt
+   man waehrend des Uebergangs erneut, wird nichts abgebrochen: Der laufende
+   Uebergang endet sauber, danach folgt einer zum zuletzt gewaehlten Design.
+   Aeltere Browser bekommen die gezielten Farbuebergaenge (design-wechsel). */
+let designZ = 0, designVT = null, designZiel = null, designSeg = null;
+/* Waehrend der View Transition trifft ein Tipp nur das Wurzelelement (Chromium
+   gemessen). Ein Tipp auf den Design-Schalter geht in die Warteschlange; jeder
+   andere beendet die Ueberblendung sofort und wird an das Element unter dem
+   Finger weitergereicht -- Eingaben gehen nie verloren. */
+let vtTipp = null, vtWeiter = null;
+document.addEventListener("pointerdown", e => {
+  vtTipp = designVT && e.isTrusted && e.target === document.documentElement ? {x:e.clientX, y:e.clientY} : null;
+}, true);
+document.addEventListener("pointerup", e => {
+  const p0 = vtTipp; vtTipp = null;
+  if(!p0 || !e.isTrusted || Math.hypot(e.clientX - p0.x, e.clientY - p0.y) > 12) return;
+  const r = designSeg;
+  if(r && p0.x >= r.left && p0.x <= r.right && p0.y >= r.top && p0.y <= r.bottom){
+    const hell = p0.x > r.left + r.width / 2;
+    vtWeiter = {t:performance.now(), el:document.querySelector(`.seg [data-design="${hell ? "hell" : "oled"}"]`)};
+    setzeDesign(hell); return;
+  }
+  const vt = designVT;
+  try{ vt.skipTransition(); }catch(f){}
+  vt.finished.catch(() => {}).then(() => requestAnimationFrame(() => {
+    const el = document.elementFromPoint(p0.x, p0.y);
+    if(!el || el === document.documentElement) return;
+    vtWeiter = {t:performance.now(), el:el};
+    if(el.matches("input, textarea, select")) el.focus();
+    el.dispatchEvent(new MouseEvent("click", {bubbles:true, cancelable:true, clientX:p0.x, clientY:p0.y, view:window}));
+  }));
+}, true);
+/* Den echten Klick zum selben Tipp schlucken -- er kaeme sonst ein zweites Mal an */
+document.addEventListener("click", e => {
+  if(!e.isTrusted) return;
+  const w = vtWeiter;
+  const doppelt = w && performance.now() - w.t < 700 && (e.target === document.documentElement || (w.el && (w.el === e.target || w.el.contains(e.target) || e.target.contains(w.el))));
+  if(doppelt || (designVT && e.target === document.documentElement)){ e.stopPropagation(); e.preventDefault(); }
+}, true);
+function setzeDesign(hell){
+  try{ localStorage.setItem("mtb.design", hell ? "hell" : "oled"); }catch(e){}
+  Array.prototype.forEach.call(document.querySelectorAll("[data-design]"), b => b.setAttribute("aria-pressed", String((b.dataset.design === "hell") === hell)));
+  Array.prototype.forEach.call(document.querySelectorAll(".seg[data-wahl]"), s => { s.dataset.wahl = hell ? "hell" : "oled"; });
+  designZiel = hell;
+  designAnwenden();
+}
+function designAnwenden(){
+  const root = document.documentElement, hell = designZiel;
+  if(hell === null || (root.dataset.theme === "light") === hell) return;
+  const setz = () => {
+    if(hell) root.dataset.theme = "light"; else delete root.dataset.theme;
+    const m = document.querySelector('meta[name="theme-color"]'); if(m) m.content = hell ? "#f2f2f7" : "#000000";
+  };
+  if(bewegungAus()){ setz(); return; }
+  if(document.startViewTransition){
+    if(designVT) return;
+    try{
+      const seg = document.querySelector(".seg");
+      designSeg = seg ? seg.getBoundingClientRect() : null;
+      designVT = document.startViewTransition(setz);
+      designVT.finished.catch(() => {}).then(() => { designVT = null; designAnwenden(); });
+      return;
+    }catch(e){ designVT = null; }
+  }
+  root.classList.add("design-wechsel");
+  clearTimeout(designZ);
+  designZ = setTimeout(() => root.classList.remove("design-wechsel"), 380);
+  setz();
+}
+/* Schliessen: Der Zustand ist sofort zu (alle Abfragen sehen ein leeres
+   #modal), nur ein inertes Abbild blendet 180 ms aus. Oeffnet direkt danach
+   ein neues Blatt, verschwindet das Abbild sofort und die Abdunklung bleibt
+   stehen, statt neu einzublenden -- nichts ueberlappt, nichts blockiert. */
+function blattWeg(sofort){
+  const w = $("modal-weg"); if(!w) return false;
+  const da = !!w.firstChild;
+  if(sofort) w.innerHTML = "";
+  return da;
+}
+function schliesse(){
+  const sc = $("modal").querySelector(".scrim");
+  if(sc && !bewegungAus()){
+    let w = $("modal-weg");
+    if(!w){ w = document.createElement("div"); w.id = "modal-weg"; w.setAttribute("aria-hidden", "true"); document.body.appendChild(w); }
+    w.innerHTML = "";
+    sc.classList.add("weg"); sc.removeAttribute("role"); sc.removeAttribute("aria-modal");
+    try{ sc.inert = true; }catch(e){}
+    w.appendChild(sc);
+    clearTimeout(schliesse.z); schliesse.z = setTimeout(() => { if(sc.parentNode) sc.remove(); }, 220);
+  }
+  schliesseNurZustand();
+}
+function schliesseNurZustand(){ schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; profUmbenennen = null; profLoeschFrage = null; }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen" data-ta="Schließen|Close">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 
@@ -15685,9 +15850,9 @@ function oeffneMenu(){
       ].concat(leitAus ? [['data-hilfe="leit"', IC.auge, tx("Aufgabenkarte wieder zeigen", "Show the task card again"), tx("Die Karte „Nächster Schritt“ über dem Score", "The “Next step” card above the score")]] : [])
         .map(([a, i, t, u]) => `<button class="hl-zeile" ${a}><span class="hl-ic">${ic(i, 18)}</span><span><b>${t}</b><span>${u}</span></span>${ic(IC.weiter, 16)}</button>`).join("")}</div>
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Design", "Appearance")}</h2><div class="rule"></div></div>
-      <div class="filt" style="margin:0 0 6px">
-        <button data-design="oled" aria-pressed="${document.documentElement.dataset.theme !== "light"}">${tx("OLED-Schwarz", "OLED black")}</button>
-        <button data-design="hell" aria-pressed="${document.documentElement.dataset.theme === "light"}">${tx("Hell", "Light")}</button></div>
+      <div class="seg" role="group" aria-label="${tx("Design", "Appearance")}" data-wahl="${document.documentElement.dataset.theme === "light" ? "hell" : "oled"}" style="margin:0 0 6px">
+        <button data-design="oled" aria-pressed="${document.documentElement.dataset.theme !== "light"}">${ic(`<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>`, 15)}${tx("OLED-Schwarz", "OLED black")}</button>
+        <button data-design="hell" aria-pressed="${document.documentElement.dataset.theme === "light"}">${ic(`<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>`, 15)}${tx("Hell", "Light")}</button></div>
       <div class="grp-h" style="margin-top:14px"><h2>App</h2><div class="rule"></div></div>
       <div class="app-stand">
         <button class="btn ghost sm" data-aktualisieren="1">${updateDa ? tx("Neue Version laden", "Load new version") : tx("Nach Update suchen", "Check for updates")}</button>
@@ -16077,7 +16242,13 @@ document.addEventListener("click", e => {
     /* nach dem, was man sieht: offen -> zu (1), zu -> ausdruecklich offen (0);
        0 schlaegt auch das automatische Einklappen am leeren eigenen Rad */
     zuGeklappt[n] = th.getAttribute("aria-expanded") === "true" ? 1 : 0;
-    sichern(); zeichne(); return;
+    sichern(); zeichne();
+    if(!bewegungAus()){
+      const g = Array.prototype.find.call(document.querySelectorAll("[data-thema]"), b => b.dataset.thema === n);
+      const grp = g && g.closest(".grp");
+      if(grp){ grp.classList.add(zuGeklappt[n] ? "zu-jetzt" : "auf"); setTimeout(() => grp.classList.remove("auf", "zu-jetzt"), 320); }
+    }
+    return;
   }
 
   const sl = T("[data-slot]");
@@ -16214,13 +16385,7 @@ document.addEventListener("click", e => {
   }
   if(T("[data-scorehilfe]")){ oeffneScoreHilfe(); return; }
   const dsg = T("[data-design]");
-  if(dsg){
-    const hell = dsg.dataset.design === "hell";
-    if(hell) document.documentElement.dataset.theme = "light"; else delete document.documentElement.dataset.theme;
-    try{ localStorage.setItem("mtb.design", hell ? "hell" : "oled"); }catch(e){}
-    const m = document.querySelector('meta[name="theme-color"]'); if(m) m.content = hell ? "#f3f2f8" : "#000000";
-    oeffneMenu(); return;
-  }
+  if(dsg){ setzeDesign(dsg.dataset.design === "hell"); return; }
   const tcf = T("[data-tcfoto]");
   if(tcf){ fotoZiel = {art:"topcap", slot:tcf.dataset.tcfoto}; const i = $("foto-in"); if(i) i.click(); return; }
   const tcw = T("[data-tcweg]");
@@ -16495,8 +16660,12 @@ function versionText(v){
 }
 function zeigeToast(txt, ms){
   const t = $("toast"); if(!t) return;
+  clearTimeout(zeigeToast.w); t.classList.remove("weg");
   t.textContent = txt; t.hidden = false;
-  clearTimeout(zeigeToast.z); zeigeToast.z = setTimeout(() => { t.hidden = true; }, ms || 3200);
+  clearTimeout(zeigeToast.z); zeigeToast.z = setTimeout(() => {
+    t.classList.add("weg");
+    zeigeToast.w = setTimeout(() => { t.hidden = true; t.classList.remove("weg"); }, 200);
+  }, ms || 3200);
 }
 /* Weggetippt heisst: fuer diese Version und diese Sitzung Ruhe. Beim naechsten
    Start oder bei einer noch neueren Version ploppt es wieder auf. */
