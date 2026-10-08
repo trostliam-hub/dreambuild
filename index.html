@@ -2427,6 +2427,7 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .fw-hero-l{margin:0 0 16px;padding:0;list-style:none;counter-reset:fwh;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
 .fw-hero-l li{counter-increment:fwh;display:flex;align-items:center;gap:8px;padding:10px;border-radius:14px;background:var(--surface-2);font-size:13px;font-weight:700;line-height:1.3}
 .fw-hero-l li::before{content:counter(fwh);flex:none;width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font:800 12px/1 var(--f-head);background:var(--anod);color:var(--on-anod)}
+@media (max-width:319px){.fw-hero-l{grid-template-columns:minmax(0,1fr)}}
 .fw-hero .btn.wide{min-height:52px;font-size:15px}
 .fw-hero-leg{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 12px;margin:12px 0 0;font-size:12px;font-weight:700;color:var(--ink-3)}
 .fw-hero-leg span{display:inline-flex;align-items:center;gap:5px}
