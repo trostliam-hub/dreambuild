@@ -2040,7 +2040,9 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .su-std-k{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px}
 .su-neu{display:flex;flex-direction:column;gap:6px;margin-top:12px}
 .su-neu textarea{width:100%;min-height:64px;resize:vertical;padding:10px 12px;border-radius:14px;border:1px solid var(--hair);background:var(--surface-2);color:var(--ink);font:inherit;font-size:16px;line-height:1.4}
-.su-neu-k{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.su-neu-k{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+/* Auf schmalen Handys rutscht "Eintrag speichern" in eine eigene Zeile statt ueber den Rand */
+.su-neu-k > .btn{margin-left:auto}
 .su-gef{display:flex;gap:4px}
 .su-gef button{width:44px;height:40px;border-radius:12px;background:var(--surface-2);font-size:18px;filter:grayscale(1);opacity:.6}
 .su-gef button[aria-pressed="true"]{filter:none;opacity:1;background:var(--anod-soft);box-shadow:inset 0 0 0 1.5px var(--anod)}
@@ -2211,6 +2213,8 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .fw-bild{margin:0 0 10px}
 .fw-bild-in{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:14px;align-items:center}
 .fw-bild-in .il-daempfer{grid-column:1 / -1;max-width:340px}
+/* Unter 340 px: Skizze ueber der Legende, sonst bleiben fuer die Legende nur rund 30 px */
+@media (max-width:340px){.fw-bild-in{grid-template-columns:minmax(0,1fr)}.fw-bild-in > :first-child{max-width:150px;justify-self:center}.fw-bild-in .il-daempfer{max-width:100%}}
 .fw-bild-in .il-daempfer + .fw-leg{grid-column:1 / -1}
 .fw-kl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .fw-profi-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:16px 4px 8px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
@@ -2237,6 +2241,9 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .fw-kw{display:flex;flex-direction:column;align-items:flex-end;gap:3px;text-align:right;max-width:42vw}
 .fw-kw b{font-family:var(--f-head);font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.1;overflow-wrap:anywhere}
 .fw-kw b i{font-style:normal;font-size:.62em;font-weight:700;color:var(--ink-3);margin-left:2px}
+/* Unter 340 px: Wert und Status in eine zweite Zeile unter den Namen, sonst bleibt fuer
+   Name und Fundort nur ein Wort pro Zeile */
+@media (max-width:340px){.fw-kk{grid-template-columns:auto minmax(0,1fr) auto}.fw-kk .fw-ki{grid-row:1 / span 2}.fw-kk .fw-kn{grid-column:2;grid-row:1}.fw-kk .fw-kw{grid-column:2;grid-row:2;flex-direction:row;flex-wrap:wrap;align-items:center;text-align:left;max-width:none;gap:6px}.fw-kk > svg{grid-column:3;grid-row:1 / span 2}}
 .fw-pill{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:999px;white-space:nowrap;background:var(--sunk);color:var(--ink-3)}
 .fw-pill.eigen,.fw-pill.gut{background:var(--gut-soft);color:var(--gut)}
 .fw-pill.hersteller{background:var(--anod-soft);color:var(--anod)}
@@ -2287,7 +2294,7 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .fw-ok.an{border:1.5px solid transparent;background:var(--gut-soft);color:var(--gut)}
 /* Grundeinstellung */
 .fw-grund-k{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.fw-grund-k .btn{min-height:44px;display:inline-flex;align-items:center;gap:6px}
+.fw-grund-k .btn{min-height:44px;display:inline-flex;align-items:center;gap:6px;white-space:normal;text-align:left}
 /* Assistenten im Blatt */
 .fw-wz{display:flex;flex-direction:column;gap:12px}
 .fw-wz > *{margin:0}
@@ -4868,7 +4875,7 @@ function sicherungWaehlen(){
   i.addEventListener("change", () => {
     const f = i.files && i.files[0]; i.remove();
     if(!f) return;
-    if(f.size > 40e6){ zeigeToast(tx("Die Datei ist größer als 40 MB und lässt sich nicht als Sicherung laden.", "The file is larger than 40 MB and can't be loaded as a backup."), 6000); return; }
+    if(f.size > 40e6){ zeigeToast(tx("Die Datei ist größer als 40 MB und lässt sich nicht als Sicherung laden. Nimm eine Sicherung ohne Fotos — die ist deutlich kleiner.", "The file is larger than 40 MB and can't be loaded as a backup. Use a backup without photos — it's much smaller."), 6000); return; }
     const r = new FileReader();
     r.onload = () => { const s = sicherungPruefen(String(r.result || "")); if(s.fehler){ zeigeToast(s.fehler, 7000); return; } sicherungNeu = s; zeigeSheet(sicherungVorschauHtml(s)); };
     r.onerror = () => zeigeToast(tx("Die Datei ließ sich nicht öffnen. Wähle sie noch einmal aus.", "The file couldn't be opened. Please choose it again."), 6000);
@@ -6305,7 +6312,7 @@ async function btEntsperren(pin, ausMenu){
 function btKachel(){
   if(linkVerwaltung) return "";
   const frei = btFrei();
-  return `<div class="grp-h" style="margin-top:14px"><h2>${tx("Betrieb", "Operator")}</h2><div class="rule"></div></div>
+  return `<div class="grp-h" style="margin-top:14px"><h2>${tx("Betrieb", "Operations")}</h2><div class="rule"></div></div>
     <div class="bt-kachel"><div class="bt-kopf"><span class="hl-ic">${ic(IC.schloss, 18)}</span>
       <span><b>${tx("Betreiber-PIN", "Operator PIN")}</b><span>${frei ? tx("Dieses Gerät ist freigeschaltet.", "This device is unlocked.")
         : tx("PIN eintragen — schaltet den Betreiber-Modus und Pro frei.", "Enter the PIN — unlocks operator mode and Pro.")}</span></span></div>
@@ -6851,8 +6858,8 @@ function startseiteHtml(){
           <div><b>${esc(fit.groesse)}</b><span>${tx("Rahmen", "Frame")}</span></div><div><b>${fit.lenker} mm</b><span>${tx("Lenker", "Bar")}</span></div>
           <div><b>${fit.kurbel} mm</b><span>${tx("Kurbel", "Cranks")}</span></div><div><b>${fit.hub} mm</b><span>${tx("Stützen-Hub", "Dropper travel")}</span></div></div>`)) : ""}
       ${karte("var(--anod)", tx("Gebrauchtrad", "Used bikes"), tx("Trag ein, was verbaut ist, und den Preis aus der Anzeige — die App rechnet den Gebrauchtwert und sagt, ob das Angebot fair ist.",
-          "Enter what's fitted and the price from the listing — the app works out the used value and tells you whether the offer is fair."),
-        handy(`<div class="ls-urteil"><b>${tx("Fairer Preis", "Fair price")}</b><span>${tx("Beispiel: Angebot 2.400 € bei rund 2.650 € Gebrauchtwert", "Example: offer €2,400 against a used value of about €2,650")}</span>
+          "Enter what's fitted and the price from the listing — the app works out the used value and tells you whether the asking price is fair."),
+        handy(`<div class="ls-urteil"><b>${tx("Fairer Preis", "Fair price")}</b><span>${tx("Beispiel: Angebot 2.400 € bei rund 2.650 € Gebrauchtwert", "Example: asking price €2,400 against a used value of about €2,650")}</span>
           <div class="ls-skala"><i></i><u></u></div></div>`))}
       <section class="ls-dunkel">
         <div class="ls-orbw ls-rein" aria-hidden="true"><div class="ls-orb"><i></i><i></i></div></div>
@@ -7475,11 +7482,14 @@ function varLeiste(slotKey, t){
   const dims = t.v.map((d, i) => ({d:d, i:i})).filter(x => x.d.o.length > 1);
   if(!dims.length) return "";
   const falsch = dims.some(x => optionPasst(slotKey, x.d, x.d.o[t.wahl[x.i]], build) === false);
-  if(!varOffen[slotKey] && !falsch)
-    return `<button class="var-auf" data-varauf="${slotKey}" aria-expanded="false">
-      <span class="va-k">${dims.length === 1 ? esc(dimName(dims[0].d.k)) : tx("Ausführung", "Version")}</span>
+  if(!varOffen[slotKey] && !falsch){
+    /* Screenreader: "Freilauf aendern (jetzt Micro Spline)" statt der drei Teile hintereinander */
+    const vaName = dims.length === 1 ? dimName(dims[0].d.k) : tx("Ausführung", "Version");
+    return `<button class="var-auf" data-varauf="${slotKey}" aria-expanded="false" aria-label="${esc(tx(`${vaName} ändern (jetzt ${ausfWerte(t)})`, `Change ${imSatz(vaName)} (currently ${ausfWerte(t)})`))}">
+      <span class="va-k">${esc(vaName)}</span>
       <span class="va-w">${esc(ausfWerte(t))}</span>
       <span class="va-a">${tx("ändern", "change")}</span></button>`;
+  }
   const zeilen = t.v.map((d, i) => {
     if(d.o.length < 2) return "";
     const gew = d.o[t.wahl[i]];
@@ -7737,7 +7747,7 @@ function leitSchritte(r){
 const LEIT_FERTIG = {
   traum:{h:["Dein Rad ist fertig geplant", "Your bike is fully planned"], t:["Alle Teile gewählt, alles passt zusammen. Jetzt nur noch bestellen — oder weiter feilen.", "All parts chosen, everything fits together. Now just order — or keep fine-tuning."]},
   real:{h:["Dein Rad ist geprüft", "Your bike is checked"], t:["Alles eingetragen, und alles passt zusammen. Schau dir an, welches Upgrade sich wirklich lohnt.", "Everything entered and it all fits together. Have a look at which upgrade is really worth it."]},
-  markt:{h:["Die Rechnung steht", "The numbers are in"], t:["Teile und Preis sind drin. Das Urteil zeigt, ob das Angebot fair ist.", "Parts and price are in. The verdict shows whether the offer is fair."]}
+  markt:{h:["Die Rechnung steht", "The numbers are in"], t:["Teile und Preis sind drin. Das Urteil zeigt, ob das Angebot fair ist.", "Parts and price are in. The verdict shows whether the asking price is fair."]}
 };
 for(const k in LEIT_FERTIG) zweisprachig(LEIT_FERTIG[k], ["h", "t"]);
 /* Die eine Aufgabenkarte (Doppelungen-Pruefung 2026-10-06, ersetzt Anleitung
@@ -9118,7 +9128,7 @@ const EI_SCHRITT = {
     <div class="ei-opts" style="--i:3">${[
       ["traum", IC.traum, tx("Neues Rad zusammenstellen", "Build a new bike"), tx("Aus Einzelteilen, genau für dich — der Assistent macht den ersten Entwurf.", "From individual parts, made for you — the assistant does the first draft.")],
       ["real", IC.real, tx("Mein Rad eintragen", "Enter my bike"), tx("Was ist verbaut, was passt nicht, welches Upgrade lohnt sich?", "What's fitted, what doesn't fit, which upgrade is worth it?")],
-      ["markt", IC.markt, tx("Gebrauchtrad prüfen", "Check a used bike"), tx("Angebot gefunden? Die App sagt, ob der Preis fair ist.", "Found an offer? The app tells you whether the price is fair.")]
+      ["markt", IC.markt, tx("Gebrauchtrad prüfen", "Check a used bike"), tx("Angebot gefunden? Die App sagt, ob der Preis fair ist.", "Found a bike for sale? The app tells you whether the price is fair.")]
     ].map(([w, i, t, s], j) => eiOpt("ziel", w, i, t, s, ei.ziel === w, "", j)).join("")}</div>`,
     f: ei.ziel ? eiWeiterBtn() : ""}),
   erfahrung: () => ({h:`
@@ -9168,7 +9178,7 @@ const EI_SCHRITT = {
         "Stretch your arms out level to the sides, fingertip to fingertip. Usually about the same as your height."), !(koerper.spann > 0) && hatG)}</div>
       <div class="ei-regler" style="--i:7"><div class="er-kopf"><label>${tx("Handschuhgröße", "Glove size")}</label><span class="er-h0">${tx("für die Griffdicke", "for grip thickness")}</span></div>
         <div class="er-chips" role="group" aria-label="${tx("Handschuhgröße", "Glove size")}">${["S", "M", "L", "XL"].map(g => `<button data-eiwahl="hand|${g}" aria-pressed="${koerper.hand === g}">${g}</button>`).join("")}
-          <button data-eiwahl="hand|" aria-pressed="${!koerper.hand}">${tx("Weiß nicht", "Don't know")}</button></div></div>`,
+          <button data-eiwahl="hand|" aria-pressed="${!koerper.hand}">${tx("Weiß ich nicht", "Not sure")}</button></div></div>`,
       f:eiWeiterBtn(hatG ? tx("Ergebnis ansehen", "See my results") : "")};
   },
   fit: () => ({h:`
@@ -9710,7 +9720,7 @@ function gFehlt(){
   if(modus === "real") return {h:tx("Alles eingetragen und es passt. Schau in die Upgrades, was sich lohnt — und stell die Federung ein.",
     "Everything's entered and it fits. Check the upgrades for what's worth it — and set up your suspension."), ak:["view:upgrades"]};
   return {h:tx("Alles eingetragen. Gib noch Alter, Zustand und Preis aus der Anzeige an — dann siehst du, ob das Angebot fair ist.",
-    "Everything's entered. Now add age, condition and the price from the listing — then you'll see whether the offer is fair."), ak:["springe:.mk"]};
+    "Everything's entered. Now add age, condition and the price from the listing — then you'll see whether the asking price is fair."), ak:["springe:.mk"]};
 }
 function gTeuerste(n){
   return SLOTS.filter(s => build[s.k] && !entfaellt(build, s.k)).map(s => ({s:s, t:findeTeil(s.k, build[s.k])})).filter(x => x.t)
@@ -9796,11 +9806,11 @@ function gMindest(q){
   const z = liste.map(d => `<li><b>${esc(dName(d.id))}</b>: ${tx("ab etwa", "from about")} ${eur(MINDEST[d.id])}</li>`).join("");
   return {h:tx("So viel kostet ein stimmiges Rad mindestens, neu aus dem Katalog zusammengestellt:", "This is the least a coherent bike costs, built new from the catalogue:") + `<ul>${z}</ul>`
     + tx("Darunter wird es ein Rad mit Kompromissen. Gebraucht bekommst du oft deutlich mehr fürs Geld — der Modus <b>Gebraucht</b> prüft den Preis.",
-      "Below that it becomes a bike with compromises. Used, you often get much more for your money — the <b>Used</b> mode checks the price."), ak:[modus === "markt" ? "modus:traum" : "modus:markt"]};
+      "Below that, you're looking at a bike with compromises. Used, you often get much more for your money — the <b>Used</b> mode checks the price."), ak:[modus === "markt" ? "modus:traum" : "modus:markt"]};
 }
 function gUeber(){
   return {h:tx(`Ich bin der eingebaute Guide von CrankScore — keine KI aus dem Internet, sondern eine Wissenssammlung direkt in der App, die mit deinem Aufbau rechnet. Ich erkenne, was du wissen willst, und antworte aus ${GUIDE.length} Themen zur App und zum Rad. Zu deinem Rad rechne ich live: was zur 100 fehlt und welcher Tausch am meisten bringt, welche Teile am besten passen, wofür dein Rad taugt, wo du Geld oder Gewicht sparst. Und ich helfe in der Werkstatt: Bremse schleift oder quietscht, entlüften, Beläge, Schaltung einstellen, Kette wechseln, Inspektion, Platten — Schritt für Schritt und passend zu den Teilen an deinem Rad. Teile finde ich im Katalog und sage dir, ob sie passen. Alles bleibt auf deinem Handy, auch offline.`,
-    `I'm CrankScore's built-in guide — not an AI from the internet, but a knowledge base right inside the app that calculates with your build. I work out what you want to know and answer from ${GUIDE.length} topics about the app and the bike. For your bike I calculate live: what's missing to get 100 and which swap gains the most, which parts fit best, what your bike is good for, where you save money or weight. And I help in the workshop: rubbing or squealing brakes, bleeding, pads, adjusting gears, changing the chain, inspection, flats — step by step and matched to the parts on your bike. I find parts in the catalogue and tell you whether they fit. Everything stays on your phone, even offline.`)};
+    `I'm CrankScore's built-in guide — not an AI from the internet, but a knowledge base right inside the app that calculates with your build. I work out what you want to know and answer from ${GUIDE.length} topics about the app and the bike. For your bike I calculate live: what's missing to get 100 and which swap gains the most, which parts fit best, what your bike is good for, where you save money or weight. And I help with repairs: rubbing or squealing brakes, bleeding, pads, adjusting gears, changing the chain, inspection, flats — step by step and matched to the parts on your bike. I find parts in the catalogue and tell you whether they fit. Everything stays on your phone, even offline.`)};
 }
 const gBegriff = i => () => { const b = (sprache === "en" ? BEGRIFFE_EN : BEGRIFFE)[i]; return {h:`<b>${esc(b[0])}</b> — ${esc(b[1])}`}; };
 
@@ -10317,7 +10327,7 @@ function gWBelaege(q){
       tx("Kolben mit einem <b>Kunststoffhebel</b> ganz zurückdrücken — neue Beläge sind dicker. Bei Bedarf vorher den Hebel-Deckel einen Spalt öffnen, falls Flüssigkeit steigt.", "Push the pistons fully back with a <b>plastic tyre lever</b> — new pads are thicker. If fluid rises, open the lever cap slightly first."),
       tx("Neue Beläge mit Feder einsetzen, Splint sichern. Belagfläche dabei <b>nicht anfassen</b> — Hautfett reicht für Quietschen.", "Fit the new pads with the spring, secure the pin. <b>Don't touch</b> the pad surface — skin oil is enough to cause squeal."),
       tx("Rad einbauen, Hebel mehrmals ziehen, bis der Druckpunkt wieder fest ist.", "Refit the wheel, pull the lever several times until the bite point is firm again."),
-      tx("<b>Einbremsen:</b> 20–30 kräftige Bremsungen aus etwa 20 km/h bis fast zum Stillstand.", "<b>Bed in:</b> 20–30 firm stops from about 20 km/h to almost standstill.")])
+      tx("<b>Einbremsen:</b> 20–30 kräftige Bremsungen aus etwa 20 km/h bis fast zum Stillstand.", "<b>Bed in:</b> 20–30 firm stops from about 20 km/h to almost a standstill.")])
     + tx("Und die <b>Scheibe</b>? Auf ihr steht die Mindestdicke eingraviert (meist 1,5–1,8 mm, „MIN TH“). Mit einem Messschieber prüfen — ist sie dünner, mit tauschen.",
       "And the <b>rotor</b>? Its minimum thickness is engraved on it (usually 1.5–1.8 mm, “MIN TH”). Check with calipers — if it's thinner, replace it too.")
     + gSicher("Ohne eingebremste Beläge ist die Bremskraft am Anfang deutlich schwächer. Nach dem Wechsel die ersten Meter langsam fahren und testen.",
@@ -10589,7 +10599,7 @@ const GUIDE = [
      "The <b>Upgrades</b> tab sorts into three levels: first what you can <b>adjust for free</b>, then <b>replacements in the same class</b> where a part doesn't suit your riding, then <b>real upgrades</b> — only parts at least as good as your current ones that raise the score."], ak:["view:upgrades"]},
   {id:"kaufen", k:"kaufen einkaufsliste einkauf bestellen shop shops link links haendler teile buy order shopping store parts", t:["Wo kaufe ich die Teile?", "Where do I buy the parts?"],
    a:["Im Reiter <b>Kaufen</b> steht die Einkaufsliste: jedes Teil mit Preis und Knopf zum Shop, dazu die Summe. Die Liste kannst du als Text kopieren, etwa für deine Werkstatt. Bei <b>Mein Rad</b> und <b>Gebraucht</b> zeigt der Reiter reduzierte Teile, die zu deinem Rad passen. Bestellt wird im Shop — CrankScore verkauft selbst nichts.",
-     "The <b>Buy</b> tab has the shopping list: every part with price and a button to the shop, plus the total. You can copy the list as text, e.g. for your workshop. In <b>My bike</b> and <b>Used</b>, the tab shows discounted parts that fit your bike. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
+     "The <b>Buy</b> tab has the shopping list: every part with price and a button to the shop, plus the total. You can copy the list as text, e.g. for your bike shop. In <b>My bike</b> and <b>Used</b>, the tab shows discounted parts that fit your bike. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
   {id:"anzeige", k:"anzeige werbung partnerlink partnerlinks provision affiliate verdient verdienen kostenlos gratis finanziert sponsored ad ads free", t:["Ist die App kostenlos? Was heißt „Anzeige“?", "Is the app free? What does “Ad” mean?"],
    a:["Es gibt <b>Free</b> und <b>Pro</b>. Free ist kostenlos und kann fast alles; <b>Pro</b> kostet 6,99 € im Monat oder 3,99 € im Monat bei jährlicher Zahlung (47,88 € im Jahr, 36 € gespart) und bringt unbegrenzt viele Räder, das Fahrwerk-Setup und den Guide ohne Limit. Außerdem sind manche Shop-Links Partnerlinks: Kaufst du darüber, bekommt CrankScore eine kleine Provision — dein Preis bleibt gleich. Solche Links sind direkt am Shop mit <b>Anzeige</b> gekennzeichnet. Welches Teil passt, entscheidet die Prüfung, nicht die Provision.",
      "There's <b>Free</b> and <b>Pro</b>. Free costs nothing and does almost everything; <b>Pro</b> costs €6.99 a month, or €3.99 a month billed yearly (€47.88 a year, €36 saved), and adds unlimited bikes, suspension setup and an unlimited guide. Also, some shop links are partner links: if you buy through them, CrankScore gets a small commission — your price stays the same. Such links are marked <b>Ad</b> right at the shop. Which part fits is decided by the check, not by the commission."], ak:["pro"]},
@@ -10627,7 +10637,7 @@ const GUIDE = [
      "Use ⋮ → <b>Reset this bike</b> to start the current bike from scratch. To delete a bike completely, use the pencil next to your bikes. You change your height and weight under ⋮ → Rider profile."], ak:["menu"]},
   {id:"teilen", k:"teilen kopieren kopie senden schicken werkstatt text export exportieren share copy send workshop", t:["Liste teilen oder kopieren", "Share or copy the list"],
    a:["Im Reiter <b>Kaufen</b> kannst du die Einkaufsliste als Text kopieren — mit allen Teilen und Preisen. Den Text kannst du in jede Nachricht einfügen, etwa an deine Werkstatt.",
-     "In the <b>Buy</b> tab you can copy the shopping list as text — with every part and price. You can paste it into any message, e.g. to your workshop."], ak:["view:deals"]},
+     "In the <b>Buy</b> tab you can copy the shopping list as text — with every part and price. You can paste it into any message, e.g. to your bike shop."], ak:["view:deals"]},
   {id:"tour", k:"rundgang tour einfuehrung einstieg nochmal wiederholen anleitung tutorial ueberblick introduction onboarding overview", t:["Rundgang nochmal", "Tour again"],
    a:["Den 30-Sekunden-Rundgang durch die App kannst du jederzeit neu starten — auch direkt hier. Größe und Gewicht änderst du unter ⋮ → Fahrerprofil, Disziplin und Budget im Bauziel (oben auf die Disziplin tippen).",
      "You can restart the 30-second tour of where everything is at any time — right here too. You change height and weight under ⋮ → Rider profile, discipline and budget in the build goal (tap the discipline at the top)."], ak:["tour"]},
@@ -10925,8 +10935,8 @@ function guideAktion(id){ const a = gAktInfo(id); if(a) a[1](); }
 let gVerlauf = [];
 function gHalloText(){
   const r = gR();
-  return tx("Hi! Ich bin der Guide — dein Fahrrad-Experte in der App. Frag mich alles zur App, zu deinem Rad und zur Werkstatt — zum Beispiel „Was fehlt zur 100?“, „Welche Gabel soll ich nehmen?“, „Meine Bremse schleift“ oder „Wie stelle ich die Schaltung ein?“. Ich erkläre es einfach und Schritt für Schritt, passend zu den Teilen an deinem Rad.",
-    "Hi! I'm the guide — your bike expert in the app. Ask me anything about the app, your bike or the workshop — for example “What's missing to get 100?”, “Which fork should I get?”, “My brake rubs” or “How do I adjust my gears?”. I explain it simply and step by step, matched to the parts on your bike.")
+  return tx("Hi! Ich bin der Guide — dein Fahrrad-Experte in der App. Frag mich alles zur App, zu deinem Rad und zum Schrauben — zum Beispiel „Was fehlt zur 100?“, „Welche Gabel soll ich nehmen?“, „Meine Bremse schleift“ oder „Wie stelle ich die Schaltung ein?“. Ich erkläre es einfach und Schritt für Schritt, passend zu den Teilen an deinem Rad.",
+    "Hi! I'm the guide — your bike expert in the app. Ask me anything about the app, your bike or repairs — for example “What's missing to get 100?”, “Which fork should I get?”, “My brake rubs” or “How do I adjust my gears?”. I explain it simply and step by step, matched to the parts on your bike.")
     + (r.teile ? " " + tx(`Gerade offen: ${esc(MODUS_NAME[modus])} · ${esc(selNamen())} · Score ${r.gesamt}.`, `Open right now: ${esc(MODUS_NAME[modus])} · ${esc(selNamen())} · score ${r.gesamt}.`) : "");
 }
 function gVorschlaege(){
@@ -11162,7 +11172,7 @@ const FFRAGEN = [
   {k:"gefuehl", q:["Wie soll sich das Fahrwerk anfühlen?", "How should the suspension feel?"], h:["Geschmackssache — die App passt Luft und Druckstufe daran an.", "A matter of taste — the app adjusts air and compression to it."],
    o:[["weich",["Weich & komfortabel", "Soft & comfortable"],["schluckt alles, darf schaukeln", "soaks up everything, can wallow a bit"],-1],["mittel",["Ausgewogen", "Balanced"],["von beidem etwas", "a bit of both"],0],["straff",["Straff & direkt", "Firm & direct"],["viel Halt, du spürst den Boden", "lots of support, you feel the ground"],1]]},
   {k:"bergauf", q:["Wie viel fährst du selbst bergauf?", "How much do you pedal uphill yourself?"], h:["Viel Treten heißt: Der Dämpfer soll weniger wippen.", "If you pedal a lot, the shock should bob less."],
-   o:[["wenig",["Wenig", "Little"],["Lift oder Shuttle", "lift or shuttle"],-1],["normal",["Normal", "Normal"],["gehört dazu", "part of the ride"],0],["viel",["Viel", "A lot"],["lange Touren, viele Höhenmeter", "long rides, lots of climbing"],1]]}
+   o:[["wenig",["Wenig", "Not much"],["Lift oder Shuttle", "lift or shuttle"],-1],["normal",["Normal", "Normal"],["gehört dazu", "part of the ride"],0],["viel",["Viel", "A lot"],["lange Touren, viele Höhenmeter", "long rides, lots of climbing"],1]]}
 ];
 FFRAGEN.forEach(f => { zweisprachig(f, ["q", "h"]); f.o.forEach(o => zweisprachig(o, [1, 2])); });
 let fprofil = {};
@@ -12919,9 +12929,9 @@ function suNaechsterHtml(f, d){
     : (() => { const x = f[st.slot], p = suPsi(st.slot, x, d); return x.coil ? tx("Federhärte prüfen und Vorspannung einstellen.", "Check the spring rate and set preload.") : p ? tx(`Auf ${p} psi pumpen (${barVon(p)} bar).`, `Pump to ${p} psi (${barVon(p)} bar).`) : suOhneDruckTxt(st.slot, x); })();
   return `<div class="fw-weiter"><span class="fw-weiter-n">${i + 1}<small>/${s.length}</small></span><span class="fw-weiter-t"><small>${tx("Dein nächster Schritt", "Your next step")} · ${n} ${tx("erledigt", "done")}</small><b>${st.t}</b><span>${was}</span></span>
     <span class="fw-weiter-k">${st.aktion === "sag" ? (() => { const z = suElemente(f).find(([sl]) => !suSagGut(f, d, sl)) || suElemente(f)[0];
-        return `<button class="btn sm" data-fwzu="${z[0]}|${z[0]}:sag">${tx("Zeigen", "Show")}</button>`; })()
+        return `<button class="btn sm" data-fwzu="${z[0]}|${z[0]}:sag">${tx("Anleitung zeigen", "Show me how")}</button>`; })()
       : st.aktion === "test" ? ""
-      : `<button class="btn sm" data-fwzu="${st.slot}|${st.key}">${tx("Zeigen", "Show")}</button><button class="btn sm ghost" data-fwok="${st.key}">${tx("Erledigt", "Done")}</button>`}</span></div>`;
+      : `<button class="btn sm" data-fwzu="${st.slot}|${st.key}">${tx("Anleitung zeigen", "Show me how")}</button><button class="btn sm ghost" data-fwok="${st.key}">${tx("Erledigt", "Mark as done")}</button>`}</span></div>`;
 }
 /* Was sich im Profil gegenueber Allround aendert */
 function suProfilHtml(f, d){
@@ -12955,7 +12965,7 @@ function suGrundHtml(f, d){
   const P = suP(d), g = P.gesp, eigen = Object.keys(P.off).length || Object.keys(P.psi).length;
   return `<section class="su-karte fw-grund"><h3 class="su-h">${tx("Grundeinstellung", "Baseline")} · ${esc(modusKurz(fedModus))}<span>${g ? tx(`gespeichert ${suDatum(g.t)}`, `saved ${suDatum(g.t)}`) : tx("noch keine", "none yet")}</span></h3>
     <p class="su-hint">${tx("Speichere, was sich gut anfühlt — bevor du experimentierst. Mit einem Tipp bist du wieder dort.", "Save what feels good — before you experiment. One tap brings you back.")}</p>
-    <div class="fw-grund-k"><button class="btn sm" data-sustd="speichern">${ic(`<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>`, 15)}${g ? tx("Neu speichern", "Save again") : tx("Speichern", "Save")}</button>
+    <div class="fw-grund-k"><button class="btn sm" data-sustd="speichern">${ic(`<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>`, 15)}${g ? tx("Grundeinstellung aktualisieren", "Update baseline") : tx("Grundeinstellung speichern", "Save baseline")}</button>
       <button class="btn sm ghost" data-sustd="zurueck"${g ? "" : " disabled"}>${tx("Zurück zur Grundeinstellung", "Back to baseline")}</button>
       <button class="btn sm ghost" data-sustd="empfehlung"${eigen ? "" : " disabled"}>${tx("Auf Empfehlung zurücksetzen", "Reset to recommended")}</button></div></section>`;
 }
@@ -13118,7 +13128,7 @@ function sagWizardHtml(){
   const zurueck = i > 0 ? `<button class="btn ghost" data-fwsagi="${i - 1}">${tx("Zurück", "Back")}</button>` : "";
   const fertigK = sagW.zurueck ? `<button class="btn${sagOk ? "" : " ghost"}" data-fwsagzurueck="1">${tx("Zurück zur Testfahrt", "Back to the test ride")}</button>` : `<button class="btn" data-zu="1">${tx("Fertig", "Done")}</button>`;
   const weiter = sch === "ergebnis" ? (sagOk ? fertigK : (sagW.zurueck ? fertigK : "") + `<button class="btn" data-fwsagi="2">${tx("Gepumpt — nochmal messen", "Pumped — measure again")}</button>`)
-    : `<button class="btn" data-fwsagi="${i + 1}">${sch === "messen" ? tx("Auswerten", "Show result") : tx("Weiter", "Next")}</button>`;
+    : `<button class="btn" data-fwsagi="${i + 1}">${sch === "messen" ? tx("SAG auswerten", "Check my sag") : tx("Weiter", "Next")}</button>`;
   const wer = sagW.slot === "gabel" ? tx("Gabel", "Fork") : sagW.slot === "daempfer" ? tx("Dämpfer", "Shock") : "";
   return `<div class="sheet-h"><h3><span class="sub">${tx("SAG messen", "Measure sag")}${wer ? " · " + wer : ""} · ${esc(modusKurz(fedModus))}</span>${titel}</h3>${zuBtn}</div>
     <div class="sheet-b fw-wz fw-sagwz">${kopf}${inhalt}</div><div class="sheet-f fw-wz-f">${zurueck}${weiter}</div>`;
@@ -13402,7 +13412,7 @@ function suBuchHtml(f, d){
     <div class="su-neu"><label for="su-notiz" class="su-l">${tx("Wie hat es sich angefühlt?", "How did it feel?")}</label>
       <textarea id="su-notiz" rows="2" maxlength="240" placeholder="${tx("z. B. Hausrunde, vorn zu unruhig auf Wurzeln", "e.g. local loop, front end nervous over roots")}">${esc(suNotizText)}</textarea>
       <div class="su-neu-k"><span class="su-gef" role="group" aria-label="${tx("Gefühl", "Feeling")}">${[1, 0, -1].map(g => `<button data-sufuehl="${g}" aria-pressed="${suFuehl === g}" aria-label="${gef[g][1]}"><span aria-hidden="true">${gef[g][0]}</span></button>`).join("")}</span>
-        <button class="btn sm" data-sunotiz="1">${tx("Eintragen", "Add")}</button></div></div>
+        <button class="btn sm" data-sunotiz="1">${tx("Eintrag speichern", "Save entry")}</button></div></div>
     ${zeig.length ? `<ol class="su-log">${zeig.map(([e, i]) => `<li><span class="su-ld">${suDatum(e.t)}</span><span class="su-lt">${e.typ === "notiz" && gef[e.gef] ? `<span aria-label="${gef[e.gef][1]}">${gef[e.gef][0]}</span> ` : ""}${suLogTxt(e, f)}</span>${e.erg ? `<span class="su-erg ${e.erg}">${erg[e.erg]}</span>` : ""}
       <button class="su-lx" data-sulogweg="${i}" aria-label="${tx("Eintrag löschen", "Delete entry")}">${ic(`<path d="M18 6 6 18M6 6l12 12"/>`, 13)}</button></li>`).join("")}</ol>
       ${liste.length > 6 ? `<button class="su-link" data-sualle="1">${suLogAlle ? tx("Weniger zeigen", "Show less") : tx(`Alle ${liste.length} Einträge`, `All ${liste.length} entries`)}</button>` : ""}`
@@ -13472,7 +13482,7 @@ const obOffen = () => { const fw = build.fw || {}, b = fw.besucht || {}; return 
 const OB_I = `<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h0"/>`;
 const obWahl = (attr, an, titel, sub, kl) => `<button class="fw-ow${kl ? " " + kl : ""}" ${attr} aria-pressed="${!!an}"><b>${titel}</b>${sub ? `<small>${sub}</small>` : ""}</button>`;
 const obWn = (feld, an) => `<button class="fw-ow fw-wn" data-fwwn="${feld}" aria-pressed="${!!an}"><b>${tx("Weiß ich nicht", "Not sure")}</b></button>`;
-const obWarum = (id, txt) => suDetails("ob-w-" + id, "fw-warum", tx("Warum fragen wir das?", "Why do we ask?"), `<p>${txt}</p>`);
+const obWarum = (id, txt) => suDetails("ob-w-" + id, "fw-warum", tx("Wozu fragt die App das?", "Why does the app ask?"), `<p>${txt}</p>`);
 const obGruppe = (titel, inhalt, warum, id, kl) => `<fieldset class="fw-og"><legend>${titel}</legend><div class="fw-ows${kl ? " " + kl : ""}">${inhalt}</div>${warum ? obWarum(id, warum) : ""}</fieldset>`;
 const obWo = (bild, leg) => `<figure class="fw-wo"><div class="fw-wo-b">${bild}</div><figcaption><span class="fw-wo-t">${tx("Hier findest du es", "Where to find it")}</span>${fwLegende(leg)}</figcaption></figure>`;
 const obTipp = txt => `<p class="fw-tip" role="status">${ic(OB_I, 16)}<span>${txt}</span></p>`;
@@ -13652,7 +13662,7 @@ function obInhalt(n, f, fw){
     r.q = tx("Gibt es etwas, das sich nicht gut anfühlt?", "Is there anything that doesn't feel right?");
     r.html = `<p class="su-hint">${tx("Mehrere Antworten möglich. Der Testfahrt-Assistent setzt nach der ersten Fahrt genau hier an — mit einer Änderung nach der anderen.", "Pick as many as apply. After the first ride the test-ride assistant starts right here — one change at a time.")}</p>
       <div class="fw-ows zwei">${SU_GEFUEHL.filter(g => !g.nur || hatD).map(g => obWahl(`data-fwwk="prob|${g.id}"`, p.indexOf(g.id) >= 0, sp2(g.t), sp2(g.s))).join("")}
-        <button class="fw-ow fw-wn" data-fwwn="prob" aria-pressed="${!p.length}"><b>${tx("Nichts / weiß nicht", "Nothing / not sure")}</b></button></div>
+        <button class="fw-ow fw-wn" data-fwwn="prob" aria-pressed="${!p.length}"><b>${tx("Nichts / weiß ich nicht", "Nothing / not sure")}</b></button></div>
       <label class="fw-oz breit"><span>${tx("Was wünschst du dir vom Fahrwerk? (freiwillig)", "What do you want from your suspension? (optional)")}</span>
         <textarea rows="2" maxlength="240" data-fwin="wunsch" placeholder="${tx("z. B. mehr Grip auf nassen Wurzeln, ruhiger im Bikepark", "e.g. more grip on wet roots, more composed in the bike park")}">${esc(fw.wunsch || "")}</textarea></label>
       ${obWarum("prob", tx("Erst stimmen SAG und Grundeinstellung, dann geht es an die Probleme — immer nur eine Änderung, damit du weißt, was sie bewirkt hat (so raten es FOX, RockShox und GMBN).", "First sag and base settings, then the problems — always one change at a time so you know what it did (as FOX, RockShox and GMBN advise)."))}`;
@@ -13692,7 +13702,7 @@ function obHtml(){
   let fuss;
   if(n === "start") fuss = `<button class="btn wide" data-fwobw="1">${tx("Los geht's", "Let's go")}</button>`;
   else if(n === "ende") fuss = `<button class="btn wide" data-fwobfertig="1">${tx("Zu meinen Einstellungen", "Go to my settings")}</button>`;
-  else if(obW.einzeln) fuss = `<button class="btn wide" data-fwobw="1">${obW.vonEnde ? tx("Übernehmen", "Apply") : tx("Fertig", "Done")}</button>`;
+  else if(obW.einzeln) fuss = `<button class="btn wide" data-fwobw="1">${obW.vonEnde ? tx("Änderung übernehmen", "Apply change") : tx("Fertig", "Done")}</button>`;
   else fuss = `<button class="btn ghost" data-fwobz="1">${tx("Zurück", "Back")}</button><button class="btn" data-fwobw="1">${tx("Weiter", "Next")}</button>`;
   return `<div class="sheet-h"><h3><span class="sub">Setup${n === "start" || n === "ende" ? "" : " · " + esc(r.titel)}</span>${n === "start" || n === "ende" ? esc(r.titel) : esc(r.q)}</h3>${zuBtn}</div>
     <div class="sheet-b fw-wz fw-ob" data-obschritt="${n}">${kopf}${n === "ende" ? `<p class="fw-wz-lead">${r.q}</p>` : ""}${r.html}</div>
@@ -14131,7 +14141,7 @@ let adRueck = null;
 function adTauschen(id){
   const a = adFinden(id), t = adTausch(a);
   schliesseAdapterInfo();
-  if(!t){ zeigeToast(tx("Dafür gibt es gerade kein passendes Teil ohne Adapter.", "There's no matching part without an adapter right now.")); return; }
+  if(!t){ zeigeToast(tx("Dafür gibt es gerade kein passendes Teil ohne Adapter — der Adapter bleibt in deinem Aufbau.", "There's no matching part without an adapter right now — the adapter stays in your build.")); return; }
   adRueck = {slot:t.slot, id:build[t.slot]};
   build[t.slot] = t.id;
   frischSlot = t.slot;
@@ -14292,7 +14302,7 @@ function adGuideInhalt(thema){
     <h4>${tx("Hinterrad", "Rear wheel")}</h4>
     ${tab([[tx("135 × Schnellspanner", "135 × QR"), "142 × 12", ja], ["142 × 12", "148 × 12 Boost", nein], ["148 × 12", "157 × 12 Super Boost", nein]], [tx("Nabe", "Hub"), tx("Rahmen", "Frame"), ""])}
     <ul class="adg-liste"><li>${tx("Endkappen gibt es nur passend zum Nabenmodell — beim Nabenhersteller nach dem Umrüstsatz fragen.", "End caps only come to match the hub model — ask the hub maker for the conversion kit.")}</li>
-      <li>${tx("Breite umrüsten (100 ↔ 110, 142 ↔ 148) heißt andere Nabe. Es gibt Umbausätze, aber das Laufrad sitzt dann nicht mittig — wir raten ab.", "Changing width (100 ↔ 110, 142 ↔ 148) means a different hub. Conversion kits exist, but the wheel then isn't centred — we advise against it.")}</li></ul>`;
+      <li>${tx("Breite umrüsten (100 ↔ 110, 142 ↔ 148) heißt andere Nabe. Es gibt Umbausätze, aber das Laufrad sitzt dann nicht mittig — davon rate ich ab.", "Changing width (100 ↔ 110, 142 ↔ 148) means a different hub. Conversion kits exist, but the wheel then isn't centred — I'd advise against it.")}</li></ul>`;
   if(thema === "lager") return `
     <p class="adg-lead">${tx("Das Innenlager verbindet zwei Maße: das <b>Gehäuse</b> im Rahmen und die <b>Welle</b> der Kurbel. Passen beide nicht direkt, hilft ein Konverter — aber nur in eine Richtung.", "The bottom bracket joins two sizes: the <b>shell</b> in the frame and the crank's <b>spindle</b>. If they don't match directly, a converter helps — but only one way.")}</p>
     <div class="adg-formel"><span>${tx("großes Gehäuse", "big shell")}</span><i>+</i><span>${tx("dünne Welle", "thin spindle")}</span><i>=</i><b>${tx("Konverter", "converter")}</b></div>
@@ -14554,7 +14564,7 @@ function zeichne(){
     }
 
     marktkarte += `<div class="mk">
-      <h3>${tx("Angebot bewerten", "Rate the offer")}</h3>
+      <h3>${tx("Angebot bewerten", "Rate the listing")}</h3>
       <p class="sub">${tx(`Trag unten ein, was an dem Rad verbaut ist — dann rechnet die App aus den Teilepreisen,
         was es gebraucht wert ist.`, "Enter below what's fitted to the bike — the app then uses the part prices to work out what it's worth used.")}</p>
 
@@ -15119,7 +15129,7 @@ function oeffneSlot(slotKey){
   const mitRabatt = karten.some(k => /data-r="[1-9]/.test(k.html));
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${tx("Bauteil wählen", "Choose part")}</span>${s.label}</h3>
-      ${build[slotKey] ? `<button class="btn ghost sm" data-leeren="${slotKey}">${tx("Leeren", "Clear")}</button>` : ""}${zuBtn}</div>
+      ${build[slotKey] ? `<button class="btn ghost sm" data-leeren="${slotKey}">${tx("Teil entfernen", "Remove part")}</button>` : ""}${zuBtn}</div>
     <div class="sheet-b">
       <p class="was-das"><b>${tx("Was ist das?", "What is it?")}</b> ${esc(s.was)}${filterAlle ? "" : tx(" Oben stehen die Teile, die zu deinem Aufbau passen — „passt“ heißt: Maße und Standards stimmen.", " The parts that fit your build come first — “fits” means dimensions and standards match.")}</p>
       ${slotKey === "rahmen" ? jahrLeiste() : ""}
@@ -15401,7 +15411,7 @@ function oeffneWiz(step){
       ${r.funde.filter(f => f.level === "fehler").length
         ? `<div class="mixbox no" style="margin-top:12px">${tx("<b>Mit Konflikt.</b> Der Katalog hat für diese Kombination aus Disziplin, Budget und Marken kein sauberes Teil. Nach dem Übernehmen siehst du im Reiter Prüfung genau welches.", "<b>With a conflict.</b> The catalogue has no clean part for this combination of discipline, budget and brands. After applying, the Check tab shows exactly which one.")}</div>`
         : `<div class="mixbox ok" style="margin-top:12px">${tx("<b>Ohne Konflikte.</b> Alle Maße passen zueinander.", "<b>No conflicts.</b> All dimensions fit together.")}</div>`}`;
-    weiter = tx("Übernehmen", "Apply");
+    weiter = tx("Aufbau übernehmen", "Use this build");
   }
 
   /* Fertig speichert nur die Angaben (sie gelten sofort); Weiter fuehrt zum
@@ -15632,7 +15642,7 @@ function oeffneMenu(){
         Unfair Competition Act (UWG) requires that before the click, not just in the legal notice. All links carry
         <code>rel="sponsored nofollow noopener"</code>.<br><br>
         <b>Prices.</b> Live prices show a timestamp, incl. VAT and plus shipping; without an offer there's a
-        guide price at RRP level. For concrete prices next to a buy link, the German Price Indication Ordinance (PAngV) requires them to be current and
+        guide price at RRP level. When a specific price appears next to a buy link, the German Price Indication Ordinance (PAngV) requires it to be current and
         to show the total price — hence the timestamp and the note that the shop's price applies.`)}
         ${amazonAktiv() ? tx("<br><br><b>Amazon.</b> Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen.", "<br><br><b>Amazon.</b> As an Amazon Associate CrankScore earns from qualifying purchases.") : ""}
       </p>
@@ -15904,7 +15914,7 @@ document.addEventListener("click", e => {
     const el = $("su-notiz"), txt = el ? el.value.replace(/\s+/g, " ").trim().slice(0, 240) : "";
     if(!txt && suFuehl == null){ if(el) el.focus(); return; }
     const dd = suDaten(); suLog(dd, {typ:"notiz", txt:txt, gef:suFuehl}); suSichern();
-    suNotizText = ""; suFuehl = null; setupZeichnen(); zeigeToast(tx("Eingetragen.", "Added."));
+    suNotizText = ""; suFuehl = null; setupZeichnen(); zeigeToast(tx("Eintrag gespeichert.", "Entry saved."));
     return;
   }
   const slw = T("[data-sulogweg]");

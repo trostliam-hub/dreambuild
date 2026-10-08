@@ -504,8 +504,11 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
   Begeisterung.
 - Fachbegriffe dort kurz erklären, wo sie gebraucht werden; die lange Fassung
   steht unter *Begriffe erklärt*.
-- Knöpfe nennen die Aktion („Als Grundeinstellung speichern“ / „Save as baseline“). Eine
-  Fehlermeldung sagt, was passiert ist und wie es weitergeht.
+- Knöpfe nennen die Aktion mit Objekt („Grundeinstellung speichern“ / „Save baseline“,
+  „Aufbau übernehmen“ / „Use this build“); nur Weiter, Zurück, Fertig und Abbrechen
+  stehen allein. Eine Fehlermeldung sagt, was passiert ist und wie es weitergeht.
+- Stimme: Die App spricht von sich als „die App“, Guide und Testfahrt-Assistent als
+  „ich“, „wir“ steht nur im Rechtstext (der Betreiber).
 - Prüfung: „passt nicht“ (Konflikt), „Kompromiss“, „passt mit Adapter“,
   „Tipp“ und „fehlt noch“ (Teil fehlt, darum noch nicht geprüft). Kann die App
   etwas mangels Angaben nicht prüfen, sagt sie „Nicht geprüft“ und warum —
@@ -539,6 +542,8 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
 | O-Ring (beim SAG einmal als Gummiring erklärt) | O-ring |
 | Bremssattel (bei Bremsen nie nur „Sattel“) | caliper |
 | Cross-Country · Downhill pur · Sprünge pur | Cross-country · Pure downhill · Pure jumps |
+| Angebot (Gebrauchtrad) · verlangter Preis | listing · asking price |
+| Werkstatt (Schrauben, Reparatur) | repairs; der Laden: bike shop |
 
 **Schreibweisen**
 
