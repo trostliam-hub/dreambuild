@@ -5,6 +5,8 @@
  *    und kompat-raeder.mjs muss gelaufen UND bestanden sein
  * 3. Setup und Speicher (tools/setup-test.mjs)
  * 4. Ein Weg je Aufgabe (tools/wege-test.mjs)
+ * 5. Sprache (tools/sprach-test.mjs): alle Ansichten auf Deutsch und Englisch,
+ *    keine Funde (Sprachmischung, Zahlformate, Reste, abgeschnittene Texte)
  *
  * Schreibt test-ergebnis.json (Revision, Zahlen, Fehler) und endet mit
  * Exit-Code 1, sobald etwas fehlschlaegt oder weniger Tests liefen als
@@ -53,6 +55,16 @@ const lauf = (datei, muster, erwartet) => {
 {
   const r = lauf('wege-test.mjs', /WEGE: (\d+) von (\d+) Prüfungen bestanden/, null);
   teil('Ein Weg je Aufgabe', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
+/* 5. Sprache: Schlusszeile "SPRACHE: x Funde in n Texten", bestanden nur ohne Funde */
+{
+  const r = spawnSync(process.execPath, [path.join(wurzel, 'tools', 'sprach-test.mjs')], {cwd:wurzel, encoding:'utf8', env:process.env, maxBuffer:64e6});
+  const aus = (r.stdout || '') + (r.stderr || ''), m = aus.match(/SPRACHE: (\d+) Funde in (\d+) Texten/);
+  const funde = m ? +m[1] : null, texte = m ? +m[2] : 0;
+  /* weniger als 5000 Texte hiesse: Ansichten wurden gar nicht erreicht */
+  const ok = r.status === 0 && funde === 0 && texte >= 5000;
+  teil('Sprache Deutsch/Englisch', ok, {zeile:m ? `${funde} Funde in ${texte} Texten, Exit ${r.status}` : `keine Schlusszeile, Exit ${r.status}`,
+    exit:r.status, funde, texte, fehl:ok ? [] : aus.split('\n').filter(z => z.trim()).slice(-25), ausgabe:aus.slice(-4000)});
 }
 if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:'absichtlich fehlgeschlagen (CRANKSCORE_TEST_FEHLER=1)'});
 

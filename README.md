@@ -427,10 +427,12 @@ eigenen Aufbau passt. Der Aufbau rechnet mit dem günstigsten lieferbaren
 Angebot; ohne Angebot mit dem Richtpreis aus dem Katalog.
 
 **Zwei Sprachen.** Die ganze App gibt es auf Deutsch und Englisch: Beim ersten
-Start entscheidet die Sprache des Geräts, umstellen geht im Einstieg und unter
-⋮ → Sprache. Preise und Zahlen folgen der Sprache (4.906 € / €4,906). Impressum
-und Datenschutzerklärung bleiben verbindlich deutsch, auf Englisch steht eine
-Kurzfassung davor; der Betreiber-Modus ist nur deutsch.
+Start entscheidet die Sprache des Geräts, umstellen geht oben rechts auf der
+Startseite, im Einstieg und ganz oben in den Einstellungen („Sprache · Language“).
+Preise, Zahlen und Daten folgen der Sprache (4.906 € / €4,906). Impressum und
+Datenschutzerklärung bleiben verbindlich deutsch; auf Englisch steht eine
+vollständige Übersetzung davor, das deutsche Original klappt darunter auf.
+Mehr unter *Sprache und Texte*.
 
 ## Technik
 
@@ -457,12 +459,95 @@ verlässt es nicht. Als PWA installierbar und offline lauffähig.
 Lokal: `index.html` per Doppelklick öffnen. Offline-Cache und
 Homescreen-Installation brauchen `https://`.
 
-Texte im Code stehen als `tx("Deutsch", "English")`, in Tabellen als Paar
-`["Deutsch", "English"]` (gelesen über Getter, `zweisprachig()`), festes HTML
-trägt `data-t="Deutsch|English"` (dazu `data-ta` für aria-label, `data-tt` für
-title). Schlüssel für die Logik (Disziplinen, Maßnamen wie „Federweg“,
-Themen, Knopfnamen im Federungsrechner) bleiben deutsch; übersetzt wird nur,
-was angezeigt wird. Die Sprache liegt in `localStorage` unter `mtb.sprache`.
+Wie die Texte in beiden Sprachen organisiert sind: *Sprache und Texte*.
+
+## Sprache und Texte
+
+Jeder sichtbare Text steht in beiden Sprachen direkt im Code, eine
+Übersetzungsdatei gibt es nicht. Die gewählte Sprache liegt in `localStorage`
+unter `mtb.sprache` und gilt für alle Ansichten, Meldungen und berechneten
+Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
+
+**Wo was steht**
+
+- `tx("Deutsch", "English")` — der Normalfall.
+- `wort("weiter")` — das Wörterbuch `WORT` oben im Skript, für Wörter, die
+  überall gleich heißen müssen (Weiter, Zurück, Einbauen, Gabel, Dämpfer,
+  Prüfung …). Ein neues Standardwort gehört dorthin, nicht in ein weiteres `tx()`.
+- Tabellen und Daten: Paar `["Deutsch", "English"]`, gelesen mit `sp2()` oder
+  über Getter aus `zweisprachig()`.
+- Festes HTML: `data-t="Deutsch|English"` für den Text, `data-ta` für
+  aria-label, `data-tt` für title, `data-tc` für content (Meta-Beschreibung);
+  gesetzt von `festeTexte()`.
+- Zahlen, Preise, Einheiten und Daten nur über die Helfer `zahlDe`, `eur`,
+  `eurG`, `euro`, `kg`, `prozent`, `zoll`, `datum`: Deutsch 1,5 kg · 1.234 € ·
+  30 % · 08.10.2026, Englisch 1.5 kg · €1,234 · 30% · 8 Oct 2026.
+- Schlüssel der Logik (Disziplinen, Maßnamen wie „Federweg“, Themen,
+  Knopfnamen im Federungsrechner) bleiben deutsch; übersetzt wird nur, was
+  angezeigt wird (`dimName()`, `stdName()`). Teilenamen mitten im englischen
+  Satz schreibt `imSatz()` klein („Still open: frame, fork …“).
+- Marken und Modellnamen bleiben, wie der Hersteller sie schreibt — auch
+  Ausstattungslinien wie Performance Elite oder Ultimate.
+- Text in der anderen Sprache (deutscher Videotitel im englischen Text,
+  „Impressum“ in der englischen Fassung) bekommt ein `lang`-Attribut.
+- Impressum und Datenschutzerklärung: `impressumHtmlEn()` und
+  `datenschutzHtmlEn()` übersetzen vollständig, verbindlich ist das deutsche
+  Original. Wer den deutschen Text ändert, ändert den englischen mit.
+
+**Ton**
+
+- Deutsch durchgehend mit „du“, mit ä, ö, ü und ß. Englisch britisch (tyre,
+  centre, aluminium, catalogue) und eigenständig formuliert, nicht Wort für
+  Wort übersetzt.
+- Freundlich, direkt, kompetent — wie jemand aus der MTB-Szene, der gut
+  erklären kann. Keine Werbesprüche, keine Floskeln, keine übertriebene
+  Begeisterung.
+- Fachbegriffe dort kurz erklären, wo sie gebraucht werden; die lange Fassung
+  steht unter *Begriffe erklärt*.
+- Knöpfe nennen die Aktion („Als Grundeinstellung speichern“ / „Save as baseline“). Eine
+  Fehlermeldung sagt, was passiert ist und wie es weitergeht.
+- Prüfung: „passt nicht“ (Konflikt), „Kompromiss“, „passt mit Adapter“,
+  „Tipp“ und „fehlt noch“ (Teil fehlt, darum noch nicht geprüft). Kann die App
+  etwas mangels Angaben nicht prüfen, sagt sie „Nicht geprüft“ und warum —
+  „passt“ steht nur da, wo wirklich geprüft wurde.
+- Fahrwerk: zu jeder Einstellung, was sie bewirkt und wann eine Änderung
+  sinnvoll ist. Werte nur mit Quelle — Herstellertabelle, oder ausdrücklich
+  als Erfahrungsregel gekennzeichnet.
+
+**Begriffe**
+
+| Deutsch | Englisch |
+|---|---|
+| Rad (nicht „Bike“) | bike |
+| Teil | part |
+| Aufbau | build |
+| Traumrad · Mein Rad · Gebrauchtrad | Dream bike · My bike · Used bike |
+| Passform · Einsatz · Score | Fit · Discipline · Score |
+| Prüfung | Check |
+| Einbauen | Add to build (kurz: Add) |
+| Einkaufsliste | Shopping list |
+| Gabel · Dämpfer | fork · shock |
+| Federweg · Hub (Dämpfer / Variostütze) | travel · stroke / drop |
+| SAG (Negativfederweg) | sag |
+| Zugstufe · Druckstufe | rebound · compression |
+| Grundeinstellung | baseline (base setting) |
+| Laufradsatz · Reifen · Freilauf | wheelset · tyre · freehub |
+| Schaltwerk · Kassette · Kettenblatt | derailleur · cassette · chainring |
+| Einbaumaß | eye-to-eye × stroke |
+
+**Prüfen**
+
+    npm run test:sprache
+
+`tools/sprach-test.mjs` öffnet die App in beiden Sprachen auf 390 px Breite
+(`SPRACHE_BREITE=320` für das kleinste Handy),
+geht alle Ansichten, Blätter, Assistenten, den Rundgang, jede Guide-Antwort
+und alle Befunde aus den Kompatibilitätsfällen durch und meldet: Wörter der
+anderen Sprache, Umlaute im Englischen, „Sie“-Anrede, ae/oe/ue statt Umlaut,
+falsche Zahl-, Euro- und Prozentformate, Reste wie `undefined` oder `${`,
+Leerzeichen vor Satzzeichen und abgeschnittene Texte. Marken- und Modellnamen
+aus dem Katalog sind ausgenommen. `--bericht datei.json` schreibt alle Funde
+und alle gesammelten Texte zum Durchlesen heraus.
 
 ## Veroeffentlichen
 
@@ -510,9 +595,11 @@ und bestanden sein) und die Setup- und Speicherpruefungen aus
 Datensicherung, keine erfundenen Fahrwerkswerte ueber alle Gabeln und
 Daempfer) sowie „Ein Weg je Aufgabe" aus `tools/wege-test.mjs` (keine
 doppelten Einstiege, Fahrerprofil, Bauziel, Aufgabenkarte, Setup, Migration,
-Handy/Desktop, Deutsch/Englisch). Ergebnis mit Revision, Zahlen und Fehlern in
-`test-ergebnis.json`.
-Einzeln: `npm run test:kompat`, `npm run test:setup`, `npm run test:wege`. Playwright ist in
+Handy/Desktop, Deutsch/Englisch) und die Sprachprüfung aus `tools/sprach-test.mjs`
+(alle Ansichten auf Deutsch und Englisch, siehe *Sprache und Texte*). Ergebnis mit
+Revision, Zahlen und Fehlern in `test-ergebnis.json`.
+Einzeln: `npm run test:kompat`, `npm run test:setup`, `npm run test:wege`,
+`npm run test:sprache`. Playwright ist in
 `package.json`/`package-lock.json` auf eine feste Version gesetzt. Jeder Push
 ausserhalb von `main` laeuft durch `.github/workflows/tests.yml`.
 

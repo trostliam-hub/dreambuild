@@ -1,7 +1,7 @@
 {
   "name": "CrankScore",
   "short_name": "CrankScore",
-  "description": "MTB-Konfigurator: Traumaufbauten bauen, Kompatibilitaet pruefen, Upgrades finden.",
+  "description": "MTB-Konfigurator: Traumrad zusammenstellen, Kompatibilität prüfen, Upgrades finden.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

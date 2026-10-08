@@ -6,7 +6,8 @@
     "test": "node tools/test.mjs",
     "test:kompat": "node tools/kompat-test.mjs",
     "test:setup": "node tools/setup-test.mjs",
-    "test:wege": "node tools/wege-test.mjs"
+    "test:wege": "node tools/wege-test.mjs",
+    "test:sprache": "node tools/sprach-test.mjs"
   },
   "devDependencies": {
     "playwright": "1.56.1"
