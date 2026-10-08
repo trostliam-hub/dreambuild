@@ -14562,7 +14562,9 @@ function zaehle(el, ziel){
   const ring = el.closest(".ring-wrap");
   if(ring && Math.abs(ziel - von) >= 1){ ring.classList.remove("puls"); void ring.offsetWidth; ring.classList.add("puls"); }
   const t0 = performance.now(), dauer = 450;
-  const schritt = t => { const p = Math.min(1, (t - t0) / dauer), e2 = 1 - Math.pow(1 - p, 3);
+  /* Untergrenze 0: der Bildzeitstempel kann knapp vor t0 liegen -- sonst
+     schoesse die Zahl im ersten Bild ueber den alten Wert hinaus (z. B. 101) */
+  const schritt = t => { const p = Math.max(0, Math.min(1, (t - t0) / dauer)), e2 = 1 - Math.pow(1 - p, 3);
     el.textContent = Math.round(von + (ziel - von) * e2);
     if(p < 1) el.raf = requestAnimationFrame(schritt); };
   el.raf = requestAnimationFrame(schritt);
