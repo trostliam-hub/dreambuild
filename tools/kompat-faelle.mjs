@@ -14,7 +14,7 @@
  * (Hersteller, Vital MTB, Pinkbike, Bikerumor).
  */
 const UNV = "Aufbau unvollständig";
-const UDH = "Transmission braucht ein UDH-Ausfallende";
+const UDH = "Transmission braucht einen UDH-Rahmen";
 const HA = "Hinterachse passt nicht", HA_KIT = "Hinterachse nur mit Umbaukit", VA = "Vorderachse passt nicht", VA_EK = "Vorderachse nur mit anderen Endkappen";
 const FL = "Freilaufkörper passt nicht zur Kassette";
 const IL_GEH = "Innenlager passt nicht ins Tretlagergehäuse", IL_WELLE = "Kurbelwelle passt nicht ins Innenlager";

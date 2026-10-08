@@ -3778,7 +3778,7 @@ vorbau:[
  VB("v-thomson",   "Thomson Elite X4", "Thomson", {klemm:31.8, laenge:50, ls:[50,60,70,80,90], e:E(3,5,4,2,2,2,1), g:140, p:99}),
  VB("v-syncros",   "Syncros Fraser", "Syncros", {klemm:31.8, laenge:60, ls:[60,70,80], e:E(5,2,0,0,0,0,0), g:120, p:89}),
  VB("v-dirt",      "Dartmoor Stream", "Dartmoor", {klemm:31.8, laenge:45, e:E(0,1,2,2,5,5,2), g:160, p:39}),
- {id:"v-dc", n:"Doppelbrücken-Vorbau direkt", m:"Generisch", dm:true, klemm:35, laenge:50, e:E(0,0,0,5,0,0,0), g:170, p:129, v:[LA([40,45,50], 50)]},
+ {id:"v-dc", n:"Direct-Mount-Vorbau (Doppelbrücke)", m:"Generisch", dm:true, klemm:35, laenge:50, e:E(0,0,0,5,0,0,0), g:170, p:129, v:[LA([40,45,50], 50)]},
  {id:"v-trial", n:"Trial-Vorbau · 30° Rise", m:"Trial", klemm:31.8, laenge:150, e:E(0,0,0,0,2,1,5), g:210, p:99, v:[LA([135,150,165], 150)]},
  /* Sixpack Racing: Daten von sixpack-racing.com, Stand 2026-09-24 */
  VB("v-spicr",     "Sixpack Millenium ICR Vorbau", "Sixpack", {klemm:35, laenge:35, ls:[35,50], e:E(1,4,5,5,3,3,1), g:134, p:150}),
@@ -3822,7 +3822,7 @@ stuetze:[
         h:["Reduzierhülse 27,2 → 30,9 mm von Sixpack (16,95 €, 50 g)", "Sixpack seatpost shim 27.2 → 30.9 mm (€16.95, 50 g)"]})], "27.2")]}
 ],
 sattel:[
- {id:"sa-dirt", n:"Dirt-Sattel schmal · Slim", m:"Generisch", fb:"#16181c", e:E(0,0,1,4,5,5,3), g:190, p:39},
+ {id:"sa-dirt", n:"Dirt-Sattel schmal", m:"Generisch", fb:"#16181c", e:E(0,0,1,4,5,5,3), g:190, p:39},
  {id:"sa-ergon", n:"Ergon SM Enduro Comp", m:"Ergon", fb:"#1a1c1f", e:E(2,5,5,3,2,2,0), g:240, p:119},
  {id:"sa-sqlab", n:"SQlab 6OX Infinergy", m:"SQlab", fb:"#1a1c1f", e:E(4,5,3,1,1,1,0), g:230, p:149},
  {id:"sa-fizik", n:"Fizik Antares Carbon", m:"Fizik", fb:"#101214", e:E(5,2,1,0,1,1,0), g:180, p:219},
@@ -3987,14 +3987,14 @@ griffe:[
 /* Teilenamen: Marke und Modell bleiben, deutsche Zusaetze werden in der
    englischen Ansicht uebersetzt. Spezielles vor Allgemeinem. */
 const NAME_EN = [
-  [/Doppelbrücken-Vorbau direkt/, "Dual-crown direct-mount stem"], [/Doppelbrücke/, "dual crown"], [/(\d) Kolben/, "$1-piston"],
+  [/Direct-Mount-Vorbau \(Doppelbrücke\)/, "Direct-mount stem (dual crown)"], [/Doppelbrücke/, "dual crown"], [/(\d) Kolben/, "$1-piston"],
   [/(\d+(?:\/\d+)?)-fach/g, "$1-speed"], [/Carbon-Stütze starr/, "Rigid carbon seatpost"], [/Dirt-Stütze starr kurz/, "Short rigid dirt seatpost"],
   [/Sattelstütze · starr/, "seatpost · rigid"], [/Dirt-Sattel schmal/, "Narrow dirt saddle"], [/Pivotal-Sattel/, "Pivotal saddle"],
   [/Trial-Innenlager/, "Trials bottom bracket"], [/Edelstahl MTB Innenlager/, "stainless MTB bottom bracket"],
   [/Edelstahl Innenlager/, "stainless bottom bracket"], [/Edelstahl/, "stainless"], [/Trial Mod Kurbel/, "Trials Mod crank"],
   [/Trial-Kurbel/, "Trials crank"], [/Freilauf (\d+) Z\./, "freewheel $1T"], [/(\w+)-Freilauf/, "$1 freehub"], [/Trial-Ritzel (\d+) Z\. fest/, "Trials cog $1T fixed"],
   [/Singlespeed-Ritzel (\d+) Z\./, "Singlespeed cog $1T"], [/Singlespeed-Kette/, "Singlespeed chain"], [/Trial-Griffe/, "Trials grips"],
-  [/Trial-Lenker/, "Trials bar"], [/Trial-Pedal/, "Trials pedal"], [/Trial-Vorbau/, "Trials stem"],
+  [/Trial-Lenker/, "Trials bar"], [/Trial-Pedal Magnesium/, "Magnesium trials pedal"], [/Trial-Pedal/, "Trials pedal"], [/Trial-Vorbau/, "Trials stem"],
   [/Felgenflanke gezahnt/, "serrated rim sidewall"], [/Felgenbremse/, "rim brake"], [/Starrgabel Trial/, "Rigid trials fork"],
   [/Hardtail Alu/, "alloy hardtail"], [/\bAlu\b/, "Alloy"], [/ Kette$/, " chain"], [/ Sattel( |$)/, " saddle$1"], [/ Vorbau/, " stem"],
   [/\bhohl\b/, "hollow"], [/\bScheibe\b/, "disc"], [/nur Trek Supercaliber/, "Trek Supercaliber only"],
@@ -5036,7 +5036,7 @@ function pruefe(b){
 
   if(sel.length > 1){
     const mp = mixPaar(sel);
-    if(mp.min < .15) out.push(F(tx("Diese Kombination geht nicht in einem Rad", "These disciplines can't be combined in one bike"),"",[],
+    if(mp.min < .15) out.push(F(tx("Diese Disziplinen lassen sich nicht in einem Rad vereinen", "These disciplines can't be combined in one bike"),"",[],
       tx(`<code>${dLang(mp.paar[0])}</code> und <code>${dLang(mp.paar[1])}</code> teilen sich praktisch kein Bauteil — andere Laufradgröße, anderer Federweg, andere Sitzposition. Zwei Räder, kein Kompromiss.`,
          `<code>${dLang(mp.paar[0])}</code> and <code>${dLang(mp.paar[1])}</code> share practically no parts — different wheel size, different travel, different riding position. Two bikes, not a compromise.`)));
     else if(mp.min < .40) out.push(W(tx("Großer Spagat zwischen den Disziplinen", "These disciplines are far apart"),"",[],
@@ -5229,7 +5229,7 @@ function pruefe(b){
   /* UDH nach SRAMs eigener Liste Transmission-tauglicher Rahmen. Manche
      Rahmen haben es erst ab einem Modelljahr -- dann zaehlt das gewaehlte. */
   if(rahmen && schaltwerk && schaltwerk.udhPflicht && !(rahmen.udh || (rahmen.udhAb && jahrAktiv() >= rahmen.udhAb)))
-    out.push(F(tx("Transmission braucht ein UDH-Ausfallende", "Transmission needs a UDH dropout"),"schaltwerk",["rahmen","schaltwerk"],
+    out.push(F(tx("Transmission braucht einen UDH-Rahmen", "Transmission needs a UDH frame"),"schaltwerk",["rahmen","schaltwerk"],
       rahmen.udhAb
         ? tx(`<code>${rahmen.n}</code> hat UDH erst ab Modelljahr <code>${rahmen.udhAb}</code>, gewählt ist <code>${jahrAktiv()}</code>. SRAM Transmission wird direkt am Rahmen verschraubt und setzt UDH voraus.`,
              `<code>${rahmen.n}</code> only has UDH from model year <code>${rahmen.udhAb}</code>; you've selected <code>${jahrAktiv()}</code>. SRAM Transmission bolts straight to the frame and requires UDH.`)
@@ -5279,7 +5279,7 @@ function pruefe(b){
       tx(`<code>${kette.n}</code> am <code>${schaltwerk.n}</code> läuft, aber die Laschenform passt nicht zu den Schaltrampen des anderen Systems — beim Hochschalten hakt es. Am sichersten: die Kette des Systems oder eine freigegebene Fremdkette.`,
          `<code>${kette.n}</code> on <code>${schaltwerk.n}</code> runs, but the plate shape doesn't match the other system's shift ramps — upshifts catch. The safe choice: the system's own chain or an approved third-party chain.`)));
   if(schaltwerk && kassette && kassette.spanne[1] > schaltwerk.maxRitzel)
-    out.push(F(tx("Schaltwerk reicht nicht über die Kassette", "Derailleur can't cover the cassette"),"schaltwerk",["schaltwerk","kassette"],
+    out.push(F(tx("Kassette zu groß für das Schaltwerk", "Cassette too big for the derailleur"),"schaltwerk",["schaltwerk","kassette"],
       tx(`Das Schaltwerk ist bis <code>${schaltwerk.maxRitzel} Zähne</code> freigegeben, die Kassette hat <code>${kassette.spanne[1]}</code>. Auf dem größten Ritzel schlägt das Schaltwerk an oder reißt ab.`,
          `The derailleur is rated up to <code>${schaltwerk.maxRitzel} teeth</code>, the cassette has <code>${kassette.spanne[1]}</code>. On the biggest cog the derailleur hits it or rips off.`)));
   if(kette && schaltwerk && kette.iface && kette.iface !== schaltwerk.iface)
