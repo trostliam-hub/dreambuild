@@ -477,6 +477,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .fm-tab .fm-h{padding:8px 2px;font-size:11.5px;font-weight:750;color:var(--ink-3);border-radius:0}
 .fm-tab .an{background:var(--anod-soft);color:var(--ink);font-weight:750}
 .fm-tab .fm-h.an{color:var(--anod)}
+/* Unter 320 px: Tabelle nutzt den Kartenrand mit, Spaltenkoepfe etwas kleiner -- "Downhill" bleibt in der Spalte */
+@media (max-width:319px){.fm-tab{margin-left:-6px;margin-right:-6px}.fm-tab .fm-l{padding-left:8px;font-size:10.5px}.fm-tab .fm-h{font-size:10.5px;padding-left:1px;padding-right:1px;letter-spacing:-.02em}}
 /* Knopf-Kacheln: grosse Zahl + gerade Skala */
 .kk-reihe{display:flex;flex-direction:column;gap:10px}
 .kk{border:1px solid var(--hair);background:var(--surface);border-radius:16px;padding:12px 14px 12px}
@@ -2140,6 +2142,7 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .fw-pk-ic.allround{background:linear-gradient(135deg,#3ddc84,#0fa0bd)}
 .fw-pk-ic.spruenge{background:linear-gradient(135deg,#7b5cff,#3b82f6)}
 @media (max-width:379px){.fw-pk small{display:none}.fw-pk{min-height:84px}}
+@media (max-width:300px){.fw-prof{gap:4px}.fw-pk{padding:10px 6px}.fw-pk b{font-size:13.5px}}
 .fw-perkl{margin-top:8px}
 .fw-pe{margin:0 0 10px}
 .fw-pe > b{display:block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--anod);margin-bottom:4px}
@@ -2441,7 +2444,7 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .trk-l span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* 320 px: "Compression" passt ohne Abschneiden neben das +/− */
 @media (max-width:350px){.trk-l{font-size:10px;letter-spacing:.02em}}
-/* Sehr schmale Displays (z. B. Aussendisplay eines Klapphandys, 280 px): Beschriftung
+/* Sehr schmale Displays (z. B. Aussendisplay eines Klapphandys, 280 px): Beschriftung
    darf trennen statt mit "…" zu enden */
 @media (max-width:300px){.trk-l span{white-space:normal;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere;line-height:1.1}}
 .trk-w b{font-family:var(--f-head);font-size:clamp(15px,4.6vw,19px);font-weight:800;line-height:1.15;letter-spacing:-.02em;overflow-wrap:anywhere}
@@ -2742,6 +2745,8 @@ const zoll = x => zahlDe(x) + "″";
 
 /* Zahlen, Preise, Masse und Daten in der Schreibweise der Sprache */
 const zahlDe = x => sprache === "en" ? String(x) : String(x).replace(".", ",");      /* Dezimalzahl: 1,5 / 1.5 */
+/* Mass vor einem Bindestrich-Kompositum: "30 mm" -> "30-mm" (30-mm-Welle) */
+const mmBind = s => String(s).replace(/^(\d+(?:[.,]\d+)?) mm$/, "$1-mm");
 const eur = n => { const z = n.toLocaleString(ortsform(), {maximumFractionDigits:0}); return sprache === "en" ? "€" + z : z + " €"; };
 const eurG = n => { const z = n.toLocaleString(ortsform(), {minimumFractionDigits:n % 1 ? 2 : 0, maximumFractionDigits:2});
   return sprache === "en" ? "€" + z : z + " €"; };
@@ -2763,13 +2768,13 @@ const DID = ["xc","trail","enduro","dh","dirt","slope","trial"];
 const E = (...v) => { const o = {}; DID.forEach((d,i) => o[d] = v[i] || 0); return o; };
 
 const DISZ = [
- {id:"xc",     n:"XC",         lang:"Cross Country", de:"100–120 mm, leicht, effizient. Das Rennen wird bergauf entschieden.",
+ {id:"xc",     n:"XC",         lang:"Cross-Country", en_lang:"Cross-country", de:"100–120 mm, leicht, effizient. Das Rennen wird bergauf entschieden.",
   en:"100–120 mm, light, efficient. The race is won on the climbs."},
  {id:"trail",  n:"Trail",      lang:"Trail",         de:"130–150 mm, Dropper, Allrounder. Hoch aus eigener Kraft, runter mit Spaß.",
   en:"130–150 mm, dropper, all-rounder. Pedal up under your own steam, ride down for fun."},
  {id:"enduro", n:"Enduro",     lang:"Enduro",        de:"160–180 mm, Gravity-Laufräder, vier Kolben. Bergab auf Zeit.",
   en:"160–180 mm, gravity wheels, four pistons. Timed downhill stages."},
- {id:"dh",     n:"Downhill",   lang:"Downhill",      de:"200 mm, Doppelbrücke, 157er Hinterbau. Kein Meter bergauf.",
+ {id:"dh",     n:"Downhill",   lang:"Downhill",      de:"200 mm, Doppelbrücke, 157er-Hinterbau. Kein Meter bergauf.",
   en:"200 mm, dual crown, 157 mm rear end. Not a metre uphill."},
  {id:"dirt",   n:"Dirt",       lang:"Dirtjump",      en_lang:"Dirt jump", de:"26″, 100 mm straffe Gabel, Singlespeed, kurze starre Stütze.",
   en:"26″, firm 100 mm fork, singlespeed, short rigid seatpost."},
@@ -4289,7 +4294,7 @@ const MARKT_START = {alter:3, zustand:"gepflegt", verschleiss:{}, preis:0};
 const zweisprachig = (o, felder) => { felder.forEach(f => { const p = o[f]; Object.defineProperty(o, f, {get(){ return sp2(p); }, enumerable:true}); }); return o; };
 const ZUSTAENDE = [
   {v:"neuwertig",  l:["Neuwertig", "Like new"],  f:1.12, t:["kaum Spuren, alles läuft", "barely a mark, everything works"]},
-  {v:"gepflegt",   l:["Gepflegt", "Well kept"],   f:1.00, t:["normale Spuren, gewartet", "normal wear, serviced"]},
+  {v:"gepflegt",   l:["Gepflegt", "Well-kept"],   f:1.00, t:["normale Spuren, gewartet", "normal wear, serviced"]},
   {v:"gebraucht",  l:["Gebraucht", "Used"],  f:0.85, t:["sichtbar gefahren, Kleinigkeiten", "visibly ridden, minor issues"]},
   {v:"abgeritten", l:["Abgeritten", "Worn out"], f:0.65, t:["deutliche Spuren, Service überfällig", "heavy wear, service overdue"]}
 ].map(z => zweisprachig(z, ["l", "t"]));
@@ -4360,11 +4365,11 @@ function impressumHtml(){
   return `${f.length ? `<div class="fehlt">${linkVerwaltung
       ? "<b>Impressum unvollständig.</b> Es fehlt: " + f.map(k => BETREIBER_FELDER.find(x => x[0] === k)[1][0]).join(", ") + ". Einstellungen → Impressum-Angaben."
       : "Die Angaben zum Anbieter werden gerade vervollständigt."}</div>` : ""}
-    <h4>Angaben gemäß § 5 DDG</h4>
+    <h4>Angaben gemäß § 5 DDG</h4>
     <p>${[b.name, b.zusatz, b.strasse, b.ort].filter(Boolean).map(esc).join("<br>") || "—"}</p>
     <h4>Kontakt</h4>
     <p>${b.email ? `E-Mail: <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ""}${b.email && b.telefon ? "<br>" : ""}${b.telefon ? "Telefon: " + esc(b.telefon) : ""}${!b.email && !b.telefon ? "—" : ""}</p>
-    ${b.ustid ? `<h4>Umsatzsteuer-Identifikationsnummer</h4><p>gemäß § 27a Umsatzsteuergesetz: ${esc(b.ustid)}</p>` : ""}
+    ${b.ustid ? `<h4>Umsatzsteuer-Identifikationsnummer</h4><p>gemäß § 27a Umsatzsteuergesetz: ${esc(b.ustid)}</p>` : ""}
     <h4>Affiliate-Links</h4>
     <p>CrankScore finanziert sich über die Pro-Version und über Provisionen. Shop-Links, die mit „Anzeige“ markiert sind, sind Affiliate-Links:
       Kaufst du nach einem Klick etwas, bekommt CrankScore vom Shop eine Provision. Dein Preis ändert sich dadurch nicht.
@@ -4392,7 +4397,7 @@ function datenschutzHtml(){
     <p>Deine Profile, Aufbauten, Fotos und Einstellungen speichert die App im lokalen Speicher deines Browsers
       (localStorage); für den Offline-Betrieb legt sie Programmdateien im Browser-Cache ab. Diese Daten verlassen dein
       Gerät nicht, wir erhalten sie nicht. Das ist für die von dir gewünschte Funktion unbedingt erforderlich
-      (§ 25 Abs. 2 Nr. 2 TDDDG). Löschen kannst du sie jederzeit über „Dieses Rad zurücksetzen“ oder indem du die
+      (§ 25 Abs. 2 Nr. 2 TDDDG). Löschen kannst du sie jederzeit über „Dieses Rad zurücksetzen“ oder indem du die
       Websitedaten in deinem Browser löschst.</p>
     <h4>4. Schriftarten und Preise</h4>
     <p>Schriftarten und Preisdaten werden vom selben Server geladen wie die App. Es gibt keine Verbindung zu Google Fonts
@@ -4440,11 +4445,11 @@ function impressumHtmlEn(){
   return `${f.length ? `<div class="fehlt">${linkVerwaltung
       ? "<b>Legal notice incomplete.</b> Missing: " + f.map(k => imSatz(BETREIBER_FELDER.find(x => x[0] === k)[1][1])).join(", ") + ". Settings → Legal notice details."
       : "The provider details are currently being completed."}</div>` : ""}
-    <h4>Information pursuant to § 5 DDG (German Digital Services Act)</h4>
+    <h4>Information pursuant to § 5 DDG (German Digital Services Act)</h4>
     <p>${[b.name, b.zusatz, b.strasse, b.ort].filter(Boolean).map(esc).join("<br>") || "—"}</p>
     <h4>Contact</h4>
     <p>${b.email ? `Email: <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ""}${b.email && b.telefon ? "<br>" : ""}${b.telefon ? "Phone: " + esc(b.telefon) : ""}${!b.email && !b.telefon ? "—" : ""}</p>
-    ${b.ustid ? `<h4>VAT identification number</h4><p>pursuant to § 27a of the German VAT Act (UStG): ${esc(b.ustid)}</p>` : ""}
+    ${b.ustid ? `<h4>VAT identification number</h4><p>pursuant to § 27a of the German VAT Act (UStG): ${esc(b.ustid)}</p>` : ""}
     <h4>Affiliate links</h4>
     <p>CrankScore is funded by the Pro version and by commissions. Shop links marked “Ad” are affiliate links:
       if you buy something after a click, CrankScore receives a commission from the shop. Your price doesn't change.
@@ -4472,7 +4477,7 @@ function datenschutzHtmlEn(){
     <p>The app stores your profiles, builds, photos and settings in your browser's local storage
       (localStorage); for offline use it keeps program files in the browser cache. This data doesn't leave your
       device, and we don't receive it. This is strictly necessary for the function you have asked for
-      (§ 25(2) no. 2 TDDDG). You can delete it at any time via “Reset this bike” or by clearing the
+      (§ 25(2) no. 2 TDDDG). You can delete it at any time via “Reset this bike” or by clearing the
       site data in your browser.</p>
     <h4>4. Fonts and prices</h4>
     <p>Fonts and price data are loaded from the same server as the app. There is no connection to Google Fonts
@@ -4538,7 +4543,7 @@ function marktCheckHtml(){
     [proKauf() && proStore() ? "ok" : "no", tx("Pro-Verkauf eingerichtet", "Pro sales set up"), proKauf() && proStore() ? "" : tx("Kauf-Link und Store-ID unten unter Pro-Verkauf", "Checkout link and store ID below under Selling Pro")],
     [linksOffen() ? "no" : "ok", tx("Alles veröffentlicht", "Everything published"), linksOffen() ? tx("links.json speichern, ins Repo legen und auf main pushen (oder App-veroeffentlichen.cmd)", "Save links.json, put it in the repo and push to main (or use App-veroeffentlichen.cmd)") : ""],
     [Object.keys(live.teile).length ? "ok" : "no", tx("Live-Preise laufen", "Live prices running"), Object.keys(live.teile).length ? "" : tx("Feed-Adressen im GitHub-Secret PREIS_FEEDS hinterlegen", "Put the feed URLs in the GitHub secret PREIS_FEEDS")],
-    ["hand", tx("Impressum und Datenschutz prüfen lassen", "Have the legal notice and privacy policy checked"), tx("Entwurf, keine Rechtsberatung — prüfen lassen z. B. von einer IT-Rechtskanzlei oder dem Händlerbund", "A draft, not legal advice — e.g. by an IT law firm or the Händlerbund")],
+    ["hand", tx("Impressum und Datenschutz prüfen lassen", "Have the legal notice and privacy policy checked"), tx("Entwurf, keine Rechtsberatung — prüfen lassen z. B. von einer IT-Rechtskanzlei oder dem Händlerbund", "A draft, not legal advice — e.g. by an IT law firm or the Händlerbund")],
     ["hand", tx("Einnahmen steuerlich klären", "Sort out tax on your earnings"), tx("Gewerbe und Kleinunternehmerregelung mit Finanzamt oder Steuerberater", "Business registration and small-business VAT rules with the tax office or a tax adviser")]
   ];
   return `<div class="check">${zeilen.map(([st, t, h]) => `<div class="check-z"><i class="${st}">${st === "ok" ? "✓" : st === "no" ? "✗" : "!"}</i>
@@ -4968,7 +4973,7 @@ function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe, bremse){
   else if(art === "PM" && d > 0){
     const shims = d === 3;
     out.push(A(tx(`Bremsscheibe ${pos} nur mit Adapter`, `${posEn} rotor needs an adapter`),"bremsen",[slot,"bremsen"],
-      tx(`Rechnung: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${shims ? "Dafür reichen zwei 1,5-mm-Distanzscheiben (Shim-Kit, z. B. SRAM 200 → 203)." : `Dafür braucht es einen Post-Mount-Adapter <code>+${d} mm</code>, der den Bremssattel nach außen setzt.`} ${shims ? "Das Kit ist" : "Er ist"} schon in deinem Aufbau eingeplant.`,
+      tx(`Rechnung: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${shims ? "Dafür reichen zwei 1,5-mm-Distanzscheiben (Shim-Kit, z. B. SRAM 200 → 203)." : `Dafür braucht es einen Post-Mount-Adapter <code>+${d} mm</code>, der den Bremssattel nach außen setzt.`} ${shims ? "Das Kit ist" : "Er ist"} schon in deinem Aufbau eingeplant.`,
          `Calculation: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${shims ? "Two 1.5 mm shims do the job (shim kit, e.g. SRAM 200 → 203)." : `That takes a <code>+${d} mm</code> post-mount adapter that moves the caliper outwards.`} ${shims ? "The kit is" : "It's"} already included in your build.`),
       Object.assign(basis, {
         n:shims ? tx("PM-Distanzscheiben +3 mm", "PM shims +3 mm") : tx(`Post-Mount-Adapter +${d} mm`, `Post-mount adapter +${d} mm`),
@@ -4987,18 +4992,18 @@ function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe, bremse){
         n:tx(`Flat-Mount-auf-PM-Adapter ${scheibe} mm`, `Flat-mount-to-PM adapter ${scheibe} mm`),
         kurz:`FM ${nativ} → PM ${scheibe}`, rechnung:d > 0 ? `FM ${nativ} + ${d} mm = ${scheibe} mm` : `FM ${nativ} → PM ${scheibe}`,
         p:25, g:50, such:`Flat Mount Post Mount Adapter ${scheibe}`,
-        grund:tx(`${deine} hat eine <b>Flat-Mount</b>-Aufnahme (FM ${nativ}): Der Sattel liegt flach auf, die Schrauben kommen von unten. Deine Bremse hat aber einen <b>Post-Mount</b>-Sattel mit zwei Gewindeaugen. Der Adapter verbindet beide Systeme und setzt den Sattel für die <b>${scheibe}-mm</b>-Scheibe${d > 0 ? ` — ${d} mm über der Aufnahme` : ""}.`,
+        grund:tx(`${deine} hat eine <b>Flat-Mount</b>-Aufnahme (FM ${nativ}): Der Bremssattel liegt flach auf, die Schrauben kommen von unten. Deine Bremse hat aber einen <b>Post-Mount</b>-Bremssattel mit zwei Gewindeaugen. Der Adapter verbindet beide Systeme und setzt den Bremssattel für die <b>${scheibe}-mm</b>-Scheibe${d > 0 ? ` — ${d} mm über der Aufnahme` : ""}.`,
                  `${deine} has a <b>flat mount</b> (FM ${nativ}): the caliper sits flat and the bolts come from below. Your brake has a <b>post-mount</b> caliper with two threaded bosses. The adapter joins both systems and places the caliper for the <b>${scheibe} mm</b> rotor${d > 0 ? ` — ${d} mm above the mount` : ""}.`),
         detail:tx("Oft liegt der Adapter dem Rahmen bei — dann kannst du ihn aus der Einkaufsliste streichen.", "The adapter often comes with the frame — then you can cross it off the shopping list.")})));
   else if(art === "IS")
     out.push(A(tx(`IS-Aufnahme ${pos}`, `${posEn} IS mount`),"bremsen",[slot,"bremsen"],
-      tx(`${wer} hat die ältere <code>IS</code>-Aufnahme (International Standard, ${nativ} mm). Post-Mount-Sättel sitzen dort nur mit einem IS-auf-PM-Adapter für <code>${scheibe} mm</code>.`,
+      tx(`${wer} hat die ältere <code>IS</code>-Aufnahme (International Standard, ${nativ} mm). Post-Mount-Bremssättel sitzen dort nur mit einem IS-auf-PM-Adapter für <code>${scheibe} mm</code>.`,
          `${wer} has the older <code>IS</code> mount (International Standard, ${nativ} mm). Post-mount calipers only fit with an IS-to-PM adapter for <code>${scheibe} mm</code>.`),
       Object.assign(basis, {tausch:null,
         n:tx(`IS-auf-PM-Adapter ${scheibe} mm`, `IS-to-PM adapter ${scheibe} mm`),
         kurz:`IS ${nativ} → PM ${scheibe}`, rechnung:d > 0 ? `IS ${nativ} + ${d} mm = ${scheibe} mm` : `IS ${nativ} → PM ${scheibe}`,
         p:15, g:45, such:`IS Post Mount Adapter ${scheibe}`,
-        grund:tx(`${deine} hat die ältere <b>IS-Aufnahme</b> (International Standard): zwei Laschen mit <b>51 mm</b> Lochabstand, die Schrauben laufen quer, parallel zur Achse. Heutige Bremssättel sind <b>Post Mount</b>. Der Adapter übersetzt IS auf PM und setzt den Sattel für deine <b>${scheibe}-mm</b>-Scheibe${d > 0 ? ` (IS ${nativ} + ${d} mm)` : ""}.`,
+        grund:tx(`${deine} hat die ältere <b>IS-Aufnahme</b> (International Standard): zwei Laschen mit <b>51 mm</b> Lochabstand, die Schrauben laufen quer, parallel zur Achse. Heutige Bremssättel sind <b>Post Mount</b>. Der Adapter übersetzt IS auf PM und setzt den Bremssattel für deine <b>${scheibe}-mm</b>-Scheibe${d > 0 ? ` (IS ${nativ} + ${d} mm)` : ""}.`,
                  `${deine} has the older <b>IS mount</b> (International Standard): two tabs <b>51 mm</b> apart, bolts running sideways, parallel to the axle. Today's calipers are <b>post mount</b>. The adapter converts IS to PM and places the caliper for your <b>${scheibe} mm</b> rotor${d > 0 ? ` (IS ${nativ} + ${d} mm)` : ""}.`),
         detail:tx("IS-Adapter gibt es je Scheibengröße — beim Kauf auf „IS → PM“ und die Größe achten.", "IS adapters come per rotor size — look for “IS → PM” and the size when buying.")})));
 }
@@ -5345,7 +5350,7 @@ function pruefe(b){
     else if(!innenlager && !rahmen.motor){
       const gibt = lagerDa(kurbel, rahmen);
       out.push(H(tx("Passendes Innenlager mitbestellen", "Order a matching bottom bracket"),"innenlager",["rahmen","kurbel"],
-        tx(`<code>${bbName(rahmen.bb)}</code> trifft auf eine <code>${kurbel.iface}</code>-Welle. ${gibt
+        tx(`<code>${bbName(rahmen.bb)}</code> trifft auf eine <code>${mmBind(kurbel.iface)}</code>-Welle. ${gibt
           ? "Passt zusammen, aber nur mit dem richtigen Lager — und das liegt bei den meisten Kurbeln nicht bei (25–120 €). Unter „Innenlager“ findest du die passenden."
           : "Dafür steht kein Lager im Katalog — solche Kombinationen gehen meist nur mit einem Adapterlager. Beim Rahmen- oder Kurbelhersteller nachfragen, bevor du bestellst."}`,
            `<code>${bbName(rahmen.bb)}</code> meets ${/^[AEIOU]/i.test(kurbel.iface) ? "an" : "a"} <code>${kurbel.iface}</code> spindle. ${gibt
@@ -5360,7 +5365,7 @@ function pruefe(b){
   if(rahmen && kurbel){
     if(rahmen.motor && !kurbel.motorWelle)
       out.push(F(tx("E-MTB braucht eine Motor-Kurbel", "E-MTB needs a motor crank"),"kurbel",["rahmen","kurbel"],
-        tx(`<code>${rahmen.n}</code> hat einen <code>${rahmen.motor}</code>-Motor. Die Kurbel sitzt dort direkt auf der Motorwelle (<code>${rahmen.motorWelle}</code>) — eine normale Kurbel mit <code>${kurbel.iface}</code>-Welle passt nicht, ein Innenlager gibt es nicht.`,
+        tx(`<code>${rahmen.n}</code> hat einen <code>${rahmen.motor}</code>-Motor. Die Kurbel sitzt dort direkt auf der Motorwelle (<code>${rahmen.motorWelle}</code>) — eine normale Kurbel mit <code>${mmBind(kurbel.iface)}</code>-Welle passt nicht, ein Innenlager gibt es nicht.`,
            `<code>${rahmen.n}</code> has a <code>${rahmen.motor}</code> motor. The crank mounts straight onto the motor spindle (<code>${rahmen.motorWelle}</code>) — a regular crank with a <code>${kurbel.iface}</code> spindle won't fit, and there's no bottom bracket.`)));
     else if(!rahmen.motor && kurbel.motorWelle)
       out.push(F(tx("Motor-Kurbel ohne Motor", "Motor crank without a motor"),"kurbel",["rahmen","kurbel"],
@@ -5382,7 +5387,7 @@ function pruefe(b){
          `The frame has <code>${bbName(rahmen.bb)}</code>, the bearing is made for <code>${innenlager.gehaeuse.map(bbName).join(" / ")}</code>. Threaded and press-fit bearings aren't interchangeable, and the shell width has to match.`)));
   if(innenlager && kurbel && kurbel.iface !== innenlager.welle)
     out.push(F(tx("Kurbelwelle passt nicht ins Innenlager", "Crank spindle doesn't fit the bottom bracket"),"innenlager",["kurbel","innenlager"],
-      tx(`<code>${kurbel.n}</code> hat eine <code>${kurbel.iface}</code>-Welle, <code>${innenlager.n}</code> nimmt <code>${innenlager.welle}</code> auf. Die Welle geht entweder gar nicht durch oder sitzt mit Spiel.`,
+      tx(`<code>${kurbel.n}</code> hat eine <code>${mmBind(kurbel.iface)}</code>-Welle, <code>${innenlager.n}</code> nimmt <code>${innenlager.welle}</code> auf. Die Welle geht entweder gar nicht durch oder sitzt mit Spiel.`,
          `<code>${kurbel.n}</code> has ${/^[AEIOU]/i.test(kurbel.iface) ? "an" : "a"} <code>${kurbel.iface}</code> spindle, <code>${innenlager.n}</code> takes <code>${innenlager.welle}</code>. The spindle either won't go through or sits with play.`)));
   else if(innenlager && kurbel && kurbel.iface === "DUB" && rahmen){
     /* DUB Wide heisst genau 55 mm (Transmission). Die DH-Kurbel mit 56,5 mm
@@ -5462,7 +5467,7 @@ function pruefe(b){
 
   if(lenker && vorbau && lenker.klemm !== vorbau.klemm)
     out.push(F(tx("Lenkerklemmung passt nicht zum Vorbau", "Bar clamp doesn't match the stem"),"vorbau",["lenker","vorbau"],
-      tx(`Lenker <code>${zahlDe(lenker.klemm)} mm</code>, Vorbau <code>${zahlDe(vorbau.klemm)} mm</code>. Ein 35er Lenker geht nicht in eine 31,8er Klemmung, und andersherum reißt es den Lenker heraus.`,
+      tx(`Lenker <code>${zahlDe(lenker.klemm)} mm</code>, Vorbau <code>${zahlDe(vorbau.klemm)} mm</code>. Ein 35er-Lenker geht nicht in eine 31,8er-Klemmung, und andersherum reißt es den Lenker heraus.`,
          `Bar <code>${zahlDe(lenker.klemm)} mm</code>, stem <code>${zahlDe(vorbau.klemm)} mm</code>. A 35 mm bar won't go into a 31.8 clamp, and the other way round the bar can rip out.`)));
   /* Direct-Mount-Vorbauten werden auf die obere Gabelbruecke geschraubt --
      die gibt es nur an Doppelbrueckengabeln. */
@@ -6226,7 +6231,7 @@ let linksServer = {netz:{}, teile:{}, betreiber:{}};
 const PRO_FELDER = [["proKauf", ["Kauf-Link monatlich (Checkout von Lemon Squeezy, https://…)", "Monthly checkout link (Lemon Squeezy, https://…)"]],
   ["proKaufJahr", ["Kauf-Link jährlich (Checkout, https://…)", "Yearly checkout link (https://…)"]],
   ["proStore", ["Store-ID", "Store ID"]], ["proProdukt", ["Produkt-ID", "Product ID"]]];
-const BETREIBER_FELDER = [["name", ["Vor- und Nachname", "First and last name"]], ["zusatz", ["Adresszusatz — z. B. c/o Impressum-Service", "Address line 2 — e.g. c/o a legal-notice service"]],
+const BETREIBER_FELDER = [["name", ["Vor- und Nachname", "First and last name"]], ["zusatz", ["Adresszusatz — z. B. c/o Impressum-Service", "Address line 2 — e.g. c/o a legal-notice service"]],
   ["strasse", ["Straße und Hausnummer", "Street and number"]], ["ort", ["PLZ und Ort", "Postcode and town"]],
   ["email", ["E-Mail", "Email"]], ["telefon", ["Telefon — zweiter schneller Kontaktweg", "Phone — a second quick way to reach you"]],
   ["ustid", ["USt-IdNr. — nur wenn vorhanden", "VAT ID — only if you have one"]]].concat(PRO_FELDER);
@@ -6713,7 +6718,7 @@ function oeffnePro(grund){
         ${vorteil(IC.fahrwerk, tx("Fahrwerk-Setup", "Suspension setup"), tx("Luftdruck, SAG, Druck- und Zugstufe in echten Klicks für deine Gabel und deinen Dämpfer — Schritt für Schritt, mit Feintuning und Notizbuch.", "Air pressure, sag, compression and rebound in real clicks for your fork and shock — step by step, with fine-tuning and a notebook."))}
         ${vorteil(IC.guide, tx("Guide ohne Limit", "Unlimited guide"), tx(`Frag, so viel du willst. Free: ${PRO_GUIDE_FREI} Fragen am Tag.`, `Ask as much as you like. Free: ${PRO_GUIDE_FREI} questions a day.`))}
       </ul>
-      <p class="pro-frei">${tx("Kostenlos bleibt alles andere: Aufbau, Prüfung, Score, Nächster Schritt, Upgrades, Einkaufsliste, Fit-Rechner und die Bewertung von Gebrauchträdern.",
+      <p class="pro-frei">${tx("Kostenlos bleibt alles andere: Aufbau, Prüfung, Score, „Nächster Schritt“, Upgrades, Einkaufsliste, Fit-Rechner und die Bewertung von Gebrauchträdern.",
         "Everything else stays free: build, check, score, next step, upgrades, shopping list, fit calculator and used-bike ratings.")}</p>
       ${aktiv && proBetreiber() ? `<div class="pro-stand"><b>${ic(IC.haken, 16)} ${tx("Pro ist aktiv — Betreiber-Modus", "Pro is active — operator mode")}</b>
           <span>${tx("Für dich kostenlos, solange der Betreiber-Modus an ist. Schaltest du ihn unter ⋮ aus, siehst du die App wie Free-Nutzer.", "Free for you while operator mode is on. Turn it off under ⋮ to see the app the way Free users do.")}</span></div>
@@ -6740,7 +6745,7 @@ function gPro(){
   return {h:istPro()
     ? tx("Du hast <b>Pro</b> — danke! Damit hast du unbegrenzt viele Räder, das Fahrwerk-Setup und den Guide ohne Limit. Abo verwalten oder kündigen geht unter ⋮ → CrankScore Pro.",
       "You have <b>Pro</b> — thank you! That gives you unlimited bikes, suspension setup and an unlimited guide. Manage or cancel under ⋮ → CrankScore Pro.")
-    : tx(`CrankScore gibt es als <b>Free</b> und als <b>Pro</b>. Free ist kostenlos: Aufbau, Prüfung, Score, Nächster Schritt, Upgrades, Einkaufsliste, Fit-Rechner und Gebrauchtrad-Bewertung. <b>Pro</b> kostet ${proPreis()} und bringt unbegrenzt Räder (Free: eines je Modus), das Fahrwerk-Setup und den Guide ohne Limit (Free: ${PRO_GUIDE_FREI} Fragen am Tag). Ein Konto brauchst du für beides nicht: Pro schaltest du mit dem Code aus der Kauf-Mail frei, jederzeit kündbar.`,
+    : tx(`CrankScore gibt es als <b>Free</b> und als <b>Pro</b>. Free ist kostenlos: Aufbau, Prüfung, Score, „Nächster Schritt“, Upgrades, Einkaufsliste, Fit-Rechner und Gebrauchtrad-Bewertung. <b>Pro</b> kostet ${proPreis()} und bringt unbegrenzt Räder (Free: eines je Modus), das Fahrwerk-Setup und den Guide ohne Limit (Free: ${PRO_GUIDE_FREI} Fragen am Tag). Ein Konto brauchst du für beides nicht: Pro schaltest du mit dem Code aus der Kauf-Mail frei, jederzeit kündbar.`,
       `CrankScore comes as <b>Free</b> and <b>Pro</b>. Free costs nothing: build, check, score, next step, upgrades, shopping list, fit calculator and rating used bikes. <b>Pro</b> costs ${proPreis()} and adds unlimited bikes (Free: one per mode), suspension setup and an unlimited guide (Free: ${PRO_GUIDE_FREI} questions a day). You don't need an account for either: you unlock Pro with the code from the purchase email, cancel anytime.`),
     ak:["pro"]};
 }
@@ -7237,8 +7242,8 @@ function oeffneEigen(slotKey){
         ein Teil, das genauso gebaut ist — gleiche Achse, gleiche Klemmung, gleiches Einbaumaß. Mit diesen Maßen prüft
         die App dein Teil.`, `For anything that isn't in the catalogue. Under <b>Same specs as</b> pick a part that's built
         the same way — same axle, same clamp, same shock size. The app checks your part with those specs.`)}</p>
-      <div class="fld"><label for="eg-n">Name</label><input id="eg-n" type="text" autocomplete="off" maxlength="60" placeholder="${tx("z. B.", "e.g.")} Intend Edge 170"></div>
-      <div class="fld"><label for="eg-m">${tx("Marke", "Brand")}</label><input id="eg-m" type="text" autocomplete="off" maxlength="40" placeholder="${tx("z. B.", "e.g.")} Intend"></div>
+      <div class="fld"><label for="eg-n">Name</label><input id="eg-n" type="text" autocomplete="off" maxlength="60" placeholder="${tx("z. B.", "e.g.")} Intend Edge 170"></div>
+      <div class="fld"><label for="eg-m">${tx("Marke", "Brand")}</label><input id="eg-m" type="text" autocomplete="off" maxlength="40" placeholder="${tx("z. B.", "e.g.")} Intend"></div>
       <div class="fld"><label for="eg-p">${tx("Preis in €", "Price in €")}</label><input id="eg-p" type="number" inputmode="numeric" min="0" max="50000" placeholder="0"></div>
       <div class="fld"><label for="eg-g">${tx("Gewicht in g", "Weight in g")}</label><input id="eg-g" type="number" inputmode="numeric" min="0" max="30000" placeholder="0"></div>
       <div class="fld"><label for="eg-v">${tx("Maße wie", "Same specs as")}</label><select id="eg-v">${liste.map(t =>
@@ -8946,7 +8951,7 @@ function fitErgebnisHtml(f){
         : kachel(i++, IC.sattel, tx("Sattelhöhe", "Saddle height"), f.sattel + " mm", f.sattel, tx("Tretlagermitte bis Satteloberkante", "Bottom bracket centre to top of saddle") + (f.ds.indexOf("dh") >= 0 ? tx(" — bergab tiefer", " — lower for descending") : ""))}
       ${kachel(i++, IC.laufrad, tx("Laufräder", "Wheels"), f.lr, null, f.lrText)}
       ${kachel(i++, IC.rise, tx("Lenker-Rise", "Bar rise"), `${f.rise[0]}–${f.rise[1]} mm`, null, tx("wie hoch der Lenker kröpft", "how high the bar rises"))}
-      ${kachel(i++, IC.hand, tx("Griffe", "Grips"), f.hand ? sp2(HAND[f.hand][0]) : tx("nach Gefühl", "by feel"), null, f.hand ? sp2(HAND[f.hand][1]) : tx("Handschuhgröße angeben für einen Tipp", "Enter your glove size for a tip"))}
+      ${kachel(i++, IC.hand, tx("Griffe", "Grips"), f.hand ? sp2(HAND[f.hand][0]) : tx("nach Gefühl", "by feel"), null, f.hand ? sp2(HAND[f.hand][1]) : tx("Mit deiner Handschuhgröße gibt's hier einen Tipp", "Add your glove size to get a tip here"))}
     </div>
     <p class="ei-klein links">${sch.length ? tx(`Aus deiner Größe geschätzt: ${sch.join(", ")} — gemessen wird es genauer. `, `Estimated from your height: ${sch.join(", ")} — measuring is more accurate. `) : ""}${tx(`Startwerte, wie sie
       Größentabellen und Bikefitter nennen. Eine Probefahrt schlägt jede Tabelle.`, `Starting values, like those in size charts or from a bike fitter. A test ride beats any chart.`)}</p>`;
@@ -9790,8 +9795,8 @@ function gMindest(q){
   const liste = (ds.length ? ds : DISZ.filter(d => MINDEST[d.id]));
   const z = liste.map(d => `<li><b>${esc(dName(d.id))}</b>: ${tx("ab etwa", "from about")} ${eur(MINDEST[d.id])}</li>`).join("");
   return {h:tx("So viel kostet ein stimmiges Rad mindestens, neu aus dem Katalog zusammengestellt:", "This is the least a coherent bike costs, built new from the catalogue:") + `<ul>${z}</ul>`
-    + tx("Darunter wird es ein Rad mit Kompromissen. Gebraucht bekommst du oft deutlich mehr fürs Geld — der Modus Gebraucht prüft den Preis.",
-      "Below that it becomes a bike with compromises. Used, you often get much more for your money — the Used mode checks the price."), ak:[modus === "markt" ? "modus:traum" : "modus:markt"]};
+    + tx("Darunter wird es ein Rad mit Kompromissen. Gebraucht bekommst du oft deutlich mehr fürs Geld — der Modus <b>Gebraucht</b> prüft den Preis.",
+      "Below that it becomes a bike with compromises. Used, you often get much more for your money — the <b>Used</b> mode checks the price."), ak:[modus === "markt" ? "modus:traum" : "modus:markt"]};
 }
 function gUeber(){
   return {h:tx(`Ich bin der eingebaute Guide von CrankScore — keine KI aus dem Internet, sondern eine Wissenssammlung direkt in der App, die mit deinem Aufbau rechnet. Ich erkenne, was du wissen willst, und antworte aus ${GUIDE.length} Themen zur App und zum Rad. Zu deinem Rad rechne ich live: was zur 100 fehlt und welcher Tausch am meisten bringt, welche Teile am besten passen, wofür dein Rad taugt, wo du Geld oder Gewicht sparst. Und ich helfe in der Werkstatt: Bremse schleift oder quietscht, entlüften, Beläge, Schaltung einstellen, Kette wechseln, Inspektion, Platten — Schritt für Schritt und passend zu den Teilen an deinem Rad. Teile finde ich im Katalog und sage dir, ob sie passen. Alles bleibt auf deinem Handy, auch offline.`,
@@ -10245,7 +10250,7 @@ function gBremse(q){
 const gBremsKopf = b => !b ? "" : b.felge ? tx(`An deinem Rad: <b>${esc(b.teil.n)}</b> (Felgenbremse).`, `On your bike: <b>${esc(b.teil.n)}</b> (rim brake).`)
   : b.teil ? tx(`An deinem Rad: <b>${esc(b.teil.n)}</b>${b.fl ? ` — Bremsflüssigkeit <b>${sp2(b.fl)}</b>` : ""}.`, `On your bike: <b>${esc(b.teil.n)}</b>${b.fl ? ` — brake fluid <b>${sp2(b.fl)}</b>` : ""}.`)
   : tx(`Für <b>${esc(b.m)}</b>: Bremsflüssigkeit <b>${sp2(b.fl)}</b>.`, `For <b>${esc(b.m)}</b>: brake fluid <b>${sp2(b.fl)}</b>.`);
-const gOhneBremse = () => gFrage("Welche Bremse hast du? Trag sie unter <b>Bremsen</b> ein oder nenn mir die Marke (z. B. „Shimano“ oder „Magura“) — dann sage ich dir genau, was du brauchst.",
+const gOhneBremse = () => gFrage("Welche Bremse hast du? Trag sie unter <b>Bremsen</b> ein oder nenn mir die Marke (z. B. „Shimano“ oder „Magura“) — dann sage ich dir genau, was du brauchst.",
   "Which brake do you have? Add it under <b>Brakes</b> or tell me the brand (e.g. “Shimano” or “Magura”) — then I'll tell you exactly what you need.");
 
 function gWSchleift(q){
@@ -10255,8 +10260,8 @@ function gWSchleift(q){
       "Rubbing means the <b>rotor</b> (the metal disc on the hub) touches a <b>brake pad</b> (the friction blocks in the caliper) as it turns. It costs energy and is annoying — but usually quick to fix.")
     + (b ? "<br>" + gBremsKopf(b) : "")
     + gOl([tx("<b>Laufrad prüfen:</b> Steckachse ganz rein und fest? Sitzt das Rad schief, schleift es schon deshalb.", "<b>Check the wheel:</b> is the thru-axle fully in and tight? A crooked wheel rubs for that reason alone."),
-      tx("<b>Sattel ausrichten:</b> Die zwei Schrauben, die den <b>Bremssattel</b> (das Gehäuse um die Scheibe) halten, eine halbe Umdrehung lösen. Bremshebel ziehen und festhalten — der Sattel richtet sich dabei mittig aus.", "<b>Align the caliper:</b> loosen the two bolts holding the <b>caliper</b> (the housing around the rotor) half a turn. Pull the brake lever and hold it — the caliper centres itself."),
-      tx("Hebel weiter gezogen halten und die Schrauben <b>abwechselnd</b> festziehen (meist 6–8 Nm, steht am Sattel). Loslassen, Rad drehen.", "Keep the lever pulled and tighten the bolts <b>alternately</b> (usually 6–8 Nm, marked on the caliper). Let go, spin the wheel."),
+      tx("<b>Bremssattel ausrichten:</b> Die zwei Schrauben, die den <b>Bremssattel</b> (das Gehäuse um die Scheibe) halten, eine halbe Umdrehung lösen. Bremshebel ziehen und festhalten — der Bremssattel richtet sich dabei mittig aus.", "<b>Align the caliper:</b> loosen the two bolts holding the <b>caliper</b> (the housing around the rotor) half a turn. Pull the brake lever and hold it — the caliper centres itself."),
+      tx("Hebel weiter gezogen halten und die Schrauben <b>abwechselnd</b> festziehen (meist 6–8 Nm, steht am Bremssattel). Loslassen, Rad drehen.", "Keep the lever pulled and tighten the bolts <b>alternately</b> (usually 6–8 Nm, marked on the caliper). Let go, spin the wheel."),
       tx("Schleift es noch: Von hinten durch den Spalt gegen das Licht schauen. Ist die <b>Scheibe verbogen</b> (sie „eiert“ an einer Stelle), vorsichtig mit einem Scheibenrichter oder einem sauberen Gabelschlüssel richten — ohne die Bremsfläche mit Fingern anzufassen.", "Still rubbing: look through the gap from behind against the light. If the <b>rotor is bent</b> (wobbles at one spot), carefully true it with a rotor truing tool or a clean spanner — without touching the braking surface with your fingers."),
       tx("Kommt ein <b>Kolben</b> (der Stempel, der den Belag drückt) nicht mehr ganz zurück: Rad raus, Beläge raus, Kolben mit einem Kunststoffhebel vorsichtig zurückdrücken und ein paar Mal pumpen lassen — dabei einen Abstandshalter einlegen.", "If a <b>piston</b> (the plunger that pushes the pad) no longer fully retracts: wheel out, pads out, gently push the piston back with a plastic lever and let it pump a few times — with a spacer in place.")])
     + gSicher("Nach der Arbeit immer im Stand prüfen: Hebel fest, Rad bremst sofort. Nie einen Schraubenzieher als Hebel an den Kolben — und Bremse nie ohne Scheibe oder Abstandshalter ziehen. Wenn du unsicher bist: Fachwerkstatt.",
@@ -10283,17 +10288,17 @@ function gWEntlueften(q){
   if(b && b.felge) return gWFelge(q);
   const art = b && b.art, dot = b && b.oel === "dot";
   const weg = {
-    trichter:tx("Bei dieser Bremse arbeitet man mit einem <b>Trichter</b> oben am Hebel: Öl kommt von unten per Spritze in den Sattel und steigt nach oben, die Luft blubbert im Trichter heraus.", "This brake uses a <b>funnel</b> on top of the lever: oil goes in at the caliper from below with a syringe and rises up, the air bubbles out into the funnel."),
-    spritze:tx("Bei dieser Bremse drückt man mit einer <b>Spritze</b> unten am Sattel Öl hinein; oben am Hebel fängt eine zweite Spritze oder ein Beutel das alte Öl und die Luft auf.", "With this brake you push oil in with a <b>syringe</b> at the caliper; a second syringe or bag at the lever catches the old oil and the air."),
-    sram:tx("SRAM arbeitet mit <b>zwei Spritzen</b>: eine am Sattel (meist mit dem „Bleeding Edge“-Adapter), eine am Hebel. Man drückt hin und her und zieht mit Unterdruck die Luft heraus.", "SRAM uses <b>two syringes</b>: one at the caliper (usually with the “Bleeding Edge” adapter), one at the lever. You push back and forth and pull the air out with vacuum."),
-    offen:tx("Hope hat einen <b>offenen Ausgleichsbehälter</b> am Hebel: Deckel ab, Flüssigkeit oben nachfüllen, am Sattel das Entlüftungsventil öffnen und mit dem Hebel durchpumpen.", "Hope has an <b>open reservoir</b> at the lever: lid off, top up from above, open the bleed nipple at the caliper and pump the fluid through with the lever.")};
+    trichter:tx("Bei dieser Bremse arbeitet man mit einem <b>Trichter</b> oben am Hebel: Öl kommt von unten per Spritze in den Bremssattel und steigt nach oben, die Luft blubbert im Trichter heraus.", "This brake uses a <b>funnel</b> on top of the lever: oil goes in at the caliper from below with a syringe and rises up, the air bubbles out into the funnel."),
+    spritze:tx("Bei dieser Bremse drückt man mit einer <b>Spritze</b> unten am Bremssattel Öl hinein; oben am Hebel fängt eine zweite Spritze oder ein Beutel das alte Öl und die Luft auf.", "With this brake you push oil in with a <b>syringe</b> at the caliper; a second syringe or bag at the lever catches the old oil and the air."),
+    sram:tx("SRAM arbeitet mit <b>zwei Spritzen</b>: eine am Bremssattel (meist mit dem „Bleeding Edge“-Adapter), eine am Hebel. Man drückt hin und her und zieht mit Unterdruck die Luft heraus.", "SRAM uses <b>two syringes</b>: one at the caliper (usually with the “Bleeding Edge” adapter), one at the lever. You push back and forth and pull the air out with vacuum."),
+    offen:tx("Hope hat einen <b>offenen Ausgleichsbehälter</b> am Hebel: Deckel ab, Flüssigkeit oben nachfüllen, am Bremssattel das Entlüftungsventil öffnen und mit dem Hebel durchpumpen.", "Hope has an <b>open reservoir</b> at the lever: lid off, top up from above, open the bleed nipple at the caliper and pump the fluid through with the lever.")};
   const h = tx("<b>Entlüften</b> heißt: Luftblasen aus der Bremsleitung holen. Luft lässt sich zusammendrücken — der Hebel wird dann weich, „schwammig“, oder lässt sich bis zum Lenker ziehen. Höchste Zeit, wenn der <b>Druckpunkt</b> (der Moment, ab dem der Hebel fest wird) wandert.",
       "<b>Bleeding</b> means getting air bubbles out of the brake line. Air compresses — the lever goes soft, “spongy”, or pulls to the bar. It's time when the <b>bite point</b> (where the lever goes firm) wanders.")
     + (b ? "<br>" + gBremsKopf(b) + (art && weg[art] ? " " + weg[art] : "") : "")
     + gOl([tx("Bereitlegen: das <b>Entlüftungskit des Herstellers</b>, die richtige Flüssigkeit, Handschuhe, Lappen, Isopropanol. Die Anleitung des Herstellers daneben öffnen.", "Get ready: the <b>maker's bleed kit</b>, the correct fluid, gloves, rags, isopropyl alcohol. Keep the maker's instructions open."),
       tx("Laufrad ausbauen, <b>Beläge raus</b> und einen Abstandshalter (Bleed-Block) zwischen die Kolben stecken. So kann nichts verölen und die Kolben bleiben, wo sie hingehören.", "Remove the wheel, <b>take the pads out</b> and put a spacer (bleed block) between the pistons. That way nothing gets contaminated and the pistons stay put."),
       tx("Hebel so drehen, dass der <b>Ausgleichsbehälter waagerecht</b> und oben ist — Luft steigt immer zum höchsten Punkt.", "Turn the lever so the <b>reservoir is level</b> and on top — air always rises to the highest point."),
-      tx("Flüssigkeit <b>langsam von unten (Sattel) nach oben (Hebel)</b> drücken, bis oben keine Blasen mehr kommen. Zwischendurch Hebel ein paar Mal ziehen und Leitung leicht beklopfen.", "Push fluid <b>slowly from the bottom (caliper) to the top (lever)</b> until no more bubbles appear. Pull the lever a few times in between and tap the hose gently."),
+      tx("Flüssigkeit <b>langsam von unten (Bremssattel) nach oben (Hebel)</b> drücken, bis oben keine Blasen mehr kommen. Zwischendurch Hebel ein paar Mal ziehen und Leitung leicht beklopfen.", "Push fluid <b>slowly from the bottom (caliper) to the top (lever)</b> until no more bubbles appear. Pull the lever a few times in between and tap the hose gently."),
       tx("Alles verschließen, Reste sauber abwischen, Beläge und Rad wieder einbauen, Druckpunkt im Stand prüfen.", "Close everything, wipe off any residue, refit pads and wheel, check the bite point while standing still."),
       tx("Kurz <b>einbremsen</b> (siehe Beläge), dann erst richtig fahren.", "Briefly <b>bed in</b> (see pads), only then ride properly.")])
     + (dot ? tx("<b>DOT</b> zieht mit der Zeit Wasser aus der Luft und greift Lack an — bei DOT-Bremsen etwa <b>einmal im Jahr</b> komplett tauschen und Spritzer sofort abwaschen.", "<b>DOT</b> absorbs water from the air over time and attacks paint — on DOT brakes replace it fully <b>about once a year</b> and wash off any spills at once.") : "")
@@ -10343,7 +10348,7 @@ function gWBremsMarken(){
       tx("<b>SRAM</b>: Level, G2, Code mit DOT 5.1 — sehr fein dosierbar (Dosierbarkeit: wie genau man die Kraft steuern kann). Maven und Motive mit Mineralöl, Maven sehr stark.", "<b>SRAM</b>: Level, G2, Code with DOT 5.1 — very fine modulation (how precisely you can control the force). Maven and Motive with mineral oil, Maven very powerful."),
       tx("<b>Magura</b> (MT-Serie, Gustav, HS33): Mineralöl (Royal Blood), leicht, viel Kraft fürs Geld; die einfachen Hebel sind aus Kunststoff.", "<b>Magura</b> (MT series, Gustav, HS33): mineral oil (Royal Blood), light, lots of power for the money; the basic levers are plastic."),
       tx("<b>Hope</b> (Tech 4): aus dem Vollen gefräst, langlebig, jedes Teil einzeln zu haben, DOT 5.1 — teurer.", "<b>Hope</b> (Tech 4): machined, durable, every part available separately, DOT 5.1 — pricier."),
-      tx("<b>TRP</b> und <b>Tektro</b>: gehören zusammen — Tektro günstig an vielen Kompletträdern, TRP (z. B. DH-R Evo) stark für Gravity. Mineralöl.", "<b>TRP</b> and <b>Tektro</b>: same company — Tektro affordable on many complete bikes, TRP (e.g. DH-R Evo) strong for gravity. Mineral oil."),
+      tx("<b>TRP</b> und <b>Tektro</b>: gehören zusammen — Tektro günstig an vielen Kompletträdern, TRP (z. B. DH-R Evo) stark für Gravity. Mineralöl.", "<b>TRP</b> and <b>Tektro</b>: same company — Tektro affordable on many complete bikes, TRP (e.g. DH-R Evo) strong for gravity. Mineral oil."),
       tx("<b>Formula, Hayes, Trickstuff</b>: kleinere Marken; Trickstuff ist die teure Spitze mit enormer Kraft.", "<b>Formula, Hayes, Trickstuff</b>: smaller brands; Trickstuff is the pricey top end with enormous power.")])
     + tx("<b>Kompatibilität:</b> Hebel und Bremssattel bleiben bei einer Marke. Scheiben gibt es als <b>6-Loch</b> oder <b>Center Lock</b> — eine 6-Loch-Scheibe passt per Adapter auf eine Center-Lock-Nabe, umgekehrt nicht. Größe und Adapter prüft die App.",
       "<b>Compatibility:</b> lever and caliper stay with one brand. Rotors are <b>6-bolt</b> or <b>Center Lock</b> — a 6-bolt rotor fits a Center Lock hub with an adapter, not the other way round. The app checks size and adapters.");
@@ -10410,7 +10415,7 @@ function gWSchaltprobleme(q){
       tx("<b>Kette verschlissen?</b> Mit einer Kettenlehre messen. Eine gelängte Kette springt vor allem auf den oft genutzten Ritzeln.", "<b>Chain worn?</b> Measure with a chain checker. A stretched chain skips mostly on the most-used cogs."),
       tx("<b>Kassette oder Kettenblatt verschlissen?</b> Haifischzahn-Form der Zähne = tauschen. Springt eine neue Kette auf alten Ritzeln, ist die Kassette durch.", "<b>Cassette or chainring worn?</b> Shark-fin teeth = replace. If a new chain skips on old cogs, the cassette is done."),
       tx("<b>Steifes Kettenglied</b>: Kurbel rückwärts drehen und schauen, ob ein Glied am Schaltwerk „hüpft“ — vorsichtig seitlich biegen oder ölen.", "<b>Stiff link</b>: spin the cranks backwards and watch for a link that “jumps” at the derailleur — flex it sideways gently or oil it.")])
-    + tx("Gemischte Systeme (z. B. Shimano-Hebel mit SRAM-Schaltwerk) schalten nie ganz sauber — die App warnt davor.", "Mixed systems (e.g. Shimano shifter with SRAM derailleur) never shift quite cleanly — the app warns about it.");
+    + tx("Gemischte Systeme (z. B. Shimano-Hebel mit SRAM-Schaltwerk) schalten nie ganz sauber — die App warnt davor.", "Mixed systems (e.g. Shimano shifter with SRAM derailleur) never shift quite cleanly — the app warns about it.");
   return {h:h + (a ? "" : gOhneAntrieb()), ak:["slot:schaltwerk"], chips:[{id:"w-schaltung", t:gTitel("w-schaltung")}, {id:"kette", t:gTitel("kette")}]};
 }
 function gWKetteWechseln(q){
@@ -10465,8 +10470,8 @@ function gWInspektion(){
       tx("Steckachsen bzw. Schnellspanner zu, Lenker und Vorbau fest.", "Thru-axles or quick releases closed, bar and stem tight.")])
     + `<p><b>${tx("Einmal im Monat", "Once a month")}</b></p>` + gUl([
       tx("Kette messen und ölen, Bremsbeläge ansehen.", "Measure and lube the chain, look at the brake pads."),
-      tx("<b>Steuersatz</b> (Lager, in dem sich die Gabel dreht): Vorderbremse ziehen, Rad vor und zurück schieben — klackt es, nachstellen.", "<b>Headset</b> (the bearing the fork turns in): pull the front brake, rock the bike back and forth — if it clunks, adjust it."),
-      tx("Schrauben mit dem <b>Drehmomentschlüssel</b> nachziehen — der Wert steht meist neben der Schraube (z. B. „5 Nm“). Bei Carbon besonders wichtig.", "Re-torque bolts with a <b>torque wrench</b> — the value is usually printed next to the bolt (e.g. “5 Nm”). Especially important with carbon."),
+      tx("<b>Steuersatz</b> (Lager, in dem sich die Gabel dreht): Vorderbremse ziehen, Rad vor- und zurückschieben — klackt es, nachstellen.", "<b>Headset</b> (the bearing the fork turns in): pull the front brake, rock the bike back and forth — if it clunks, adjust it."),
+      tx("Schrauben mit dem <b>Drehmomentschlüssel</b> nachziehen — der Wert steht meist neben der Schraube (z. B. „5 Nm“). Bei Carbon besonders wichtig.", "Re-torque bolts with a <b>torque wrench</b> — the value is usually printed next to the bolt (e.g. “5 Nm”). Especially important with carbon."),
       tx("Hinterbau: Rahmen festhalten, Hinterrad seitlich bewegen — Spiel heißt: Lager prüfen.", "Rear end: hold the frame, move the rear wheel sideways — play means: check the bearings.")])
     + `<p><b>${tx("Einmal im Jahr", "Once a year")}</b></p>` + gUl([
       tx("Werkstatt-Inspektion: Züge, Lager, Laufräder zentrieren.", "Shop service: cables, bearings, wheel truing."),
@@ -10508,7 +10513,7 @@ function gWAntriebMarken(){
   return {h:(a && a.sw ? gAntriebKopf(a) + "<br>" : "") + tx("Die wichtigsten Schaltungs-Marken — neutral verglichen:", "The main drivetrain brands — compared neutrally:")
     + gUl([tx("<b>Shimano</b> (Deore, SLX, XT, XTR): schaltet unter Last sehr sanft, Kassetten auf <b>Micro Spline</b>-Freilauf; günstige Verschleißteile. <b>CUES/LinkGlide</b> ist extra robust fürs E-Bike.", "<b>Shimano</b> (Deore, SLX, XT, XTR): very smooth under load, cassettes on <b>Micro Spline</b> freehub; cheap wear parts. <b>CUES/LinkGlide</b> is extra tough for e-bikes."),
       tx("<b>SRAM Eagle</b>: mechanisch oder per Funk (AXS), Kassetten meist auf <b>XD</b>-Freilauf. <b>Transmission</b>: wird direkt an der Achse verschraubt, sehr robust, braucht einen Rahmen mit <b>UDH</b>.", "<b>SRAM Eagle</b>: mechanical or wireless (AXS), cassettes mostly on <b>XD</b> freehub. <b>Transmission</b>: bolts straight to the axle, very tough, needs a frame with <b>UDH</b>."),
-      tx("<b>Campagnolo</b>: Rennrad und Gravel (z. B. Ekar 13-fach) — nicht mit MTB-Teilen von Shimano oder SRAM mischbar.", "<b>Campagnolo</b>: road and gravel (e.g. Ekar 13-speed) — not mixable with Shimano or SRAM MTB parts."),
+      tx("<b>Campagnolo</b>: Rennrad und Gravel (z. B. Ekar 13-fach) — nicht mit MTB-Teilen von Shimano oder SRAM mischbar.", "<b>Campagnolo</b>: road and gravel (e.g. Ekar 13-speed) — not mixable with Shimano or SRAM MTB parts."),
       tx("<b>microSHIFT</b> (Advent X) und <b>Box</b>: günstige, robuste Alternativen mit 9 oder 10 Gängen.", "<b>microSHIFT</b> (Advent X) and <b>Box</b>: affordable, tough alternatives with 9 or 10 speeds.")])
     + tx("<b>Wichtigste Regel:</b> Schalthebel, Schaltwerk, Kassette und Kette aus <b>einem System</b> — jedes System zieht pro Klick anders viel Zug, und die Zahnprofile sind aufeinander abgestimmt. Die App prüft das bei jedem Teil.",
       "<b>Main rule:</b> shifter, derailleur, cassette and chain from <b>one system</b> — each system pulls a different amount of cable per click, and the tooth profiles are matched. The app checks this for every part."),
@@ -10517,13 +10522,13 @@ function gWAntriebMarken(){
 function gWMotoren(){
   const r = gT("rahmen");
   return {h:(r && r.motor ? tx(`An deinem Rad: <b>${esc(r.motor)}</b>${r.akku ? ` mit ${r.akku} Wh` : ""}.<br>`, `On your bike: <b>${esc(r.motor)}</b>${r.akku ? ` with ${r.akku} Wh` : ""}.<br>`) : "")
-    + tx("E-MTB-Motoren unterscheiden sich in <b>Drehmoment</b> (Nm — wie kräftig er schiebt), Gewicht, Geräusch und Werkstatt-Netz. <b>Wh</b> beim Akku heißt: wie viel Energie reinpasst — mehr Wh, mehr Reichweite.",
+    + tx("E-MTB-Motoren unterscheiden sich in <b>Drehmoment</b> (Nm — wie kräftig er schiebt), Gewicht, Geräusch und Werkstatt-Netz. <b>Wh</b> beim Akku sagt, wie viel Energie er speichert — mehr Wh, mehr Reichweite.",
       "E-MTB motors differ in <b>torque</b> (Nm — how hard it pushes), weight, noise and dealer network. <b>Wh</b> on the battery means how much energy it holds — more Wh, more range.")
     + gUl([tx("<b>Bosch Performance Line CX</b>: sehr verbreitet, kräftig (85–100 Nm), riesiges Werkstatt-Netz.", "<b>Bosch Performance Line CX</b>: very widespread, powerful (85–100 Nm), huge dealer network."),
       tx("<b>Shimano EP8 / EP801</b>: 85 Nm, natürlich zu fahren, eigene Kurbelaufnahme.", "<b>Shimano EP8 / EP801</b>: 85 Nm, natural feel, its own crank interface."),
       tx("<b>Specialized</b> (Brose-Basis, 2.2 / 3.1): leise, eng mit Specialized-Akkus und -App verbunden.", "<b>Specialized</b> (Brose-based, 2.2 / 3.1): quiet, tied to Specialized batteries and app."),
       tx("<b>TQ HPR50</b>: leicht und leise (50 Nm) — für Light-E-MTBs.", "<b>TQ HPR50</b>: light and quiet (50 Nm) — for light e-MTBs."),
-      tx("<b>DJI Avinox, Yamaha, Fazua</b>: weitere Systeme, teils sehr stark (Avinox) oder sehr leicht (Fazua).", "<b>DJI Avinox, Yamaha, Fazua</b>: other systems, some very strong (Avinox) or very light (Fazua).")])
+      tx("<b>DJI Avinox, Yamaha, Fazua</b>: weitere Systeme, teils sehr stark (Avinox), teils besonders leicht (Fazua).", "<b>DJI Avinox, Yamaha, Fazua</b>: other systems, some very powerful (Avinox), some especially light (Fazua).")])
     + tx("<b>Kompatibilität:</b> Akku, Display und Ladegerät sind immer herstellergebunden. Die Kurbel muss zur <b>Motorwelle</b> passen — die App prüft das.", "<b>Compatibility:</b> battery, display and charger are always brand-specific. The crank has to match the <b>motor spindle</b> — the app checks this.")
     + gSicher("Am Motor und Akku nicht selbst schrauben — Software, Garantie und Brandschutz gehören in die Fachwerkstatt. Beschädigte Akkus nicht mehr laden.",
       "Don't work on the motor or battery yourself — software, warranty and fire safety belong with a dealer. Never charge a damaged battery."),
@@ -10583,24 +10588,24 @@ const GUIDE = [
    a:["Der Reiter <b>Upgrades</b> sortiert in drei Stufen: erst, was du <b>kostenlos umstellen</b> kannst, dann <b>Ersatz in derselben Klasse</b>, wo ein Teil nicht zu deinem Einsatz passt, dann <b>echte Upgrades</b> — nur Teile, die mindestens so hochwertig sind wie deine jetzigen und den Score heben.",
      "The <b>Upgrades</b> tab sorts into three levels: first what you can <b>adjust for free</b>, then <b>replacements in the same class</b> where a part doesn't suit your riding, then <b>real upgrades</b> — only parts at least as good as your current ones that raise the score."], ak:["view:upgrades"]},
   {id:"kaufen", k:"kaufen einkaufsliste einkauf bestellen shop shops link links haendler teile buy order shopping store parts", t:["Wo kaufe ich die Teile?", "Where do I buy the parts?"],
-   a:["Im Reiter <b>Kaufen</b> steht die Einkaufsliste: jedes Teil mit Preis und Knopf zum Shop, dazu die Summe. Die Liste kannst du als Text kopieren, etwa für deine Werkstatt. Bei Mein Rad und Gebraucht zeigt der Reiter reduzierte Teile, die zu deinem Rad passen. Bestellt wird im Shop — CrankScore verkauft selbst nichts.",
-     "The <b>Buy</b> tab has the shopping list: every part with price and a button to the shop, plus the total. You can copy the list as text, e.g. for your workshop. In My bike and Used, the tab shows discounted parts that fit your bike. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
+   a:["Im Reiter <b>Kaufen</b> steht die Einkaufsliste: jedes Teil mit Preis und Knopf zum Shop, dazu die Summe. Die Liste kannst du als Text kopieren, etwa für deine Werkstatt. Bei <b>Mein Rad</b> und <b>Gebraucht</b> zeigt der Reiter reduzierte Teile, die zu deinem Rad passen. Bestellt wird im Shop — CrankScore verkauft selbst nichts.",
+     "The <b>Buy</b> tab has the shopping list: every part with price and a button to the shop, plus the total. You can copy the list as text, e.g. for your workshop. In <b>My bike</b> and <b>Used</b>, the tab shows discounted parts that fit your bike. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
   {id:"anzeige", k:"anzeige werbung partnerlink partnerlinks provision affiliate verdient verdienen kostenlos gratis finanziert sponsored ad ads free", t:["Ist die App kostenlos? Was heißt „Anzeige“?", "Is the app free? What does “Ad” mean?"],
    a:["Es gibt <b>Free</b> und <b>Pro</b>. Free ist kostenlos und kann fast alles; <b>Pro</b> kostet 6,99 € im Monat oder 3,99 € im Monat bei jährlicher Zahlung (47,88 € im Jahr, 36 € gespart) und bringt unbegrenzt viele Räder, das Fahrwerk-Setup und den Guide ohne Limit. Außerdem sind manche Shop-Links Partnerlinks: Kaufst du darüber, bekommt CrankScore eine kleine Provision — dein Preis bleibt gleich. Solche Links sind direkt am Shop mit <b>Anzeige</b> gekennzeichnet. Welches Teil passt, entscheidet die Prüfung, nicht die Provision.",
      "There's <b>Free</b> and <b>Pro</b>. Free costs nothing and does almost everything; <b>Pro</b> costs €6.99 a month, or €3.99 a month billed yearly (€47.88 a year, €36 saved), and adds unlimited bikes, suspension setup and an unlimited guide. Also, some shop links are partner links: if you buy through them, CrankScore gets a small commission — your price stays the same. Such links are marked <b>Ad</b> right at the shop. Which part fits is decided by the check, not by the commission."], ak:["pro"]},
   {id:"pro", k:"premium abo abonnement freischalten lizenz lizenzcode code kuendigen kuendigung bezahlen lemon squeezy subscription license unlock cancel paid", t:["Was bringt Pro?", "What does Pro include?"], a:gPro},
   {id:"preise", k:"livepreis live aktuell aktuelle stand uvp richtpreis reduziert deal deals rabatt sale angebote discount offers current", t:["Woher kommen die Preise?", "Where do the prices come from?"],
    a:["Hat ein Partnershop das Teil, zählt das günstigste lieferbare Angebot — mit Stand, inkl. MwSt., zzgl. Versand. Sonst steht ein Richtpreis auf UVP-Niveau. Ältere Modelljahre rechnet die App günstiger. Im Shop gilt immer der Preis dort.",
-     "If a partner shop has the part, the cheapest offer in stock counts — with a timestamp, incl. VAT, plus shipping. Otherwise there's a guide price at RRP level. The app prices older model years lower. In the shop, the shop's price always applies."]},
+     "If a partner shop has the part, the cheapest offer in stock counts — with a timestamp, incl. VAT, plus shipping. Otherwise, there's a guide price at RRP level. The app prices older model years lower. In the shop, the shop's price always applies."]},
   {id:"profile", k:"profil profile mehrere raeder zweites weiteres anlegen umbenennen speichern gespeichert bikes several second another rename save", t:["Mehrere Räder speichern", "Saving several bikes"],
    a:["Unter dem Modus-Schalter stehen deine Räder: antippen wechselt, der Stift öffnet die Radverwaltung — dort legst du ein Rad an, benennst um, kopierst oder löschst. Jeder Modus hat eigene Räder, gespeichert wird automatisch auf deinem Gerät.",
      "Your bikes sit below the mode switch: tapping switches, the pencil opens bike management — there you add, rename, copy or delete a bike. Each mode has its own bikes, and everything is saved automatically on your device."]},
   {id:"modelljahr", k:"modelljahr jahr baujahr jahrgang alt aelter aelteres neuer 2023 2024 2025 2026 year model older", t:["Wofür ist das Modelljahr?", "What is the model year for?"],
    a:["Beim Rahmen wählst du oben das Modelljahr. Ältere Modelljahre kosten weniger, das Alter geht aber in die Bewertung ein. Ist das Budget knapp, greift der Assistent auf ältere Rahmen zurück.",
      "For the frame you pick the model year at the top. Older years cost less, but the age counts in the rating. When the budget is tight, the assistant falls back on older frames."], ak:["slot:rahmen"]},
-  {id:"fedmodi", k:"pur federmodus modi weicher straffer spruenge sprung springen allround abfahrt jumps jumping softer firmer", t:["Pur Downhill, Allround, Pur Sprünge?", "Pure downhill, all-round, pure jumps?"],
-   a:["Unter Setup wählst du oben, wofür du einstellst. <b>Pur Downhill</b>: weniger Luft, mehr SAG, Druckstufen deutlich offener, Zugstufe schneller — weich, spricht schnell an, klebt auf Wurzeln. <b>Allround</b>: genau nach deinem Fahrprofil. <b>Pur Sprünge</b>: mehr Luft (oder ein Volumen-Spacer), Druckstufen fester, Zugstufe langsamer — viel Halt am Absprung, schlägt nicht durch. Die Tabelle in jeder Karte zeigt alle drei nebeneinander.",
-     "Under Setup you pick at the top what you're setting up for. <b>Pure downhill</b>: less air, more sag, compression noticeably more open, faster rebound — soft, reacts quickly, sticks on roots. <b>All-round</b>: exactly per your riding profile. <b>Pure jumps</b>: more air (or a volume spacer), firmer compression, slower rebound — lots of support on the lip, doesn't bottom out. The table in each card shows all three side by side."]},
+  {id:"fedmodi", k:"pur federmodus modi weicher straffer spruenge sprung springen allround abfahrt jumps jumping softer firmer", t:["Downhill pur, Allround, Sprünge pur — was ist der Unterschied?", "Pure downhill, all-round, pure jumps — what's the difference?"],
+   a:["Oben im Setup wählst du, wofür du einstellst. <b>Downhill pur</b>: weniger Luft, mehr SAG, Druckstufen deutlich offener, Zugstufe schneller — weich, spricht schnell an, klebt auf Wurzeln. <b>Allround</b>: genau nach deinem Fahrprofil. <b>Sprünge pur</b>: mehr Luft (oder ein Volumen-Spacer), Druckstufen fester, Zugstufe langsamer — viel Halt am Absprung, schlägt nicht durch. Die Tabelle in jeder Karte zeigt alle drei nebeneinander.",
+     "At the top of Setup, pick what you're setting up for. <b>Pure downhill</b>: less air, more sag, compression noticeably more open, faster rebound — soft, reacts quickly, sticks on roots. <b>All-round</b>: set exactly to your riding profile. <b>Pure jumps</b>: more air (or a volume spacer), firmer compression, slower rebound — lots of support on the lip, doesn't bottom out. The table in each card shows all three side by side."]},
   {id:"topcap", k:"foto top cap topcap bild knopf knoepfe markieren kartusche raedchen sitzt anleitung photo knob knobs dial where", t:["Wo sind die Knöpfe an meiner Gabel?", "Where are the knobs on my fork?"],
    a:["Unter Setup → „Alle Rechenwerte & Herstellerinfos“ steht bei jeder Gabel und jedem Dämpfer ein Link zur offiziellen Anleitung mit echten Bildern der Rädchen. Oder du fotografierst die Oberseite deiner Gabel und tippst einmal auf jeden Knopf — dann schreibt die App die Einstellung direkt ins Foto. Das Foto bleibt auf deinem Handy.",
      "Under Setup → “All calculated values & manufacturer info” every fork and shock has a link to the official manual with real pictures of the dials. Or photograph your top cap and tap each knob once — the app then writes the setting straight into the photo. The photo stays on your phone."]},
@@ -10637,7 +10642,7 @@ const GUIDE = [
      "The most important technical terms are briefly explained in the terms list. But you can also ask me one by one, e.g. “What is Boost?” or “What does HSC mean?”."], ak:["begriffe"]},
   {id:"anfaenger", k:"anfaenger einsteiger neuling erstes erste beginner first empfehlung empfiehlst newbie recommend starten", t:["Ich bin Anfänger — womit fange ich an?", "I'm a beginner — where do I start?"],
    a:["Für die meisten ist ein <b>Trailbike</b> der beste Start: Es kommt überall hoch und macht bergab Spaß. Ein Hardtail ist günstiger und leichter zu warten, ein Fully verzeiht mehr im Gelände. Am einfachsten: Tipp oben auf die Disziplin und leg das Bauziel mit Budget fest — der Assistent baut dir ein passendes Rad, und ich erkläre dir jedes Teil. Plan dazu Geld für Helm und Handschuhe ein.",
-     "For most people a <b>trail</b> bike is the best start: it climbs anywhere and is fun on the way down. A hardtail is cheaper and easier to maintain, a full-suspension bike forgives more off-road. Easiest: tap the discipline at the top and set the build goal with a budget — the assistant builds a matching bike and I'll explain every part. Budget for a helmet and gloves too."]},
+     "For most people a <b>trail</b> bike is the best start: it climbs anywhere and is fun on the way down. A hardtail is cheaper and easier to maintain, a full-suspension bike forgives more off-road. Easiest: tap the discipline at the top and set the build goal with a budget — the assistant builds a matching bike, and I'll explain every part. Budget for a helmet and gloves too."]},
   {id:"ebike", k:"ebike emtb motor akku elektro elektrisch pedelec unterstuetzung electric", t:["Gibt es auch E-Bikes?", "Are there e-bikes too?"],
    a:["Ja. Im Katalog stehen E-MTBs mit Bosch-, Shimano-, Specialized- und TQ-Motor — als Full Power und Light-E. Die App prüft dort auch, ob die Kurbel zur Motorwelle passt und ob Bremsen und Laufräder fürs Mehrgewicht reichen. Setup erkennt den E-MTB-Rahmen und rechnet mit dem Gewicht von Motor und Akku — mehr Luft, mehr Spacer, langsamere Zugstufe.",
      "Yes. The catalogue has e-MTBs with Bosch, Shimano, Specialized and TQ motors — full power and light-e. The app also checks whether the crank fits the motor spindle and whether brakes and wheels handle the extra weight. Setup recognises the e-MTB frame and accounts for the weight of motor and battery — more air, more spacers, slower rebound."], ak:["slot:rahmen"]},
@@ -10745,7 +10750,7 @@ const GUIDE = [
    a:["Die meisten MTB-Gabeln haben einen <b>tapered</b> Schaft: unten 1,5″, oben 1 1/8″. Doppelbrücken-, Dirt- und Trialgabeln oft einen geraden 1 1/8″-Schaft — der passt mit einem Reduzier-Unterteil auch in ein konisches Steuerrohr, umgekehrt nie. Der Steuersatz muss genau die Norm des Rahmens treffen, angegeben als SHIS: <b>ZS</b> = semi-integriert, <b>IS</b> = integriert, <b>EC</b> = außenliegende Schale, die Zahl ist die Bohrung in mm (etwa ZS44/ZS56 oder IS42/IS52). IS41 und IS42 sehen gleich aus, lassen sich aber nicht gegeneinander tauschen. Wo die Norm des Rahmens belegt ist, prüft die App sie genau.",
      "Most MTB forks have a <b>tapered</b> steerer: 1.5″ at the bottom, 1 1/8″ at the top. Dual-crown, dirt and trials forks often have a straight 1 1/8″ steerer — it fits a tapered head tube with a reducer lower cup, never the other way round. The headset must match the frame's standard exactly, given as SHIS: <b>ZS</b> = semi-integrated, <b>IS</b> = integrated, <b>EC</b> = external cup, the number is the bore in mm (e.g. ZS44/ZS56 or IS42/IS52). IS41 and IS42 look alike but aren't interchangeable. Where the frame's standard is on file, the app checks it exactly."], ak:["slot:steuersatz"]},
   {id:"emtb", k:"emtb e-mtb ebike e-bike pedelec motor akku bosch shimano ep8 ep801 brose specialized tq light full power kurbel motorwelle isis", t:["Was ist beim E-MTB anders?", "What's different on an e-MTB?"],
-   a:["Motor und Akku sitzen im Rahmen. Statt Innenlager hat das Rad eine <b>Motorwelle</b>: die Kurbel muss genau für diesen Motor gebaut sein. Bosch, Brose/Specialized, TQ und DJI nutzen eine ISIS-Welle, aber jeder mit eigenem Versatz — Shimano EP hat eine eigene Verzahnung. Ein Full-Power-E-MTB wiegt rund 22–25 kg: 4-Kolben-Bremsen mit 200/203-mm-Scheiben und E-MTB-freigegebene Laufräder sind Pflicht. Setup rechnet mit dem Mehrgewicht automatisch, sobald ein E-MTB-Rahmen im Aufbau ist.",
+   a:["Motor und Akku sitzen im Rahmen. Statt Innenlager hat das Rad eine <b>Motorwelle</b>: Die Kurbel muss genau für diesen Motor gebaut sein. Bosch, Brose/Specialized, TQ und DJI nutzen eine ISIS-Welle, aber jeder mit eigenem Versatz — Shimano EP hat eine eigene Verzahnung. Ein Full-Power-E-MTB wiegt rund 22–25 kg: 4-Kolben-Bremsen mit 200/203-mm-Scheiben und E-MTB-freigegebene Laufräder sind Pflicht. Setup rechnet mit dem Mehrgewicht automatisch, sobald ein E-MTB-Rahmen im Aufbau ist.",
      "Motor and battery sit in the frame. Instead of a bottom bracket the bike has a <b>motor spindle</b>: the crank has to be made for exactly that motor. Bosch, Brose/Specialized, TQ and DJI use an ISIS spindle, each with its own offset — Shimano EP has its own spline. A full-power e-MTB weighs around 22–25 kg: 4-piston brakes with 200/203 mm rotors and e-MTB-rated wheels are a must. Setup accounts for the extra weight automatically as soon as an e-MTB frame is in the build."], ak:["slot:rahmen"]},
   {id:"lager", k:"lager rahmenlager hinterbaulager steuerlager lagersatz optional freiwillig spiel knackt bearing bearings pivot", t:["Muss ich Lager eintragen?", "Do I have to add bearings?"],
    a:["Lager sind freiwillig. Unter „Rahmen“ gibt es zwei Plätze dafür: <b>Steuersatz</b> (die Lager, in denen sich die Gabel dreht) und <b>Rahmenlager</b> (der Lagersatz im Hinterbau, nur bei Fullys). Leer fehlt nichts — sie zählen nur, wenn du etwas einträgst, etwa weil ein Lager Spiel hat oder du aufrüsten willst. Das <b>Innenlager</b> für die Kurbel ist dagegen ein fester Platz.",
@@ -10768,8 +10773,8 @@ const GUIDE = [
    a:["Nach jeder Fahrt die Standrohre abwischen. Den kleinen Service (Öl, Abstreifer) je nach Hersteller etwa alle 50–125 Betriebsstunden, einen großen mit Dämpfung mindestens einmal im Jahr. Die genauen Zeiten stehen in der Anleitung — unter Setup sind sie verlinkt.",
      "Wipe the stanchions after every ride. A basic service (oil, wiper seals) roughly every 50–125 hours of riding depending on the maker, a full service including the damper at least once a year. The exact intervals are in the manual — Setup links to it."]},
   {id:"gebrauchtcheck", k:"worauf achten gebrauchtkauf checkliste besichtigung risse riss lager lagerspiel spiel probefahrt diebstahl gestohlen rahmennummer rechnung checklist inspect inspection", t:["Worauf beim Gebrauchtkauf achten?", "What to check when buying used?"],
-   a:["<ul><li><b>Rahmen</b>: Risse an Schweißnähten, Tretlager und Steuerrohr; bei Carbon tiefe Kratzer und Schlagstellen.</li><li><b>Lager</b>: Hinterbau und Steuersatz dürfen kein Spiel haben — Rad am Sattel anheben und rütteln, Vorderbremse ziehen und schieben.</li><li><b>Federung</b>: Standrohre ohne Kratzer und Ölspuren, federt gleichmäßig.</li><li><b>Verschleiß</b>: Kette, Kassette, Bremsbeläge, Reifen.</li><li><b>Papiere</b>: Rechnung zeigen lassen, Rahmennummer vergleichen.</li><li><b>Probefahrt</b>: schalten, bremsen, auf Knacken achten.</li></ul>Den fairen Preis rechnet dir der Modus Gebraucht aus.",
-     "<ul><li><b>Frame</b>: cracks at welds, bottom bracket and head tube; on carbon, deep scratches and impact marks.</li><li><b>Bearings</b>: rear end and headset must have no play — lift the bike by the saddle and shake, pull the front brake and rock.</li><li><b>Suspension</b>: stanchions without scratches or oil, compresses smoothly.</li><li><b>Wear</b>: chain, cassette, brake pads, tyres.</li><li><b>Papers</b>: ask for the receipt, compare the frame number.</li><li><b>Test ride</b>: shift, brake, listen for creaks.</li></ul>The Used mode works out the fair price for you."], ak:["modus:markt"]},
+   a:["<ul><li><b>Rahmen</b>: Risse an Schweißnähten, Tretlager und Steuerrohr; bei Carbon tiefe Kratzer und Schlagstellen.</li><li><b>Lager</b>: Hinterbau und Steuersatz dürfen kein Spiel haben — Rad am Sattel anheben und rütteln, Vorderbremse ziehen und schieben.</li><li><b>Federung</b>: Standrohre ohne Kratzer und Ölspuren, federt gleichmäßig.</li><li><b>Verschleiß</b>: Kette, Kassette, Bremsbeläge, Reifen.</li><li><b>Papiere</b>: Rechnung zeigen lassen, Rahmennummer vergleichen.</li><li><b>Probefahrt</b>: schalten, bremsen, auf Knacken achten.</li></ul>Den fairen Preis rechnet dir der Modus <b>Gebraucht</b> aus.",
+     "<ul><li><b>Frame</b>: cracks at welds, bottom bracket and head tube; on carbon, deep scratches and impact marks.</li><li><b>Bearings</b>: rear end and headset must have no play — lift the bike by the saddle and shake, pull the front brake and rock.</li><li><b>Suspension</b>: stanchions without scratches or oil, compresses smoothly.</li><li><b>Wear</b>: chain, cassette, brake pads, tyres.</li><li><b>Papers</b>: ask for the receipt, compare the frame number.</li><li><b>Test ride</b>: shift, brake, listen for creaks.</li></ul>The <b>Used</b> mode works out the fair price for you."], ak:["modus:markt"]},
   {id:"schutz", k:"helm fullface halbschale protektoren protektor knieschoner schoner rueckenprotektor schutz ausruestung brille goggle handschuhe helmet protection pads gloves gear", t:["Welche Schutzausrüstung?", "Which protective gear?"],
    a:["Ein <b>Helm</b> ist Pflicht — für Trail eine Halbschale mit tiefem Hinterkopfschutz, für Bikepark und Downhill ein Fullface. Dazu <b>Handschuhe</b> und eine Brille. <b>Knieschoner</b> lohnen sich, sobald die Trails ruppig werden, Rücken- und Ellbogenschutz vor allem im Bikepark. Schutzausrüstung ist nicht im Katalog — CrankScore plant das Rad.",
      "A <b>helmet</b> is a must — for trail an open-face with deep rear coverage, for bike park and downhill a full-face. Add <b>gloves</b> and eyewear. <b>Knee pads</b> are worth it once the trails get rough, back and elbow protection mostly in the bike park. Protective gear isn't in the catalogue — CrankScore plans the bike."]},
@@ -10880,7 +10885,7 @@ function gTeilAntwort(treffer, worte){
   h += "<br>" + esc(s.was);
   const mehr = treffer.length - 1;
   if(mehr > 0) h += "<br>" + tx(`Dazu ${mehr === 1 ? "ein weiterer Treffer" : mehr + " weitere Treffer"}: `, `Plus ${mehr === 1 ? "one more match" : mehr + " more matches"}: `)
-    + treffer.slice(1, 4).map(y => esc(y.x.t.n)).join(", ") + (mehr > 3 ? " …" : "") + ".";
+    + treffer.slice(1, 4).map(y => esc(y.x.t.n)).join(", ") + (mehr > 3 ? " …" : ".");
   const p = gPasstZuRad(x);
   if(p) h += `<div class="g-passt ${p.ok ? "ja" : "nein"}">${ic(p.ok ? IC.haken : IC.kreuz, 15)}<span>${p.h}</span></div>`;
   const such = (worte && worte.length ? worte : gNorm(t.n).split(" ")).join(" ");
@@ -11566,7 +11571,7 @@ const relText = r => r === 0 ? tx("Grundeinstellung", "base setting") : r > 0 ? 
 const einheitVon = (info, menge) => info.dreh ? (menge === 1 ? tx("Umdrehung", "turn") : tx("Umdrehungen", "turns")) : (menge === 1 ? tx("Klick", "click") : tx("Klicks", "clicks"));
 /* Knopf- und Stellungsnamen bleiben intern deutsch -- sie sind auch die
    Schluessel der Foto-Markierungen. Angezeigt wird in der aktuellen Sprache. */
-const KNOPF_EN = {"Kletterhebel":"Climb switch", "Druckstufe":"Compression", "Druckstufenhebel":"Compression lever", "Hebel":"Lever", "Zugstufe":"Rebound", "Luft":"Air"};
+const KNOPF_EN = {"Kletterhebel":"Climb switch", "Druckstufe":"Compression", "Druckstufenhebel":"Compression lever", "Hebel":"Lever", "Zugstufe":"Rebound", "Luft":"Air", "SAG":"Sag"};
 const STELL_EN = {"offen":"open", "zu":"closed", "Mitte":"middle", "Pedal":"pedal", "gesperrt":"locked", "fest":"firm", "am festesten":"firmest"};
 const knopfName = k => tx(k, KNOPF_EN[k] || k);
 const stellName = o => tx(o, STELL_EN[o] || o);
@@ -11641,20 +11646,20 @@ const saett = x => Math.sign(x) * (Math.abs(x) <= 3 ? Math.abs(x) : 3 + (Math.ab
    Gabel weicher sein und schneller reagieren). Tuning-Regeln recherchiert
    2026-09-27 (Fox- und RockShox-Tuning-Guides, ENDURO-Setup-Guide, BikeRadar,
    Singletracks, MBR, Mountain Bike Action):
-   - Pur Downhill (Wurzeln, Steinfelder, Bremswellen, hohes Tempo): 6 % weniger
+   - Downhill pur (Wurzeln, Steinfelder, Bremswellen, hohes Tempo): 6 % weniger
      Luft und 3 % mehr Sag, LSC und HSC je drei Stufen offener -- das
      Fahrwerk spricht schneller an und behaelt auf Kanten Grip. Zugstufe drei
      Klicks schneller, sonst federt es zwischen schnellen Schlaegen nicht mehr
      aus und sackt immer tiefer ("packing").
    - Allround: genau das Fahrprofil, die Mitte zwischen beiden.
-   - Pur Spruenge (Absprung, Landung, Drops, Anlieger): 5 % mehr Luft und 2 %
+   - Spruenge pur (Absprung, Landung, Drops, Anlieger): 5 % mehr Luft und 2 %
      weniger Sag, LSC zwei Stufen fester, damit man im Absprung nicht in den
      Federweg faellt; HSC fester fuer Landungen; Zugstufe langsamer, damit das
      Rad am Kicker nicht aushebelt.
    Werte in Stufen zu 12 % des Einstellbereichs, Zugstufe in Klicks (+ =
    langsamer), Luft als Anteil, Sag in Prozentpunkten. */
 /* bo: Durchschlagschutz (RockShox HBO und ABO), eine Stufe fester fuer harte
-   Schlaege bei Tempo und fuer Landungen. Pur Downhill verstellt seit Liams
+   Schlaege bei Tempo und fuer Landungen. Downhill pur verstellt seit Liams
    Rueckmeldung 2026-09-28 ("bei DH zu wenig Veraenderung, alles neutral")
    deutlich mehr: LSC und HSC je drei Stufen offener (am 5-Stellungs-Knopf
    zwei Klicks, vorher oft nur einer), Zugstufe drei Klicks schneller, 6 %
@@ -11666,7 +11671,7 @@ const EINSATZ = {
   spruenge:{l:2, h:1.5, r:1.5, luft:0.05, sag:-2, bo:1}
 };
 const FMODI = ["downhill", "allround", "spruenge"];
-const FMODUS_NAME = {downhill:["Pur Downhill", "Pure downhill"], allround:["Allround", "All-round"], spruenge:["Pur Sprünge", "Pure jumps"]};
+const FMODUS_NAME = {downhill:["Downhill pur", "Pure downhill"], allround:["Allround", "All-round"], spruenge:["Sprünge pur", "Pure jumps"]};
 const FMODUS_KURZ = {downhill:["Downhill", "Downhill"], allround:["Allround", "All-round"], spruenge:["Sprünge", "Jumps"]};
 const modusName = k => sp2(FMODUS_NAME[k]), modusKurz = k => sp2(FMODUS_KURZ[k]);
 let fedModus = "allround";
@@ -11902,7 +11907,7 @@ function modusZelle(z){
 function modusVergleich(x){
   const zeilen = [];
   if(!x.coil && x.psi) zeilen.push(["Luft", k => [String(x.modi[k].psi), "psi"]]);
-  zeilen.push(["Sag", k => [String(x.modi[k].sag), "%"]]);
+  zeilen.push(["SAG", k => [String(x.modi[k].sag), "%"]]);
   x.ds.allround.forEach((z, i) => {
     const werte = FMODI.map(k => modusZelle(x.ds[k][i] || []));
     if(werte[0] && werte.some(w => w.join() !== werte[0].join())) zeilen.push([z[0], k => werte[FMODI.indexOf(k)]]);
@@ -11927,7 +11932,7 @@ function modusWas(x){
   if(m.tok) z.push(x.tokens && x.tokens.soll != null && x.tokens.max != null ? tx(`+${m.tok} Volumen-Spacer (höchstens ${x.tokens.max})`, `+${m.tok} volume spacer${m.tok === 1 ? "" : "s"} (max ${x.tokens.max})`) : tx("mehr Progression (Token, nur wenn laut Anleitung Platz ist)", "more progression (token, only if the manual allows)"));
   if(e.l) z.push(e.l > 0 ? tx("LSC fester", "LSC firmer") : tx("LSC offener", "LSC more open"));
   if(e.h) z.push(e.h > 0 ? tx("HSC fester", "HSC firmer") : tx("HSC offener", "HSC more open"));
-  if(e.r) z.push(e.r > 0 ? tx("Rebound langsamer", "rebound slower") : tx("Rebound schneller", "rebound faster"));
+  if(e.r) z.push(e.r > 0 ? tx("Zugstufe langsamer", "rebound slower") : tx("Zugstufe schneller", "rebound faster"));
   if(e.bo) z.push(tx("Durchschlagschutz fester", "bottom-out firmer"));
   const P = SU_PROFIL[p];
   return `<b>${esc(modusKurz(p))}</b> — ${sp2(P.fokus)}: ${z.length ? z.join(", ") : tx("hier keine Änderung", "no change here")}. ${sp2(P.preis)}`;
@@ -12250,7 +12255,7 @@ function fxKnopf(z, slot){
   const kl = n => n === 1 ? tx("Klick", "click") : tx("Klicks", "clicks");
   const r = {art:art, roh:z[0], wo:(vis && vis.wo) || (h && h.wo) || "",
     name:art === "zug" ? tx("Ausfeder-Geschwindigkeit", "Rebound speed") : art === "druck" ? tx("Härte beim Einfedern", "Compression firmness") : knopfName(z[0]),
-    fach:art === "zug" ? tx("Rebound · Zugstufe", "rebound") : art === "druck" ? tx("Druckstufe", "compression") : "", tun:esc(z[1]), von:"", zeichen:"", kurz:""};
+    fach:art === "zug" ? tx("Zugstufe · Rebound", "rebound") : art === "druck" ? tx("Druckstufe", "compression") : "", tun:esc(z[1]), von:"", zeichen:"", kurz:""};
   const ausMitte = m => !m ? [tx("Auf die Mitte", "Set to the middle"), "", "", tx("Mitte", "middle")]
     : m > 0 ? [tx(`Mitte, dann ${m} ${kl(m)} zudrehen`, `Middle, then ${m} ${kl(m)} in`), "", "+", tx(`Mitte +${m}`, `middle +${m}`)]
     : [tx(`Mitte, dann ${-m} ${kl(-m)} aufdrehen`, `Middle, then ${-m} ${kl(-m)} out`), "", "−", tx(`Mitte −${-m}`, `middle −${-m}`)];
@@ -12385,7 +12390,7 @@ function suSchrittTxt(z, d){
   return `${menge} ${e} ${r} (${d > 0 ? "+" : "−"})`;
 }
 const suOrt = slot => slot === "gabel" ? tx("vorn", "front") : tx("hinten", "rear");
-const SU_KNAME = {Zugstufe:["Rebound", "Rebound"], LSR:["Rebound (LSR)", "Rebound (LSR)"], HSR:["High-Speed-Rebound (HSR)", "High-speed rebound (HSR)"],
+const SU_KNAME = {Zugstufe:["Zugstufe", "Rebound"], LSR:["Zugstufe (LSR)", "Rebound (LSR)"], HSR:["High-Speed-Zugstufe (HSR)", "High-speed rebound (HSR)"],
   LSC:["Druckstufe (LSC)", "Compression (LSC)"], Druckstufe:["Druckstufe", "Compression"], "Open-Mode":["Druckstufe (Open Mode)", "Compression (Open Mode)"],
   HSC:["High-Speed-Druckstufe (HSC)", "High-speed compression (HSC)"]};
 const suKnopfLabel = (slot, name) => (SU_KNAME[name] ? sp2(SU_KNAME[name]) : knopfName(name)) + " " + suOrt(slot);
@@ -12452,13 +12457,13 @@ const SU_INFO = {
   feder:{n:["Federhärte", "Spring rate"], was:["Die Stahlfeder trägt dich. Ihre Härte (lbs/in) steht auf der Feder und bestimmt den SAG — Vorspannung ändert die Härte nicht.", "The coil carries you. Its rate (lbs/in) is printed on the spring and sets the sag — preload doesn't change the rate."],
     viel:["Zu harte Feder", "Spring too firm"], vielT:["Zu wenig SAG, hart, wenig Grip.", "Too little sag, harsh, little grip."],
     wenig:["Zu weiche Feder", "Spring too soft"], wenigT:["Zu viel SAG, sitzt tief, schlägt durch.", "Too much sag, sits low, bottoms out."]},
-  sag:{n:["SAG", "Sag"], was:["Wie weit Gabel und Dämpfer einsinken, wenn du mit Ausrüstung in Fahrposition auf dem Rad stehst — in Prozent des Federwegs. Der wichtigste Wert: Erst wenn er stimmt, wirken Rebound und Druckstufe wie gedacht.", "How far fork and shock sink when you stand on the bike in riding position with your gear — as a percentage of travel. The most important value: only when it's right do rebound and compression work as intended."],
+  sag:{n:["SAG", "Sag"], was:["Wie weit Gabel und Dämpfer einsinken, wenn du mit Ausrüstung in Fahrposition auf dem Rad stehst — in Prozent des Federwegs. Der wichtigste Wert: Erst wenn er stimmt, wirken Zug- und Druckstufe wie gedacht.", "How far fork and shock sink when you stand on the bike in riding position with your gear — as a percentage of travel. The most important value: only when it's right do rebound and compression work as intended."],
     viel:["Zu viel SAG", "Too much sag"], vielT:["Rad sitzt tief, wippt, schlägt durch, das Tretlager setzt auf.", "Bike sits low, bobs, bottoms out, pedals strike."],
-    wenig:["Zu wenig SAG", "Too little sag"], wenigT:["Hart, wenig Grip, das Rad springt über Wurzeln statt sie zu schlucken.", "Harsh, little grip, the bike skips over roots instead of soaking them up."]},
-  zug:{n:["Rebound (Zugstufe)", "Rebound"], was:["Wie schnell Gabel oder Dämpfer nach dem Einfedern wieder ausfedern. Mehr Luft oder eine härtere Feder braucht mehr Rebound-Dämpfung (langsamer).", "How fast fork or shock extend after compressing. More air or a firmer spring needs more rebound damping (slower)."],
+    wenig:["Zu wenig SAG", "Too little sag"], wenigT:["Hart, wenig Grip, das Rad springt über Wurzeln, statt sie zu schlucken.", "Harsh, little grip, the bike skips over roots instead of soaking them up."]},
+  zug:{n:["Zugstufe (Rebound)", "Rebound"], was:["Wie schnell Gabel oder Dämpfer nach dem Einfedern wieder ausfedern. Mehr Luft oder eine härtere Feder braucht eine langsamere Zugstufe.", "How fast fork or shock extend after compressing. More air or a firmer spring needs more rebound damping (slower)."],
     viel:["Zu langsam (zu weit zu)", "Too slow (too far in)"], vielT:["Federt zwischen Schlägen nicht mehr aus, sackt immer tiefer („Packing“) und wird hart.", "Doesn't extend between hits, sinks deeper and deeper (“packing”) and gets harsh."],
     wenig:["Zu schnell (zu weit auf)", "Too fast (too far out)"], wenigT:["Unruhig, wippt nach, Kick nach Sprüngen und Kanten — das Heck schleudert.", "Nervous, bounces, kicks after jumps and edges — the rear bucks."]},
-  hsr:{n:["High-Speed-Rebound (HSR)", "High-speed rebound (HSR)"], was:["Rebound nach schnellen, tiefen Schlägen — Landungen, Drops, große Kanten. Der normale Rebound (LSR) regelt die kleinen.", "Rebound after fast, deep hits — landings, drops, big edges. Regular rebound (LSR) handles the small ones."],
+  hsr:{n:["High-Speed-Zugstufe (HSR)", "High-speed rebound (HSR)"], was:["Zugstufe nach schnellen, tiefen Schlägen — Landungen, Drops, große Kanten. Die normale Zugstufe (LSR) regelt die kleinen.", "Rebound after fast, deep hits — landings, drops, big edges. Regular rebound (LSR) handles the small ones."],
     viel:["Zu langsam", "Too slow"], vielT:["Nach Schlagfolgen bleibt das Rad tief im Federweg und wird hart.", "After a series of hits the bike stays deep in its travel and gets harsh."],
     wenig:["Zu schnell", "Too fast"], wenigT:["Nach Landungen unruhig, das Heck kickt.", "Unsettled after landings, the rear kicks."]},
   druck:{n:["Druckstufe", "Compression"], was:["Wie leicht das Rad einfedert. Mehr (+) gibt Halt beim Bremsen und in Anliegern, weniger (−) mehr Komfort und Grip.", "How easily the bike compresses. More (+) gives support under braking and in berms, less (−) more comfort and grip."],
@@ -12478,22 +12483,22 @@ const SU_INFO = {
     wenig:["Bergauf offen", "Open on climbs"], wenigT:["Das Rad wippt beim Treten und kostet Kraft.", "The bike bobs when you pedal and wastes energy."]},
   tokens:{n:["Tokens / Volume Spacer", "Tokens / volume spacers"], was:["Verkleinern die Luftkammer: Der Anfang des Federwegs bleibt gleich, das Ende wird progressiver. Einbau mit Werkzeug, Luft vorher ablassen.", "They make the air chamber smaller: the start of the travel stays the same, the end gets more progressive. Fitting them needs tools — let the air out first."],
     viel:["Zu viele", "Too many"], vielT:["Endet hart, das letzte Stück Federweg wird nicht genutzt.", "Ends harsh, the last bit of travel goes unused."],
-    wenig:["Zu wenige", "Too few"], wenigT:["Schlägt bei Sprüngen durch, obwohl der SAG passt.", "Bottoms out on jumps although the sag is right."]}
+    wenig:["Zu wenige", "Too few"], wenigT:["Schlägt bei Sprüngen durch, obwohl der SAG passt.", "Bottoms out on jumps, even though the sag is right."]}
 };
 /* ── Begriffe, direkt an der Stelle erklaert ── */
 const SU_BEGRIFF = {
   sag:["SAG", "Sag", "Negativfederweg: wie weit Gabel und Dämpfer einsinken, wenn du mit Ausrüstung in Fahrposition auf dem Rad stehst. Fox und RockShox: Gabel 15–20 %, Dämpfer 25–30 %, Downhill hinten 30–35 % des Federwegs.", "How far fork and shock sink when you stand on the bike in riding position with your gear. Fox and RockShox: fork 15–20%, shock 25–30%, downhill rear 30–35% of travel."],
-  rebound:["Rebound / Zugstufe", "Rebound", "Dämpfung beim Ausfedern: wie schnell das Rad nach einem Schlag zurückkommt. Rotes Rädchen; Schildkröte = langsam, Hase = schnell.", "Damping on the way back out: how fast the bike returns after a hit. Red dial; tortoise = slow, hare = fast."],
+  rebound:["Zugstufe / Rebound", "Rebound", "Dämpfung beim Ausfedern: wie schnell das Rad nach einem Schlag zurückkommt. Rotes Rädchen; Schildkröte = langsam, Hase = schnell.", "Damping on the way back out: how fast the bike returns after a hit. Red dial; tortoise = slow, hare = fast."],
   druck:["Druckstufe", "Compression", "Dämpfung beim Einfedern: wie leicht das Rad in den Federweg geht. Blauer Knopf; + fester, − weicher.", "Damping on the way in: how easily the bike moves into its travel. Blue knob; + firmer, − softer."],
   lsc:["LSC", "LSC", "Low-Speed Compression — Druckstufe für langsame Kolbenbewegungen: Bremsen, Anlieger, Treten, Pumpen.", "Low-speed compression — for slow piston movements: braking, berms, pedalling, pumping."],
   hsc:["HSC", "HSC", "High-Speed Compression — Druckstufe für schnelle Schläge: Wurzeln, Steine, Landungen.", "High-speed compression — for fast hits: roots, rocks, landings."],
-  lsr:["LSR / HSR", "LSR / HSR", "Low- und High-Speed-Rebound: getrennte Zugstufe für kleine und für schnelle, tiefe Schläge.", "Low- and high-speed rebound: separate rebound for small and for fast, deep hits."],
+  lsr:["LSR / HSR", "LSR / HSR", "Low- und High-Speed-Zugstufe: getrennt einstellbar für kleine und für schnelle, tiefe Schläge.", "Low- and high-speed rebound: separate rebound for small and for fast, deep hits."],
   token:["Token / Volume Spacer", "Token / volume spacer", "Kunststoffteil in der Luftkammer. Mehr Tokens = progressiver am Ende, gegen Durchschlagen; der Anfang bleibt gleich.", "Plastic part in the air chamber. More tokens = more progressive at the end, against bottoming out; the start stays the same."],
   progression:["Progression", "Progression", "Wie stark die Feder zum Ende des Federwegs härter wird. Viel Progression: viel Reserve bei Landungen, aber weniger Federweg auf normalen Trails.", "How much the spring firms up towards the end of the travel. Lots: plenty of reserve on landings, but less travel on normal trails."],
-  packing:["Packing", "Packing", "Bei Schlagfolgen federt das Rad nicht mehr ganz aus und sackt immer tiefer — es wird hart. Ursache meist: Rebound zu langsam.", "Over a series of hits the bike doesn't fully extend and sinks deeper — it gets harsh. Usually: rebound too slow."],
+  packing:["Packing", "Packing", "Bei Schlagfolgen federt das Rad nicht mehr ganz aus und sackt immer tiefer — es wird hart. Ursache meist: Zugstufe zu langsam.", "Over a series of hits the bike doesn't fully extend and sinks deeper — it gets harsh. Usually: rebound too slow."],
   durchschlag:["Durchschlagen", "Bottoming out", "Der ganze Federweg ist verbraucht, es gibt einen harten Schlag am Ende. Der O-Ring steht ganz unten.", "All the travel is used up and there's a hard knock at the end. The O-ring sits right at the bottom."],
   psi:["psi / bar", "psi / bar", "Luftdruck: 1 bar = 14,5 psi. Dämpferpumpen zeigen meist beides. Nie über den Maximaldruck auf der Gabel oder dem Dämpfer pumpen.", "Air pressure: 1 bar = 14.5 psi. Shock pumps usually show both. Never exceed the maximum pressure printed on the fork or shock."],
-  hub:["Hub und Übersetzung", "Stroke and leverage", "Hub: wie weit der Dämpfer selbst einfedert (z. B. 65 mm). Übersetzung: Federweg am Hinterrad ÷ Hub — wie stark der Hinterbau auf den Dämpfer drückt.", "Stroke: how far the shock itself compresses (e.g. 65 mm). Leverage: rear travel ÷ stroke — how hard the linkage pushes on the shock."],
+  hub:["Hub und Übersetzung", "Stroke and leverage", "Hub: wie weit der Dämpfer selbst einfedert (z. B. 65 mm). Übersetzung: Federweg am Hinterrad ÷ Hub — wie stark der Hinterbau auf den Dämpfer drückt.", "Stroke: how far the shock itself compresses (e.g. 65 mm). Leverage: rear travel ÷ stroke — how hard the linkage pushes on the shock."],
   klick:["Klicks zählen", "Counting clicks", "Erst bis zum Anschlag drehen, dann zählen. Fox: im Uhrzeigersinn ganz zu, dann zurück. RockShox Charger 3: ab der Mitte (0). Cane Creek: ab ganz offen. Die App schreibt bei jedem Knopf dazu, ab wo.", "Turn to the stop first, then count. Fox: clockwise fully in, then back out. RockShox Charger 3: from the middle (0). Cane Creek: from fully open. The app says for each knob where to count from."]
 };
 const SU_BEGRIFF_ART = {luft:"psi", feder:"hub", sag:"sag", zug:"rebound", hsr:"lsr", druck:"druck", lsc:"lsc", hsc:"hsc", bo:"durchschlag", hebel:"druck", tokens:"token"};
@@ -12519,7 +12524,7 @@ const SU_QUELLEN = {
   foxSag:["hersteller", "FOX: Achieving Correct Air Pressure with Sag", "https://tech.ridefox.com/fox_tech_center/owners_manuals/013/Content/Intro/Correct_air_pressure_sag.html", "en"],
   fox36:["hersteller", "FOX Owner's Manual 2025 36/38", "https://tech.ridefox.com/bike/owners-manuals/2979/fork--2025-36mm-or-38mm", "en", ["Drucktabelle, SAG 15–20 %, max. 120 psi", "pressure chart, sag 15–20%, max 120 psi"]],
   fox3234:["hersteller", "FOX Owner's Manual 2025 32/34", "https://tech.ridefox.com/bike/owners-manuals/2978/fork--2025-32mm--or-34mm-(including-step-cast-and-taper-cast)", "en"],
-  fox36tune:["hersteller", "FOX 36 Tuning Guide", "https://www.transitionbikes.com/SupportFiles/2021%2036%20tuning%20guide.pdf", "en", ["Grundeinstellung, Rebound nach Gewicht", "base setting, rebound by weight"]],
+  fox36tune:["hersteller", "FOX 36 Tuning Guide", "https://www.transitionbikes.com/SupportFiles/2021%2036%20tuning%20guide.pdf", "en", ["Grundeinstellung, Zugstufe nach Gewicht", "base setting, rebound by weight"]],
   foxX2:["hersteller", "FOX Float X2 Tuning Guide", "https://www.transitionbikes.com/SupportFiles/605-00-253-FLOAT-X2-Tuning-Guide-revA.pdf", "en"],
   foxGuide:["hersteller", "FOX Owner's Guide", "https://tech.ridefox.com/fox_tech_center/owners_manuals/013/2013_FOXOwnersGuide_605-00-100.pdf", "en", ["Startdruck hinten = Gewicht in lb, Klicks ab ganz zu", "rear starting pressure = weight in lb, clicks from fully closed"]],
   foxSpring:["hersteller", ["FOX Federraten-Rechner", "FOX spring rate calculator"], "https://tech.ridefox.com/fox_tech_center/owners_manuals/08/WCeng/Content/mtbspringratecalculator.html"],
@@ -12527,7 +12532,7 @@ const SU_QUELLEN = {
   rsWelcome:["hersteller", "RockShox Suspension Welcome Guide", "https://www.sram.com/de/rockshox/learn/suspension-welcome-guide", "en"],
   rsDH:["hersteller", "RockShox Downhill Suspension Welcome Guide", "https://www.sram.com/en/rockshox/learn/downhill-suspension-welcome-guide", "en", ["SAG 30–35 %", "sag 30–35%"]],
   rsCharger3:["hersteller", "RockShox Charger 3 Setup", "https://www.sram.com/de/rockshox/learn/charger-3-setup", "en", ["Druckstufen ab der Mitte gezählt", "compression counted from the middle"]],
-  rsTrailhead:["hersteller", "RockShox Trailhead", "https://trailhead.rockshox.com", "en", ["Startdruck und Rebound nach Seriennummer", "starting pressure and rebound by serial number"]],
+  rsTrailhead:["hersteller", "RockShox Trailhead", "https://trailhead.rockshox.com", "en", ["Startdruck und Zugstufe nach Seriennummer", "starting pressure and rebound by serial number"]],
   rsHinten:["hersteller", ["RockShox Support: Luftdruck hinten hängt vom Rahmen ab", "RockShox Support: rear air pressure depends on the frame"], "https://support.rockshox.com/hc/en-us/articles/4412440335643-How-much-air-should-I-have-in-my-RockShox-rear-shock-for-my-rider-weight"],
   cane:["hersteller", "Cane Creek: Everything you need to know about coil springs", "https://canecreek.com/everything-you-need-to-know-about-coil-springs-mtb/", "en"],
   pbSpring:["artikel", "Pinkbike: How to accurately calculate what spring rate you need", "https://www.pinkbike.com/news/how-to-accurately-calculate-what-spring-rate-you-need.html", "en"],
@@ -12756,7 +12761,7 @@ function suWarum(f, slot, x, it){
     if(v.generisch) z.push(tx("Ohne Herstellerdaten: die Mitte als Start — so rät es GMBN, wenn es keine Vorgabe gibt.", "Without maker's data: the middle as a start — GMBN's advice when there's no spec."));
     else if(k.art === "zug" || k.art === "hsr"){
       if(v.n != null) z.push(x.fox ? tx(`FOX-Richtwert nach Gewicht, von der App vereinfacht aus dem Tuning Guide (keine Tabellenstelle): Start <b>${v.ab === "offen" ? v.n - v.start : v.start} Klicks ab ganz ${v.ab === "offen" ? "offen" : "zu"}</b>. Die Tabelle am Holm hat Vorrang.`, `FOX guide value by weight, simplified by the app from the tuning guide (not a chart entry): start <b>${v.ab === "offen" ? v.n - v.start : v.start} clicks from fully ${v.ab === "offen" ? "open" : "closed"}</b>. The chart on the leg takes priority.`)
-        : tx(`Keine Rebound-Tabelle für dieses Modell in der App: <b>Mitte des Bereichs</b> (${v.start} von ${v.n}) — so rät es GMBN. Die Tabelle am Holm oder Trailhead hat Vorrang.`, `No rebound chart for this model in the app: <b>middle of the range</b> (${v.start} of ${v.n}) — GMBN's advice. The chart on the leg or Trailhead takes priority.`));
+        : tx(`Keine Zugstufen-Tabelle für dieses Modell in der App: <b>Mitte des Bereichs</b> (${v.start} von ${v.n}) — so rät es GMBN. Die Tabelle am Holm oder Trailhead hat Vorrang.`, `No rebound chart for this model in the app: <b>middle of the range</b> (${v.start} of ${v.n}) — GMBN's advice. The chart on the leg or Trailhead takes priority.`));
       else z.push(tx("Ohne bekannte Klickzahl: Grundwert per Tabelle am Holm oder Bordsteintest.", "Without a known click count: base value from the chart on the leg or the kerb test."));
     }
     else if(k.art === "hebel") z.push(tx("Bergab immer offen — das sagen alle Hersteller.", "Always open on descents — every maker says so."));
@@ -12838,8 +12843,8 @@ function suKarte(f, slot, x, d, it, nr){
     }
     else if(it.art === "feder"){
       const own = slot === "gabel" ? (build.fw || {}).gf : (build.fw || {}).df;
-      steuer = `<div class="fw-st"><label class="fw-st-w breit"><span>${tx("Deine Feder", "Your spring")}</span><input type="text" inputmode="numeric" autocomplete="off" maxlength="4" value="${own > 0 ? own : ""}" placeholder="${slot === "gabel" ? tx("z. B. 45", "e.g. 45") : tx("z. B. 450", "e.g. 450")}" data-fwin="${slot === "gabel" ? "gf" : "df"}"><span>lbs</span></label></div>
-        <p class="fw-st-r">${tx("Die Härte steht auf der Feder, z. B. „450 × 2.80“ (lbs × Hub in Zoll). Vorspannung höchstens 1–2 Umdrehungen — sie ändert die Härte nicht.", "The rate is printed on the spring, e.g. “450 × 2.80” (lbs × stroke in inches). Preload no more than 1–2 turns — it doesn't change the rate.")}</p>`;
+      steuer = `<div class="fw-st"><label class="fw-st-w breit"><span>${tx("Deine Feder", "Your spring")}</span><input type="text" inputmode="numeric" autocomplete="off" maxlength="4" value="${own > 0 ? own : ""}" placeholder="${slot === "gabel" ? tx("z. B. 45", "e.g. 45") : tx("z. B. 450", "e.g. 450")}" data-fwin="${slot === "gabel" ? "gf" : "df"}"><span>lbs</span></label></div>
+        <p class="fw-st-r">${tx("Die Härte steht auf der Feder, z. B. „450 × 2.80“ (lbs × Hub in Zoll). Vorspannung höchstens 1–2 Umdrehungen — sie ändert die Härte nicht.", "The rate is printed on the spring, e.g. “450 × 2.80” (lbs × stroke in inches). Preload no more than 1–2 turns — it doesn't change the rate.")}</p>`;
     }
     else if(it.art === "sag") steuer = `<button class="btn fw-gross" data-fwsag="${slot}">${ic(SU_IC.sag, 18)}${tx("SAG jetzt messen", "Measure sag now")}</button>`;
     else if(it.k && it.k.basis[2]){
@@ -13170,8 +13175,8 @@ function trKandidaten(f, d, el, sym, antw){
   const sagOk = slot => { const x = f[slot]; if(!x) return true; const g = fxMess(slot, x, d), mm = slot === "gabel" ? x.t.travel : x.t.hub; return !mm || (g > 0 && Math.abs(g / mm * 100 - x.modi[fedModus].sag) <= 3); };
   const sagErst = () => { for(const s of els) if(!sagOk(s) && antw.sag !== "ja"){ out.push({art:"sag", slot:s}); return; } };
   const W = {
-    zugLangsam:tx("Der Rebound ist zu schnell: das Rad federt zu schnell aus und schleudert dich.", "Rebound is too fast: the bike extends too quickly and bucks you."),
-    zugSchnell:tx("Der Rebound ist zu langsam: zwischen den Schlägen federt es nicht aus und sackt ab (Packing).", "Rebound is too slow: it doesn't extend between hits and packs down."),
+    zugLangsam:tx("Die Zugstufe ist zu schnell: Das Rad federt zu schnell aus und schleudert dich.", "Rebound is too fast: the bike extends too quickly and bucks you."),
+    zugSchnell:tx("Die Zugstufe ist zu langsam: Zwischen den Schlägen federt es nicht aus und sackt ab (Packing).", "Rebound is too slow: it doesn't extend between hits and packs down."),
     hscWeich:tx("Zu viel High-Speed-Druckstufe macht schnelle Schläge hart.", "Too much high-speed compression makes fast hits harsh."),
     lscWeich:tx("Zu viel Druckstufe bremst das Einfedern auf kleinen Schlägen.", "Too much compression holds the suspension up on small bumps."),
     luftWeniger:tx("Zu viel Druck lässt den Federweg ungenutzt und macht das Rad hart.", "Too much pressure leaves travel unused and makes the bike harsh."),
@@ -13181,7 +13186,7 @@ function trKandidaten(f, d, el, sym, antw){
     luftMehr:tx("Mehr Druck trägt dich höher im Federweg.", "More pressure holds you higher in the travel."),
     lscFest:tx("Mehr Low-Speed-Druckstufe stützt beim Bremsen und in Anliegern.", "More low-speed compression supports you under braking and in berms."),
     tokWeniger:tx("Weniger Progression gibt das Ende des Federwegs frei.", "Less progression frees up the end of the travel."),
-    hsrLangsam:tx("Der High-Speed-Rebound regelt das Ausfedern nach tiefen, schnellen Schlägen.", "High-speed rebound controls extension after deep, fast hits.")
+    hsrLangsam:tx("Die High-Speed-Zugstufe regelt das Ausfedern nach tiefen, schnellen Schlägen.", "High-speed rebound controls extension after deep, fast hits.")
   };
   const E = {ruhiger:tx("ruhiger nach Kanten und Sprüngen", "calmer after edges and jumps"), sanfter:tx("schluckt Schläge sanfter, mehr Grip", "absorbs hits more softly, more grip"),
     reserve:tx("weniger Durchschläge, satter am Ende", "fewer bottom-outs, more solid at the end"), halt:tx("mehr Halt, sitzt höher im Federweg", "more support, sits higher in the travel"),
@@ -13228,7 +13233,7 @@ function trKandidaten(f, d, el, sym, antw){
 function trVorschlagHtml(f, d, c){
   const knopfZ = c.art === "knopf" ? (() => { const x = f[c.slot]; return (suKnoepfe(c.slot, x, d).find(k => k.key === c.key) || {}).basis; })() : null;
   if(c.art === "sag") return `<div class="fw-vs"><span class="fw-vs-o">${tx("Zuerst", "First")}</span><b>${tx(`SAG ${suOrt(c.slot)} messen`, `Measure ${suOrt(c.slot)} sag`)}</b>
-    <p>${tx("Ohne passenden SAG wirken Rebound und Druckstufe nicht wie gedacht — das ist die häufigste Ursache.", "Without the right sag, rebound and compression don't work as intended — the most common cause.")}</p></div>`;
+    <p>${tx("Ohne passenden SAG wirken Zug- und Druckstufe nicht wie gedacht — das ist die häufigste Ursache.", "Without the right sag, rebound and compression don't work as intended — the most common cause.")}</p></div>`;
   if(c.art === "info") return `<div class="fw-vs"><span class="fw-vs-o">${tx("Ändere nur das", "Change only this")}</span><b>${esc(c.titel)}</b><p>${esc(c.txt)}</p><p class="su-hint">${esc(c.why)}</p></div>`;
   let von, nach, wie = "";
   if(c.art === "psi"){ von = c.alt + " psi"; nach = c.neu + " psi"; wie = tx(`Pumpe aufs Ventil, auf ${c.neu} psi (${barVon(c.neu)} bar) — danach ein paar Mal einfedern.`, `Attach the pump and inflate to ${c.neu} psi (${barVon(c.neu)} bar) — then compress the suspension a few times.`); }
@@ -13395,7 +13400,7 @@ function suBuchHtml(f, d){
   const liste = d.log.map((e, i) => [e, i]).reverse(), zeig = suLogAlle ? liste : liste.slice(0, 6);
   return `<section class="su-karte su-buch"><h3 class="su-h">${tx("Notizbuch", "Notebook")}</h3>
     <div class="su-neu"><label for="su-notiz" class="su-l">${tx("Wie hat es sich angefühlt?", "How did it feel?")}</label>
-      <textarea id="su-notiz" rows="2" maxlength="240" placeholder="${tx("z. B. Hausrunde, vorn zu unruhig auf Wurzeln", "e.g. local loop, front end nervous over roots")}">${esc(suNotizText)}</textarea>
+      <textarea id="su-notiz" rows="2" maxlength="240" placeholder="${tx("z. B. Hausrunde, vorn zu unruhig auf Wurzeln", "e.g. local loop, front end nervous over roots")}">${esc(suNotizText)}</textarea>
       <div class="su-neu-k"><span class="su-gef" role="group" aria-label="${tx("Gefühl", "Feeling")}">${[1, 0, -1].map(g => `<button data-sufuehl="${g}" aria-pressed="${suFuehl === g}" aria-label="${gef[g][1]}"><span aria-hidden="true">${gef[g][0]}</span></button>`).join("")}</span>
         <button class="btn sm" data-sunotiz="1">${tx("Eintragen", "Add")}</button></div></div>
     ${zeig.length ? `<ol class="su-log">${zeig.map(([e, i]) => `<li><span class="su-ld">${suDatum(e.t)}</span><span class="su-lt">${e.typ === "notiz" && gef[e.gef] ? `<span aria-label="${gef[e.gef][1]}">${gef[e.gef][0]}</span> ` : ""}${suLogTxt(e, f)}</span>${e.erg ? `<span class="su-erg ${e.erg}">${erg[e.erg]}</span>` : ""}
@@ -13409,7 +13414,7 @@ function suWissenHtml(){
   const gruppe = (art, titel) => `<h4 class="fw-qh">${titel}</h4><div class="fw-ql">${Object.keys(SU_QUELLEN).filter(k => SU_QUELLEN[k][0] === art).map(fwQ).join("")}</div>`;
   /* Die Begriffe selbst stehen nur in der einen Liste unter Hilfe; hier die Quellen */
   return `<section class="su-karte su-wissen"><h3 class="su-h">${tx("Gut zu wissen", "Good to know")}</h3>
-    <p class="su-hint">${tx("Begriffe wie SAG, Rebound oder Druckstufe: Tippe auf das „?“ an jeder Karte — oder sieh dir alle unter ⋮ → Begriffe erklärt an.", "Terms like sag, rebound or compression: tap the “?” on any card — or see them all under ⋮ → Terms explained.")}</p>
+    <p class="su-hint">${tx("Begriffe wie SAG, Zugstufe oder Druckstufe: Tippe auf das „?“ an jeder Karte — oder sieh dir alle unter ⋮ → Begriffe erklärt an.", "Terms like sag, rebound or compression: tap the “?” on any card — or see them all under ⋮ → Terms explained.")}</p>
     ${suDetails("w-quellen", "su-mehr", tx("Quellen — woher die Werte kommen", "Sources — where the values come from"),
       `<p>${tx("Druck- und Federtabellen, Grundeinstellungen und Klickbereiche stammen aus den Anleitungen der Hersteller. Wo die App keine passenden Herstellerdaten hat, nennt sie keinen Wert, sondern den Weg dorthin.", "Pressure and spring charts, base settings and click ranges come from the makers' manuals. Where the app has no matching maker's data, it gives you no value, just the way to find it.")}</p>
       ${gruppe("hersteller", tx("Hersteller", "Manufacturers"))}${gruppe("video", "Videos")}${gruppe("artikel", tx("Artikel", "Articles"))}`)}
@@ -13501,7 +13506,7 @@ function obAktTxt(v, a){
   }
   return `${a} ${tx("Klicks", "clicks")}`;
 }
-const OB_ARTEN = {zug:["Rebound", "Rebound", "rot", "red"], hsr:["High-Speed-Rebound", "High-speed rebound", "rot", "red"], druck:["Druckstufe (ein Knopf)", "Compression (one knob)", "blau", "blue"],
+const OB_ARTEN = {zug:["Zugstufe", "Rebound", "rot", "red"], hsr:["High-Speed-Zugstufe", "High-speed rebound", "rot", "red"], druck:["Druckstufe (ein Knopf)", "Compression (one knob)", "blau", "blue"],
   lsc:["Low-Speed-Druckstufe", "Low-speed compression", "blau", "blue"], hsc:["High-Speed-Druckstufe", "High-speed compression", "blau/grau", "blue/grey"],
   bo:["Durchschlagschutz", "Bottom-out control", "", ""], hebel:["Kletterhebel / Lockout", "Climb lever / lockout", "", ""]};
 function obEinAn(slot, x){
@@ -13515,7 +13520,7 @@ function obInhalt(n, f, fw){
   if(n === "start"){
     r.titel = tx("Dein Fahrwerk-Setup", "Your suspension setup");
     r.html = `<div class="fw-ob-hero">${ilRad({zeig:[]})}</div>
-      <p class="fw-wz-lead">${tx("Ein paar Fragen zu dir, deinem Rad und wie du fährst — rund drei Minuten. Daraus rechnet die App Luftdruck oder Feder, SAG, Rebound und Druckstufe: mit Herstellerdaten, wo es sie gibt, und ohne erfundene Werte, wo nicht.", "A few questions about you, your bike and how you ride — about three minutes. From that the app works out air pressure or spring, sag, rebound and compression: with maker's data where it exists, and no made-up values where it doesn't.")}</p>
+      <p class="fw-wz-lead">${tx("Ein paar Fragen zu dir, deinem Rad und wie du fährst — rund drei Minuten. Daraus rechnet die App Luftdruck oder Feder, SAG, Zug- und Druckstufe: mit Herstellerdaten, wo es sie gibt, und ohne erfundene Werte, wo nicht.", "A few questions about you, your bike and how you ride — about three minutes. From that the app works out air pressure or spring, sag, rebound and compression: with maker's data where it exists, and no made-up values where it doesn't.")}</p>
       <ul class="fw-check">
         <li>${ic(OB_I, 18)}<span>${tx("Jede Frage sagt, <b>warum</b> sie zählt.", "Every question says <b>why</b> it matters.")}</span></li>
         <li>${ic(`<path d="M9 9a3 3 0 1 1 4 2.8c-.6.3-1 .9-1 1.6V15M12 18h0"/><circle cx="12" cy="12" r="9"/>`, 18)}<span>${tx("<b>„Weiß ich nicht“</b> geht immer — und zeigt dir, wo du es findest.", "<b>“Not sure”</b> always works — and shows you where to find it.")}</span></li>
@@ -13543,7 +13548,7 @@ function obInhalt(n, f, fw){
       <p class="su-hint">${tx("Rahmen und Modelljahr legst du im Aufbau fest — hier gelten dieselben Angaben.", "You set frame and model year in the build — the same details apply here.")}</p>
       ${fw.rj > 1990 && fw.rj !== jahrWahl[modus] ? obTipp(tx(`Früher hattest du hier Modelljahr ${fw.rj} angegeben, im Aufbau steht ${jahrWahl[modus]}. Entscheiden kannst du im Aufbau beim Modelljahr des Rahmens.`, `You previously entered model year ${fw.rj} here; the build says ${jahrWahl[modus]}. You can decide in the build at the frame's model year.`)) : ""}
       ${obGruppe(tx("Rahmengröße", "Frame size"), GROESSEN.map(g => obWahl(`data-fwwk="gr|${g.g}"`, fw.gr === g.g, g.g, g.sp, "klein")).join("") + obWn("gr", wn.gr),
-        tx("Damit deine Einstellungen eindeutig zu diesem Rad gehören und du für Händler oder Hersteller alles parat hast. In die Rechnung geht die Rahmengröße nicht ein — dafür deine Körpergröße.", "So your settings clearly belong to this bike and you have everything at hand for a shop or the maker. The frame size doesn't enter the calculation — your height does."), "gr", "jahre")}
+        tx("Damit deine Einstellungen eindeutig zu diesem Rad gehören und du für Händler oder Hersteller alles parat hast. In die Rechnung geht die Rahmengröße nicht ein — dafür deine Körpergröße.", "So your settings clearly belong to this bike, and you have everything at hand for a shop or the maker. The frame size doesn't enter the calculation — your height does."), "gr", "jahre")}
       ${t === "gr" ? obTipp(tx("Aufkleber am Sitzrohr oder unter dem Tretlager — oft steht dort S1–S6 (Specialized) oder S/M/L.", "Sticker on the seat tube or under the bottom bracket — often S1–S6 (Specialized) or S/M/L.")) : ""}
       ${obGruppe(tx("Art des Rads", "Type of bike"), Object.keys(RADTYP).map(k => `<button class="fw-ow" data-frad="${k}" aria-pressed="${k === typ}"><b>${sp2(RADTYP[k].n)}</b><small>${k === "analog" ? tx("ohne Motor", "no motor") : tx(`Richtwert ${zahlDe(RADTYP[k].kg)} kg`, `typical ${RADTYP[k].kg} kg`)}</small></button>`).join(""),
         tx("Motor und Akku drücken mit auf die Federn: Ein E-MTB braucht mehr Luft und eine langsamere Zugstufe als dasselbe Rad ohne Motor.", "Motor and battery load the springs too: an e-MTB needs more air and slower rebound than the same bike without a motor."), "typ")}
@@ -13558,19 +13563,19 @@ function obInhalt(n, f, fw){
     r.q = slot === "gabel" ? tx("Welche Gabel ist verbaut — und aus welchem Jahr?", "Which fork is fitted — and from which year?") : tx("Welcher Dämpfer ist verbaut — und aus welchem Jahr?", "Which shock is fitted — and from which year?");
     const jahrHinweis = x && slot === "gabel" && x.quellen.psi.art === "jahr" ? obTipp(tx(`Die Drucktabelle in der App gilt für ${esc(x.quellen.psi.name)} ab Modelljahr ${x.quellen.psi.ab}. Für deine Gabel zeigen wir deshalb keinen Tabellenwert, sondern den Weg dorthin: Aufkleber an der Gabel, Trailhead oder FOX-App.`, `The pressure chart in the app applies to ${esc(x.quellen.psi.name)} from model year ${x.quellen.psi.ab}. So for your fork we show no chart value, but the way to get it: sticker on the fork, Trailhead or the FOX app.`)) : "";
     const leg = slot === "gabel" ? [tx("Aufkleber am Tauchrohr: Modell, oft mit Drucktabelle", "Sticker on the lower leg: model, often with a pressure chart"), tx("Seriennummer: hinten an Krone oder Casting — in Trailhead (RockShox) oder der FOX-App stehen damit Modell und Jahr", "Serial number: back of the crown or lowers — Trailhead (RockShox) or the FOX app shows model and year from it")]
-      : [tx("Aufkleber am Dämpfer: Modell und Maße (Einbaulänge × Hub, z. B. 210 × 55)", "Sticker on the shock: model and size (eye-to-eye × stroke, e.g. 210 × 55)"), tx("Seriennummer am Dämpferkörper — für Trailhead oder die FOX-App", "Serial number on the shock body — for Trailhead or the FOX app")];
+      : [tx("Aufkleber am Dämpfer: Modell und Maße (Einbaulänge × Hub, z. B. 210×55)", "Sticker on the shock: model and size (eye-to-eye × stroke, e.g. 210×55)"), tx("Seriennummer am Dämpferkörper — für Trailhead oder die FOX-App", "Serial number on the shock body — for Trailhead or the FOX app")];
     const zeig = slot === "gabel" ? ["aufkleber", "serie"] : ["aufkleber"];
-    if(x && x.coil){ zeig.push("feder"); leg.push(tx("Feder: Härte steht auf der Feder (z. B. 450 × 2.25 = lbs × Hub in Zoll)", "Spring: rate printed on it (e.g. 450 × 2.25 = lbs × stroke in inches)")); }
+    if(x && x.coil){ zeig.push("feder"); leg.push(tx("Feder: Härte steht auf der Feder (z. B. 450 × 2.25 = lbs × Hub in Zoll)", "Spring: rate printed on it (e.g. 450 × 2.25 = lbs × stroke in inches)")); }
     if(slot === "daempfer") leg.splice(1, 1);
     r.html = `${obTeilKarte(slot, t2, x)}
       ${obGruppe(tx("Modelljahr", "Model year"), obJahre(jk, fw[jk], wn[jk]), slot === "gabel"
-        ? tx("Drucktabellen, Klickbereiche und Einsteller ändern sich mit dem Modelljahr — RockShox z. B. hat 2023 den Charger 3 eingeführt, dessen Druckstufen ab der Mitte zählen. Passt die Tabelle nicht zu deinem Modelljahr, zeigt die App keinen Druck, sondern den Weg zum richtigen Wert.", "Pressure charts, click ranges and adjusters change with the model year — RockShox, for example, introduced Charger 3 in 2023, whose compression counts from the middle. If the chart doesn't match your year, the app shows no pressure but the way to the right value.")
+        ? tx("Drucktabellen, Klickbereiche und Einsteller ändern sich mit dem Modelljahr — RockShox z. B. hat 2023 den Charger 3 eingeführt, dessen Druckstufen ab der Mitte zählen. Passt die Tabelle nicht zu deinem Modelljahr, zeigt die App keinen Druck, sondern den Weg zum richtigen Wert.", "Pressure charts, click ranges and adjusters change with the model year — RockShox, for example, introduced Charger 3 in 2023, whose compression counts from the middle. If the chart doesn't match your year, the app shows no pressure but the way to the right value.")
         : tx("Einsteller und Klickbereiche von Dämpfern ändern sich mit dem Modelljahr. Den Luftdruck hinten gibt es ohnehin nicht pauschal — er hängt vom Rahmen ab; den Ausschlag gibt der SAG.", "Adjusters and click ranges on shocks change with the model year. There's no blanket rear air pressure anyway — it depends on the frame; the sag decides."), jk, "jahre")}
       ${t === jk ? obTipp(tx("Kein Problem — dann nennt die App keinen Tabellendruck, wenn die Tabelle erst ab einem bestimmten Jahr gilt. Nimm den Druck vom Aufkleber. Die Seriennummer in Trailhead (RockShox) oder der FOX-App verrät das Baujahr; du kannst es jederzeit nachtragen.", "No problem — then the app shows no chart pressure where the chart only applies from a certain year. Use the pressure on the sticker. The serial number in Trailhead (RockShox) or the FOX app reveals the year; you can add it any time.")) : ""}
       ${jahrHinweis}
-      ${x && x.coil ? obZahl(fk, fw[fk] > 0 ? fw[fk] : "", tx("Deine Federhärte", "Your spring rate"), "lbs", slot === "gabel" ? tx("z. B. 45", "e.g. 45") : tx("z. B. 450", "e.g. 450")) + `<div class="fw-ows">${obWn(fk, wn[fk])}</div>`
+      ${x && x.coil ? obZahl(fk, fw[fk] > 0 ? fw[fk] : "", tx("Deine Federhärte", "Your spring rate"), "lbs", slot === "gabel" ? tx("z. B. 45", "e.g. 45") : tx("z. B. 450", "e.g. 450")) + `<div class="fw-ows">${obWn(fk, wn[fk])}</div>`
         + obWarum(fk, tx("Mit der Härte deiner Feder rechnet die App den SAG aus, den du damit bekommst — und ob eine andere Feder passt.", "With your spring's rate the app works out the sag you'll get — and whether another spring fits better.")) : ""}
-      ${slot === "daempfer" && x && x.coil ? obZahl("fwH", fw.fwH > 0 ? fw.fwH : "", tx("Federweg hinten (Rahmen)", "Rear travel (frame)"), "mm", tx("z. B. 150", "e.g. 150")) + `<div class="fw-ows">${obWn("fwH", wn.fwH)}</div>`
+      ${slot === "daempfer" && x && x.coil ? obZahl("fwH", fw.fwH > 0 ? fw.fwH : "", tx("Federweg hinten (Rahmen)", "Rear travel (frame)"), "mm", tx("z. B. 150", "e.g. 150")) + `<div class="fw-ows">${obWn("fwH", wn.fwH)}</div>`
         + obWarum("fwH", tx("Ohne den Federweg des Hinterbaus kennt die App die Übersetzung nicht und rechnet keine Federhärte. Er steht in den technischen Daten deines Rahmens.", "Without the rear travel the app doesn't know the leverage and calculates no spring rate. It's in your frame's tech specs.")) : ""}
       ${t === "fwH" ? obTipp(tx("Dann wählt die App keine Federhärte — nimm den Federrechner des Rahmen- oder Dämpferherstellers und prüf per SAG.", "Then the app picks no spring rate — use the frame or shock maker's spring calculator and check by sag.")) : ""}
       ${t === fk ? obTipp(tx("Die Zahl steht auf der Feder selbst. Bei der Gabel: Kappe oben auf der Federseite abschrauben (Anleitung) — oder beim Händler nachfragen.", "The number is printed on the spring itself. For a fork: unscrew the cap on top of the spring side (manual) — or ask your shop.")) : ""}
@@ -13589,8 +13594,8 @@ function obInhalt(n, f, fw){
         return `<fieldset class="fw-og"><legend>${slot === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")} · ${esc(x.t.nb || x.t.n)}</legend>
           <div class="fw-ein-w"><div class="fw-wo-b">${bild}${fwLegende(an.map(a => esc(sp2((SU_WO[slot] || {})[a] || SU_INFO[a].n))))}</div><div class="fw-ows">${chips}${obWn("ein:" + slot, !((build.fw || {}).ein || {})[slot])}</div></div></fieldset>`;
       }).join("")
-      + obWarum("ein", tx("Dieselbe Gabel gibt es oft in mehreren Ausstattungen (z. B. Select, Performance, Ultimate) mit unterschiedlichen Knöpfen. Was du hier abwählst, verschwindet aus den Einstellkarten; was du ohne Herstellerdaten anhakst, startet in der Mitte.", "The same fork often comes in several trims (e.g. Select, Performance, Ultimate) with different knobs. What you untick disappears from the setting cards; what you tick without maker's data starts in the middle."))
-      + (t && /^ein:/.test(t) ? obTipp(tx("Dann gelten die Herstellerdaten. Blaue Knöpfe stellen die Druckstufe, rote den Rebound; Hebel sind meist der Kletterhebel.", "Then the maker's data applies. Blue knobs set compression, red ones rebound; levers are usually the climb switch.")) : "");
+      + obWarum("ein", tx("Dieselbe Gabel gibt es oft in mehreren Ausstattungen (z. B. Select, Performance, Ultimate) mit unterschiedlichen Knöpfen. Was du hier abwählst, verschwindet aus den Einstellkarten; was du ohne Herstellerdaten anhakst, startet in der Mitte.", "The same fork often comes in several trims (e.g. Select, Performance, Ultimate) with different knobs. What you untick disappears from the setting cards; what you tick without maker's data starts in the middle."))
+      + (t && /^ein:/.test(t) ? obTipp(tx("Dann gelten die Herstellerdaten. Blaue Knöpfe stellen die Druckstufe, rote die Zugstufe; Hebel sind meist der Kletterhebel.", "Then the maker's data applies. Blue knobs set compression, red ones rebound; levers are usually the climb switch.")) : "");
     return r;
   }
   const ffGruppe = k => { const q = FFRAGEN.find(y => y.k === k);
@@ -13620,7 +13625,7 @@ function obInhalt(n, f, fw){
     r.html = `<div class="fw-ows eins">${FMODI.map(k => `<button class="fw-ow fw-op" data-fwwk="prof|${k}" aria-pressed="${fedModus === k}"><span class="fw-pk-ic ${k}">${ic(SU_PROFIL[k].ic, 22)}</span>
         <span><b>${esc(modusKurz(k))}</b><small>${sp2(SU_PROFIL[k].fokus)}</small><small class="fw-op-p">${sp2(SU_PROFIL[k].preis)}</small></span></button>`).join("")}${obWn("prof", false)}</div>
       ${t === "prof" ? obTipp(tx("Dann nimm Allround — die Basis. Downhill und Sprünge verschieben davon aus nur einzelne Einsteller.", "Then take All-round — the base. Downhill and Jumps only shift individual adjusters from there.")) : ""}
-      ${obWarum("prof", tx("Jedes Profil speichert eigene Werte und eine eigene Grundeinstellung. Wechseln geht jederzeit oben im Setup — z. B. Allround für die Hausrunde, Sprünge für den Bikepark. „Für Sprünge alles härter“ gibt es nicht: Die App ändert nur, was dem Profil hilft, und sagt, was es kostet.", "Each profile stores its own values and its own baseline. Switch any time at the top of Setup — e.g. all-round for your local loop, jumps for the bike park. There's no “everything firmer for jumps”: the app only changes what helps the profile, and says what it costs."))}`;
+      ${obWarum("prof", tx("Jedes Profil speichert eigene Werte und eine eigene Grundeinstellung. Wechseln geht jederzeit oben im Setup — z. B. Allround für die Hausrunde, Sprünge für den Bikepark. „Für Sprünge alles härter“ gibt es nicht: Die App ändert nur, was dem Profil hilft, und sagt, was es kostet.", "Each profile stores its own values and its own baseline. Switch any time at the top of Setup — e.g. all-round for your local loop, jumps for the bike park. There's no “everything firmer for jumps”: the app only changes what helps the profile, and says what it costs."))}`;
     return r;
   }
   if(n === "aktuell"){
@@ -13637,8 +13642,8 @@ function obInhalt(n, f, fw){
     r.html = `<p class="su-hint">${tx("Freiwillig. So kannst du später vergleichen, was vorher war — und jederzeit zurück. Zähl die Klicks so, wie es am Feld steht: erst bis zum Anschlag drehen, dann zählen, dann wieder zurückstellen.", "Optional. So you can later compare with how it was before — and go back any time. Count clicks as noted at each field: turn to the stop, count, then set it back.")}</p>
       ${zeil.join("")}<div class="fw-ows">${obWn("akt", false)}</div>
       ${obWo(f.gabel ? ilGabel({zeig:["luft", "zug", "druck"], coil:f.gabel.coil}) : ilDaempfer({zeig:["luft", "zug", "druck"], coil:f.daempfer.coil}),
-        [tx("Luft: Pumpe aufs Ventil schrauben und ablesen — der erste Wert ist etwas niedriger, weil sich der Schlauch füllt", "Air: screw the pump onto the valve and read the gauge — the first reading is a little low because the hose fills up"), tx("Rebound: rotes Rädchen", "Rebound: red dial"), tx("Druckstufe: blauer Knopf", "Compression: blue knob")])}
-      ${obWarum("akt", tx("Damit „Vorher“ im Vergleich steht und du jederzeit zurückfindest. Fehlt für deine Gabel eine Herstellertabelle, startet die App bei deinem Druck statt einen zu erfinden.", "So “before” shows up in the comparison and you can always find your way back. If there's no maker's chart for your fork, the app starts from your pressure instead of making one up."))}`;
+        [tx("Luft: Pumpe aufs Ventil schrauben und ablesen — der erste Wert ist etwas niedriger, weil sich der Schlauch füllt", "Air: screw the pump onto the valve and read the gauge — the first reading is a little low because the hose fills up"), tx("Zugstufe: rotes Rädchen", "Rebound: red dial"), tx("Druckstufe: blauer Knopf", "Compression: blue knob")])}
+      ${obWarum("akt", tx("Damit „Vorher“ im Vergleich steht und du jederzeit zurückfindest. Fehlt für deine Gabel eine Herstellertabelle, startet die App bei deinem Druck statt einen zu erfinden.", "So “before” shows up in the comparison, and you can always find your way back. If there's no maker's chart for your fork, the app starts from your pressure instead of making one up."))}`;
     return r;
   }
   if(n === "probleme"){
@@ -13649,7 +13654,7 @@ function obInhalt(n, f, fw){
       <div class="fw-ows zwei">${SU_GEFUEHL.filter(g => !g.nur || hatD).map(g => obWahl(`data-fwwk="prob|${g.id}"`, p.indexOf(g.id) >= 0, sp2(g.t), sp2(g.s))).join("")}
         <button class="fw-ow fw-wn" data-fwwn="prob" aria-pressed="${!p.length}"><b>${tx("Nichts / weiß nicht", "Nothing / not sure")}</b></button></div>
       <label class="fw-oz breit"><span>${tx("Was wünschst du dir vom Fahrwerk? (freiwillig)", "What do you want from your suspension? (optional)")}</span>
-        <textarea rows="2" maxlength="240" data-fwin="wunsch" placeholder="${tx("z. B. mehr Grip auf nassen Wurzeln, ruhiger im Bikepark", "e.g. more grip on wet roots, more composed in the bike park")}">${esc(fw.wunsch || "")}</textarea></label>
+        <textarea rows="2" maxlength="240" data-fwin="wunsch" placeholder="${tx("z. B. mehr Grip auf nassen Wurzeln, ruhiger im Bikepark", "e.g. more grip on wet roots, more composed in the bike park")}">${esc(fw.wunsch || "")}</textarea></label>
       ${obWarum("prob", tx("Erst stimmen SAG und Grundeinstellung, dann geht es an die Probleme — immer nur eine Änderung, damit du weißt, was sie bewirkt hat (so raten es FOX, RockShox und GMBN).", "First sag and base settings, then the problems — always one change at a time so you know what it did (as FOX, RockShox and GMBN advise)."))}`;
     return r;
   }
@@ -13773,7 +13778,7 @@ function obZahlSetzen(el){
 function suProHtml(){
   const p = (i, t, u) => `<li>${ic(i, 18)}<span><b>${t}</b><small>${u}</small></span></li>`;
   return `<div class="su-frei"><div class="su-vorschau" aria-hidden="true">
-      <span class="su-w haupt"><b>··<i>psi</i></b><small>${tx("Luft", "Air")}</small></span><span class="su-w"><b>··<i>%</i></b><small>SAG</small></span><span class="su-w"><b>··</b><small>Rebound</small></span><span class="su-w"><b>··</b><small>${tx("Druckstufe", "Compression")}</small></span></div>
+      <span class="su-w haupt"><b>··<i>psi</i></b><small>${tx("Luft", "Air")}</small></span><span class="su-w"><b>··<i>%</i></b><small>${tx("SAG", "Sag")}</small></span><span class="su-w"><b>··</b><small>${tx("Zugstufe", "Rebound")}</small></span><span class="su-w"><b>··</b><small>${tx("Druckstufe", "Compression")}</small></span></div>
     <p class="su-hint fw-bsp">${tx("Platzhalter — mit Pro rechnet die App die Werte für dein Rad.", "Placeholder — with Pro the app calculates the values for your bike.")}</p>
     <span class="pro-orb">${ic(IC.fahrwerk, 22)}</span>
     <h2>${tx("Setup ist Pro", "Setup is Pro")}</h2>
@@ -13806,10 +13811,10 @@ function setupHtml(){
   /* Start: der Assistent fragt alles Noetige -- nichts ist Pflicht ausser dem Gewicht */
   if(!(plan.fahrer > 0)) return kopf(tx("Dein Fahrwerk, Schritt für Schritt", "Your suspension, step by step")) + `
     <section class="su-karte fw-hero"><div><div class="fw-hero-b">${ilGabel({zeig:["luft", "druck", "zug"]})}${ilDaempfer({zeig:["luft", "druck", "zug"]})}</div>
-      <p class="fw-hero-leg"><span><i>1</i>${tx("Luft", "Air")}</span><span><i>2</i>${tx("Druckstufe · blau", "Compression · blue")}</span><span><i>3</i>${tx("Rebound · rot", "Rebound · red")}</span></p></div>
+      <p class="fw-hero-leg"><span><i>1</i>${tx("Luft", "Air")}</span><span><i>2</i>${tx("Druckstufe · blau", "Compression · blue")}</span><span><i>3</i>${tx("Zugstufe · rot", "Rebound · red")}</span></p></div>
       <div class="fw-hero-t"><h3>${tx("In drei Minuten zu deinem Setup", "Your setup in three minutes")}</h3>
       <p>${tx("Das Setup rechnet mit deinem Gewicht aus dem Fahrerprofil — das fehlt noch. Danach ein paar Fragen zu Rad und Fahrstil, und du weißt, was du einstellen musst, wie du es machst und warum.", "Setup works with the weight from your rider profile — that's still missing. Then a few questions about your bike and riding, and you'll know what to set, how to do it and why.")}</p>
-      <ol class="fw-hero-l"><li>${tx("Gewicht im Fahrerprofil", "Weight in your rider profile")}</li><li>${tx("Luft und SAG einstellen", "Set air and sag")}</li><li>${tx("Rebound und Druckstufe", "Rebound and compression")}</li><li>${tx("Testfahren und feinstellen", "Test ride and fine-tune")}</li></ol>
+      <ol class="fw-hero-l"><li>${tx("Gewicht im Fahrerprofil", "Weight in your rider profile")}</li><li>${tx("Luft und SAG einstellen", "Set air and sag")}</li><li>${tx("Zug- und Druckstufe", "Rebound and compression")}</li><li>${tx("Testfahren und feinstellen", "Test ride and fine-tune")}</li></ol>
       <button class="btn wide" data-fahrerprofil="1">${tx("Fahrerprofil öffnen", "Open rider profile")}</button></div></section>`;
   const f = federRechnen();
   if(!f.gabel && !f.daempfer) return kopf(tx("Dein Fahrwerk, Schritt für Schritt", "Your suspension, step by step")) + `
@@ -13948,7 +13953,7 @@ function oeffneTrailKarte(knopf){
     const werte = [x.coil ? w(tx("Feder", "Spring"), x.rate ? `${x.rate}<small>lbs</small>` : `<span class="fx-wort">${esc(x.fw ? x.fw.name : tx("laut Tabelle", "per chart"))}</span>`, "", true, "", " s3")
         : w(tx("Luft", "Air"), psi ? `${psi}<small>psi</small>` : `<span class="fx-wort">${slot === "gabel" ? tx("Aufkleber", "sticker") : tx("Trailhead", "Trailhead")}</span>`, psi ? barVon(psi) + " bar" : tx("per SAG", "by sag"), true, "", " s3"),
       w("SAG", `${m.sag}<small>%</small>`, m.sagMm > 0 ? `${zahlDe(m.sagMm)} mm` : "", false, "", " s3")]
-      .concat(ks.map(k => w(k.g === "zug" ? "Rebound" : tx("Druckstufe", "Compression"), esc(k.k.kurz), esc(k.k.von || ""), false, k.k.zeichen, breit)));
+      .concat(ks.map(k => w(k.g === "zug" ? tx("Zugstufe", "Rebound") : tx("Druckstufe", "Compression"), esc(k.k.kurz), esc(k.k.von || ""), false, k.k.zeichen, breit)));
     return `<div class="trk-sek"><div class="trk-sk"><b>${slot === "gabel" ? tx("VORN", "FRONT") : tx("HINTEN", "REAR")}</b><span>${esc(x.t.nb || x.t.n)}</span>${heb.map(k =>
       `<em class="trk-heb">${esc(knopfName(k.basis[0]))}: <b>${esc(k.k.kurz)}</b></em>`).join("")}</div><div class="trk-werte">${werte.join("")}</div></div>`;
   };
@@ -14165,7 +14170,7 @@ function adGrafik(a){
       <g class="ag-leg" transform="translate(176 24)">
         <path class="ag-alt" d="M0 0h22"/>${T(30, 4, tx(`Aufnahme ${auf} ${g.nativ}`, `${auf} ${g.nativ} mount`))}
         <path class="ag-neu" d="M0 26h22"/>${T(30, 30, tx(`Deine Scheibe ${g.scheibe} mm`, `Your rotor ${g.scheibe} mm`))}
-        ${d > 0 ? `<rect class="ag-sattel" x="2" y="45" width="18" height="10" rx="3"/>${T(30, 54, tx(`Sattel +${halb(d)} mm`, `Caliper +${halb(d)} mm`))}
+        ${d > 0 ? `<rect class="ag-sattel" x="2" y="45" width="18" height="10" rx="3"/>${T(30, 54, tx(`Bremssattel +${halb(d)} mm`, `Caliper +${halb(d)} mm`))}
         ${T(30, 70, tx(`nach außen (${d} ÷ 2)`, `outwards (${d} ÷ 2)`), "ag-klein")}` : ""}
       </g>
       ${T(176, 146, tx("schematisch", "schematic"), "ag-klein")}
@@ -14266,8 +14271,8 @@ function adGuideInhalt(thema){
     <p class="adg-bsp">${tx("Beispiel: 203 mm Scheibe − PM 180 = <b>PM +23 mm</b>. Der Bremssattel rückt dabei um die Hälfte nach außen (11,5 mm) — so viel, wie die Scheibe am Rand größer ist.", "Example: 203 mm rotor − PM 180 = <b>PM +23 mm</b>. The caliper moves out by half (11.5 mm) — as much as the rotor grows at its edge.")}</p>
     <h4>${tx("Die drei Aufnahmen", "The three mounts")}</h4>
     <div class="adg-drei">
-      <div>${adMontage("PM")}<b>Post Mount (PM)</b><span>${tx("Zwei Gewindeaugen, der Sattel wird direkt verschraubt. Standard am MTB — PM 160, 180 oder 200.", "Two threaded bosses, the caliper bolts on directly. MTB standard — PM 160, 180 or 200.")}</span></div>
-      <div>${adMontage("FM")}<b>Flat Mount (FM)</b><span>${tx("Sattel liegt flach auf, Schrauben von unten. Vor allem XC und Gravel — FM 140/160. MTB-Sättel brauchen einen FM→PM-Adapter.", "Caliper sits flat, bolts from below. Mostly XC and gravel — FM 140/160. MTB calipers need an FM→PM adapter.")}</span></div>
+      <div>${adMontage("PM")}<b>Post Mount (PM)</b><span>${tx("Zwei Gewindeaugen, der Bremssattel wird direkt verschraubt. Standard am MTB — PM 160, 180 oder 200.", "Two threaded bosses, the caliper bolts on directly. MTB standard — PM 160, 180 or 200.")}</span></div>
+      <div>${adMontage("FM")}<b>Flat Mount (FM)</b><span>${tx("Bremssattel liegt flach auf, Schrauben von unten. Vor allem XC und Gravel — FM 140/160. MTB-Bremssättel brauchen einen FM→PM-Adapter.", "Caliper sits flat, bolts from below. Mostly XC and gravel — FM 140/160. MTB calipers need an FM→PM adapter.")}</span></div>
       <div>${adMontage("IS")}<b>IS2000</b><span>${tx("Zwei Laschen mit 51 mm Abstand, Schrauben quer zur Scheibe. Älter, nativ 160 mm — immer mit IS→PM-Adapter.", "Two tabs 51 mm apart, bolts across the rotor. Older, native 160 mm — always with an IS→PM adapter.")}</span></div>
     </div>
     <h4>${tx("Häufige Adapter", "Common adapters")}</h4>
@@ -14275,9 +14280,9 @@ function adGuideInhalt(thema){
       ["PM 200", "220 mm", "+20"], ["PM 203", "223 mm", "+20"], ["PM 180", "220 mm", "+40"], ["PM 200", "180 mm", nein]],
       [tx("Aufnahme", "Mount"), tx("Scheibe", "Rotor"), tx("Adapter", "Adapter")])}
     <h4>${tx("Gut zu wissen", "Good to know")}</h4>
-    <ul class="adg-liste"><li>${tx("Die Aufnahme steht auf Gabel oder Rahmen und im Datenblatt — in CrankScore als Chip am Teil (z. B. „PM200“).", "The mount is printed on the fork or frame and listed in the spec sheet — in CrankScore it shows as a chip on the part (e.g. “PM200”).")}</li>
+    <ul class="adg-liste"><li>${tx("Die Aufnahme steht auf Gabel oder Rahmen und im Datenblatt — in CrankScore als Chip am Teil (z. B. „PM200“).", "The mount is printed on the fork or frame and listed in the spec sheet — in CrankScore it shows as a chip on the part (e.g. “PM200”).")}</li>
       <li>${tx("Die Freigabe zählt mit: Mehr als die erlaubte Maximalgröße geht auch mit Adapter nicht.", "The rating still applies: no adapter makes a rotor above the maximum allowed size OK.")}</li>
-      <li>${tx("Schrauben mit mittelfester Schraubensicherung, 6–8 Nm (Herstellerangabe beachten). Danach den Sattel über der Scheibe ausrichten.", "Bolts with medium-strength threadlocker, 6–8 Nm (follow the maker's spec). Then align the caliper over the rotor.")}</li></ul>`;
+      <li>${tx("Schrauben mit mittelfester Schraubensicherung, 6–8 Nm (Herstellerangabe beachten). Danach den Bremssattel über der Scheibe ausrichten.", "Bolts with medium-strength threadlocker, 6–8 Nm (follow the maker's spec). Then align the caliper over the rotor.")}</li></ul>`;
   if(thema === "achse") return `
     <p class="adg-lead">${tx("Endkappen sind die Hülsen links und rechts in der Nabe. Mit ihnen ändert sich der <b>Achsdurchmesser</b> — die <b>Breite</b> nicht.", "End caps are the sleeves on both sides of the hub. They change the <b>axle diameter</b> — not the <b>width</b>.")}</p>
     <div class="adg-formel"><span>${tx("gleiche Breite", "same width")}</span><i>+</i><span>${tx("anderer Ø", "other Ø")}</span><i>=</i><b>${tx("Endkappen", "end caps")}</b></div>
@@ -14298,7 +14303,7 @@ function adGuideInhalt(thema){
       <li>${tx("Andersherum (dicke Welle in kleines Gehäuse) gibt es keinen Adapter — nur Lager mit sehr dünnen Lagerringen, und die halten kürzer.", "The other way round (thick spindle in a small shell) there's no adapter — only bearings with very thin races, and those wear faster.")}</li>
       <li>${tx("Die Breite muss stimmen: Eine DH-Kurbel (83 mm) passt nicht in ein 73-mm-Gehäuse, auch nicht mit Adapter.", "Width must match: a DH crank (83 mm) won't fit a 73 mm shell, not even with an adapter.")}</li></ul>`;
   return `
-    <p class="adg-lead">${tx("Steuersätze werden nach <b>SHIS</b> benannt: Bauart und Bohrung oben, dann unten — z. B. <code>ZS44/28.6 | ZS56/40</code>.", "Headsets are labelled in <b>SHIS</b> notation: type and bore at the top, then the bottom — e.g. <code>ZS44/28.6 | ZS56/40</code>.")}</p>
+    <p class="adg-lead">${tx("Steuersätze werden nach <b>SHIS</b> benannt: Bauart und Bohrung oben, dann unten — z. B. <code>ZS44/28.6 | ZS56/40</code>.", "Headsets are labelled in <b>SHIS</b> notation: type and bore at the top, then the bottom — e.g. <code>ZS44/28.6 | ZS56/40</code>.")}</p>
     <ul class="adg-liste"><li><b>ZS</b> ${tx("(Zero Stack): Schale steckt im Steuerrohr, Lager innen.", "(zero stack): cup sits in the head tube, bearing inside.")}</li>
       <li><b>EC</b> ${tx("(External Cup): Schale außen am Rohr.", "(external cup): cup outside the tube.")}</li>
       <li><b>IS</b> ${tx("(Integrated): Lager sitzt direkt im Rahmen, ohne Schale.", "(integrated): bearing sits directly in the frame, no cup.")}</li>
@@ -14570,7 +14575,7 @@ function zeichne(){
 
       <span class="mk-lab">${tx("Geforderter Preis", "Asking price")}</span>
       <div><input class="mk-preis" id="mk-preis" type="number" inputmode="numeric" min="0" max="100000" step="10"
-        value="${markt.preis || ""}" placeholder="${tx("z. B. 1800", "e.g. 1800")}" data-marktpreis="1"></div>
+        value="${markt.preis || ""}" placeholder="${tx("z. B. 1800", "e.g. 1800")}" data-marktpreis="1"></div>
 
       ${m ? `<div style="margin-top:13px">
         <div class="rechnung"><span>${tx("Teile einzeln gekauft", "Parts bought individually")}</span><span class="w">${eur(m.teileEinzeln)}</span></div>
@@ -14678,7 +14683,7 @@ function zeichne(){
     <b>What's only a guide value:</b> geometry figures (wheelbase, head angle, seat tube), insertion depths,
     tyre clearances and weights. They describe the model in general, not the exact data sheet for every model year.<br>
     <b>Prices:</b> if a partner shop stocks the part, the app uses the cheapest offer in stock
-    (incl. VAT, plus shipping; as of the date in the Buy tab). Otherwise it shows a guide price at RRP level — not an offer.<br>
+    (incl. VAT, plus shipping; as of the date in the Buy tab). Otherwise, it shows a guide price at RRP level — not an offer.<br>
     <b>Links:</b> shop buttons with a dot lead directly to the product, those with a magnifying glass to the shop's search. Links marked “Ad”
     earn CrankScore a commission; your price doesn't change.${amazonAktiv() ? " As an Amazon Associate CrankScore earns from qualifying purchases." : ""}<br>
     <span class="recht-links"><button data-recht="impressum">Legal notice</button> · <button data-recht="datenschutz">Privacy</button></span> Trials dimensions are simplified to Mod 20/19″,
@@ -15069,7 +15074,7 @@ function oeffneSlot(slotKey){
           : tausch.length ? `<span class="tag w">${tx(`${tausch.length} ${tausch.length === 1 ? "Teil" : "Teile"} tauschen`, `swap ${tausch.length} ${tausch.length === 1 ? "part" : "parts"}`)}</span>`
           : warn.length ? `<span class="tag w">${tx("Kompromiss", "compromise")}</span>` : `<span class="tag ok">${tx("passt", "fits")}</span>`;
       gruende = zuFrueh
-        ? `<div class="why w">${tx(`Diese Generation gibt es erst seit etwa ${t.seit}. Für ${jahrAktiv()} ist das die Vorgängerversion mit anderen Maßen.`, `This generation has only been around since about ${t.seit}. In ${jahrAktiv()} it was the previous version, with different dimensions.`)}</div>`
+        ? `<div class="why w">${tx(`Diese Generation gibt es erst seit etwa ${t.seit}. Für ${jahrAktiv()} ist das die Vorgängerversion mit anderen Maßen.`, `This generation has only been around since about ${t.seit}. For ${jahrAktiv()}, that's the previous version, with different dimensions.`)}</div>`
         : tausch.length
         ? `<div class="why w"><b>${tx("Mit diesem Rahmen passen nicht mehr:", "With this frame these no longer fit:")}</b> ${tausch.map(k => imSatz((slotOf(k) || {}).label || k)).join(", ")}.</div>`
         : warn.slice(0,1).map(f => `<div class="why w"><b>${esc(f.titel)}.</b> ${f.text}</div>`).join("");
@@ -15216,7 +15221,7 @@ function profilZeile(p){
 
 /* Mischung mehrerer Disziplinen: geht das in einem Rad? */
 const mixBox = mp => mp.min < .15 ? `<div class="mixbox no">${tx(`<b>Das geht nicht in einem Rad.</b> ${dLang(mp.paar[0])} und ${dLang(mp.paar[1])} teilen sich kaum ein Bauteil.`,
-    `<b>That doesn't work in one bike.</b> ${dLang(mp.paar[0])} and ${dLang(mp.paar[1])} share hardly a single part.`)}</div>`
+    `<b>That doesn't work in one bike.</b> ${dLang(mp.paar[0])} and ${dLang(mp.paar[1])} hardly share a single part.`)}</div>`
   : mp.min < .40 ? `<div class="mixbox w">${tx(`<b>Großer Spagat.</b> ${dLang(mp.paar[0])} und ${dLang(mp.paar[1])} ziehen auseinander — jedes Teil wird ein Kompromiss.`,
     `<b>A big stretch.</b> ${dLang(mp.paar[0])} and ${dLang(mp.paar[1])} pull apart — every part becomes a compromise.`)}</div>`
   : `<div class="mixbox ok">${tx(`<b>Das lässt sich bauen.</b> ${sel.map(dLang).join(" und ")} vertragen sich in einem Rad.`, `<b>That can be built.</b> ${sel.map(dLang).join(" and ")} get along in one bike.`)}</div>`;
@@ -15274,7 +15279,7 @@ function oeffneWiz(step){
       <p class="qs">${tx("Gesamtsumme aller Teile ohne Montage. Der Assistent bleibt darunter und verteilt das Geld dahin, wo es am meisten bringt.", "Total of all parts without assembly. The assistant stays below it and puts the money where it does the most.")}</p>
       <div class="qgrid">${BUDGETS.map(v => `<button class="qopt" data-budget="${v}" aria-pressed="${plan.budget === v}">${eur(v)}</button>`).join("")}</div>
       <div class="fld" style="margin-top:12px"><label for="w-budget">${tx("Eigener Betrag in €", "Custom amount in €")}</label>
-        <input id="w-budget" type="number" inputmode="numeric" min="${BUDGET_MIN}" max="${BUDGET_MAX}" step="50" value="${plan.budget || ""}" placeholder="${tx("z. B. 4200", "e.g. 4200")}" data-plan="budget"></div>
+        <input id="w-budget" type="number" inputmode="numeric" min="${BUDGET_MIN}" max="${BUDGET_MAX}" step="50" value="${plan.budget || ""}" placeholder="${tx("z. B. 4200", "e.g. 4200")}" data-plan="budget"></div>
       <p class="was-das" style="margin-top:12px">${tx(`<b>Was ist realistisch?</b> Ein Aufbau aus Neuteilen für ${esc(selNamen())}
         kostet ab etwa ${eur(mindestPreis())} — mit älterem Rahmen und einfachen Teilen. Darunter sagt dir der Assistent,
         was fehlt, statt ein falsches Rad zu bauen.`, `<b>What's realistic?</b> A build from new parts for ${esc(selNamen())} costs from about ${eur(mindestPreis())} — with an older frame and simple parts. Below that the assistant tells you what's missing instead of building the wrong bike.`)}</p>`;
@@ -15359,7 +15364,7 @@ function oeffneWiz(step){
         ${vorliebenChips().filter(Boolean).length ? "· " + vorliebenChips().filter(Boolean).join(", ") : ""}</p>
       <div class="sumbox">
         <div><b style="color:${ampel(r.gesamt)}">${r.gesamt}</b><span>Score</span></div>
-        <div><b>${eur(r.preis)}</b><span>${uebrig >= 0 ? eur(uebrig) + tx(" frei", " left") : eur(-uebrig) + tx(" drüber", " over")}</span></div>
+        <div><b>${eur(r.preis)}</b><span>${uebrig >= 0 ? eur(uebrig) + tx(" frei", " left") : eur(-uebrig) + tx(" zu viel", " over")}</span></div>
         <div><b>${kg(r.gewicht)}</b><span>${tx("Gewicht", "Weight")}</span></div>
       </div>
       ${zeilen}
@@ -15422,7 +15427,7 @@ function oeffneWiz(step){
 const SPICK_EN = [
  ["Frame · model and year", "Sticker on the seat tube or down tube. The frame number is under the bottom bracket — with it the manufacturer can find the exact data sheet."],
  ["Suspension fork · travel", "Sticker on the lower leg, usually on the left. The model year is there too. If nothing's there: with the fork fully extended, measure the exposed stanchion — the travel is a little less than that."],
- ["Shock · size", "Stamped directly on the shock body, e.g. 210×55. First number eye-to-eye length, second the stroke."],
+ ["Shock · size", "Stamped directly on the shock body, e.g. 210×55. The first number is the eye-to-eye length, the second the stroke."],
  ["Wheels · freehub", "Remove the cassette: Shimano 12-speed = Micro Spline (narrow splines), SRAM Eagle = XD (smooth cone), everything older = HG. Without removing it: it's in the wheelset's description."],
  ["Wheels · inner rim width", "Inside width of the rim between the flanges, measured with a caliper. Often also on a sticker on the rim."],
  ["Tyres · size and width", "Moulded into the sidewall, e.g. 29×2.40."],
@@ -15430,19 +15435,19 @@ const SPICK_EN = [
  ["Cranks · length and teeth", "Length on the inside of the crank arm (170, 175). Tooth count on the chainring."],
  ["Brakes · model and rotors", "Model on the brake lever. Rotor size on the rotor itself, e.g. 203."],
  ["Bar · clamp and width", "Usually printed on the bar: 31.8 or 35 mm, plus the width."],
- ["Seatpost · diameter", "Printed on the post: 30.9, 31.6 or 34.9 mm. Otherwise measure the removed post."],
+ ["Seatpost · diameter", "Printed on the post: 30.9, 31.6 or 34.9 mm. Otherwise, measure the removed post."],
  ["Thru-axles", "Rear usually 148×12 (Boost) or 157×12 (Super Boost), front 110×15. Often printed on the axle itself."]
 ];
 const SPICK = [
  ["Rahmen · Modell und Jahr", "Aufkleber am Sitzrohr oder Unterrohr. Die Rahmennummer steht unter dem Tretlager — damit findest du beim Hersteller das genaue Datenblatt."],
  ["Federgabel · Federweg", "Aufkleber auf dem Tauchrohr, meist links. Dort steht auch das Modelljahr. Steht nichts drauf: Gabel ganz ausgefahren das sichtbare Standrohr messen — der Federweg ist etwas kürzer als dieses Maß."],
- ["Dämpfer · Einbaumaß", "Direkt auf dem Dämpferkörper eingeprägt, z. B. 210×55. Erste Zahl Einbaulänge, zweite Hub."],
- ["Laufräder · Freilauf", "Kassette abziehen: Shimano 12-fach = Micro Spline (schmale Verzahnung), SRAM Eagle = XD (glatter Konus), alles ältere = HG. Ohne Abziehen: steht in der Beschreibung des Laufradsatzes."],
+ ["Dämpfer · Einbaumaß", "Direkt auf dem Dämpferkörper eingeprägt, z. B. 210×55. Die erste Zahl ist die Einbaulänge, die zweite der Hub."],
+ ["Laufräder · Freilauf", "Kassette abziehen: Shimano 12-fach = Micro Spline (schmale Verzahnung), SRAM Eagle = XD (glatter Konus), alles Ältere = HG. Ohne Abziehen: steht in der Beschreibung des Laufradsatzes."],
  ["Laufräder · Maulweite", "Innenmaß der Felge zwischen den Flanken, mit dem Messschieber. Steht oft auch als Aufkleber auf der Felge."],
- ["Reifen · Größe und Breite", "Auf der Seitenwand eingeprägt, z. B. 29×2.40."],
- ["Antrieb · Gruppe", "Auf dem Schaltwerk aufgedruckt, z. B. M8100 (XT), M7100 (SLX), GX Eagle."],
+ ["Reifen · Größe und Breite", "Auf der Seitenwand eingeprägt, z. B. 29×2.40."],
+ ["Antrieb · Gruppe", "Auf dem Schaltwerk aufgedruckt, z. B. M8100 (XT), M7100 (SLX), GX Eagle."],
  ["Kurbel · Länge und Zähne", "Länge auf der Innenseite des Kurbelarms (170, 175). Zähnezahl auf dem Kettenblatt."],
- ["Bremsen · Modell und Scheiben", "Modell auf dem Bremsgriff. Scheibengröße auf der Scheibe selbst, z. B. 203."],
+ ["Bremsen · Modell und Scheiben", "Modell auf dem Bremsgriff. Scheibengröße auf der Scheibe selbst, z. B. 203."],
  ["Lenker · Klemmung und Breite", "Meist auf den Lenker gedruckt: 31,8 oder 35 mm, dazu die Breite."],
  ["Sattelstütze · Durchmesser", "Auf der Stütze aufgedruckt: 30,9 mm, 31,6 mm oder 34,9 mm. Sonst am ausgebauten Rohr messen."],
  ["Steckachsen", "Hinten meist 148×12 (Boost) oder 157×12 (Super Boost), vorn 110×15. Steht oft auf der Achse selbst."]
@@ -15525,8 +15530,8 @@ function oeffneMenu(){
       <div class="grp-h" style="margin-top:18px"><h2>${tx("Betreiber", "Operator")}</h2><div class="rule"></div></div>
       ${marktCheckHtml()}
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Impressum-Angaben", "Legal notice details")}</h2><div class="rule"></div></div>
-      <p class="hint" style="margin:0 0 8px">${tx(`Pflicht nach § 5 DDG, sobald die App Geld verdient. Wird mit
-        „links.json speichern“ veröffentlicht — öffentlich wie jedes Impressum.`, `Required under § 5 DDG (German Digital Services Act) as soon as the app earns money. Published with
+      <p class="hint" style="margin:0 0 8px">${tx(`Pflicht nach § 5 DDG, sobald die App Geld verdient. Wird mit
+        „links.json speichern“ veröffentlicht — öffentlich wie jedes Impressum.`, `Required under § 5 DDG (German Digital Services Act) as soon as the app earns money. Published with
         “Save links.json” — public like any legal notice.`)}</p>
       ${BETREIBER_FELDER.filter(f => PRO_FELDER.indexOf(f) < 0).map(betreiberFeld).join("")}
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Pro-Verkauf", "Selling Pro")}</h2><div class="rule"></div></div>
@@ -15597,13 +15602,13 @@ function oeffneMenu(){
 
       <div class="grp-h"><h2>${tx("Netzwerk", "Network")}</h2><div class="rule"></div></div>
       <div class="fld"><label for="m-awin">${tx("Awin Publisher-ID", "Awin publisher ID")}</label>
-        <input id="m-awin" data-affnetz="awinId" value="${esc(netzWert("awinId"))}" placeholder="${tx("z. B. 1234567", "e.g. 1234567")}" inputmode="numeric">
+        <input id="m-awin" data-affnetz="awinId" value="${esc(netzWert("awinId"))}" placeholder="${tx("z. B. 1234567", "e.g. 1234567")}" inputmode="numeric">
       </div>
       <p class="hint" style="margin:-6px 0 12px">${tx(`Steht im Awin-Konto oben rechts neben deinem Namen.
         Ohne sie ist jeder Link nur ein normaler Shoplink.`, `It's at the top right of your Awin account, next to your name.
         Without it every link is just a normal shop link.`)}</p>
       <div class="fld"><label for="m-amz">${tx("Amazon PartnerNet — Tracking-ID", "Amazon Associates — tracking ID")}</label>
-        <input id="m-amz" data-affnetz="amazonTag" value="${esc(netzWert("amazonTag"))}" placeholder="${tx("z. B. deinname-21", "e.g. yourname-21")}">
+        <input id="m-amz" data-affnetz="amazonTag" value="${esc(netzWert("amazonTag"))}" placeholder="${tx("z. B. deinname-21", "e.g. yourname-21")}">
       </div>
 
       <div class="grp-h" style="margin-top:6px"><h2>Shops</h2><div class="rule"></div></div>
@@ -15617,13 +15622,13 @@ function oeffneMenu(){
         your sales to someone else's account.`)}</p>
 
       <p class="legal">${tx(`
-        <b>Kennzeichnung.</b> Sobald ein Link Provision bringt, steht neben der Shopzeile „Anzeige“ — § 5a Abs. 4
+        <b>Kennzeichnung.</b> Sobald ein Link Provision bringt, steht neben der Shopzeile „Anzeige“ — § 5a Abs. 4
         UWG verlangt das vor dem Klick, nicht erst im Impressum. Alle Links tragen
         <code>rel="sponsored nofollow noopener"</code>.<br><br>
         <b>Preisangaben.</b> Live-Preise stehen mit Stand, inkl. MwSt. und zzgl. Versand; ohne Angebot steht ein
         Richtpreis auf UVP-Niveau. Die PAngV verlangt bei konkreten Preisen neben einem Kauflink Aktualität und den
         Gesamtpreis — deshalb der Stand und der Hinweis, dass der Preis im Shop gilt.`, `
-        <b>Labelling.</b> As soon as a link earns commission, “Ad” appears next to the shop row — § 5a(4) of the German
+        <b>Labelling.</b> As soon as a link earns commission, “Ad” appears next to the shop row — § 5a(4) of the German
         Unfair Competition Act (UWG) requires that before the click, not just in the legal notice. All links carry
         <code>rel="sponsored nofollow noopener"</code>.<br><br>
         <b>Prices.</b> Live prices show a timestamp, incl. VAT and plus shipping; without an offer there's a
@@ -15663,7 +15668,7 @@ function oeffneMenu(){
       </div>
 
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Deine Daten", "Your data")}</h2><div class="rule"></div></div>
-      <p class="hint" style="margin:0 0 8px">${tx("Alle Räder, Fahrerangaben, Fahrwerk-Setup und Notizen als Datei — für ein neues Gerät oder bevor du Browserdaten löschst. Die Daten liegen sonst nur in diesem Browser.", "All bikes, rider details, suspension setup and notes as a file — for a new device or before you clear browser data. Otherwise the data only lives in this browser.")}</p>
+      <p class="hint" style="margin:0 0 8px">${tx("Alle Räder, Fahrerangaben, Fahrwerk-Setup und Notizen als Datei — für ein neues Gerät oder bevor du Browserdaten löschst. Die Daten liegen sonst nur in diesem Browser.", "All bikes, rider details, suspension setup and notes as a file — for a new device or before you clear browser data. Otherwise, the data only lives in this browser.")}</p>
       <label class="fw-haken"><input type="checkbox" data-sicherungfotos="1"${sicherungFotos ? " checked" : ""}> ${tx("Fotos mitsichern (Datei wird größer)", "Include photos (larger file)")}</label>
       <div class="lk-knoepfe" style="margin:6px 0 4px">
         <button class="btn ghost sm" data-sicherung="export">${tx("Sicherung speichern", "Save backup")}</button>

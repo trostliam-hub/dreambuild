@@ -366,7 +366,7 @@ Ausgangspunkte und stehen so in der App.
   sich?“ zeigt je Federelement jede Abweichung von Allround mit Grund und den
   Preis dafür. Jedes Profil speichert eigenen Druck, eigene Klicks und eine
   eigene Grundeinstellung (★).
-- *Dein nächster Schritt* — Luft vorne/hinten, SAG, Rebound, Druckstufe,
+- *Dein nächster Schritt* — Luft vorn/hinten, SAG, Zugstufe, Druckstufe,
   Testfahrt; *Zeigen* öffnet die passende Karte, *Erledigt* hakt ab.
   Fehlen Angaben, sagt ein Hinweis oben nur, wie viele — bearbeitet wird
   ausschließlich unter *Deine Angaben*.
@@ -374,7 +374,7 @@ Ausgangspunkte und stehen so in der App.
   Deine Angaben. SAG wird in der SAG-Karte des gewählten Federelements
   gestartet; *Dein nächster Schritt* führt mit *Zeigen* dorthin.
 - *Einstellkarten* in der Reihenfolge des Einstellens (Luft oder Feder, SAG,
-  Rebound, Druckstufe, Hebel; aufklappbar die Profi-Einsteller HSC, HSR,
+  Zugstufe, Druckstufe, Hebel; aufklappbar die Profi-Einsteller HSC, HSR,
   Durchschlagschutz, Tokens) — nur Einsteller, die das Fahrwerk hat. Jede
   Karte: Wert und Herkunft (Tabelle, Startwert, Empfehlung, dein Wert),
   −/+ bzw. eigener Druck mit Maximaldruck, *So stellst du es ein* (Ort,
@@ -408,7 +408,7 @@ Ausgangspunkte und stehen so in der App.
   Empfehlung zurücksetzen. *Notizbuch* mit 👍 😐 👎; jede Änderung, Messung
   und Testfahrt landet darin (je Kombination aus Gabel und Dämpfer,
   `mtb.setup`, alte Stände werden übernommen).
-- *Gut zu wissen:* Begriffe (SAG, Rebound, Druckstufe, LSC, HSC, LSR/HSR,
+- *Gut zu wissen:* Begriffe (SAG, Zugstufe, Druckstufe, LSC, HSC, LSR/HSR,
   Token, Progression, Packing, Durchschlagen, psi/bar, Hub, Klicks zählen) und
   die Quellen: FOX Owner's Manuals, Tuning Guides und Quick-Start-Videos,
   RockShox Welcome Guides, Charger-3-Setup, Trailhead und Videos, Cane Creek,
@@ -529,7 +529,7 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
 | Gabel · Dämpfer | fork · shock |
 | Federweg · Hub (Dämpfer / Variostütze) | travel · stroke / drop |
 | SAG (Negativfederweg) | sag |
-| Zugstufe · Druckstufe | rebound · compression |
+| Zugstufe · Druckstufe (auch High-Speed-Zugstufe; „Rebound“ nur als Erklärung in Klammern) | rebound · compression |
 | Grundeinstellung | baseline (base setting) |
 | Laufradsatz · Reifen · Freilauf | wheelset · tyre · freehub |
 | Schaltwerk · Kassette · Kettenblatt | derailleur · cassette · chainring |
@@ -538,6 +538,20 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
 | Modelljahr (nicht „Baujahr“, „Jahrgang“) | model year |
 | O-Ring (beim SAG einmal als Gummiring erklärt) | O-ring |
 | Bremssattel (bei Bremsen nie nur „Sattel“) | caliper |
+| Cross-Country · Downhill pur · Sprünge pur | Cross-country · Pure downhill · Pure jumps |
+
+**Schreibweisen**
+
+- Maße ohne Leerzeichen um das ×: `148×12`, `210×55`, `29×2.40`. Als Teil eines
+  Wortes mit Bindestrichen: 30-mm-Welle, 157er-Hinterbau (`mmBind()` macht aus
+  „30 mm“ im Text „30-mm“).
+- „z. B.“ und „§ 5“ mit geschütztem Leerzeichen (U+00A0), damit am Zeilenende
+  nichts auseinanderbricht.
+- Apostroph in beiden Sprachen gerade (`geht's`, `you're`), Anführungszeichen
+  typografisch („…“ / “…”). Englisch ohne Komma vor dem letzten „and“/„or“
+  einer Aufzählung (britisch), aber mit Komma nach „Otherwise,“ am Satzanfang.
+- Namen von Modi und Knöpfen in Antworten fett (`<b>Gebraucht</b>`), in
+  Aufzählungen in Anführungszeichen („Nächster Schritt“).
 
 **Prüfen**
 
@@ -554,6 +568,11 @@ falsche Zahl-, Euro- und Prozentformate (auch Dezimalpunkt im Deutschen bei mm,
 Leerzeichen vor Satzzeichen und abgeschnittene Texte. Marken- und Modellnamen
 aus dem Katalog sind ausgenommen. `--bericht datei.json` schreibt alle Funde
 und alle gesammelten Texte zum Durchlesen heraus.
+
+Diese gesammelten Texte sind zusätzlich mit LanguageTool 6.8 geprüft (de-DE und
+en-GB, strengste Stufe „picky“, Oktober 2026). Was dort noch angemerkt wird,
+sind Marken- und Modellnamen, MTB-Fachwörter, Satzstücke zwischen fett
+gesetzten Wörtern und die Schreibweisen oben.
 
 ## Veroeffentlichen
 
