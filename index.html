@@ -5343,7 +5343,7 @@ function pruefe(b){
     if(!rahmen.motor && rahmen.bb && ["ISIS", "PowerSpline"].indexOf(kurbel.iface) < 0 && kGeh !== rGeh)
       out.push(F(tx("Kurbelwelle passt nicht zur Gehäusebreite", "Crank spindle doesn't suit the shell width"),"kurbel",["rahmen","kurbel"],
         tx(`Der Rahmen hat <code>${bbName(rahmen.bb)}</code>, die Kurbel ist für ein <code>${kGeh === 83 ? "83-mm-DH" : "68/73-mm"}</code>-Gehäuse gebaut. ${kGeh === 83 ? "Die DH-Welle ist 10 mm zu lang — die Kurbel lässt sich nicht spielfrei klemmen." : "Die Welle ist 10 mm zu kurz für das DH-Gehäuse."} ${kurbel.v && kurbel.v.some(d => d.k === "Welle") ? "Diese Kurbel gibt es mit passender Welle — direkt am Teil umstellen." : "Gebraucht wird die " + (rGeh === 83 ? "83-mm-DH" : "68/73-mm") + "-Version der Kurbel."}`,
-           `The frame has <code>${bbName(rahmen.bb)}</code>, the crank is made for ${kGeh === 83 ? "an" : "a"} <code>${kGeh === 83 ? "83 mm DH" : "68/73 mm"}</code> shell. ${kGeh === 83 ? "The DH spindle is 10 mm too long — the crank can't be clamped without play." : "The spindle is 10 mm too short for the DH shell."} ${kurbel.v && kurbel.v.some(d => d.k === "Welle") ? "This crank comes with the right spindle — change it directly on the part." : "You need the " + (rGeh === 83 ? "83 mm DH" : "68/73 mm") + " version of the crank."}`)));
+           `The frame has a <code>${bbName(rahmen.bb)}</code> shell, the crank is made for ${kGeh === 83 ? "an" : "a"} <code>${kGeh === 83 ? "83 mm DH" : "68/73 mm"}</code> shell. ${kGeh === 83 ? "The DH spindle is 10 mm too long — the crank can't be clamped without play." : "The spindle is 10 mm too short for the DH shell."} ${kurbel.v && kurbel.v.some(d => d.k === "Welle") ? "This crank comes with the right spindle — change it directly on the part." : "You need the " + (rGeh === 83 ? "83 mm DH" : "68/73 mm") + " version of the crank."}`)));
     if(!innenlager && !rahmen.motor && !lagerDa(kurbel, rahmen) && /^(BB30|PF30)$/.test(rahmen.bb) && ["Hollowtech II", "DUB"].indexOf(kurbel.iface) >= 0){
       /* BB30/PF30 sind fuer 30-mm-Wellen gebaut. Duennere Wellen (24 mm
          Hollowtech II, 28,99 mm DUB) laufen dort mit einem Konverter-Lager --
@@ -5399,7 +5399,7 @@ function pruefe(b){
   if(innenlager && rahmen && rahmen.bb && innenlager.gehaeuse.indexOf(rahmen.bb) < 0)
     out.push(F(tx("Innenlager passt nicht ins Tretlagergehäuse", "Bottom bracket doesn't fit the shell"),"innenlager",["rahmen","innenlager"],
       tx(`Der Rahmen hat <code>${bbName(rahmen.bb)}</code>, das Lager ist für <code>${innenlager.gehaeuse.map(bbName).join(" / ")}</code> gebaut. Geschraubte und eingepresste Lager lassen sich nicht gegeneinander tauschen, und die Gehäusebreite muss stimmen.`,
-         `The frame has <code>${bbName(rahmen.bb)}</code>, the bearing is made for <code>${innenlager.gehaeuse.map(bbName).join(" / ")}</code>. Threaded and press-fit bearings aren't interchangeable, and the shell width has to match.`)));
+         `The frame has a <code>${bbName(rahmen.bb)}</code> shell, the bearing is made for <code>${innenlager.gehaeuse.map(bbName).join(" / ")}</code>. Threaded and press-fit bearings aren't interchangeable, and the shell width has to match.`)));
   if(innenlager && kurbel && kurbel.iface !== innenlager.welle)
     out.push(F(tx("Kurbelwelle passt nicht ins Innenlager", "Crank spindle doesn't fit the bottom bracket"),"innenlager",["kurbel","innenlager"],
       tx(`<code>${kurbel.n}</code> hat eine <code>${mmBind(kurbel.iface)}</code>-Welle, <code>${innenlager.n}</code> nimmt <code>${innenlager.welle}</code> auf. Die Welle geht entweder gar nicht durch oder sitzt mit Spiel.`,
@@ -5458,8 +5458,8 @@ function pruefe(b){
            `The frame is rated up to <code>${rahmen.maxScheibeHR} mm</code>, the brake has a <code>${bremsen.sH} mm</code> rotor. Bigger rotors put extra leverage on the rear end.`)));
       else if(rahmen) bremsAufnahme(out, "hinten", "rahmen", rahmen, rahmen.pmHR, rahmen.hrAufnahme, bremsen.sH, bremsen);
       if(gabel && bremsen.sV > gabel.maxScheibeVR) out.push(F(tx("Bremsscheibe vorn zu groß für die Gabel", "Front rotor too big for the fork"),"bremsen",["gabel","bremsen"],
-        tx(`Die Gabel ist bis <code>${gabel.maxScheibeVR} mm</code> freigegeben, die Bremse kommt mit <code>${bremsen.sV} mm</code>.`,
-           `The fork is rated up to <code>${gabel.maxScheibeVR} mm</code>, the brake comes with <code>${bremsen.sV} mm</code>.`)));
+        tx(`Die Gabel ist bis <code>${gabel.maxScheibeVR} mm</code> freigegeben, die Bremse hat eine <code>${mmBind(bremsen.sV + " mm")}</code>-Scheibe.`,
+           `The fork is rated up to <code>${gabel.maxScheibeVR} mm</code>, the brake has a <code>${bremsen.sV} mm</code> rotor.`)));
       else if(gabel) bremsAufnahme(out, "vorn", "gabel", gabel, gabel.pmV, gabel.vrAufnahme, bremsen.sV, bremsen);
       if(laufraeder && laufraeder.naben !== bremsen.mount) out.push(H(tx("Scheibenaufnahme abweichend", "Different rotor mount"),"bremsen",["laufraeder","bremsen"],
         tx(`Die Naben haben <code>${laufraeder.naben}</code>, zur Bremse gehören üblicherweise <code>${bremsen.mount}</code>-Scheiben. Kein Problem — du brauchst nur Scheiben in der passenden Aufnahme (25–60 € je Scheibe).`,
@@ -6884,7 +6884,7 @@ function startseiteHtml(){
       </section>
       <section class="ls-titel links ls-rein"><h2>${tx("Was die App<br>noch kann", "What else<br>the app does")}</h2></section>
       <div class="ls-quer">${mehr}</div>
-      <section class="ls-titel ls-rein"><h2>${tx("Free oder Pro", "Free or Pro")}</h2><p>${tx("Fast alles ist kostenlos. Pro ist für alle, die mehr Räder, das Fahrwerk-Setup oder den Guide ohne Limit wollen.", "Almost everything is free. Pro is for anyone who wants more bikes, the suspension setup or an unlimited guide.")}</p></section>
+      <section class="ls-titel ls-rein"><h2>${tx("Free oder Pro", "Free or Pro")}</h2><p>${tx("Fast alles ist kostenlos. Pro ist für alle, die mehr Räder, das Fahrwerk-Setup oder den Guide ohne Limit wollen.", "Almost everything is free. Pro is for anyone who wants more bikes, the suspension setup or unlimited Guide questions.")}</p></section>
       <div class="ls-preise ls-rein">
         <div class="ls-preis"><span>Free</span><b>0 €</b>${liste(frei)}</div>
         <div class="ls-preis pro"><span>Pro</span><b>${euro(PRO_JAHR_MONAT)} <small>${tx("im Monat bei jährlicher Zahlung", "a month, billed yearly")}</small></b>
@@ -7536,8 +7536,8 @@ function kachelZusatz(slotKey, t){
       ? `<span class="fit ok">${tx("✓ Freilauf passt zur Kassette", "✓ Freehub fits the cassette")}</span>`
       : `<span class="fit no">${tx(`✗ Kassette braucht ${esc(stdName(ka.freilauf))}, die Nabe hat ${esc(stdName(t.freilauf))}`, `✗ Cassette needs ${esc(stdName(ka.freilauf))}, the hub has ${esc(stdName(t.freilauf))}`)}</span>`;
     return `<span class="rad2">
-      <span class="rz"><b>${tx("Vorn", "Front")}</b><span>${zoll(t.lrV)} · ${tx("Nabe", "hub")} ${achsName(t.va)} · ${esc(stdName(t.naben))} · ${t.iw} mm ${tx("Maulweite", "inner width")}</span></span>
-      <span class="rz"><b>${tx("Hinten", "Rear")}</b><span>${zoll(t.lrH)} · ${tx("Nabe", "hub")} ${achsName(t.ha)}${ausfWerte(t).indexOf(t.freilauf) >= 0 ? ""
+      <span class="rz"><b>${tx("Vorn", "Front")}</b><span>${zoll(t.lrV)} · ${tx("Nabe " + achsName(t.va), achsName(t.va) + " hub")} · ${esc(stdName(t.naben))} · ${t.iw} mm ${tx("Maulweite", "inner width")}</span></span>
+      <span class="rz"><b>${tx("Hinten", "Rear")}</b><span>${zoll(t.lrH)} · ${tx("Nabe " + achsName(t.ha), achsName(t.ha) + " hub")}${ausfWerte(t).indexOf(t.freilauf) >= 0 ? ""
         : " · " + tx("Freilauf", "freehub") + " " + esc(stdName(t.freilauf)) + (FREILAUF_FUER[t.freilauf] ? " (" + FREILAUF_FUER[t.freilauf] + ")" : "")}</span></span>
       ${fit}</span>`;
   }
@@ -9560,7 +9560,7 @@ function oeffneScoreHilfe(){
         with compromises. Red below that: something fundamental doesn't work.</div>
       <div class="erk"><b>Compatibility</b>Do the parts fit together technically — axles, freehub, shock size, clamps, number of gears?
         A conflict means the bike can't be built like this. The Check tab lists every conflict and how to fix it.</div>
-      <div class="erk"><b>Discipline</b>Do the parts suit what you want to ride (${esc(selNamen())})? An enduro frame with
+      <div class="erk"><b>Discipline</b>Do the parts suit what you want to ride (${esc(selNamen())})? An enduro bike with
         light XC brakes fits technically, but won't brake hard enough on long descents. Change the discipline at the top right.</div>
       <div class="erk"><b>Colours on the parts</b>Red border: doesn't fit the rest. Yellow border: compromise or adapter needed.
         Green dot on a group: complete and all good.</div>
@@ -9570,7 +9570,7 @@ function oeffneScoreHilfe(){
         Rot darunter: Da stimmt etwas Grundsätzliches nicht.</div>
       <div class="erk"><b>Kompatibilität</b>Passen die Teile technisch zusammen — Achsen, Freilauf, Einbaumaße, Klemmungen, Gangzahlen?
         Ein Konflikt heißt: So lässt sich das Rad nicht bauen. Im Reiter Prüfung steht jeder Konflikt mit Lösung.</div>
-      <div class="erk"><b>Einsatz</b>Passen die Teile zu dem, was du fahren willst (${esc(selNamen())})? Ein Enduro-Rahmen mit
+      <div class="erk"><b>Einsatz</b>Passen die Teile zu dem, was du fahren willst (${esc(selNamen())})? Ein Enduro-Rad mit
         leichten XC-Bremsen passt technisch, bremst auf langen Abfahrten aber zu schwach. Die Disziplin stellst du oben rechts um.</div>
       <div class="erk"><b>Farben an den Teilen</b>Roter Rand: passt nicht zum Rest. Gelber Rand: Kompromiss oder Adapter nötig.
         Grüner Punkt an einer Gruppe: vollständig und alles passt.</div>
@@ -10600,7 +10600,7 @@ const GUIDE = [
    ak:["modus:traum", "modus:real", "modus:markt"]},
   {id:"assistent", k:"assistent automatisch vorschlag vorschlagen zusammenstellen generieren lassen wizard assistant suggest automatic generate", t:["Was macht der Assistent?", "What does the assistant do?"],
    a:["Der Assistent steckt im <b>Bauziel</b> (beim Traumrad oben auf die Disziplin tippen): Disziplin, Budget, Wunschmarken, Schwerpunkt — dann stellt er ein komplettes Rad zusammen. Er hält dein Budget ein (höchstens 100 € darüber), nimmt nur Teile, die zusammenpassen, und wählt Kurbel, Stütze und Vorbau passend zu deinen Maßen. Erst „Aufbau übernehmen“ tauscht die Teile. Danach kannst du jedes Teil selbst tauschen.",
-     "The assistant lives in the <b>build goal</b> (for a dream bike, tap the discipline at the top): discipline, budget, favourite brands, priority — then it puts a complete bike together. It keeps to your budget (at most €100 over), only takes parts that fit together and picks cranks, seatpost and stem to suit your measurements. Nothing changes until you tap “Use this build”. Afterwards you can swap any part yourself."]},
+     "The assistant lives in the <b>build plan</b> (for a dream bike, tap the discipline at the top): discipline, budget, favourite brands, priority — then it puts a complete bike together. It keeps to your budget (at most €100 over), only takes parts that fit together and picks cranks, seatpost and stem to suit your measurements. Nothing changes until you tap “Use this build”. Afterwards you can swap any part yourself."]},
   {id:"tauschen", k:"tauschen teil teile wechseln aendern auswaehlen waehlen einbauen austauschen ersetzen hinzufuegen eintragen suchen swap change pick choose replace add part parts search", t:["Wie wähle oder tausche ich ein Teil?", "How do I choose or swap a part?"],
    a:["Tippe im Reiter <b>Aufbau</b> auf ein Teil, zum Beispiel die Gabel. Es öffnet sich eine Liste: oben die Teile, die zu deinem Rad passen, mit Preis, Gewicht und Eignung. Suchen kannst du nach Marke, Modell oder Maß, etwa „Fox 36“ oder „Boost“. Ein Tipp auf das Teil baut es ein.",
      "In the <b>Build</b> tab, tap a part, for example the fork. A list opens: at the top the parts that fit your bike, with price, weight and suitability. You can search by brand, model or size, e.g. “Fox 36” or “Boost”. Tap a part to add it to your build."], ak:["slot:gabel"]},
@@ -10615,7 +10615,7 @@ const GUIDE = [
      "There's <b>Free</b> and <b>Pro</b>. Free costs nothing and does almost everything; <b>Pro</b> costs €6.99 a month, or €3.99 a month billed yearly (€47.88 a year, €36 saved), and adds unlimited bikes, suspension setup and unlimited Guide questions. Also, some shop links are partner links: if you buy through them, CrankScore gets a small commission — your price stays the same. Such links are marked <b>Ad</b> right next to the shop name. Which part fits is decided by the check, not by the commission."], ak:["pro"]},
   {id:"pro", k:"premium abo abonnement freischalten lizenz lizenzcode code kuendigen kuendigung bezahlen lemon squeezy subscription license unlock cancel paid", t:["Was bringt Pro?", "What does Pro include?"], a:gPro},
   {id:"preise", k:"livepreis live aktuell aktuelle stand uvp richtpreis reduziert deal deals rabatt sale angebote discount offers current", t:["Woher kommen die Preise?", "Where do the prices come from?"],
-   a:["Hat ein Partnershop das Teil, zählt das günstigste lieferbare Angebot — mit Stand, inkl. MwSt., zzgl. Versand. Sonst steht ein Richtpreis auf UVP-Niveau. Ältere Modelljahre rechnet die App günstiger. Verbindlich ist immer der Preis im Shop.",
+   a:["Hat ein Partnershop das Teil, zählt das günstigste lieferbare Angebot — mit Stand, inkl. MwSt., zzgl. Versand. Sonst rechnet die App mit einem Richtpreis auf UVP-Niveau. Ältere Modelljahre rechnet die App günstiger. Verbindlich ist immer der Preis im Shop.",
      "If a partner shop has the part, the cheapest offer in stock counts — with a timestamp, incl. VAT, plus delivery. Otherwise, there's a guide price based on RRP. The app prices older model years lower. The shop's price always applies."]},
   {id:"profile", k:"profil profile mehrere raeder zweites weiteres anlegen umbenennen speichern gespeichert bikes several second another rename save", t:["Mehrere Räder speichern", "Saving several bikes"],
    a:["Unter dem Modus-Schalter stehen deine Räder: antippen wechselt, der Stift öffnet die Radverwaltung — dort legst du ein Rad an, benennst um, kopierst oder löschst. Jeder Modus hat eigene Räder, gespeichert wird automatisch auf deinem Gerät.",
@@ -10704,7 +10704,7 @@ const GUIDE = [
      "Sag is how far the fork or shock sinks when you stand on the bike in riding position — as a percentage of travel. Typical: 15–25% front, 25–35% rear. To measure: push the rubber O-ring down the stanchion, carefully get on, get off, read it. The Setup tab gives your target value — and lets you check it."]},
   {id:"druckstufe", k:"druckstufe lsc hsc compression lowspeed highspeed low high speed daempfung kartusche", t:["Was sind LSC und HSC?", "What are LSC and HSC?"],
    a:["Die Druckstufe bremst das Einfedern. <b>LSC</b> (Low-Speed Compression) wirkt bei langsamen Bewegungen — Bremsen, Anlieger, Pumpen: mehr LSC gibt Halt, das Rad taucht weniger ein. <b>HSC</b> (High-Speed Compression) wirkt bei schnellen Schlägen — Wurzeln, Steine, Landungen: weniger HSC schluckt Kanten besser, mehr HSC schützt vor Durchschlagen. Zudrehen macht fester, aufdrehen weicher.",
-     "Compression damping slows the suspension as it compresses. <b>LSC</b> (low-speed compression) acts on slow movements — braking, berms, pumping: more LSC gives support, the bike dives less. <b>HSC</b> (high-speed compression) acts on fast hits — roots, rocks, landings: less HSC absorbs edges better, more HSC protects against bottoming out. Closing makes it firmer, opening softer."]},
+     "Compression damping slows the suspension as it compresses. <b>LSC</b> (low-speed compression) acts on slow movements — braking, berms, pumping: more LSC gives support, the bike dives less. <b>HSC</b> (high-speed compression) acts on fast hits — roots, rocks, landings: less HSC absorbs edges better, more HSC helps resist bottoming out. Closing makes it firmer, opening softer."]},
   {id:"zugstufe", k:"zugstufe rebound ausfedern hase schildkroete zurueckfedern rueckprall wippt nachwippen", t:["Was ist die Zugstufe?", "What is rebound?"],
    a:["Die Zugstufe (Rebound) bestimmt, wie schnell die Federung nach dem Einfedern wieder ausfedert. Zu schnell (Richtung Hase): Das Rad springt und wippt nach. Zu langsam (Richtung Schildkröte): Bei schnellen Schlagfolgen federt es nicht mehr ganz aus und sackt immer tiefer. Den Grundwert liefert die Tabelle am Holm oder in der Anleitung. Ohne Tabelle hilft der Bordsteintest: Roll langsam von einer Bordsteinkante — das Rad soll einmal einfedern und ohne Nachwippen zurückkommen.",
      "Rebound sets how fast the suspension extends again after compressing. Too fast (towards the hare): the bike bounces and bobs. Too slow (towards the tortoise): over repeated hits it no longer fully extends and sinks lower and lower. The base value comes from the chart on the fork leg or in the manual. No chart? Try the kerb test: roll slowly off a kerb — the bike should compress once and come back up without bouncing."]},
@@ -10767,7 +10767,7 @@ const GUIDE = [
    a:["Heute fast immer Steckachsen. <b>Vorn</b>: 110×15 (Boost) an Trail und Enduro, 110×20 an Downhill-Doppelbrücken. <b>Hinten</b>: 148×12 (Boost) oder 157×12 (Super Boost, DH). Ältere Räder: 100×15 vorn, 142×12 hinten. Nabe und Rahmen oder Gabel müssen zusammenpassen.",
      "Almost always thru-axles now. <b>Front</b>: 110×15 (Boost) on trail and enduro, 110×20 on downhill dual crowns. <b>Rear</b>: 148×12 (Boost) or 157×12 (Super Boost, DH). Older bikes: 100×15 front, 142×12 rear. Hub and frame or fork must match."]},
   {id:"steuerrohr", k:"steuerrohr steuersatz tapered konisch zs44 zs56 schaft gabelschaft headset steerer", t:["Steuersatz und Gabelschaft?", "Headset and steerer?"],
-   a:["Die meisten MTB-Gabeln haben einen <b>tapered</b> Schaft: unten 1,5″, oben 1 1/8″. Doppelbrücken-, Dirt- und Trialgabeln oft einen geraden 1 1/8″-Schaft — der passt mit einem Reduzier-Unterteil auch in ein konisches Steuerrohr, umgekehrt nie. Der Steuersatz muss genau die Norm des Rahmens treffen, angegeben als SHIS: <b>ZS</b> = semi-integriert, <b>IS</b> = integriert, <b>EC</b> = außenliegende Schale, die Zahl ist die Bohrung in mm (etwa ZS44/ZS56 oder IS42/IS52). IS41 und IS42 sehen gleich aus, lassen sich aber nicht gegeneinander tauschen. Wo die Norm des Rahmens belegt ist, prüft die App sie genau.",
+   a:["Die meisten MTB-Gabeln haben einen konischen Schaft (<b>tapered</b>): unten 1,5″, oben 1 1/8″. Doppelbrücken-, Dirt- und Trialgabeln oft einen geraden 1 1/8″-Schaft — der passt mit einem Reduzier-Unterteil auch in ein konisches Steuerrohr, umgekehrt nie. Der Steuersatz muss genau die Norm des Rahmens treffen, angegeben als SHIS: <b>ZS</b> = semi-integriert, <b>IS</b> = integriert, <b>EC</b> = außenliegende Schale, die Zahl ist die Bohrung in mm (etwa ZS44/ZS56 oder IS42/IS52). IS41 und IS42 sehen gleich aus, lassen sich aber nicht gegeneinander tauschen. Wo die Norm des Rahmens belegt ist, prüft die App sie genau.",
      "Most MTB forks have a <b>tapered</b> steerer: 1.5″ at the bottom, 1 1/8″ at the top. Dual-crown, dirt and trials forks often have a straight 1 1/8″ steerer — it fits a tapered head tube with a reducer lower cup, never the other way round. The headset must match the frame's standard exactly, given as SHIS: <b>ZS</b> = semi-integrated, <b>IS</b> = integrated, <b>EC</b> = external cup, the number is the bore in mm (e.g. ZS44/ZS56 or IS42/IS52). IS41 and IS42 look alike but aren't interchangeable. Where the frame's standard is on file, the app checks it exactly."], ak:["slot:steuersatz"]},
   {id:"emtb", k:"emtb e-mtb ebike e-bike pedelec motor akku bosch shimano ep8 ep801 brose specialized tq light full power kurbel motorwelle isis", t:["Was ist beim E-MTB anders?", "What's different on an e-MTB?"],
    a:["Motor und Akku sitzen im Rahmen. Statt Innenlager hat das Rad eine <b>Motorwelle</b>: Die Kurbel muss genau für diesen Motor gebaut sein. Bosch, Brose/Specialized, TQ und DJI nutzen eine ISIS-Welle, aber jeder mit eigenem Versatz — Shimano EP hat eine eigene Verzahnung. Ein Full-Power-E-MTB wiegt rund 23–26 kg: 4-Kolben-Bremsen mit 200/203-mm-Scheiben und E-MTB-freigegebene Laufräder sind Pflicht. Das Setup berücksichtigt das Mehrgewicht automatisch, sobald ein E-MTB-Rahmen im Aufbau ist.",
@@ -11966,7 +11966,7 @@ function federKarte(titel, x, slot){
               : `<b class="fed-wert">${x.feder || (x.hintenEl ? tx("per SAG", "by sag") : tx("laut Tabelle", "per chart"))}</b><span class="fed-u">${x.hintenEl && !x.feder ? tx("Stahlfeder — ohne Hinterbau-Federweg rechnet die App keine Federhärte", "coil — without the rear travel the app calculates no spring rate") : tx("Stahlfeder", "coil spring")}</span>`)
     : m.psi ? `<b class="fed-wert">${m.psi} psi</b><span class="fed-u">${barVon(m.psi)} bar · ${esc(modusName(fedModus))}</span>`
     : `<b class="fed-wert">${tx("per SAG", "by sag")}</b><span class="fed-u">${x.hintenEl ? tx("kein Pauschalwert des Herstellers — Startdruck aus Trailhead oder der Anleitung, dann per SAG", "no blanket value from the manufacturer — starting pressure from Trailhead or the manual, then by sag")
-      : tx("keine passende Herstellertabelle — Druck laut Aufkleber an der Gabel", "no matching manufacturer's chart — pressure per the sticker on the fork")}</span>`;
+      : tx("keine passende Herstellertabelle — Druck laut Aufkleber an der Gabel", "no matching manufacturer's chart — pressure from the sticker on the fork")}</span>`;
   /* Tokens / Spacer: Zielzahl, wenn die Werksbestueckung bekannt ist, sonst die Richtung */
   const tk = x.tokens, tkTxt = !tk ? "" : tk.soll != null
     ? tx(`<b>${tk.soll}</b> ${tokenEinzahl(tk.name, tk.soll)} · ab Werk${tk.eTab ? " (E-Bike+)" : ""} ${tk.std}${tk.delta ? ` → ${tk.delta > 0 ? tk.delta + " dazu" : -tk.delta + " raus"}` : ", so lassen"}${tk.max != null ? ` · höchstens ${tk.max}` : ""}`,
@@ -12504,7 +12504,7 @@ const SU_INFO = {
   bo:{n:["Durchschlagschutz", "Bottom-out control"], was:["Dämpft nur das letzte Stück Federweg — gegen harte Durchschläge bei Drops und Landungen.", "Damps only the last bit of travel — against hard bottom-outs on drops and landings."],
     viel:["Zu viel", "Too much"], vielT:["Das Ende des Federwegs wird nicht genutzt, große Schläge werden hart.", "The end of the travel goes unused, big hits get harsh."],
     wenig:["Zu wenig", "Too little"], wenigT:["Harter Durchschlag bei Drops und Landungen.", "Hard bottom-out on drops and landings."]},
-  hebel:{n:["Kletterhebel", "Climb lever"], was:["Macht das Fahrwerk zum Treten fester. Bergab immer offen — sonst arbeitet die Federung nicht.", "Firms up the suspension for pedalling. Always open for descents — otherwise the suspension can't work."],
+  hebel:{n:["Kletterhebel", "Climb switch"], was:["Macht das Fahrwerk zum Treten fester. Bergab immer offen — sonst arbeitet die Federung nicht.", "Firms up the suspension for pedalling. Always open for descents — otherwise the suspension can't work."],
     viel:["Bergab zu", "Closed on descents"], vielT:["Kein Grip, hart, das Fahrwerk kann Schaden nehmen.", "No grip, harsh, the suspension can be damaged."],
     wenig:["Bergauf offen", "Open on climbs"], wenigT:["Das Rad wippt beim Treten und kostet Kraft.", "The bike bobs when you pedal and wastes energy."]},
   tokens:{n:["Tokens / Volumen-Spacer", "Tokens / volume spacers"], was:["Verkleinern die Luftkammer: Der Anfang des Federwegs bleibt gleich, das Ende wird progressiver. Einbau mit Werkzeug, Luft vorher ablassen.", "They make the air chamber smaller: the start of the travel stays the same, the end gets more progressive. Fitting them needs tools — let the air out first."],
@@ -12700,7 +12700,7 @@ const SU_PGRUND = {
     bo:["Reserve für harte Schläge bei Tempo", "reserve for hard hits at speed"], tok:["Reserve am Ende des Federwegs bei Tempo", "reserve at the end of the travel at speed"]},
   spruenge:{sag:["mehr Höhe und Halt am Absprung", "more height and support on the lip"], luft:["etwas mehr Halt — den Rest macht die Progression", "a bit more support — progression does the rest"],
     lsc:["sackt am Absprung nicht in den Federweg", "doesn't sink into the travel on the lip"], druck:["mehr Halt am Absprung", "more support on the lip"], hsc:["kontrollierte harte Landungen", "controlled hard landings"],
-    zug:["ruhiger Absprung, kein Kick", "calm take-off, no kick"], hsr:["ruhig nach der Landung", "calm after landing"],
+    zug:["ruhiger Absprung, kein Kick", "controlled take-off, no kick"], hsr:["ruhig nach der Landung", "settled after landing"],
     bo:["Reserve bei Flat-Landungen", "reserve for flat landings"], tok:["Progression statt viel mehr Druck — der Anfang bleibt sensibel", "progression instead of much more pressure — the start stays supple"]}
 };
 const SU_PROFIL = {
@@ -12778,7 +12778,7 @@ function suWarum(f, slot, x, it){
     z.push(tk.soll != null ? tx(`Herstellertabelle: ab Werk ${tk.std}${tk.max != null ? `, höchstens ${tk.max}` : ""}. App-Empfehlung für dich (Erfahrungsregel): <b>${tk.soll}</b> — Sprünge, Bikepark und Tempo wollen mehr Progression, Touren weniger. Prüf vorher, wie viele tatsächlich drin sind.`,
         `Maker's chart: stock ${tk.std}${tk.max != null ? `, max ${tk.max}` : ""}. App recommendation for you (rule of thumb): <b>${tk.soll}</b> — jumps, bike park and speed want more progression, easy rides less. Check first how many are actually fitted.`)
       : tx(`Solange die App nicht weiß, wie viele Tokens verbaut sind${tk.std != null ? ` (ab Werk ${tk.std})` : ""} und wie viele höchstens passen, nennt sie keine Stückzahl — beides steht in der Anleitung oder auf dem Aufkleber. Für dich: `,
-        `As long as the app doesn't know how many tokens are fitted${tk.std != null ? ` (stock: ${tk.std})` : ""} and how many fit at most, it gives no number — both are in the manual or on the sticker. Your setting: `)
+        `As long as the app doesn't know how many tokens are fitted${tk.std != null ? ` (stock: ${tk.std})` : ""} and the maximum that fits, it gives no number — both are in the manual or on the sticker. Your setting: `)
         + (tk.delta > 0 ? tx("eher mehr Progression.", "a bit more progression.") : tk.delta < 0 ? tx("eher weniger Progression.", "a bit less progression.") : tx("so lassen wie ab Werk.", "leave as stock.")));
     if(m.tok) z.push(tx(`App-Anpassung Profil ${pName}: mehr Progression — ${sp2(pg.tok)}.`, `App adjustment, ${pName} profile: more progression — ${sp2(pg.tok)}.`));
     q.push("brSpacer");
@@ -12890,7 +12890,7 @@ function suKarte(f, slot, x, d, it, nr){
     : it.art === "sag" ? `<p>${tx("O-Ring an die Dichtung schieben, mit Ausrüstung vorsichtig aufsitzen, absteigen und den Abstand messen. Der Assistent führt dich Schritt für Schritt durch die Messung.", "Push the O-ring to the seal, get on carefully with your gear, get off and measure the distance. The assistant walks you through it.")}</p>`
     : it.art === "tokens" ? `<p>${tx("Luft ablassen, Kappe der Luftseite öffnen (Anleitung), Token auf- oder abschrauben, schließen, aufpumpen.", "Let the air out, open the air-side cap (manual), screw tokens on or off, refit the cap, pump up.")}</p>`
     : it.art === "hebel" ? `<p>${tx("Hebel umlegen — bergab immer offen.", "Flip the lever — always open on descents.")}</p>`
-    : `<p>${tx("Sitzt", "Located")}: <b>${esc(wo)}</b>.</p>` + suWie(slot, it.art, it.k && it.k.basis);
+    : `<p>${tx("Sitzt", "Where")}: <b>${esc(wo)}</b>.</p>` + suWie(slot, it.art, it.k && it.k.basis);
   return `<li class="fw-k${offen ? " offen" : ""}${fertig ? " fertig" : ""}" id="${id}">
     <button class="fw-kk" data-fwk="${id}" aria-expanded="${offen}"><span class="fw-ki ${SU_FARBE[it.art] || "grau"}" aria-hidden="true">${nr ? `<i>${nr}</i>` : ""}${ic(SU_IC[it.art] || SU_IC.druck, 16)}</span>
       <span class="fw-kn"><b>${esc(name)}</b><small>${esc(wo)}</small></span>
@@ -13535,7 +13535,7 @@ function obAktTxt(v, a){
 }
 const OB_ARTEN = {zug:["Zugstufe", "Rebound", "rot", "red"], hsr:["High-Speed-Zugstufe", "High-speed rebound", "rot", "red"], druck:["Druckstufe (ein Knopf)", "Compression (one knob)", "blau", "blue"],
   lsc:["Low-Speed-Druckstufe", "Low-speed compression", "blau", "blue"], hsc:["High-Speed-Druckstufe", "High-speed compression", "blau/grau", "blue/grey"],
-  bo:["Durchschlagschutz", "Bottom-out control", "", ""], hebel:["Kletterhebel / Lockout", "Climb lever / lockout", "", ""]};
+  bo:["Durchschlagschutz", "Bottom-out control", "", ""], hebel:["Kletterhebel / Lockout", "Climb switch / lockout", "", ""]};
 function obEinAn(slot, x){
   const ein = ((build.fw || {}).ein || {})[slot] || {}, da = suDatenArten(x), out = {};
   for(const a of SU_ARTEN) out[a] = ein[a] === true || (ein[a] !== false && da.has(a));
@@ -14295,7 +14295,7 @@ function adGuideInhalt(thema){
   if(thema === "bremse") return `
     <p class="adg-lead">${tx("Jede Aufnahme ist für <b>eine</b> Scheibengröße gebaut — die native. Größer geht mit Adapter, kleiner nie.", "Every mount is built for <b>one</b> rotor size — the native one. Bigger works with an adapter, smaller never.")}</p>
     <div class="adg-formel"><span>${tx("Scheibe", "Rotor")}</span><i>−</i><span>${tx("Aufnahme", "Mount")}</span><i>=</i><b>${tx("Adapter", "Adapter")}</b></div>
-    <p class="adg-bsp">${tx("Beispiel: 203-mm-Scheibe − PM 180 = <b>PM +23 mm</b>. Der Bremssattel rückt dabei um die Hälfte nach außen (11,5 mm) — so viel, wie die Scheibe am Rand größer ist.", "Example: 203 mm rotor − PM 180 = <b>PM +23 mm</b>. The caliper moves out by half (11.5 mm) — as much as the rotor grows at its edge.")}</p>
+    <p class="adg-bsp">${tx("Beispiel: 203-mm-Scheibe − PM 180 = <b>PM +23 mm</b>. Der Bremssattel rückt dabei um die Hälfte nach außen (11,5 mm) — so viel, wie die Scheibe am Rand größer ist.", "Example: 203 mm rotor − PM 180 = <b>PM +23 mm</b>. The caliper moves out by half that (11.5 mm) — as much as the rotor grows at its edge.")}</p>
     <h4>${tx("Die drei Aufnahmen", "The three mounts")}</h4>
     <div class="adg-drei">
       <div>${adMontage("PM")}<b>Post Mount (PM)</b><span>${tx("Zwei Gewindeaugen, der Bremssattel wird direkt verschraubt. Standard am MTB — PM 160, 180 oder 200.", "Two threaded bosses, the caliper bolts on directly. MTB standard — PM 160, 180 or 200.")}</span></div>
@@ -14737,7 +14737,7 @@ function zeichne(){
         ${f.fixSlot ? `<div><button class="btn ghost sm" data-slot="${f.fixSlot}">${slotOf(f.fixSlot) ? tx(slotOf(f.fixSlot).label + " wechseln", "Change " + slotOf(f.fixSlot).label.toLowerCase()) : tx("Teil wechseln", "Change part")}</button></div>` : ""}
       </div>`).join("") + `<div id="loesungen"></div>`
     : `<div class="clean"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-       ${tx("Keine Konflikte — alle geprüften Maße passen zusammen.", "No conflicts — every dimension checked fits together.")}</div>`;
+       ${tx("Keine Konflikte — alle geprüften Maße passen zusammen.", "No conflicts — all checked dimensions are compatible.")}</div>`;
   /* Ohne Gewicht im Fahrerprofil laesst sich die Laufrad-Freigabe nicht pruefen -- sagen, nicht still auslassen */
   const lrT = build.laufraeder && !entfaellt(build, "laufraeder") ? findeTeil("laufraeder", build.laufraeder) : null;
   if(lrT && lrT.maxSys && !(plan.fahrer > 0)) $("findings").innerHTML += `<div class="fit-leer nicht-geprueft"><span>${tx(`<b>Nicht geprüft: Systemgewicht.</b> Die Laufräder sind bis ${lrT.maxSys} kg freigegeben — ohne dein Gewicht (Einstellungen › Fahrerprofil) kann die App das nicht prüfen.`, `<b>Not checked: system weight.</b> The wheels are rated to ${lrT.maxSys} kg — without your weight (Settings › Rider profile) the app can't check it.`)}</span></div>`;
@@ -14748,7 +14748,7 @@ function zeichne(){
         <div class="fit-ok-z">${fitOk ? `<span>${fitOffen.length ? tx((fitOk === 1 ? "Das übrige Maß passt zu dir." : `Die übrigen ${ZAHLWORT[fitOk] ? ZAHLWORT[fitOk][0] : fitOk} Maße passen zu dir.`), (fitOk === 1 ? "The other measurement fits you." : `The other ${ZAHLWORT[fitOk] ? ZAHLWORT[fitOk][1] : fitOk} measurements fit you.`))
           : tx(`Alle ${fitOk} Maße passen zu dir.`, `All ${fitOk} measurements suit you.`)}</span>` : ""}
           <button class="btn ghost sm" data-fit="1">${tx("Deine Größe ansehen", "View your sizing")}</button></div></div>`
-    : !(koerper.groesse > 0) && r.teile ? `<div class="fit-leer"><span>${tx(`<b>Körpermaße fehlen.</b> Mit Größe, Schulterbreite und
+    : !(koerper.groesse > 0) && r.teile ? `<div class="fit-leer"><span>${tx(`<b>Körpermaße fehlen.</b> Mit Körpergröße, Schulterbreite und
         Schrittlänge prüft die App auch Rahmengröße, Lenker, Kurbel und Sattelstütze — eintragen unter Einstellungen › Fahrerprofil.`, "<b>Body measurements missing.</b> With height, shoulder width and inseam the app also checks frame size, bar, cranks and seatpost — enter them under Settings › Rider profile.")}</span></div>` : "";
 
   clearTimeout(vorschlagTimer);
@@ -15248,7 +15248,7 @@ function profilZeile(p){
 
 /* Mischung mehrerer Disziplinen: geht das in einem Rad? */
 const mixBox = mp => mp.min < .15 ? `<div class="mixbox no">${tx(`<b>Das lässt sich nicht in einem Rad vereinen.</b> ${dLang(mp.paar[0])} und ${dLang(mp.paar[1])} teilen sich kaum ein Bauteil.`,
-    `<b>That doesn't work in one bike.</b> ${dLang(mp.paar[0])} and ${dLang(mp.paar[1])} hardly share a single part.`)}</div>`
+    `<b>That can't be combined in one bike.</b> ${dLang(mp.paar[0])} and ${dLang(mp.paar[1])} hardly share a single part.`)}</div>`
   : mp.min < .40 ? `<div class="mixbox w">${tx(`<b>Großer Spagat.</b> ${dLang(mp.paar[0])} und ${dLang(mp.paar[1])} ziehen auseinander — jedes Teil wird ein Kompromiss.`,
     `<b>A big stretch.</b> ${dLang(mp.paar[0])} and ${dLang(mp.paar[1])} pull apart — every part becomes a compromise.`)}</div>`
   : `<div class="mixbox ok">${tx(`<b>Das lässt sich bauen.</b> ${sel.map(dLang).join(" und ")} vertragen sich in einem Rad.`, `<b>That can be built.</b> ${sel.map(dLang).join(" and ")} get along in one bike.`)}</div>`;
@@ -15672,7 +15672,7 @@ function oeffneMenu(){
       ${spracheKnoepfe("menu-sprache")}
       <button class="pro-zeile${istPro() ? " an" : ""}" data-pro="menu"><span class="pro-orb klein">${ic(IC.traum, 18)}</span>
         <span><b>CrankScore Pro${istPro() ? ` <i class="pro-an">${tx("aktiv", "active")}</i>` : ""}</b><span>${istPro()
-          ? (proBetreiber() ? tx("Betreiber-Modus: alles frei", "Operator mode: everything unlocked") : tx("Unbegrenzt viele Räder, Fahrwerk-Setup, Guide ohne Limit — danke!", "Unlimited bikes, suspension setup, unlimited guide — thank you!"))
+          ? (proBetreiber() ? tx("Betreiber-Modus: alles frei", "Operator mode: everything unlocked") : tx("Unbegrenzt viele Räder, Fahrwerk-Setup, Guide ohne Limit — danke!", "Unlimited bikes, suspension setup, unlimited Guide questions — thank you!"))
           : tx(`Unbegrenzt viele Räder, Fahrwerk-Setup, Guide ohne Limit · ab ${euro(PRO_JAHR_MONAT)} im Monat`, `Unlimited bikes, suspension setup, unlimited Guide questions · from ${euro(PRO_JAHR_MONAT)} a month`)}</span></span>${ic(IC.weiter, 16)}</button>
       <div class="grp-h" style="margin-top:16px"><h2>${tx("Fahrerprofil", "Rider profile")}</h2><div class="rule"></div></div>
       <div class="hilfe-liste"><button class="hl-zeile" data-fahrerprofil="1"><span class="hl-ic">${ic(IC.groesse, 18)}</span>
@@ -15699,7 +15699,7 @@ function oeffneMenu(){
       <label class="fw-haken"><input type="checkbox" data-sicherungfotos="1"${sicherungFotos ? " checked" : ""}> ${tx("Fotos mitsichern (Datei wird größer)", "Include photos (larger file)")}</label>
       <div class="lk-knoepfe" style="margin:6px 0 4px">
         <button class="btn ghost sm" data-sicherung="export">${tx("Sicherung speichern", "Save backup")}</button>
-        <button class="btn ghost sm" data-sicherung="import">${tx("Sicherung laden", "Load backup")}</button>
+        <button class="btn ghost sm" data-sicherung="import">${tx("Sicherung laden", "Restore backup")}</button>
       </div>
       <div style="margin:10px 0 2px"><button class="btn ghost wide" data-reset="1">${tx("Dieses Rad zurücksetzen", "Reset this bike")}</button></div>
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Rechtliches", "Legal")}</h2><div class="rule"></div></div>
