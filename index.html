@@ -729,6 +729,7 @@ a.btn{text-decoration:none}
   -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);animation:einblenden var(--t-mittel) var(--e-weich);
   overscroll-behavior:contain;touch-action:none}
 .scrim.ohne-ein{animation:none}
+.sheet-b.wechsel{animation:einblenden var(--t-kurz) var(--e-weich)}
 .scrim.weg{animation:ausblenden var(--t-kurz) var(--e-ein) forwards;pointer-events:none}
 .scrim.weg > .sheet{animation:runter var(--t-kurz) var(--e-ein) forwards}
 .sheet{background:var(--surface);width:100%;max-width:820px;max-height:92dvh;position:relative;
@@ -15107,6 +15108,7 @@ function zeigeSheet(html){
     alt.classList.remove("frisch");
     const neu = alt.querySelector(".sheet-b");
     if(neu && titel === (alt.querySelector(".sheet-h h3") || {}).textContent) neu.scrollTop = y;
+    else if(neu && !bewegungAus()){ neu.classList.add("wechsel"); setTimeout(() => neu.classList.remove("wechsel"), 220); }
   } else {
     const dunkel = blattWeg(true);
     $("modal").innerHTML = `<div class="scrim${dunkel ? " ohne-ein" : ""}" role="dialog" aria-modal="true"><div class="sheet frisch">${html}</div></div>`;
@@ -15138,6 +15140,8 @@ function zeigeSheet(html){
    Uebergang endet sauber, danach folgt einer zum zuletzt gewaehlten Design.
    Aeltere Browser bekommen die gezielten Farbuebergaenge (design-wechsel). */
 let designZ = 0, designVT = null, designZiel = null, designSeg = null;
+/* Gewaehltes Design -- waehrend einer Ueberblendung schon das Ziel, nicht der alte Stand */
+const designHell = () => designZiel !== null ? designZiel : document.documentElement.dataset.theme === "light";
 /* Waehrend der View Transition trifft ein Tipp nur das Wurzelelement (Chromium
    gemessen). Ein Tipp auf den Design-Schalter geht in die Warteschlange; jeder
    andere beendet die Ueberblendung sofort und wird an das Element unter dem
@@ -15850,9 +15854,9 @@ function oeffneMenu(){
       ].concat(leitAus ? [['data-hilfe="leit"', IC.auge, tx("Aufgabenkarte wieder zeigen", "Show the task card again"), tx("Die Karte „Nächster Schritt“ über dem Score", "The “Next step” card above the score")]] : [])
         .map(([a, i, t, u]) => `<button class="hl-zeile" ${a}><span class="hl-ic">${ic(i, 18)}</span><span><b>${t}</b><span>${u}</span></span>${ic(IC.weiter, 16)}</button>`).join("")}</div>
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Design", "Appearance")}</h2><div class="rule"></div></div>
-      <div class="seg" role="group" aria-label="${tx("Design", "Appearance")}" data-wahl="${document.documentElement.dataset.theme === "light" ? "hell" : "oled"}" style="margin:0 0 6px">
-        <button data-design="oled" aria-pressed="${document.documentElement.dataset.theme !== "light"}">${ic(`<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>`, 15)}${tx("OLED-Schwarz", "OLED black")}</button>
-        <button data-design="hell" aria-pressed="${document.documentElement.dataset.theme === "light"}">${ic(`<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>`, 15)}${tx("Hell", "Light")}</button></div>
+      <div class="seg" role="group" aria-label="${tx("Design", "Appearance")}" data-wahl="${designHell() ? "hell" : "oled"}" style="margin:0 0 6px">
+        <button data-design="oled" aria-pressed="${!designHell()}">${ic(`<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>`, 15)}${tx("OLED-Schwarz", "OLED black")}</button>
+        <button data-design="hell" aria-pressed="${designHell()}">${ic(`<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>`, 15)}${tx("Hell", "Light")}</button></div>
       <div class="grp-h" style="margin-top:14px"><h2>App</h2><div class="rule"></div></div>
       <div class="app-stand">
         <button class="btn ghost sm" data-aktualisieren="1">${updateDa ? tx("Neue Version laden", "Load new version") : tx("Nach Update suchen", "Check for updates")}</button>

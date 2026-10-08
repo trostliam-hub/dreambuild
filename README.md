@@ -882,6 +882,39 @@ Sparvorschlägen dem Namen die halbe Breite, „Übernehmen“ ragte im Assisten
 bei 320 px aus dem Bild, und nach jedem Öffnen einer Schublade stand ein
 Fokus-Ring um den Schließen-Knopf (jetzt nur bei Tastatur-Bedienung).
 
+## Bewegung und Designwechsel
+
+Seit 08.10.2026 folgt jede Animation einer Bewegungssprache (Tokens in `:root`):
+
+| Token | Wert | wofür |
+|---|---|---|
+| `--t-tipp` | 110 ms | Antippen (Knöpfe drücken leicht ein) |
+| `--t-kurz` | 180 ms | Kleines, Ausblenden, Schließen |
+| `--t-mittel` | 260 ms | Blätter, Umschalter, Einblenden, Aufklappen |
+| `--t-design` | 300 ms | Wechsel Hell/Dunkel |
+| `--e-aus` / `--e-weich` / `--e-ein` | ease-out / ease-in-out / ease-in | Ankommen / Gleiten / Gehen |
+| `--hub`, `--hub-gross`, `--zoom` | 8 px, 24 px, 0,98 | Wege und Zoom beim Einblenden |
+
+- Animiert wird mit `transform` und `opacity`, ohne Überschwingen (`--feder` ist
+  nur noch ein Alias für `--e-aus`), ohne großen Zoom und ohne endlose Effekte.
+- **Designwechsel:** `setzeDesign()` blendet die ganze Ansicht per View Transition
+  in 300 ms über; das läuft auf der GPU (gemessen: bei 4-fach gedrosselter CPU 6
+  statt 1 Bild in 400 ms gegenüber Farbübergängen an jedem Element).
+  - Tippt man währenddessen erneut auf den Schalter, kommt der Wunsch in eine
+    Warteschlange; nach dem laufenden Übergang folgt einer zum zuletzt gewählten Design.
+  - Jeder andere Tipp während der Überblendung beendet sie sofort und wird an das
+    Element unter dem Finger weitergereicht.
+  - Ältere Browser ohne View Transition bekommen gezielte Farbübergänge
+    (Klasse `design-wechsel`).
+  - Design und Statusleisten-Farbe stehen schon vor dem ersten Bild (Skript im `<head>`).
+- **Blätter:** 260 ms hoch und ein, 180 ms aus. `schliesse()` leert `#modal` sofort;
+  ein inertes Abbild in `#modal-weg` blendet aus. Ein direkt folgendes Blatt
+  übernimmt die Abdunklung (`ohne-ein`).
+- Einflug beim Ansichtswechsel, Aufklappen von Gruppen und `details` laufen nur
+  bei echter Bedienung, nie beim bloßen Neuzeichnen.
+- **Bewegung reduzieren** (`prefers-reduced-motion`): nichts fährt, zoomt oder
+  läuft endlos; Blätter und Hinweise blenden 150 ms über, Hell/Dunkel wechselt direkt.
+
 ## Handy: wie eine native App
 
 Seit 02.10.2026 verhält sich die App auf iOS und Android wie eine native App:
