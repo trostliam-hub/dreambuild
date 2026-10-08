@@ -9411,7 +9411,7 @@ function tourStationen(){
     {sel:"#btn-menu", ic:IC.hilfe, h:tx("App & Profil", "App & profile"),
      t:tx("Dein Fahrerprofil, alle Begriffe erklärt — und hier startest du diesen Rundgang neu.", "Your rider profile, every term explained — and this is where you restart this tour.")},
     {mitte:true, ende:true, ic:IC.traum, h:tx("Los geht's!", "Let's ride!"),
-     t:tx("Tipp: Farbige Ränder an den Teilen zeigen, wo etwas nicht passt. Viel Spaß beim Bauen.", "Tip: coloured edges on parts show where something doesn't fit. Have fun building.")}
+     t:tx("Tipp: Farbige Ränder an den Teilen zeigen, wo etwas nicht passt. Viel Spaß beim Bauen.", "Tip: coloured borders on parts show where something doesn't fit. Have fun building.")}
   ];
 }
 /* "a||b": erst a (Reiter auf dem Handy), sonst b (Spalte auf breiten Bildschirmen) */
@@ -9562,7 +9562,7 @@ function oeffneScoreHilfe(){
         A conflict means the bike can't be built like this. The Check tab lists every conflict and how to fix it.</div>
       <div class="erk"><b>Discipline</b>Do the parts suit what you want to ride (${esc(selNamen())})? An enduro frame with
         light XC brakes fits technically, but won't brake hard enough on long descents. Change the discipline at the top right.</div>
-      <div class="erk"><b>Colours on the parts</b>Red edge: doesn't fit the rest. Yellow edge: compromise or adapter needed.
+      <div class="erk"><b>Colours on the parts</b>Red border: doesn't fit the rest. Yellow border: compromise or adapter needed.
         Green dot on a group: complete and all good.</div>
       <div class="erk"><b>Price and weight</b>The total of all parts. If a partner shop stocks a part, the cheapest offer in stock
         counts; otherwise a guide price based on RRP.</div>` : `
@@ -10651,9 +10651,9 @@ const GUIDE = [
   {id:"tour", k:"rundgang tour einfuehrung einstieg nochmal wiederholen anleitung tutorial ueberblick introduction onboarding overview", t:["Rundgang nochmal", "Take the tour again"],
    a:["Den 30-Sekunden-Rundgang durch die App kannst du jederzeit neu starten — auch direkt hier. Größe und Gewicht änderst du unter ⋮ › Fahrerprofil, Disziplin und Budget im Bauziel (oben auf die Disziplin tippen).",
      "You can restart the 30-second tour of where everything is at any time — right here too. You change height and weight under ⋮ › Rider profile, discipline and budget in the build plan (tap the discipline at the top)."], ak:["tour"]},
-  {id:"farben", k:"rand raender randfarbe farbig farbige rot roter gelb gelber gruen gruener punkt markierung markiert border colored coloured red yellow green", t:["Was bedeuten die farbigen Ränder?", "What do the coloured edges mean?"],
+  {id:"farben", k:"rand raender randfarbe farbig farbige rot roter gelb gelber gruen gruener punkt markierung markiert border colored coloured red yellow green", t:["Was bedeuten die farbigen Ränder?", "What do the coloured borders mean?"],
    a:["An den Teilen im Aufbau: <b>roter Rand</b> — passt nicht zum Rest, so geht das Rad nicht. <b>Gelber Rand</b> — ein Kompromiss, fahrbar, aber nicht ideal. <b>Grüner Punkt</b> an einer Gruppe — vollständig und alles passt. Was genau los ist, steht im Reiter Prüfung.",
-     "On the parts in the build: <b>red edge</b> — doesn't fit the rest, the bike won't work like this. <b>Yellow edge</b> — a compromise, rideable but not ideal. <b>Green dot</b> on a group — complete and all good. The Check tab says exactly what's going on."], ak:["view:befunde"]},
+     "On the parts in the build: <b>red border</b> — doesn't fit the rest, the bike won't work like this. <b>Yellow border</b> — a compromise, rideable but not ideal. <b>Green dot</b> on a group — complete and all good. The Check tab says exactly what's going on."], ak:["view:befunde"]},
   {id:"passform", k:"kompatibilitaet kompatibilität compatibility passform einsatz balken technik charakter eignung purpose bar bars", t:["Was heißen Kompatibilität und Einsatz?", "What do compatibility and discipline mean?"],
    a:["Der Score setzt sich aus zwei Werten zusammen. <b>Kompatibilität</b>: Passen die Teile technisch zusammen — Achsen, Freilauf, Einbaumaße, Klemmungen, Gangzahl? <b>Einsatz</b>: Passen sie zu dem, was du fahren willst? Ein Enduro-Rad mit leichten XC-Bremsen passt technisch, bremst bergab aber zu schwach.",
      "The score is made up of two parts. <b>Compatibility</b>: do the parts fit together technically — axles, freehub, mounting sizes, clamps, number of gears? <b>Discipline</b>: do they suit what you want to ride? An enduro bike with light XC brakes fits technically but won't brake hard enough on long descents."], ak:["score"]},
@@ -12681,15 +12681,15 @@ function suWie(slot, art, z){
   if(!v) return "";
   let bez;
   if(v.generisch) bez = tx("Keine Herstellerdaten in der App: Stell auf die Mitte zwischen beiden Anschlägen und zähl von dort.", "No manufacturer data in the app: set it to the middle between both stops and count from there.");
-  else if(v.zug && v.n != null) bez = v.ab === "offen" ? tx(`Bezug: <b>ganz offen</b>. Erst gegen den Uhrzeigersinn ↺ bis zum Anschlag (Hase), dann Klicks zu ↻ zählen. Bereich: ${v.n} Klicks.`, `Reference: <b>fully open</b>. Turn anticlockwise ↺ to the stop (hare), then count clicks in ↻. ${v.n}-click range.`)
-    : tx(`Bezug: <b>ganz zu</b>. Erst im Uhrzeigersinn ↻ bis zum Anschlag (Schildkröte), dann die Klicks gegen den Uhrzeigersinn ↺ zurückzählen. Bereich: ${v.n} Klicks.`, `Reference: <b>fully closed</b>. Turn clockwise ↻ to the stop (tortoise), then count clicks back out ↺. ${v.n}-click range.`);
-  else if(v.zug) bez = (slot === "gabel" ? tx("Bezug: dein Grundwert — aus der Tabelle am Holm", "Reference: your base value — from the chart on the fork leg") : tx("Bezug: dein Grundwert — aus der Herstellertabelle", "Reference: your base value — from the manufacturer's chart")) + tx(" oder per Bordsteintest. Von dort zählen.", " or the kerb test. Count from there.");
-  else if(v.skala === "zahl") bez = tx(`Bezug: <b>die Zahl auf dem Knopf</b> (0 = Mitte). ${v.n + 1} Stellungen.`, `Reference: <b>the number on the knob</b> (0 = middle). ${v.n + 1} positions.`);
-  else if(v.skala) bez = tx(`Bezug: <b>die Mitte</b> (Mittelstrich), + fester, − weicher. ${v.n + 1} Stellungen.`, `Reference: <b>the middle</b> (centre mark), + firmer, − softer. ${v.n + 1} positions.`);
-  else if(v.stufen) bez = tx(`Bezug: die Stufen am Knopf oder Hebel (${v.o.length}).`, `Reference: the positions on the knob or lever (${v.o.length}).`);
-  else if(v.n != null) bez = v.ab === "offen" ? tx(`Bezug: <b>ganz offen</b> — erst ganz auf ↺, dann ${v.dreh ? "Umdrehungen" : "Klicks"} zu ↻ zählen.`, `Reference: <b>fully open</b> — turn fully out ↺ first, then count ${v.dreh ? "turns" : "clicks"} in ↻.`)
-    : tx(`Bezug: <b>ganz zu</b> — erst im Uhrzeigersinn ↻ bis zum Anschlag, dann Klicks auf ↺ zählen. Bereich: ${v.n} Klicks.`, `Reference: <b>fully closed</b> — turn clockwise ↻ to the stop, then count clicks out ↺. ${v.n}-click range.`);
-  else bez = tx("Bezug: <b>die Mitte</b> zwischen beiden Anschlägen — Klicks bis zum einen und zum anderen Anschlag zählen, halbieren.", "Reference: <b>the middle</b> between both stops — count the clicks from stop to stop and halve them.");
+  else if(v.zug && v.n != null) bez = v.ab === "offen" ? tx(`Gezählt ab: <b>ganz offen</b>. Erst gegen den Uhrzeigersinn ↺ bis zum Anschlag (Hase), dann Klicks zu ↻ zählen. Bereich: ${v.n} Klicks.`, `Counted from: <b>fully open</b>. Turn anticlockwise ↺ to the stop (hare), then count clicks in ↻. ${v.n}-click range.`)
+    : tx(`Gezählt ab: <b>ganz zu</b>. Erst im Uhrzeigersinn ↻ bis zum Anschlag (Schildkröte), dann die Klicks gegen den Uhrzeigersinn ↺ zurückzählen. Bereich: ${v.n} Klicks.`, `Counted from: <b>fully closed</b>. Turn clockwise ↻ to the stop (tortoise), then count clicks back out ↺. ${v.n}-click range.`);
+  else if(v.zug) bez = (slot === "gabel" ? tx("Gezählt ab: dein Grundwert — aus der Tabelle am Holm", "Counted from: your base value — from the chart on the fork leg") : tx("Gezählt ab: dein Grundwert — aus der Herstellertabelle", "Counted from: your base value — from the manufacturer's chart")) + tx(" oder per Bordsteintest.", " or the kerb test.");
+  else if(v.skala === "zahl") bez = tx(`Gezählt ab: <b>der Mitte (0)</b> — die Zahlen stehen auf dem Knopf. ${v.n + 1} Stellungen.`, `Counted from: <b>the middle (0)</b> — the numbers are printed on the knob. ${v.n + 1} positions.`);
+  else if(v.skala) bez = tx(`Gezählt ab: <b>der Mitte</b> (Mittelstrich), + fester, − weicher. ${v.n + 1} Stellungen.`, `Counted from: <b>the middle</b> (centre mark), + firmer, − softer. ${v.n + 1} positions.`);
+  else if(v.stufen) bez = tx(`Stellungen am Knopf oder Hebel: ${v.o.length}.`, `Positions on the knob or lever: ${v.o.length}.`);
+  else if(v.n != null) bez = v.ab === "offen" ? tx(`Gezählt ab: <b>ganz offen</b> — erst ganz auf ↺, dann ${v.dreh ? "Umdrehungen" : "Klicks"} zu ↻ zählen.`, `Counted from: <b>fully open</b> — turn fully out ↺ first, then count ${v.dreh ? "turns" : "clicks"} in ↻.`)
+    : tx(`Gezählt ab: <b>ganz zu</b> — erst im Uhrzeigersinn ↻ bis zum Anschlag, dann Klicks auf ↺ zählen. Bereich: ${v.n} Klicks.`, `Counted from: <b>fully closed</b> — turn clockwise ↻ to the stop, then count clicks out ↺. ${v.n}-click range.`);
+  else bez = tx("Gezählt ab: <b>der Mitte</b> zwischen beiden Anschlägen — Klicks bis zum einen und zum anderen Anschlag zählen, halbieren.", "Counted from: <b>the middle</b> between both stops — count the clicks from stop to stop and halve them.");
   return `<p>${bez}</p><div class="fw-drehen">${richt}</div>`;
 }
 /* Begruendung je Profil und Einsteller */
