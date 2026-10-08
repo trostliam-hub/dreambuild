@@ -161,7 +161,7 @@ export const FAELLE = [
   {name:"Adapter: IS-Gabel (per patch) + 180 vorn → IS-auf-PM +20", patch:{gabel:["g-pike", {pmV:160, vrAufnahme:"IS"}]}, teile:{gabel:"g-pike", bremsen:["b-xt", {Scheiben:"180/180"}]},
    adapter:[{n:"IS-auf-PM-Adapter 180 mm", rechnung:"IS 160 + 20 mm = 180 mm", wo:"gabel"}]},
   {name:"Adapter: Fox 38 (15 mm) + Vorderrad 20 mm → Endkappen am Laufrad", teile:{gabel:"g-fox38", laufraeder:["w-dtfr29", {Vorderachse:"110x20"}]},
-   adapter:[{n:"Endkappen 20 → 15 mm", kurz:"110x20 → 110x15", wo:"laufraeder", p:30}], tausch:{"achse-v":"VR 15 mm"}},
+   adapter:[{n:"Endkappen 20 → 15 mm", kurz:"DH 110×20 → Boost 110×15", wo:"laufraeder", p:30}], tausch:{"achse-v":"VR 15 mm"}},
   {name:"Adapter: gerade Gabel im konischen Rahmen → Reduzier-Unterteil", sel:["trial"], teile:{rahmen:"f-echo", gabel:["g-trial20", {Steuerrohr:"gerade"}]},
    adapter:[{n:"Reduzier-Unterteil ZS56/30", wo:"gabel"}], tausch:{"steuer":"tapered"}},
   {name:"Adapter: BB30 + Shimano 24 mm → Konverter-Innenlager", patch:{rahmen:["f-fuelex", {bb:"BB30"}]}, teile:{rahmen:"f-fuelex", kurbel:"k-xt"},

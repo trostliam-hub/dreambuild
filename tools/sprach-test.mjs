@@ -233,14 +233,14 @@ for(const spr of ['de', 'en']){
     if(spr === 'en'){
       if(UMLAUT.test(t)) funde.push({spr, szene:x.szene, art:'Umlaut im Englischen', wort:(t.match(/\S*[äöüÄÖÜß]\S*/) || [''])[0], t:x.t.slice(0, 220), quelle:x.art});
       else probe('deutsches Wort im Englischen', DE_WORT);
-      probe('Zahlformat (Komma) im Englischen', /\d,\d{1,2}\s?(kg|mm|cm|bar|psi|%|m\b)/);
+      probe('Zahlformat (Komma) im Englischen', /\d,\d{1,2}\s?(kg|mm|cm|bar|psi|Nm|Wh|%|°|″|m\b)/);
       probe('Euro vorne fehlt im Englischen', /\d\s€(?!\d)/);
       probe('Prozent mit Leerzeichen im Englischen', /\d\s%/);
     } else {
       probe('englisches Wort im Deutschen', EN_WORT);
       probe('Sie-Anrede', SIE);
       probe('ae/oe/ue statt Umlaut', ERSATZ);
-      probe('Zahlformat (Punkt) im Deutschen', /\d\.\d{1,2}\s?(kg|cm|bar|%)(?![\p{L}])/u);
+      probe('Zahlformat (Punkt) im Deutschen', /\d\.\d{1,2}\s?(kg|mm|cm|m|bar|psi|Nm|Wh|%|°|″)(?![\p{L}])/u);
       probe('Euro vorne im Deutschen', /€\d/);
       probe('Prozent ohne Leerzeichen im Deutschen', /\d%/);
     }
