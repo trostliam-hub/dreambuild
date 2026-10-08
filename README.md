@@ -534,17 +534,23 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
 | Laufradsatz · Reifen · Freilauf | wheelset · tyre · freehub |
 | Schaltwerk · Kassette · Kettenblatt | derailleur · cassette · chainring |
 | Einbaumaß | eye-to-eye × stroke |
+| vorn · hinten (nicht „vorne“) | front · rear |
+| Modelljahr (nicht „Baujahr“, „Jahrgang“) | model year |
+| O-Ring (beim SAG einmal als Gummiring erklärt) | O-ring |
+| Bremssattel (bei Bremsen nie nur „Sattel“) | caliper |
 
 **Prüfen**
 
     npm run test:sprache
 
 `tools/sprach-test.mjs` öffnet die App in beiden Sprachen auf 390 px Breite
-(`SPRACHE_BREITE=320` für das kleinste Handy),
+(`SPRACHE_BREITE=320` für das kleinste gängige Handy, `280` für das Außendisplay
+eines Klapphandys),
 geht alle Ansichten, Blätter, Assistenten, den Rundgang, jede Guide-Antwort
 und alle Befunde aus den Kompatibilitätsfällen durch und meldet: Wörter der
 anderen Sprache, Umlaute im Englischen, „Sie“-Anrede, ae/oe/ue statt Umlaut,
-falsche Zahl-, Euro- und Prozentformate, Reste wie `undefined` oder `${`,
+falsche Zahl-, Euro- und Prozentformate (auch Dezimalpunkt im Deutschen bei mm,
+°, psi, Nm, Wh, ″), Reste wie `undefined` oder `${`,
 Leerzeichen vor Satzzeichen und abgeschnittene Texte. Marken- und Modellnamen
 aus dem Katalog sind ausgenommen. `--bericht datei.json` schreibt alle Funde
 und alle gesammelten Texte zum Durchlesen heraus.

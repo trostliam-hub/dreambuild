@@ -199,6 +199,15 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
   .dchip{padding:3px 9px;gap:5px;min-height:34px}
   .dchip .dot{display:none}
 }
+/* Unter 300 px (Aussendisplay eines Klapphandys): Logo kleiner, Pfeil am
+   Disziplin-Chip weg, die Mini-Anzeige beim Scrollen nur mit Score -- so
+   passen auch zwei Disziplinen ohne "…" */
+@media (max-width:300px){
+  .brand{font-size:15.5px}
+  .dchip svg{display:none}
+  .mini{padding-right:4px}
+  .mini span{display:none}
+}
 
 /* ── Umschalter Traumrad / Mein Rad / Angebot ── */
 .modus{padding:6px 16px 4px}
@@ -211,6 +220,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .modus-in button{flex:1;position:relative;z-index:1;padding:8px;border-radius:999px;font-size:13.5px;font-weight:650;
   color:var(--ink-3);display:flex;align-items:center;justify-content:center;gap:6px;min-height:38px}
 .modus-in button[aria-pressed="true"]{color:var(--ink)}
+/* Unter 300 px: "Mein Rad" und "Dream bike" bleiben einzeilig */
+@media (max-width:300px){.modus{padding-left:12px;padding-right:12px} .modus-in button{font-size:12.5px;padding:6px 4px}}
 /* Hell: Spur grau, Pille weiss -- wie der iOS-Umschalter */
 :root[data-theme="light"] .modus-in{background:var(--sunk)}
 :root[data-theme="light"] .modus-in::before{background:var(--surface)}
@@ -2430,6 +2441,9 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .trk-l span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* 320 px: "Compression" passt ohne Abschneiden neben das +/− */
 @media (max-width:350px){.trk-l{font-size:10px;letter-spacing:.02em}}
+/* Sehr schmale Displays (z. B. Aussendisplay eines Klapphandys, 280 px): Beschriftung
+   darf trennen statt mit "…" zu enden */
+@media (max-width:300px){.trk-l span{white-space:normal;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:anywhere;line-height:1.1}}
 .trk-w b{font-family:var(--f-head);font-size:clamp(15px,4.6vw,19px);font-weight:800;line-height:1.15;letter-spacing:-.02em;overflow-wrap:anywhere}
 .trk-w b small{font-size:.6em;font-weight:700;color:var(--ink-3);margin-left:4px;letter-spacing:0}
 .trk-w.haupt b{font-size:clamp(22px,7vw,28px);color:var(--anod)}
