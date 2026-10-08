@@ -30,13 +30,13 @@ Ausführung, die zum neuen Aufbau passt. Ein Rahmenlager-Satz ersetzt verbaute
 Lager und macht das Rad deshalb nicht schwerer. Das Innenlager war schon immer
 ein eigener Platz und bleibt es.
 
-**Zwei getrennte Werte.** *Passform* misst, ob es mechanisch zusammenpasst.
+**Zwei getrennte Werte.** *Kompatibilität* misst, ob es mechanisch zusammenpasst.
 *Einsatz* misst, ob alle Teile in dieselbe Richtung ziehen — ein Enduro-Rahmen
 mit XC-Bremsen ist fehlerfrei und trotzdem falsch gebaut.
 
 **Übersicht im Stil von Bevel.** Oben drei Ringe nebeneinander wie die
 Kennzahlen in der Gesundheits-App Bevel: in der Mitte groß der *Score*
-(Ampelfarbe: grün ab 85, gelb ab 60, sonst rot), links *Passform* (violett),
+(Ampelfarbe: grün ab 85, gelb ab 60, sonst rot), links *Kompatibilität* (violett),
 rechts *Einsatz* (orange). Tippen auf einen Ring erklärt die Zahlen. Darunter
 ein Satz zum Stand und zwei Kacheln: *Preis* (mit Budget als Tankanzeige —
 wie viel frei ist oder dass es drüber liegt) und *Gewicht* (mit „x von y
@@ -370,7 +370,7 @@ Ausgangspunkte und stehen so in der App.
   Testfahrt; *Zeigen* öffnet die passende Karte, *Erledigt* hakt ab.
   Fehlen Angaben, sagt ein Hinweis oben nur, wie viele — bearbeitet wird
   ausschließlich unter *Deine Angaben*.
-- *Aktionen:* Testfahrt (starten oder fortsetzen), Trail-Karte, Vergleichen,
+- *Aktionen:* Testfahrt (starten oder fortsetzen), Setup-Karte, Vergleichen,
   Deine Angaben. SAG wird in der SAG-Karte des gewählten Federelements
   gestartet; *Dein nächster Schritt* führt mit *Zeigen* dorthin.
 - *Einstellkarten* in der Reihenfolge des Einstellens (Luft oder Feder, SAG,
@@ -414,7 +414,7 @@ Ausgangspunkte und stehen so in der App.
   RockShox Welcome Guides, Charger-3-Setup, Trailhead und Videos, Cane Creek,
   GMBN, Pinkbike, BikeRadar. Darunter aufklappbar alle Rechenwerte.
 
-**Trail-Karte:** alle Werte beider Federelemente (mit eigenem Feintuning) auf
+**Setup-Karte:** alle Werte beider Federelemente (mit eigenem Feintuning) auf
 einer Bildschirmseite ohne Scrollen — zum Screenshotten für unterwegs; auf
 dem iPhone SE hochkant, im Querformat und am Desktop vorne und hinten
 nebeneinander.
@@ -525,7 +525,7 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
 | Teil | part |
 | Aufbau | build |
 | Traumrad · Mein Rad · Gebrauchtrad | Dream bike · My bike · Used bike |
-| Passform · Einsatz · Score | Fit · Discipline · Score |
+| Kompatibilität · Einsatz · Score | Compatibility · Discipline · Score |
 | Prüfung | Check |
 | Einbauen | Add to build (kurz: Add) |
 | Einkaufsliste | Shopping list |

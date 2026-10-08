@@ -101,7 +101,7 @@
 
   /* Ruhig wie Bevel (Liams Wunsch 2026-09-30): echtes Schwarz, neutrale
      Graphit-Karten ohne Rand, Farbe nur dort, wo sie etwas sagt -- jede
-     Kennzahl hat ihre eigene (Wertung nach Ampel, Passform violett, Einsatz
+     Kennzahl hat ihre eigene (Wertung nach Ampel, Kompatibilitaet violett, Einsatz
      orange), Knoepfe sind schlicht weiss auf schwarz. Der bunte Verlauf
      (--grad) gehoert nur noch dem Guide und dem Assistenten. Kontraste per
      WCAG-Formel geprueft: Grautexte >= 4,5:1, Ringe >= 3:1. */
@@ -272,7 +272,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .check-z span{color:var(--ink-3);font-size:12px;grid-column:2}
 
 /* ── Wertungskarte: drei Ringe wie bei Bevel ──
-   Jede Kennzahl hat ihre Farbe: Wertung nach Ampel (per JS), Passform
+   Jede Kennzahl hat ihre Farbe: Wertung nach Ampel (per JS), Kompatibilitaet
    violett, Einsatz orange. Die Zahl steht in Schriftfarbe im Ring -- die
    Farbe traegt der Ring, lesbar bleibt die Zahl immer. Hinter den Ringen
    liegt ein weicher Farbschein aus denselben drei Farben. */
@@ -300,6 +300,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .rg-l{font-size:12.5px;font-weight:650;color:var(--ink-2);display:flex;align-items:center;gap:6px;white-space:nowrap}
 .rg-l::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--rg-farbe);flex:none}
 .rg-gesamt .rg-l{color:var(--ink);font-size:13.5px}
+/* "Kompatibilität" / "Compatibility" unter dem kleinen Ring: auf schmalen Handys etwas kleiner */
+@media (max-width:399px){.rg:not(.rg-gesamt) .rg-l{font-size:11px;gap:4px}}
 .rg:active:not(:disabled){transform:scale(.96)}
 .verdict{margin:2px 0 0;font-size:14px;color:var(--ink-2);line-height:1.45;text-align:center;max-width:440px;text-wrap:balance}
 .verdict b{color:var(--ink);font-weight:700}
@@ -1705,6 +1707,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-head);font-weight:800;font-size:17px;letter-spacing:-.04em}
 .ls-ring.gross b{font-size:28px}
 .ls-ringl{display:grid;grid-template-columns:1fr 1.3fr 1fr;text-align:center;font-size:11px;font-weight:650;color:var(--l-ink2);margin-top:5px}
+.ls-ringl span{line-height:1.2}
 .ls-platz{height:92px}
 .ls-schwebe{position:absolute;left:-4px;bottom:20px;display:flex;flex-direction:column;gap:1px;padding:11px 15px;border-radius:18px;
   background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 14px 34px -14px rgba(0,0,0,.3)}
@@ -2433,7 +2436,7 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 .fw-hero-leg span{display:inline-flex;align-items:center;gap:5px}
 .fw-hero-leg i{width:18px;height:18px;border-radius:999px;display:grid;place-items:center;font:800 10.5px/1 var(--f-head);font-style:normal;background:var(--anod);color:var(--on-anod)}
 @media (min-width:760px){.fw-hero{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;padding:28px}}
-/* Trail-Karte (eigene Klassen: tk-* gehoert der Tour) */
+/* Setup-Karte (eigene Klassen: tk-* gehoert der Tour) */
 .trk{max-width:460px}
 .trk-i{background:linear-gradient(135deg,#3ddc84,#0fa0bd)}
 .trk-sek{background:var(--surface-2);border-radius:18px;padding:10px 10px 10px;margin-bottom:8px}
@@ -2592,7 +2595,7 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
 <div class="coach-platz" id="coach-platz"></div>
 
 <!-- Uebersicht wie bei Bevel: drei Ringe nebeneinander, in der Mitte der
-     Score, links Passform, rechts Einsatz. Darunter ein Satz und die zwei
+     Score, links Kompatibilitaet, rechts Einsatz. Darunter ein Satz und die zwei
      Zahlen, die man beim Bauen immer im Blick haben will. -->
 <div class="bar">
   <div class="bar-in">
@@ -2603,9 +2606,9 @@ body[data-view="setup"] .brand{opacity:1;transform:none}
           <circle class="rg-wert" id="ring-tech" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
         </svg>
         <b class="num" id="n-tech">–</b>
-        <span class="rg-l" data-t="Passform|Fit">Passform</span>
+        <span class="rg-l" data-t="Kompatibilität|Compatibility">Kompatibilität</span>
       </button>
-      <button class="rg rg-gesamt ring-wrap" data-scorehilfe="1" title="Gesamt-Score aus Passform und Einsatz" data-tt="Gesamt-Score aus Passform und Einsatz|Overall score from fit and discipline">
+      <button class="rg rg-gesamt ring-wrap" data-scorehilfe="1" title="Gesamt-Score aus Kompatibilität und Einsatz" data-tt="Gesamt-Score aus Kompatibilität und Einsatz|Overall score from compatibility and discipline">
         <svg viewBox="0 0 100 100" aria-hidden="true">
           <circle class="rg-bahn" cx="50" cy="50" r="42"/>
           <circle class="rg-wert" id="ring" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
@@ -2737,7 +2740,7 @@ const WORT = {
   einbauen:["Einbauen", "Add to build"], einbauenKurz:["Einbauen", "Add"], loslegen:["Los geht's", "Let's go"], ablehnen:["Ablehnen", "Dismiss"],
   gabel:["Gabel", "Fork"], daempfer:["Dämpfer", "Shock"], vorne:["vorn", "front"], hinten:["hinten", "rear"],
   klick:["Klick", "click"], klicks:["Klicks", "clicks"], umdrehung:["Umdrehung", "turn"], umdrehungen:["Umdrehungen", "turns"],
-  passform:["Passform", "Fit"], einsatz:["Einsatz", "Discipline"], preis:["Preis", "Price"], gewicht:["Gewicht", "Weight"],
+  passform:["Kompatibilität", "Compatibility"], einsatz:["Einsatz", "Discipline"], preis:["Preis", "Price"], gewicht:["Gewicht", "Weight"],
   pruefung:["Prüfung", "Check"], einkaufsliste:["Einkaufsliste", "Shopping list"], impressum:["Impressum", "Legal notice"],
   datenschutz:["Datenschutz", "Privacy"], rechtliches:["Rechtliches", "Legal"], begriffe:["Begriffe erklärt", "Terms explained"],
   guideFragen:["Frag den Guide", "Ask the guide"], fahrwerkSetup:["Fahrwerk-Setup", "Suspension setup"], anzeige:["Anzeige", "Ad"]
@@ -2832,7 +2835,7 @@ const o_ = (w, n, s, x) => Object.defineProperties({w:w, s:s || null, p:(x && x.
   _n:n, _h:(x && x.h) || "", _k:(x && x.kurz) || ""}, {
   n:{get(){ return sp2(this._n); }, enumerable:true}, h:{get(){ return sp2(this._h); }, enumerable:true},
   kurz:{get(){ return sp2(this._k); }, enumerable:true}});
-const DIM_EN = {"Federweg":"Travel", "Kartusche":"Damper", "Ausführung":"Version", "Einbaumaß":"Eye-to-eye × stroke",
+const DIM_EN = {"Federweg":"Travel", "Kartusche":"Damper", "Ausführung":"Version", "Einbaumaß":"Shock size",
   "Freilauf":"Freehub", "Scheiben":"Rotors", "Durchmesser":"Diameter", "Hub":"Drop", "Rise":"Rise", "Klemmung":"Clamp",
   "Länge":"Length", "Kurbellänge":"Crank length", "Nabenbreite":"Hub width", "Steuerrohr":"Steerer", "Vorderachse":"Front axle",
   "Kettenblatt":"Chainring", "Gehäuse":"Shell", "Einpressmaß":"Headset standard", "Welle":"Spindle"};
@@ -3996,7 +3999,7 @@ const NAME_EN = [
   [/Hardtail Alu/, "alloy hardtail"], [/\bAlu\b/, "Alloy"], [/ Kette$/, " chain"], [/ Sattel( |$)/, " saddle$1"], [/ Vorbau/, " stem"],
   [/\bhohl\b/, "hollow"], [/\bScheibe\b/, "disc"], [/nur Trek Supercaliber/, "Trek Supercaliber only"],
   [/1 1\/8″ gerade/, "1 1/8″ straight"], [/Original-Lagersatz vom Rahmenhersteller/, "Original bearing kit from the frame manufacturer"],
-  [/Rahmenlager-Kit/, "Frame Bearing Kit"], [/VR (\d+) mm/, "$1 mm front axle"], [/(\d+) Z\./, "$1T"],
+  [/Rahmenlager-Kit/, "Frame Bearing Kit"], [/VR (\d+) mm/, "front $1 mm"], [/(\d+) Z\./, "$1T"],
   /* Die Disziplin heisst im Englischen "trials" (Street Trial, Trial Stock 26″ ...);
      "Trial Zone" ist ein Modellname von Hope und bleibt */
   [/\bTrial\b(?! Zone)/g, "Trials"],
@@ -4409,8 +4412,8 @@ function datenschutzHtml(){
     <p>Deine Profile, Aufbauten, Fotos und Einstellungen speichert die App im lokalen Speicher deines Browsers
       (localStorage); für den Offline-Betrieb legt sie Programmdateien im Browser-Cache ab. Diese Daten verlassen dein
       Gerät nicht, wir erhalten sie nicht. Das ist für die von dir gewünschte Funktion unbedingt erforderlich
-      (§ 25 Abs. 2 Nr. 2 TDDDG). Löschen kannst du sie jederzeit über „Dieses Rad zurücksetzen“ oder indem du die
-      Websitedaten in deinem Browser löschst.</p>
+      (§ 25 Abs. 2 Nr. 2 TDDDG). Löschen kannst du sie jederzeit, indem du die Websitedaten in deinem Browser löschst.
+      „Dieses Rad zurücksetzen“ leert nur das gerade geöffnete Rad.</p>
     <h4>4. Schriftarten und Preise</h4>
     <p>Schriftarten und Preisdaten werden vom selben Server geladen wie die App. Es gibt keine Verbindung zu Google Fonts
       oder anderen Schriftdiensten.</p>
@@ -4489,8 +4492,8 @@ function datenschutzHtmlEn(){
     <p>The app stores your profiles, builds, photos and settings in your browser's local storage
       (localStorage); for offline use it keeps program files in the browser cache. This data doesn't leave your
       device, and we don't receive it. This is strictly necessary for the function you have asked for
-      (§ 25(2) no. 2 TDDDG). You can delete it at any time via “Reset this bike” or by clearing the
-      site data in your browser.</p>
+      (§ 25(2) no. 2 TDDDG). You can delete it at any time by clearing the site data in your browser.
+      “Reset this bike” only clears the bike that's currently open.</p>
     <h4>4. Fonts and prices</h4>
     <p>Fonts and price data are loaded from the same server as the app. There is no connection to Google Fonts
       or any other font service.</p>
@@ -5326,7 +5329,7 @@ function pruefe(b){
     const dKl = soll != null && kurbel.kl != null ? Math.abs(kurbel.kl - soll) : 0;
     if(ss && dKl > 1 && dKl <= 3.5)
       out.push(H(tx("Ritzel mit Spacern ausrichten", "Line up the cog with spacers"),"kurbel",["rahmen","kurbel"],
-        tx(`Die Kurbel liefert <code>${zahlDe(kurbel.kl)} mm</code> Kettenlinie, zum Hinterbau <code>${achsName(rahmen.ha)}</code> gehören rund <code>${zahlDe(soll)} mm</code>. Beim Singlespeed wird das Ritzel mit Spacern auf die Linie des Kettenblatts gesetzt — beim Einbau mit einem Lineal prüfen.`,
+        tx(`Die Kurbel hat <code>${zahlDe(kurbel.kl)} mm</code> Kettenlinie, zum Hinterbau <code>${achsName(rahmen.ha)}</code> gehören rund <code>${zahlDe(soll)} mm</code>. Beim Singlespeed wird das Ritzel mit Spacern auf die Linie des Kettenblatts gesetzt — beim Einbau mit einem Lineal prüfen.`,
            `The crank gives <code>${zahlDe(kurbel.kl)} mm</code> chainline, the <code>${achsName(rahmen.ha)}</code> rear end calls for about <code>${zahlDe(soll)} mm</code>. On a singlespeed the cog is spaced to line up with the chainring — check with a straight edge when fitting.`)));
     if(soll != null && dKl > (ss ? 3.5 : 1.5)){
       const lvl = dKl > (ss ? 6 : 3) ? F : W;
@@ -5697,8 +5700,8 @@ const MASSE = {
   gabel:      {hart:["schaft","va"], weich:{travel:[["mm Federweg","mm travel"],10], offset:["mm Offset",6]}},
   daempfer:   {hart:["el","hub","typ"], weich:{}},
   laufraeder: {hart:["lrV","lrH","va","ha","freilauf"], weich:{iw:[["mm Maulweite","mm inner width"],2]}},
-  reifenVR:   {hart:[], weich:{breite:[["mm Breite","mm width"],3], grip:["Grip",1]}},
-  reifenHR:   {hart:[], weich:{breite:[["mm Breite","mm width"],3], grip:["Grip",1]}},
+  reifenVR:   {hart:[], weich:{breite:[["mm Breite","mm width"],3], grip:[["Grip", "grip"],1]}},
+  reifenHR:   {hart:[], weich:{breite:[["mm Breite","mm width"],3], grip:[["Grip", "grip"],1]}},
   schalthebel:{hart:["iface","gaenge"], weich:{}},
   schaltwerk: {hart:["iface","gaenge","udhPflicht"], weich:{maxRitzel:[["Z. max.","T max."],2], maxKB:[["Z. vorn","T front"],4]}},
   kassette:   {hart:["freilauf","gaenge","tType","linkglide"], weich:{}},
@@ -6806,7 +6809,7 @@ function startseiteHtml(){
   const mehr = [
     [IC.markt, tx("Einkaufsliste", "Shopping list"), tx("Jedes Teil mit Preis und Knopf zum Shop, dazu die Summe.", "Every part with price and a button to the shop, plus the total.")],
     [IC.upgrade, tx("Upgrades mit Punktgewinn", "Upgrades with score gains"), tx("Nur Teile, die mindestens so gut sind wie deine und den Score heben.", "Only parts at least as good as yours that raise your score.")],
-    [IC.real, tx("Günstiger, gleiche Maße", "Cheaper, same specs"), tx("Wo du sparst, ohne dass sich an der Passform etwas ändert.", "Where you save without changing the fit.")],
+    [IC.real, tx("Günstiger, gleiche Maße", "Cheaper, same specs"), tx("Wo du sparst, ohne dass sich an der Kompatibilität etwas ändert.", "Where you save without affecting compatibility.")],
     [IC.traum, tx("Traumrad-Assistent", "Dream bike assistant"), tx("Disziplin, Budget, Marken — und ein fertiger Aufbau.", "Discipline, budget, brands — and a finished build.")],
     [IC.pruef, tx("Drei Modi", "Three modes"), tx("Traumrad planen, eigenes Rad prüfen, Gebrauchtrad bewerten.", "Plan a dream bike, check your own, rate a used one.")],
     [IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie — jeweils in einem Satz.", "Boost, freehub, chainline — each in one sentence.")],
@@ -6842,7 +6845,7 @@ function startseiteHtml(){
         <p>${tx("Drei Zahlen zeigen dir, wo dein Rad steht — und was es besser macht.", "Three numbers show you where your bike stands — and what makes it better.")}</p></section>
       ${karte("var(--gut)", "Score", tx("Eine Zahl von 0 bis 100: Passen die Teile zusammen — und zu dem, was du fährst?", "One number from 0 to 100: do the parts fit together — and suit what you ride?"),
         handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.tech, "var(--m-pass)")}${lsRing(r.gesamt, "var(--gut)", true)}${lsRing(r.chara, "var(--m-eins)")}</div>
-          <div class="ls-ringl"><span>${tx("Passform", "Fit")}</span><span>Score</span><span>${wort("einsatz")}</span></div>
+          <div class="ls-ringl"><span>${tx("Kompa\u00adtibilität", "Compat\u00adibility")}</span><span>Score</span><span>${wort("einsatz")}</span></div>
           <div class="ls-app-z"><b>${tx("Stimmig.", "Spot on.")}</b> ${tx("Alles zieht in Richtung Trail.", "The whole build is geared towards Trail.")}</div><div class="ls-platz"></div>`)
         + `<div class="ls-schwebe"><span>${tx("Preis", "Price")}</span><b>${eur(r.preis)}</b><span>${kg(r.gewicht)}</span></div>`)}
       ${karte("var(--bad)", tx("Prüfung", "Check"), tx("Achsen, Freilauf, Dämpfermaß, Steuersatz, Bremsscheiben: Die App gleicht jedes Teil mit jedem anderen ab — und sagt dir, wie du Konflikte löst.",
@@ -7626,14 +7629,14 @@ function specsVon(slotKey, t){
       t.schaft === "dc" ? tx("Doppelbrücke", "Dual crown") : t.schaft === "gerade" ? "1 1/8″" : "tapered", "Offset " + t.offset, t.pmV ? "PM" + t.pmV : null); break;
     case "daempfer": c.push(t.typ === "IsoStrut" ? "Trek IsoStrut" : zahlDe(t.el) + "×" + zahlDe(t.hub) + " mm", t.typ === "IsoStrut" ? null : t.typ); break;
     case "laufraeder": c.push(tx("VR ", "Front ") + zoll(t.lrV) + " " + achsName(t.va), tx("HR ", "Rear ") + zoll(t.lrH) + " " + achsName(t.ha),
-      tx("Freilauf ", "Freehub ") + stdName(t.freilauf), stdName(t.naben), tx("Maulweite ", "Inner width ") + t.iw + " mm", tx("max. ", "max ") + t.maxSys + " kg"); break;
+      tx("Freilauf " + stdName(t.freilauf), stdName(t.freilauf) + " freehub"), stdName(t.naben), tx("Maulweite ", "Inner width ") + t.iw + " mm", tx("max. ", "max ") + t.maxSys + " kg"); break;
     case "reifenVR": case "reifenHR": c.push(t.groessen.map(zahlDe).join("/") + "″", t.breite + " mm",
       tx("Felge ", "Rim ") + t.iw[0] + "–" + t.iw[1], "Grip " + zahlDe(t.grip) + "/5"); break;
     case "schalthebel": c.push(t.gaenge + tx("-fach", "-speed"), t.iface); break;
     case "schaltwerk": c.push(t.gaenge + tx("-fach", "-speed"), t.iface, tx("bis " + t.maxRitzel + " Z.", "up to " + t.maxRitzel + "T"),
       tx("max. " + t.maxKB + " Z. vorn", "max " + t.maxKB + "T front"), t.udhPflicht ? tx("UDH nötig", "UDH required") : null); break;
     case "kassette": c.push(t.gaenge === 1 ? "Singlespeed" : t.gaenge + tx("-fach", "-speed"),
-      t.spanne[0] + "–" + t.spanne[1] + tx(" Z.", "T"), stdName(t.freilauf), t.tType ? "T-Type" : null); break;
+      (t.spanne[0] === t.spanne[1] ? t.spanne[0] : t.spanne[0] + "–" + t.spanne[1]) + tx(" Z.", "T"), stdName(t.freilauf), t.tType ? "T-Type" : null); break;
     case "kette": c.push(t.gaenge === 1 ? "Singlespeed" : t.gaenge + tx("-fach", "-speed"), t.fuer ? tx("auch " + t.fuer.join("/") + "-fach DH", "also " + t.fuer.join("/") + "-speed DH") : null,
       t.iface || "Standard"); break;
     case "kurbel": c.push(t.motorWelle ? tx("Motorwelle " + t.motorWelle, t.motorWelle + " motor spindle") : t.iface, t.motor ? t.motor.join(" / ") : null,
@@ -9009,7 +9012,7 @@ function oeffneFit(){
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">${tx("Auf dich abgestimmt", "Tuned to you")} · ${esc(selNamen())}</span>${tx("Deine Größe", "Your sizing")}</h3>${zuBtn}</div>
     <div class="sheet-b">
-      <p class="hint" style="margin:0 0 12px">${f.h} cm · ${tx("Schritt", "Inseam")} ${f.schritt} cm · ${tx("Schultern", "Shoulders")} ${zahlDe(f.schulter)} cm${plan.fahrer ? " · " + plan.fahrer + " kg" : ""}
+      <p class="hint" style="margin:0 0 12px">${f.h} cm · ${tx("Schrittlänge", "Inseam")} ${f.schritt} cm · ${tx("Schulterbreite", "Shoulder width")} ${zahlDe(f.schulter)} cm${plan.fahrer ? " · " + plan.fahrer + " kg" : ""}
         · ${tx("ändern unter Einstellungen › Fahrerprofil", "change under Settings › Rider profile")}</p>
       ${fitErgebnisHtml(f)}
       ${fb.length ? `<div class="grp-h" style="margin-top:18px"><h2>${tx("Dein Aufbau", "Your build")}</h2><div class="rule"></div></div>
@@ -9154,7 +9157,7 @@ const EI_SCHRITT = {
     return {h:`
       <p class="ei-sub" style="--i:0">${tx("Deine Maße · 1 von 2", "Your measurements · 1 of 2")}</p>
       <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Wie groß und wie schwer bist du?", "How tall and how heavy are you?")}</h2>
-      <p class="ei-qs" style="--i:2">${tx("Die Größe entscheidet über die Rahmengröße, das Gewicht über Luftdruck, Federhärte und die Freigabe der Laufräder.",
+      <p class="ei-qs" style="--i:2">${tx("Die Körpergröße entscheidet über die Rahmengröße, das Gewicht über Luftdruck, Federhärte und die Freigabe der Laufräder.",
         "Height decides the frame size, weight decides air pressure, spring rate and the wheels' weight limit.")}</p>
       <div class="ei-figur" style="--i:3"><div id="ei-figur">${figurSvg(h, eiWert("fahrer"))}</div>
         <div class="ei-gr"><b id="ei-gr" aria-live="polite">${koerper.groesse > 0 ? f.groesse : "—"}</b><span>${tx("deine<br>Rahmengröße", "your<br>frame size")}</span></div></div>
@@ -9386,7 +9389,7 @@ function tourStationen(){
     {mitte:true, bild:true, h:tx("Dein Rad ist bereit", "Your bike is ready"),
      t:tx("Kurzer Rundgang: In 30 Sekunden weißt du, wo alles ist.", "Quick tour: in 30 seconds you'll know where everything is.")},
     {sel:".bar-in", ic:IC.wertung, h:tx("Dein Score", "Your score"),
-     t:tx("Der große Ring ist dein Score — grün ab 85. Links die Passform, rechts der Einsatz, darunter Preis und Gewicht. Tipp auf einen Ring, dann erklärt die App die Zahlen.", "The big ring is your score — green from 85. Fit on the left, discipline on the right, price and weight below. Tap a ring and the numbers are explained.")},
+     t:tx("Der große Ring ist dein Score — grün ab 85. Links die Kompatibilität, rechts der Einsatz, darunter Preis und Gewicht. Tipp auf einen Ring, dann erklärt die App die Zahlen.", "The big ring is your score — green from 85. Compatibility on the left, discipline on the right, price and weight below. Tap a ring and the numbers are explained.")},
     {sel:".modus-in", ic:IC.real, h:tx("Drei Modi", "Three modes"),
      t:tx("Traumrad planen, dein eigenes Rad prüfen oder ein Gebrauchtrad bewerten — hier umschalten.", "Plan a dream bike, check your own bike or rate a used one — switch here.")},
     {sel:"#aufbau .grp .slot", ic:IC.weiter, h:traum ? tx("Teile tauschen", "Swap parts") : tx("Teile eintragen", "Enter parts"),
@@ -9544,9 +9547,9 @@ function scoreRechnungHtml(){
   const abzTxt = abz.length ? abz.map(([n, name, p]) => tx(`${n} × ${name} (je −${p})`, `${n} × ${name} (−${p} each)`)).join(", ") : tx("nichts", "nothing");
   const s = r.schwach;
   return `<div class="erk"><b>${tx(`Dein Aufbau: ${r.gesamt}`, `Your build: ${r.gesamt}`)}</b>${tx(
-    `Passform <b>${r.tech}</b> zählt zu 62 %, Einsatz <b>${r.chara}</b> zu 38 %. Die Passform startet bei 100, abgezogen wird: ${abzTxt}.
+    `Kompatibilität <b>${r.tech}</b> zählt zu 62 %, Einsatz <b>${r.chara}</b> zu 38 %. Die Kompatibilität startet bei 100, abgezogen wird: ${abzTxt}.
      Beim Einsatz bekommt jedes Teil 0 bis 5 Punkte dafür, wie gut es zu ${zn} passt${s ? ` — gerade am schwächsten: <b>${esc(s.slot.label)}</b> (${gEig(s.eig)}/5)` : ""}.`,
-    `Fit <b>${r.tech}</b> counts for 62%, discipline <b>${r.chara}</b> for 38%. Fit starts at 100${abz.length ? `, minus ${abzTxt}` : " with nothing deducted"}.
+    `Compatibility <b>${r.tech}</b> counts for 62%, discipline <b>${r.chara}</b> for 38%. Compatibility starts at 100${abz.length ? `; deducted: ${abzTxt}` : " with nothing deducted"}.
      For discipline, every part gets 0 to 5 points for how well it suits ${zn}${s ? ` — weakest right now: <b>${esc(imSatz(s.slot.label))}</b> (${gEig(s.eig)}/5)` : ""}.`)}</div>`;
 }
 function oeffneScoreHilfe(){
@@ -9555,7 +9558,7 @@ function oeffneScoreHilfe(){
     <div class="sheet-b">${scoreRechnungHtml()}${sprache === "en" ? `
       <div class="erk"><b>Score, 0 to 100</b>The overall mark for your build. Green from 85: everything works together. Yellow from 60: rideable,
         with compromises. Red below that: something fundamental doesn't work.</div>
-      <div class="erk"><b>Fit</b>Do the parts fit together technically — axles, freehub, shock size, clamps, number of gears?
+      <div class="erk"><b>Compatibility</b>Do the parts fit together technically — axles, freehub, shock size, clamps, number of gears?
         A conflict means the bike can't be built like this. The Check tab lists every conflict and how to fix it.</div>
       <div class="erk"><b>Discipline</b>Do the parts suit what you want to ride (${esc(selNamen())})? An enduro frame with
         light XC brakes fits technically, but won't brake hard enough on long descents. Change the discipline at the top right.</div>
@@ -9565,7 +9568,7 @@ function oeffneScoreHilfe(){
         counts; otherwise a guide price based on RRP.</div>` : `
       <div class="erk"><b>Score, 0 bis 100</b>Die Gesamtnote deines Aufbaus. Grün ab 85: stimmig. Gelb ab 60: fahrbar, mit Kompromissen.
         Rot darunter: Da stimmt etwas Grundsätzliches nicht.</div>
-      <div class="erk"><b>Passform</b>Passen die Teile technisch zusammen — Achsen, Freilauf, Einbaumaße, Klemmungen, Gangzahlen?
+      <div class="erk"><b>Kompatibilität</b>Passen die Teile technisch zusammen — Achsen, Freilauf, Einbaumaße, Klemmungen, Gangzahlen?
         Ein Konflikt heißt: So lässt sich das Rad nicht bauen. Im Reiter Prüfung steht jeder Konflikt mit Lösung.</div>
       <div class="erk"><b>Einsatz</b>Passen die Teile zu dem, was du fahren willst (${esc(selNamen())})? Ein Enduro-Rahmen mit
         leichten XC-Bremsen passt technisch, bremst auf langen Abfahrten aber zu schwach. Die Disziplin stellst du oben rechts um.</div>
@@ -9662,6 +9665,8 @@ function gLev(a, b){
   return v[n];
 }
 const gR = () => bewerte(build);
+/* Gramm mit Tausendertrennung: 10.400 g / 10,400 g */
+const gramm = g => Math.round(g).toLocaleString(ortsform()) + " g";
 const gKg = g => g >= 1000 ? zahlDe(Math.round(g / 10) / 100) + " kg" : Math.round(g) + " g";
 const gOhneTags = s => String(s || "").replace(/<[^>]+>/g, "");
 const gZahl = (n, de1, deN, en1, enN) => n + " " + tx(n === 1 ? de1 : deN, n === 1 ? en1 : enN);
@@ -9677,13 +9682,13 @@ function gWertung(){
     : tx("rot — da stimmt etwas Grundlegendes nicht", "red — something fundamental is off");
   let h = tx(`Dein Aufbau hat <b>${r.gesamt} von 100</b> (${farbe}). Die Zahl setzt sich aus zwei Teilen zusammen:`,
     `Your build scores <b>${r.gesamt} out of 100</b> (${farbe}). The number has two parts:`);
-  h += `<ul><li><b>${tx("Passform", "Fit")} ${r.tech}</b>: ${fehl ? tx(`${gZahl(fehl, "Konflikt", "Konflikte", "", "")} — Teile, die so nicht zusammengehen`, `${gZahl(fehl, "", "", "conflict", "conflicts")} — parts that don't go together like this`)
+  h += `<ul><li><b>${tx("Kompatibilität", "Compatibility")} ${r.tech}</b>: ${fehl ? tx(`${gZahl(fehl, "Konflikt", "Konflikte", "", "")} — Teile, die so nicht zusammengehen`, `${gZahl(fehl, "", "", "conflict", "conflicts")} — parts that don't go together like this`)
     : warn ? gZahl(warn, "Kompromiss", "Kompromisse", "compromise", "compromises") : tx("alle Maße und Standards passen", "all dimensions and standards match")}.</li>`;
   const schwach = r.schwach && r.schwach.eig < 3.5 ? r.schwach : null;
   h += `<li><b>${wort("einsatz")} ${r.chara}</b>: ${tx(`wie gut die Teile zu ${esc(selNamen())} passen`, `how well the parts suit ${esc(selNamen())}`)}${schwach
     ? tx(` — am wenigsten: ${esc(schwach.slot.label)} (${esc(schwach.teil.n)})`, ` — least of all: ${esc(schwach.slot.label.toLowerCase())} (${esc(schwach.teil.n)})`) : ""}.</li></ul>`;
   const ak = [];
-  if(fehl){ h += tx("Größter Hebel: die Konflikte lösen — jeder kostet 26 Punkte Passform.", "Your biggest gain: fix the conflicts — each one costs 26 fit points."); ak.push("view:befunde"); }
+  if(fehl){ h += tx("Größter Hebel: die Konflikte lösen — jeder kostet 26 Punkte bei der Kompatibilität.", "Your biggest gain: fix the conflicts — each one costs 26 compatibility points."); ak.push("view:befunde"); }
   else if(schwach && r.chara < 80){
     h += tx(`Größter Hebel: ${esc(schwach.slot.label)} gegen ein Teil tauschen, das besser zu ${esc(selNamen())} passt.`,
       `Your biggest gain: swap the ${esc(schwach.slot.label.toLowerCase())} for a part that suits ${esc(selNamen())} better.`);
@@ -9889,7 +9894,7 @@ function gZur100(){
     "There are no parts yet — no parts, no score. Start with the frame or plan your build (tap the discipline at the top)."), ak:["slot:rahmen"]};
   if(r.gesamt >= 100) return {h:tx("<b>100 von 100</b> — da fehlt nichts. Alles passt zusammen und jedes Teil passt zu " + esc(selNamen()) + ".",
     "<b>100 out of 100</b> — nothing's missing. Everything fits together and every part suits " + esc(selNamen()) + "."), ak:["score"]};
-  /* Woher: jeder Befund kostet Passform (62 % der Gesamtwertung), jedes Teil
+  /* Woher: jeder Befund kostet Kompatibilitaet (62 % der Gesamtwertung), jedes Teil
      unter 5/5 kostet Einsatz (38 %) -- gewichtet wie in bewerte() */
   const funde = r.funde.map(f => ({f:f, p:ABZUG[f.level] * 0.62})).sort((a, b) => b.p - a.p);
   let gewSum = 0; const teile = [];
@@ -9904,9 +9909,9 @@ function gZur100(){
   h += `<br><b>${tx("Woher sie kommen", "Where they're lost")}</b><ul>`;
   if(funde.length){
     const zuViel = funde.reduce((a, x) => a + ABZUG[x.f.level], 0) > 100;
-    h += `<li>${tx("Passform", "Fit")} ${r.tech}: ` + funde.slice(0, 3).map(x => `${esc(gOhneTags(x.f.titel))} (${esc(stufeTxt(x.f))}${zuViel ? "" : ", ~" + gPkt(x.p)})`).join("; ")
+    h += `<li>${tx("Kompatibilität", "Compatibility")} ${r.tech}: ` + funde.slice(0, 3).map(x => `${esc(gOhneTags(x.f.titel))} (${esc(stufeTxt(x.f))}${zuViel ? "" : ", ~" + gPkt(x.p)})`).join("; ")
       + (funde.length > 3 ? tx(` und ${funde.length - 3} weitere`, ` and ${funde.length - 3} more`) : "") + "</li>";
-  } else h += `<li>${tx("Passform", "Fit")} ${r.tech}: ${tx("alles passt, hier fehlt nichts", "everything fits, nothing missing here")}</li>`;
+  } else h += `<li>${tx("Kompatibilität", "Compatibility")} ${r.tech}: ${tx("alles passt, hier fehlt nichts", "everything fits, nothing missing here")}</li>`;
   if(schwach.length) h += `<li>${wort("einsatz")} ${r.chara} ${tx("für", "for")} ${esc(selNamen())}: `
     + schwach.slice(0, 3).map(x => `${esc(x.s.label)} (${esc(x.t.n)}, ${gEig(x.eig)}/5, ~${gPkt(x.p)})`).join("; ") + "</li>";
   else h += `<li>${wort("einsatz")} ${r.chara}: ${tx("jedes Teil passt zu", "every part suits")} ${esc(selNamen())}</li>`;
@@ -10649,9 +10654,9 @@ const GUIDE = [
   {id:"farben", k:"rand raender randfarbe farbig farbige rot roter gelb gelber gruen gruener punkt markierung markiert border colored coloured red yellow green", t:["Was bedeuten die farbigen Ränder?", "What do the coloured edges mean?"],
    a:["An den Teilen im Aufbau: <b>roter Rand</b> — passt nicht zum Rest, so geht das Rad nicht. <b>Gelber Rand</b> — ein Kompromiss, fahrbar, aber nicht ideal. <b>Grüner Punkt</b> an einer Gruppe — vollständig und alles passt. Was genau los ist, steht im Reiter Prüfung.",
      "On the parts in the build: <b>red edge</b> — doesn't fit the rest, the bike won't work like this. <b>Yellow edge</b> — a compromise, rideable but not ideal. <b>Green dot</b> on a group — complete and all good. The Check tab says exactly what's going on."], ak:["view:befunde"]},
-  {id:"passform", k:"passform einsatz balken technik charakter eignung purpose bar bars", t:["Was heißen Passform und Einsatz?", "What do fit and discipline mean?"],
-   a:["Der Score setzt sich aus zwei Werten zusammen. <b>Passform</b>: Passen die Teile technisch zusammen — Achsen, Freilauf, Einbaumaße, Klemmungen, Gangzahl? <b>Einsatz</b>: Passen sie zu dem, was du fahren willst? Ein Enduro-Rad mit leichten XC-Bremsen passt technisch, bremst bergab aber zu schwach.",
-     "The score is made up of two parts. <b>Fit</b>: do the parts fit together technically — axles, freehub, mounting sizes, clamps, number of gears? <b>Discipline</b>: do they suit what you want to ride? An enduro bike with light XC brakes fits technically but won't brake hard enough on long descents."], ak:["score"]},
+  {id:"passform", k:"kompatibilitaet kompatibilität compatibility passform einsatz balken technik charakter eignung purpose bar bars", t:["Was heißen Kompatibilität und Einsatz?", "What do compatibility and discipline mean?"],
+   a:["Der Score setzt sich aus zwei Werten zusammen. <b>Kompatibilität</b>: Passen die Teile technisch zusammen — Achsen, Freilauf, Einbaumaße, Klemmungen, Gangzahl? <b>Einsatz</b>: Passen sie zu dem, was du fahren willst? Ein Enduro-Rad mit leichten XC-Bremsen passt technisch, bremst bergab aber zu schwach.",
+     "The score is made up of two parts. <b>Compatibility</b>: do the parts fit together technically — axles, freehub, mounting sizes, clamps, number of gears? <b>Discipline</b>: do they suit what you want to ride? An enduro bike with light XC brakes fits technically but won't brake hard enough on long descents."], ak:["score"]},
   {id:"begriffe", k:"begriffe begriff fachbegriff fachbegriffe woerter wort lexikon glossar abkuerzung abkuerzungen terms glossary jargon", t:["Alle Begriffe erklärt", "All terms explained"],
    a:["Die wichtigsten Fachwörter stehen kurz erklärt in der Begriffe-Liste. Du kannst mich auch nach einzelnen Begriffen fragen, zum Beispiel „Was ist Boost?“ oder „Was heißt HSC?“.",
      "The most important technical terms are briefly explained in the terms list. You can also ask me about individual terms, e.g. “What is Boost?” or “What does HSC mean?”."], ak:["begriffe"]},
@@ -12847,7 +12852,7 @@ function suStatus(slot, x, d, it){
   if(k.off) return ["eigen", tx("Dein Wert", "Yours")];
   if(v.generisch) return ["keine", tx("Ab Mitte", "From middle")];
   if(k.art === "hebel") return ["regel", tx("Bergab offen", "Open downhill")];
-  return ["hersteller", x.fox && (k.art === "zug" || k.art === "hsr") ? tx("FOX-Richtwert", "FOX guide") : tx("App-Empfehlung", "App value")];
+  return ["hersteller", x.fox && (k.art === "zug" || k.art === "hsr") ? tx("FOX-Richtwert", "FOX guide") : tx("App-Empfehlung", "App recommendation")];
 }
 function suKarte(f, slot, x, d, it, nr){
   const id = "fwk-" + it.key.replace(/\W/g, "-"), offen = suAuf.has(id), info = SU_INFO[it.art] || SU_INFO.druck, w = suWert(slot, x, d, it), st = suStatus(slot, x, d, it);
@@ -13420,7 +13425,7 @@ function suBuchHtml(f, d){
   const erg = {besser:tx("besser", "better"), gleich:tx("gleich", "same"), schlechter:tx("schlechter", "worse")};
   const gef = {1:["👍", tx("gut", "good")], 0:["😐", tx("geht so", "okay")], "-1":["👎", tx("schlecht", "bad")]};
   const liste = d.log.map((e, i) => [e, i]).reverse(), zeig = suLogAlle ? liste : liste.slice(0, 6);
-  return `<section class="su-karte su-buch"><h3 class="su-h">${tx("Notizbuch", "Notebook")}</h3>
+  return `<section class="su-karte su-buch"><h3 class="su-h">${tx("Notizbuch", "Setup log")}</h3>
     <div class="su-neu"><label for="su-notiz" class="su-l">${tx("Wie hat es sich angefühlt?", "How did it feel?")}</label>
       <textarea id="su-notiz" rows="2" maxlength="240" placeholder="${tx("z. B. Hausrunde, vorn zu unruhig auf Wurzeln", "e.g. local loop, front end twitchy over roots")}">${esc(suNotizText)}</textarea>
       <div class="su-neu-k"><span class="su-gef" role="group" aria-label="${tx("Gefühl", "Feeling")}">${[1, 0, -1].map(g => `<button data-sufuehl="${g}" aria-pressed="${suFuehl === g}" aria-label="${gef[g][1]}"><span aria-hidden="true">${gef[g][0]}</span></button>`).join("")}</span>
@@ -13544,7 +13549,7 @@ function obInhalt(n, f, fw){
     r.html = `<div class="fw-ob-hero">${ilRad({zeig:[]})}</div>
       <p class="fw-wz-lead">${tx("Ein paar Fragen zu dir, deinem Rad und wie du fährst — rund drei Minuten. Daraus berechnet die App Luftdruck oder Federhärte, SAG, Zug- und Druckstufe: mit Herstellerdaten, wo es sie gibt, und ohne erfundene Werte, wo nicht.", "A few questions about you, your bike and how you ride — about three minutes. From that the app works out air pressure or spring rate, sag, rebound and compression: with manufacturer data where it exists, and no made-up values where it doesn't.")}</p>
       <ul class="fw-check">
-        <li>${ic(OB_I, 18)}<span>${tx("Jede Frage sagt, <b>warum</b> sie zählt.", "Every question explains <b>why</b> it matters.")}</span></li>
+        <li>${ic(OB_I, 18)}<span>${tx("Bei jeder Frage steht, <b>warum</b> sie wichtig ist.", "Every question explains <b>why</b> it matters.")}</span></li>
         <li>${ic(`<path d="M9 9a3 3 0 1 1 4 2.8c-.6.3-1 .9-1 1.6V15M12 18h0"/><circle cx="12" cy="12" r="9"/>`, 18)}<span>${tx("<b>„Weiß ich nicht“</b> geht immer — und zeigt dir, wo du es findest.", "<b>“Not sure”</b> is always an option — and shows you where to find it.")}</span></li>
         <li>${ic(`<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4z"/>`, 18)}<span>${tx("Alles lässt sich <b>später ändern</b>.", "Everything can be <b>changed later</b>.")}</span></li></ul>`;
     return r;
@@ -13815,14 +13820,14 @@ function suProHtml(){
 }
 /* Je Aufgabe genau ein Weg: SAG startet in der SAG-Karte des gewaehlten
    Federelements, die Testfahrt hier (starten oder fortsetzen), die
-   Setup-Daten unter "Deine Angaben", die Trail-Karte ist die Ausgabe zum
+   Setup-Daten unter "Deine Angaben", die Setup-Karte ist die Ausgabe zum
    Mitnehmen (Doppelungen-Pruefung 2026-10-06) */
 function suAktionen(f, d, offen){
   const laeuft = d.tr && d.tr.stand === "test";
   const tst = laeuft ? tx("Test läuft — weiter, wo du warst", "test in progress — pick up where you left off") : d.test ? tx("Knopf-Test läuft", "knob test running") : tx("eine Änderung nach der anderen", "one change at a time");
   const kach = (a, i, t, u, kl) => `<button class="fw-akt${kl ? " " + kl : ""}" ${a}><span class="fw-akt-ic">${ic(i, 20)}</span><b>${t}</b><small>${u}</small></button>`;
   return `<div class="fw-akts">${kach('data-fwtest="1"', `<path d="m4 12 4 4 12-12"/>`, laeuft ? tx("Testfahrt fortsetzen", "Continue test ride") : tx("Testfahrt starten", "Start test ride"), tst)}
-    ${kach('data-fxtrail="1"', `<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/>`, tx("Trail-Karte", "Trail card"), tx("alle Werte auf einen Blick", "all values at a glance"))}
+    ${kach('data-fxtrail="1"', `<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/>`, tx("Setup-Karte", "Setup card"), tx("alle Werte auf einen Blick", "all values at a glance"))}
     ${kach('data-fwvgl="1"', `<path d="M4 6h16M4 12h16M4 18h16M10 4v16"/>`, tx("Vergleichen", "Compare"), tx("Profile und Werte", "profiles and values"))}
     ${kach(`data-fwob="${offen ? "weiter" : "ende"}"`, `<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/>`, tx("Deine Angaben", "Your details"), offen ? tx(`${offen} offen`, `${offen} open`) : plan.fahrer + " kg · " + esc(modusKurz(fedModus)), offen ? "offen" : "")}</div>`;
 }
@@ -13956,7 +13961,7 @@ function trTxt(c){
 const fokusZurueck = q => { if(!tastaturNav) return; const b = document.querySelector(q); if(b && !b.disabled) try{ b.focus({preventScroll:true}); }catch(e){} };
 const blattOben = () => { const b = $("modal").querySelector(".sheet-b"); if(b) b.scrollTop = 0; };
 
-/* ═══ Trail-Karte: alles auf einem Bildschirm, ohne Scrollen ═══ */
+/* ═══ Setup-Karte: alles auf einem Bildschirm, ohne Scrollen ═══ */
 function oeffneTrailKarte(knopf){
   if(!(plan.fahrer > 0) || !istPro()) return;
   const f = federRechnen();
@@ -13981,7 +13986,7 @@ function oeffneTrailKarte(knopf){
   };
   el.innerHTML = `<div class="adp-scrim" data-adzu="1"><div class="adp trk" role="dialog" aria-modal="true" aria-labelledby="trk-h" tabindex="-1">
     <div class="adp-kopf"><span class="adp-i trk-i" aria-hidden="true">${ic(`<path d="M4 18 9 9l4 6 3-4 4 7z"/>`, 18)}</span>
-      <div class="adp-tt"><span class="adp-sub">${tx("Trail-Karte", "Trail card")} · ${esc(modusKurz(fedModus))}</span><h3 id="trk-h">${tx("Dein Fahrwerk", "Your suspension")}</h3></div>
+      <div class="adp-tt"><span class="adp-sub">${tx("Setup-Karte", "Setup card")} · ${esc(modusKurz(fedModus))}</span><h3 id="trk-h">${tx("Dein Fahrwerk", "Your suspension")}</h3></div>
       <button class="iconbtn adp-zu" data-adzu="1" aria-label="${tx("Schließen", "Close")}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="trk-teile">${f.gabel ? teil("gabel", f.gabel) : ""}${f.daempfer ? teil("daempfer", f.daempfer) : ""}</div>
     <p class="trk-fuss">${tx(`${plan.fahrer} kg + ${zahlDe(monturKg())} kg Ausrüstung · <b>−</b> aufdrehen, <b>+</b> zudrehen · Ausgangspunkt, kein Endwert · Tipp: Screenshot machen`, `${plan.fahrer} kg + ${monturKg()} kg gear · <b>−</b> turn out, <b>+</b> turn in · a starting point, not a final value · Tip: take a screenshot`)}</p>
@@ -14015,8 +14020,8 @@ function einkaufHtml(r){
         <span class="ek-an"><span>${esc(a.n)}</span><button class="ad-info klein" data-adinfo="${esc(a.id)}" aria-label="${tx("Warum dieser Adapter?", "Why this adapter?")}"><span aria-hidden="true">i</span></button></span></div>
       <div class="ek-r"><span class="p">${eur(a.p)}</span>${affHtml({id:"ad-" + a.id, n:a.such}, true)}</div></div>`).join("")}
     <div class="ek-knoepfe"><button class="btn ghost sm" data-ekkopie="1">${tx("Liste kopieren", "Copy list")}</button></div>
-    <p class="pv-recht">${tx(`Tippe auf einen Namen, um alle Angebote und den Preisverlauf zu sehen. Vor dem Bestellen die Maße gegen das
-      Datenblatt deines Rahmens prüfen. Wer nicht selbst schraubt: Liste kopieren und in die Werkstatt mitnehmen.`, "Tap a name for all offers and the price history. Before ordering, check the dimensions against your frame's spec sheet. If you don't do your own maintenance: copy the list and take it to the bike shop.")}
+    <p class="pv-recht">${tx(`Tippe auf einen Namen, um alle Angebote und den Preisverlauf zu sehen. Vor dem Bestellen die Maße mit dem
+      Datenblatt deines Rahmens abgleichen. Wer nicht selbst schraubt: Liste kopieren und in die Werkstatt mitnehmen.`, "Tap a name for all offers and the price history. Before ordering, check the dimensions against your frame's spec sheet. If you don't do your own maintenance: copy the list and take it to the bike shop.")}
       <span class="werbung">${tx("Anzeige", "Ad")}</span> ${tx("Kaufst du über einen Shop-Link, bekommt CrankScore eine Provision; dein Preis ändert sich nicht.", "If you buy via a shop link, CrankScore earns a commission; your price doesn't change.")}</p>`;
 }
 /* Was beim Bestellen und in der Werkstatt zaehlt: Rahmengroesse, Lenker kuerzen */
@@ -14035,7 +14040,7 @@ function einkaufText(){
   }).filter(Boolean);
   for(const a of r.adapter || []) z.push(`${tx("Adapter", "Adapter")}${a.pos ? " " + a.pos : ""}: ${a.n} (${a.rechnung}) — ${eur(a.p)}`);
   const l = build.lenker ? findeTeil("lenker", build.lenker) : null;
-  const fit = !f ? [] : ["", tx(`Für den Fahrer (${f.h} cm, Schritt ${f.schritt} cm):`, `For the rider (${f.h} cm, inseam ${f.schritt} cm):`), tx(`Rahmengröße ${f.groesse}`, `Frame size ${f.groesse}`)]
+  const fit = !f ? [] : ["", tx(`Für den Fahrer (${f.h} cm, Schrittlänge ${f.schritt} cm):`, `For the rider (${f.h} cm, inseam ${f.schritt} cm):`), tx(`Rahmengröße ${f.groesse}`, `Frame size ${f.groesse}`)]
     .concat(l && l.breite > f.lenker + 5 ? [tx(`Lenker auf ${f.lenker} mm kürzen`, `Cut bar to ${f.lenker} mm`)] : [],
       f.sattelTief ? [] : [tx(`Sattelhöhe ${f.sattel} mm (Tretlagermitte bis Satteloberkante)`, `Saddle height ${f.sattel} mm (bottom bracket centre to top of saddle)`)]);
   return [`CrankScore · ${p ? profilName(p, modus) : MODUS_NAME[modus]} · ${selNamen()}`, ""].concat(z,
@@ -14082,7 +14087,7 @@ function adZeile(a){
   return `<div class="ad-zeile">
     <span class="ad-ic" aria-hidden="true">${ic(AD_SVG, 16)}</span>
     <span class="ad-t"><span class="ad-k">${art}${a.pos ? " · " + esc(a.pos) : ""}</span><b>${esc(a.n)}</b><span class="ad-r">${esc(a.kurz)}</span></span>
-    <span class="ad-p">${eur(a.p)}<small>${a.g} g</small></span>
+    <span class="ad-p">${eur(a.p)}<small>${gramm(a.g)}</small></span>
     <button class="ad-info" data-adinfo="${esc(a.id)}" aria-label="${warum}: ${esc(a.n)}" title="${warum}"><span aria-hidden="true">i</span></button>
     ${modus === "traum" ? adTauschKnopf(a) : ""}
   </div>`;
@@ -14245,7 +14250,7 @@ function oeffneAdapterInfo(id, knopf){
     ${adGrafik(a)}
     <p class="adp-txt">${a.grund}</p>
     ${a.detail ? `<p class="adp-det">${a.detail}</p>` : ""}
-    <div class="adp-fakt"><span><b>${eur(a.p)}</b>${tx("Richtpreis", "typical price")}</span><span><b>${a.g} g</b>${tx("Gewicht", "weight")}</span>
+    <div class="adp-fakt"><span><b>${eur(a.p)}</b>${tx("Richtpreis", "typical price")}</span><span><b>${gramm(a.g)}</b>${tx("Gewicht", "weight")}</span>
       <span class="adp-auto">${ic(`<path d="M20 6 9 17l-5-5"/>`, 14)}${modus === "traum" ? tx("automatisch in Preis, Gewicht und Einkaufsliste", "automatically in price, weight and shopping list")
         : tx("in Preis und Gewicht eingerechnet", "counted in price and weight")}</span></div>
     ${adTauschKnopf(a, true)}
@@ -14420,7 +14425,7 @@ function vorschlaegeZeichnen(){
     + (u.upgrades.length ? kopf(tx("Echte Upgrades — besser als dein Teil", "Real upgrades — better than your part")) + u.upgrades.map(v => `
       <div class="up">
         <div><div class="up-n">${esc(v.teil.n)}</div>${statt(v)}
-          <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div></div>
+          <div class="up-s">${v.slot.label} · ${v.mehr > 0 ? "+" : v.mehr < 0 ? "−" : "±"}${eur(Math.abs(v.mehr))} · ${v.gd > 0 ? "+" : v.gd < 0 ? "−" : "±"}${gramm(Math.abs(v.gd))}</div></div>
         <div class="up-r"><span class="delta">+${v.d} ${v.d === 1 ? tx("Punkt", "point") : tx("Punkte", "points")}</span>
           <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">${wort("einbauenKurz")}</button>
           <button class="up-nein" data-upnein="${v.slot.k}">${tx("Ablehnen", "Dismiss")}</button></div>
@@ -14433,7 +14438,7 @@ function vorschlaegeZeichnen(){
   const gesamtSpar = spar.reduce((a, x) => a + x.spart, 0);
   $("sparen").innerHTML = spar.length
     ? `<div class="sparkasten"><b>${tx(`Hier kannst du ${eur(gesamtSpar)} sparen.`, `You can save ${eur(gesamtSpar)} here.`)}</b>
-        <p>${tx("Gleiche Maße, gleiche Passform — nur günstiger. Abweichungen stehen bei jedem Vorschlag dabei.", "Same dimensions, same fit — just cheaper. Differences are listed with each suggestion.")}</p></div>`
+        <p>${tx("Gleiche Maße, passt genauso — nur günstiger. Abweichungen stehen bei jedem Vorschlag dabei.", "Same dimensions, fits just the same — only cheaper. Differences are listed with each suggestion.")}</p></div>`
       + spar.map(v => `<div class="spar">
           <div>
             <div class="spar-n">${esc(v.teil.n)}</div>
@@ -14511,7 +14516,7 @@ function zeichne(){
 
   const leer = r.teile === 0;
   /* Drei Ringe: Umfang 2 * pi * 42 = 263,9. Die Wertung faerbt nach Ampel,
-     Passform und Einsatz behalten ihre eigene Farbe. */
+     Kompatibilitaet und Einsatz behalten ihre eigene Farbe. */
   const ringSetzen = (id, v) => { $(id).style.strokeDashoffset = String(263.9 * (leer ? 1 : 1 - v / 100)); };
   ringSetzen("ring", r.gesamt); ringSetzen("ring-tech", r.tech); ringSetzen("ring-char", r.chara);
   document.querySelector(".bar-in").style.setProperty("--wert-farbe", leer ? "var(--ink-3)" : ampel(r.gesamt));
@@ -14800,7 +14805,7 @@ function zeichne(){
 /* Kachelpreis: mit Rabatt-Plakette, wenn ein Shop das Teil gerade reduziert hat */
 function kachelPreis(t){
   const a = bestesAngebot(t), r = (a && jahrFaktor(t) === 1) ? rabatt(a) : 0;
-  return `<span class="p${a ? " live" : ""}">${a && jahrFaktor(t) === 1 ? eurG(a.p) : eur(preisVon(t))}</span>${r >= 5 ? `<span class="sale-mini">−${r} %</span>` : ""}<span class="g">${t.ersatz ? tx("ersetzt die verbauten Lager", "replaces the fitted bearings") : t.g + " g"}</span>`;
+  return `<span class="p${a ? " live" : ""}">${a && jahrFaktor(t) === 1 ? eurG(a.p) : eur(preisVon(t))}</span>${r >= 5 ? `<span class="sale-mini">−${r} %</span>` : ""}<span class="g">${t.ersatz ? tx("ersetzt die verbauten Lager", "replaces the fitted bearings") : gramm(t.g)}</span>`;
 }
 /* ═══════════ Deals ═══════════
    Was gerade reduziert ist -- zuerst dein verbautes Teil, dann was in den
@@ -15124,7 +15129,7 @@ function oeffneSlot(slotKey){
           <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}${t.seit ? `<span class="chip">${tx("seit", "since")} ${t.seit}</span>` : ""}</div>${wahlZeile(t)}</div>
         <div class="opt-r"><span class="opt-p${a && !jf ? " livepreis" : ""}">${a && !jf ? (lst.filter(x => x.a !== 0).length > 1 ? `<small>${tx("ab", "from")}</small> ` : "") + eurG(a.p) : eur(pJetzt)}</span>
           ${preisZusatz(t)}
-          ${jf ? `<span class="opt-g"><s>${eur(pNeu)}</s> ${tx("neu", "new")}</span>` : ""}<span class="opt-g">${t.ersatz ? tx("ersetzt die verbauten Lager", "replaces the fitted bearings") : t.g + " g"}</span>
+          ${jf ? `<span class="opt-g"><s>${eur(pNeu)}</s> ${tx("neu", "new")}</span>` : ""}<span class="opt-g">${t.ersatz ? tx("ersetzt die verbauten Lager", "replaces the fitted bearings") : gramm(t.g)}</span>
           <button class="btn ghost sm" data-detail="${slotKey}|${t.id}">${tx("Ansehen", "View")}</button>
           ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">${wort("einbauenKurz")}</button>`}</div>
         ${gruende}
