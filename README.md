@@ -332,9 +332,9 @@ wird bei Knöpfen mit vielen Klicks nie empfohlen): Flowtrails und zügiges
 Tempo machen die LSC fester, ruppiges Gelände die HSC offener, Sprünge und
 Bikepark die HSC fester, das gewünschte Gefühl beides. Die Grundeinstellung
 des Herstellers gilt also für einen ruhigen Tourenfahrer.
-Unter Setup → *Alle Rechenwerte & Herstellerinfos* zeigt jede Karte eine Vergleichstabelle aller drei Modi (Luft, Sag, jeder
-verstellbare Knopf, Zugstufe; Tippen auf einen Spaltenkopf wechselt den Modus)
-und darunter zu jedem Knopf des gewählten Modus eine Kachel mit Strich-Skala
+Unter Setup › *Alle berechneten Werte und Herstellerangaben* zeigt jede Karte eine Vergleichstabelle aller drei Profile (Luft, Sag, jeder
+verstellbare Knopf, Zugstufe; Tippen auf einen Spaltenkopf wechselt das Profil)
+und darunter zu jedem Knopf des gewählten Profils eine Kachel mit Strich-Skala
 (ein Strich je Klick oder Stufe, langer Strich = Grundeinstellung). Dazu der
 Link zur offiziellen Hersteller-Anleitung und optional das eigene Top-Cap-Foto
 mit markierten Knöpfen.
@@ -485,7 +485,7 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
 - Schlüssel der Logik (Disziplinen, Maßnamen wie „Federweg“, Themen,
   Knopfnamen im Federungsrechner) bleiben deutsch; übersetzt wird nur, was
   angezeigt wird (`dimName()`, `stdName()`). Teilenamen mitten im englischen
-  Satz schreibt `imSatz()` klein („Still open: frame, fork …“).
+  Satz schreibt `imSatz()` klein („Still missing: frame, fork …“).
 - Marken und Modellnamen bleiben, wie der Hersteller sie schreibt — auch
   Ausstattungslinien wie Performance Elite oder Ultimate.
 - Text in der anderen Sprache (deutscher Videotitel im englischen Text,
@@ -530,7 +530,12 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
 | Einbauen | Add to build (kurz: Add) |
 | Einkaufsliste | Shopping list |
 | Gabel · Dämpfer | fork · shock |
-| Federweg · Hub (Dämpfer / Variostütze) | travel · stroke / drop |
+| Federweg (wie weit Vorder- und Hinterrad einfedern) · Hub (Dämpfer / Variostütze) | travel · stroke / drop |
+| Variostütze (nicht „Dropper“) | dropper post |
+| Token / Volumen-Spacer | token / volume spacer |
+| Kletterhebel / Lockout | climb switch / lockout |
+| Low-Speed-Druckstufe (LSC) · Low-Speed-Zugstufe (LSR) | low-speed compression · low-speed rebound |
+| Mittelstrich (auf dem Knopf) | centre mark |
 | SAG (Negativfederweg) | sag |
 | Zugstufe · Druckstufe (auch High-Speed-Zugstufe; „Rebound“ nur als Erklärung in Klammern) | rebound · compression |
 | Grundeinstellung | baseline (base setting) |
@@ -542,11 +547,20 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
 | O-Ring (beim SAG einmal als Gummiring erklärt) | O-ring |
 | Bremssattel (bei Bremsen nie nur „Sattel“) | caliper |
 | Cross-Country · Downhill pur · Sprünge pur | Cross-country · Pure downhill · Pure jumps |
-| Angebot (Gebrauchtrad) · verlangter Preis | listing · asking price |
+| Setup-Profil (Downhill / Allround / Sprünge) · Angaben zum Fahrstil · Fahrerprofil (Gewicht, Maße) · Modus (Traumrad / Mein Rad / Gebrauchtrad) | setup profile · riding-style answers · rider profile · mode |
+| Bauziel | build plan |
+| Größenberatung („Deine Größe“) | sizing advice („Your sizing“) |
+| Hersteller | manufacturer (nicht „maker“) |
+| optional (nicht „freiwillig“) · Noch offen | optional · Still missing |
+| Angebot bzw. Inserat (Gebrauchtrad) · verlangter Preis | listing · asking price |
 | Werkstatt (Schrauben, Reparatur) | repairs; der Laden: bike shop |
 
 **Schreibweisen**
 
+- Achsen immer Breite×Achse (`110×15`, `148×12`, `100×15`), nie umgekehrt.
+- Dezimalzahlen im Deutschen mit Komma, auch in Maßen (`205×62,5`, „Grip 3,5/5“);
+  ausgenommen ist, was so auf dem Teil steht (Federhärte „450 × 2.80“).
+- Menüpfade mit ›: „⋮ › App › Nach Update suchen“, „Einstellungen › Fahrerprofil“.
 - Maße ohne Leerzeichen um das ×: `148×12`, `210×55`, `29×2.40`. Als Teil eines
   Wortes mit Bindestrichen: 30-mm-Welle, 157er-Hinterbau (`mmBind()` macht aus
   „30 mm“ im Text „30-mm“).
