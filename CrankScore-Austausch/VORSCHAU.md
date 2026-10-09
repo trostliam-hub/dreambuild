@@ -1,4 +1,31 @@
-# Vorschau: Stahlblau und Score-Ringe mit Logo (APP-DESIGN-002)
+# Vorschau: Logo raus aus dem Score, Stahlblau heller (APP-DESIGN-003)
+
+Liams Korrektur zu APP-DESIGN-002. Claude legt diese Seite nach jeder Aufgabe neu in den Austauschordner; die Bilder liegen daneben in `belege/`.
+
+- **Stand:** 09.10.2026, 22:05 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `8ff3702`.
+- **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-DESIGN-003). Die Vorschau zu APP-DESIGN-002 steht weiter unten.
+
+## Score-Karte vorher und nachher
+
+![Score-Karte am Handy](belege/APP-DESIGN-003/score-handy.jpg)
+
+![Seitenspalte Desktop](belege/APP-DESIGN-003/score-desktop.jpg)
+
+## Smartphone und Desktop
+
+![Handy hell](belege/APP-DESIGN-003/vorher-nachher-handy-hell.jpg)
+
+![Handy dunkel](belege/APP-DESIGN-003/vorher-nachher-handy-dunkel.jpg)
+
+![Desktop hell](belege/APP-DESIGN-003/vorher-nachher-desktop-hell.jpg)
+
+![Desktop dunkel](belege/APP-DESIGN-003/vorher-nachher-desktop-dunkel.jpg)
+
+![Startseite und Guide](belege/APP-DESIGN-003/startseite-guide.jpg)
+
+---
+
+## Vorschau APP-DESIGN-002: Stahlblau und Score-Ringe mit Logo
 
 Fertiger Stand zum Ansehen. Claude legt diese Seite nach jeder Aufgabe neu in den
 Austauschordner. Die Bilder liegen daneben in `belege/`, damit die Seite auch im

@@ -1998,3 +1998,65 @@ Alle Prüfungen in Chromium (Playwright), am Code-Stand `77b9c3d`, soweit nicht 
 - **Visuell auf einem echten iPhone geprüft:** nein. Dafür ist Teil B von APP-DESIGN-002-N1 jetzt frei.
 
 - **Veröffentlichung:** JA, Nachweis siehe oben.
+
+---
+
+## APP-DESIGN-003 — Logo raus aus dem Score, Stahlblau heller mit leichtem Leuchten (Liams Korrektur vom 09.10.2026)
+- **Bezug:** APP-DESIGN-002 (live als 20261009-2131). Liam im Chat: „das mit dem logo auf dem score passt nicht kannst du den weg machen und wieder das machen wie davor und die farbe heller und ein bisschen leuchtend machen“.
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 09.10.2026, 22:05 Uhr (Europe/Berlin)
+- **Status:** FERTIG PROGRAMMIERT und GETESTET (Chromium). **Nicht veröffentlicht.**
+- **Stand:** Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `8ff3702` (ein Commit ab `2c77350`). Live bleibt Version 20261009-2131 (`main` `2c77350`); die Vorher-Bilder zeigen genau diesen Stand.
+- **Keine Änderung** an Kompatibilitätsregeln, Preisen, Pro-Regeln, Herstellerwerten oder gespeicherten Daten.
+
+### Was geändert ist
+- **Logo raus aus dem Score:** Im Gesamtring steht wieder nur die große Zahl, wie vor APP-DESIGN-002 — jetzt größer (52–64 px statt 42–52 px), weil der Platz frei ist.
+  - „Gesamtscore“ bleibt als Unterzeile unter dem Ring; Kompatibilität und Einsatz bleiben darunter, die Statushinweise auch.
+  - Auf der Startseite ist das Logo ebenfalls aus der Score-Vorschau verschwunden.
+  - Im Schriftzug (App-Kopf ab 400 px, Startseite) bleibt das Logo. Das war nicht Teil der Bitte; ich nehme es auf Zuruf auch dort heraus.
+- **Farbe heller und frischer:**
+
+| | vorher (live) | jetzt |
+|---|---|---|
+| Hell: Schrift, Links, Auswahl | `#2f5a80` | `#2563a8` (6,1:1 auf Weiß) |
+| Hell: Knöpfe | `#2f5a80` | `#2563a8` (weiße Schrift 6,1:1) |
+| Hell: Gesamtring | `#33608a` | `#3a80cc` |
+| Dunkel: Schrift, Links, Auswahl | `#8fb3d6` | `#8ec2f7` (11:1 auf Schwarz) |
+| Dunkel: Knöpfe | `#36608a` | `#2f6db0` (weiße Schrift 5,3:1) |
+| Dunkel: Gesamtring | `#7fa8d1` | `#6fb2f5` |
+
+- **Leichtes Leuchten:** Der Gesamtring hat einen weichen Schein in seiner eigenen Farbe (dunkel kräftiger, hell zurückhaltend), ebenso der große Ring in der Startseiten-Vorschau.
+  - Keine Farbwolke hinter der Karte, keine Verläufe. Die kleinen Ringe bleiben ruhig.
+  - Das Leuchten steht an einer Stelle (`--ring-schein`) und lässt sich dort stärker oder schwächer stellen.
+- Orange bleibt Warnung, Rot Konflikt, Grün passt.
+
+### Vorher und nachher (`belege/APP-DESIGN-003/`)
+| Tafel | Inhalt |
+|---|---|
+| `score-handy.jpg` | Score-Karte nah: mit Konflikten/Budget und „alles passt“, hell und dunkel |
+| `score-desktop.jpg` | Desktop-Seitenspalte |
+| `vorher-nachher-handy-hell.jpg`, `-dunkel.jpg` | Handy 390 px: Aufbau, Prüfung, Fahrwerk, Upgrades, Einkauf |
+| `vorher-nachher-desktop-hell.jpg`, `-dunkel.jpg` | Desktop 1280 px: Aufbau, Fahrwerk, Upgrades |
+| `startseite-guide.jpg` | Startseite mit Score-Vorschau, Guide hell und dunkel |
+
+### Geprüft
+Alle Prüfungen in Chromium (Playwright), am Code-Stand `8ff3702`:
+- **npm test** (Revision `8ff3702`): alle Tests bestanden.
+  - Kompatibilität 199/199
+  - Setup 16/16
+  - Wege 36/36
+  - Sprache 0 Funde in 9.324 Texten
+- **Kontrast:** 0 Unterschreitungen in 1.590 Texten (neun Ansichten, Handy und Desktop, hell und dunkel).
+- **Zahl im Ring:** Bei 280 px liegt selbst „100“ mit Abstand innerhalb des Rings: Ecken 46 px vom Mittelpunkt, Innenrand 61 px. Auf dem Desktop sind es 57 zu 70 px.
+- **Überstand:** 0 Elemente (280 und 320 px, Deutsch und Englisch).
+- **Animationen:** 100 von 102. Die zwei Abweichungen sind wie bisher nur der emulierte alte Safari ohne View Transitions.
+- **Handy-Audit** (sieben Geräte von 320 px bis Querformat):
+  - Deutsch dunkel: 0 Funde, 0 Konsolenfehler
+  - Englisch hell: 0 Funde, 0 Konsolenfehler
+
+### Offen
+- **Echtes iPhone und Safari:** nicht geprüft. Besonders ansehen: der Schein am Ring (`filter: drop-shadow` auf dem SVG).
+- **Liams Urteil:** Helligkeit und Stärke des Leuchtens lassen sich an `--anod`, `--akzent-flaeche`, `--ring-gesamt` und `--ring-schein` nachstellen.
+- **Freigabe liegt vor:** Liam im Chat: „bitte auf deutsch bleiben und wenn du fertig bist kannste veröffentlichen“. Die Veröffentlichung folgt direkt nach diesem Eintrag; Nachweis im Nachtrag.
+
+- **Veröffentlichung:** NEIN.
