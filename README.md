@@ -119,6 +119,9 @@ Charakter, hochwertig und professionell, ruhig, aber nicht eintönig.
 - *Teilekarte:* das gerenderte Beispielrad im Aufbau, an jeder Teilegruppe ein
   Punkt mit Status (✓/!/✕ plus Farbe); ein Tipp springt zur Gruppe. Klar als
   Beispielrad beschriftet.
+  *Seit APP-DESIGN-004 (10.10.2026) entfernt:* Nicht jedes Rad sieht so aus, und
+  in Mein Rad stand das Beispielrad über dem eigenen Foto. Den Stand je Gruppe
+  zeigen die Sprungleiste und die Statushinweise am Score.
 - Logo auch im Schriftzug (im App-Kopf erst ab 400 px Breite) und auf der
   Startseite; die Score-Vorschau dort zeigt dieselbe Hierarchie.
 

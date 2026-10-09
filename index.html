@@ -2976,31 +2976,6 @@ button.st::after{content:"›";margin-left:1px;font-weight:800;opacity:.75}
 .fw-ki.ring{background:var(--akzent-flaeche)}
 .ls-coach em{background:#2563a8}
 
-/* ── Teilekarte: das Rad als Wegweiser zu den Teilen ── */
-.teilekarte{padding:14px 14px 12px}
-body:not([data-view="aufbau"]) .teilekarte{display:none}
-.tk-flaeche{position:relative;border-radius:16px;background:#e3e9ef;overflow:hidden;aspect-ratio:1200/700;display:grid;place-items:center}
-:root:not([data-theme="light"]) .tk-flaeche{background:#0b0c0e}
-.tk-rad{width:94%;height:auto;display:block;margin-top:2%}
-.tk-pkt{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;display:grid;place-items:center;border-radius:50%;transform:translate(3%,4%)}
-.tk-pkt i{width:16px;height:16px;border-radius:50%;background:var(--akzent-flaeche);border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.35);display:grid;place-items:center}
-.tk-pkt.fertig i{background:#0f7653}
-.tk-pkt.achtung i{background:#c2610c}
-.tk-pkt.stoerung i{background:#c42a52}
-/* Zeichen im Punkt wechselt ohne Uebergang -- sonst blendet "Bewegung
-   reduzieren" (1 ms fuer alles) auch Schriftgroesse und Zeilenhoehe ueber */
-.tk-pkt i::after{content:"";width:6px;height:6px;border-radius:50%;background:#fff;transition-property:none}
-.tk-pkt.fertig i::after{content:"✓";width:auto;height:auto;background:none;color:#fff;font:800 9px/1 var(--f-sans)}
-.tk-pkt.achtung i::after{content:"!";width:auto;height:auto;background:none;color:#fff;font:800 10px/1 var(--f-sans)}
-.tk-pkt.stoerung i::after{content:"✕";width:auto;height:auto;background:none;color:#fff;font:800 9px/1 var(--f-sans)}
-@media (hover:hover){.tk-pkt:hover i{transform:scale(1.12)}}
-.tk-pkt i{transition:transform var(--t-kurz) var(--e-aus)}
-.tk-legende{margin:10px 2px 0;font-size:12.5px;color:var(--ink-2);line-height:1.45;display:flex;flex-direction:column;gap:4px}
-.tk-zeichen{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;color:var(--ink-3);font-size:12px}
-.tk-zeichen i{width:10px;height:10px;border-radius:50%;display:inline-block;margin-left:4px}
-.tk-zeichen i:first-child{margin-left:0}
-.tk-zeichen i.fertig{background:var(--gut)} .tk-zeichen i.achtung{background:var(--warn)} .tk-zeichen i.stoerung{background:var(--bad)}
-.tk-bsp{font-size:11.5px;color:var(--ink-3)}
 @media (min-width:820px){.seite{max-height:calc(100dvh - var(--kopf-h) - var(--nav-h) - 32px);overflow-y:auto;scrollbar-width:thin}
   body[data-view="aufbau"] .seite{max-height:calc(100dvh - var(--kopf-h) - var(--nav-h) - 82px)}}
 @media (min-width:820px) and (max-height:700px){.seite,body[data-view="aufbau"] .seite{max-height:none;overflow:visible}}
@@ -3106,7 +3081,7 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
 .filterzeile .treffer:empty{display:none}
 .filt button span,.marken button span{font-family:var(--f-zahl);font-weight:700;color:var(--ink-3);margin-left:3px}
 .filt button[aria-pressed="true"] span{color:inherit}
-/* Teilekarte im Blatt: Name und Preis oben, Masse darunter, Knoepfe nebeneinander */
+/* Option im Teileblatt: Name und Preis oben, Masse darunter, Knoepfe nebeneinander */
 .opt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding:14px;border-radius:var(--r)}
 .opt-r{display:grid;grid-template-columns:auto;justify-items:end;align-content:start;gap:2px}
 .opt .opt-akt{grid-column:1 / -1;display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px}
@@ -3301,26 +3276,9 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
       <button class="wie" data-scorehilfe="1" data-t="Was bedeuten die Zahlen?|What do the numbers mean?">Was bedeuten die Zahlen?</button>
     </div>
   </div>
-  <!-- Teilekarte (APP-DESIGN-002): das gerenderte Beispielrad, an jedem Bauteil
-       ein Punkt mit dem Stand der Gruppe; Tippen springt zur Teilegruppe -->
-  <section class="card teilekarte" id="teilekarte" aria-label="Teilekarte" data-ta="Teilekarte|Parts map">
-    <div class="tk-flaeche">
-      <img class="tk-rad" src="bilder/beispielrad-seite-640.webp" srcset="bilder/beispielrad-seite-640.webp 640w, bilder/beispielrad-seite-1200.webp 1200w"
-        sizes="(min-width:820px) 300px, 92vw" width="1200" height="654" decoding="async" loading="lazy" alt="Beispielrad in Seitenansicht" data-ta="Beispielrad in Seitenansicht|Example bike, side view">
-      <button class="tk-pkt" data-zugruppe="Sitz" style="left:33.3%;top:5.2%"><i></i></button>
-      <button class="tk-pkt" data-zugruppe="Cockpit" style="left:63.3%;top:7.6%"><i></i></button>
-      <button class="tk-pkt" data-zugruppe="Rahmen" style="left:51.7%;top:26.8%"><i></i></button>
-      <button class="tk-pkt" data-zugruppe="Fahrwerk" style="left:74.6%;top:50.5%"><i></i></button>
-      <button class="tk-pkt" data-zugruppe="Reifen" style="left:19.2%;top:40.5%"><i></i></button>
-      <button class="tk-pkt" data-zugruppe="Antrieb" style="left:18.8%;top:68.8%"><i></i></button>
-      <button class="tk-pkt" data-zugruppe="Bremsen" style="left:84.0%;top:62.7%"><i></i></button>
-      <button class="tk-pkt" data-zugruppe="Kontakt" style="left:46.7%;top:78.9%"><i></i></button>
-      <button class="tk-pkt" data-zugruppe="Laufräder" style="left:10.8%;top:79.5%"><i></i></button>
-    </div>
-    <p class="tk-legende"><span data-t="Tippe auf ein Bauteil, um zu seiner Gruppe zu springen.|Tap a part to jump to its group.">Tippe auf ein Bauteil, um zu seiner Gruppe zu springen.</span>
-      <span class="tk-zeichen"><i class="fertig"></i><span data-t="passt|fits">passt</span> <i class="achtung"></i><span data-t="Kompromiss|compromise">Kompromiss</span> <i class="stoerung"></i><span data-t="Konflikt|conflict">Konflikt</span></span>
-      <span class="tk-bsp" data-t="Abbildung: Beispielrad, nicht dein Modell.|Picture: example bike, not your model.">Abbildung: Beispielrad, nicht dein Modell.</span></p>
-  </section>
+  <!-- Die Teilekarte mit dem Beispielrad (APP-DESIGN-002) ist entfernt (Liam 2026-10-10):
+       nicht jedes Rad sieht so aus, und in Mein Rad stand sie ueber dem eigenen Foto.
+       Den Stand je Teilegruppe zeigen die Sprungleiste und die Statushinweise am Score. -->
   </aside>
   <div id="aufbau"></div>
   <div class="panel" id="panel">
@@ -15479,13 +15437,6 @@ function zeichne(){
   const sprung = `<nav class="sprung" aria-label="${tx("Zu den Teilegruppen", "Jump to part groups")}">${GRUPPEN.filter(g => g.n in gStand).map(g =>
     `<button class="${gStand[g.n]}" data-zugruppe="${esc(g.n)}"${gStand[g.n] === "stoerung" ? ` aria-label="${esc(g.name + tx(" – Konflikt", " – conflict"))}"` : gStand[g.n] === "achtung" ? ` aria-label="${esc(g.name + tx(" – Kompromiss", " – compromise"))}"` : ""}><i class="pkt"></i>${esc(g.name)}</button>`).join("")}</nav>`;
   $("sprung").innerHTML = sprung;
-  /* Teilekarte: Punkt je Gruppe mit Stand; Gruppen ohne Teile am Rahmen verschwinden */
-  Array.prototype.forEach.call(document.querySelectorAll("#teilekarte .tk-pkt"), b => {
-    const n = b.dataset.zugruppe, g = GRUPPEN.find(x => x.n === n), da = n in gStand, st = gStand[n] || "";
-    b.hidden = !da; b.className = "tk-pkt" + (st ? " " + st : "");
-    b.setAttribute("aria-label", g.name + (st === "stoerung" ? tx(" – Konflikt", " – conflict") : st === "achtung" ? tx(" – Kompromiss", " – compromise") : st === "fertig" ? tx(" – passt", " – fits") : tx(" – noch offen", " – not complete")));
-    b.title = g.name;
-  });
   $("aufbau").innerHTML = diszHinweis() + fitAnpassKasten() + marktkarte + fotokarte + (leitAus ? leerHinweis : "") + GRUPPEN.map((g, gi) => {
     /* Optionale Lager zaehlen nur mit, wenn sie eingetragen sind */
     const meine = SLOTS.filter(s => s.grp === g.n && zaehlt(build, s));
