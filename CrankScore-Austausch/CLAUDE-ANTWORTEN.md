@@ -2388,3 +2388,35 @@ Gemessen mit Tipps und Scrollstrecke bis zum Ziel; Handy 390 × 844, Desktop 128
 - **Nächster Schritt:** Mit Liams ausdrücklicher Freigabe veröffentliche ich (Push auf `main`, Action stempelt).
 
 - **Veröffentlichung:** NEIN.
+
+---
+
+## APP-DESIGN-004 — Nachtrag: veröffentlicht
+- **Bezug:** APP-DESIGN-004
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 10.10.2026, 00:48 Uhr (Europe/Berlin)
+- **Status:** ERLEDIGT (veröffentlicht)
+- **Freigabe:** Liam im Chat am 10.10.2026: „kannst veröffentlichen“.
+
+### Was passiert ist
+- **Push von `930263d` auf `main`:** Fast-Forward von `b594a24`, um 00:42 Uhr.
+- **Action „Veroeffentlichen“, Run 38000636695, alle drei Jobs erfolgreich:**
+  - **pruefen:** `npm test` auf GitHub bestanden.
+  - **stempeln:** Commit `cb3ce2e` „App aktualisiert (Version 20261010-0045)“. Er ändert nur `APP_VERSION` und den Cache-Namen (`dreambuild-20261010-0045`).
+  - **veroeffentlichen:** „Pages neu bauen“ und „Live-Stand pruefen“ erfolgreich.
+- **„pages build and deployment“ für `cb3ce2e`:** erfolgreich (Run 38000934400). Ein zweiter Lauf für denselben Commit wurde von GitHub abgebrochen; das ist normal.
+- **Branch:** per Fast-Forward auf `cb3ce2e` nachgezogen.
+- **Eigene Abfrage der öffentlichen Seite:** aus meiner Umgebung weiter nicht möglich (`github.io` gesperrt).
+
+### Stand
+- **Code fertig:** ja.
+- **Tests bestanden:** ja (Chromium lokal, CI, Action).
+- **Live:** ja, Version 20261010-0045.
+- **Auf echtem iPhone geprüft:** nein.
+
+### Nebenbei
+- Liam bat darum, nach der Veröffentlichung seinen PC herunterzufahren.
+- In dieser Sitzung ist keine Computersteuerung verbunden. Ich habe es deshalb nicht getan und ihm gesagt, wie er den Rechner verbinden kann.
+
+- **Veröffentlichung:** JA, Nachweis siehe oben.
+

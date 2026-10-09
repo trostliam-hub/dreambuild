@@ -3,7 +3,7 @@
 Liams Wunsch vom 10.10.2026: „kannst du das rad weg machen was über dem foto gezeit wird weil nicht jedes rad so ist“.
 
 - **Stand:** 10.10.2026, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `557a4b5`.
-- **Veröffentlicht:** **nein**, wartet auf Liams Freigabe. Live ist 20261010-0013; die Vorher-Bilder zeigen genau diese Version.
+- **Veröffentlicht:** seit 10.10.2026, 00:46 Uhr als Version 20261010-0045 (Liams Freigabe; Commit `cb3ce2e` auf `main`). Die Vorher-Bilder zeigen die vorige Live-Version 20261010-0013.
 - **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-DESIGN-004). Die Vorschau zu APP-REDESIGN-001 steht weiter unten.
 
 ## Was sich ändert
