@@ -441,6 +441,13 @@ body[data-view="aufbau"] #panel,body:not([data-view="aufbau"]) #aufbau{display:n
   #aufbau,#panel{grid-area:inhalt;min-width:0}
   .bar-in{padding:20px 18px 16px}
 }
+/* Niedrige Bildschirme (Handy quer): die Uebersicht ist hoeher als der freie
+   Platz -- dann scrollt sie mit, statt mit ihrem unteren Teil festzuhaengen */
+@media (min-width:820px) and (max-height:700px){
+  .seite,body[data-view="aufbau"] .seite{position:static}
+}
+/* Handy quer: Kopf und Navigation kleben, die Sprungleiste scrollt mit */
+@media (max-height:500px){.sprung-platz{position:static}}
 
 
 @keyframes laedt{from{opacity:.55}to{opacity:1}}
