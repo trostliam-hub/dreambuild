@@ -1619,3 +1619,143 @@ Neu: `beide-seiten-schriftzug.png`.
 - `belege/APP-3D-001/rad-seite.jpg` und `rad-dreiviertel.jpg`: kleine Fassungen der Renderings für die Vorschau.
 
 - **Veröffentlichung:** NEIN.
+
+---
+
+## APP-UX-001 — Eigene Gestalt und kurze Wege (Liams Auftrag vom 09.10.2026)
+- **Bezug:** Liams Auftrag im Chat: Design und Bedienung überarbeiten — eigenständig, hochwertig, menschlich; Aufbau, Prüfung, Fahrwerk, Upgrades und Einkaufsliste direkt erreichbar; sechs Abläufe vorher und nachher vergleichen.
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 09.10.2026, 16:40 Uhr (Europe/Berlin)
+- **Status:** FERTIG PROGRAMMIERT und GETESTET (Chromium-Emulation). **Nicht veröffentlicht.**
+- **Stand:** Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `b7751b8` (sechs Commits ab `ded53c4`). `main` und die Live-Version bleiben `20261009-1047` (die App unter der Testadresse zeigt den neuen Stand erst nach Liams Freigabe).
+- **Keine Änderung** an Kompatibilitätsregeln, Preisen, Pro-Regeln, Herstellerwerten oder gespeicherten Daten. Alle Rechnungen sind unverändert (199 Kompatibilitätsfälle bestehen).
+
+### Was ich zuerst geprüft habe (Ist-Zustand)
+- **Handy:** Die große Score-Karte (rund 400 px) stand über *jedem* Reiter. In Prüfung, Upgrades und Kaufen sah man oben zuerst wieder den Score, vom eigentlichen Inhalt nur den Anfang (Einkaufsliste: eine Zeile).
+- **Desktop:** keine Navigation. Prüfung, Gerade reduziert, Upgrades, Günstiger und Einkaufsliste standen untereinander in der Seitenleiste; der Knopf zur Einkaufsliste lag rund 3.800 px tief. Zum Fahrwerk führte nur ein Knopf „Setup“ im Kopf.
+- **Namen:** „Kaufen“ und „Setup“ statt Einkaufsliste und Fahrwerk.
+- **Teil finden:** Die Teile beginnen am Handy erst unter Aufgabenkarte und Score; bis „Reifen hinten“ rund 1.700 px Scrollen.
+- **Upgrade vergleichen:** gab es nicht. Nur Name, Aufpreis und Punkte; Daten des neuen Teils nur über einen Umweg (zurück in den Aufbau, Teil suchen, Suchbegriff tippen, Ansehen) — und dann ohne das verbaute Teil daneben.
+- **Teileblatt:** Aus „Ansehen“ führte kein Weg zurück in die Liste; Schließen verwarf Suche, Filter und Scrollstand.
+- **Rad wechseln:** Die Radknöpfe stehen nur oben. Weit unten im Aufbau hieß das: zurückscrollen. Jeder Rad- und Moduswechsel sprang außerdem auf den Aufbau zurück.
+- **Absicherung:** „Teil entfernen“ und „Dieses Rad zurücksetzen“ wirkten sofort und ohne Rückweg. Unnötige Rückfragen gab es in den sechs Abläufen keine.
+
+### Was geändert ist
+**Navigation und Wege**
+- **Fünf beschriftete Bereiche** in Liams Reihenfolge: Aufbau · Prüfung · Fahrwerk · Upgrades · Einkauf (englisch Build · Check · Setup · Upgrades · Shopping). Am Handy unten wie bisher, am Desktop neu als Leiste unter dem Kopf mit Unterstrich am gewählten Bereich. Der Setup-Knopf im Kopf ist weg — es gibt einen Weg, nicht zwei.
+- **Ein Bereich zur Zeit:** Der Score steht am Handy nur im Aufbau. Prüfung, Upgrades und Einkauf beginnen direkt mit ihrem Inhalt. Am Desktop klebt der Score rechts neben jedem Bereich.
+- **Scrollstand je Bereich:** Aufbau → Prüfung → zurück landet wieder beim selben Teil. Den Bereich, in dem man ist, noch einmal antippen → nach oben.
+- **Rad wechseln von überall:** Wer scrollt, sieht im Kopf Score und Radnamen. Ein Tipp öffnet alle Räder aller drei Arten (Traumrad, Mein Rad, Gebraucht); ein Tipp wechselt. Bereich und Scrollstand bleiben. Oben bleibt der Ein-Tipp-Wechsel über die Radknöpfe. Umbenennen, Kopieren und Löschen bleiben an ihrer einen Stelle (Stift).
+- **Sprungleiste im Aufbau:** Rahmen · Gabel & Dämpfer · Laufräder · Reifen · Antrieb · Bremsen · Cockpit · Sitz · Kontakt, mit Statuspunkt (rot, gelb, grün). Sie klebt unter dem Kopf; ein Tipp öffnet die Gruppe und bringt sie nach oben. Die Teilegruppe „Fahrwerk“ heißt jetzt **„Gabel & Dämpfer“** (englisch *Fork & shock*), damit sie nicht mit dem Bereich Fahrwerk verwechselt wird.
+- **Konflikt am Teil:**
+  - Die Teilezeile nennt den Grund („Passt nicht: Dämpfer-Einbaumaß …“).
+  - Bei echten Konflikten steht über dem Score eine Konfliktkarte mit „Dämpfer wechseln“ und dem Link zur Prüfung.
+  - Das Teileblatt erklärt oben, warum das verbaute Teil nicht passt, und zeigt darunter nur passende Teile.
+- **Vergleichen:** An jedem Upgrade, Ersatz und Sparvorschlag steht „Vergleichen“. Auch „Ansehen“ im Teileblatt zeigt den Vergleich. Verbautes Teil und neues Teil stehen nebeneinander:
+  - Preis, Gewicht
+  - Score des ganzen Rads, Kompatibilität, Einsatz — mit Differenz (grün = besser für dich)
+  - die Daten beider Teile; Unterschiede sind umrandet
+  - Direkt darunter der eine Einbau-Knopf.
+- **Zurück zur Auswahl:** Aus dem Teil-Detail führt „‹“ in dieselbe Liste zurück — Suche, Filter und Scrollstand bleiben.
+- **Preis → Einkaufsliste:** Die Preis-Kachel im Score führt mit einem Tipp zur Einkaufsliste (nur beim Traumrad; bei Mein Rad und Gebraucht gibt es keine).
+- **Rückweg statt Rückfrage:** „Teil entfernen“ und „Dieses Rad zurücksetzen“ wirken sofort, mit 7 Sekunden „Rückgängig“ im Hinweis. „Rad löschen“ fragt weiter nach, weil es sich nicht zurückholen lässt.
+
+**Gestalt**
+- **Markenfarbe Eloxal-Orange** (wie eloxierte Anbauteile und Gabel-Decals) statt Violett:
+  - Sie zeigt nur Auswahl und Orientierung: gewählter Bereich, gewählte Option, Links, Fokus.
+  - Status bleibt Ampel: Grün passt, Gelb Kompromiss, Rot Konflikt. Warnungen sind jetzt gelb statt bernsteinfarben, damit sie sich nicht mit der Auswahl verwechseln lassen.
+  - Alle Auswahlzustände (Filter, Sortierung, Marken, Modelljahr, Radknöpfe) sehen gleich aus: orangefarbener Rand mit leichter Tönung.
+- **Hell und Dunkel gleich sorgfältig:**
+  - Dunkel bleibt echtes Schwarz (Liams Wunsch vom 30.09.).
+  - Hell bekommt ein warmes Werkstattgrau statt iOS-Blaugrau.
+  - Alle sichtbaren Texte erreichen ≥ 4,5:1, große Schrift ≥ 3:1. Gemessen in der App: 1.618 Texte, neun Ansichten, Handy und Desktop, beide Designs, 0 Unterschreitungen.
+- **Typografie:**
+  - Überschriften und Messwerte (Score, Preis, Gewicht, mm) in **Barlow Semi Condensed** — schmal und technisch wie ein Datenblatt, mit gleich breiten Ziffern.
+  - Die Schrift liegt lokal in `fonts/` (SIL Open Font License), kein Aufruf bei Google; der Service Worker cacht sie für offline.
+  - Fließtext bleibt Systemschrift.
+- **Zeichen mit Bedeutung:**
+  - Schriftzug **CRANKSCORE** wie auf dem Unterrohr des Beispielrads, „SCORE“ in der Markenfarbe; auch auf der Startseite.
+  - Je Teilegruppe ein eigenes Strich-Symbol (Rahmen, Gabel, Laufrad, Reifen, Kettenblatt, Bremsscheibe, Lenker, Sattel, Pedal), damit man Gruppen beim Scrollen am Bild erkennt.
+  - Daten als eckige Schildchen, Aktionen als runde Pillen.
+- **Ruhiger:**
+  - Hinweise sind flache Zeilen mit Randstrich statt Karten in Karten.
+  - Erklär- und Symbolflächen sind neutral statt farbig.
+  - Die letzten drei Leuchtschatten (Adapter-Info, Fahrwerk-Tipp) sind entfernt.
+- **Bewegung:**
+  - Unverändert kurz (110–300 ms), ohne Nachfedern. Der Hell-Dunkel-Wechsel blendet weich über.
+  - Der Unterstrich der Desktop-Navigation gleitet in 180 ms.
+  - Mit „Bewegung reduzieren“ springt alles ohne Fahrt; die Sprungleiste scrollt dann ohne Animation.
+
+### Sechs Abläufe vorher und nachher
+Gemessen mit Playwright am alten Stand `ded53c4` und am neuen Stand. Gezählt sind Tipps bzw. Klicks und wie weit man scrollen muss, bis das nächste Ziel frei sichtbar ist (zwischen Kopf und Tableiste). Handy 390 × 844, Desktop 1280 × 860; Skript: `belege/APP-UX-001/ablaeufe.js`.
+
+| Ablauf | Handy vorher | Handy nachher | Desktop vorher | Desktop nachher |
+|---|---|---|---|---|
+| 1. Bauteil finden und tauschen (Reifen hinten) | 2 Tipps + 1.718 px Scrollen | 3 Tipps, 0 px (Sprungleiste → Teil → Einbauen) | 2 Klicks + 1.237 px | 3 Klicks, 0 px |
+| 2. Konflikt verstehen und beheben (Dämpfer passt nicht zum Rahmen) | 3 Tipps + 24 px; Score vor der Prüfung, im Teileblatt kein Grund | 2 Tipps, 0 px; Grund an Zeile, Konfliktkarte und oben im Teileblatt | 2 Klicks + 71 px | 2 Klicks, 0 px |
+| 3. Fahrwerkseinstellungen öffnen | 1 Tipp („Setup“) | 1 Tipp („Fahrwerk“) | 1 Klick (Knopf im Kopf, kein Bereich) | 1 Klick (Navigation) |
+| 4. Upgrade vergleichen | kein Vergleich; Umweg 4 Tipps + Eingabe + 1.741 px, zeigt nur das neue Teil | 2 Tipps, 0 px, beide Teile nebeneinander | Umweg 2 Klicks + Eingabe + 886 px, kein Vergleich | 2 Klicks, 0 px |
+| 5. Einkaufsliste aufrufen | 1 Tipp; 1 Zeile sichtbar | 1 Tipp; 5 Zeilen sichtbar | 1 Klick nach 3.793 px Scrollen | 1 Klick, 0 px; 6 Zeilen |
+| 6. Zwischen gespeicherten Rädern wechseln (weit unten im Aufbau: anderes Traumrad, dann Mein Rad) | 2 Tipps + 1.437 px zurück nach oben; Bereich springt auf Aufbau | 4 Tipps, 0 px (je Wechsel Kopf → Rad); Bereich und Scrollstand bleiben | 2 Klicks + 1.437 px | 4 Klicks, 0 px |
+
+- **Ehrlich gerechnet:** Bei Ablauf 1 und 6 kostet der neue Weg einen Tipp mehr, spart aber das Scrollen (rund 3 Wischer). Der alte Weg geht weiter: Teil direkt antippen bzw. oben die Radknöpfe (1 Tipp).
+- **Entfernte Umwege:**
+  - der wiederholte Score über Prüfung, Upgrades und Einkauf (Handy)
+  - die Einkaufsliste am Ende der Desktop-Seitenleiste
+  - der Upgrade-Vergleich über Aufbau und Suche
+  - Schließen statt Zurück im Teil-Detail
+  - Zurückscrollen zum Radwechsel und der Sprung auf den Aufbau nach jedem Wechsel
+  - der Desktop-Knopf „Setup“ als einziger Weg zum Fahrwerk
+
+### Geprüft
+Alle Prüfungen in Chromium (Playwright). Ab „npm test“ am Code-Stand `b7751b8`:
+- **npm test:** alle Tests bestanden.
+  - Syntax
+  - Kompatibilität 199/199
+  - Setup und Speicher 16/16
+  - Ein Weg je Aufgabe 36/36 (davon zehn neue Prüfungen für APP-UX-001)
+  - Sprache 0 Funde in 9.257 Texten
+- **Die zehn neuen Wege-Prüfungen:**
+  - fünf beschriftete Bereiche auf Handy und Desktop
+  - Score nur im Aufbau
+  - Scrollstand je Bereich
+  - Rad wechseln von überall
+  - Vergleichen
+  - Zurück zur Auswahl mit Suche und Scrollstand
+  - Konflikt am Teil
+  - Sprungleiste
+  - Rückgängig statt Rückfrage
+  - Einkaufsliste über die Preis-Kachel
+- **Sprache bei 280 und 320 px:** 0 Funde. Bei 280 px waren zuerst „Fahrwerk“, „Upgrades“ und „Shopping“ in der Tableiste gekürzt — behoben.
+- **Überstand:** 0 Elemente. Zuerst stand „Open app“ auf der Startseite bei 280 px über — behoben.
+- **Handy-Audit** (sieben Geräte von 320 px bis Querformat, Notch, Home-Balken):
+  - Deutsch dunkel: 0 Funde
+  - Englisch hell: 0 Funde
+  - Zuerst gab es im Querformat zwei Funde, beide behoben: Leisten unter der Kamera-Aussparung; Score-Spalte höher als der Bildschirm.
+- **Kontrast:** 0 Unterschreitungen in 1.618 Texten (neun Ansichten, Handy und Desktop, hell und dunkel). Zuerst 7 Stellen, behoben.
+- **Statusleiste:** alles OK (neue helle Farbe #f2f1ee, mit und ohne View Transition, mit und ohne „Bewegung reduzieren“).
+- **Animationen:** 100 von 102 Prüfpunkten.
+  - Die zwei Abweichungen betreffen nur den *emulierten* alten Safari ohne View Transitions: Der Farbwechsel kommt im Testbrowser mit 4–5 statt mindestens 6 Zwischenbildern an.
+  - Er ist stetig, ohne Aufblitzen.
+  - Gegenprobe: Der alte Stand `ded53c4` fällt im selben Test genauso durch (zwei Läufe). Beim letzten Abnahmelauf (APP-ANIM-001) war es 101/102.
+  - Beim Prüfen fiel ein Fehler im Messskript auf (eine alte Messschleife lief weiter), korrigiert in meiner Kopie.
+- **Nicht geprüft:**
+  - echtes iPhone und echter Safari
+  - Tastatur-Bedienung nur stichprobenweise (Fokusreihenfolge: Kopf → Modi → Räder → Navigation → Inhalt)
+
+### Belege (`belege/APP-UX-001/`)
+- `navigation-handy.png`, `navigation-desktop.png` — Navigation vorher/nachher
+- `vorher-nachher-handy-*.jpg`, `vorher-nachher-desktop-*.jpg` — jede Hauptansicht, Deutsch und Englisch, hell und dunkel (je vier Tafeln)
+- `ablaeufe-handy.jpg`, `ablaeufe-desktop.jpg` — Endbild je Ablauf vorher/nachher
+- `blaetter-handy-de-hell.jpg`, `blaetter-handy-en-dunkel.jpg` — Teilewahl, Vergleich, Radwechsel, Konflikt am Teil
+- `startseite.jpg` — Startseite und Schriftzug
+- `ablaeufe.js`, `ablaeufe-vorher.json`, `ablaeufe-nachher.json` — Messskript und Rohdaten
+- `kontrast.js` — Kontrastmessung
+
+### Offen
+- **Echtes iPhone/Safari:** nicht geprüft (nur Chromium-Emulation). Besonders ansehen:
+  - Kopfzeile beim Scrollen (Score + Radname statt Logo und Disziplin)
+  - klebende Sprungleiste unter dem Kopf
+  - Barlow-Schrift im Home-Bildschirm-Modus
+- **Liams Urteil zur Farbe:** Orange ist eine Gestaltungsentscheidung. Falls Liam eine andere Markenfarbe will, steht sie an einer Stelle (`--anod`, `--akzent-flaeche`).
+- **Veröffentlichung:** erst nach Liams ausdrücklicher Freigabe für diese Änderungen. Dann schreibt die Action den Versionsstempel; danach ist die Live-Prüfung (Teil B für Codex) möglich.

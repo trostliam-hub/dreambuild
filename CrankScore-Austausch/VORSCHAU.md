@@ -1,70 +1,60 @@
-# Vorschau: 3D-Beispielrad (APP-3D-001)
+# Vorschau: Eigene Gestalt und kurze Wege (APP-UX-001)
 
 Fertiger Stand zum Ansehen. Claude legt diese Seite nach jeder Aufgabe neu in den
-Austauschordner; die Bilder liegen daneben in `belege/`, damit die Seite auch im
+Austauschordner. Die Bilder liegen daneben in `belege/`, damit die Seite auch im
 entpackten ZIP funktioniert.
 
-- **Stand:** 09.10.2026, Branch `claude/crankscore-app-changes-nz88ir`. Nicht veröffentlicht; live bleibt Version 20261009-1047.
+- **Stand:** 09.10.2026, Branch `claude/crankscore-app-changes-nz88ir`, Commit `b7751b8`.
+- **Nicht veröffentlicht:** Live bleibt Version 20261009-1047.
 - **Online ansehen:** https://github.com/trostliam-hub/dreambuild/blob/claude/crankscore-app-changes-nz88ir/CrankScore-Austausch/VORSCHAU.md
-- **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-3D-001 und Nachträge) · **Prüfauftrag an Codex:** `CODEX-AUFTRAEGE.md` (APP-3D-001-N1)
+- **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-UX-001). **Prüfauftrag an Codex:** `CODEX-AUFTRAEGE.md` (APP-UX-001-N1).
+- **Frühere Vorschau (3D-Beispielrad):** in `CLAUDE-ANTWORTEN.md` unter APP-3D-001. Die Bilder liegen weiter in `belege/APP-3D-001/`.
 
-## Das Rad
+## Navigation: fünf beschriftete Bereiche
 
-Nach Liams Vergleichsfoto: weißer Rahmen, rote Gabel, schwarze Anbauteile,
-„CRANKSCORE“ auf dem Unterrohr. Geometrie: Propain Spindrift 5 AL, Größe L, Mullet
-(29″ vorn, 27,5″ hinten), 180 mm Federweg.
+Aufbau · Prüfung · Fahrwerk · Upgrades · Einkauf. Am Handy unten, am Desktop neu oben unter dem Kopf.
 
-![Seitenansicht](belege/APP-3D-001/rad-seite.jpg)
+![Navigation Handy](belege/APP-UX-001/navigation-handy.png)
 
-![Dreiviertelansicht](belege/APP-3D-001/rad-dreiviertel.jpg)
+![Navigation Desktop](belege/APP-UX-001/navigation-desktop.png)
 
-## Beide Seiten mit Schriftzug
+## Die Bereiche vorher und nachher
 
-Auf der Antriebsseite liest „CRANKSCORE“ vom Tretlager zum Steuerrohr, auf der
-anderen Seite wie auf dem Foto vom Steuerrohr nach unten.
+Am Handy steht der Score nur noch im Aufbau; die anderen Bereiche beginnen mit ihrem Inhalt.
 
-![Beide Seiten](belege/APP-3D-001/beide-seiten-schriftzug.png)
+![Handy hell Deutsch](belege/APP-UX-001/vorher-nachher-handy-de-hell.jpg)
 
-## Auf hellem und dunklem Grund
+![Handy dunkel Englisch](belege/APP-UX-001/vorher-nachher-handy-en-dunkel.jpg)
 
-![Hell und dunkel](belege/APP-3D-001/renderings-hell-dunkel.png)
+![Desktop hell Deutsch](belege/APP-UX-001/vorher-nachher-desktop-de-hell.jpg)
 
-## In der App (vorher / nachher)
+![Desktop dunkel Englisch](belege/APP-UX-001/vorher-nachher-desktop-en-dunkel.jpg)
 
-Begrüßung am Handy:
+## Neue Wege am Bauteil
 
-![Begrüßung Handy](belege/APP-3D-001/v3d-einstieg-handy.png)
+Vergleichen, Zurück zur Auswahl, Rad wechseln, Sprungleiste, Konfliktgrund am Teil:
 
-Startseite am Desktop:
+![Blätter](belege/APP-UX-001/blaetter-handy-de-hell.jpg)
 
-![Startseite Desktop](belege/APP-3D-001/v3d-startseite-desktop.png)
+![Blätter dunkel](belege/APP-UX-001/blaetter-handy-en-dunkel.jpg)
 
-Erste Rundgang-Karte am Handy:
+## Sechs Abläufe
 
-![Rundgang Handy](belege/APP-3D-001/v3d-rundgang-handy.png)
+| Ablauf | Handy vorher | Handy nachher | Desktop vorher | Desktop nachher |
+|---|---|---|---|---|
+| Bauteil finden und tauschen | 2 Tipps + 1.718 px Scrollen | 3 Tipps, 0 px | 2 + 1.237 px | 3, 0 px |
+| Konflikt verstehen und beheben | 3 Tipps + 24 px | 2 Tipps, 0 px | 2 + 71 px | 2, 0 px |
+| Fahrwerk öffnen | 1 („Setup“) | 1 („Fahrwerk“) | 1 (Kopf-Knopf) | 1 (Navigation) |
+| Upgrade vergleichen | kein Vergleich; Umweg 4 + Eingabe + 1.741 px | 2 Tipps, 0 px | Umweg 2 + Eingabe + 886 px | 2, 0 px |
+| Einkaufsliste aufrufen | 1 Tipp, 1 Zeile sichtbar | 1 Tipp, 5 Zeilen | 1 nach 3.793 px | 1, 0 px |
+| Zwischen Rädern wechseln (weit unten) | 2 + 1.437 px, Bereich springt zurück | 4, 0 px, Bereich bleibt | 2 + 1.437 px | 4, 0 px |
 
-## Bewegung
+Endbilder je Ablauf:
 
-Federn (40 % Hub) und Rollen. Die Bilder zeigen noch den grauen Lack; Geometrie und
-Bewegung sind dieselben.
+![Abläufe Handy](belege/APP-UX-001/ablaeufe-handy.jpg)
 
-![Animation](belege/APP-3D-001/animation-bilder.png)
+![Abläufe Desktop](belege/APP-UX-001/ablaeufe-desktop.jpg)
 
-![Hinterbau nah](belege/APP-3D-001/anlenkung-nah.png)
+## Startseite und Schriftzug
 
-## Was stimmt, was geschätzt ist
-
-- **Aus Tabellenwerten (laut Suchergebnissen, die Propain-Seite war für Claude gesperrt):**
-  - Reach 480, Stack 644, Steuerrohr 110, Lenkwinkel 63,9°, Sitzwinkel eff. 78,7°
-  - Kettenstrebe 435, Radstand 1264, Tretlagerhöhe 349, Dämpfer 230 × 65
-- **Geschätzt:** die Drehpunkte des Hinterbaus.
-  - 65 mm Dämpferhub ergeben im Modell 178,7 mm statt 180 mm.
-  - Die Hebel drehen gleichsinnig; Propain beschreibt sie als gegenläufig.
-- **Widerspruch in den Quellen:** Kettenstrebe 435 oder 445 mm, Radstand 1264 oder 1278 mm. Einzelheiten stehen in `../3d/README.md`.
-- **Frei gestaltet:** Rohrquerschnitte, Knotenbleche und Hebelformen (keine Produktfotos zugänglich). Keine Markenlogos an Gabel, Felgen und Reifen.
-
-## Dateien
-
-- **3D-Modell (GLB, 0,87 MB):** https://raw.githubusercontent.com/trostliam-hub/dreambuild/claude/crankscore-app-changes-nz88ir/3d/modell/spindrift-5-al.glb
-- **Bearbeitbare Blender-Datei (1,7 MB):** https://github.com/trostliam-hub/dreambuild/blob/claude/crankscore-app-changes-nz88ir/3d/modell/spindrift-5-al.blend
-- **Maße, Quellen, Drehpunkte, Skripte:** https://github.com/trostliam-hub/dreambuild/tree/claude/crankscore-app-changes-nz88ir/3d
+![Startseite](belege/APP-UX-001/startseite.jpg)

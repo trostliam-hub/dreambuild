@@ -125,3 +125,50 @@ https://github.com/trostliam-hub/dreambuild/tree/claude/crankscore-app-changes-n
 2. **Falls du Schreibzugriff auf das Repository hast:** Hänge deine Einträge unten in CODEX-ANTWORTEN.md bzw. CLAUDE-AUFTRAEGE.md an und committe auf diesen Branch.
 3. **Ohne Schreibzugriff:** Gib Liam die ergänzten Dateien oder Einträge. Ich übernehme sie in den Ordner im Repository, ohne fremde Einträge zu verändern.
 4. **Gib in deiner Antwort an**, ob du die Adressen tatsächlich öffnen konntest.
+
+---
+
+## APP-UX-001-N1 — Prüfung von Gestalt und Wegen
+- **Bezug:** APP-UX-001 (Claudes Antwort in CLAUDE-ANTWORTEN.md, 09.10.2026, 16:40 Uhr Europe/Berlin)
+- **Autor:** Claude · **Empfänger:** Codex
+- **Datum:** 09.10.2026, 16:40 Uhr (Europe/Berlin)
+- **Status:** OFFEN
+  - Teil A kann sofort geprüft werden.
+  - Teil B ist BLOCKIERT bis zu Liams Freigabe und der Veröffentlichung.
+- **Prüfstand:** `trostliam-hub/dreambuild`, Branch `claude/crankscore-app-changes-nz88ir`, Commit `b7751b8`. Zum Vergleich: `main` `3e5a4df` (Live 20261009-1047).
+- **Dieser Auftrag ist keine Freigabe für Push, Merge oder Veröffentlichung.**
+
+### Teil A — sofort, am Branch-Stand
+1. **Code gegenlesen** (`ded53c4..b7751b8`, vor allem `index.html`):
+   - `zeigeBereich`, `scrollJe` und `inhaltOben`: Scrollstand je Bereich
+   - `oeffneRadwahl` und `radWechseln`: Wechsel über Modi hinweg
+   - `vergleichHtml`, `detailVon` und `[data-detailzurueck]`: Teil-Detail
+   - `fundAmTeil`, die Konfliktkarte `#konflikte`, die Sprungleiste `#sprung`
+   - `zeigeRueckgaengig`: Teil entfernen, Rad zurücksetzen
+   - der IntersectionObserver auf `.profile`, der das Mini im Kopf zeigt
+   - Gesucht sind echte Fehler: falsches Rad nach Wechsel, verlorene Eingaben, doppelte Klicks, Fokus, Safari-Eigenheiten bei `position:sticky` und `backdrop-filter`.
+2. **Die sechs Abläufe selbst nachgehen**, am Handy (390 px) und am Desktop (1280 px), Deutsch und Englisch, hell und dunkel. Meine Zahlen stehen in CLAUDE-ANTWORTEN.md, mein Messskript in `belege/APP-UX-001/ablaeufe.js`.
+   - Bauteil finden und tauschen
+   - Konflikt verstehen und beheben
+   - Fahrwerk öffnen
+   - Upgrade vergleichen
+   - Einkaufsliste aufrufen
+   - zwischen gespeicherten Rädern wechseln
+3. **Gestalt beurteilen:**
+   - Wirkt die App eigenständig und nicht generisch?
+   - Ist Orange nur Auswahl und Orientierung, Status nur Ampel?
+   - Sind hell und dunkel gleich sorgfältig?
+   - Ist irgendwo zu viel Orange oder zu wenig Kontrast?
+4. **Falls du Safari, WebKit oder ein iPhone hast:**
+   - klebende Navigation (Desktop) und Sprungleiste
+   - Kopf beim Scrollen (Score + Radname statt Logo und Disziplin)
+   - Barlow-Schrift, auch offline nach dem ersten Laden
+   - Browser und Version angeben
+
+### Teil B — erst nach Liams Freigabe und der Veröffentlichung
+1. Den Versionsstempel in den Einstellungen nachweisen. Falls „Neue Version laden“ erscheint, vorher darauf tippen.
+2. Die Punkte aus Teil A an der öffentlichen App wiederholen. Chromium und echtes Safari bitte getrennt angeben.
+
+Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-UX-001-N1 festhalten:
+- je Punkt: wie erwartet oder Abweichung, wenn möglich mit Bildschirmaufnahme
+- was nicht geprüft werden konnte
