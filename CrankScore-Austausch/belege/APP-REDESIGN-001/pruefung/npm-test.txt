@@ -1,0 +1,9 @@
+> test
+> node tools/test.mjs
+OK   Syntax index.html — 2 Skripte
+OK   Kompatibilität — 199 von 199 bestanden, erwartet 199, Exit 0
+OK   Setup und Speicher — 16 von 16 bestanden, Exit 0
+OK   Ein Weg je Aufgabe — 36 von 36 bestanden, Exit 0
+OK   Sprache Deutsch/Englisch — 0 Funde in 9307 Texten, Exit 0
+ALLE TESTS BESTANDEN · Revision a518b9e · 157 s · Bericht: test-ergebnis.json
+npm EXIT 0

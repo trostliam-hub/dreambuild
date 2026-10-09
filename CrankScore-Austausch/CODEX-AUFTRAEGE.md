@@ -251,3 +251,58 @@ Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-DESIGN-002-N1 festhalten:
   - Chromium und echtes Safari bitte getrennt angeben.
   - Die offenen Live-Prüfungen aus APP-UX-001-N1 Teil B lassen sich in derselben Sitzung erledigen; der Stand enthält APP-UX-001 unverändert.
 - **Hinweis:** Ich kann die öffentliche Seite aus meiner Umgebung nicht selbst abrufen (`github.io` ist dort gesperrt). Deine Sichtprüfung ist die erste echte Live-Prüfung.
+
+---
+
+## APP-REDESIGN-001-N1 — Neues Design und Bedienung nachprüfen
+- **Autor:** Claude · **Empfänger:** Codex
+- **Datum:** 09.10.2026, 23:55 Uhr (Europe/Berlin)
+- **Status:** OFFEN. Teil A sofort, Teil B erst nach Liams Freigabe und der Veröffentlichung.
+- **Bezug:** CLAUDE-ANTWORTEN.md „APP-REDESIGN-001“.
+  - Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `a518b9e`.
+  - Live ist weiter 20261009-2208 (`main` `6673605`). Nicht veröffentlicht.
+- **Dieser Auftrag erteilt keine Freigabe für Push, Merge oder Veröffentlichung.**
+
+### Teil A — am Branch-Stand
+1. **Code lesen**, besonders:
+   - der Stilblock „APP-REDESIGN-001“ am Ende des `<head>`
+   - `leitKarte()` (Aufgabenkarte mit nur dem aktuellen Schritt)
+   - `oeffneSlot()` (Aufklapper, Filterzeile, Knöpfe an der Teilekarte)
+   - `oeffneWiz()` (Frage als Titel)
+   - `zeigeSheet()` und `schliesse()` (Fokus zurück zum Auslöser)
+   - die Anzeige „x ohne Gewicht“ in `zeichne()`
+   - Gesucht sind echte Fehler:
+     - falscher Schritt in der Aufgabenkarte, besonders wenn alles erledigt ist
+     - ein Knopf ohne Wirkung
+     - Fokus, der an einer falschen Stelle landet oder einen Touch-Nutzer stört
+     - eine Rechnung, die sich doch geändert hat
+2. **Gestalt beurteilen** am Handy (390 px) und am Desktop (1280 px), hell und dunkel, Deutsch und Englisch:
+   - Wirkt die App eigenständig und hochwertig, ohne Vorlagen-Look und ohne langweilig zu sein?
+   - Ist die Hauptaufgabe jeder Ansicht und der nächste Schritt sofort klar?
+   - Logo und Zahl im Gesamtring: in beiden Designs gut lesbar?
+3. **Wege nachzählen**, Tipps bis zum Ziel:
+   - Teil tauschen
+   - Konflikt lösen
+   - Rad wechseln
+   - Upgrade vergleichen
+   - Fahrwerk-Werte
+   - Gebrauchtrad prüfen
+   - Stimmen meine Zahlen in CLAUDE-ANTWORTEN.md?
+4. **Tastatur** am Desktop:
+   - Tab durch die Hauptansicht.
+   - Ein Teil mit Enter öffnen, mit Escape schließen.
+   - Steht der Fokus wieder am Teil?
+5. **Falls du Safari, WebKit, ein iPhone oder einen Screenreader hast:**
+   - Logo und Schein im Ring
+   - Aufklapper („Was ist das?“, „Alle Schritte“)
+   - Querformat mit Aussparung
+   - Vorlesenamen der Knöpfe
+   - Browser und Version angeben.
+
+### Teil B — erst nach Liams Freigabe und der Veröffentlichung
+1. Den neuen Versionsstempel in den Einstellungen nachweisen. Falls „Neue Version laden“ erscheint, vorher darauf tippen.
+2. Die Punkte aus Teil A an der öffentlichen App wiederholen. Chromium und echtes Safari bitte getrennt angeben.
+
+Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-REDESIGN-001-N1 festhalten:
+- je Punkt: wie erwartet oder Abweichung, wenn möglich mit Bildschirmaufnahme
+- was nicht geprüft werden konnte

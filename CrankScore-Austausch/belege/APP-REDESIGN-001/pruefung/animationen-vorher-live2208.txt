@@ -1,0 +1,114 @@
+
+===== Desktop 1280x800
+OK   [Desktop 1280x800] Ausgangslage: View Transitions im Browser: ja
+OK   [Desktop 1280x800] Designwechsel Dunkel -> Hell: Helligkeit je Bild 20 > 25 > 70 > 140 > 172 > 186 > 190 > 190 > 190 > 190 > 190; stetig: true; nie heller/dunkler als Anfang und Ende: true; weisse Flaeche max 37.3 % (Endzustaende 0/37.3 %); Zwischenbilder: 5
+OK   [Desktop 1280x800] Endzustand Dunkel -> Hell: {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}
+OK   [Desktop 1280x800] Designwechsel Hell -> Dunkel: Helligkeit je Bild 190 > 187 > 143 > 72 > 39 > 24 > 20 > 20 > 20 > 20 > 20; stetig: true; nie heller/dunkler als Anfang und Ende: true; weisse Flaeche max 37.3 % (Endzustaende 37.3/0 %); Zwischenbilder: 5
+OK   [Desktop 1280x800] Endzustand Hell -> Dunkel: {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}
+OK   [Desktop 1280x800] Schnell umschalten (7x, Ende hell): zur Ruhe gekommen: true nach 622 ms; {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}; Menue noch offen: true
+OK   [Desktop 1280x800] Schnell umschalten (7x, Ende oled): zur Ruhe gekommen: true nach 617 ms; {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}; Menue noch offen: true
+OK   [Desktop 1280x800] Tab antippen 30 ms nach Start der Ueberblendung: Ansicht danach: setup
+OK   [Desktop 1280x800] Tab antippen 150 ms nach Start der Ueberblendung: Ansicht danach: setup
+OK   [Desktop 1280x800] Schliessen waehrend der Ueberblendung: Menue danach offen: false
+OK   [Desktop 1280x800] Blatt erscheint: Animationen: [{"n":"hoch","d":260,"props":["opacity","transform"]},{"n":"einblenden","d":260,"props":["opacity"]}]
+OK   [Desktop 1280x800] Blatt schliesst: {"modalLeer":true,"geist":true,"inert":true,"weg":true,"d":180}; Tab direkt danach getippt und angenommen: true; Rest nach 300 ms: 0
+OK   [Desktop 1280x800] Blatt auf-zu-auf schnell: {"scrimsBeimNeuOeffnen":1,"uebernimmtAbdunklung":true,"resteDanach":0}
+OK   [Desktop 1280x800] Hinweis (Toast) blendet aus: {"blendetAus":true,"dauer":180,"danachVersteckt":true}
+OK   [Desktop 1280x800] Moduswechsel nach real: Modus real; Einflug: true; animierte Eigenschaften: transform (260 ms an div.modus-in, section#leit.leit, div.fotokarte +1); color (180 ms an button, svg); stroke (260 ms an circle#ring); strokeDashoffset (500 ms an circle#ring, circle#ring-tech, circle#ring-char); opacity (260 ms an section#leit.leit, div.fotokarte, section.grp); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.26s
+OK   [Desktop 1280x800] Moduswechsel nach traum: Modus traum; Einflug: true; animierte Eigenschaften: transform (260/360 ms an div.modus-in, section#leit.leit, svg +1); color (180 ms an button); stroke (260 ms an circle#ring); strokeDashoffset (500 ms an circle#ring, circle#ring-tech, circle#ring-char); opacity (260 ms an section#leit.leit, section.grp); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.26s
+OK   [Desktop 1280x800] Score aendert sich: 99 -> 23, angezeigt: 28 25 24 23; Ring-Puls: true; alle Werte zwischen alt und neu: true; Score-Element bleibt dasselbe: true; Gruppenkarten im DOM neu gezeichnet: 9 von 9; Einflug ausgeloest: false; Karten mit Animation: 0 von 9
+OK   [Desktop 1280x800] Endlos laufende Animationen: keine
+OK   [Desktop 1280x800] Neu laden (hell): Theme schon bei DOMContentLoaded: light; Statusleiste: #eef1f4; color-scheme: light
+OK   [Desktop 1280x800] Neu laden (oled): Theme schon bei DOMContentLoaded: oled; Statusleiste: #000000; color-scheme: light dark
+OK   [Desktop 1280x800] Fehler in der Konsole: keine
+
+===== Handy 390x844 Touch
+OK   [Handy 390x844 Touch] Ausgangslage: View Transitions im Browser: ja
+OK   [Handy 390x844 Touch] Designwechsel Dunkel -> Hell: Helligkeit je Bild 29 > 37 > 120 > 199 > 225 > 235 > 235 > 235 > 235 > 235 > 235; stetig: true; nie heller/dunkler als Anfang und Ende: true; weisse Flaeche max 60.9 % (Endzustaende 0/60.9 %); Zwischenbilder: 4
+OK   [Handy 390x844 Touch] Endzustand Dunkel -> Hell: {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}
+OK   [Handy 390x844 Touch] Designwechsel Hell -> Dunkel: Helligkeit je Bild 235 > 224 > 142 > 68 > 38 > 29 > 29 > 29 > 29 > 29 > 29; stetig: true; nie heller/dunkler als Anfang und Ende: true; weisse Flaeche max 60.9 % (Endzustaende 60.9/0 %); Zwischenbilder: 4
+OK   [Handy 390x844 Touch] Endzustand Hell -> Dunkel: {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}
+OK   [Handy 390x844 Touch] Schnell umschalten (7x, Ende hell): zur Ruhe gekommen: true nach 1302 ms; {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}; Menue noch offen: true
+OK   [Handy 390x844 Touch] Schnell umschalten (7x, Ende oled): zur Ruhe gekommen: true nach 1338 ms; {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}; Menue noch offen: true
+OK   [Handy 390x844 Touch] Tab antippen 30 ms nach Start der Ueberblendung: Ansicht danach: befunde
+OK   [Handy 390x844 Touch] Tab antippen 150 ms nach Start der Ueberblendung: Ansicht danach: befunde
+OK   [Handy 390x844 Touch] Schliessen waehrend der Ueberblendung: Menue danach offen: false
+OK   [Handy 390x844 Touch] Blatt erscheint: Animationen: [{"n":"hoch","d":260,"props":["opacity","transform"]},{"n":"einblenden","d":260,"props":["opacity"]}]
+OK   [Handy 390x844 Touch] Blatt schliesst: {"modalLeer":true,"geist":true,"inert":true,"weg":true,"d":180}; Tab direkt danach getippt und angenommen: true; Rest nach 300 ms: 0
+OK   [Handy 390x844 Touch] Blatt auf-zu-auf schnell: {"scrimsBeimNeuOeffnen":1,"uebernimmtAbdunklung":true,"resteDanach":0}
+OK   [Handy 390x844 Touch] Hinweis (Toast) blendet aus: {"blendetAus":true,"dauer":180,"danachVersteckt":true}
+OK   [Handy 390x844 Touch] Moduswechsel nach real: Modus real; Einflug: true; animierte Eigenschaften: transform (260 ms an div.modus-in, section#leit.leit, div.fotokarte +1); color (180 ms an button); stroke (260 ms an circle#ring); strokeDashoffset (500 ms an circle#ring, circle#ring-tech, circle#ring-char); opacity (260 ms an section#leit.leit, div.fotokarte, section.grp); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.26s
+OK   [Handy 390x844 Touch] Moduswechsel nach traum: Modus traum; Einflug: true; animierte Eigenschaften: transform (260/360 ms an div.modus-in, section#leit.leit, svg +1); color (180 ms an button); stroke (260 ms an circle#ring); strokeDashoffset (500 ms an circle#ring, circle#ring-tech, circle#ring-char); opacity (260 ms an section#leit.leit, section.grp); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.26s
+OK   [Handy 390x844 Touch] Score aendert sich: 99 -> 23, angezeigt: 75 63 58 53 49 45 41 38 36 33 31 29 …; Ring-Puls: true; alle Werte zwischen alt und neu: true; Score-Element bleibt dasselbe: true; Gruppenkarten im DOM neu gezeichnet: 9 von 9; Einflug ausgeloest: false; Karten mit Animation: 0 von 9
+OK   [Handy 390x844 Touch] Endlos laufende Animationen: keine
+OK   [Handy 390x844 Touch] Neu laden (hell): Theme schon bei DOMContentLoaded: light; Statusleiste: #eef1f4; color-scheme: light
+OK   [Handy 390x844 Touch] Neu laden (oled): Theme schon bei DOMContentLoaded: oled; Statusleiste: #000000; color-scheme: light dark
+OK   [Handy 390x844 Touch] Fehler in der Konsole: keine
+
+===== Handy ohne View Transitions (Safari-Fallback emuliert)
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Ausgangslage: View Transitions im Browser: nein
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Designwechsel Dunkel -> Hell: Farbuebergang: Blatt 21>23>243>255, Seite 0>2>229>241; stetig ohne Aufblitzen: true; Uebergangsklasse danach entfernt: true; Bilder bis zum Ziel: 6, Bildabstaende ms: 6 79 6 149 89 101
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Endzustand Dunkel -> Hell: {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Designwechsel Hell -> Dunkel: Farbuebergang: Blatt 255>253>40>21, Seite 241>239>19>0; stetig ohne Aufblitzen: true; Uebergangsklasse danach entfernt: true; Bilder bis zum Ziel: 7, Bildabstaende ms: 4 94 7 3 124 113 107
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Endzustand Hell -> Dunkel: {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Schnell umschalten (7x, Ende hell): zur Ruhe gekommen: true nach 3413 ms; {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}; Menue noch offen: true
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Schnell umschalten (7x, Ende oled): zur Ruhe gekommen: true nach 3487 ms; {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}; Menue noch offen: true
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Tab antippen 30 ms nach Start der Ueberblendung: Ansicht danach: befunde
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Tab antippen 150 ms nach Start der Ueberblendung: Ansicht danach: befunde
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Schliessen waehrend der Ueberblendung: Menue danach offen: false
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Blatt erscheint: Animationen: [{"n":"hoch","d":260,"props":["opacity","transform"]},{"n":"einblenden","d":260,"props":["opacity"]}]
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Blatt schliesst: {"modalLeer":true,"geist":true,"inert":true,"weg":true,"d":180}; Tab direkt danach getippt und angenommen: true; Rest nach 300 ms: 0
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Blatt auf-zu-auf schnell: {"scrimsBeimNeuOeffnen":1,"uebernimmtAbdunklung":true,"resteDanach":0}
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Hinweis (Toast) blendet aus: {"blendetAus":true,"dauer":180,"danachVersteckt":true}
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Moduswechsel nach real: Modus real; Einflug: true; animierte Eigenschaften: transform (260 ms an div.modus-in, section#leit.leit, div.fotokarte +1); color (180 ms an button); stroke (260 ms an circle#ring); strokeDashoffset (500 ms an circle#ring, circle#ring-tech, circle#ring-char); opacity (260 ms an section#leit.leit, div.fotokarte, section.grp); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.26s
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Moduswechsel nach traum: Modus traum; Einflug: true; animierte Eigenschaften: transform (260/360 ms an div.modus-in, section#leit.leit, svg +1); color (180 ms an button); stroke (260 ms an circle#ring); strokeDashoffset (500 ms an circle#ring, circle#ring-tech, circle#ring-char); opacity (260 ms an section#leit.leit, section.grp); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.26s
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Score aendert sich: 99 -> 23, angezeigt: 72 60 55 51 46 43 40 37 34 32 30 28 …; Ring-Puls: true; alle Werte zwischen alt und neu: true; Score-Element bleibt dasselbe: true; Gruppenkarten im DOM neu gezeichnet: 9 von 9; Einflug ausgeloest: false; Karten mit Animation: 0 von 9
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Endlos laufende Animationen: keine
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Neu laden (hell): Theme schon bei DOMContentLoaded: light; Statusleiste: #eef1f4; color-scheme: light
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Neu laden (oled): Theme schon bei DOMContentLoaded: oled; Statusleiste: #000000; color-scheme: light dark
+OK   [Handy ohne View Transitions (Safari-Fallback emuliert)] Fehler in der Konsole: keine
+
+===== Desktop ohne View Transitions (Safari-Fallback emuliert)
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Ausgangslage: View Transitions im Browser: nein
+FEHL [Desktop ohne View Transitions (Safari-Fallback emuliert)] Designwechsel Dunkel -> Hell: Farbuebergang: Blatt 21>41>255, Seite 0>21>241; stetig ohne Aufblitzen: true; Uebergangsklasse danach entfernt: true; Bilder bis zum Ziel: 4, Bildabstaende ms: 87 12 190 104
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Endzustand Dunkel -> Hell: {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}
+FEHL [Desktop ohne View Transitions (Safari-Fallback emuliert)] Designwechsel Hell -> Dunkel: Farbuebergang: Blatt 255>235>21, Seite 241>220>0; stetig ohne Aufblitzen: true; Uebergangsklasse danach entfernt: true; Bilder bis zum Ziel: 4, Bildabstaende ms: 7 2 166 158
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Endzustand Hell -> Dunkel: {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Schnell umschalten (7x, Ende hell): zur Ruhe gekommen: true nach 1275 ms; {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}; Menue noch offen: true
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Schnell umschalten (7x, Ende oled): zur Ruhe gekommen: true nach 1249 ms; {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}; Menue noch offen: true
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Tab antippen 30 ms nach Start der Ueberblendung: Ansicht danach: setup
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Tab antippen 150 ms nach Start der Ueberblendung: Ansicht danach: setup
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Schliessen waehrend der Ueberblendung: Menue danach offen: false
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Blatt erscheint: Animationen: [{"n":"hoch","d":260,"props":["opacity","transform"]},{"n":"einblenden","d":260,"props":["opacity"]}]
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Blatt schliesst: {"modalLeer":true,"geist":true,"inert":true,"weg":true,"d":180}; Tab direkt danach getippt und angenommen: true; Rest nach 300 ms: 0
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Blatt auf-zu-auf schnell: {"scrimsBeimNeuOeffnen":1,"uebernimmtAbdunklung":true,"resteDanach":0}
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Hinweis (Toast) blendet aus: {"blendetAus":true,"dauer":180,"danachVersteckt":true}
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Moduswechsel nach real: Modus real; Einflug: true; animierte Eigenschaften: transform (260 ms an div.modus-in, section#leit.leit, div.fotokarte +1); color (180 ms an button, svg); stroke (260 ms an circle#ring); strokeDashoffset (500 ms an circle#ring, circle#ring-tech, circle#ring-char); opacity (260 ms an section#leit.leit, div.fotokarte, section.grp); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.26s
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Moduswechsel nach traum: Modus traum; Einflug: true; animierte Eigenschaften: transform (260/360 ms an div.modus-in, section#leit.leit, svg +1); color (180 ms an button); stroke (260 ms an circle#ring); strokeDashoffset (500 ms an circle#ring, circle#ring-tech, circle#ring-char); opacity (260 ms an section#leit.leit, section.grp); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.26s
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Score aendert sich: 99 -> 23, angezeigt: 28 26 25 24 23; Ring-Puls: true; alle Werte zwischen alt und neu: true; Score-Element bleibt dasselbe: true; Gruppenkarten im DOM neu gezeichnet: 9 von 9; Einflug ausgeloest: false; Karten mit Animation: 0 von 9
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Endlos laufende Animationen: keine
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Neu laden (hell): Theme schon bei DOMContentLoaded: light; Statusleiste: #eef1f4; color-scheme: light
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Neu laden (oled): Theme schon bei DOMContentLoaded: oled; Statusleiste: #000000; color-scheme: light dark
+OK   [Desktop ohne View Transitions (Safari-Fallback emuliert)] Fehler in der Konsole: keine
+
+===== Handy Bewegung reduzieren
+OK   [Handy Bewegung reduzieren] Ausgangslage: View Transitions im Browser: ja
+OK   [Handy Bewegung reduzieren] Designwechsel Dunkel -> Hell: sofort umgeschaltet (Theme direkt nach dem Tipp: light), Zwischenwerte Blatt-Hintergrund: 1, View Transitions gestartet: 0
+OK   [Handy Bewegung reduzieren] Endzustand Dunkel -> Hell: {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}
+OK   [Handy Bewegung reduzieren] Designwechsel Hell -> Dunkel: sofort umgeschaltet (Theme direkt nach dem Tipp: oled), Zwischenwerte Blatt-Hintergrund: 1, View Transitions gestartet: 0
+OK   [Handy Bewegung reduzieren] Endzustand Hell -> Dunkel: {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}
+OK   [Handy Bewegung reduzieren] Schnell umschalten (7x, Ende hell): zur Ruhe gekommen: true nach 2252 ms; {"theme":"light","speicher":"hell","meta":"#eef1f4","seg":"hell","pressed":"hell"}; Menue noch offen: true
+OK   [Handy Bewegung reduzieren] Schnell umschalten (7x, Ende oled): zur Ruhe gekommen: true nach 2136 ms; {"theme":"oled","speicher":"oled","meta":"#000000","seg":"oled","pressed":"oled"}; Menue noch offen: true
+OK   [Handy Bewegung reduzieren] Blatt erscheint: Animationen: [{"n":"hoch","d":150,"props":["opacity","transform"]},{"n":"einblenden","d":150,"props":["opacity"]}]
+OK   [Handy Bewegung reduzieren] Blatt schliesst: {"modalLeer":true,"geist":false,"inert":null,"weg":null,"d":0}; Tab direkt danach getippt und angenommen: true; Rest nach 300 ms: 0
+OK   [Handy Bewegung reduzieren] Blatt auf-zu-auf schnell: {"scrimsBeimNeuOeffnen":1,"uebernimmtAbdunklung":false,"resteDanach":0}
+OK   [Handy Bewegung reduzieren] Hinweis (Toast) blendet aus: {"blendetAus":true,"dauer":120,"danachVersteckt":true}
+OK   [Handy Bewegung reduzieren] Moduswechsel nach real: Modus real; Einflug: false; animierte Eigenschaften: color (1 ms an b#mini-s, button); transform (1 ms an div.modus-in); stroke (1 ms an circle, circle#ring); strokeDashoffset (1 ms an circle#ring, circle#ring-tech, circle#ring-char); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.001s
+OK   [Handy Bewegung reduzieren] Moduswechsel nach traum: Modus traum; Einflug: false; animierte Eigenschaften: color (1 ms an b#mini-s, button); transform (1 ms an div.modus-in); stroke (1 ms an circle, circle#ring); strokeDashoffset (1 ms an circle#ring, circle#ring-tech, circle#ring-char); Layout-Eigenschaften animiert: keine; Umschalter vorher/nachher 59/56 -> 59/56; danach unsichtbar: 0; Pille gleitet: 0.001s
+OK   [Handy Bewegung reduzieren] Score aendert sich: 99 -> 23, angezeigt: 23; Ring-Puls: false; alle Werte zwischen alt und neu: true; Score-Element bleibt dasselbe: true; Gruppenkarten im DOM neu gezeichnet: 9 von 9; Einflug ausgeloest: false; Karten mit Animation: 0 von 9
+OK   [Handy Bewegung reduzieren] Endlos laufende Animationen: keine
+OK   [Handy Bewegung reduzieren] Neu laden (hell): Theme schon bei DOMContentLoaded: light; Statusleiste: #eef1f4; color-scheme: light
+OK   [Handy Bewegung reduzieren] Neu laden (oled): Theme schon bei DOMContentLoaded: oled; Statusleiste: #000000; color-scheme: light dark
+OK   [Handy Bewegung reduzieren] Fehler in der Konsole: keine
+
+GESAMT: 100 von 102 Pruefpunkten bestanden

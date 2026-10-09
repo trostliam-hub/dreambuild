@@ -1,0 +1,22 @@
+OK   [VT ja, no-preference] Laden hell: {"frueh":[1,"#eef1f4","light"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT ja, no-preference] Laden oled: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#000000","theme":"oled","html":"rgb(0, 0, 0)","body":"rgb(0, 0, 0)"}
+OK   [VT ja, no-preference] Umschalten hell: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT ja, no-preference] Umschalten oled: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#000000","theme":"oled","html":"rgb(0, 0, 0)","body":"rgb(0, 0, 0)"}
+OK   [VT ja, no-preference] Umschalten hell>oled>hell>oled>hell: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT nein, no-preference] Laden hell: {"frueh":[1,"#eef1f4","light"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT nein, no-preference] Laden oled: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#000000","theme":"oled","html":"rgb(0, 0, 0)","body":"rgb(0, 0, 0)"}
+OK   [VT nein, no-preference] Umschalten hell: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT nein, no-preference] Umschalten oled: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#000000","theme":"oled","html":"rgb(0, 0, 0)","body":"rgb(0, 0, 0)"}
+OK   [VT nein, no-preference] Umschalten hell>oled>hell>oled>hell: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT ja, reduce] Laden hell: {"frueh":[1,"#eef1f4","light"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT ja, reduce] Laden oled: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#000000","theme":"oled","html":"rgb(0, 0, 0)","body":"rgb(0, 0, 0)"}
+OK   [VT ja, reduce] Umschalten hell: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT ja, reduce] Umschalten oled: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#000000","theme":"oled","html":"rgb(0, 0, 0)","body":"rgb(0, 0, 0)"}
+OK   [VT ja, reduce] Umschalten hell>oled>hell>oled>hell: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT nein, reduce] Laden hell: {"frueh":[1,"#eef1f4","light"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT nein, reduce] Laden oled: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#000000","theme":"oled","html":"rgb(0, 0, 0)","body":"rgb(0, 0, 0)"}
+OK   [VT nein, reduce] Umschalten hell: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+OK   [VT nein, reduce] Umschalten oled: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#000000","theme":"oled","html":"rgb(0, 0, 0)","body":"rgb(0, 0, 0)"}
+OK   [VT nein, reduce] Umschalten hell>oled>hell>oled>hell: {"frueh":[1,"#000000","oled"],"n":1,"meta":"#eef1f4","theme":"light","html":"rgb(238, 241, 244)","body":"rgb(238, 241, 244)"}
+
+ALLES OK

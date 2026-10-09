@@ -1,0 +1,554 @@
+{
+ "handy": {
+  "teil": {
+   "ok": true,
+   "tipps": 3,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Sprungleiste: Reifen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Reifen hinten antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Anderen Reifen einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "konflikt": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 2,
+   "log": [
+    {
+     "schritt": "Konflikt neben dem Score lesen",
+     "scroll": 0,
+     "sichtbar": 2
+    },
+    {
+     "schritt": "Dämpfer wechseln (Grund steht oben im Blatt)",
+     "scroll": 0
+    },
+    {
+     "schritt": "Grund im Teileblatt",
+     "scroll": 0,
+     "sichtbar": null
+    },
+    {
+     "schritt": "Passendes Teil einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "fahrwerk": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Bereich Fahrwerk",
+     "scroll": 0
+    },
+    {
+     "schritt": "Einstellwerte sehen",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "upgrade": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 1,
+   "log": [
+    {
+     "schritt": "Bereich Upgrades",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erstes Upgrade lesen",
+     "scroll": 0,
+     "sichtbar": 1
+    },
+    {
+     "schritt": "Vergleichen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Verbaut und neu nebeneinander: Preis, Gewicht, Score, Daten",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "einkauf": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 5,
+   "log": [
+    {
+     "schritt": "Bereich Einkauf",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erste Zeile der Einkaufsliste",
+     "scroll": 0,
+     "sichtbar": 5
+    }
+   ],
+   "ziel": true
+  },
+  "rad": {
+   "ok": true,
+   "tipps": 4,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Kopf: Wertung + Radname antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Anderes Traumrad",
+     "scroll": 0
+    },
+    {
+     "schritt": "Kopf antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Mein Rad",
+     "scroll": 0
+    }
+   ],
+   "ziel": true,
+   "danach": {
+    "ansicht": "aufbau",
+    "scroll": 1551
+   }
+  },
+  "neuesRad": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Stift neben dem Rad",
+     "scroll": 0
+    },
+    {
+     "schritt": "Rad anlegen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "gebraucht": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Gebraucht",
+     "scroll": 0
+    },
+    {
+     "schritt": "Rahmen eintragen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "design": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Menü",
+     "scroll": 0
+    },
+    {
+     "schritt": "Dunkel",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "guide": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Guide",
+     "scroll": 0
+    },
+    {
+     "schritt": "Vorgeschlagene Frage",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "entfernen": {
+   "ok": true,
+   "tipps": 3,
+   "scroll": 2317,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Teil antippen",
+     "scroll": 2317
+    },
+    {
+     "schritt": "Teil entfernen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Rückgängig",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "erstesTeil": {
+   "ok": true,
+   "tipps": 0,
+   "scroll": 880,
+   "tippen": 0,
+   "sichtbar": 3,
+   "log": [
+    {
+     "schritt": "Erstes Teil im Aufbau sehen",
+     "scroll": 880,
+     "sichtbar": 3
+    }
+   ],
+   "ziel": true
+  },
+  "teilewahlDichte": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 1503,
+   "tippen": 0,
+   "sichtbar": 1,
+   "log": [
+    {
+     "schritt": "Gabel antippen",
+     "scroll": 1503
+    },
+    {
+     "schritt": "Erste Option sehen",
+     "scroll": 0,
+     "sichtbar": 1
+    }
+   ],
+   "ziel": true
+  }
+ },
+ "desktop": {
+  "teil": {
+   "ok": true,
+   "tipps": 3,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Sprungleiste: Reifen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Reifen hinten antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Anderen Reifen einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "konflikt": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 2,
+   "log": [
+    {
+     "schritt": "Konflikt neben dem Score lesen",
+     "scroll": 0,
+     "sichtbar": 2
+    },
+    {
+     "schritt": "Dämpfer wechseln (Grund steht oben im Blatt)",
+     "scroll": 0
+    },
+    {
+     "schritt": "Grund im Teileblatt",
+     "scroll": 0,
+     "sichtbar": null
+    },
+    {
+     "schritt": "Passendes Teil einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "fahrwerk": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Bereich Fahrwerk",
+     "scroll": 0
+    },
+    {
+     "schritt": "Einstellwerte sehen",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "upgrade": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 1,
+   "log": [
+    {
+     "schritt": "Bereich Upgrades",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erstes Upgrade lesen",
+     "scroll": 0,
+     "sichtbar": 1
+    },
+    {
+     "schritt": "Vergleichen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Verbaut und neu nebeneinander: Preis, Gewicht, Score, Daten",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "einkauf": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 7,
+   "log": [
+    {
+     "schritt": "Bereich Einkauf",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erste Zeile der Einkaufsliste",
+     "scroll": 0,
+     "sichtbar": 7
+    }
+   ],
+   "ziel": true
+  },
+  "rad": {
+   "ok": true,
+   "tipps": 4,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Kopf: Wertung + Radname antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Anderes Traumrad",
+     "scroll": 0
+    },
+    {
+     "schritt": "Kopf antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Mein Rad",
+     "scroll": 0
+    }
+   ],
+   "ziel": true,
+   "danach": {
+    "ansicht": "aufbau",
+    "scroll": 1537
+   }
+  },
+  "neuesRad": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 96,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Stift neben dem Rad",
+     "scroll": 96
+    },
+    {
+     "schritt": "Rad anlegen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "gebraucht": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 99,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Gebraucht",
+     "scroll": 99
+    },
+    {
+     "schritt": "Rahmen eintragen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "design": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Menü",
+     "scroll": 0
+    },
+    {
+     "schritt": "Dunkel",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "guide": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Guide",
+     "scroll": 0
+    },
+    {
+     "schritt": "Vorgeschlagene Frage",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "entfernen": {
+   "ok": true,
+   "tipps": 3,
+   "scroll": 1030,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Teil antippen",
+     "scroll": 1030
+    },
+    {
+     "schritt": "Teil entfernen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Rückgängig",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "erstesTeil": {
+   "ok": true,
+   "tipps": 0,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 3,
+   "log": [
+    {
+     "schritt": "Erstes Teil im Aufbau sehen",
+     "scroll": 0,
+     "sichtbar": 3
+    }
+   ],
+   "ziel": true
+  },
+  "teilewahlDichte": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 298,
+   "tippen": 0,
+   "sichtbar": 2,
+   "log": [
+    {
+     "schritt": "Gabel antippen",
+     "scroll": 298
+    },
+    {
+     "schritt": "Erste Option sehen",
+     "scroll": 0,
+     "sichtbar": 2
+    }
+   ],
+   "ziel": true
+  }
+ }
+}

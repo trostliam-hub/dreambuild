@@ -2092,3 +2092,207 @@ Liam hat danach das große Ziel APP-REDESIGN-001 gesetzt. Darin steht wieder „
 - Veröffentlicht wird das erst nach Liams Freigabe.
 
 - **Veröffentlichung:** JA, Nachweis siehe oben.
+
+---
+
+## APP-REDESIGN-001 — Design und Bedienung der ganzen App überarbeitet (Liams Ziel vom 09.10.2026)
+- **Bezug:** Liams Ziel „APP-REDESIGN-001“ im Chat: das ganze Design und die Bedienung direkt im Projekt überarbeiten, erst Hauptansicht, Teilewahl und Fahrwerk, dann die ganze App; am Ende Prüfung, Vorher-Nachher, Launch-Blocker und Doku. „Veröffentliche die Änderungen erst mit entsprechender Freigabe.“
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 09.10.2026, 23:55 Uhr (Europe/Berlin)
+- **Status:** FERTIG PROGRAMMIERT und GETESTET (Chromium). **Nicht veröffentlicht.**
+- **Stand:** Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `a518b9e` (fünf Code-Commits ab `6673605`: `f021bdf`, `1412e15`, `bbf0d5d`, `f5d99bf`, `a518b9e`). Live bleibt Version 20261009-2208 (`main` `6673605`); alle Vorher-Bilder und -Messungen sind von genau diesem Stand.
+- **Keine Änderung** an Kompatibilitätsregeln, Preisen, Pro-Regeln, Herstellerwerten, Berechnungen oder gespeicherten Daten. Geändert sind Gestaltung, Anordnung, Texte der Oberfläche und zwei reine Anzeige-Ergänzungen (siehe unten).
+
+### Vorbereitung: Video und Werkzeuge
+- **Das Video (https://youtu.be/KtK4cywgNUA) konnte ich nicht ansehen.**
+  - `youtube.com` und Einbettungsdienste sind in meiner Umgebung gesperrt (Proxy 403, „EGRESS_BLOCKED“).
+  - Eine Websuche nach der Video-ID fand weder Titel noch Beschreibung.
+  - Ich weiß also nicht, welche Skills, Plugins oder Werkzeuge darin vorkommen. Nichts in diesem Bericht stammt aus dem Video.
+- **Plugins und Skills:**
+  - Im Plugin-Verzeichnis gibt es ein kostenloses Plugin „Design“ von Anthropic (als „Anthropic verified“ gekennzeichnet): Design-Kritik, Designsystem, UX-Texte, Barrierefreiheit, Übergabe an Entwickler. Installiert war es nicht.
+  - Selbst installieren konnte ich es nicht; das braucht Liams Klick in der App. Ich biete es im Chat zur Installation an.
+  - Stattdessen habe ich die Anleitungen dieser Skills aus den öffentlichen Anthropic-Repositories gelesen, nur lesend und nur im Arbeitsordner:
+    - `anthropics/claude-plugins-official`: `frontend-design`
+    - `anthropics/knowledge-work-plugins`: `design-critique`, `design-system`, `accessibility-review`, `ux-copy`
+  - Es sind reine Textanleitungen ohne eigene Rechte. Ich habe nichts davon ausgeführt oder installiert.
+- **Keine kostenpflichtigen Dienste.** Keine Projektdaten an Dritte gegeben.
+
+### Bestandsaufnahme (Stand live 20261009-2208)
+Ich habe 24 Ansichten und Blätter aufgenommen, am Handy und am Desktop, hell und dunkel, auf Deutsch und Englisch. Gefunden habe ich:
+- **Typische Vorlagen-Merkmale:**
+  - 62 Beschriftungen in gesperrten Versalien (PREIS, GESAMTSCORE, DEIN NÄCHSTER SCHRITT …).
+  - Eine kleine blaue Überzeile über jedem Blatt-Titel.
+  - Graue Kacheln in Karten.
+  - Ein Funkelstern als Symbol für Traumrad, Pro und „Über CrankScore“.
+- **Wege und Dichte:**
+  - Die Aufgabenkarte zeigt immer alle Schritte.
+  - In der Teilewahl stehen Erklärung und Sparhinweis vor der Liste. Am Handy ist dadurch keine einzige Option ohne Scrollen sichtbar.
+  - Im Fahrwerk stehen die Werte erst nach 1.233 px.
+  - Am Desktop schiebt die Aufgabenkarte über die volle Breite den Score nach unten (er beginnt erst bei 510 px).
+- **Fehler, die es schon vorher gab:**
+  - Score-Hilfe: jede Zahl im Satz bricht auf eine eigene Zeile.
+  - Vergleich: die Maße beider Teile stehen untereinander in der ersten Spalte.
+  - Nach dem Schließen eines Blatts springt der Tastaturfokus an den Seitenanfang.
+  - Ein eigenes Teil ohne Gewicht zählt mit 0 g, ohne dass es dasteht.
+- **Informationsstruktur:**
+  - Kopf, darunter die Radleiste, darunter fünf Bereiche (Aufbau, Prüfung, Fahrwerk, Upgrades, Einkauf).
+  - Das trägt; ich habe es behalten und innen aufgeräumt.
+
+### Was geändert ist
+**Designsystem „Datenblatt“** (ausführlich in `belege/APP-REDESIGN-001/DESIGNSYSTEM.md`)
+- **Schrift und Farbe:**
+  - Beschriftungen in normaler Schreibung. Versalien bleiben nur im Schriftzug CRANKSCORE, wie das Decal am Rahmen.
+  - Zustandsschilder mit großem Anfangsbuchstaben, 6 px Radius wie ein Datenschild.
+  - Stahlblau bleibt der einzige Akzent. Orange bleibt Warnung, Rot Konflikt, Grün passt.
+- **Flächen und Formen:**
+  - Radien nach Rang: Karte 20 px, Feld 14 px, Schild 6 px, Knopf als Pille.
+  - Hell: Karten mit 1-px-Linie statt weichem Grauschatten.
+  - Eine Kartenebene je Ansicht; innen gliedern Linie und Abstand.
+- **Symbole:**
+  - Funkelstern ersetzt: Traumrad zeigt jetzt einen Rahmen mit Maßlinie.
+  - Pro und „Über CrankScore“ zeigen das echte Logo.
+- **Knöpfe:** mindestens 44 px hoch, kleine 40 px. Filter-Chips am Touchgerät 40 px.
+
+**Hauptansicht**
+- **Gesamtring:**
+  - Das echte CrankScore-Logo steht wieder oben im Ring, die Zahl darunter, wie es das Ziel verlangt.
+  - Das Logo ist kleiner (38 % der Ringbreite), in der Ringfarbe, und lässt der Zahl den Vortritt.
+  - Unter dem Ring steht „Gesamtscore“.
+  - **Hinweis zum Widerspruch:** Das widerspricht Liams Korrektur APP-DESIGN-003 („Logo weg“). Ich bin dem neueren Ziel gefolgt. Wenn Liam es doch ohne Logo will, ist das eine Zeile.
+- **Score-Karte als Datenblatt:**
+  - Kompatibilität und Einsatz stehen als zwei Spalten mit Haarlinie statt in grauen Kacheln, ebenso Preis und Gewicht.
+  - Am Handy beginnt der Ring 68 px früher (488 statt 556 px).
+- **Leeres Rad:** Logo gedämpft, Strich statt Zahl, darunter „Noch kein Score“.
+- **Aufgabenkarte:**
+  - Wer angefangen hat, sieht nur den aktuellen Schritt mit seinem Knopf. „Alle Schritte“ klappt die Liste auf.
+  - Statt eines Balkens zeigt eine Segmentbahn, wie weit man ist.
+  - Liams Wunsch „der Guide oben, der Score unten“ bleibt: am Handy steht die Karte vor dem Score.
+- **Desktop:**
+  - Die Aufgabenkarte steht oben links, der Score klebt rechts daneben ganz oben (beginnt bei 259 statt 510 px).
+  - Art des Rads und Rad stehen in einer Zeile.
+
+**Teilewahl**
+- **Liste zuerst:** „Was ist das?“ und „650 € günstiger bei gleichen Maßen“ sind jetzt Aufklapper. Die erste Option ist am Handy ohne Scrollen sichtbar.
+- **Filter:** Filter und Sortierung stehen in einer wischbaren Zeile, die Trefferzahl als Ziffer im Chip.
+- **Teilekarte:**
+  - Name und Preis oben, Maße als Schildchen.
+  - Shop, „Ansehen“ und „Einbauen“ in einer Zeile.
+  - Die volle Shopliste steht weiter im Detail.
+
+**Fahrwerk**
+- **Reihenfolge:** erst das Profil, dann „Dein nächster Schritt“, dann die Werte. Am Handy stehen die Werte 336 px früher.
+- **Kürzer am Handy:** Die Kurzbeschreibungen unter den Profilkarten sind ausgeblendet. Sie stehen weiter in „Was ändert sich im Profil …?“.
+
+**Ganze App**
+- **Blattköpfe:** Titel zuerst, der Zusammenhang klein darunter („Federgabel / Bauteil wählen“). Das gilt für alle Blätter.
+- **Assistent:** Die Frage des Schritts ist die Überschrift („Wofür baust du?“), darunter „Schritt 1 von 5 für …“.
+- **Startseite und Einstieg:** Satz statt Mittelpunkt-Kette: „Kostenlos und ohne Anmeldung. Pro gibt es ab 3,99 € im Monat.“ Die Preise sind unverändert.
+- **Fehler behoben:**
+  - Score-Hilfe: Die Zahlen bleiben im Satz.
+  - Vergleich: Jede Spalte zeigt ihre eigenen Maße.
+  - Sparvorschläge: Preis und Gewichtsunterschied brechen nicht mehr auseinander.
+- **Prüfung:** Die Überschrift ist jetzt die Frage „Passt alles zusammen?“.
+
+**Bedienung und Zugänglichkeit**
+- **Fokus kehrt zurück:** Mit Tastatur kehrt der Fokus nach dem Schließen eines Blatts zum auslösenden Knopf zurück, auch wenn die Seite inzwischen neu gezeichnet wurde. Bei Touch ändert sich nichts.
+- **Aussparungen:** Die Radleiste beachtet im Querformat die Kamera-Aussparung. Das fand das Handy-Audit nach meiner Radleisten-Änderung; behoben.
+- **Kontrast:** Die Zuordnung im Fahrwerk-Umschalter („hinten · RockShox Deluxe“) war dunkel nur 4,13:1 und ist jetzt lesbar.
+- **Nur Anzeige:**
+  - Fehlt einem Teil das Gewicht, steht unter der Summe „1 ohne Gewicht“.
+  - Die Rechnung bleibt gleich.
+
+### Klickwege vorher (live 2208) und nachher
+Gemessen mit Tipps und Scrollstrecke bis zum Ziel; Handy 390 × 844, Desktop 1280 × 860.
+
+| Ablauf | Handy vorher → nachher | Desktop vorher → nachher |
+|---|---|---|
+| Teil tauschen (Sprung zur Gruppe, Teil, Einbauen) | 3 → 3 | 3 → 3 |
+| Konflikt lösen | 2 → 2 | 2 → 2 |
+| Fahrwerk-Werte | 1 → 1 | 1 → 1 |
+| Upgrade vergleichen | 2 → 2 | 2 → 2 |
+| Einkaufsliste | 1 → 1 (5 Zeilen sichtbar) | 1 → 1 (6 → 7 Zeilen) |
+| Rad wechseln (zweimal gemessen) | 4 → 4, je Wechsel 2 | 4 → 4 |
+| Neues Rad | 2 → 2 | 2 → 2, 88 → 96 px Scroll |
+| Gebrauchtrad prüfen | 2 → 2 | 2 → 2, 141 → 99 px |
+| Design wechseln | 2 → 2 | 2 → 2 |
+| Guide-Frage | 2 → 2 | 2 → 2 |
+| Teil entfernen und rückgängig | 3, 2.390 → 2.317 px | 3, 1.063 → 1.030 px |
+| Erstes Teil im Aufbau | 952 → 880 px | 2 → 3 Teile sichtbar |
+| Teilewahl: Optionen sichtbar | 0 → 1 | 1 → 2 |
+
+- **Kein Weg ist länger geworden.**
+- **Ziel von Liam:** Wichtige Funktionen brauchen 1 Tipp, Details höchstens 2. Jede einzelne Aktion schafft das:
+  - Rad wechseln, Upgrade vergleichen, Teil tauschen am Teil: 2 Tipps.
+  - Bereiche: 1 Tipp.
+  - „Teil tauschen“ zählt zusätzlich den Sprung zur Gruppe mit. „Teil entfernen“ zählt das Rückgängigmachen mit.
+- **Eingaben, Rad und Scrollposition je Bereich** bleiben erhalten, wie bisher (Wegetest 36/36).
+
+### Geprüft (Endstand `a518b9e`, Chromium/Playwright)
+- **npm test:** alle bestanden.
+  - Kompatibilität 199/199
+  - Setup 16/16
+  - Wege 36/36
+  - Sprache 0 Funde in 9.307 Texten
+- **Überstand:** 0 Elemente, bei 280 und 320 px, Deutsch und Englisch, in allen drei Modi.
+- **Kontrast:** 0 Unterschreitungen in 1.792 Texten.
+- **Handy-Audit:** sieben Geräte von 320 px bis Querformat mit Aussparung, Deutsch dunkel und Englisch hell: je 0 Funde, 0 Konsolenfehler.
+- **Statusleiste:** Farbe vor dem ersten Bild richtig, beim Umschalten ersetzt (alles OK).
+- **Animationen:** live 2208 und neu je 100 von 102.
+  - Die zwei Abweichungen sind dieselben wie bisher: der Designwechsel im nachgestellten alten Safari am Desktop (Bildabstände).
+  - „Bewegung reduzieren“: keine Endlosanimation.
+- **Randfälle und Tastatur:** 84 von 84, je 320 und 1280 px, Deutsch und Englisch.
+  - Leeres Rad in allen Bereichen ohne NaN oder undefined.
+  - Radname mit 60 Zeichen und eigenes Teil mit 57 Zeichen in Aufbau, Einkauf, Prüfung, Teilewahl, Detail, Radwahl und Räder ohne Überstand. Der Rad-Chip bleibt einzeilig.
+  - Teil ohne Gewicht wird gekennzeichnet.
+  - Laden im Assistenten: erst „Rechne deinen Aufbau …“, dann das Ergebnis.
+  - Tastatur am Desktop: 45 Tab-Schritte mit sichtbarem Fokusrahmen; Enter öffnet das Teileblatt; „Was ist das?“ klappt per Enter auf; Escape schließt und der Fokus steht wieder am Teil.
+  - Keine Konsolenfehler.
+- **Fehlerzustände:**
+  - Pro-Code leer, falsch und ohne Netz: klare Meldungen auf Deutsch und Englisch.
+  - Der Guide antwortet lokal und braucht kein Netz.
+- **Ladezeit:** Handy, CPU vierfach gedrosselt, langsames Netz, Median aus fünf Läufen.
+  - Vorher: erstes Bild 640 ms, bedienbar nach 4,57 s.
+  - Nachher: 640 ms und 4,65 s; das liegt im Rahmen der Messstreuung.
+  - `index.html` wächst um 15 KB (+1 %).
+- **Score-Funktion:** 24/24 (Zahl, Ringfüllung, Statushinweise, Ziele der Hinweise).
+
+### Belege (`belege/APP-REDESIGN-001/`)
+| Datei | Inhalt |
+|---|---|
+| `00-score-karte-handy.jpg`, `00-score-karte-desktop.jpg` | Score-Karte vorher und nachher, mit Konflikten und „alles passt“, hell und dunkel |
+| `01`–`04` | Handy hell und dunkel: Hauptansicht, Teilewahl, Fahrwerk. Desktop hell: Hauptansicht und Teilewahl; dunkel: Prüfung und Fahrwerk |
+| `05`, `06` | Ganze App am Handy: Einstieg, Radwahl, Prüfung, Upgrades, Gebraucht, Einkauf, Guide, Einstellungen |
+| `07` | Blätter: Assistent, Vergleich, Score-Hilfe, Pro |
+| `08` | Leeres Rad, Mein Rad, Startseite (dunkel) |
+| `09`, `10` | Englisch am Handy (hell) und am Desktop (dunkel) |
+| `DESIGNSYSTEM.md` | Tokens, Schrift, Formen, Bewegung, Bausteine, Bedienregeln |
+| `pruefung/` | Rohergebnisse: npm test, Kontrast, Überstand, Animationen vorher und nachher, Randfälle, Klickwege (JSON), Dichte |
+| `skripte/` | Prüfskripte zum Nachlaufen (Playwright) |
+
+### Launch-Blocker und Grenzen
+**Launch-Blocker.** Sie stehen in der eingebauten Prüfliste bis zur Veröffentlichung. Ausgelesen habe ich sie aus dem Repo-Stand ohne die Betreiberdaten auf Liams Gerät; dort kann einiges schon eingetragen sein.
+1. **Impressum unvollständig:** Es fehlen Name, Straße, PLZ und Ort sowie E-Mail.
+2. **Impressum und Datenschutz** sind ein Entwurf und noch nicht rechtlich geprüft (die App selbst sagt: „keine Rechtsberatung“).
+3. **Pro-Verkauf ist nicht eingerichtet.** Kauf-Link und Store-ID fehlen; ein eingegebener Code endet mit „Pro ist noch nicht eingerichtet — der Verkauf startet bald.“
+4. **Partnerprogramm:** Die Awin-Publisher-ID und die Advertiser-IDs für bike-components und Bike24 fehlen.
+5. **Live-Preise laufen nicht.** `PREIS_FEEDS` ist nicht hinterlegt; die Preise sind Katalog-Richtpreise auf UVP-Niveau, und die App sagt das dazu.
+6. **Steuern:** Die steuerliche Klärung der Einnahmen ist offen.
+
+**Nicht geprüft.** Dafür ist meine Umgebung zu begrenzt.
+- **Echtes iPhone und Safari:** Besonders ansehen: Logo und Schein im Ring, Aufklapper, Querformat.
+- **Screenreader:** VoiceOver und NVDA.
+- **Öffentliche Seite:** `github.io` ist für mich gesperrt.
+- **Echte langsame Netze.**
+
+**Folgerung:** Gestaltung und Bedienung sind aus meiner Sicht bereit für Liams Abnahme. Launchreif ist die App erst, wenn die sechs Punkte oben erledigt sind und eine Sichtprüfung auf einem echten iPhone vorliegt.
+
+### Stand
+- **Code fertig:** ja (`a518b9e`).
+- **Tests bestanden:** ja (Chromium lokal).
+- **Live:** nein. Live bleibt 20261009-2208.
+- **Nächster Schritt:**
+  - Liam sieht sich `VORSCHAU.md` und die Tafeln an.
+  - Mit seiner ausdrücklichen Freigabe veröffentliche ich (Push auf `main`, Action stempelt).
+  - Codex prüft nach APP-REDESIGN-001-N1.
+
+- **Veröffentlichung:** NEIN.

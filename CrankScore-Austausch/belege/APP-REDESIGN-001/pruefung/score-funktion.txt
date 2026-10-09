@@ -1,0 +1,25 @@
+OK   390: Zahl im Ring = Gesamtscore, Ring passend gefuellt — {"zahl":"99","gesamt":99,"ring":"2.639px","soll":"2.6","status":"All dimensions fit"}
+OK   390: Statushinweis "alles passt" — All dimensions fit
+OK   390: vier Statushinweise — ["2 conflicts","1 compromise","€3,650 over budget","1 part missing"]
+OK   390: jeder Hinweis hat ein Zeichen und Text
+OK   390: Klick auf "2 conflicts" — befunde
+OK   390: Klick auf "€3,650 over budget" — upgrades
+OK   390: Klick auf fehlendes Teil oeffnet die Auswahl
+OK   390: Teilekarte hat Punkte mit Status im Namen — [{"g":"Sitz","k":"tk-pkt stoerung","l":"Saddle & seatpost – conflict"},{"g":"Cockpit","k":"tk-pkt fertig","l":"Cockpit – fits"},{"g":"Rahmen","k":"tk-pkt stoerung","l":"Frame – conflict"}]
+OK   390: Konfliktpunkt an der Federung
+OK   390: Klick auf Teilekarten-Punkt bringt die Gruppe nach oben — Gruppe Sitz, top 120
+OK   390: Tipp auf den Gesamtring oeffnet die Erklaerung
+OK   390: keine Skriptfehler
+OK   1280: Zahl im Ring = Gesamtscore, Ring passend gefuellt — {"zahl":"99","gesamt":99,"ring":"2.639px","soll":"2.6","status":"All dimensions fit"}
+OK   1280: Statushinweis "alles passt" — All dimensions fit
+OK   1280: vier Statushinweise — ["2 conflicts","1 compromise","€3,650 over budget","1 part missing"]
+OK   1280: jeder Hinweis hat ein Zeichen und Text
+OK   1280: Klick auf "2 conflicts" — befunde
+OK   1280: Klick auf "€3,650 over budget" — upgrades
+OK   1280: Klick auf fehlendes Teil oeffnet die Auswahl
+OK   1280: Teilekarte hat Punkte mit Status im Namen — [{"g":"Sitz","k":"tk-pkt stoerung","l":"Saddle & seatpost – conflict"},{"g":"Cockpit","k":"tk-pkt fertig","l":"Cockpit – fits"},{"g":"Rahmen","k":"tk-pkt stoerung","l":"Frame – conflict"}]
+OK   1280: Konfliktpunkt an der Federung
+OK   1280: Klick auf Teilekarten-Punkt bringt die Gruppe nach oben — Gruppe Sitz, top 169
+OK   1280: Tipp auf den Gesamtring oeffnet die Erklaerung
+OK   1280: keine Skriptfehler
+FUNKTION: alles OK

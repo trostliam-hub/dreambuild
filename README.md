@@ -122,6 +122,27 @@ Charakter, hochwertig und professionell, ruhig, aber nicht eintönig.
 - Logo auch im Schriftzug (im App-Kopf erst ab 400 px Breite) und auf der
   Startseite; die Score-Vorschau dort zeigt dieselbe Hierarchie.
 
+**Designsystem „Datenblatt“ (APP-REDESIGN-001, 09.10.2026).** Liams Ziel: die
+ganze App eigenständig und professionell, ohne Vorlagen-Look, mit kurzen Wegen.
+Der Stilblock „APP-REDESIGN-001“ steht am Ende des `<head>`. Ausführlich:
+`CrankScore-Austausch/belege/APP-REDESIGN-001/DESIGNSYSTEM.md`.
+- *Charakter:* Zahlen und Maße wie auf einem Datenblatt, Stahlblau als einziger
+  Akzent. Beschriftungen in normaler Schreibung; Versalien nur im Schriftzug.
+  Radien nach Rang (Karte 20, Feld 14, Schild 6 px). Hell: Linie statt
+  Grauschatten. Eine Kartenebene je Ansicht.
+- *Gesamtring:* das Logo oben (kleiner, 38 % der Ringbreite), die Zahl darunter.
+  Die kleinen Ringe und Preis/Gewicht stehen in Spalten mit Haarlinie. Ohne
+  Teile: „Noch kein Score“.
+- *Wege:* Die Aufgabenkarte zeigt nur den aktuellen Schritt, „Alle Schritte“
+  klappt auf. Die Teilewahl zeigt die Liste zuerst, Erklärung und Sparhinweis
+  klappen auf. Im Fahrwerk folgen die Werte direkt auf den nächsten Schritt.
+  Am Desktop steht die Aufgabenkarte oben links und der Score oben rechts.
+- *Blätter:* der Titel zuerst, der Zusammenhang klein darunter. Im Assistenten
+  ist die Frage der Titel.
+- *Tastatur:* Nach dem Schließen eines Blatts kehrt der Fokus zum Auslöser
+  zurück (`blattAusloeser` in `zeigeSheet()`/`schliesse()`); nur bei
+  Tastaturbedienung.
+
 **Startseite.** Aufgebaut wie bevel.health (nach einer Bildschirmaufnahme der
 Seite): hell, große Überschriften, schwarzer Knopf „Kostenlos starten“, das
 gezeichnete Rad im Kopf, dann „Kennt die Teile von“
