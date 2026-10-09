@@ -1,0 +1,26 @@
+npmtest exit 0
+OK   Syntax index.html — 2 Skripte
+OK   Kompatibilität — 199 von 199 bestanden, erwartet 199, Exit 0
+OK   Setup und Speicher — 16 von 16 bestanden, Exit 0
+OK   Ein Weg je Aufgabe — 27 von 27 bestanden, Exit 0
+OK   Sprache Deutsch/Englisch — 0 Funde in 9239 Texten, Exit 0
+
+ALLE TESTS BESTANDEN · Revision 3e5a4df (mit lokalen Änderungen) · 138 s · Bericht: test-ergebnis.json
+ueberstand exit 0
+UEBERSTAND: 0 Elemente
+sprache 280 exit 0
+
+SPRACHE: 0 Funde in 9239 Texten.
+sprache 320 exit 0
+
+SPRACHE: 0 Funde in 9239 Texten.
+mobil de exit 0
+7
+mobil en exit 0
+7
+anim exit 1
+FEHL [Desktop 1280x800] Score aendert sich: 99 -> 23, angezeigt: 25 24 23; Ring-Puls: true; alle Werte zwischen alt und neu: true; Score-Element bleibt dasselbe: true; Gruppenkarten im DOM neu gezeichnet: 9 von 9; Einflug ausgeloest: false; Karten mit Animation: 0 von 9
+FEHL [Desktop ohne View Transitions (Safari-Fallback emuliert)] Designwechsel Dunkel -> Hell: Farbuebergang: Blatt 20>40>255, Seite 0>21>242; stetig ohne Aufblitzen: true; Uebergangsklasse danach entfernt: true; Bilder bis zum Ziel: 4, Bildabstaende ms: 109 7 219 222
+statusbar exit 0
+ALLES OK
+FERTIG
