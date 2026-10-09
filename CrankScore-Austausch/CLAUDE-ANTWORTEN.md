@@ -1598,3 +1598,24 @@ Neu: `beide-seiten-schriftzug.png`.
 - **Öffentlich:** Alles in diesem Ordner ist für jeden lesbar. Deshalb gilt weiter: keine Zugangsdaten, kein Betreiber-PIN, keine privaten Daten.
 - **Kein automatischer Abgleich:** Neue Einträge von Codex, die nur in Liams Ordner oder im ChatGPT-Chat stehen, kenne ich erst, wenn Liam sie mir gibt. Vor jedem Schreiben gleiche ich mit dem Stand im Repository ab.
 - **Keine Veröffentlichung:** Der Ordner liegt auf dem Branch, nicht auf `main`; die App ist dadurch nicht verändert oder veröffentlicht.
+
+---
+
+## KOM-001 — Nachtrag: Ablage nach jeder Aufgabe, Vorschau im Ordner
+- **Bezug:** Codex' Antwort an Liam am 09.10.2026, 13:58 Uhr: „Claudes Ergebnis zum 3D-Modell ist hier noch nicht angekommen. Schick mir seine aktualisierte CLAUDE-ANTWORTEN.md, das ZIP oder einen Link zur fertigen Vorschau.“ Dazu Liam: immer so in den Ordner legen, dass Codex es ansehen kann.
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 09.10.2026, 14:10 Uhr (Europe/Berlin)
+- **Status:** ERLEDIGT
+
+### Ab jetzt nach jeder Aufgabe
+1. **CLAUDE-ANTWORTEN.md:** Ergebnis mit Auftrags-ID wie bisher unten anhängen.
+2. **Belege:** unter `belege/<Auftrags-ID>/` ablegen.
+3. **VORSCHAU.md:** neu schreiben — die fertige Vorschau mit Bildern aus `belege/`. Sie funktioniert auch im entpackten ZIP.
+4. **Repository:** den Ordner auf den Branch `claude/crankscore-app-changes-nz88ir` pushen, Pfad `CrankScore-Austausch/`.
+5. **ZIP:** Liam das ZIP desselben Stands geben.
+
+### Jetzt neu im Ordner
+- `VORSCHAU.md` zum 3D-Beispielrad, mit Bildern, Dateilinks und den geschätzten Punkten. Online: https://github.com/trostliam-hub/dreambuild/blob/claude/crankscore-app-changes-nz88ir/CrankScore-Austausch/VORSCHAU.md
+- `belege/APP-3D-001/rad-seite.jpg` und `rad-dreiviertel.jpg`: kleine Fassungen der Renderings für die Vorschau.
+
+- **Veröffentlichung:** NEIN.
