@@ -3129,6 +3129,8 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
   .seite{grid-area:auto;grid-column:2;grid-row:1 / span 2}
   body[data-view="aufbau"] .seite{top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + var(--nav-h) + 66px)}
   .wrap > .coach-platz .leit-schritte{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+  /* Der aktuelle Schritt bekommt die ganze Breite fuer seine Erklaerung, die uebrigen stehen darunter in einer Reihe */
+  .wrap > .coach-platz .leit-s.jetzt{grid-column:1 / -1}
 }
 /* ── Radleiste: am Desktop Art und Rad in einer Zeile, statt zweier Baender ── */
 @media (min-width:820px){
@@ -3146,6 +3148,17 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
   .fw-pk{padding-top:10px;padding-bottom:10px}
   .fw-banner small{display:none}
 }
+/* ── Blattkopf: der Titel zuerst, der Zusammenhang klein darunter ── */
+.sheet-h h3{display:flex;flex-direction:column}
+.sheet-h h3 .sub{order:2;margin:3px 0 0;color:var(--ink-3);font-family:var(--f-sans);font-size:13px;font-weight:550;line-height:1.35}
+/* Erklaerungen: nur die erste Zeile ist Ueberschrift, Zahlen im Satz bleiben im Satz */
+.erk b{display:inline;font-size:inherit;margin:0}
+.erk > b:first-child{display:block;font-size:14px;margin-bottom:2px}
+/* Vergleich: die Masse beider Teile in ihrer eigenen Spalte */
+.vg-daten .vg-a.specs{grid-column:2}
+.vg-daten .vg-b.specs{grid-column:3}
+/* Logo statt Funkelstern bei Pro und "Ueber CrankScore" */
+.cs-logo-ic{display:block;flex:none}
 </style>
 </head>
 <body>
@@ -7419,7 +7432,7 @@ function oeffnePro(grund){
   zeigeSheet(`
     <div class="sheet-h"><h3><span class="sub">CrankScore</span>${aktiv ? tx("Pro ist aktiv", "Pro is active") : "Free & Pro"}</h3>${zuBtn}</div>
     <div class="sheet-b">
-      <div class="pro-kopf"><span class="pro-orb">${ic(IC.traum, 28)}</span>
+      <div class="pro-kopf"><span class="pro-orb">${csLogo(36)}</span>
         <h4>CrankScore Pro</h4>
         <p class="pro-preis">${tx("ab", "from")} <b>${euro(PRO_JAHR_MONAT)}</b> ${tx("im Monat · jederzeit kündbar", "a month · cancel any time")}</p></div>
       ${grund && GRUND[grund] && !aktiv ? `<p class="pro-grund">${GRUND[grund]}</p>` : ""}
@@ -7524,7 +7537,7 @@ function startseiteHtml(){
         <p>${tx("Stell dein Traumrad aus Einzelteilen zusammen, prüf dein eigenes Rad oder bewerte ein gebrauchtes. CrankScore prüft, ob die Teile zusammenpassen, und zeigt dir, wo du deinen Aufbau verbessern kannst.",
           "Build your dream bike from individual parts, check your own bike or rate a used one. CrankScore checks how the parts fit together and shows you where your build could improve.")}</p>
         ${knopf(tx("Kostenlos starten", "Start for free"))}
-        <p class="ls-klein">${tx(`Free ist kostenlos · Pro ab ${euro(PRO_JAHR_MONAT)} im Monat · ohne Anmeldung`, `Free costs nothing · Pro from ${euro(PRO_JAHR_MONAT)} a month · no sign-up`)}</p>
+        <p class="ls-klein">${tx(`Kostenlos und ohne Anmeldung. Pro gibt es ab ${euro(PRO_JAHR_MONAT)} im Monat.`, `Free to use, no sign-up. Pro starts at ${euro(PRO_JAHR_MONAT)} a month.`)}</p>
         <div class="ls-rad">${beispielRad()}</div>
       </section>
       <section class="ls-marken ls-rein">
@@ -8786,6 +8799,7 @@ function fitAnpassen(b, protokoll){
 }
 
 /* ── Zeichnungen ── */
+const csLogo = gr => `<svg class="cs-logo-ic" width="${gr}" height="${Math.round(gr * .75)}" aria-hidden="true"><use href="#cs-logo"/></svg>`;
 const ic = (inhalt, gr) => `<svg width="${gr || 22}" height="${gr || 22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inhalt}</svg>`;
 const tacho = (dx, dy) => `<path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l${dx} ${dy}"/><circle cx="12" cy="17" r="1.3"/>`;
 const IC = {
@@ -8801,7 +8815,8 @@ const IC = {
   tour:`<circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2.3 5-4.9 2.2 2.3-5z"/>`,
   buch:`<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19M9 7h6"/>`,
   auge:`<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>`,
-  traum:`<path d="m12 3 1.9 5.3L19 10l-5.1 1.7L12 17l-1.9-5.3L5 10l5.1-1.7z"/><path d="M19 15.5 19.8 18l2.2.8-2.2.8L19 22l-.8-2.4-2.2-.8 2.2-.8z"/>`,
+  /* Traumrad: Rahmen mit Massangabe wie auf einer Geometrie-Zeichnung (APP-REDESIGN-001, statt Funkelstern) */
+  traum:`<path d="M2.5 19H10L8 10.5l10.5-1.2L10 19M8 10.5 2.5 19M18.5 9.3 21.5 19"/><path d="M8 5h10.5M8 3.4v3.2M18.5 3.4v3.2"/>`,
   real:`<circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="m5.5 16.5 4-7h6l3 7M9.5 9.5l3 7h3M13 6h3"/>`,
   markt:`<path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.6" cy="7.6" r="1.4"/>`,
   neu:`<path d="M12 21v-8"/><path d="M12 13C12 9 9.5 6 5 6c0 4 2.5 7 7 7z"/><path d="M12 15c0-3.5 2.5-6.5 7-6.5 0 3.5-2.5 6.5-7 6.5z"/>`,
@@ -9888,7 +9903,7 @@ const EI_SCHRITT = {
       <li><i>${ic(IC.fahrwerk, 17)}</i>${tx("Fahrwerk für dein Gewicht und deinen Stil", "Suspension for your weight and your style")}</li>
       <li><i>${ic(IC.pruef, 17)}</i>${tx("Prüfung: Passt jedes Teil zu den anderen?", "Check: does every part fit the others?")}</li></ul>`,
     f:`<button class="btn wide gross" data-eiweiter="1">${tx("Los geht's", "Let's go")}</button>
-      <p class="ei-klein">${tx(`Rund zwei Minuten · Free ist kostenlos · Pro ab ${euro(PRO_JAHR_MONAT)} im Monat`, `About two minutes · Free costs nothing · Pro from ${euro(PRO_JAHR_MONAT)} a month`)}</p>`}),
+      <p class="ei-klein">${tx(`Dauert rund zwei Minuten und ist kostenlos. Pro gibt es ab ${euro(PRO_JAHR_MONAT)} im Monat.`, `Takes about two minutes and is free. Pro starts at ${euro(PRO_JAHR_MONAT)} a month.`)}</p>`}),
   ziel: () => ({h:`
     <p class="ei-sub" style="--i:0">${tx("Los geht's", "Let's go")}</p>
     <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Was hast du vor?", "What are you planning?")}</h2>
@@ -15213,7 +15228,7 @@ function vorschlaegeZeichnen(){
       + spar.map(v => `<div class="spar">
           <div>
             <div class="spar-n">${esc(v.teil.n)}</div>
-            <div class="spar-s">${v.slot.label} · ${eur(preisVon(v.teil))} ${tx("statt", "instead of")} ${eur(preisVon(findeTeil(v.slot.k, build[v.slot.k])))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div>
+            <div class="spar-s">${v.slot.label} · <span class="nw">${eur(preisVon(v.teil))} ${tx("statt", "instead of")} ${eur(preisVon(findeTeil(v.slot.k, build[v.slot.k])))}</span> · <span class="nw">${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</span></div>
             ${v.ab.length ? `<div class="spar-ab">${esc(v.ab.join(" · "))}</div>` : ""}
             <button class="up-vgl" data-detail="${v.slot.k}|${v.teil.id}">${tx("Vergleichen", "Compare")}</button>
           </div>
@@ -16307,8 +16322,9 @@ function oeffneWiz(step){
     /* Rechnen kann bei knappem Budget gut eine Sekunde dauern: erst die
        Ansage zeigen, dann rechnen, dann das Ergebnis */
     if(!wizErgebnis){
-      zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${tx("Bauziel", "Build plan")} · ${esc(profilName(aktivesProfil(), modus))}</span>${tx(`Schritt ${step+1} von ${N}`, `Step ${step+1} of ${N}`)}</h3>${zuBtn}</div>
-        ${bahn}<div class="sheet-b" data-wizbody="1"><p class="q">${tx("Rechne deinen Aufbau …", "Working out your build …")}</p>
+      const radName = esc(profilName(aktivesProfil(), modus));
+      zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${tx(`Schritt ${step+1} von ${N} für ${radName}`, `Step ${step+1} of ${N} for ${radName}`)}</span>${tx("Rechne deinen Aufbau …", "Working out your build …")}</h3>${zuBtn}</div>
+        ${bahn}<div class="sheet-b" data-wizbody="1">
         <p class="qs">${tx(`Passende Teile für ${esc(selNamen())}, im Budget von ${eur(plan.budget)} — wenn nötig mit einem
           älteren Rahmen-Modelljahr.`, `Matching parts for ${esc(selNamen())}, within a budget of ${eur(plan.budget)} — with an older frame model year if needed.`)}</p></div>`);
       setTimeout(() => {
@@ -16399,8 +16415,13 @@ function oeffneWiz(step){
   /* Fertig speichert nur die Angaben (sie gelten sofort); Weiter fuehrt zum
      Vorschlag, und erst "Uebernehmen" tauscht die Teile des offenen Rads */
   const ende = step === WIZ_ERGEBNIS;
+  /* Die Frage des Schritts ist die Ueberschrift; Schritt und Rad stehen
+     klein darunter (APP-REDESIGN-001: jede Ansicht sagt zuerst, worum es geht) */
+  const fm = body.match(/^\s*<p class="q">([\s\S]*?)<\/p>/), frage = fm ? fm[1] : tx("Disziplin", "Discipline");
+  if(fm) body = body.slice(fm[0].length);
+  const radName = esc(profilName(aktivesProfil(), modus));
   zeigeSheet(`
-    <div class="sheet-h"><h3><span class="sub">${tx("Bauziel", "Build plan")} · ${esc(profilName(aktivesProfil(), modus))}</span>${N > 1 ? tx(`Schritt ${step+1} von ${N}`, `Step ${step+1} of ${N}`) : tx("Disziplin", "Discipline")}</h3>${zuBtn}</div>
+    <div class="sheet-h"><h3><span class="sub">${N > 1 ? tx(`Schritt ${step+1} von ${N} für ${radName}`, `Step ${step+1} of ${N} for ${radName}`) : tx(`Bauziel für ${radName}`, `Build plan for ${radName}`)}</span>${frage}</h3>${zuBtn}</div>
     ${N > 1 ? bahn : ""}
     <div class="sheet-b" data-wizbody="1">${body}</div>
     <div class="sheet-f">
@@ -16635,7 +16656,7 @@ function oeffneMenu(){
     <div class="sheet-b">
       <div class="grp-h" style="margin-top:2px"><h2>${tx("Sprache", "Language")} · <span lang="${tx("en", "de")}">${tx("Language", "Sprache")}</span></h2><div class="rule"></div></div>
       ${spracheKnoepfe("menu-sprache")}
-      <button class="pro-zeile${istPro() ? " an" : ""}" data-pro="menu"><span class="pro-orb klein">${ic(IC.traum, 18)}</span>
+      <button class="pro-zeile${istPro() ? " an" : ""}" data-pro="menu"><span class="pro-orb klein">${csLogo(24)}</span>
         <span><b>CrankScore Pro${istPro() ? ` <i class="pro-an">${tx("aktiv", "active")}</i>` : ""}</b><span>${istPro()
           ? (proBetreiber() ? tx("Betreiber-Modus: alles frei", "Operator mode: everything unlocked") : tx("Unbegrenzt viele Räder, Fahrwerk-Setup, Guide ohne Limit — danke!", "Unlimited bikes, suspension setup, unlimited Guide questions — thank you!"))
           : tx(`Unbegrenzt viele Räder, Fahrwerk-Setup, Guide ohne Limit · ab ${euro(PRO_JAHR_MONAT)} im Monat`, `Unlimited bikes, suspension setup, unlimited Guide questions · from ${euro(PRO_JAHR_MONAT)} a month`)}</span></span>${ic(IC.weiter, 16)}</button>
@@ -16645,10 +16666,10 @@ function oeffneMenu(){
       <div class="grp-h" style="margin-top:16px"><h2>${tx("Hilfe", "Help")}</h2><div class="rule"></div></div>
       <div class="hilfe-liste">${[
         ['data-hilfe="begriffe"', IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie, SAG … einfach erklärt", "Boost, freehub, chainline, sag … explained simply")],
-        ['data-startseite="1"', IC.traum, tx("Über CrankScore", "About CrankScore"), tx("Alles, was die App kann — auf einer Seite", "Everything the app does — on one page")],
+        ['data-startseite="1"', "logo", tx("Über CrankScore", "About CrankScore"), tx("Alles, was die App kann — auf einer Seite", "Everything the app does — on one page")],
         ['data-hilfe="tour"', IC.tour, tx("App-Rundgang", "App tour"), tx("In 30 Sekunden: wo was ist", "In 30 seconds: where everything is")]
       ].concat(leitAus ? [['data-hilfe="leit"', IC.auge, tx("Aufgabenkarte wieder zeigen", "Show the task card again"), tx("Die Karte „Nächster Schritt“ über dem Score", "The “Next step” card above the score")]] : [])
-        .map(([a, i, t, u]) => `<button class="hl-zeile" ${a}><span class="hl-ic">${ic(i, 18)}</span><span><b>${t}</b><span>${u}</span></span>${ic(IC.weiter, 16)}</button>`).join("")}</div>
+        .map(([a, i, t, u]) => `<button class="hl-zeile" ${a}><span class="hl-ic">${i === "logo" ? csLogo(20) : ic(i, 18)}</span><span><b>${t}</b><span>${u}</span></span>${ic(IC.weiter, 16)}</button>`).join("")}</div>
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Design", "Appearance")}</h2><div class="rule"></div></div>
       <div class="seg" role="group" aria-label="${tx("Design", "Appearance")}" data-wahl="${designHell() ? "hell" : "oled"}" style="margin:0 0 6px">
         <button data-design="oled" aria-pressed="${!designHell()}">${ic(`<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>`, 15)}${tx("OLED-Schwarz", "OLED black")}</button>
