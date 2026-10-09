@@ -383,7 +383,9 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
    Jede Kennzahl hat ihre Farbe: Wertung nach Ampel (per JS), Kompatibilitaet
    violett, Einsatz orange. Die Zahl steht in Schriftfarbe im Ring -- die
    Farbe traegt der Ring, lesbar bleibt die Zahl immer. Hinter den Ringen
-   liegt ein weicher Farbschein aus denselben drei Farben. */
+   liegt ein weicher Farbschein aus denselben drei Farben.
+   (Aeltere Fassung -- seit APP-DESIGN-002 gilt der Block "Score-Karte:
+   technische Uebersicht" weiter unten: Gesamtring Stahlblau, kein Farbschein.) */
 .bar{padding:0}
 .bar-in{padding:18px 16px 14px;display:flex;flex-direction:column;align-items:center;gap:12px;
   background:var(--surface);border-radius:var(--r-karte);position:relative;overflow:hidden;isolation:isolate;
@@ -1779,7 +1781,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
    und Pro darueber aufgehen. */
 .ls{position:fixed;inset:0;z-index:55;background:#fff;color:#1d1d1f;display:flex;flex-direction:column;
   --l-karte:#f2f2f5;--l-ink:#1d1d1f;--l-ink2:#6e6e73;--l-line:#e3e3e8;animation:einblenden .3s ease;
-  --gut:#2fb86b;--bad:#e0344f;--m-pass:#6a55f0;--m-eins:#f08a1c;--anod:#5b45e0}
+  --gut:#2fb86b;--bad:#e0344f;--m-pass:#6a7f96;--m-eins:#858a91;--anod:#2f5a80}
 .ls-nav{flex:none;display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;
   background:rgba(255,255,255,.82);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid transparent;transition:border-color .2s;position:relative;z-index:2}
@@ -1884,9 +1886,9 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-klicks{display:flex;align-items:center;gap:5px;margin-top:12px;font-size:11.5px;color:var(--l-ink2)}
 .ls-klicks span{margin-right:4px}
 .ls-klicks i{width:11px;height:11px;border-radius:50%;background:#e3e3e8}
-.ls-klicks i.an{background:var(--m-pass)}
+.ls-klicks i.an{background:var(--anod)}
 .ls-chat{background:#fff;border-radius:18px 18px 18px 6px;padding:10px 12px;font-size:12.5px;line-height:1.45;margin-bottom:8px;max-width:92%}
-.ls-chat.du{margin-left:auto;background:#5b45e0;color:#fff;border-radius:18px 18px 6px 18px}
+.ls-chat.du{margin-left:auto;background:#2f5a80;color:#fff;border-radius:18px 18px 6px 18px}
 /* Dunkler Abschnitt fuer den Guide -- wie "Bevel Intelligence" */
 .ls-dunkel{background:#161618;color:#f5f5f7;padding:60px 0 20px;margin-top:50px;max-width:none;text-align:center;overflow:hidden}
 .ls-dunkel > h2{font-size:38px;line-height:1.04;letter-spacing:-.045em;font-weight:800;color:#f5f5f7;padding:0 20px}
@@ -1899,7 +1901,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-quer{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:0 14px 6px;scroll-snap-type:x mandatory;max-width:none}
 .ls-quer::-webkit-scrollbar{display:none}
 .ls-mehr{flex:none;width:250px;scroll-snap-align:start;background:var(--l-karte);border-radius:26px;padding:22px 20px;display:flex;flex-direction:column;gap:6px}
-.ls-mehr i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#fff;color:#5b45e0;margin-bottom:6px}
+.ls-mehr i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#fff;color:#2f5a80;margin-bottom:6px}
 .ls-mehr b{font-family:var(--f-head);font-size:19px;letter-spacing:-.025em}
 .ls-mehr span{font-size:14.5px;line-height:1.4;color:var(--l-ink2)}
 @media (min-width:790px){.ls-quer{flex-wrap:wrap;justify-content:center;max-width:790px;margin:0 auto}.ls-mehr{width:245px}}
@@ -1914,8 +1916,8 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-preis li svg{flex:none;color:#12805a}
 .ls-preis > small{font-size:12.5px;color:var(--l-ink2);margin-top:6px}
 .ls-preis.pro{background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:2px solid transparent}
-.ls-preis.pro li svg{color:#5b45e0}
-/* Privatsphaere: dunkelgruene Karte mit Schloss, einfarbig */
+.ls-preis.pro li svg{color:#2f5a80}
+/* Privatsphaere: dunkle Karte mit Schloss, einfarbig (Graphit seit APP-DESIGN-002) */
 .ls-privat{position:relative;overflow:hidden;margin:64px max(14px,calc(50% - 380px)) 0;border-radius:30px;padding:120px 26px 110px;text-align:center;
   background:#18221f;color:#e8efe9}
 .ls-schloss{position:absolute;left:50%;top:50%;width:250px;height:290px;transform:translate(-50%,-50%);fill:none;stroke:rgba(255,255,255,.09);stroke-width:5}
@@ -2812,7 +2814,7 @@ body:not([data-view="aufbau"]) .sprung-platz,.sprung-platz:empty{display:none}
 @media (hover:hover){.up-vgl:hover{text-decoration:underline;text-underline-offset:3px}}
 .sheet-h .zurueck{margin-left:-4px}
 
-/* Orange nur fuer Auswahl und Orientierung: Hinweis- und Erklaerflaechen
+/* Markenfarbe nur fuer Auswahl und Orientierung: Hinweis- und Erklaerflaechen
    sind neutral, Symbolkacheln ruhig, und nirgends leuchtet etwas */
 .ad-info span,.fx-i span,.fx-tipp{box-shadow:none}
 .fx-tipp,.fw-banner,.fw-tip,.fw-warum p,.pro-grund{background:var(--surface-2);border-color:var(--line-soft)}
@@ -2872,8 +2874,12 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 .brand-logo{width:28px;height:21px;flex:none;color:var(--anod);margin-right:7px}
 .ls-logo{display:inline-flex;align-items:center}
 .ls-logo .brand-logo{color:#2f5a80}
-@media (max-width:360px){.brand-logo{width:22px;height:17px}}
-@media (max-width:300px){.brand-logo{display:none}}
+/* Im App-Kopf erst ab 400 px: darunter braucht der Disziplin-Knopf den Platz,
+   und das Logo steht ohnehin gross im Gesamtring direkt darunter. */
+@media (max-width:399px){.brand .brand-logo{display:none}}
+@media (max-width:360px){.ls-logo .brand-logo{width:22px;height:17px}}
+@media (max-width:340px){.ls-logo .brand-logo{width:18px;height:14px;margin-right:5px}}
+@media (max-width:300px){.ls-logo .brand-logo{display:none}}
 
 /* Wichtige Aktionen: gefuellt in Stahlblau, Nebenaktionen bleiben neutral */
 .btn{background:var(--akzent-flaeche);color:#fff}
@@ -2904,10 +2910,14 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 .bar .rg-gesamt svg.rg-kreis{position:absolute;inset:0;width:100%;height:100%;max-width:none}
 .bar .rg-gesamt .rg-bahn,.bar .rg-gesamt .rg-wert{stroke-width:6}
 .rg-innen{position:absolute;inset:15%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center}
-.bar .rg-gesamt svg.rg-logo{width:52%;max-width:none;height:auto;aspect-ratio:304/228;color:var(--ink);overflow:visible;margin-bottom:1px}
-.bar .rg-gesamt .v{position:static;display:block;max-width:none;margin:0;font-family:var(--f-zahl);font-size:clamp(40px,11.5vw,52px);font-weight:700;
+.bar .rg-gesamt svg.rg-logo{width:54%;max-width:none;height:auto;aspect-ratio:304/228;color:var(--anod);overflow:visible;margin-bottom:1px}
+.bar .rg-gesamt .v{position:static;display:block;max-width:none;margin:0;font-family:var(--f-zahl);font-size:clamp(42px,12.5vw,52px);font-weight:700;
   line-height:.92;letter-spacing:-.01em;color:var(--ink)}
-.bar .rg-gesamt .rg-l{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:700;gap:0}
+/* Die Beschriftung steht als Unterzeile unter dem Ring -- im Ring bleiben nur
+   Logo und Zahl, so passt auch "Overall score" bei 280 px, ohne den Ring zu beruehren. */
+.bar .rg-gesamt{margin-bottom:22px}
+.bar .rg-gesamt > .rg-l{position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%);
+  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);font-weight:700;gap:0;white-space:nowrap}
 .bar .rg-gesamt .rg-l::before{display:none}
 .ring-wrap.puls svg.rg-logo{animation:none}
 .rg-gesamt{--rg-farbe:var(--wert-farbe,var(--ring-gesamt))}
@@ -2935,6 +2945,34 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 button.st::after{content:"›";margin-left:1px;font-weight:800;opacity:.75}
 @media (hover:hover){button.st:hover{filter:brightness(.97)}}
 @media (min-width:820px){.bar .rg-gesamt{width:180px}}
+
+/* Startseite: dieselbe Hierarchie wie in der App -- Gesamtscore gross mit
+   Logo, Kompatibilitaet und Einsatz klein darunter. Hauptknopf in Stahlblau. */
+.ls-cta{background:#2f5a80}
+@media (hover:hover){.ls-cta:hover{opacity:1;background:#24496b}}
+.ls-ringe{display:flex;flex-direction:column;align-items:center;gap:12px;padding:0}
+.ls-ring.gross{width:142px}
+.ls-ring.gross .b,.ls-ring.gross .w{stroke-width:6}
+.ls-ring.gross b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:var(--f-zahl);font-size:36px;font-weight:700;line-height:.95;letter-spacing:-.01em}
+.ls-ring-logo{width:52px;height:39px;color:#2f5a80}
+.ls-paar{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.ls-paar > span{display:flex;align-items:center;gap:8px;min-width:0;background:#fff;border-radius:14px;padding:8px 9px}
+.ls-paar .ls-ring{width:38px;flex:none}
+.ls-paar .ls-ring b{font-family:var(--f-zahl);font-size:14px;font-weight:700;letter-spacing:0}
+.ls-paar em{font-style:normal;font-size:11.5px;font-weight:650;color:var(--l-ink2);line-height:1.2;min-width:0;overflow-wrap:anywhere}
+.ls-privat{background:#15191e;color:#e9eef3}
+.ls-privat h2{color:#f3f5f7}
+.ls-privat p{color:#aeb8c2}
+
+/* Fahrwerk-Illustrationen: Marker in Graphit, der gerade aktive in Stahlblau.
+   Der O-Ring (SAG) war orange -- Orange steht jetzt nur noch fuer Warnungen. */
+:root{--il-ring:#7fa8d1}
+:root[data-theme="light"]{--il-ring:#2f5a80}
+.il-m .il-m-r{fill:var(--ink-2)}
+.il-m text{fill:var(--surface)}
+.il-m.an .il-m-r{fill:var(--akzent-flaeche)}
+.fw-ki.ring{background:var(--akzent-flaeche)}
+.ls-coach em{background:#2f5a80}
 
 /* ── Teilekarte: das Rad als Wegweiser zu den Teilen ── */
 .teilekarte{padding:14px 14px 12px}
@@ -3062,8 +3100,8 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
           <span class="rg-innen">
             <svg class="rg-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>
             <b class="v" id="score">–</b>
-            <span class="rg-l" data-t="Gesamtscore|Overall score">Gesamtscore</span>
           </span>
+          <span class="rg-l" data-t="Gesamtscore|Overall score">Gesamtscore</span>
         </button>
         <div class="rg-paar">
           <button class="rg rg-pass" data-scorehilfe="1" title="Passen die Teile technisch zusammen?" data-tt="Passen die Teile technisch zusammen?|Do the parts fit together technically?">
@@ -7306,7 +7344,7 @@ function lsBeispiel(){
 }
 const lsRing = (v, farbe, gross) => { const u = 2 * Math.PI * 42;
   return `<span class="ls-ring${gross ? " gross" : ""}" style="--f:${farbe}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" class="b"/>
-    <circle cx="50" cy="50" r="42" class="w" stroke-dasharray="${u.toFixed(1)}" stroke-dashoffset="${(u * (1 - v / 100)).toFixed(1)}" transform="rotate(-90 50 50)"/></svg><b>${v}</b></span>`; };
+    <circle cx="50" cy="50" r="42" class="w" stroke-dasharray="${u.toFixed(1)}" stroke-dashoffset="${(u * (1 - v / 100)).toFixed(1)}" transform="rotate(-90 50 50)"/></svg><b>${gross ? '<svg class="ls-ring-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>' : ""}${v}</b></span>`; };
 function startseiteHtml(){
   const f = lsFakten(), bsp = lsBeispiel(), r = bsp.r || {gesamt:99, tech:100, chara:98, preis:0, gewicht:0};
   const fit = bsp.fit, fe = bsp.feder;
@@ -7351,8 +7389,8 @@ function startseiteHtml(){
       <section class="ls-titel ls-rein"><h2>${tx("Vor dem Kauf wissen,<br>ob alles passt.", "Be sure it all fits<br>before you buy.")}</h2>
         <p>${tx("Drei Zahlen zeigen dir, wo dein Rad steht — und was es besser macht.", "Three numbers show you where your bike stands — and what makes it better.")}</p></section>
       ${karte("var(--gut)", "Score", tx("Eine Zahl von 0 bis 100: Passen die Teile zusammen — und zu dem, was du fährst?", "One number from 0 to 100: do the parts fit together — and suit what you ride?"),
-        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.tech, "#8e8e93")}${lsRing(r.gesamt, "var(--gut)", true)}${lsRing(r.chara, "#8e8e93")}</div>
-          <div class="ls-ringl"><span>${tx("Kompa\u00adtibilität", "Compat\u00adibility")}</span><span>Score</span><span>${wort("einsatz")}</span></div>
+        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.gesamt, "#33608a", true)}
+          <div class="ls-paar"><span>${lsRing(r.tech, "#6a7f96")}<em>${tx("Kompa\u00adtibilität", "Compat\u00adibility")}</em></span><span>${lsRing(r.chara, "#858a91")}<em>${wort("einsatz")}</em></span></div></div>
           <div class="ls-app-z"><b>${tx("Stimmig.", "Spot on.")}</b> ${tx("Alles zieht in Richtung Trail.", "The whole build is geared towards Trail.")}</div><div class="ls-platz"></div>`)
         + `<div class="ls-schwebe"><span>${tx("Preis", "Price")}</span><b>${eur(r.preis)}</b><span>${kg(r.gewicht)}</span></div>`)}
       ${karte("var(--bad)", tx("Prüfung", "Check"), tx("Achsen, Freilauf, Dämpfermaß, Steuersatz, Bremsscheiben: Die App gleicht jedes Teil mit jedem anderen ab — und sagt dir, wie du Konflikte löst.",

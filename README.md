@@ -70,7 +70,7 @@ Schreibung statt gesperrter Versalien, Knöpfe schlicht weiß auf schwarz
 gibt es keine bunten Verläufe und kein Leuchten mehr: keine Farbwolken im
 Einstieg und hinter den Ringen, eine einfarbige Überschrift, ein schlichter
 Guide-Knopf wie die anderen runden Knöpfe. Farbe trägt nur noch ein Akzent
-(seit APP-UX-001 Eloxal-Orange statt Violett, als Fläche `--akzent-flaeche`,
+(APP-UX-001 Eloxal-Orange statt Violett, seit APP-DESIGN-002 gedecktes Stahlblau; als Fläche `--akzent-flaeche`,
 `--grad` ist dieselbe Farbe) und die Statusfarben. Die Aufgabenkarte ist eine kompakte Liste ohne Balken und
 Farbflächen; nur der aktuelle Schritt hat eine Erklärung. Grautexte haben mindestens
 4,5:1 Kontrast, die Ringe mindestens 3:1. Die Seiten von Bevel selbst
@@ -102,6 +102,26 @@ hochwertig, menschlich, schnelle Wege. Umgesetzt:
   leuchtet. Alle Texte ≥ 4,5:1 (in der App gemessen).
 - Messung der sechs Abläufe vorher/nachher: `CrankScore-Austausch/CLAUDE-ANTWORTEN.md` (APP-UX-001).
 
+**Stahlblau und Score-Karte (APP-DESIGN-002, 09.10.2026).** Liams Auftrag: mehr
+Charakter, hochwertig und professionell, ruhig, aber nicht eintönig.
+- *Farbe:* gedecktes Stahlblau mit Schwarz, Graphit und klaren hellen Flächen
+  (hell `#2f5a80` auf `#eef1f4`, dunkel `#8fb3d6` auf Schwarz). Stahlblau
+  markiert wichtige Aktionen (gefüllte Knöpfe), aktive Zustände (Bereich,
+  Auswahl, aktueller Schritt, Guide-Fragen, aktiver Fahrwerk-Marker) und den
+  Gesamtscore. Orange nur noch für Warnungen, Rot für Konflikte, Grün für „passt“.
+- *Score-Karte:* Der Gesamtscore ist der große Ring in Stahlblau. Im Ring stehen
+  das CrankScore-Logo (Kettenblatt mit Kurbel, als SVG `#cs-logo` aus dem
+  App-Symbol) und darunter die Zahl; „Gesamtscore“ steht als Unterzeile unter
+  dem Ring. Darunter Kompatibilität (Schieferblau) und Einsatz (Grau) als
+  kleine Ringe mit Beschriftung. Probleme stehen in Worten mit Zeichen als
+  Statushinweise darunter (✕ Konflikte, ! Kompromisse, ! über Budget,
+  ○ fehlende Teile, ✓ alle Maße passen); ein Tipp führt zur Stelle.
+- *Teilekarte:* das gerenderte Beispielrad im Aufbau, an jeder Teilegruppe ein
+  Punkt mit Status (✓/!/✕ plus Farbe); ein Tipp springt zur Gruppe. Klar als
+  Beispielrad beschriftet.
+- Logo auch im Schriftzug (im App-Kopf erst ab 400 px Breite) und auf der
+  Startseite; die Score-Vorschau dort zeigt dieselbe Hierarchie.
+
 **Startseite.** Aufgebaut wie bevel.health (nach einer Bildschirmaufnahme der
 Seite): hell, große Überschriften, schwarzer Knopf „Kostenlos starten“, das
 gezeichnete Rad im Kopf, dann „Kennt die Teile von“
@@ -109,7 +129,7 @@ mit laufenden Markennamen und drei Zahlen (Teile, Marken, Prüfregeln — aus de
 Katalog gezählt), je Funktion eine große hellgraue Karte mit Handy-Vorschau
 (Wertung, Prüfung, Upgrades, Deine Größe, Gebrauchtrad), ein
 dunkler Abschnitt für den Guide mit seinem Symbol, „Und das ist nicht
-alles“ zum Wischen, Free oder Pro, eine dunkelgrüne Karte zur Privatsphäre,
+alles“ zum Wischen, Free oder Pro, eine dunkle Karte zur Privatsphäre,
 „Bereit, wenn du es bist“ und eine Fußzeile mit Impressum und Datenschutz.
 Die Zahlen in den Vorschauen rechnet die App selbst (Wertung des Startrads, Fit
 für 1,82 m, Luftdruck für 80 kg); erfundene Nutzerzahlen oder Bewertungen gibt
