@@ -3048,13 +3048,16 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
 .ring-wrap.puls svg.rg-logo{animation:none}
 .bar .rg-gesamt > .rg-l{font-size:13px;font-weight:650;color:var(--ink-2)}
 
+/* Leeres Rad: Logo im Ring gedaempft, Strich statt Zahl */
+.bar-in.leer .rg-gesamt svg.rg-logo{color:var(--ink-3);opacity:.55}
+.bar-in.leer .rg-gesamt .v{color:var(--ink-3)}
 /* ── Aufgabenkarte "Naechster Schritt": kompakt, sobald man angefangen hat ── */
 .leit{border-radius:var(--r-karte)}
 .leit-kopf{align-items:center}
 .leit-kopf > div{min-width:0;flex:1}
 .leit-sub{display:block;color:var(--ink-3);font-size:12.5px;font-weight:650}
 .leit h2{font-size:20px;line-height:1.15;margin-top:1px}
-.leit-stand{flex:none;font-family:var(--f-zahl);font-size:13.5px;font-weight:700;color:var(--anod);white-space:nowrap}
+.leit-stand{flex:none;font-size:12.5px;font-weight:650;color:var(--ink-3);white-space:nowrap;align-self:flex-start;margin-top:4px}
 .leit .leit-bahn{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:4px;height:4px;background:none;border-radius:0;margin:12px 2px 2px;overflow:visible}
 .leit .leit-bahn i{height:4px;width:auto;border-radius:2px;background:var(--line)}
 .leit .leit-bahn i.fertig{background:var(--anod)}
@@ -3116,6 +3119,16 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
   body[data-view="aufbau"] .seite{top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + var(--nav-h) + 66px)}
   .wrap > .coach-platz .leit-schritte{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
 }
+/* ── Radleiste: am Desktop Art und Rad in einer Zeile, statt zweier Baender ── */
+@media (min-width:820px){
+  .radleiste{max-width:1212px;margin:0 auto;padding:8px 16px 2px;display:flex;align-items:center;gap:14px}
+  .radleiste .modus{padding:0;flex:none}
+  .radleiste .modus-in{width:380px;margin:0}
+  .radleiste .profile{padding:0;flex:1;min-width:0}
+  .radleiste .profile-in{margin:0}
+}
+/* Kleine Zuordnungen ueber Fahrwerk-Karten: normale Schreibung */
+.fw-el-o,.trk-sk b{letter-spacing:0;font-size:12.5px;font-weight:650}
 /* ── Fahrwerk: Profilwahl knapp, Werte frueh ── */
 @media (max-width:819px){
   .fw-pk small{display:none}
@@ -3165,6 +3178,8 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
   </div>
 </header>
 
+<!-- Radleiste (APP-REDESIGN-001): Art des Rads und das Rad selbst; am Desktop in einer Zeile -->
+<div class="radleiste">
 <div class="modus">
   <div class="modus-in" role="group" aria-label="Welches Rad" data-ta="Welches Rad|Which bike">
     <button data-modus="traum" aria-pressed="true" data-t="Traumrad|Dream bike">Traumrad</button>
@@ -3173,6 +3188,7 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
   </div>
 </div>
 <div class="profile"><div class="profile-in" id="profile" role="group" aria-label="Profile" data-ta="Profile|Profiles"></div></div>
+</div>
 <!-- Hauptnavigation (APP-UX-001): fuenf beschriftete Bereiche in Liams Reihenfolge.
      Am Handy schwebt sie unten, am breiten Bildschirm klebt sie oben unter dem Kopf. -->
 <nav class="tabs" aria-label="Bereiche" data-ta="Bereiche|Sections">
@@ -3283,7 +3299,7 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
   <div id="aufbau"></div>
   <div class="panel" id="panel">
     <div class="card" id="c-find">
-      <div class="grp-h" style="margin-bottom:2px"><h2 data-t="Prüfung · passt alles zusammen?|Check · does everything fit?">Prüfung · passt alles zusammen?</h2><div class="rule"></div></div>
+      <div class="grp-h" style="margin-bottom:2px"><h2 data-t="Passt alles zusammen?|Does everything fit?">Passt alles zusammen?</h2><div class="rule"></div></div>
       <div id="findings"></div>
     </div>
     <div class="card" id="c-kauf">
@@ -13643,7 +13659,7 @@ function suElementHtml(f, slot, x, d){
   const zeigM = its.filter(i => i.art !== "sag").map(i => i.art === "tokens" ? null : i.art).filter((a, i, l) => a && l.indexOf(a) === i);
   const leg = zeigM.map(a => sp2((SU_WO[slot] || {})[a] || SU_INFO[a].n));
   return `<section class="fw-el" aria-label="${slot === "gabel" ? tx("Federgabel", "Fork") : tx("Dämpfer", "Shock")}">
-    <div class="fw-el-kopf"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot], 20)}</span><span class="fw-el-t"><span class="fw-el-o">${slot === "gabel" ? tx("VORN · FEDERGABEL", "FRONT · FORK") : tx("HINTEN · DÄMPFER", "REAR · SHOCK")}</span>
+    <div class="fw-el-kopf"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot], 20)}</span><span class="fw-el-t"><span class="fw-el-o">${slot === "gabel" ? tx("Vorn, Federgabel", "Front fork") : tx("Hinten, Dämpfer", "Rear shock")}</span>
       <b>${esc(x.t.nb || x.t.n)}</b><small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "", x.coil ? tx("Stahlfeder", "Coil") : tx("Luftfeder", "Air"), jahr > 1990 ? tx(`Baujahr ${jahr}`, `${jahr}`) : jahr === "alt" ? tx("älter", "older") : ""].filter(Boolean).join(" · ")}</small></span></div>
     ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), `<div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
     <ol class="fw-kl">${basis.map(it => suKarte(f, slot, x, d, it, ++nr)).join("")}</ol>
@@ -14713,7 +14729,7 @@ function oeffneTrailKarte(knopf){
         : w(tx("Luft", "Air"), psi ? `${psi}<small>psi</small>` : `<span class="fx-wort">${slot === "gabel" ? tx("Aufkleber", "sticker") : tx("Trailhead", "Trailhead")}</span>`, psi ? barVon(psi) + " bar" : tx("per SAG", "by sag"), true, "", " s3"),
       w("SAG", `${m.sag}<small>%</small>`, m.sagMm > 0 ? `${zahlDe(m.sagMm)} mm` : "", false, "", " s3")]
       .concat(ks.map(k => w(k.g === "zug" ? tx("Zugstufe", "Rebound") : tx("Druckstufe", "Compression"), esc(k.k.kurz), esc(k.k.von || ""), false, k.k.zeichen, breit)));
-    return `<div class="trk-sek"><div class="trk-sk"><b>${slot === "gabel" ? tx("VORN", "FRONT") : tx("HINTEN", "REAR")}</b><span>${esc(x.t.nb || x.t.n)}</span>${heb.map(k =>
+    return `<div class="trk-sek"><div class="trk-sk"><b>${slot === "gabel" ? tx("Vorn", "Front") : tx("Hinten", "Rear")}</b><span>${esc(x.t.nb || x.t.n)}</span>${heb.map(k =>
       `<em class="trk-heb">${esc(knopfName(k.basis[0]))}: <b>${esc(k.k.kurz)}</b></em>`).join("")}</div><div class="trk-werte">${werte.join("")}</div></div>`;
   };
   el.innerHTML = `<div class="adp-scrim" data-adzu="1"><div class="adp trk" role="dialog" aria-modal="true" aria-labelledby="trk-h" tabindex="-1">
@@ -15276,6 +15292,10 @@ function zeichne(){
   ringSetzen("ring", r.gesamt); ringSetzen("ring-tech", r.tech); ringSetzen("ring-char", r.chara);
   /* Gesamtscore in Stahlblau (APP-DESIGN-002); Probleme stehen als Statushinweis darunter, nicht als Ringfarbe */
   document.querySelector(".bar-in").style.setProperty("--wert-farbe", leer ? "var(--ink-3)" : "var(--ring-gesamt)");
+  /* Leeres Rad: kein Logo-plus-Strich, sondern eine klare Aussage unter dem Ring (APP-REDESIGN-001) */
+  const rgL = document.querySelector(".rg-gesamt > .rg-l");
+  if(rgL){ rgL.dataset.t = leer ? "Noch kein Score|No score yet" : "Gesamtscore|Overall score"; rgL.textContent = leer ? tx("Noch kein Score", "No score yet") : tx("Gesamtscore", "Overall score"); }
+  document.querySelector(".bar-in").classList.toggle("leer", leer);
   if(leer){ cancelAnimationFrame($("score").raf || 0); $("score").textContent = "–"; $("score").dataset.w = 0; } else zaehle($("score"), r.gesamt);
   $("mini-s").textContent = leer ? "–" : r.gesamt;
   $("mini-s").style.color = leer ? "var(--ink-3)" : "var(--anod)";
