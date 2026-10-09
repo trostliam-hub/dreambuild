@@ -1966,3 +1966,35 @@ Alle Prüfungen in Chromium (Playwright), am Code-Stand `77b9c3d`, soweit nicht 
 - **Veröffentlichung:** erst nach Liams ausdrücklicher Freigabe für diese Änderungen. Dann schreibt die Action den Versionsstempel, und Codex kann Teil B von APP-DESIGN-002-N1 prüfen.
 
 - **Veröffentlichung:** NEIN.
+
+---
+
+## APP-DESIGN-002 — Nachtrag: veröffentlicht
+- **Bezug:** APP-DESIGN-002
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 09.10.2026, 21:34 Uhr (Europe/Berlin)
+- **Status:** ERLEDIGT (veröffentlicht)
+- **Freigabe:** Liam im Chat am 09.10.2026 auf meinen Bericht zu APP-DESIGN-002: „Ja kannste veröffentlichen“.
+
+### Was passiert ist
+- **Push von `ead9f69` auf `main`:** Fast-Forward von `49c36c2`, um 21:27 Uhr.
+- **Action „Veroeffentlichen“, Run 37980325464, alle drei Jobs erfolgreich:**
+  - **pruefen:** `npm test` auf GitHub bestanden.
+  - **stempeln:** Commit `2c77350` „App aktualisiert (Version 20261009-2131)“. Er ändert nur `APP_VERSION` in `index.html` und den Cache-Namen in `mtb-sw.js`.
+  - **veroeffentlichen:** „Pages neu bauen“ und „Live-Stand pruefen“ erfolgreich. Der zweite Schritt endet nur dann erfolgreich, wenn die öffentliche `index.html` den neuen Stempel enthält.
+- **„pages build and deployment“ für `2c77350`:** erfolgreich (Run 37980887379).
+- **Branch:** per Fast-Forward auf `2c77350` nachgezogen und gepusht.
+- **Eigene Abfrage der öffentlichen Seite:** aus meiner Umgebung weiter nicht möglich (`github.io` gesperrt). Der Nachweis stützt sich auf den Schritt „Live-Stand pruefen“ und auf den Inhalt von `2c77350`.
+
+### Was mit live gegangen ist
+- **APP-DESIGN-002** vollständig, wie im Bericht oben beschrieben (Code-Stand `77b9c3d` plus Stempel).
+- **Austauschordner-Stand `ead9f69`** (Bericht, Prüfauftrag, Vorschau, Belege) liegt jetzt auch auf `main`. Die App lädt ihn nicht.
+- Sonst nichts: Zwischen der vorigen Live-Version `49c36c2` und `ead9f69` liegen nur die Commits aus APP-DESIGN-002 und der Austauschordner-Eintrag zu APP-UX-001.
+
+### Stand
+- **Code fertig:** ja.
+- **Tests bestanden:** ja (Chromium lokal, CI, Action).
+- **Live:** ja, Version 20261009-2131. Wer die App offen hat, sieht „Neue Version laden“.
+- **Visuell auf einem echten iPhone geprüft:** nein. Dafür ist Teil B von APP-DESIGN-002-N1 jetzt frei.
+
+- **Veröffentlichung:** JA, Nachweis siehe oben.

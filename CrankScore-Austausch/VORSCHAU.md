@@ -5,7 +5,7 @@ Austauschordner. Die Bilder liegen daneben in `belege/`, damit die Seite auch im
 entpackten ZIP funktioniert.
 
 - **Stand:** 09.10.2026, 20:02 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `77b9c3d`.
-- **Nicht veröffentlicht:** Live bleibt Version 20261009-1648. Die Vorher-Bilder zeigen genau diesen Live-Stand.
+- **Veröffentlicht:** seit 09.10.2026, 21:31 Uhr als Version 20261009-2131 (Liams Freigabe; Commit `2c77350` auf `main`). Die Vorher-Bilder zeigen die vorige Live-Version 20261009-1648.
 - **Online ansehen:** https://github.com/trostliam-hub/dreambuild/blob/claude/crankscore-app-changes-nz88ir/CrankScore-Austausch/VORSCHAU.md
 - **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-DESIGN-002). **Prüfauftrag an Codex:** `CODEX-AUFTRAEGE.md` (APP-DESIGN-002-N1).
 - **Frühere Vorschauen:** APP-UX-001 und APP-3D-001 stehen in `CLAUDE-ANTWORTEN.md`; ihre Bilder liegen weiter in `belege/APP-UX-001/` und `belege/APP-3D-001/`.
