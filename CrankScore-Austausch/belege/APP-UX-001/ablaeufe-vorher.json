@@ -1,0 +1,274 @@
+{
+ "handy": {
+  "teil": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 1718,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Reifen hinten im Aufbau suchen und antippen",
+     "scroll": 1718
+    },
+    {
+     "schritt": "Anderen Reifen einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "konflikt": {
+   "ok": true,
+   "tipps": 3,
+   "scroll": 24,
+   "tippen": 0,
+   "sichtbar": 2,
+   "log": [
+    {
+     "schritt": "Reiter Prüfung",
+     "scroll": 0
+    },
+    {
+     "schritt": "Konflikt lesen",
+     "scroll": 24,
+     "sichtbar": 2
+    },
+    {
+     "schritt": "Teil wechseln",
+     "scroll": 0
+    },
+    {
+     "schritt": "Passendes Teil einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "fahrwerk": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Setup öffnen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Einstellwerte sehen",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "upgrade": {
+   "ok": true,
+   "tipps": 4,
+   "scroll": 1741,
+   "tippen": 1,
+   "sichtbar": 1,
+   "log": [
+    {
+     "schritt": "Reiter Upgrades",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erstes Upgrade lesen (nur Name, Preis, Punkte)",
+     "scroll": 23,
+     "sichtbar": 1
+    },
+    {
+     "schritt": "Zurück zum Aufbau",
+     "scroll": 0
+    },
+    {
+     "schritt": "Bauteil des Upgrades im Aufbau suchen",
+     "scroll": 1718
+    },
+    {
+     "schritt": "Upgrade im Teileblatt suchen",
+     "scroll": 0,
+     "eingabe": "Maxxis Minion"
+    },
+    {
+     "schritt": "Ansehen (zeigt nur das neue Teil, kein Vergleich)",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "einkauf": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 1,
+   "log": [
+    {
+     "schritt": "Reiter Kaufen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erste Zeile der Einkaufsliste",
+     "scroll": 0,
+     "sichtbar": 1
+    }
+   ],
+   "ziel": true
+  },
+  "rad": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 1437,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Nach oben scrollen, anderes Traumrad antippen",
+     "scroll": 1437
+    },
+    {
+     "schritt": "Mein Rad",
+     "scroll": 0
+    }
+   ],
+   "ziel": true,
+   "danach": {
+    "ansicht": "aufbau"
+   }
+  }
+ },
+ "desktop": {
+  "teil": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 1237,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Reifen hinten im Aufbau suchen und antippen",
+     "scroll": 1237
+    },
+    {
+     "schritt": "Anderen Reifen einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "konflikt": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 71,
+   "tippen": 0,
+   "sichtbar": 2,
+   "log": [
+    {
+     "schritt": "Konflikt lesen",
+     "scroll": 71,
+     "sichtbar": 2
+    },
+    {
+     "schritt": "Teil wechseln",
+     "scroll": 0
+    },
+    {
+     "schritt": "Passendes Teil einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "fahrwerk": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Setup öffnen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Einstellwerte sehen",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "upgrade": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 886,
+   "tippen": 1,
+   "sichtbar": 1,
+   "log": [
+    {
+     "schritt": "Erstes Upgrade lesen (nur Name, Preis, Punkte)",
+     "scroll": 534,
+     "sichtbar": 1
+    },
+    {
+     "schritt": "Bauteil des Upgrades im Aufbau suchen",
+     "scroll": 352
+    },
+    {
+     "schritt": "Upgrade im Teileblatt suchen",
+     "scroll": 0,
+     "eingabe": "Maxxis Minion"
+    },
+    {
+     "schritt": "Ansehen (zeigt nur das neue Teil, kein Vergleich)",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "einkauf": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 3793,
+   "tippen": 0,
+   "sichtbar": 8,
+   "log": [
+    {
+     "schritt": "Seitenleiste bis „Einkaufsliste zeigen“ scrollen und klicken",
+     "scroll": 3793
+    },
+    {
+     "schritt": "Erste Zeile der Einkaufsliste",
+     "scroll": 0,
+     "sichtbar": 8
+    }
+   ],
+   "ziel": true
+  },
+  "rad": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 1437,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Nach oben scrollen, anderes Traumrad antippen",
+     "scroll": 1437
+    },
+    {
+     "schritt": "Mein Rad",
+     "scroll": 0
+    }
+   ],
+   "ziel": true,
+   "danach": {
+    "ansicht": "aufbau"
+   }
+  }
+ }
+}

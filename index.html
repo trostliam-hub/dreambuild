@@ -224,6 +224,9 @@ button:active:not(:disabled){transform:scale(.97)}
   transition-property:background-color,border-color,color,fill,stroke,box-shadow,outline-color,text-decoration-color,caret-color!important;
   transition-duration:var(--t-design)!important;transition-timing-function:var(--e-weich)!important;transition-delay:0s!important}
 :root.design-wechsel .seg::before,:root.design-wechsel .modus-in::before{transition-property:transform,background-color,box-shadow!important}
+/* Symbol-Innereien zeichnen mit currentColor und folgen so dem Element darueber --
+   eigene Uebergaenge an jedem Pfad kosten nur Rechenzeit (alter Safari-Weg) */
+:root.design-wechsel svg *{transition:none!important}
 /* Bewegung reduzieren: nichts faehrt, zoomt, dreht oder laeuft endlos; Blaetter,
    Hinweise und Fenster blenden nur kurz ueber (--hub und --zoom neutral) */
 @media (prefers-reduced-motion:reduce){

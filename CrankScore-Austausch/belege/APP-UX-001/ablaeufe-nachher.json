@@ -1,0 +1,298 @@
+{
+ "handy": {
+  "teil": {
+   "ok": true,
+   "tipps": 3,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Sprungleiste: Reifen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Reifen hinten antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Anderen Reifen einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "konflikt": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 2,
+   "log": [
+    {
+     "schritt": "Konflikt neben dem Score lesen",
+     "scroll": 0,
+     "sichtbar": 2
+    },
+    {
+     "schritt": "Dämpfer wechseln (Grund steht oben im Blatt)",
+     "scroll": 0
+    },
+    {
+     "schritt": "Grund im Teileblatt",
+     "scroll": 0,
+     "sichtbar": null
+    },
+    {
+     "schritt": "Passendes Teil einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "fahrwerk": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Bereich Fahrwerk",
+     "scroll": 0
+    },
+    {
+     "schritt": "Einstellwerte sehen",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "upgrade": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 1,
+   "log": [
+    {
+     "schritt": "Bereich Upgrades",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erstes Upgrade lesen",
+     "scroll": 0,
+     "sichtbar": 1
+    },
+    {
+     "schritt": "Vergleichen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Verbaut und neu nebeneinander: Preis, Gewicht, Score, Daten",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "einkauf": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 5,
+   "log": [
+    {
+     "schritt": "Bereich Einkauf",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erste Zeile der Einkaufsliste",
+     "scroll": 0,
+     "sichtbar": 5
+    }
+   ],
+   "ziel": true
+  },
+  "rad": {
+   "ok": true,
+   "tipps": 4,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Kopf: Wertung + Radname antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Anderes Traumrad",
+     "scroll": 0
+    },
+    {
+     "schritt": "Kopf antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Mein Rad",
+     "scroll": 0
+    }
+   ],
+   "ziel": true,
+   "danach": {
+    "ansicht": "aufbau",
+    "scroll": 1532
+   }
+  }
+ },
+ "desktop": {
+  "teil": {
+   "ok": true,
+   "tipps": 3,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Sprungleiste: Reifen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Reifen hinten antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Anderen Reifen einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "konflikt": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 2,
+   "log": [
+    {
+     "schritt": "Konflikt neben dem Score lesen",
+     "scroll": 0,
+     "sichtbar": 2
+    },
+    {
+     "schritt": "Dämpfer wechseln (Grund steht oben im Blatt)",
+     "scroll": 0
+    },
+    {
+     "schritt": "Grund im Teileblatt",
+     "scroll": 0,
+     "sichtbar": null
+    },
+    {
+     "schritt": "Passendes Teil einbauen",
+     "scroll": 0
+    }
+   ],
+   "ziel": true
+  },
+  "fahrwerk": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Bereich Fahrwerk",
+     "scroll": 0
+    },
+    {
+     "schritt": "Einstellwerte sehen",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "upgrade": {
+   "ok": true,
+   "tipps": 2,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 1,
+   "log": [
+    {
+     "schritt": "Bereich Upgrades",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erstes Upgrade lesen",
+     "scroll": 0,
+     "sichtbar": 1
+    },
+    {
+     "schritt": "Vergleichen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Verbaut und neu nebeneinander: Preis, Gewicht, Score, Daten",
+     "scroll": 0,
+     "sichtbar": null
+    }
+   ],
+   "ziel": true
+  },
+  "einkauf": {
+   "ok": true,
+   "tipps": 1,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": 6,
+   "log": [
+    {
+     "schritt": "Bereich Einkauf",
+     "scroll": 0
+    },
+    {
+     "schritt": "Erste Zeile der Einkaufsliste",
+     "scroll": 0,
+     "sichtbar": 6
+    }
+   ],
+   "ziel": true
+  },
+  "rad": {
+   "ok": true,
+   "tipps": 4,
+   "scroll": 0,
+   "tippen": 0,
+   "sichtbar": null,
+   "log": [
+    {
+     "schritt": "Kopf: Wertung + Radname antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Anderes Traumrad",
+     "scroll": 0
+    },
+    {
+     "schritt": "Kopf antippen",
+     "scroll": 0
+    },
+    {
+     "schritt": "Mein Rad",
+     "scroll": 0
+    }
+   ],
+   "ziel": true,
+   "danach": {
+    "ansicht": "aufbau",
+    "scroll": 1536
+   }
+  }
+ }
+}
