@@ -11,7 +11,7 @@
    Home-Bildschirm-Apps teils nur einmal und uebernimmt spaetere Aenderungen nicht. */
 (function(){var hell=false;try{hell=localStorage.getItem("mtb.design")==="hell";}catch(e){}
 if(hell)document.documentElement.dataset.theme="light";
-var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f1ee":"#000000";document.head.appendChild(m);})();</script>
+var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#eef1f4":"#000000";document.head.appendChild(m);})();</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -151,19 +151,22 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f1e
      mehr: --grad ist nur noch eine einfarbige Akzentflaeche (weisse Schrift
      darauf >= 4,5:1). Kontraste per WCAG-Formel geprueft: Grautexte >= 4,5:1,
      Ringe >= 3:1. */
-  --ground:#000000; --surface:#141416; --surface-2:#1c1c1f; --sunk:#2a2a2e;
-  --ink:#f5f5f7; --ink-2:#b3b3b9; --ink-3:#86868d;
-  --line:#2c2c30; --line-soft:#212124; --hair:rgba(255,255,255,.07);
-  /* Markenfarbe Eloxal-Orange (APP-UX-001): wie eloxierte Anbauteile und die
-     Farbe von Federgabel-Decals. Sie markiert nur Auswahl und Orientierung
-     (gewaehlter Bereich, gewaehlte Option, Links, Fokus) -- nie einen Status.
-     Status bleibt Ampel: Gruen passt, Gelb Kompromiss, Rot Konflikt. Gelb
-     statt Bernstein, damit sich Warnung und Auswahl nicht verwechseln lassen. */
-  --anod:#ff8f4a; --anod-2:#ffb07f; --anod-3:#ffb07f; --anod-soft:rgba(255,143,74,.14); --on-anod:#1a0b00;
-  --akzent-flaeche:#b8460f; --grad:linear-gradient(#b8460f,#b8460f);
-  --m-pass:#9fb3c8; --m-eins:#ff8f4a;
+  --ground:#000000; --surface:#141518; --surface-2:#1c1e22; --sunk:#2a2d32;
+  --ink:#f3f5f7; --ink-2:#b4b9c0; --ink-3:#878d95;
+  --line:#2d3035; --line-soft:#222428; --hair:rgba(255,255,255,.07);
+  /* Markenfarbe gedecktes Stahlblau (APP-DESIGN-002, Liam 2026-10-09): mit
+     Schwarz, Graphit und klaren hellen Flaechen. Es hebt gezielt hervor --
+     wichtige Aktionen, aktive Zustaende, den gewaehlten Bereich, den
+     Gesamtscore. Status bleibt eigene Farbe: Gruen passt, Orange Warnung
+     (Kompromiss), Rot Konflikt. Kontraste per WCAG-Formel: Text >= 4,5:1,
+     Ringe und Flaechen >= 3:1. Ringe: Gesamt Stahlblau, Kompatibilitaet
+     Schieferblau, Einsatz neutrales Grau. */
+  --anod:#8fb3d6; --anod-2:#b3cde6; --anod-3:#b3cde6; --anod-soft:rgba(143,179,214,.14); --on-anod:#0b1520;
+  --akzent-flaeche:#36608a; --grad:linear-gradient(#36608a,#36608a);
+  --ring-gesamt:#7fa8d1; --ring-pass:#7a8ea5; --ring-eins:#6f747b;
+  --m-pass:#7a8ea5; --m-eins:#8fb3d6;
   --gut:#3ddc84; --gut-soft:rgba(61,220,132,.13);
-  --warn:#ffd23f; --warn-soft:rgba(255,210,63,.13);
+  --warn:#ff9f43; --warn-soft:rgba(255,159,67,.14);
   --bad:#ff5c72; --bad-soft:rgba(255,92,114,.15);
   --fester:#9a6bff; --weicher:#0fa0bd;      /* per dataviz-Validator gegen #0b0a12 geprueft */
   --glass:rgba(0,0,0,.8);
@@ -181,19 +184,20 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f1e
   color-scheme:dark;
 }
 :root[data-theme="light"]{
-  /* Hell: warmes Werkstattgrau statt iOS-Blaugrau, weisse Karten. Alle
+  /* Hell: klare, leicht kuehle Flaechen zu Stahlblau und Graphit. Alle
      Textfarben >= 4,5:1 auf Grund, Karte und Flaeche (WCAG-Formel). */
-  --ground:#f2f1ee; --surface:#ffffff; --surface-2:#f6f5f2; --sunk:#e7e5e0;
-  --ink:#121110; --ink-2:#45433f; --ink-3:#66635d;
-  --line:#e2dfd9; --line-soft:#ecebe7; --hair:rgba(40,30,10,.08);
-  --anod:#b8460f; --anod-2:#9a3a0c; --anod-3:#9a3a0c; --anod-soft:#fcefe6; --on-anod:#ffffff;
-  --akzent-flaeche:#b8460f; --grad:linear-gradient(#b8460f,#b8460f);
-  --m-pass:#3f5a75; --m-eins:#b8460f;
+  --ground:#eef1f4; --surface:#ffffff; --surface-2:#f5f7f9; --sunk:#e3e8ed;
+  --ink:#0f1318; --ink-2:#3d444d; --ink-3:#5f6772;
+  --line:#d9dfe5; --line-soft:#e7ebef; --hair:rgba(15,30,50,.08);
+  --anod:#2f5a80; --anod-2:#24496b; --anod-3:#24496b; --anod-soft:#e6edf4; --on-anod:#ffffff;
+  --akzent-flaeche:#2f5a80; --grad:linear-gradient(#2f5a80,#2f5a80);
+  --ring-gesamt:#33608a; --ring-pass:#6a7f96; --ring-eins:#858a91;
+  --m-pass:#6a7f96; --m-eins:#2f5a80;
   --gut:#0f7653; --gut-soft:#ddf1e7;
-  --warn:#7d5c00; --warn-soft:#fbf0c9;
+  --warn:#a8520a; --warn-soft:#fbeadb;
   --bad:#c42a52; --bad-soft:#fbe2ea;
   --fester:#6d3dff; --weicher:#0a8aa8;      /* per dataviz-Validator gegen #ffffff geprueft */
-  --glass:rgba(242,241,238,.88);
+  --glass:rgba(238,241,244,.88);
   --shadow:0 1px 2px rgba(0,0,0,.04),0 10px 28px -16px rgba(0,0,0,.14);
   --shadow-hoch:0 2px 6px rgba(0,0,0,.06),0 22px 48px -18px rgba(0,0,0,.22);
   color-scheme:light;
@@ -1782,7 +1786,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls.gerollt .ls-nav{border-bottom-color:var(--l-line)}
 /* Startseite (immer hell): derselbe Schriftzug wie im Kopf der App */
 .ls-logo{font-family:Inter,var(--f-sans);font-weight:800;font-size:18px;letter-spacing:-.01em;text-transform:uppercase;color:var(--l-ink)}
-.ls-logo i{font-style:normal;color:#b8460f;font-weight:800}
+.ls-logo i{font-style:normal;color:#2f5a80;font-weight:800}
 @media (max-width:300px){.ls-logo{font-size:13.5px!important}}
 .ls-mini{background:var(--l-ink);color:#fff;border-radius:999px;padding:8px 16px;font-size:13.5px;font-weight:700;white-space:nowrap}
 .ls-nav-r{display:flex;align-items:center;gap:8px}
@@ -2855,14 +2859,133 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
   .bar-in{gap:10px}
 }
 </style>
+<style>
+/* ══ APP-DESIGN-002: Stahlblau, Graphit, klare Flaechen (Liam 2026-10-09) ══
+   Stahlblau hebt gezielt hervor: wichtige Aktionen (gefuellte Knoepfe), aktive
+   Zustaende (Bereich, Auswahl, aktueller Schritt), den Gesamtscore. Orange nur
+   fuer Warnungen, Rot fuer Konflikte, Gruen fuer "passt". Kein Leuchten, keine
+   Verlaeufe; Spannung kommt aus Typografie, Kontrast und dem Rad selbst. */
+.vorlage{position:absolute;width:0;height:0;overflow:hidden}
+
+/* Markenzeichen: Logo + Schriftzug */
+.brand{display:inline-flex;align-items:center}
+.brand-logo{width:28px;height:21px;flex:none;color:var(--anod);margin-right:7px}
+.ls-logo{display:inline-flex;align-items:center}
+.ls-logo .brand-logo{color:#2f5a80}
+@media (max-width:360px){.brand-logo{width:22px;height:17px}}
+@media (max-width:300px){.brand-logo{display:none}}
+
+/* Wichtige Aktionen: gefuellt in Stahlblau, Nebenaktionen bleiben neutral */
+.btn{background:var(--akzent-flaeche);color:#fff}
+@media (hover:hover){.btn:not(.ghost):not(.rot):hover{opacity:1;background:color-mix(in srgb,var(--akzent-flaeche) 84%,#000)}}
+.btn.ghost{background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--ink)}
+/* Aktive Zustaende */
+.modus-in button[aria-pressed="true"]{color:var(--anod)}
+.tabs button[aria-selected="true"] .badge{background:var(--akzent-flaeche);color:#fff}
+.leit-s.jetzt .leit-n{background:var(--akzent-flaeche);border-color:var(--akzent-flaeche);color:#fff}
+.fw-weiter-n{background:var(--akzent-flaeche);color:#fff}
+.fm-seg button[aria-pressed="true"]{background:var(--akzent-flaeche);color:#fff}
+/* Guide: eigene Fragen in Stahlblau, Antworten neutral */
+.g-knopf{color:var(--anod)}
+.g-m.du .g-bl{background:var(--akzent-flaeche);color:#fff}
+.g-send{background:var(--akzent-flaeche);color:#fff}
+.g-av{background:var(--anod-soft);color:var(--anod)}
+
+/* Typografie: Kennzeilen in Versalien, Werte gross und schmal */
+.kz-l{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-3)}
+.card{padding:20px}
+.card > .grp-h h2{font-size:22px}
+.sheet-h .sub{color:var(--anod)}
+
+/* ── Score-Karte: technische Uebersicht ── */
+.bar-in{gap:14px;padding:22px 18px 18px}
+.bar .ringe{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:420px;grid-template-columns:none}
+.bar .rg-gesamt{position:relative;display:block;width:min(56vw,188px);aspect-ratio:1;padding:0;border-radius:50%}
+.bar .rg-gesamt svg.rg-kreis{position:absolute;inset:0;width:100%;height:100%;max-width:none}
+.bar .rg-gesamt .rg-bahn,.bar .rg-gesamt .rg-wert{stroke-width:6}
+.rg-innen{position:absolute;inset:15%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center}
+.bar .rg-gesamt svg.rg-logo{width:52%;max-width:none;height:auto;aspect-ratio:304/228;color:var(--ink);overflow:visible;margin-bottom:1px}
+.bar .rg-gesamt .v{position:static;display:block;max-width:none;margin:0;font-family:var(--f-zahl);font-size:clamp(40px,11.5vw,52px);font-weight:700;
+  line-height:.92;letter-spacing:-.01em;color:var(--ink)}
+.bar .rg-gesamt .rg-l{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:700;gap:0}
+.bar .rg-gesamt .rg-l::before{display:none}
+.ring-wrap.puls svg.rg-logo{animation:none}
+.rg-gesamt{--rg-farbe:var(--wert-farbe,var(--ring-gesamt))}
+.rg-pass{--rg-farbe:var(--ring-pass)} .rg-eins{--rg-farbe:var(--ring-eins)}
+.bar .rg-bahn{stroke:color-mix(in srgb,var(--rg-farbe) 20%,transparent)}
+.rg-paar{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.bar .rg-paar .rg{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 8px 11px;border-radius:16px;background:var(--surface-2);min-width:0}
+:root[data-theme="light"] .bar .rg-paar .rg{background:var(--ground)}
+.rg-klein{position:relative;width:56px;height:56px;display:block;flex:none}
+.bar .rg-klein svg{width:56px;height:56px;max-width:none}
+.bar .rg-paar .rg-bahn,.bar .rg-paar .rg-wert{stroke-width:8}
+.rg-klein .num{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-zahl);font-size:20px;font-weight:700;color:var(--ink);letter-spacing:0}
+.rg-txt{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;text-align:center}
+.bar .rg-paar .rg-l{font-size:13px;font-weight:700;color:var(--ink);white-space:normal;letter-spacing:0;gap:0}
+.rg-s{font-size:11.5px;color:var(--ink-3);line-height:1.3;overflow-wrap:anywhere}
+/* Statushinweise: Zeichen + Wort, Farbe nur zusaetzlich */
+.score-status{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;width:100%}
+.score-status:empty{display:none}
+.st{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:4px 11px;border-radius:999px;font-size:12.5px;font-weight:700;line-height:1.2;border:1px solid transparent}
+.st svg{flex:none}
+.st-bad{background:var(--bad-soft);color:var(--bad)}
+.st-warn{background:var(--warn-soft);color:var(--warn)}
+.st-gut{background:var(--gut-soft);color:var(--gut)}
+.st-offen{background:transparent;color:var(--ink-2);border-color:var(--line)}
+button.st::after{content:"›";margin-left:1px;font-weight:800;opacity:.75}
+@media (hover:hover){button.st:hover{filter:brightness(.97)}}
+@media (min-width:820px){.bar .rg-gesamt{width:180px}}
+
+/* ── Teilekarte: das Rad als Wegweiser zu den Teilen ── */
+.teilekarte{padding:14px 14px 12px}
+body:not([data-view="aufbau"]) .teilekarte{display:none}
+.tk-flaeche{position:relative;border-radius:16px;background:#e3e9ef;overflow:hidden;aspect-ratio:1200/700;display:grid;place-items:center}
+:root:not([data-theme="light"]) .tk-flaeche{background:#0b0c0e}
+.tk-rad{width:94%;height:auto;display:block;margin-top:2%}
+.tk-pkt{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;display:grid;place-items:center;border-radius:50%;transform:translate(3%,4%)}
+.tk-pkt i{width:16px;height:16px;border-radius:50%;background:var(--akzent-flaeche);border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.35);display:grid;place-items:center}
+.tk-pkt.fertig i{background:#0f7653}
+.tk-pkt.achtung i{background:#c2610c}
+.tk-pkt.stoerung i{background:#c42a52}
+.tk-pkt i::after{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+.tk-pkt.fertig i::after{content:"✓";width:auto;height:auto;background:none;color:#fff;font:800 9px/1 var(--f-sans)}
+.tk-pkt.achtung i::after{content:"!";width:auto;height:auto;background:none;color:#fff;font:800 10px/1 var(--f-sans)}
+.tk-pkt.stoerung i::after{content:"✕";width:auto;height:auto;background:none;color:#fff;font:800 9px/1 var(--f-sans)}
+@media (hover:hover){.tk-pkt:hover i{transform:scale(1.12)}}
+.tk-pkt i{transition:transform var(--t-kurz) var(--e-aus)}
+.tk-legende{margin:10px 2px 0;font-size:12.5px;color:var(--ink-2);line-height:1.45;display:flex;flex-direction:column;gap:4px}
+.tk-zeichen{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;color:var(--ink-3);font-size:12px}
+.tk-zeichen i{width:10px;height:10px;border-radius:50%;display:inline-block;margin-left:4px}
+.tk-zeichen i:first-child{margin-left:0}
+.tk-zeichen i.fertig{background:var(--gut)} .tk-zeichen i.achtung{background:var(--warn)} .tk-zeichen i.stoerung{background:var(--bad)}
+.tk-bsp{font-size:11.5px;color:var(--ink-3)}
+@media (min-width:820px){.seite{max-height:calc(100dvh - var(--kopf-h) - var(--nav-h) - 32px);overflow-y:auto;scrollbar-width:thin}
+  body[data-view="aufbau"] .seite{max-height:calc(100dvh - var(--kopf-h) - var(--nav-h) - 82px)}}
+@media (min-width:820px) and (max-height:700px){.seite,body[data-view="aufbau"] .seite{max-height:none;overflow:visible}}
+</style>
 </head>
 <body>
+<!-- Das CrankScore-Logo (APP-DESIGN-002): Kettenblatt mit vier Armen und dem
+     Kurbelarm als Zeiger, dieselbe Geometrie wie das App-Symbol
+     (tools/app-symbol.py), einmal als Vorlage, ueberall mit <use> -->
+<svg class="vorlage" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <mask id="cs-logo-loch" maskUnits="userSpaceOnUse" x="-152" y="-114" width="304" height="228">
+      <rect x="-152" y="-114" width="304" height="228" fill="#fff"/>
+      <circle r="15" fill="#000"/><circle cx="129.8" cy="-33.3" r="9" fill="#000"/>
+    </mask>
+    <symbol id="cs-logo" viewBox="-152 -114 304 228"><g mask="url(#cs-logo-loch)" fill="currentColor">
+<path fill-rule="evenodd" d="M-90 0a90 90 0 1 0 180 0a90 90 0 1 0 -180 0ZM-60 0a60 60 0 1 0 120 0a60 60 0 1 0 -120 0Z"/>
+<path d="M7.5 87.7L4.7 109.9L-4.7 109.9L-7.5 87.7ZM-17.5 86.2L-26.4 106.8L-35.5 104.1L-31.9 82ZM-41.1 77.8L-55.5 95L-63.4 89.9L-53.7 69.7ZM-61.3 63.1L-80 75.5L-86.1 68.4L-71.2 51.7ZM-76.6 43.3L-98 49.9L-101.9 41.4L-82.9 29.6ZM-85.7 19.9L-108.1 20.3L-109.5 11L-87.9 5ZM-87.9 -5L-109.5 -11L-108.1 -20.3L-85.7 -19.9ZM-82.9 -29.6L-101.9 -41.4L-98 -49.9L-76.6 -43.3ZM-71.2 -51.7L-86.1 -68.4L-80 -75.5L-61.3 -63.1ZM-53.7 -69.7L-63.4 -89.9L-55.5 -95L-41.1 -77.8ZM-31.9 -82L-35.5 -104.1L-26.4 -106.8L-17.5 -86.2ZM-7.5 -87.7L-4.7 -109.9L4.7 -109.9L7.5 -87.7ZM17.5 -86.2L26.4 -106.8L35.5 -104.1L31.9 -82ZM41.1 -77.8L55.5 -95L63.4 -89.9L53.7 -69.7ZM61.3 -63.1L80 -75.5L86.1 -68.4L71.2 -51.7ZM76.6 -43.3L98 -49.9L101.9 -41.4L82.9 -29.6ZM85.7 -19.9L108.1 -20.3L109.5 -11L87.9 -5ZM87.9 5L109.5 11L108.1 20.3L85.7 19.9ZM82.9 29.6L101.9 41.4L98 49.9L76.6 43.3ZM71.2 51.7L86.1 68.4L80 75.5L61.3 63.1ZM53.7 69.7L63.4 89.9L55.5 95L41.1 77.8ZM31.9 82L35.5 104.1L26.4 106.8L17.5 86.2ZM-8.5 8.5L46.7 63.6L63.6 46.7L8.5 -8.5ZM28.8 43.8a15 15 0 1 0 30 0a15 15 0 1 0 -30 0ZM-8.5 -8.5L-63.6 46.7L-46.7 63.6L8.5 8.5ZM-58.8 43.8a15 15 0 1 0 30 0a15 15 0 1 0 -30 0ZM8.5 -8.5L-46.7 -63.6L-63.6 -46.7L-8.5 8.5ZM-58.8 -43.8a15 15 0 1 0 30 0a15 15 0 1 0 -30 0ZM8.5 8.5L63.6 -46.7L46.7 -63.6L-8.5 -8.5ZM28.8 -43.8a15 15 0 1 0 30 0a15 15 0 1 0 -30 0ZM8.2 32L135.3 -12L124.3 -54.6L-8.2 -32ZM107.8 -33.3a22 22 0 1 0 44 0a22 22 0 1 0 -44 0ZM-44 0a44 44 0 1 0 88 0a44 44 0 1 0 -88 0Z"/>
+    </g></symbol>
+  </defs>
+</svg>
 
 
 <header class="top">
   <div class="top-in">
     <div class="kopf-links">
-      <span class="brand" aria-label="CrankScore">Crank<i>Score</i><b class="pro-marke" id="pro-marke" hidden>Pro</b></span>
+      <span class="brand" aria-label="CrankScore"><svg class="brand-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>Crank<i>Score</i><b class="pro-marke" id="pro-marke" hidden>Pro</b></span>
       <!-- Beim Scrollen: Wertung und Name des offenen Rads; Tippen wechselt das Rad -->
       <button class="mini" id="mini" data-radwahl="1" aria-label="Rad wechseln" data-ta="Rad wechseln|Switch bike" tabindex="-1">
         <b id="mini-s">–</b><span id="mini-p">–</span>
@@ -2927,32 +3050,45 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
        Zahlen, die man beim Bauen immer im Blick haben will. -->
   <div class="bar">
     <div class="bar-in">
+      <!-- Score-Karte (APP-DESIGN-002): oben der Gesamtscore in Stahlblau mit
+           Logo und Zahl im Ring, darunter Kompatibilitaet (Schieferblau) und
+           Einsatz (Grau) mit Beschriftung, dann Statushinweise in Worten -->
       <div class="ringe">
-        <button class="rg rg-pass" data-scorehilfe="1" title="Passen die Teile technisch zusammen?" data-tt="Passen die Teile technisch zusammen?|Do the parts fit together technically?">
-          <svg viewBox="0 0 100 100" aria-hidden="true">
-            <circle class="rg-bahn" cx="50" cy="50" r="42"/>
-            <circle class="rg-wert" id="ring-tech" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
-          </svg>
-          <b class="num" id="n-tech">–</b>
-          <span class="rg-l" data-t="Kompatibilität|Compatibility">Kompatibilität</span>
-        </button>
         <button class="rg rg-gesamt ring-wrap" data-scorehilfe="1" title="Gesamt-Score aus Kompatibilität und Einsatz" data-tt="Gesamt-Score aus Kompatibilität und Einsatz|Overall score from compatibility and discipline">
-          <svg viewBox="0 0 100 100" aria-hidden="true">
+          <svg class="rg-kreis" viewBox="0 0 100 100" aria-hidden="true">
             <circle class="rg-bahn" cx="50" cy="50" r="42"/>
             <circle class="rg-wert" id="ring" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
           </svg>
-          <b class="v" id="score">–</b>
-          <span class="rg-l" data-t="Score|Score">Score</span>
+          <span class="rg-innen">
+            <svg class="rg-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>
+            <b class="v" id="score">–</b>
+            <span class="rg-l" data-t="Gesamtscore|Overall score">Gesamtscore</span>
+          </span>
         </button>
-        <button class="rg rg-eins" data-scorehilfe="1" title="Passen die Teile zu deiner Disziplin?" data-tt="Passen die Teile zu deiner Disziplin?|Do the parts suit your discipline?">
-          <svg viewBox="0 0 100 100" aria-hidden="true">
-            <circle class="rg-bahn" cx="50" cy="50" r="42"/>
-            <circle class="rg-wert" id="ring-char" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
-          </svg>
-          <b class="num" id="n-char">–</b>
-          <span class="rg-l" data-t="Einsatz|Discipline">Einsatz</span>
-        </button>
+        <div class="rg-paar">
+          <button class="rg rg-pass" data-scorehilfe="1" title="Passen die Teile technisch zusammen?" data-tt="Passen die Teile technisch zusammen?|Do the parts fit together technically?">
+            <span class="rg-klein">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="rg-bahn" cx="50" cy="50" r="42"/>
+                <circle class="rg-wert" id="ring-tech" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
+              </svg>
+              <b class="num" id="n-tech">–</b>
+            </span>
+            <span class="rg-txt"><span class="rg-l" data-t="Kompatibilität|Compatibility">Kompatibilität</span><span class="rg-s" data-t="Maße und Standards|Dimensions and standards">Maße und Standards</span></span>
+          </button>
+          <button class="rg rg-eins" data-scorehilfe="1" title="Passen die Teile zu deiner Disziplin?" data-tt="Passen die Teile zu deiner Disziplin?|Do the parts suit your discipline?">
+            <span class="rg-klein">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="rg-bahn" cx="50" cy="50" r="42"/>
+                <circle class="rg-wert" id="ring-char" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
+              </svg>
+              <b class="num" id="n-char">–</b>
+            </span>
+            <span class="rg-txt"><span class="rg-l" data-t="Einsatz|Discipline">Einsatz</span><span class="rg-s" id="s-char"></span></span>
+          </button>
+        </div>
       </div>
+      <div class="score-status" id="score-status" aria-live="polite"></div>
       <p class="verdict" id="verdict"></p>
       <div class="kz">
         <button class="kz-z" id="kz-preis" data-view="deals"><span class="kz-l" data-t="Preis|Price">Preis</span><b id="t-preis">–</b>
@@ -2963,6 +3099,26 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
       <button class="wie" data-scorehilfe="1" data-t="Was bedeuten die Zahlen?|What do the numbers mean?">Was bedeuten die Zahlen?</button>
     </div>
   </div>
+  <!-- Teilekarte (APP-DESIGN-002): das gerenderte Beispielrad, an jedem Bauteil
+       ein Punkt mit dem Stand der Gruppe; Tippen springt zur Teilegruppe -->
+  <section class="card teilekarte" id="teilekarte" aria-label="Teilekarte" data-ta="Teilekarte|Parts map">
+    <div class="tk-flaeche">
+      <img class="tk-rad" src="bilder/beispielrad-seite-640.webp" srcset="bilder/beispielrad-seite-640.webp 640w, bilder/beispielrad-seite-1200.webp 1200w"
+        sizes="(min-width:820px) 300px, 92vw" width="1200" height="654" decoding="async" loading="lazy" alt="Beispielrad in Seitenansicht" data-ta="Beispielrad in Seitenansicht|Example bike, side view">
+      <button class="tk-pkt" data-zugruppe="Sitz" style="left:33.3%;top:5.2%"><i></i></button>
+      <button class="tk-pkt" data-zugruppe="Cockpit" style="left:63.3%;top:7.6%"><i></i></button>
+      <button class="tk-pkt" data-zugruppe="Rahmen" style="left:51.7%;top:26.8%"><i></i></button>
+      <button class="tk-pkt" data-zugruppe="Fahrwerk" style="left:74.6%;top:50.5%"><i></i></button>
+      <button class="tk-pkt" data-zugruppe="Reifen" style="left:19.2%;top:40.5%"><i></i></button>
+      <button class="tk-pkt" data-zugruppe="Antrieb" style="left:18.8%;top:68.8%"><i></i></button>
+      <button class="tk-pkt" data-zugruppe="Bremsen" style="left:84.0%;top:62.7%"><i></i></button>
+      <button class="tk-pkt" data-zugruppe="Kontakt" style="left:46.7%;top:78.9%"><i></i></button>
+      <button class="tk-pkt" data-zugruppe="Laufräder" style="left:10.8%;top:79.5%"><i></i></button>
+    </div>
+    <p class="tk-legende"><span data-t="Tippe auf ein Bauteil, um zu seiner Gruppe zu springen.|Tap a part to jump to its group.">Tippe auf ein Bauteil, um zu seiner Gruppe zu springen.</span>
+      <span class="tk-zeichen"><i class="fertig"></i><span data-t="passt|fits">passt</span> <i class="achtung"></i><span data-t="Kompromiss|compromise">Kompromiss</span> <i class="stoerung"></i><span data-t="Konflikt|conflict">Konflikt</span></span>
+      <span class="tk-bsp" data-t="Abbildung: Beispielrad, nicht dein Modell.|Picture: example bike, not your model.">Abbildung: Beispielrad, nicht dein Modell.</span></p>
+  </section>
   </aside>
   <div id="aufbau"></div>
   <div class="panel" id="panel">
@@ -5918,6 +6074,29 @@ function echteFehler(b){
    geprueft" steht als eigene Zeile darunter) */
 const STUFE = zweisprachig({fehler:["passt nicht", "doesn't fit"], warnung:["Kompromiss", "compromise"], hinweis:["Tipp", "tip"]}, ["fehler", "warnung", "hinweis"]);
 const stufeTxt = f => f.offen ? tx("fehlt noch", "missing") : f.adapter ? tx("passt mit Adapter", "fits with adapter") : STUFE[f.level] || f.level;
+/* Statushinweise unter den Ringen (APP-DESIGN-002): Probleme stehen in
+   Worten und mit Zeichen da, nicht nur als Farbe -- und fuehren mit einem
+   Tipp dorthin, wo man sie loest. Ohne Problem ein ruhiges "passt". */
+const ST_IC = {
+  bad:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>',
+  warn:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v9M12 19h.01"/></svg>',
+  gut:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>',
+  offen:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="7"/></svg>'};
+function scoreStatus(r){
+  if(!r.teile) return "";
+  const st = (k, txt, akt) => akt ? `<button class="st st-${k}" ${akt}>${ST_IC[k]}<span>${txt}</span></button>` : `<span class="st st-${k}">${ST_IC[k]}<span>${txt}</span></span>`;
+  const fehler = r.funde.filter(f => f.level === "fehler").length;
+  const warn = r.funde.filter(f => f.level === "warnung" && !f.ad).length;
+  const offen = SLOTS.filter(x => !x.opt && !entfaellt(build, x.k) && !build[x.k]);
+  const out = [];
+  if(fehler) out.push(st("bad", fehler === 1 ? tx("1 Konflikt", "1 conflict") : tx(`${fehler} Konflikte`, `${fehler} conflicts`), `data-view="befunde"`));
+  if(warn) out.push(st("warn", warn === 1 ? tx("1 Kompromiss", "1 compromise") : tx(`${warn} Kompromisse`, `${warn} compromises`), `data-view="befunde"`));
+  if(plan.budget > 0 && r.preis > plan.budget) out.push(st("warn", tx(`${eur(r.preis - plan.budget)} über Budget`, `${eur(r.preis - plan.budget)} over budget`), `data-view="upgrades"`));
+  if(r.chara < 55) out.push(st("warn", tx(`Kaum für ${selNamen()} ausgelegt`, `Hardly built for ${selNamen()}`), `data-view="upgrades"`));
+  if(offen.length) out.push(st("offen", offen.length === 1 ? tx("1 Teil offen", "1 part missing") : tx(`${offen.length} Teile offen`, `${offen.length} parts missing`), `data-slot="${offen[0].k}"`));
+  if(!out.length) out.push(st("gut", tx("Alle Maße passen", "All dimensions fit")));
+  return out.join("");
+}
 function urteil(r){
   const zn = selNamen();
   /* Ein leeres Rad hat keinen Zustand, ueber den sich urteilen liesse. Vorher
@@ -7149,7 +7328,7 @@ function startseiteHtml(){
   const plus = [tx("Alles aus Free", "Everything in Free"), tx("Unbegrenzt viele Räder", "Unlimited bikes"), tx("Fahrwerk-Setup", "Suspension setup"), tx("Guide ohne Limit", "Unlimited guide")];
   const liste = a => `<ul>${a.map(x => `<li>${ic(IC.haken, 15)}${x}</li>`).join("")}</ul>`;
   return `<div class="ls" role="dialog" aria-modal="true" aria-label="CrankScore">
-    <header class="ls-nav"><span class="ls-logo">Crank<i>Score</i></span><span class="ls-nav-r">
+    <header class="ls-nav"><span class="ls-logo"><svg class="brand-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>Crank<i>Score</i></span><span class="ls-nav-r">
       <button class="ls-sprache" data-sprache="${tx("en", "de")}" lang="${tx("en", "de")}">${tx("English", "Deutsch")}</button>
       <button class="ls-mini" data-lsstart="1">${(() => { try{ return localStorage.getItem("mtb.einstieg2"); }catch(e){ return null; } })() ? tx("Zur App", "Open app") : tx("Starten", "Start")}</button></span></header>
     <div class="ls-b" id="ls-b">
@@ -7227,7 +7406,7 @@ function startseiteHtml(){
         <p>${tx("Ein paar Fragen, dann steht dein erstes Rad — mit Score, Prüfung und dem nächsten Schritt.", "A few questions and your first bike is ready — with score, check and next step.")}</p>
         ${knopf(tx("Kostenlos starten", "Start for free"))}</section>
       <footer class="ls-fuss">
-        <span class="ls-logo">Crank<i>Score</i></span><span class="ls-copy">© ${new Date().getFullYear()} CrankScore</span>
+        <span class="ls-logo"><svg class="brand-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>Crank<i>Score</i></span><span class="ls-copy">© ${new Date().getFullYear()} CrankScore</span>
         <div><b>${tx("App", "App")}</b><button data-lsstart="1">${tx("App öffnen", "Open app")}</button><button data-lsguide="1">${tx("Frag den Guide", "Ask the guide")}</button><button data-pro="start">CrankScore Pro</button></div>
         <div><b>${tx("Rechtliches", "Legal")}</b><button data-recht="impressum">${tx("Impressum", "Legal notice")}</button><button data-recht="datenschutz">${tx("Datenschutz", "Privacy")}</button></div>
       </footer>
@@ -7974,7 +8153,6 @@ function filterAnwenden(){
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const ampel = v => v >= 85 ? "var(--gut)" : v >= 60 ? "var(--warn)" : "var(--bad)";
 
 /* Griffmaterial steht deutsch in der Liste; englisch wird nur umbenannt */
 const griffMat = m => tx(m, m.replace("Gummi", "Rubber").replace("ergonomisch", "ergonomic").replace("Silikon", "Silicone")
@@ -14927,13 +15105,16 @@ function zeichne(){
      Kompatibilitaet und Einsatz behalten ihre eigene Farbe. */
   const ringSetzen = (id, v) => { $(id).style.strokeDashoffset = String(263.9 * (leer ? 1 : 1 - v / 100)); };
   ringSetzen("ring", r.gesamt); ringSetzen("ring-tech", r.tech); ringSetzen("ring-char", r.chara);
-  document.querySelector(".bar-in").style.setProperty("--wert-farbe", leer ? "var(--ink-3)" : ampel(r.gesamt));
+  /* Gesamtscore in Stahlblau (APP-DESIGN-002); Probleme stehen als Statushinweis darunter, nicht als Ringfarbe */
+  document.querySelector(".bar-in").style.setProperty("--wert-farbe", leer ? "var(--ink-3)" : "var(--ring-gesamt)");
   if(leer){ cancelAnimationFrame($("score").raf || 0); $("score").textContent = "–"; $("score").dataset.w = 0; } else zaehle($("score"), r.gesamt);
   $("mini-s").textContent = leer ? "–" : r.gesamt;
-  $("mini-s").style.color = leer ? "var(--ink-3)" : ampel(r.gesamt);
+  $("mini-s").style.color = leer ? "var(--ink-3)" : "var(--anod)";
   $("mini-p").textContent = profilName(aktivesProfil(), modus);
   $("kz-preis").disabled = modus !== "traum";
   $("verdict").innerHTML = urteil(r);
+  $("s-char").textContent = tx("für ", "for ") + selNamen();
+  $("score-status").innerHTML = scoreStatus(r);
   $("n-tech").textContent = leer ? "–" : r.tech;
   $("n-char").textContent = leer ? "–" : r.chara;
   /* Preis mit Budget: Balken wie ein Tank, darunter was frei ist oder fehlt */
@@ -15077,6 +15258,13 @@ function zeichne(){
   const sprung = `<nav class="sprung" aria-label="${tx("Zu den Teilegruppen", "Jump to part groups")}">${GRUPPEN.filter(g => g.n in gStand).map(g =>
     `<button class="${gStand[g.n]}" data-zugruppe="${esc(g.n)}"${gStand[g.n] === "stoerung" ? ` aria-label="${esc(g.name + tx(" – Konflikt", " – conflict"))}"` : gStand[g.n] === "achtung" ? ` aria-label="${esc(g.name + tx(" – Kompromiss", " – compromise"))}"` : ""}><i class="pkt"></i>${esc(g.name)}</button>`).join("")}</nav>`;
   $("sprung").innerHTML = sprung;
+  /* Teilekarte: Punkt je Gruppe mit Stand; Gruppen ohne Teile am Rahmen verschwinden */
+  Array.prototype.forEach.call(document.querySelectorAll("#teilekarte .tk-pkt"), b => {
+    const n = b.dataset.zugruppe, g = GRUPPEN.find(x => x.n === n), da = n in gStand, st = gStand[n] || "";
+    b.hidden = !da; b.className = "tk-pkt" + (st ? " " + st : "");
+    b.setAttribute("aria-label", g.name + (st === "stoerung" ? tx(" – Konflikt", " – conflict") : st === "achtung" ? tx(" – Kompromiss", " – compromise") : st === "fertig" ? tx(" – passt", " – fits") : tx(" – noch offen", " – not complete")));
+    b.title = g.name;
+  });
   $("aufbau").innerHTML = diszHinweis() + fitAnpassKasten() + marktkarte + fotokarte + (leitAus ? leerHinweis : "") + GRUPPEN.map((g, gi) => {
     /* Optionale Lager zaehlen nur mit, wenn sie eingetragen sind */
     const meine = SLOTS.filter(s => s.grp === g.n && zaehlt(build, s));
@@ -15547,7 +15735,7 @@ function designAnwenden(){
     /* Statusleiste: neues Meta-Tag statt nur den Wert zu aendern -- ein frisch
        eingefuegtes Tag liest iOS eher neu als einen geaenderten Wert */
     const alt = document.querySelector('meta[name="theme-color"]'), m = document.createElement("meta");
-    m.name = "theme-color"; m.content = hell ? "#f2f1ee" : "#000000";
+    m.name = "theme-color"; m.content = hell ? "#eef1f4" : "#000000";
     if(alt) alt.replaceWith(m); else document.head.appendChild(m);
   };
   if(bewegungAus()){ setz(); return; }
@@ -15968,7 +16156,7 @@ function oeffneWiz(step){
         ${plan.mSchalt || plan.mBrems || plan.mFed ? "· " + [plan.mSchalt, plan.mBrems, plan.mFed].filter(Boolean).join(", ") : ""}
         ${vorliebenChips().filter(Boolean).length ? "· " + vorliebenChips().filter(Boolean).join(", ") : ""}</p>
       <div class="sumbox">
-        <div><b style="color:${ampel(r.gesamt)}">${r.gesamt}</b><span>Score</span></div>
+        <div><b style="color:var(--anod)">${r.gesamt}</b><span>Score</span></div>
         <div><b>${eur(r.preis)}</b><span>${uebrig >= 0 ? eur(uebrig) + tx(" frei", " left") : eur(-uebrig) + tx(" zu viel", " over")}</span></div>
         <div><b>${kg(r.gewicht)}</b><span>${tx("Gewicht", "Weight")}</span></div>
       </div>
@@ -16677,6 +16865,7 @@ document.addEventListener("click", e => {
 
   const zg = T("[data-zugruppe]");
   if(zg){
+    if(view !== "aufbau") zeigeBereich("aufbau");
     const n = zg.dataset.zugruppe, kopf = () => Array.prototype.find.call(document.querySelectorAll("#aufbau .grp-kopf"), b => b.dataset.thema === n);
     const k0 = kopf();
     if(k0 && k0.getAttribute("aria-expanded") !== "true"){ zuGeklappt[n] = 0; sichern(); zeichne(); }
