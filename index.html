@@ -160,11 +160,13 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#eef1f
      Gesamtscore. Status bleibt eigene Farbe: Gruen passt, Orange Warnung
      (Kompromiss), Rot Konflikt. Kontraste per WCAG-Formel: Text >= 4,5:1,
      Ringe und Flaechen >= 3:1. Ringe: Gesamt Stahlblau, Kompatibilitaet
-     Schieferblau, Einsatz neutrales Grau. */
-  --anod:#8fb3d6; --anod-2:#b3cde6; --anod-3:#b3cde6; --anod-soft:rgba(143,179,214,.14); --on-anod:#0b1520;
-  --akzent-flaeche:#36608a; --grad:linear-gradient(#36608a,#36608a);
-  --ring-gesamt:#7fa8d1; --ring-pass:#7a8ea5; --ring-eins:#6f747b;
-  --m-pass:#7a8ea5; --m-eins:#8fb3d6;
+     Schieferblau, Einsatz neutrales Grau. Seit APP-DESIGN-003 (Liam: "heller
+     und ein bisschen leuchtend") frischer und heller; der Gesamtring hat
+     einen weichen Schein (--ring-schein). */
+  --anod:#8ec2f7; --anod-2:#b5d8fb; --anod-3:#b5d8fb; --anod-soft:rgba(142,194,247,.15); --on-anod:#0b1520;
+  --akzent-flaeche:#2f6db0; --grad:linear-gradient(#2f6db0,#2f6db0);
+  --ring-gesamt:#6fb2f5; --ring-pass:#7a8ea5; --ring-eins:#6f747b; --ring-schein:rgba(111,178,245,.55);
+  --m-pass:#7a8ea5; --m-eins:#8ec2f7;
   --gut:#3ddc84; --gut-soft:rgba(61,220,132,.13);
   --warn:#ff9f43; --warn-soft:rgba(255,159,67,.14);
   --bad:#ff5c72; --bad-soft:rgba(255,92,114,.15);
@@ -189,10 +191,10 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#eef1f
   --ground:#eef1f4; --surface:#ffffff; --surface-2:#f5f7f9; --sunk:#e3e8ed;
   --ink:#0f1318; --ink-2:#3d444d; --ink-3:#5f6772;
   --line:#d9dfe5; --line-soft:#e7ebef; --hair:rgba(15,30,50,.08);
-  --anod:#2f5a80; --anod-2:#24496b; --anod-3:#24496b; --anod-soft:#e6edf4; --on-anod:#ffffff;
-  --akzent-flaeche:#2f5a80; --grad:linear-gradient(#2f5a80,#2f5a80);
-  --ring-gesamt:#33608a; --ring-pass:#6a7f96; --ring-eins:#858a91;
-  --m-pass:#6a7f96; --m-eins:#2f5a80;
+  --anod:#2563a8; --anod-2:#1d4f87; --anod-3:#1d4f87; --anod-soft:#e3eefa; --on-anod:#ffffff;
+  --akzent-flaeche:#2563a8; --grad:linear-gradient(#2563a8,#2563a8);
+  --ring-gesamt:#3a80cc; --ring-pass:#6a7f96; --ring-eins:#858a91; --ring-schein:rgba(58,128,204,.32);
+  --m-pass:#6a7f96; --m-eins:#2563a8;
   --gut:#0f7653; --gut-soft:#ddf1e7;
   --warn:#a8520a; --warn-soft:#fbeadb;
   --bad:#c42a52; --bad-soft:#fbe2ea;
@@ -1781,14 +1783,14 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
    und Pro darueber aufgehen. */
 .ls{position:fixed;inset:0;z-index:55;background:#fff;color:#1d1d1f;display:flex;flex-direction:column;
   --l-karte:#f2f2f5;--l-ink:#1d1d1f;--l-ink2:#6e6e73;--l-line:#e3e3e8;animation:einblenden .3s ease;
-  --gut:#2fb86b;--bad:#e0344f;--m-pass:#6a7f96;--m-eins:#858a91;--anod:#2f5a80}
+  --gut:#2fb86b;--bad:#e0344f;--m-pass:#6a7f96;--m-eins:#858a91;--anod:#2563a8}
 .ls-nav{flex:none;display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;
   background:rgba(255,255,255,.82);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid transparent;transition:border-color .2s;position:relative;z-index:2}
 .ls.gerollt .ls-nav{border-bottom-color:var(--l-line)}
 /* Startseite (immer hell): derselbe Schriftzug wie im Kopf der App */
 .ls-logo{font-family:Inter,var(--f-sans);font-weight:800;font-size:18px;letter-spacing:-.01em;text-transform:uppercase;color:var(--l-ink)}
-.ls-logo i{font-style:normal;color:#2f5a80;font-weight:800}
+.ls-logo i{font-style:normal;color:#2563a8;font-weight:800}
 @media (max-width:300px){.ls-logo{font-size:13.5px!important}}
 .ls-mini{background:var(--l-ink);color:#fff;border-radius:999px;padding:8px 16px;font-size:13.5px;font-weight:700;white-space:nowrap}
 .ls-nav-r{display:flex;align-items:center;gap:8px}
@@ -1888,7 +1890,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-klicks i{width:11px;height:11px;border-radius:50%;background:#e3e3e8}
 .ls-klicks i.an{background:var(--anod)}
 .ls-chat{background:#fff;border-radius:18px 18px 18px 6px;padding:10px 12px;font-size:12.5px;line-height:1.45;margin-bottom:8px;max-width:92%}
-.ls-chat.du{margin-left:auto;background:#2f5a80;color:#fff;border-radius:18px 18px 6px 18px}
+.ls-chat.du{margin-left:auto;background:#2563a8;color:#fff;border-radius:18px 18px 6px 18px}
 /* Dunkler Abschnitt fuer den Guide -- wie "Bevel Intelligence" */
 .ls-dunkel{background:#161618;color:#f5f5f7;padding:60px 0 20px;margin-top:50px;max-width:none;text-align:center;overflow:hidden}
 .ls-dunkel > h2{font-size:38px;line-height:1.04;letter-spacing:-.045em;font-weight:800;color:#f5f5f7;padding:0 20px}
@@ -1901,7 +1903,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-quer{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:0 14px 6px;scroll-snap-type:x mandatory;max-width:none}
 .ls-quer::-webkit-scrollbar{display:none}
 .ls-mehr{flex:none;width:250px;scroll-snap-align:start;background:var(--l-karte);border-radius:26px;padding:22px 20px;display:flex;flex-direction:column;gap:6px}
-.ls-mehr i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#fff;color:#2f5a80;margin-bottom:6px}
+.ls-mehr i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#fff;color:#2563a8;margin-bottom:6px}
 .ls-mehr b{font-family:var(--f-head);font-size:19px;letter-spacing:-.025em}
 .ls-mehr span{font-size:14.5px;line-height:1.4;color:var(--l-ink2)}
 @media (min-width:790px){.ls-quer{flex-wrap:wrap;justify-content:center;max-width:790px;margin:0 auto}.ls-mehr{width:245px}}
@@ -1916,7 +1918,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-preis li svg{flex:none;color:#12805a}
 .ls-preis > small{font-size:12.5px;color:var(--l-ink2);margin-top:6px}
 .ls-preis.pro{background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:2px solid transparent}
-.ls-preis.pro li svg{color:#2f5a80}
+.ls-preis.pro li svg{color:#2563a8}
 /* Privatsphaere: dunkle Karte mit Schloss, einfarbig (Graphit seit APP-DESIGN-002) */
 .ls-privat{position:relative;overflow:hidden;margin:64px max(14px,calc(50% - 380px)) 0;border-radius:30px;padding:120px 26px 110px;text-align:center;
   background:#18221f;color:#e8efe9}
@@ -2873,7 +2875,7 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 .brand{display:inline-flex;align-items:center}
 .brand-logo{width:28px;height:21px;flex:none;color:var(--anod);margin-right:7px}
 .ls-logo{display:inline-flex;align-items:center}
-.ls-logo .brand-logo{color:#2f5a80}
+.ls-logo .brand-logo{color:#2563a8}
 /* Im App-Kopf erst ab 400 px: darunter braucht der Disziplin-Knopf den Platz,
    und das Logo steht ohnehin gross im Gesamtring direkt darunter. */
 @media (max-width:399px){.brand .brand-logo{display:none}}
@@ -2910,16 +2912,17 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 .bar .rg-gesamt svg.rg-kreis{position:absolute;inset:0;width:100%;height:100%;max-width:none}
 .bar .rg-gesamt .rg-bahn,.bar .rg-gesamt .rg-wert{stroke-width:6}
 .rg-innen{position:absolute;inset:15%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center}
-.bar .rg-gesamt svg.rg-logo{width:54%;max-width:none;height:auto;aspect-ratio:304/228;color:var(--anod);overflow:visible;margin-bottom:1px}
-.bar .rg-gesamt .v{position:static;display:block;max-width:none;margin:0;font-family:var(--f-zahl);font-size:clamp(42px,12.5vw,52px);font-weight:700;
+.bar .rg-gesamt .v{position:static;display:block;max-width:none;margin:0;font-family:var(--f-zahl);font-size:clamp(52px,15vw,64px);font-weight:700;
   line-height:.92;letter-spacing:-.01em;color:var(--ink)}
-/* Die Beschriftung steht als Unterzeile unter dem Ring -- im Ring bleiben nur
-   Logo und Zahl, so passt auch "Overall score" bei 280 px, ohne den Ring zu beruehren. */
+/* Leichtes Leuchten am Gesamtring (Liam, APP-DESIGN-003): ein weicher Schein
+   in der Ringfarbe, dunkel etwas kraeftiger als hell -- keine Farbwolke */
+.bar .rg-gesamt svg.rg-kreis{filter:drop-shadow(0 0 7px var(--ring-schein))}
+/* Die Beschriftung steht als Unterzeile unter dem Ring -- im Ring steht nur
+   die Zahl, so passt auch "Overall score" bei 280 px, ohne den Ring zu beruehren. */
 .bar .rg-gesamt{margin-bottom:22px}
 .bar .rg-gesamt > .rg-l{position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%);
   font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);font-weight:700;gap:0;white-space:nowrap}
 .bar .rg-gesamt .rg-l::before{display:none}
-.ring-wrap.puls svg.rg-logo{animation:none}
 .rg-gesamt{--rg-farbe:var(--wert-farbe,var(--ring-gesamt))}
 .rg-pass{--rg-farbe:var(--ring-pass)} .rg-eins{--rg-farbe:var(--ring-eins)}
 .bar .rg-bahn{stroke:color-mix(in srgb,var(--rg-farbe) 20%,transparent)}
@@ -2946,15 +2949,15 @@ button.st::after{content:"›";margin-left:1px;font-weight:800;opacity:.75}
 @media (hover:hover){button.st:hover{filter:brightness(.97)}}
 @media (min-width:820px){.bar .rg-gesamt{width:180px}}
 
-/* Startseite: dieselbe Hierarchie wie in der App -- Gesamtscore gross mit
-   Logo, Kompatibilitaet und Einsatz klein darunter. Hauptknopf in Stahlblau. */
-.ls-cta{background:#2f5a80}
-@media (hover:hover){.ls-cta:hover{opacity:1;background:#24496b}}
+/* Startseite: dieselbe Hierarchie wie in der App -- Gesamtscore gross,
+   Kompatibilitaet und Einsatz klein darunter. Hauptknopf in Stahlblau. */
+.ls-cta{background:#2563a8}
+@media (hover:hover){.ls-cta:hover{opacity:1;background:#1d4f87}}
 .ls-ringe{display:flex;flex-direction:column;align-items:center;gap:12px;padding:0}
 .ls-ring.gross{width:142px}
 .ls-ring.gross .b,.ls-ring.gross .w{stroke-width:6}
-.ls-ring.gross b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:var(--f-zahl);font-size:36px;font-weight:700;line-height:.95;letter-spacing:-.01em}
-.ls-ring-logo{width:52px;height:39px;color:#2f5a80}
+.ls-ring.gross b{font-family:var(--f-zahl);font-size:44px;font-weight:700;line-height:1;letter-spacing:-.01em}
+.ls-ring.gross svg{filter:drop-shadow(0 0 6px rgba(58,128,204,.32))}
 .ls-paar{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
 .ls-paar > span{display:flex;align-items:center;gap:8px;min-width:0;background:#fff;border-radius:14px;padding:8px 9px}
 .ls-paar .ls-ring{width:38px;flex:none}
@@ -2967,11 +2970,11 @@ button.st::after{content:"›";margin-left:1px;font-weight:800;opacity:.75}
 /* Fahrwerk-Illustrationen: Marker wie die Nummern der Legende in Stahlblau,
    der gerade erklaerte gefuellt und mit Puls. Der O-Ring (SAG) war orange --
    Orange steht jetzt nur noch fuer Warnungen. */
-:root{--il-ring:#7fa8d1}
-:root[data-theme="light"]{--il-ring:#2f5a80}
+:root{--il-ring:#6fb2f5}
+:root[data-theme="light"]{--il-ring:#2563a8}
 .il-m.an .il-m-r{fill:var(--akzent-flaeche)}
 .fw-ki.ring{background:var(--akzent-flaeche)}
-.ls-coach em{background:#2f5a80}
+.ls-coach em{background:#2563a8}
 
 /* ── Teilekarte: das Rad als Wegweiser zu den Teilen ── */
 .teilekarte{padding:14px 14px 12px}
@@ -3089,8 +3092,8 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
        Zahlen, die man beim Bauen immer im Blick haben will. -->
   <div class="bar">
     <div class="bar-in">
-      <!-- Score-Karte (APP-DESIGN-002): oben der Gesamtscore in Stahlblau mit
-           Logo und Zahl im Ring, darunter Kompatibilitaet (Schieferblau) und
+      <!-- Score-Karte (APP-DESIGN-002/003): oben der Gesamtscore in Stahlblau,
+           im Ring nur die grosse Zahl (Logo seit APP-DESIGN-003 wieder raus), darunter Kompatibilitaet (Schieferblau) und
            Einsatz (Grau) mit Beschriftung, dann Statushinweise in Worten -->
       <div class="ringe">
         <button class="rg rg-gesamt ring-wrap" data-scorehilfe="1" title="Gesamt-Score aus Kompatibilität und Einsatz" data-tt="Gesamt-Score aus Kompatibilität und Einsatz|Overall score from compatibility and discipline">
@@ -3099,7 +3102,6 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
             <circle class="rg-wert" id="ring" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
           </svg>
           <span class="rg-innen">
-            <svg class="rg-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>
             <b class="v" id="score">–</b>
           </span>
           <span class="rg-l" data-t="Gesamtscore|Overall score">Gesamtscore</span>
@@ -7345,7 +7347,7 @@ function lsBeispiel(){
 }
 const lsRing = (v, farbe, gross) => { const u = 2 * Math.PI * 42;
   return `<span class="ls-ring${gross ? " gross" : ""}" style="--f:${farbe}"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" class="b"/>
-    <circle cx="50" cy="50" r="42" class="w" stroke-dasharray="${u.toFixed(1)}" stroke-dashoffset="${(u * (1 - v / 100)).toFixed(1)}" transform="rotate(-90 50 50)"/></svg><b>${gross ? '<svg class="ls-ring-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>' : ""}${v}</b></span>`; };
+    <circle cx="50" cy="50" r="42" class="w" stroke-dasharray="${u.toFixed(1)}" stroke-dashoffset="${(u * (1 - v / 100)).toFixed(1)}" transform="rotate(-90 50 50)"/></svg><b>${v}</b></span>`; };
 function startseiteHtml(){
   const f = lsFakten(), bsp = lsBeispiel(), r = bsp.r || {gesamt:99, tech:100, chara:98, preis:0, gewicht:0};
   const fit = bsp.fit, fe = bsp.feder;
@@ -7390,7 +7392,7 @@ function startseiteHtml(){
       <section class="ls-titel ls-rein"><h2>${tx("Vor dem Kauf wissen,<br>ob alles passt.", "Be sure it all fits<br>before you buy.")}</h2>
         <p>${tx("Drei Zahlen zeigen dir, wo dein Rad steht — und was es besser macht.", "Three numbers show you where your bike stands — and what makes it better.")}</p></section>
       ${karte("var(--gut)", "Score", tx("Eine Zahl von 0 bis 100: Passen die Teile zusammen — und zu dem, was du fährst?", "One number from 0 to 100: do the parts fit together — and suit what you ride?"),
-        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.gesamt, "#33608a", true)}
+        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.gesamt, "#3a80cc", true)}
           <div class="ls-paar"><span>${lsRing(r.tech, "#6a7f96")}<em>${tx("Kompa\u00adtibilität", "Compat\u00adibility")}</em></span><span>${lsRing(r.chara, "#858a91")}<em>${wort("einsatz")}</em></span></div></div>
           <div class="ls-app-z"><b>${tx("Stimmig.", "Spot on.")}</b> ${tx("Alles zieht in Richtung Trail.", "The whole build is geared towards Trail.")}</div><div class="ls-platz"></div>`)
         + `<div class="ls-schwebe"><span>${tx("Preis", "Price")}</span><b>${eur(r.preis)}</b><span>${kg(r.gewicht)}</span></div>`)}
