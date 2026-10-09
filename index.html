@@ -6,8 +6,12 @@
 <meta name="description" content="MTB-Konfigurator: Traumrad zusammenstellen, Kompatibilität prüfen, Upgrades finden." data-tc="MTB-Konfigurator: Traumrad zusammenstellen, Kompatibilität prüfen, Upgrades finden.|MTB configurator: put together your dream bike, check compatibility, find upgrades.">
 <meta name="robots" content="noindex">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#000000">
-<script>try{if(localStorage.getItem("mtb.design")==="hell"){document.documentElement.dataset.theme="light";var m=document.querySelector('meta[name="theme-color"]');if(m)m.content="#f2f2f7";}}catch(e){}</script>
+<script>/* Design und Statusleisten-Farbe stehen vor dem ersten Bild. Das Meta-Tag
+   entsteht erst hier, gleich mit der richtigen Farbe: iOS liest sie bei
+   Home-Bildschirm-Apps teils nur einmal und uebernimmt spaetere Aenderungen nicht. */
+(function(){var hell=false;try{hell=localStorage.getItem("mtb.design")==="hell";}catch(e){}
+if(hell)document.documentElement.dataset.theme="light";
+var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f2f7":"#000000";document.head.appendChild(m);})();</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -149,6 +153,9 @@
 /* clip statt hidden: hidden macht html und body zu Scrollbehaeltern, und dann
    klebt nichts mehr -- die Kopfzeile ist frueher einfach mitgescrollt. */
 html,body{overflow-x:hidden}
+/* Fester Seitenhintergrund auch am Wurzelelement: iOS (ab 26) faerbt die
+   Statusleiste nach dem Seitenhintergrund statt nach theme-color */
+html{background:var(--ground)}
 @supports (overflow:clip){html,body{overflow-x:clip}}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-sans);
   font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
@@ -164,7 +171,7 @@ button:active:not(:disabled){transform:scale(.97)}
 :focus-visible{outline:2px solid var(--anod);outline-offset:2px;border-radius:6px}
 /* Designwechsel: alle Farben gleichzeitig und weich, nur waehrend des Wechsels
    (Klasse kommt von setzeDesign) -- gezielte Farb-Eigenschaften statt "all" */
-:root.design-wechsel *,:root.design-wechsel *::before,:root.design-wechsel *::after{
+:root.design-wechsel,:root.design-wechsel *,:root.design-wechsel *::before,:root.design-wechsel *::after{
   transition-property:background-color,border-color,color,fill,stroke,box-shadow,outline-color,text-decoration-color,caret-color!important;
   transition-duration:var(--t-design)!important;transition-timing-function:var(--e-weich)!important;transition-delay:0s!important}
 :root.design-wechsel .seg::before,:root.design-wechsel .modus-in::before{transition-property:transform,background-color,box-shadow!important}
@@ -15190,7 +15197,11 @@ function designAnwenden(){
   if(hell === null || (root.dataset.theme === "light") === hell) return;
   const setz = () => {
     if(hell) root.dataset.theme = "light"; else delete root.dataset.theme;
-    const m = document.querySelector('meta[name="theme-color"]'); if(m) m.content = hell ? "#f2f2f7" : "#000000";
+    /* Statusleiste: neues Meta-Tag statt nur den Wert zu aendern -- ein frisch
+       eingefuegtes Tag liest iOS eher neu als einen geaenderten Wert */
+    const alt = document.querySelector('meta[name="theme-color"]'), m = document.createElement("meta");
+    m.name = "theme-color"; m.content = hell ? "#f2f2f7" : "#000000";
+    if(alt) alt.replaceWith(m); else document.head.appendChild(m);
   };
   if(bewegungAus()){ setz(); return; }
   if(document.startViewTransition){

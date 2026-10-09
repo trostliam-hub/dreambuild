@@ -907,6 +907,16 @@ Seit 08.10.2026 folgt jede Animation einer Bewegungssprache (Tokens in `:root`):
   - Ältere Browser ohne View Transition bekommen gezielte Farbübergänge
     (Klasse `design-wechsel`).
   - Design und Statusleisten-Farbe stehen schon vor dem ersten Bild (Skript im `<head>`).
+  - Statusleiste auf dem iPhone:
+    - Das Tag `theme-color` legt erst das Skript im `<head>` an, gleich mit der
+      Farbe des gespeicherten Designs. Beim Umschalten wird es durch ein neues
+      ersetzt. Hintergrund: iOS liest die Farbe bei Home-Bildschirm-Apps teils
+      nur einmal.
+    - `html` hat denselben festen Hintergrund wie `body`, weil iOS ab Version 26
+      die Statusleiste nach dem Seitenhintergrund färbt.
+    - Ungeprüft auf einem echten Gerät. Je nach iOS-Version übernimmt die
+      Statusleiste ein umgeschaltetes Design womöglich erst nach einem Neustart
+      der App.
 - **Blätter:** 260 ms hoch und ein, 180 ms aus. `schliesse()` leert `#modal` sofort;
   ein inertes Abbild in `#modal-weg` blendet aus. Ein direkt folgendes Blatt
   übernimmt die Abdunklung (`ohne-ein`).
