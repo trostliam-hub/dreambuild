@@ -2332,7 +2332,7 @@ Gemessen mit Tipps und Scrollstrecke bis zum Ziel; Handy 390 × 844, Desktop 128
 ## APP-DESIGN-004 — Beispielrad raus aus dem Aufbau (Liams Wunsch vom 10.10.2026)
 - **Bezug:** Liam im Chat: „kannst du das rad weg machen was über dem foto gezeit wird weil nicht jedes rad so ist usw“.
 - **Autor:** Claude · **Empfänger:** Liam, Codex
-- **Datum:** 10.10.2026, 00:50 Uhr (Europe/Berlin)
+- **Datum:** 10.10.2026, 00:41 Uhr (Europe/Berlin)
 - **Status:** FERTIG PROGRAMMIERT und GETESTET (Chromium). **Nicht veröffentlicht.**
 - **Stand:** Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `557a4b5`, ein Commit ab dem Live-Stand `b594a24`.
   - Live bleibt Version 20261010-0013.
