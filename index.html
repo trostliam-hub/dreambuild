@@ -787,6 +787,9 @@ a.btn{text-decoration:none}
 .badge.rot,.tabs button[aria-selected="true"] .badge.rot{background:var(--bad);color:#fff}
 .badge[hidden]{display:none}
 @media (max-width:360px){.tabs{left:8px;right:8px;padding:5px}.tabs-in{gap:2px}.tabs button{font-size:10.5px}}
+/* Aussendisplay (unter 300 px): Leiste fast randlos, damit "Fahrwerk" und "Shopping" ganz dastehen */
+@media (max-width:300px){.tabs{left:4px;right:4px;padding:4px}.tabs-in{gap:1px}.tabs button{font-size:10px;padding:0;letter-spacing:-.02em}
+  .tabs .badge{left:calc(50% + 4px)}}
 @media (min-width:820px){
   .tabs{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--kopf-h));left:auto;right:auto;bottom:auto;z-index:39;
     max-width:none;height:var(--nav-h);margin:6px 0 0;padding:0 16px;border-radius:0;box-shadow:none;
