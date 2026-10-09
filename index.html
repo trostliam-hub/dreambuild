@@ -1952,7 +1952,9 @@ body{min-height:100vh;min-height:100dvh}
    Hintergruende laufen bis zum Rand durch. Ohne Aussparung ist env() 0. ── */
 :root{--sa-l:env(safe-area-inset-left,0px);--sa-r:env(safe-area-inset-right,0px)}
 .top{padding-left:var(--sa-l);padding-right:var(--sa-r)}
-.wrap,.modus,.profile,.bar{padding-left:max(16px, var(--sa-l));padding-right:max(16px, var(--sa-r))}
+.wrap,.modus,.profile{padding-left:max(16px, var(--sa-l));padding-right:max(16px, var(--sa-r))}
+/* Navigation (breit) und Sprungleiste halten im Querformat Abstand zur Kamera-Aussparung */
+@media (min-width:820px){.tabs{padding-left:max(16px, var(--sa-l));padding-right:max(16px, var(--sa-r))}}
 .tabs,.upd-pop,.toast{left:max(12px, var(--sa-l));right:max(12px, var(--sa-r))}
 .scrim,.ei,.ls-b{padding-left:var(--sa-l);padding-right:var(--sa-r)}
 .ls-nav{padding-left:max(18px, var(--sa-l));padding-right:max(18px, var(--sa-r))}
@@ -2759,7 +2761,7 @@ h1,h2,h3{letter-spacing:0}
 .sprung-platz{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--kopf-h));z-index:38;background:var(--glass);
   -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px)}
 body:not([data-view="aufbau"]) .sprung-platz,.sprung-platz:empty{display:none}
-.sprung{max-width:1180px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 16px}
+.sprung{max-width:1180px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px max(16px, var(--sa-r)) 8px max(16px, var(--sa-l))}
 .sprung::-webkit-scrollbar{display:none}
 .sprung button{flex:none;display:flex;align-items:center;gap:7px;min-height:34px;padding:5px 12px 5px 10px;border-radius:999px;
   background:var(--surface);border:1px solid var(--line);font-size:12.5px;font-weight:650;color:var(--ink-2);box-shadow:var(--shadow)}
