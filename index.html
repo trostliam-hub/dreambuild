@@ -2984,7 +2984,9 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
 .tk-pkt.fertig i{background:#0f7653}
 .tk-pkt.achtung i{background:#c2610c}
 .tk-pkt.stoerung i{background:#c42a52}
-.tk-pkt i::after{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+/* Zeichen im Punkt wechselt ohne Uebergang -- sonst blendet "Bewegung
+   reduzieren" (1 ms fuer alles) auch Schriftgroesse und Zeilenhoehe ueber */
+.tk-pkt i::after{content:"";width:6px;height:6px;border-radius:50%;background:#fff;transition-property:none}
 .tk-pkt.fertig i::after{content:"✓";width:auto;height:auto;background:none;color:#fff;font:800 9px/1 var(--f-sans)}
 .tk-pkt.achtung i::after{content:"!";width:auto;height:auto;background:none;color:#fff;font:800 10px/1 var(--f-sans)}
 .tk-pkt.stoerung i::after{content:"✕";width:auto;height:auto;background:none;color:#fff;font:800 9px/1 var(--f-sans)}
