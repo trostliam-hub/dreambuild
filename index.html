@@ -3005,6 +3005,124 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
   body[data-view="aufbau"] .seite{max-height:calc(100dvh - var(--kopf-h) - var(--nav-h) - 82px)}}
 @media (min-width:820px) and (max-height:700px){.seite,body[data-view="aufbau"] .seite{max-height:none;overflow:visible}}
 </style>
+<style>
+/* ══ APP-REDESIGN-001: Designsystem "Datenblatt" (Liam 2026-10-09) ══
+   Charakter aus der Welt des Rads, nicht aus einer Vorlage: Zahlen und Masse
+   wie auf einem Datenblatt (schmal, gleich breit, Einheit klein), Stahlblau
+   als einziger Akzent wie ein eloxiertes Anbauteil, Graphit und klare helle
+   Flaechen. Eine Kartenebene je Ansicht; innen gliedern Linie und Abstand.
+   Beschriftungen in normaler Schreibung -- gesperrte Versalien nur noch im
+   Schriftzug CRANKSCORE (wie das Decal am Unterrohr). Grundlage: Anthropic-
+   Skills frontend-design, design-system, design-critique, accessibility-review,
+   ux-copy (siehe CrankScore-Austausch, APP-REDESIGN-001). */
+:root{--r-karte:20px;--r:14px;--r-s:10px;--r-tag:6px}
+/* Hell: Linie statt weichem Grauschatten; schwebend bleibt nur, was schwebt */
+:root[data-theme="light"]{--shadow:0 0 0 1px var(--line)}
+
+/* ── Beschriftungen: normale Schreibung, lesbare Groesse ── */
+.pro-tname,.leit-sub,.ek-k,.kn-hebel b,.fed-k,.fed-dz b,.ks-e,.grp-h h2,.slot-k,.up-kopf,.sheet-h .sub,.mrow > label,.erg .k,.sumbox span,
+.jl-k,.rz b,.mk-lab,.deal-k,.lk-kopf span,.fld label,.va-k,.ei-sub,.ei-lab,.ei-gr span,.ck-unter span,.fk-k,.ei-geld span,.tk-schritt,
+.ad-k,.adp-sub,.adp-rech span,.fx-sag-kopf,.su-tk,.fw-qh,.fw-pe > b,.fw-weiter-t small,.fw-profi-h,.fw-ab h4,.fw-wz-k,.fw-vs-o,
+.fw-v thead th,.fw-v-kopf th,.fw-og > legend,.fw-wo-t,.fw-sum-l,.trk-l,.adp-gk,.adg-meins button span,.adg-tab th,
+.vg-kopf .vg-a,.vg-kopf .vg-b,.kz-l,.bar .rg-gesamt > .rg-l{text-transform:none;letter-spacing:0;font-size:12.5px;font-weight:650}
+/* Kleine Zustands-Schilder (passt, Kompromiss, verbaut ...): normale Schreibung, erster Buchstabe gross */
+.pill,.tag,.eo-tag,.er-sch,.werbung,.ls-fund em,.pro-tag,.pro-marke{text-transform:none;letter-spacing:0;font-size:11.5px;font-weight:700}
+.tag::first-letter,.pill::first-letter,.eo-tag::first-letter,.er-sch::first-letter,.werbung::first-letter,.ls-fund em::first-letter{text-transform:uppercase}
+.tag,.pill,.er-sch,.eo-tag{border-radius:var(--r-tag);padding:2px 7px;display:inline-block}
+
+/* ── Knoepfe: genug Flaeche zum Tippen ── */
+.btn{min-height:44px;padding:10px 20px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.sm{min-height:40px;padding:8px 16px;font-size:13px}
+.btn.wide{display:flex;width:100%}
+@media (pointer:coarse){
+  .filt button,.sortier button,.marken button,.pchip,.chipwahl button{min-height:40px}
+  .leit-weg{width:44px;height:44px;margin:-8px -8px 0 0}
+}
+
+/* ── Gesamtring: Logo oben, Zahl darunter -- ruhig und klar ──
+   Das Logo ist kleiner als zuvor (APP-DESIGN-002), steht in der Ringfarbe
+   und laesst der Zahl den Vortritt; so passt beides in den Ring. */
+.bar .rg-gesamt .rg-innen{gap:2px;justify-content:center;padding-bottom:4%}
+.bar .rg-gesamt svg.rg-logo{width:38%;max-width:none;height:auto;aspect-ratio:304/228;color:var(--ring-gesamt);overflow:visible;opacity:.95}
+.bar .rg-gesamt .v{font-size:clamp(46px,13vw,58px);line-height:.9}
+.ring-wrap.puls svg.rg-logo{animation:none}
+.bar .rg-gesamt > .rg-l{font-size:13px;font-weight:650;color:var(--ink-2)}
+
+/* ── Aufgabenkarte "Naechster Schritt": kompakt, sobald man angefangen hat ── */
+.leit{border-radius:var(--r-karte)}
+.leit-kopf{align-items:center}
+.leit-kopf > div{min-width:0;flex:1}
+.leit-sub{display:block;color:var(--ink-3);font-size:12.5px;font-weight:650}
+.leit h2{font-size:20px;line-height:1.15;margin-top:1px}
+.leit-stand{flex:none;font-family:var(--f-zahl);font-size:13.5px;font-weight:700;color:var(--anod);white-space:nowrap}
+.leit .leit-bahn{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:4px;height:4px;background:none;border-radius:0;margin:12px 2px 2px;overflow:visible}
+.leit .leit-bahn i{height:4px;width:auto;border-radius:2px;background:var(--line)}
+.leit .leit-bahn i.fertig{background:var(--anod)}
+.leit .leit-bahn i.jetzt{background:color-mix(in srgb,var(--anod) 45%,var(--line))}
+.leit-jetzt{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;align-items:start;margin:12px 2px 0}
+.leit-jetzt .leit-n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-zahl);font-size:13px;font-weight:700;
+  background:var(--akzent-flaeche);color:#fff;border:0;margin:0}
+.leit-jetzt .leit-x b{font-size:15px;color:var(--ink);font-weight:700}
+.leit-jetzt .leit-x span{font-size:13px}
+.leit-alle{margin:8px 2px 0}
+.leit-alle > summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;min-height:36px;font-size:13px;font-weight:650;color:var(--anod)}
+.leit-alle > summary::-webkit-details-marker{display:none}
+.leit-alle > summary::after{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform var(--t-kurz) var(--e-aus)}
+.leit-alle[open] > summary::after{transform:translateY(1px) rotate(-135deg)}
+.leit-alle .leit-schritte{margin-top:4px}
+.leit.kompakt .leit-cta{margin-top:12px}
+
+/* ── Teileblatt: das Wichtige zuerst -- Erklaerung und Sparhinweis klappen auf ── */
+details.was-das{padding:0;background:none;border-radius:0;margin:0 0 6px}
+details.was-das > summary,details.sparkasten > summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;min-height:40px;font-size:13.5px;font-weight:650}
+details.was-das > summary{color:var(--ink-2)}
+details.was-das > summary::before{content:"?";flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;
+  color:var(--anod);background:var(--anod-soft)}
+details.was-das > summary::-webkit-details-marker,details.sparkasten > summary::-webkit-details-marker{display:none}
+details.was-das > summary::after,details.sparkasten > summary::after{content:"";margin-left:auto;width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:translateY(-2px) rotate(45deg);opacity:.6;transition:transform var(--t-kurz) var(--e-aus)}
+details.was-das[open] > summary::after,details.sparkasten[open] > summary::after{transform:translateY(1px) rotate(-135deg)}
+details.was-das p{margin:2px 0 8px;font-size:13px;line-height:1.5;color:var(--ink-2)}
+details.sparkasten{margin:0 0 6px;padding:0 0 0 12px;border-left:3px solid var(--gut)}
+details.sparkasten > summary{color:var(--gut)}
+details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--gut)}
+.filterzeile{flex:none;display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;padding:2px 0 6px;-webkit-overflow-scrolling:touch}
+.filterzeile::-webkit-scrollbar{display:none}
+.filterzeile .filt{padding:0;flex:none}
+.filterzeile .sortier{padding:0;border-left:1px solid var(--line);padding-left:8px}
+.filterzeile .treffer:empty{display:none}
+.filt button span,.marken button span{font-family:var(--f-zahl);font-weight:700;color:var(--ink-3);margin-left:3px}
+.filt button[aria-pressed="true"] span{color:inherit}
+/* Teilekarte im Blatt: Name und Preis oben, Masse darunter, Knoepfe nebeneinander */
+.opt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding:14px;border-radius:var(--r)}
+.opt-r{display:grid;grid-template-columns:auto;justify-items:end;align-content:start;gap:2px}
+.opt .opt-akt{grid-column:1 / -1;display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px}
+.opt .opt-akt > .shop{margin-right:auto;min-height:40px;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.opt .opt-knoepfe{display:flex;gap:6px;margin-left:auto}
+.opt .opt-knoepfe .btn{padding-left:14px;padding-right:14px}
+.opt .opt-akt > .shop{font-size:12.5px;padding:6px 10px;gap:5px;min-width:0;max-width:132px;display:block;white-space:nowrap;line-height:38px;padding-top:0;padding-bottom:0;height:40px}
+#modal .opt{margin-bottom:10px}
+.opt .opt-akt > .shop svg{display:none}
+.opt .opt-akt{flex-wrap:nowrap}
+
+/* ── Aufgabenkarte in der Seite statt darueber: am Handy weiter vor dem Score,
+   am Desktop oben links, der Score rechts daneben ganz oben ── */
+.wrap > .coach-platz{padding:0;min-width:0}
+@media (min-width:820px){
+  .wrap{grid-template-areas:none}
+  .wrap > .coach-platz{grid-column:1;grid-row:1}
+  #aufbau,#panel{grid-area:auto;grid-column:1;grid-row:2}
+  .seite{grid-area:auto;grid-column:2;grid-row:1 / span 2}
+  body[data-view="aufbau"] .seite{top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + var(--nav-h) + 66px)}
+  .wrap > .coach-platz .leit-schritte{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+}
+/* ── Fahrwerk: Profilwahl knapp, Werte frueh ── */
+@media (max-width:819px){
+  .fw-pk small{display:none}
+  .fw-pk{padding-top:10px;padding-bottom:10px}
+  .fw-banner small{display:none}
+}
+</style>
 </head>
 <body>
 <!-- Das CrankScore-Logo (APP-DESIGN-002): Kettenblatt mit vier Armen und dem
@@ -3078,10 +3196,10 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
 </nav>
 <!-- Sprungleiste zu den Teilegruppen: nur im Aufbau, klebt unter Kopf und Navigation -->
 <div class="sprung-platz" id="sprung"></div>
-<!-- Naechster Schritt ueber dem Score (Liam 2026-10-03: "der Guide oben, der Score unten") -->
-<div class="coach-platz" id="coach-platz"></div>
-
 <main class="wrap">
+  <!-- Naechster Schritt ueber dem Score (Liam 2026-10-03: "der Guide oben, der Score unten").
+       Am breiten Bildschirm steht er oben in der linken Spalte, der Score klebt rechts daneben (APP-REDESIGN-001). -->
+  <div class="coach-platz" id="coach-platz"></div>
   <!-- Uebersicht: am Handy nur im Aufbau ueber der Teileliste, am breiten
        Bildschirm klebt sie rechts neben jedem Bereich (APP-UX-001) -->
   <aside class="seite" id="seite" aria-label="Übersicht" data-ta="Übersicht|Overview">
@@ -3092,8 +3210,8 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
        Zahlen, die man beim Bauen immer im Blick haben will. -->
   <div class="bar">
     <div class="bar-in">
-      <!-- Score-Karte (APP-DESIGN-002/003): oben der Gesamtscore in Stahlblau,
-           im Ring nur die grosse Zahl (Logo seit APP-DESIGN-003 wieder raus), darunter Kompatibilitaet (Schieferblau) und
+      <!-- Score-Karte (APP-DESIGN-002/003, APP-REDESIGN-001): oben der Gesamtscore
+           in Stahlblau, im Ring das CrankScore-Logo und darunter die Zahl, darunter Kompatibilitaet (Schieferblau) und
            Einsatz (Grau) mit Beschriftung, dann Statushinweise in Worten -->
       <div class="ringe">
         <button class="rg rg-gesamt ring-wrap" data-scorehilfe="1" title="Gesamt-Score aus Kompatibilität und Einsatz" data-tt="Gesamt-Score aus Kompatibilität und Einsatz|Overall score from compatibility and discipline">
@@ -3102,6 +3220,7 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
             <circle class="rg-wert" id="ring" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
           </svg>
           <span class="rg-innen">
+            <svg class="rg-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>
             <b class="v" id="score">–</b>
           </span>
           <span class="rg-l" data-t="Gesamtscore|Overall score">Gesamtscore</span>
@@ -8358,14 +8477,23 @@ function leitKarte(r){
   const st = leitSchritte(r), jetzt = st.findIndex(s => !s.fertig);
   const erledigt = st.filter(s => s.fertig).length, geschafft = jetzt === st.length - 1;
   const k = geschafft ? LEIT_FERTIG[modus] : LEIT[modus];
-  return `<section class="leit${geschafft ? " geschafft" : ""}" id="leit" aria-label="${tx("Nächster Schritt", "Next step")}" style="--n:0">
-    <div class="leit-kopf"><div><span class="leit-sub">${LEIT[modus].sub} · ${tx(`${erledigt} von ${st.length} erledigt`, `${erledigt} of ${st.length} done`)}</span><h2>${k.h}</h2></div>
+  /* APP-REDESIGN-001: Wer schon angefangen hat, sieht nur den aktuellen
+     Schritt und einen Fortschrittsbalken -- die ganze Liste klappt auf Wunsch
+     auf (details, kein zusaetzlicher Knopf). Beim allerersten Schritt bleibt
+     die Liste offen, damit Neue den ganzen Weg sehen. */
+  const liste = `<ol class="leit-schritte">${st.map((s, i) => `<li class="leit-s${s.fertig ? " fertig" : ""}${i === jetzt ? " jetzt" : ""}"${i === jetzt ? ` aria-current="step"` : ""}>
+        <span class="leit-n">${s.fertig ? HAKEN : i + 1}</span>
+        <span class="leit-x"><b>${s.t}</b>${i === jetzt ? `<span>${s.d}</span>` : ""}</span></li>`).join("")}</ol>`;
+  const kompakt = !geschafft && erledigt > 0 && jetzt >= 0;
+  return `<section class="leit${geschafft ? " geschafft" : ""}${kompakt ? " kompakt" : ""}" id="leit" aria-label="${tx("Nächster Schritt", "Next step")}" style="--n:0">
+    <div class="leit-kopf"><div><span class="leit-sub">${LEIT[modus].sub}</span><h2>${k.h}</h2></div>
+      <span class="leit-stand">${tx(`${erledigt} von ${st.length} erledigt`, `${erledigt} of ${st.length} done`)}</span>
       <button class="leit-weg" data-leitweg="1" aria-label="${tx("Karte ausblenden", "Hide card")}" title="${tx("Karte ausblenden", "Hide card")}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    ${geschafft ? "" : `<div class="leit-bahn" aria-hidden="true">${st.map((s, i) => `<i class="${s.fertig ? "fertig" : i === jetzt ? "jetzt" : ""}"></i>`).join("")}</div>`}
     ${geschafft || !erledigt ? `<p class="leit-t">${k.t}</p>` : ""}
-    ${geschafft ? "" : `<ol class="leit-schritte">${st.map((s, i) => `<li class="leit-s${s.fertig ? " fertig" : ""}${i === jetzt ? " jetzt" : ""}"${i === jetzt ? ` aria-current="step"` : ""}>
-        <span class="leit-n">${s.fertig ? HAKEN : i + 1}</span>
-        <span class="leit-x"><b>${s.t}</b>${i === jetzt ? `<span>${s.d}</span>` : ""}</span></li>`).join("")}</ol>`}
+    ${geschafft ? "" : kompakt ? `<div class="leit-jetzt"><span class="leit-n">${jetzt + 1}</span><span class="leit-x"><b>${st[jetzt].t}</b><span>${st[jetzt].d}</span></span></div>
+      <details class="leit-alle"><summary>${tx("Alle Schritte", "All steps")}</summary>${liste}</details>` : liste}
     ${jetzt >= 0 && st[jetzt].act ? `<button class="btn wide leit-cta" ${st[jetzt].act}>${st[jetzt].cta}</button>` : ""}
   </section>`;
 }
@@ -14474,8 +14602,8 @@ function setupHtml(){
     <div class="su-spalten"><div class="su-sp">
       <section class="su-karte fw-oben">${suProfilHtml(f, d)}</section>
       ${suNaechsterHtml(f, d)}
-      ${suAktionen(f, d, offen.length)}
       <section class="su-karte fw-teile">${wahl}${suElementHtml(f, suElWahl, x, d)}</section>
+      ${suAktionen(f, d, offen.length)}
     </div>
     <div class="su-sp">
       ${suGrundHtml(f, d)}
@@ -15930,11 +16058,10 @@ function oeffneSlot(slotKey){
           <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}${t.seit ? `<span class="chip">${tx("seit", "since")} ${t.seit}</span>` : ""}</div>${wahlZeile(t)}</div>
         <div class="opt-r"><span class="opt-p${a && !jf ? " livepreis" : ""}">${a && !jf ? (lst.filter(x => x.a !== 0).length > 1 ? `<small>${tx("ab", "from")}</small> ` : "") + eurG(a.p) : eur(pJetzt)}</span>
           ${preisZusatz(t)}
-          ${jf ? `<span class="opt-g"><s>${eur(pNeu)}</s> ${tx("neu", "new")}</span>` : ""}<span class="opt-g">${t.ersatz ? tx("ersetzt die verbauten Lager", "replaces the fitted bearings") : gramm(t.g)}</span>
-          <button class="btn ghost sm" data-detail="${slotKey}|${t.id}">${tx("Ansehen", "View")}</button>
-          ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">${wort("einbauenKurz")}</button>`}</div>
+          ${jf ? `<span class="opt-g"><s>${eur(pNeu)}</s> ${tx("neu", "new")}</span>` : ""}<span class="opt-g">${t.ersatz ? tx("ersetzt die verbauten Lager", "replaces the fitted bearings") : gramm(t.g)}</span></div>
         ${gruende}
-        ${affHtml(t)}
+        <div class="opt-akt">${affHtml(t, true)}<span class="opt-knoepfe"><button class="btn ghost sm" data-detail="${slotKey}|${t.id}">${tx("Ansehen", "View")}</button>
+          ${istSel ? "" : `<button class="btn sm" data-einbau="${slotKey}|${t.id}">${wort("einbauenKurz")}</button>`}</span></div>
       </div>`};
   });
   karten.sort((a,b) => a.sort[0] - b.sort[0] || a.sort[1] - b.sort[1]);
@@ -15955,7 +16082,7 @@ function oeffneSlot(slotKey){
         return f ? `<div class="fund-hier"><b>${tx("Darum passt es gerade nicht", "Why it doesn't fit right now")}: ${esc(f.titel)}.</b> ${f.text}
           <span class="fund-weiter">${tx("Unten stehen nur Teile, die passen. Einbauen löst den Konflikt.", "Below are only parts that fit. Fitting one resolves the conflict.")}</span></div>` : "";
       })()}
-      <p class="was-das"><b>${tx("Was ist das?", "What is it?")}</b> ${esc(s.was)}${filterAlle ? "" : tx(" Oben stehen die Teile, die zu deinem Aufbau passen — „passt“ heißt: Maße und Standards stimmen.", " The parts that fit your build come first — “fits” means dimensions and standards match.")}</p>
+      <details class="was-das"><summary>${tx("Was ist das?", "What is it?")}</summary><p>${esc(s.was)}${filterAlle ? "" : tx(" Oben stehen die Teile, die zu deinem Aufbau passen — „passt“ heißt: Maße und Standards stimmen.", " The parts that fit your build come first — “fits” means dimensions and standards match.")}</p></details>
       ${slotKey === "rahmen" ? jahrLeiste() : ""}
       ${(() => {
         const f = fitRechnen();
@@ -15971,23 +16098,23 @@ function oeffneSlot(slotKey){
         const g = guenstigere(slotKey, build);
         if(!g.length) return "";
         const top3 = g.slice(0, 3);
-        return `<div class="sparkasten" style="margin-bottom:4px">
-          <b>${tx(`${eur(top3[0].spart)} günstiger bei gleichen Maßen.`, `${eur(top3[0].spart)} cheaper with the same dimensions.`)}</b>
+        return `<details class="sparkasten">
+          <summary>${tx(`${eur(top3[0].spart)} günstiger bei gleichen Maßen`, `${eur(top3[0].spart)} cheaper with the same dimensions`)}</summary>
           <p>${top3.map(x => esc(x.teil.n) + " — " + eur(preisVon(x.teil)) +
               (x.ab.length ? " (" + esc(x.ab.join(", ")) + ")" : "")).join("<br>")}</p>
-        </div>`;
+        </details>`;
       })()}
       ${karten.length > 8 ? `<div class="suche"><input id="suche-in" type="search" data-suche="1" autocomplete="off"
           placeholder="${esc(tx(s.label + " suchen — Marke, Modell, 29, Boost …", "Search " + s.label.toLowerCase() + " — brand, model, 29, Boost …"))}" value="${esc(suchText)}" aria-label="${esc(tx(s.label + " suchen", "Search " + s.label.toLowerCase()))}"></div>` : ""}
-      <div class="filt">
-        <button data-filt="1" aria-pressed="${!filterAlle}">${slotKey === "rahmen" ? tx("Ohne Teiletausch", "No other swaps needed") : tx("Nur passende", "Only parts that fit")} · ${passend.length}</button>
-        <button data-filt="0" aria-pressed="${filterAlle}">${tx("Alle", "All")} · ${karten.length}</button>
+      <div class="filterzeile"><div class="filt">
+        <button data-filt="1" aria-pressed="${!filterAlle}">${slotKey === "rahmen" ? tx("Ohne Teiletausch", "No other swaps needed") : tx("Nur passende", "Only parts that fit")} <span>${passend.length}</span></button>
+        <button data-filt="0" aria-pressed="${filterAlle}">${tx("Alle", "All")} <span>${karten.length}</span></button>
         <span class="treffer" id="treffer"></span>
       </div>
       <div class="sortier" role="group" aria-label="${tx("Sortieren", "Sort")}">
         ${[["empfohlen",tx("Empfohlen", "Recommended")],["preis",tx("Preis", "Price")],["gewicht",tx("Gewicht", "Weight")]].concat(mitRabatt ? [["rabatt",tx("Rabatt", "Discount")]] : [])
           .map(([k, l]) => `<button data-sort="${k}" aria-pressed="${sortWahl === k}">${l}</button>`).join("")}
-      </div>
+      </div></div>
       ${mListe.length > 2 ? `<div class="marken" role="group" aria-label="${tx("Marke", "Brand")}">
         <button data-mfilt="" aria-pressed="${!markeWahl}">${tx("Alle Marken", "All brands")}</button>
         ${mListe.map(m => `<button data-mfilt="${esc(m)}" aria-pressed="${markeWahl === m}">${esc(markeTxt(m))} <span>${marken[m]}</span></button>`).join("")}
