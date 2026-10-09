@@ -3051,6 +3051,16 @@ body:not([data-view="aufbau"]) .teilekarte{display:none}
 /* Leeres Rad: Logo im Ring gedaempft, Strich statt Zahl */
 .bar-in.leer .rg-gesamt svg.rg-logo{color:var(--ink-3);opacity:.55}
 .bar-in.leer .rg-gesamt .v{color:var(--ink-3)}
+/* Score-Karte wie ein Datenblatt: keine Kacheln in der Karte, sondern zwei
+   Spalten mit Haarlinie -- eine Kartenebene, weniger Hoehe */
+.bar .rg-paar{gap:0;border-top:1px solid var(--line);padding-top:10px}
+.bar .rg-paar .rg,:root[data-theme="light"] .bar .rg-paar .rg{background:none;border-radius:0;padding:4px 8px 6px}
+.bar .rg-paar .rg + .rg{border-left:1px solid var(--line)}
+.bar .kz{gap:0;border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+.bar .kz-z,:root[data-theme="light"] .bar .kz-z{background:none;border-radius:0;padding:0 14px}
+.bar .kz-z + .kz-z{border-left:1px solid var(--line)}
+.bar .kz-z b{font-size:24px}
+.bar .score-status{margin-top:2px}
 /* ── Aufgabenkarte "Naechster Schritt": kompakt, sobald man angefangen hat ── */
 .leit{border-radius:var(--r-karte)}
 .leit-kopf{align-items:center}
@@ -3115,6 +3125,7 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
   .wrap{grid-template-areas:none}
   .wrap > .coach-platz{grid-column:1;grid-row:1}
   #aufbau,#panel{grid-area:auto;grid-column:1;grid-row:2}
+  body:not([data-view="aufbau"]) #panel{grid-row:1 / span 2}
   .seite{grid-area:auto;grid-column:2;grid-row:1 / span 2}
   body[data-view="aufbau"] .seite{top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + var(--nav-h) + 66px)}
   .wrap > .coach-platz .leit-schritte{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
