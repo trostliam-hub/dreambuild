@@ -1,4 +1,26 @@
-# Vorschau: Neues Design und kürzere Wege für die ganze App (APP-REDESIGN-001)
+# Vorschau: Beispielrad raus aus dem Aufbau (APP-DESIGN-004)
+
+Liams Wunsch vom 10.10.2026: „kannst du das rad weg machen was über dem foto gezeit wird weil nicht jedes rad so ist“.
+
+- **Stand:** 10.10.2026, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `557a4b5`.
+- **Veröffentlicht:** **nein**, wartet auf Liams Freigabe. Live ist 20261010-0013; die Vorher-Bilder zeigen genau diese Version.
+- **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-DESIGN-004). Die Vorschau zu APP-REDESIGN-001 steht weiter unten.
+
+## Was sich ändert
+- **Teilekarte entfernt:** Die Karte mit dem gerenderten Beispielrad und den Status-Punkten ist aus dem Aufbau entfernt, in allen drei Arten von Rädern.
+- **In Mein Rad und Gebraucht** folgt unter dem Score jetzt direkt das eigene Foto.
+- **Den Stand je Teilegruppe zeigen weiter:**
+  - die Sprungleiste mit ihren farbigen Punkten
+  - die Statushinweise am Score
+- **Unverändert:** Startseite, Einstieg und Rundgang behalten das Beispielrad. Dort ist es als Beispiel beschriftet und steht für kein bestimmtes Rad.
+
+![Handy: Mein Rad und Traumrad](belege/APP-DESIGN-004/vorher-nachher-handy.jpg)
+
+![Desktop: Mein Rad](belege/APP-DESIGN-004/vorher-nachher-desktop.jpg)
+
+---
+
+## Vorschau APP-REDESIGN-001: Neues Design und kürzere Wege für die ganze App
 
 Claude legt diese Seite nach jeder Aufgabe neu in den Austauschordner. Die Bilder liegen daneben in `belege/`, damit die Seite auch im entpackten ZIP funktioniert.
 
