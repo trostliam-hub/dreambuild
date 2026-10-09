@@ -21,6 +21,8 @@ var ASSETS = [
   './icon-192.png',
   './icon-512.png',
   './icon-mask.png',
+  './bilder/beispielrad-seite-640.webp',
+  './bilder/beispielrad-seite-1200.webp',
   './fonts/inter-400-800-latin.woff2',
   './fonts/ibmplexmono-400-latin.woff2',
   './fonts/ibmplexmono-500-latin.woff2',

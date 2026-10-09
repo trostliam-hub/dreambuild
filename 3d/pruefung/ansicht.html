@@ -1,0 +1,39 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>GLB-Pruefung</title>
+<style>html,body{margin:0;background:var(--bg,#f2f2f7)}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+const q = new URLSearchParams(location.search);
+const dunkel = q.get("bg") === "dunkel";
+document.body.style.background = dunkel ? "#000" : "#f2f2f7";
+const W = 1000, H = 620;
+const r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+r.setSize(W, H); r.setPixelRatio(1); r.toneMapping = THREE.AgXToneMapping; r.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(r.domElement);
+const szene = new THREE.Scene();
+szene.environment = new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), 0.04).texture;
+const licht = new THREE.DirectionalLight(0xffffff, 1.6); licht.position.set(0.5, 3, 2); szene.add(licht);
+const kam = new THREE.PerspectiveCamera(22, W / H, 0.1, 50);
+const ld = new GLTFLoader(); const dr = new DRACOLoader(); dr.setDecoderPath("./node_modules/three/examples/jsm/libs/draco/"); ld.setDRACOLoader(dr);
+const t0 = performance.now();
+ld.load(q.get("glb") || "rad.glb", g => {
+  szene.add(g.scene);
+  const box = new THREE.Box3().setFromObject(g.scene), m = box.getCenter(new THREE.Vector3()), gr = box.getSize(new THREE.Vector3());
+  const blick = q.get("blick") || "seite";
+  if (blick === "seite") kam.position.set(m.x, m.y, m.z + 6.4);
+  else kam.position.set(m.x + 3.0, m.y + 1.0, m.z + 5.6);
+  kam.lookAt(m);
+  const mixer = new THREE.AnimationMixer(g.scene);
+  const clip = g.animations[0];
+  let n = 0; g.scene.traverse(o => { if (o.isMesh) n++; });
+  window.info = { ladezeit_ms: Math.round(performance.now() - t0), meshes: n, clips: g.animations.map(a => a.name + " " + a.duration.toFixed(2) + "s"),
+                  groesse_m: gr.toArray().map(v => +v.toFixed(3)) };
+  window.zeige = sek => { if (clip) { const a = mixer.clipAction(clip); a.play(); mixer.setTime(sek); } r.render(szene, kam); return true; };
+  window.zeige(0);
+  window.fertig = true;
+}, undefined, e => { window.fehler = String(e); });
+</script></body></html>

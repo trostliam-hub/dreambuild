@@ -1270,7 +1270,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 
 /* Begruessung */
 .ei-rad{margin:-4px -10px 4px;position:relative}
-.ei-rad svg{width:100%;height:auto;display:block;overflow:visible;max-height:300px;margin:0 auto}
+.ei-rad .brad{max-width:500px;margin:0 auto}
 .ei-h1{font-family:var(--f-head);font-size:40px;line-height:1.02;font-weight:800;letter-spacing:-.045em;margin:4px 0 12px}
 .grad-t{color:inherit}   /* frueher Farbverlauf; die Ueberschrift ist jetzt einfarbig */
 .ei-punkte{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-direction:column;gap:10px}
@@ -1588,8 +1588,9 @@ input.er:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px var(--surface),0 0
   transition:opacity var(--t-mittel) var(--e-weich),transform var(--t-mittel) var(--e-aus)}
 .tour-karte.rein{opacity:1;transform:none}
 .tour-karte.mitte{padding:18px 18px 16px}
-.tk-bild{margin:-4px -6px 8px;height:118px}
-.tk-bild svg{width:100%;height:100%;display:block}
+.tk-bild{margin:-4px -6px 8px}
+.tk-bild .brad{max-width:236px;margin:0 auto}
+.tk-bild .brad figcaption{margin-top:2px;font-size:11px}
 .tk-kopf{display:flex;align-items:center;gap:12px}
 .tk-ic{width:42px;height:42px;flex:none;border-radius:14px;display:grid;place-items:center;color:#fff;background:var(--grad);
   animation:tourPop var(--t-mittel) var(--e-aus) both}
@@ -1707,7 +1708,18 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 @media (hover:hover){.ls-cta:hover{opacity:.88}}
 .ls-klein{font-size:13px;color:var(--l-ink2);margin:12px auto 0;text-wrap:balance;max-width:320px}
 .ls-rad{position:relative;max-width:520px;margin:34px auto 0;padding:0 6px}
-.ls-rad svg{width:100%;height:auto;display:block;overflow:visible}
+/* Beispielrad: vorgerendertes 3D-Modell (Blender). Das winzige, weichgezeichnete Vorschaubild steht
+   sofort da, das scharfe Bild blendet ueber, sobald es geladen ist (bei "Bewegung reduzieren" ohne
+   Uebergang -- die Regel oben kuerzt jede Transition). Die Unterschrift sagt, dass es ein Beispiel ist. */
+.brad{margin:0}
+.brad-b{position:relative;display:block;width:100%}
+.brad-b img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain}
+.brad-vor{filter:blur(6px);opacity:.8;transition:opacity var(--t-mittel) var(--e-weich)}
+.brad-img{opacity:0;transition:opacity var(--t-mittel) var(--e-weich)}
+.brad-b.da .brad-img{opacity:1}
+.brad-b.da .brad-vor{opacity:0}
+.brad figcaption{margin-top:6px;font-size:12px;line-height:1.3;color:var(--ink-3);text-align:center;text-wrap:balance}
+.ls .brad figcaption{color:var(--l-ink2)}   /* Startseite ist immer hell */
 .ls-marken{text-align:center;padding:34px 0 10px}
 .ls-marken h3{font-size:19px;font-weight:700;letter-spacing:-.02em}
 .ls-lauf{overflow:hidden;margin:16px 0 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
@@ -6865,7 +6877,7 @@ function startseiteHtml(){
           "Build your dream bike from individual parts, check your own bike or rate a used one. CrankScore checks how the parts fit together and shows you where your build could improve.")}</p>
         ${knopf(tx("Kostenlos starten", "Start for free"))}
         <p class="ls-klein">${tx(`Free ist kostenlos · Pro ab ${euro(PRO_JAHR_MONAT)} im Monat · ohne Anmeldung`, `Free costs nothing · Pro from ${euro(PRO_JAHR_MONAT)} a month · no sign-up`)}</p>
-        <div class="ls-rad" aria-hidden="true">${radSvg({anim:true, sattel:780})}</div>
+        <div class="ls-rad">${beispielRad()}</div>
       </section>
       <section class="ls-marken ls-rein">
         <h3>${tx("Teile von", "Parts from")}</h3>
@@ -8156,6 +8168,26 @@ function glatt(pts, zu){
   return d + (zu ? "Z" : "");
 }
 
+/* Beispielrad als Bild: Seitenansicht eines 3D-Modells (Blender, Cycles) des Propain Spindrift 5 AL,
+   Groesse L, Mullet -- Modell, Skripte und GLB liegen in 3d/ (siehe 3d/README.md). Es steht fuer
+   kein ausgewaehltes Rad, deshalb die Unterschrift. klein: Rundgang-Karte. */
+const RAD_BILD = {b:1200, h:654, vor:"data:image/webp;base64,UklGRtQBAABXRUJQVlA4WAoAAAAQAAAAHwAAEAAAQUxQSO0AAAARX2CmbdvYOCTptYiIywrnAzi2tq2J3p8V/BKoowfKeELpUrqULiXj0vlMjUM7PstE1hDR/wkAANslABU4rngESAXkGNUJaCU8xSHUvpxEjiHN0rmLhnSIMXTrrjpUPZUTQOk3tPMiK8fZcnMjgT69r98HRXYhyr/NlwlJ3erpdb6VDthsZCiL6EOCpXvt1oWgr6rPzxLzaHdsv78XiNxWrvRUaSE+d/XffwlmyVr5VnshPu6dzUZAbltDw2rPYpWSNXEE5Btu805yWlK88yQB6NxgbB6T1/naWgKAzq3bv43g/O+vRPbkr7+/OAAAVlA4IMAAAAAwBQCdASogABEAPu1mrE+ppSQiMBgIATAdiWkACwBHAhFNYOyptwdXor9AfdQc9eyRAAD+8NoertXAc+QW39nwIHRlqHu1iQW+08hkHKOk+rnQZu2In0kgKiQr+OyY8vW1rZ/RG6Fp1pLVyCm6eMyf8JmiSKpJxkGLtj764UZHth8xWgKt7EIDIDIULLoZ+n1t9xjtjH1IyB+A8eLzYjQvsuPS3/V2bZbevimsezzycqwRgt3ePE0aRH7wC/hAAAA="};
+const beispielRad = klein => `<figure class="brad">
+  <span class="brad-b" style="aspect-ratio:${RAD_BILD.b} / ${RAD_BILD.h}">
+    <img class="brad-vor" src="${RAD_BILD.vor}" alt="" aria-hidden="true">
+    <img class="brad-img" src="bilder/beispielrad-seite-640.webp" srcset="bilder/beispielrad-seite-640.webp 640w, bilder/beispielrad-seite-1200.webp 1200w"
+      sizes="${klein ? "236px" : "(min-width:600px) 520px, 94vw"}" width="${RAD_BILD.b}" height="${RAD_BILD.h}" decoding="async"
+      alt="${esc(tx("Mountainbike in der Seitenansicht", "Mountain bike, side view"))}"></span>
+  <figcaption>${klein ? tx("Beispielrad: Propain Spindrift 5 AL", "Example bike: Propain Spindrift 5 AL")
+    : tx("Beispielrad: Propain Spindrift 5 AL, Größe L, Mullet", "Example bike: Propain Spindrift 5 AL, size L, mullet")}</figcaption>
+</figure>`;
+/* load bubbelt nicht -- in der Einfangphase am Dokument kommt es trotzdem an, auch fuer spaeter
+   per innerHTML eingesetzte Bilder */
+document.addEventListener("load", e => {
+  const t = e.target;
+  if(t && t.classList && t.classList.contains("brad-img")) t.parentNode.classList.add("da");
+}, true);
+
 /* Seitenansicht (Antriebsseite) eines Freeride-Fullys nach der Geometrie des
    Propain Spindrift 5 AL. Tretlager im Ursprung, y nach oben, alles in mm.
    Mullet (29″ vorn, 27,5″ hinten), 180 mm Federweg, PRO10-Hinterbau: der
@@ -9144,7 +9176,7 @@ const spracheKnoepfe = cls => `<div class="er-chips ${cls || ""}" role="group" a
 const EI_SCHRITT = {
   hallo: () => ({h:`
     ${spracheKnoepfe("ei-sprache")}
-    <div class="ei-rad" style="--i:0">${radSvg({anim:true, sattel:780})}</div>
+    <div class="ei-rad" style="--i:0">${beispielRad()}</div>
     <p class="ei-sub" style="--i:1">${tx("Willkommen bei CrankScore", "Welcome to CrankScore")}</p>
     <h1 class="ei-h1" style="--i:2">${tx("Dein Rad.", "Your bike.")}<br><span class="grad-t">${tx("Auf dich gebaut.", "Built around you.")}</span></h1>
     <p class="ei-qs" style="--i:3">${tx(`Ein paar Fragen zu dir — dann kennt die App deine Rahmengröße und
@@ -9482,7 +9514,7 @@ function tourZeigen(){
   const n = tour.liste.length, letzte = tour.i === n - 1;
   karte.classList.remove("rein");
   karte.classList.toggle("mitte", !!s.mitte);
-  karte.innerHTML = `${s.bild ? `<div class="tk-bild">${radSvg({anim:true, sattel:780})}</div>` : ""}
+  karte.innerHTML = `${s.bild ? `<div class="tk-bild">${beispielRad(true)}</div>` : ""}
     <div class="tk-kopf">${s.bild ? "" : `<span class="tk-ic">${ic(s.ic || IC.traum, 20)}</span>`}
       <span><span class="tk-schritt">${s.mitte ? (s.ende ? tx("Geschafft", "Done") : tx("Willkommen", "Welcome")) : tx(`Schritt ${tour.i} von ${n - 2}`, `Step ${tour.i} of ${n - 2}`)}</span>
       <h3>${s.h}</h3></span></div>

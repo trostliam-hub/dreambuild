@@ -170,6 +170,15 @@ Anbauteile in Graphit, Feder und Standrohre metallisch, Trikot dunkelgrau.
 Das Rad blendet einmal ein und steht dann still; es gibt keine drehenden
 Räder, kein Wippen und keine Bewegungslinien mehr. Die Farben kommen aus den
 Variablen `--rs-…` und passen sich dem hellen und dunklen Design an.
+Auf Startseite, Begrüßung und in der ersten Rundgang-Karte steht statt der Zeichnung
+ein vorgerendertes 3D-Bild desselben Rads (Blender, Größe L, Mullet;
+`bilder/beispielrad-seite-640.webp` und `-1200.webp`, per `srcset` je nach
+Bildschirm). Es ist als „Beispielrad: Propain Spindrift 5 AL“ beschriftet, weil es
+nicht das ausgewählte Rad zeigt. Ein winziges, weichgezeichnetes Vorschaubild steht
+sofort da; das scharfe Bild blendet über, sobald es geladen ist (bei „Bewegung
+reduzieren“ ohne Übergang). Der Service Worker speichert beide Größen für offline.
+Modell, Skripte, GLB und Renderings liegen in `3d/` (siehe `3d/README.md`). Im Fit
+bleibt die Zeichnung, weil dort ein Fahrer in deiner Größe darauf sitzt.
 Im Aufbau steht an Rahmen, Lenker, Vorbau, Kurbel und Stütze, was zu dir passt
 („auf 780 mm kürzen“, „Größe L bestellen“); die Prüfung hat eine eigene Rubrik
 *Passt das Rad zu dir?*, die nur zeigt, was nicht passt, und nicht in die
