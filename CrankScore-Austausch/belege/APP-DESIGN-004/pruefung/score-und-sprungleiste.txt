@@ -1,0 +1,27 @@
+OK   390: Zahl im Ring = Gesamtscore, Ring passend gefuellt — {"zahl":"99","gesamt":99,"ring":"2.639px","soll":"2.6","status":"All dimensions fit"}
+OK   390: Statushinweis "alles passt" — All dimensions fit
+OK   390: vier Statushinweise — ["2 conflicts","1 compromise","€3,650 over budget","1 part missing"]
+OK   390: jeder Hinweis hat ein Zeichen und Text
+OK   390: Klick auf "2 conflicts" — befunde
+OK   390: Klick auf "€3,650 over budget" — upgrades
+OK   390: Klick auf fehlendes Teil oeffnet die Auswahl
+OK   390: Teilekarte ist entfernt
+OK   390: Sprungleiste zeigt jede Gruppe mit Namen — [{"g":"Rahmen","k":"stoerung","l":"Frame – conflict"},{"g":"Fahrwerk","k":"stoerung","l":"Fork & shock – conflict"},{"g":"Laufräder","k":"fertig","l":"Wheels"}]
+OK   390: Konflikt-Gruppe in der Sprungleiste markiert
+OK   390: Tipp in der Sprungleiste bringt die Gruppe nach oben — Gruppe Rahmen, top 120
+OK   390: Tipp auf den Gesamtring oeffnet die Erklaerung
+OK   390: keine Skriptfehler
+OK   1280: Zahl im Ring = Gesamtscore, Ring passend gefuellt — {"zahl":"99","gesamt":99,"ring":"2.639px","soll":"2.6","status":"All dimensions fit"}
+OK   1280: Statushinweis "alles passt" — All dimensions fit
+OK   1280: vier Statushinweise — ["2 conflicts","1 compromise","€3,650 over budget","1 part missing"]
+OK   1280: jeder Hinweis hat ein Zeichen und Text
+OK   1280: Klick auf "2 conflicts" — befunde
+OK   1280: Klick auf "€3,650 over budget" — upgrades
+OK   1280: Klick auf fehlendes Teil oeffnet die Auswahl
+OK   1280: Teilekarte ist entfernt
+OK   1280: Sprungleiste zeigt jede Gruppe mit Namen — [{"g":"Rahmen","k":"stoerung","l":"Frame – conflict"},{"g":"Fahrwerk","k":"stoerung","l":"Fork & shock – conflict"},{"g":"Laufräder","k":"fertig","l":"Wheels"}]
+OK   1280: Konflikt-Gruppe in der Sprungleiste markiert
+OK   1280: Tipp in der Sprungleiste bringt die Gruppe nach oben — Gruppe Rahmen, top 169
+OK   1280: Tipp auf den Gesamtring oeffnet die Erklaerung
+OK   1280: keine Skriptfehler
+FUNKTION: alles OK

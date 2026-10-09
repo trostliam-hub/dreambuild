@@ -2326,3 +2326,65 @@ Gemessen mit Tipps und Scrollstrecke bis zum Ziel; Handy 390 × 844, Desktop 128
 - **Launchreif:** nein. Die sechs Launch-Blocker aus dem Bericht oben gelten unverändert. Sie betreffen Betreiberdaten und Recht, nicht den Code.
 
 - **Veröffentlichung:** JA, Nachweis siehe oben.
+
+---
+
+## APP-DESIGN-004 — Beispielrad raus aus dem Aufbau (Liams Wunsch vom 10.10.2026)
+- **Bezug:** Liam im Chat: „kannst du das rad weg machen was über dem foto gezeit wird weil nicht jedes rad so ist usw“.
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 10.10.2026, 00:50 Uhr (Europe/Berlin)
+- **Status:** FERTIG PROGRAMMIERT und GETESTET (Chromium). **Nicht veröffentlicht.**
+- **Stand:** Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `557a4b5`, ein Commit ab dem Live-Stand `b594a24`.
+  - Live bleibt Version 20261010-0013.
+  - Die Vorher-Bilder zeigen genau diese Version.
+- **Keine Änderung** an Kompatibilitätsregeln, Preisen, Pro-Regeln, Herstellerwerten, Berechnungen oder gespeicherten Daten.
+
+### Was gemeint war
+- Im Aufbau stand unter dem Score die „Teilekarte“ aus APP-DESIGN-002: das gerenderte Beispielrad (Propain Spindrift) mit einem Status-Punkt je Teilegruppe.
+- In „Mein Rad“ und „Gebraucht“ stand sie direkt über der Karte mit dem eigenen Foto. So sah es aus, als wäre das Beispielrad das eigene.
+- Auch beim Traumrad passt es nicht zu jedem Rad, zum Beispiel einem Hardtail oder einem Downhiller.
+
+### Was geändert ist
+- **Teilekarte entfernt,** in allen drei Arten von Rädern:
+  - das Markup in `index.html`
+  - die Aktualisierung der Punkte in `zeichne()`
+  - die zugehörigen Stile
+- **Den Stand je Teilegruppe zeigen weiter:**
+  - die Sprungleiste unter den Bereichen, mit farbigem Punkt, Vorlesenamen wie „Rahmen – Konflikt“ und Sprung zur Gruppe
+  - die Statushinweise am Score
+- **In Mein Rad und Gebraucht** folgt unter dem Score jetzt direkt das eigene Foto.
+- **Am Desktop** besteht die rechte Spalte nur noch aus dem Score.
+- **Unverändert:** Startseite, Einstieg und Rundgang zeigen das Beispielrad weiter. Dort ist es beschriftet („Beispielrad: Propain Spindrift 5 AL“) und steht für kein bestimmtes Rad. Die Bilddateien und der Offline-Speicher bleiben deshalb, wie sie sind.
+  - Soll es auch dort weg, ist das ein kleiner Folgeschritt.
+- **README:** Die Teilekarte ist im Abschnitt APP-DESIGN-002 als entfernt vermerkt.
+
+### Geprüft (am Code-Stand `557a4b5`, Chromium/Playwright)
+- **npm test:** alle bestanden.
+  - Kompatibilität 199/199
+  - Setup 16/16
+  - Wege 36/36
+  - Sprache 0 Funde in 9.260 Texten (weniger Texte, weil die Legende der Teilekarte wegfällt)
+- **Überstand:** 0 Elemente, bei 280 und 320 px, Deutsch und Englisch, in allen drei Modi.
+- **Kontrast:** 0 Unterschreitungen in 1.792 Texten.
+- **Handy-Audit:** sieben Geräte von 320 px bis Querformat, Deutsch dunkel und Englisch hell: je 0 Funde, 0 Konsolenfehler.
+- **Randfälle und Tastatur:** 84 von 84 (leeres Rad, lange Namen, fehlende Angaben, Laden, Tastatur, Fokus zurück).
+- **Score und Sprungleiste:** 26 von 26, Handy und Desktop.
+  - Die Teilekarte ist weg.
+  - Die Sprungleiste nennt jede Gruppe und markiert die Konflikt-Gruppe.
+  - Ein Tipp bringt die Gruppe nach oben.
+  - Die Statushinweise führen weiter an die richtige Stelle.
+- **Nicht geprüft:** echtes iPhone und Safari.
+
+### Belege (`belege/APP-DESIGN-004/`)
+- `vorher-nachher-handy.jpg`: Mein Rad mit eigenem Foto (hell), Traumrad (dunkel)
+- `vorher-nachher-desktop.jpg`: Mein Rad am Desktop
+- `pruefung/`: Rohergebnisse
+- `aufnahme.js` und `pruefung-score-sprungleiste.js`: Skripte zum Nachlaufen
+
+### Stand
+- **Code fertig:** ja (`557a4b5`).
+- **Tests bestanden:** ja (Chromium lokal).
+- **Live:** nein. Live bleibt 20261010-0013.
+- **Nächster Schritt:** Mit Liams ausdrücklicher Freigabe veröffentliche ich (Push auf `main`, Action stempelt).
+
+- **Veröffentlichung:** NEIN.
