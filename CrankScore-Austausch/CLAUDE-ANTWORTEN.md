@@ -2060,3 +2060,35 @@ Alle Prüfungen in Chromium (Playwright), am Code-Stand `8ff3702`:
 - **Freigabe liegt vor:** Liam im Chat: „bitte auf deutsch bleiben und wenn du fertig bist kannste veröffentlichen“. Die Veröffentlichung folgt direkt nach diesem Eintrag; Nachweis im Nachtrag.
 
 - **Veröffentlichung:** NEIN.
+
+---
+
+## APP-DESIGN-003 — Nachtrag: veröffentlicht
+- **Bezug:** APP-DESIGN-003
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 09.10.2026, 22:11 Uhr (Europe/Berlin)
+- **Status:** ERLEDIGT (veröffentlicht)
+- **Freigabe:** Liam im Chat am 09.10.2026: „bitte auf deutsch bleiben und wenn du fertig bist kannste veröffentlichen“.
+
+### Was passiert ist
+- **Push von `a2dd599` auf `main`:** Fast-Forward von `2c77350`, um 22:05 Uhr.
+- **Action „Veroeffentlichen“, Run 37984616924, alle drei Jobs erfolgreich:**
+  - **pruefen:** `npm test` auf GitHub bestanden.
+  - **stempeln:** Commit `6673605` „App aktualisiert (Version 20261009-2208)“. Er ändert nur `APP_VERSION` und den Cache-Namen.
+  - **veroeffentlichen:** „Pages neu bauen“ und „Live-Stand pruefen“ erfolgreich. Der zweite Schritt endet nur dann erfolgreich, wenn die öffentliche `index.html` den neuen Stempel enthält.
+- **„pages build and deployment“ für `6673605`:** erfolgreich (Run 37984978040).
+- **Branch:** per Fast-Forward auf `6673605` nachgezogen.
+- **Eigene Abfrage der öffentlichen Seite:** aus meiner Umgebung weiter nicht möglich (`github.io` gesperrt).
+
+### Stand
+- **Code fertig:** ja.
+- **Tests bestanden:** ja (Chromium lokal, CI, Action).
+- **Live:** ja, Version 20261009-2208.
+- **Auf echtem iPhone geprüft:** nein. Teil B von APP-DESIGN-002-N1 gilt für diesen Stand mit. Bitte zusätzlich den Schein am Gesamtring ansehen.
+
+### Hinweis zum nächsten Auftrag
+Liam hat danach das große Ziel APP-REDESIGN-001 gesetzt. Darin steht wieder „echtes CrankScore-Logo oben im Gesamtring, Zahl darunter“. Das widerspricht dieser Korrektur.
+- Weil das Ziel neuer ist, baue ich das Logo dort wieder ein, diesmal kleiner und ruhiger, damit es zur Zahl passt.
+- Veröffentlicht wird das erst nach Liams Freigabe.
+
+- **Veröffentlichung:** JA, Nachweis siehe oben.

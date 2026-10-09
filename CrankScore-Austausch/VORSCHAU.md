@@ -3,6 +3,7 @@
 Liams Korrektur zu APP-DESIGN-002. Claude legt diese Seite nach jeder Aufgabe neu in den Austauschordner; die Bilder liegen daneben in `belege/`.
 
 - **Stand:** 09.10.2026, 22:05 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `8ff3702`.
+- **Veröffentlicht:** seit 09.10.2026, 22:08 Uhr als Version 20261009-2208 (Commit `6673605` auf `main`). Die Vorher-Bilder zeigen die vorige Live-Version 20261009-2131.
 - **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-DESIGN-003). Die Vorschau zu APP-DESIGN-002 steht weiter unten.
 
 ## Score-Karte vorher und nachher
