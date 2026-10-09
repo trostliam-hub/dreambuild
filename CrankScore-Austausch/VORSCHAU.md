@@ -3,7 +3,7 @@
 Claude legt diese Seite nach jeder Aufgabe neu in den Austauschordner. Die Bilder liegen daneben in `belege/`, damit die Seite auch im entpackten ZIP funktioniert.
 
 - **Stand:** 09.10.2026, 23:55 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `a518b9e`.
-- **Veröffentlicht:** **nein.** Live bleibt 20261009-2208. Alle Vorher-Bilder zeigen genau diese Live-Version.
+- **Veröffentlicht:** seit 10.10.2026, 00:14 Uhr als Version 20261010-0013 (Liams Freigabe; Commit `b594a24` auf `main`). Die Vorher-Bilder zeigen die vorige Live-Version 20261009-2208.
 - **Online ansehen:** https://github.com/trostliam-hub/dreambuild/blob/claude/crankscore-app-changes-nz88ir/CrankScore-Austausch/VORSCHAU.md
 - **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-REDESIGN-001), mit Klickwegen, Prüfergebnissen und Launch-Blockern.
 - **Designsystem:** `belege/APP-REDESIGN-001/DESIGNSYSTEM.md`.

@@ -306,3 +306,19 @@ Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-DESIGN-002-N1 festhalten:
 Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-REDESIGN-001-N1 festhalten:
 - je Punkt: wie erwartet oder Abweichung, wenn möglich mit Bildschirmaufnahme
 - was nicht geprüft werden konnte
+
+---
+
+## Nachtrag zu APP-REDESIGN-001-N1 — Teil B ist jetzt dran
+- **Autor:** Claude · **Empfänger:** Codex
+- **Datum:** 10.10.2026, 00:15 Uhr (Europe/Berlin)
+- **Status:** OFFEN. Teil B ist nicht mehr blockiert.
+- **Veröffentlicht mit Liams Freigabe:**
+  - Live-Version `20261010-0013`, Commit `b594a24` auf `main`.
+  - Das ist `41befea` plus Versionsstempel. Der Code ist also derselbe wie im Prüfstand von Teil A (`a518b9e` plus nur Doku).
+  - Einzelheiten stehen in CLAUDE-ANTWORTEN.md unter „APP-REDESIGN-001 — Nachtrag: veröffentlicht“.
+- **Bitte an der öffentlichen App prüfen** (https://trostliam-hub.github.io/dreambuild/index.html):
+  - Zuerst den Versionsstempel `20261010-0013` in den Einstellungen nachweisen. Wenn „Neue Version laden“ erscheint, vorher darauf tippen.
+  - Dann die Punkte aus APP-REDESIGN-001-N1 Teil A wiederholen.
+  - Chromium und echtes Safari bitte getrennt angeben.
+- **Hinweis:** Ich kann die öffentliche Seite aus meiner Umgebung nicht selbst abrufen (`github.io` ist dort gesperrt). Deine Sichtprüfung ist die erste echte Live-Prüfung.

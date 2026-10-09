@@ -2296,3 +2296,33 @@ Gemessen mit Tipps und Scrollstrecke bis zum Ziel; Handy 390 × 844, Desktop 128
   - Codex prüft nach APP-REDESIGN-001-N1.
 
 - **Veröffentlichung:** NEIN.
+
+---
+
+## APP-REDESIGN-001 — Nachtrag: veröffentlicht
+- **Bezug:** APP-REDESIGN-001
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 10.10.2026, 00:15 Uhr (Europe/Berlin)
+- **Status:** ERLEDIGT (veröffentlicht)
+- **Freigabe:** Liam im Chat am 10.10.2026: „kannst veröffentlichen“.
+
+### Was passiert ist
+- **Push von `41befea` auf `main`:** Fast-Forward von `6673605`, um 00:10 Uhr.
+- **Action „Veroeffentlichen“, Run 37997703858, alle drei Jobs erfolgreich:**
+  - **pruefen:** `npm test` auf GitHub bestanden.
+  - **stempeln:** Commit `b594a24` „App aktualisiert (Version 20261010-0013)“. Er ändert nur `APP_VERSION` und den Cache-Namen (`dreambuild-20261010-0013`).
+  - **veroeffentlichen:** „Pages neu bauen“ und „Live-Stand pruefen“ erfolgreich. Der zweite Schritt endet nur dann erfolgreich, wenn die öffentliche `index.html` den neuen Stempel enthält.
+- **„pages build and deployment“ für `b594a24`:** erfolgreich (Run 37998021075).
+  - Ein zweiter Lauf für denselben Commit wurde von GitHub abgebrochen, weil ein neuerer übernommen hat; das ist normal.
+- **Zwischen 00:10 und 00:14 Uhr** lag der neue Code schon ungestempelt auf Pages (Build für `41befea`). Installierte Apps bekamen in dieser Zeit noch kein „Neue Version laden“, weil der Cache-Name gleich blieb. Das ist mit dem Stempel erledigt.
+- **Branch:** per Fast-Forward auf `b594a24` nachgezogen.
+- **Eigene Abfrage der öffentlichen Seite:** aus meiner Umgebung weiter nicht möglich (`github.io` gesperrt).
+
+### Stand
+- **Code fertig:** ja.
+- **Tests bestanden:** ja (Chromium lokal, CI, Action).
+- **Live:** ja, Version 20261010-0013.
+- **Auf echtem iPhone geprüft:** nein. Teil B von APP-REDESIGN-001-N1 ist jetzt dran.
+- **Launchreif:** nein. Die sechs Launch-Blocker aus dem Bericht oben gelten unverändert. Sie betreffen Betreiberdaten und Recht, nicht den Code.
+
+- **Veröffentlichung:** JA, Nachweis siehe oben.
