@@ -298,13 +298,14 @@ def gabel(cols, ht_u, achse_dir, vor_dir, achslaenge, versatz, fa_mitte):
         beweglich.append(rohr(f"Gabel_Tauchrohr_{seite}", [P(dicht + 8, versatz, s * G.abstand_y), P(dicht + 150, versatz, s * G.abstand_y),
                                                            P(achslaenge - 14, versatz - 1, s * G.abstand_y), P(achslaenge + 16, versatz - 3, s * G.abstand_y)],
                               [2 * G.tauchrohr_r, 2 * G.tauchrohr_r - 1, 2 * G.tauchrohr_r - 6, 34],
-                              [2 * G.tauchrohr_r, 2 * G.tauchrohr_r - 1, 2 * G.tauchrohr_r - 6, 40], "Alu_schwarz_eloxiert", col_b, n=36,
+                              [2 * G.tauchrohr_r, 2 * G.tauchrohr_r - 1, 2 * G.tauchrohr_r - 6, 40], "Gabel_Lack", col_b, n=36,
                               seite=Vector((0, 1, 0))))
     # Bruecke vor dem Reifen (Abstand zum Reifen > 15 mm)
     # Bruecke: vom oberen Ende der Tauchrohre nach vorn oben, in der Mitte vor und ueber dem Reifen (> 13 mm frei)
-    bruecke = [P(dicht + 34, versatz + 6, -G.abstand_y + 2), P(dicht + 10, versatz + 46, -56), P(dicht - 14, versatz + 80, 0),
-               P(dicht + 10, versatz + 46, 56), P(dicht + 34, versatz + 6, G.abstand_y - 2)]
-    beweglich.append(rohr("Gabel_Bruecke", bruecke, [34, 30, 28, 30, 34], [30, 26, 24, 26, 30], "Alu_schwarz_eloxiert", col_b,
+    # flach und breit oben an den Tauchrohren angesetzt, in der Mitte vor und ueber dem Reifen (> 9 mm frei)
+    bruecke = [P(dicht + 12, versatz + 10, -G.abstand_y + 2), P(dicht - 8, versatz + 50, -50), P(dicht - 16, versatz + 76, 0),
+               P(dicht - 8, versatz + 50, 50), P(dicht + 12, versatz + 10, G.abstand_y - 2)]
+    beweglich.append(rohr("Gabel_Bruecke", bruecke, [44, 34, 28, 34, 44], [34, 28, 24, 28, 34], "Gabel_Lack", col_b,
                           n=24, seite=a))
     # Steckachse 15x110 mit Hebel auf der Nicht-Antriebsseite
     ya = G.abstand_y + G.tauchrohr_r + 1
@@ -314,7 +315,7 @@ def gabel(cols, ht_u, achse_dir, vor_dir, achslaenge, versatz, fa_mitte):
     # Bremsaufnahme hinten am linken Tauchrohr
     ba = fa_mitte + Vector((0, 50 * MM, 0))
     beweglich.append(platte("Gabel_Bremsaufnahme", kreise_umriss([(-30, 30, 10), (-62, -6, 10), (-8, 8, 12)], n=16), 49, 58,
-                            "Alu_schwarz_eloxiert", col_b, fase=1.0, ebene=(fa_mitte, Vector((1, 0, 0)), Vector((0, 0, 1)), Vector((0, 1, 0)))))
+                            "Gabel_Lack", col_b, fase=1.0, ebene=(fa_mitte, Vector((1, 0, 0)), Vector((0, 0, 1)), Vector((0, 1, 0)))))
     return fest, beweglich
 
 

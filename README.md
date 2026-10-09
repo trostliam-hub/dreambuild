@@ -171,7 +171,8 @@ Das Rad blendet einmal ein und steht dann still; es gibt keine drehenden
 Räder, kein Wippen und keine Bewegungslinien mehr. Die Farben kommen aus den
 Variablen `--rs-…` und passen sich dem hellen und dunklen Design an.
 Auf Startseite, Begrüßung und in der ersten Rundgang-Karte steht statt der Zeichnung
-ein vorgerendertes 3D-Bild desselben Rads (Blender, Größe L, Mullet;
+ein vorgerendertes 3D-Bild desselben Rads (Blender, Größe L, Mullet; weißer Rahmen
+mit „CRANKSCORE“ auf dem Unterrohr, rote Gabel;
 `bilder/beispielrad-seite-640.webp` und `-1200.webp`, per `srcset` je nach
 Bildschirm). Es ist als „Beispielrad: Propain Spindrift 5 AL“ beschriftet, weil es
 nicht das ausgewählte Rad zeigt. Ein winziges, weichgezeichnetes Vorschaubild steht

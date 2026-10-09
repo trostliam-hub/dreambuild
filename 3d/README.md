@@ -10,18 +10,26 @@ Das Modell zeigt **ein Beispielrad**. Es steht nicht für den Rahmen, den jemand
 der App ausgewählt hat; deshalb steht unter dem Bild „Beispielrad: Propain
 Spindrift 5 AL, Größe L, Mullet“.
 
+**Aussehen:** nach Liams Vergleichsfoto eines Propain (09.10.2026) — weißer Rahmen,
+rote Tauchrohre, schwarze Anbauteile, rahmenfarbener oberer Hebel, silberne
+Flat-Pedale. Auf dem Unterrohr steht statt des Herstellernamens groß
+**CRANKSCORE** in der App-Schrift Inter, wie das App-Logo zweifarbig („CRANK“
+dunkel, „SCORE“ grau); unten am Tretlager ein dunkler Unterrohrschutz. Andere
+Markenlogos (Gabel, Laufräder, Reifen) sind nicht nachgebildet.
+
 ## Dateien
 
 | Datei | Inhalt | Größe |
 |---|---|---|
-| `modell/spindrift-5-al.blend` | bearbeitbare Szene (komprimiert): Sammlungen je Baugruppe, Studio, zwei Kameras, Animation | 1,5 MB |
-| `modell/spindrift-5-al.glb` | optimiertes GLB (Draco, Stufe 10), ein Animations-Clip „Spindrift_Bewegung“ | 0,75 MB |
+| `modell/spindrift-5-al.blend` | bearbeitbare Szene (komprimiert, Schriftzug-Textur eingepackt): Sammlungen je Baugruppe, Studio, zwei Kameras, Animation | 1,7 MB |
+| `modell/spindrift-5-al.glb` | optimiertes GLB (Draco, Stufe 10) mit Schriftzug-Textur, ein Animations-Clip „Spindrift_Bewegung“ | 0,87 MB |
 | `bilder/rad-seite.png`, `bilder/rad-dreiviertel.png` | Renderings mit transparentem Grund und weichem Bodenschatten (Cycles, 128 Samples, entrauscht) | 1,4 und 1,1 MB |
 | `skripte/` | alles, was Modell, Renderings, GLB und Prüfung reproduzierbar erzeugt | |
+| `skripte/unterrohr-dekor.png` | Schriftzug-Textur des Unterrohrs (aus `dekor.py`) | 0,1 MB |
 | `skripte/lagersuche/` | die numerische Suche der Hinterbau-Drehpunkte (Belege, nicht nötig zum Bauen) | |
 | `pruefung/` | Prüfseite für das GLB mit three.js (Chromium) | |
 
-Ohne Draco wäre das GLB 4,7 MB groß. Das Modell hat rund 130 000 Dreiecke.
+Ohne Draco wäre das GLB 5,0 MB groß. Das Modell hat rund 133 000 Dreiecke in 138 Objekten.
 
 ## Maße
 
@@ -95,9 +103,16 @@ Kette), Bremsen, Cockpit, Sitz (Stütze, Sattel), Leitungen. Die Bewegung hängt
 Steuer-Empties in der Sammlung „Steuerung“.
 
 Materialien: lackiertes Aluminium (`Lack_Rahmen`, Farbe als Parameter
-`baue(lack="#4f5d6a")`), schwarz eloxiertes Aluminium, Kunststoff, Gummi, blanker und
-dunkler Stahl, Standrohr, Kolbenstange, Feder, Sattel, Lager — matt bis seidig,
-keine Spiegelflächen. Bauteile und Farben lassen sich einzeln tauschen.
+`baue(lack="#e7e8e5")`), lackierte Tauchrohre (`Gabel_Lack`, `baue(gabel="#b11c2a")`),
+schwarz eloxiertes Aluminium, Kunststoff, Gummi, blanker und dunkler Stahl, Standrohr,
+Kolbenstange, Feder, Sattel, Lager — matt bis seidig, keine Spiegelflächen. Bauteile
+und Farben lassen sich einzeln tauschen.
+
+Schriftzug: Das Unterrohr hat eine UV-Abwicklung (`werkzeug.rohr(..., uv=True)`), das
+Material `Lack_Rahmen_Dekor` legt `unterrohr-dekor.png` darüber. Auf der
+Antriebsseite liest der Schriftzug vom Tretlager zum Steuerrohr, auf der anderen
+Seite wie auf dem Foto vom Steuerrohr nach unten. Versalhöhe 41 mm, Länge 40 cm.
+Wer die Lackfarbe ändert, setzt `LACK` in `dekor.py` gleich und erzeugt die Textur neu.
 
 Teile ohne Marke: Dämpfer, Gabel, Antrieb und Bremsen sind allgemeine Bauformen in
 echten Maßen (Stahlfederdämpfer 230 × 65, 38er-Gabel 180 mm, 12-fach 10–52,
@@ -126,7 +141,7 @@ geschlossen und läuft über der Kettenstrebe. In der App läuft keine Animation
   Leitungen in Zugeinlässen) stehen in einer Liste; die Liste wurde einzeln
   durchgesehen.
 - **GLB** in Chromium (headless, WebGL über SwiftShader) mit three.js 0.169 und
-  DRACOLoader: lädt in 0,2–0,6 s, 118 Meshes, ein Clip, keine Konsolenfehler; Ruhe,
+  DRACOLoader: lädt in 0,4–0,6 s, 157 Meshes, eine Textur, ein Clip, keine Konsolenfehler; Ruhe,
   eingefedert und gerollt sichtbar.
 - **Renderings** auf hellem (#f2f2f7, Weiß) und dunklem Grund (Schwarz, #1c1c1e).
 
@@ -135,10 +150,11 @@ andere Browser als Chromium.
 
 ## Neu erzeugen
 
-Blender 5.0 (getestet mit dem Python-Modul `bpy` 5.0.1) und Pillow:
+Blender 5.0 (getestet mit dem Python-Modul `bpy` 5.0.1), Pillow und fontTools (mit brotli):
 
 ```
 cd 3d/skripte
+python dekor.py unterrohr-dekor.png                    # Schriftzug-Textur (nur nach Änderungen nötig)
 python bau.py ../modell/spindrift-5-al.blend          # oder: blender -b -P bau.py -- ../modell/spindrift-5-al.blend
 python kollision.py                                    # Kollisionsprüfung (0/50/100 %)
 python render_final.py ../modell/spindrift-5-al.blend /tmp/roh 128 2000

@@ -18,11 +18,18 @@ def P(p, y=0.0):
     return R.P(p, y, Z0)
 
 
-def baue(lack="#4f5d6a"):
+DEKOR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "unterrohr-dekor.png")
+
+
+def baue(lack="#e7e8e5", gabel="#b11c2a", dekor=DEKOR):
+    """lack: Rahmenfarbe (zu dekor.LACK passend halten), gabel: Farbe der Tauchrohre, dekor: Schriftzug-Textur
+    fuer das Unterrohr (dekor.py erzeugt sie; fehlt sie, bleibt das Unterrohr einfarbig)."""
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene
     sc.unit_settings.system = "METRIC"
-    W.materialien(lack)
+    W.materialien(lack, gabel)
+    if dekor and os.path.exists(dekor):
+        W.dekor_material("Lack_Rahmen_Dekor", dekor)
     haupt = W.sammlung("Spindrift_5_AL_L_Mix")
     C = {k: W.sammlung(k, haupt) for k in ("Rahmen", "Hinterbau", "Hebel", "Daempfer", "Gabel", "Laufrad_vorn", "Laufrad_hinten",
                                             "Antrieb", "Bremsen", "Cockpit", "Sitz", "Leitungen", "Steuerung")}
@@ -123,6 +130,19 @@ def baue(lack="#4f5d6a"):
         ob.data.transform(Matrix.Translation(Vector((0, 0, Z0 * MM))))
         antrieb.append(ob)
         antrieb.append(W.zyl(f"Pedalgewinde_{'R' if s < 0 else 'L'}", P(pe, s * 80), P(pe, s * 83), 8, "Stahl_dunkel", C["Antrieb"], n=16))
+        # Flat-Pedal: Achse, Koerper 100 x 100 x 16 mm (waagerecht), Pins oben und unten
+        sei = 'R' if s < 0 else 'L'
+        antrieb.append(W.zyl(f"Pedal_Achse_{sei}", P(pe, s * 83), P(pe, s * 92), 7, "Stahl_dunkel", C["Antrieb"], n=16))
+        mitte_p = P(pe, s * 142)
+        ebene = (mitte_p, Vector((1, 0, 0)), Vector((0, 1, 0)), Vector((0, 0, 1)))
+        um_p = W.kreise_umriss([(-40, -40, 10), (40, -40, 10), (40, 40, 10), (-40, 40, 10)], n=32)
+        antrieb.append(W.platte(f"Pedal_{sei}", um_p, -8, 8, "Lager", C["Antrieb"], fase=2.0, ebene=ebene))
+        antrieb.append(W.zyl(f"Pedal_Lagerhuelse_{sei}", P(pe, s * 92), P(pe, s * 192), 9.5, "Stahl_dunkel", C["Antrieb"], n=20))
+        for px_ in (-42, -14, 14, 42):
+            for py_ in (-44, 44):
+                for pz_ in (-1, 1):
+                    fuss = mitte_p + Vector((px_ * MM, py_ * MM, pz_ * 8 * MM))
+                    antrieb.append(W.zyl(f"Pedal_Pin_{sei}", fuss, fuss + Vector((0, 0, pz_ * 4 * MM)), 1.6, "Stahl_dunkel", C["Antrieb"], n=8))
     antrieb.append(W.zyl("Tretlagerachse", P((0, 0), -80), P((0, 0), 80), 14.5, "Alu_schwarz_eloxiert", C["Antrieb"], n=32))
     for s in (-1, 1):
         antrieb.append(W.zyl("Tretlagerschale", P((0, 0), s * 36.5), P((0, 0), s * 44), 22.5, "Kunststoff_schwarz", C["Antrieb"], n=32))

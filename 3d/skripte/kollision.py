@@ -26,6 +26,7 @@ ERLAUBT = [
     ("Lenker", "Schaltzug"), ("Lenker", "Bremsleitung_hinten"), ("Lenker", "Stuetzenzug"), ("Schaltzug", "*"), ("Stuetzenzug", "*"), ("Bremsleitung_hinten", "*"),
     ("Stuetze_*", "Stuetze_*"), ("Stuetze_*", "Sattel*"), ("Sattel*", "Sattel*"),
     ("Daempfer_*", "Daempfer_*"), ("Schaltwerk_Koerper", "Schaltzug_hinten"),
+    ("Pedal*", "Pedal*"), ("Kurbel_*", "Pedal*"),
 ]
 def erlaubt(a, b):
     for x, y in ERLAUBT:

@@ -2,7 +2,7 @@
 Punkte der Seitenebene (x, z) in mm, Tretlager im Ursprung; y quer (+ = links)."""
 import math
 from mathutils import Vector, Matrix
-from werkzeug import MM, rohr, zyl, platte, kreise_umriss, verbinden
+from werkzeug import MM, MAT, rohr, zyl, platte, kreise_umriss, verbinden
 
 
 def P(p, y=0.0, z0=0.0):
@@ -51,7 +51,9 @@ def hauptrahmen(g, col, z0):
     dt0 = htu - d * (28 * MM)
     dt2 = P((40, 28), 0, z0)
     dt1 = dt0.lerp(dt2, 0.55) + (dt0 - dt2).normalized().cross(Vector((0, 1, 0))) * (-6 * MM)
-    teile.append(rohr("Unterrohr", [dt0 + (dt0 - dt2).normalized() * (12 * MM), dt1, dt2], [60, 62, 66], [58, 55, 48], "Lack_Rahmen", col, n=32))
+    # Unterrohr mit Abwicklung fuer das Dekor (Schriftzug, Unterrohrschutz; siehe dekor.py)
+    teile.append(rohr("Unterrohr", [dt0 + (dt0 - dt2).normalized() * (12 * MM), dt1, dt2], [60, 62, 66], [58, 55, 48],
+                      "Lack_Rahmen_Dekor" if "Lack_Rahmen_Dekor" in MAT else "Lack_Rahmen", col, n=48, uv=True))
     # Sitzrohr 34,9 (aussen 39) mit Klemme
     st0 = P(g.st(8), 0, z0)
     st1 = P(g.st(g.SITZROHR), 0, z0)
@@ -174,7 +176,7 @@ def hebel_oben(g, col, z0):
     for s in (-1, 1):
         for k, um in enumerate(arme):
             teile.append(platte_z(z0, f"Hebel_oben_Arm{k}_{'R' if s < 0 else 'L'}", um, 26 if s > 0 else -32, 32 if s > 0 else -26,
-                                  "Alu_schwarz_eloxiert", col, fase=1.6))
+                                  "Lack_Rahmen", col, fase=1.6))      # rahmenfarben wie am Vorbild-Foto
     # Flip-Chip am Sitzstrebenlager
     for s in (-1, 1):
         teile.append(zyl("FlipChip", P(g.U_HINTEN, s * 32, z0), P(g.U_HINTEN, s * 34, z0), 10, "Stahl_dunkel", col, n=24))

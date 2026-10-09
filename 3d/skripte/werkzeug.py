@@ -50,8 +50,29 @@ def srgb(h):
     return tuple(x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c)
 
 
-def materialien(lack="#4f5d6a"):
+def dekor_material(name, bild, rauh=0.42, coat=0.35, coat_rauh=0.28):
+    """Lack mit Dekor-Textur (Schriftzug) ueber die UV-Abwicklung; das Bild wird in die .blend gepackt."""
+    m = bpy.data.materials.new(name)
+    m.use_nodes = True
+    nt = m.node_tree
+    b = nt.nodes.get("Principled BSDF")
+    b.inputs["Roughness"].default_value = rauh
+    if "Coat Weight" in b.inputs:
+        b.inputs["Coat Weight"].default_value = coat
+        b.inputs["Coat Roughness"].default_value = coat_rauh
+    tex = nt.nodes.new("ShaderNodeTexImage")
+    tex.image = bpy.data.images.load(bild)
+    tex.image.pack()
+    tex.interpolation = "Cubic"
+    nt.links.new(tex.outputs["Color"], b.inputs["Base Color"])
+    m.diffuse_color = (0.8, 0.8, 0.8, 1.0)
+    MAT[name] = m
+    return m
+
+
+def materialien(lack="#e7e8e5", gabel="#b11c2a"):
     material("Lack_Rahmen", srgb(lack), 0.0, 0.42, coat=0.35, coat_rauh=0.28)
+    material("Gabel_Lack", srgb(gabel), 0.0, 0.36, coat=0.4, coat_rauh=0.22)
     material("Alu_schwarz_eloxiert", srgb("#1b1c1f"), 0.55, 0.5)
     material("Kunststoff_schwarz", srgb("#141416"), 0.0, 0.62, spec=0.4)
     material("Gummi", srgb("#1c1c1d"), 0.0, 0.86, spec=0.25)
@@ -102,9 +123,11 @@ def catmull(pts, schritte=10):
     return out, par
 
 
-def rohr(name, pts, breite, hoehe, mat, col, n=24, seite=Vector((0, 1, 0)), schritte=10, kappen=True, glatt=True):
+def rohr(name, pts, breite, hoehe, mat, col, n=24, seite=Vector((0, 1, 0)), schritte=10, kappen=True, glatt=True, uv=False):
     """Rohr entlang pts (Vektoren in m). breite/hoehe in mm je Kontrollpunkt:
-    breite quer zur Ebene (Richtung 'seite'), hoehe in der Ebene. Ellipsenquerschnitt."""
+    breite quer zur Ebene (Richtung 'seite'), hoehe in der Ebene. Ellipsenquerschnitt.
+    uv: Abwicklung fuer ein Dekor -- u = Bogenlaenge von pts[0] (0) bis pts[-1] (1), v einmal herum,
+    v = 0 in Richtung 'seite', v = 0,25 in Richtung (Rohrachse x seite)."""
     pfad, par = catmull(pts, schritte)
     if not isinstance(breite, (list, tuple)):
         breite = [breite] * len(pts)
@@ -136,9 +159,17 @@ def rohr(name, pts, breite, hoehe, mat, col, n=24, seite=Vector((0, 1, 0)), schr
             w = 2 * math.pi * j / n
             ring.append(bm.verts.new(p + s * (math.cos(w) * a) + nrm * (math.sin(w) * b)))
         ringe.append(ring)
-    for r0, r1 in zip(ringe, ringe[1:]):
+    laenge = [0.0]
+    for p0, p1 in zip(pfad, pfad[1:]):
+        laenge.append(laenge[-1] + (p1 - p0).length)
+    uvs = bm.loops.layers.uv.new("UVMap") if uv else None
+    for i, (r0, r1) in enumerate(zip(ringe, ringe[1:])):
         for j in range(n):
-            bm.faces.new((r0[j], r0[(j + 1) % n], r1[(j + 1) % n], r1[j]))
+            f = bm.faces.new((r0[j], r0[(j + 1) % n], r1[(j + 1) % n], r1[j]))
+            if uvs:
+                s0, s1 = laenge[i] / laenge[-1], laenge[i + 1] / laenge[-1]
+                for lp, (uu, vv) in zip(f.loops, ((s0, j / n), (s0, (j + 1) / n), (s1, (j + 1) / n), (s1, j / n))):
+                    lp[uvs].uv = (uu, vv)
     if kappen:
         for ring, umk in ((ringe[0], True), (ringe[-1], False)):
             m = sum((x.co for x in ring), Vector()) / n
@@ -146,7 +177,16 @@ def rohr(name, pts, breite, hoehe, mat, col, n=24, seite=Vector((0, 1, 0)), schr
             for j in range(n):
                 f = (ring[j], ring[(j + 1) % n], c) if umk else (ring[(j + 1) % n], ring[j], c)
                 bm.faces.new(f)
-    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    if not uv:
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    else:
+        # Normalen nach aussen ohne Umsortieren der Ecken (die UVs haengen an der Reihenfolge)
+        for f in bm.faces:
+            f.normal_update()
+        mitte = sum((v.co for v in bm.verts), Vector()) / len(bm.verts)
+        aussen = sum(1 for f in bm.faces if f.normal.dot(f.calc_center_median() - mitte) > 0)
+        if aussen < len(bm.faces) / 2:
+            bmesh.ops.reverse_faces(bm, faces=bm.faces)
     return fertig(name, bm, mat, col, glatt)
 
 
