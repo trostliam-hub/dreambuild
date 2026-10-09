@@ -3134,7 +3134,7 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
 }
 /* ── Radleiste: am Desktop Art und Rad in einer Zeile, statt zweier Baender ── */
 @media (min-width:820px){
-  .radleiste{max-width:1212px;margin:0 auto;padding:8px 16px 2px;display:flex;align-items:center;gap:14px}
+  .radleiste{max-width:1212px;margin:0 auto;padding:8px max(16px, var(--sa-r)) 2px max(16px, var(--sa-l));display:flex;align-items:center;gap:14px}
   .radleiste .modus{padding:0;flex:none}
   .radleiste .modus-in{width:380px;margin:0}
   .radleiste .profile{padding:0;flex:1;min-width:0}
@@ -3157,6 +3157,8 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
 /* Vergleich: die Masse beider Teile in ihrer eigenen Spalte */
 .vg-daten .vg-a.specs{grid-column:2}
 .vg-daten .vg-b.specs{grid-column:3}
+/* Fahrwerk-Umschalter: die Zuordnung (vorn, hinten) auf der vertieften Flaeche lesbar (Kontrast >= 4,5:1) */
+.fw-elw small{color:var(--ink-2)}
 /* Logo statt Funkelstern bei Pro und "Ueber CrankScore" */
 .cs-logo-ic{display:block;flex:none}
 </style>
@@ -15344,7 +15346,11 @@ function zeichne(){
     : tx(`${eur(plan.budget - r.preis)} von ${eur(plan.budget)} frei`, `${eur(plan.budget - r.preis)} left of ${eur(plan.budget)}`);
   $("t-budget").className = "kz-s" + (ueber ? " ueber" : "");
   $("t-gew").textContent = leer ? "–" : kg(r.gewicht);
-  $("t-teile").textContent = tx(`${r.teile} von ${r.moeglich} Teilen`, `${r.teile} of ${r.moeglich} parts`);
+  /* Nur Anzeige (APP-REDESIGN-001): Teile ohne Gewichtsangabe zaehlen in der Summe mit 0 g --
+     das steht jetzt dabei, statt dass die Summe vollstaendig wirkt. Die Rechnung bleibt gleich. */
+  const ohneG = SLOTS.filter(s => zaehlt(build, s) && build[s.k]).map(s => findeTeil(s.k, build[s.k])).filter(t => t && !t.ersatz && !t.g).length;
+  $("t-teile").textContent = ohneG ? tx(`${r.teile} von ${r.moeglich} Teilen, ${ohneG} ohne Gewicht`, `${r.teile} of ${r.moeglich} parts, ${ohneG} without weight`)
+    : tx(`${r.teile} von ${r.moeglich} Teilen`, `${r.teile} of ${r.moeglich} parts`);
 
   Array.prototype.forEach.call(document.querySelectorAll(".modus-in button"),
     b => b.setAttribute("aria-pressed", String(b.dataset.modus === modus)));
@@ -15856,7 +15862,7 @@ document.addEventListener("touchmove", e => {
    bei jedem Tipp im Assistenten neu von unten herein, und die Liste sprang
    nach oben. Bleibt es dasselbe Blatt (gleicher Titel), bleibt auch die
    Scrollposition. Nur ein neues Blatt laesst seine Eintraege einfliegen. */
-let tastaturNav = false;
+let tastaturNav = false, blattAusloeser = null;
 document.addEventListener("keydown", e => { if(e.key === "Tab" || e.key === "Enter" || e.key === " ") tastaturNav = true; }, true);
 document.addEventListener("pointerdown", () => { tastaturNav = false; }, true);
 function zeigeSheet(html){
@@ -15869,6 +15875,14 @@ function zeigeSheet(html){
     if(neu && titel === (alt.querySelector(".sheet-h h3") || {}).textContent) neu.scrollTop = y;
     else if(neu && !bewegungAus()){ neu.classList.add("wechsel"); setTimeout(() => neu.classList.remove("wechsel"), 220); }
   } else {
+    /* Ausloeser merken, damit der Tastaturfokus nach dem Schliessen dorthin
+       zurueckkehrt (APP-REDESIGN-001; vorher landete er am Seitenanfang).
+       Wird die Seite inzwischen neu gezeichnet, findet ihn das data-Merkmal. */
+    const ae = document.activeElement;
+    if(ae && ae !== document.body && !ae.closest("#modal")){
+      const at = Array.prototype.find.call(ae.attributes, x => /^data-/.test(x.name));
+      blattAusloeser = {el:ae, k:at ? at.name : null, v:at ? at.value : null};
+    } else blattAusloeser = null;
     const dunkel = blattWeg(true);
     $("modal").innerHTML = `<div class="scrim${dunkel ? " ohne-ein" : ""}" role="dialog" aria-modal="true"><div class="sheet frisch">${html}</div></div>`;
     const s = $("modal").querySelector(".sheet");
@@ -15991,6 +16005,15 @@ function schliesse(){
     clearTimeout(schliesse.z); schliesse.z = setTimeout(() => { if(sc.parentNode) sc.remove(); }, 220);
   }
   schliesseNurZustand();
+  /* Nur bei Tastaturbedienung: Fokus zurueck zum Ausloeser, nach einem
+     eventuellen Neuzeichnen; oeffnet gleich ein neues Blatt, bleibt er dort */
+  const a = blattAusloeser; blattAusloeser = null;
+  if(a && tastaturNav) setTimeout(() => {
+    if($("modal").querySelector(".sheet")) return;
+    let z = a.el && a.el.isConnected ? a.el : null;
+    if(!z && a.k) try{ z = document.querySelector(`[${a.k}="${CSS.escape(a.v)}"]`); }catch(e){ z = null; }
+    if(z && z.getClientRects().length) try{ z.focus({preventScroll:true}); }catch(e){}
+  }, 0);
 }
 function schliesseNurZustand(){ schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; detailVon = null; profUmbenennen = null; profLoeschFrage = null; }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen" data-ta="Schließen|Close">
