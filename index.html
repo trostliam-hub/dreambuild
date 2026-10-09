@@ -105,15 +105,17 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f2f
 
   /* Ruhig wie Bevel (Liams Wunsch 2026-09-30): echtes Schwarz, neutrale
      Graphit-Karten ohne Rand, Farbe nur dort, wo sie etwas sagt -- jede
-     Kennzahl hat ihre eigene (Wertung nach Ampel, Kompatibilitaet violett, Einsatz
-     orange), Knoepfe sind schlicht weiss auf schwarz. Der bunte Verlauf
-     (--grad) gehoert nur noch dem Guide und dem Assistenten. Kontraste per
-     WCAG-Formel geprueft: Grautexte >= 4,5:1, Ringe >= 3:1. */
+     Wertung nach Ampel; Kompatibilitaet und Einsatz stehen ruhig in Grau daneben
+     (Liam 2026-10-09: "erwachsener, ruhiger, hochwertiger"). Knoepfe sind
+     schlicht weiss auf schwarz. Es gibt keine bunten Verlaeufe und kein Leuchten
+     mehr: --grad ist nur noch eine einfarbige Akzentflaeche (weisse Schrift
+     darauf >= 4,5:1). Kontraste per WCAG-Formel geprueft: Grautexte >= 4,5:1,
+     Ringe >= 3:1. */
   --ground:#000000; --surface:#141416; --surface-2:#1c1c1f; --sunk:#2a2a2e;
   --ink:#f5f5f7; --ink-2:#b3b3b9; --ink-3:#86868d;
   --line:#2c2c30; --line-soft:#212124; --hair:rgba(255,255,255,.07);
   --anod:#a797ff; --anod-2:#c4b8ff; --anod-3:#6f9bff; --anod-soft:rgba(167,151,255,.14); --on-anod:#0d0a1f;
-  --grad:linear-gradient(135deg,#ff7a45 0%,#e0508a 45%,#7b5cff 100%);
+  --akzent-flaeche:#6a55e8; --grad:linear-gradient(#6a55e8,#6a55e8);
   --m-pass:#8f7dff; --m-eins:#ff9f43;
   --gut:#3ddc84; --gut-soft:rgba(61,220,132,.13);
   --warn:#ffb938; --warn-soft:rgba(255,185,56,.14);
@@ -138,7 +140,7 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f2f
   --ink:#0b0b0f; --ink-2:#45454c; --ink-3:#6e6e76;
   --line:#e2e2e8; --line-soft:#ececf1; --hair:rgba(0,0,0,.07);
   --anod:#5b45e0; --anod-2:#4634c4; --anod-3:#1f6fe5; --anod-soft:#eeebff; --on-anod:#ffffff;
-  --grad:linear-gradient(135deg,#ff7a45 0%,#e0508a 45%,#7b5cff 100%);
+  --akzent-flaeche:#5b45e0; --grad:linear-gradient(#5b45e0,#5b45e0);
   --m-pass:#6a55f0; --m-eins:#e26f0a;
   --gut:#12805a; --gut-soft:#dcf4e9;
   --warn:#9a6205; --warn-soft:#fbefd8;
@@ -277,7 +279,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 /* Hell: Spur grau, Pille weiss -- wie der iOS-Umschalter */
 :root[data-theme="light"] .modus-in{background:var(--sunk)}
 :root[data-theme="light"] .modus-in::before{background:var(--surface)}
-:root[data-theme="light"] .dchip,:root[data-theme="light"] .iconbtn:not(.g-knopf),:root[data-theme="light"] .mini{background:var(--surface);box-shadow:var(--shadow)}
+:root[data-theme="light"] .dchip,:root[data-theme="light"] .iconbtn,:root[data-theme="light"] .mini{background:var(--surface);box-shadow:var(--shadow)}
 @supports not selector(:has(*)){
   .modus-in::before{display:none}
   .modus-in button[aria-pressed="true"]{background:var(--sunk);box-shadow:0 1px 3px rgba(0,0,0,.15)}
@@ -331,27 +333,24 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .bar{padding:12px 16px 0}
 .bar-in{max-width:1180px;margin:0 auto;padding:20px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;
   background:var(--surface);border-radius:var(--r-karte);position:relative;overflow:hidden;isolation:isolate;
-  box-shadow:0 34px 90px -46px rgba(143,125,255,.5)}   /* leises Leuchten unter der Karte im OLED-Design */
-:root[data-theme="light"] .bar-in{box-shadow:var(--shadow)}
-.bar-in::before{content:"";position:absolute;inset:-40% -10% auto;height:120%;z-index:-1;pointer-events:none;opacity:.2;
-  background:radial-gradient(40% 50% at 22% 50%,var(--m-pass),transparent 70%),
-             radial-gradient(38% 55% at 50% 45%,var(--wert-farbe,var(--gut)),transparent 70%),
-             radial-gradient(40% 50% at 78% 50%,var(--m-eins),transparent 70%);filter:blur(24px)}
-:root[data-theme="light"] .bar-in::before{opacity:.13}
-.ringe{display:grid;grid-template-columns:1fr 1.3fr 1fr;align-items:end;gap:6px;width:100%;max-width:420px}
+  box-shadow:var(--shadow)}
+.ringe{display:grid;grid-template-columns:1fr 1.6fr 1fr;align-items:end;gap:6px;width:100%;max-width:420px}
 .rg{position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;padding:0;min-width:0;border-radius:18px}
-.rg svg{width:100%;max-width:96px;aspect-ratio:1;display:block;overflow:visible}
-.rg-gesamt svg{max-width:132px}
+.rg svg{width:100%;max-width:72px;aspect-ratio:1;display:block;overflow:visible}
+.rg-gesamt svg{max-width:144px}
 .rg-bahn{fill:none;stroke:color-mix(in srgb,var(--rg-farbe) 16%,transparent);stroke-width:9}
 .rg-wert{fill:none;stroke:var(--rg-farbe);stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .5s var(--e-aus),stroke var(--t-mittel) var(--e-weich)}
 .rg-gesamt .rg-bahn,.rg-gesamt .rg-wert{stroke-width:8}
-.rg-pass{--rg-farbe:var(--m-pass)} .rg-eins{--rg-farbe:var(--m-eins)} .rg-gesamt{--rg-farbe:var(--wert-farbe,var(--gut))}
-.rg > b{position:absolute;left:0;right:0;top:0;aspect-ratio:1;max-width:96px;margin:0 auto;display:grid;place-items:center;
-  font-family:var(--f-head);font-weight:800;font-size:22px;letter-spacing:-.04em;color:var(--ink)}
-.rg-gesamt > b{max-width:132px;font-size:40px;letter-spacing:-.05em}
+.rg:not(.rg-gesamt) .rg-bahn,.rg:not(.rg-gesamt) .rg-wert{stroke-width:7}
+/* Nur der Gesamt-Score traegt Farbe (Ampel); die beiden Teilwerte stehen grau daneben */
+.rg-pass,.rg-eins{--rg-farbe:var(--ink-3)} .rg-gesamt{--rg-farbe:var(--wert-farbe,var(--gut))}
+.rg > b{position:absolute;left:0;right:0;top:0;aspect-ratio:1;max-width:72px;margin:0 auto;display:grid;place-items:center;
+  font-family:var(--f-head);font-weight:750;font-size:18px;letter-spacing:-.03em;color:var(--ink)}
+.rg-gesamt > b{max-width:144px;font-size:46px;font-weight:800;letter-spacing:-.05em}
 .rg-l{font-size:12.5px;font-weight:650;color:var(--ink-2);display:flex;align-items:center;gap:6px;white-space:nowrap}
-.rg-l::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--rg-farbe);flex:none}
-.rg-gesamt .rg-l{color:var(--ink);font-size:13.5px}
+.rg-gesamt .rg-l::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--rg-farbe);flex:none}
+.rg-l{color:var(--ink-3);font-weight:600}
+.rg-gesamt .rg-l{color:var(--ink);font-size:13.5px;font-weight:650}
 /* "Kompatibilität" / "Compatibility" unter dem kleinen Ring: auf schmalen Handys etwas kleiner */
 @media (max-width:399px){.rg:not(.rg-gesamt) .rg-l{font-size:11px;gap:4px}}
 .rg:active:not(:disabled){transform:scale(.96)}
@@ -392,7 +391,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .pro-marke[hidden]{display:none}
 .pro-kopf{text-align:center;padding:8px 4px 2px;flex:none}
 .pro-orb{width:64px;height:64px;border-radius:20px;margin:0 auto 12px;display:grid;place-items:center;color:#fff;background:var(--grad);
-  box-shadow:0 14px 36px -14px rgba(224,80,138,.7)}
+}
 .pro-orb.klein{width:40px;height:40px;border-radius:13px;margin:0;box-shadow:none;flex:none}
 .pro-kopf h4{font-family:var(--f-head);font-size:26px;font-weight:800;letter-spacing:-.035em;margin:0}
 .pro-preis{margin:4px 0 0;font-size:14px;color:var(--ink-2)}
@@ -445,31 +444,32 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 
 /* ── Leitkarte: Schritte je Modus, ein Knopf fuer den naechsten ── */
 .leit{background:var(--surface);border:1px solid transparent;
-  border-radius:var(--r-karte);padding:17px 16px 16px;margin-bottom:16px;box-shadow:var(--shadow)}
+  border-radius:var(--r-karte);padding:15px 16px 14px;margin-bottom:16px;box-shadow:var(--shadow)}
 .leit-kopf{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:0 2px}
-.leit-sub{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--anod);font-weight:800}
-.leit h2{font-family:var(--f-head);font-size:21px;font-weight:800;letter-spacing:-.03em;margin:3px 0 0;line-height:1.18}
+.leit-sub{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:800}
+.leit h2{font-family:var(--f-head);font-size:19px;font-weight:800;letter-spacing:-.025em;margin:2px 0 0;line-height:1.2}
 .leit-weg{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:var(--ink-3);flex:none;margin:-4px -4px 0 0}
 @media (hover:hover){.leit-weg:hover{background:var(--surface-2);color:var(--ink)}}
 .leit-t{font-size:13px;color:var(--ink-3);line-height:1.45;margin:6px 2px 10px}
-.leit-bahn + .leit-schritte{margin-top:10px}
-.leit-schritte{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
-.leit-s{width:100%;display:grid;grid-template-columns:26px minmax(0,1fr);gap:11px;align-items:start;text-align:left;
-  padding:6px 8px;border-radius:13px;border:1px solid transparent}
-.leit-n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;
-  background:var(--sunk);color:var(--ink-3)}
-.leit-s.fertig .leit-n{background:var(--gut-soft);color:var(--gut)}
-.leit-s.jetzt{border-color:var(--anod);background:var(--anod-soft)}
-.leit-s.jetzt .leit-n{background:var(--anod);color:var(--on-anod)}
-.leit-x b{display:block;font-size:14px;font-weight:700;line-height:1.3;letter-spacing:-.005em}
-.leit-s.fertig .leit-x b{color:var(--ink-2)}
+/* Schritte als ruhige Liste: erledigt grau mit Haken, der aktuelle Schritt
+   schwarz hervorgehoben mit Erklaerung -- keine Farbflaechen, kein Balken */
+.leit-schritte{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line-soft)}
+.leit-s{width:100%;display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;align-items:start;text-align:left;
+  padding:9px 2px;border-bottom:1px solid var(--line-soft)}
+.leit-s:last-child{border-bottom:0}
+.leit-n{width:20px;height:20px;margin-top:1px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:750;
+  border:1.5px solid var(--line);color:var(--ink-3)}
+.leit-s.fertig .leit-n{border-color:transparent;color:var(--ink-3)}
+.leit-s.jetzt .leit-n{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.leit-x b{display:block;font-size:14px;font-weight:650;line-height:1.3;letter-spacing:-.005em;color:var(--ink-2)}
+.leit-s.fertig .leit-x b{color:var(--ink-3);font-weight:600}
+.leit-s.jetzt .leit-x b{color:var(--ink);font-weight:750}
 .leit-x span{display:block;font-size:12.5px;color:var(--ink-3);line-height:1.4;margin-top:1px;overflow-wrap:anywhere}
-.leit-cta{margin-top:10px}
+.leit-cta{margin-top:12px}
 .leit-bahn{height:6px;border-radius:999px;background:var(--sunk);overflow:hidden;margin:10px 2px 0}
 .leit-bahn i{display:block;height:100%;border-radius:999px;background:var(--anod);transition:width .5s var(--feder)}
 .leit.geschafft{border-color:color-mix(in srgb,var(--gut) 55%,transparent)}
 .leit.geschafft .leit-sub{color:var(--gut)}
-.leit.geschafft .leit-bahn i{background:var(--gut)}
 .grp,.mk,.urteil,#c-find,#c-up,#c-kauf{scroll-margin-top:84px}
 
 /* ── Erklaerblaetter (Score, Begriffe) ── */
@@ -766,8 +766,8 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .sheet-b{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   padding:14px 16px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px}
 /* ── Guide: Fragen stellen ── */
-.g-knopf{background:var(--grad);color:#fff;box-shadow:0 6px 18px -8px rgba(224,80,138,.8)}
-@media (hover:hover){.g-knopf:hover{color:#fff;filter:brightness(1.1)}}
+/* Guide-Knopf wie die anderen runden Knoepfe; der Akzent steckt nur im Symbol */
+.g-knopf{color:var(--anod)}
 .sheet:has(.g-b){height:88dvh}
 .g-b{gap:12px;padding-bottom:16px;flex:1}
 .g-m{display:flex;gap:8px;align-items:flex-end;min-width:0}
@@ -781,7 +781,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .g-bl p{margin:8px 0 0}
 .g-bl .g-sicher{padding:7px 10px;border-left:3px solid var(--warn);background:var(--warn-soft);border-radius:8px}
 .g-bl .g-nach{color:var(--anod)}
-.g-av{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--grad);color:#fff}
+.g-av{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--anod-soft);color:var(--anod)}
 .g-ak{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .g-auch{font-size:12px;color:var(--ink-3);margin:-2px 0 -4px 36px}
 .g-chips{display:flex;flex-wrap:wrap;gap:6px;padding-left:36px}
@@ -802,7 +802,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .g-f input{flex:1;min-width:0;height:46px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);
   color:var(--ink);font:inherit;font-size:16px}
 .g-f input::placeholder{color:var(--ink-3)}
-.g-f input:focus{outline:none;border-color:var(--anod);box-shadow:0 0 0 3px var(--anod-soft)}
+.g-f input:focus{outline:none;border-color:var(--anod);box-shadow:inset 0 0 0 1px var(--anod)}   /* klarer 2-px-Rand statt Leuchten */
 .g-send{width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--ink);color:var(--ground)}
 .sheet-f .btn{min-width:0;flex-shrink:1}
 @media (max-width:360px){.sheet-f .btn{padding-left:12px;padding-right:12px}}
@@ -1208,22 +1208,14 @@ body.tastatur .sheet-b{padding-bottom:14px}
 </style>
 <style>
 /* ═══ Einstieg: Vollbild-Rundgang beim ersten Start ═══
-   Eigene Ebene ueber allem, eigener Hintergrund mit langsam treibenden
-   Farbflecken. Jeder Schritt faehrt von der Seite ein, seine Teile kommen
+   Eigene Ebene ueber allem auf ruhigem, einfarbigem Grund (die bunten
+   Farbflecken sind seit 2026-10-09 weg). Jeder Schritt faehrt von der Seite ein, seine Teile kommen
    gestaffelt von unten (--i). Bei "Bewegung reduzieren" steht alles still --
    die Regel oben schaltet jede Animation ab, und kein Element haengt
    unsichtbar in seinem Startzustand fest. */
 .ei{position:fixed;inset:0;z-index:80;background:var(--ground);display:flex;flex-direction:column;overflow:hidden;
   padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);animation:einblenden var(--t-mittel) var(--e-weich)}
-.ei-deko{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
-.ei-deko i{position:absolute;border-radius:50%;filter:blur(64px);opacity:.42}
-.ei-deko i:nth-child(1){width:340px;height:340px;background:#7b5cff;top:-140px;left:-120px;animation:schweben1 15s ease-in-out infinite alternate}
-.ei-deko i:nth-child(2){width:300px;height:300px;background:#ff7a45;bottom:-140px;right:-110px;animation:schweben2 18s ease-in-out infinite alternate}
-.ei-deko i:nth-child(3){width:200px;height:200px;background:#3ddc84;top:42%;left:58%;opacity:.13;animation:schweben1 22s ease-in-out infinite alternate-reverse}
-:root[data-theme="light"] .ei-deko i{opacity:.2}
-@keyframes schweben1{to{transform:translate(90px,120px) scale(1.2)}}
-@keyframes schweben2{to{transform:translate(-80px,-150px) scale(1.15)}}
-.ei > *:not(.ei-deko){position:relative;z-index:1}
+.ei > *{position:relative;z-index:1}
 .ei-kopf{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:12px;
   padding:12px 16px 6px;max-width:640px;width:100%;margin:0 auto;flex:none}
 .ei-zur{width:40px;height:40px;border-radius:999px;display:grid;place-items:center;color:var(--ink-2);
@@ -1280,25 +1272,23 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .ei-rad{margin:-4px -10px 4px;position:relative}
 .ei-rad svg{width:100%;height:auto;display:block;overflow:visible;max-height:300px;margin:0 auto}
 .ei-h1{font-family:var(--f-head);font-size:40px;line-height:1.02;font-weight:800;letter-spacing:-.045em;margin:4px 0 12px}
-.grad-t{color:var(--anod);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.grad-t{color:inherit}   /* frueher Farbverlauf; die Ueberschrift ist jetzt einfarbig */
 .ei-punkte{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-direction:column;gap:10px}
 .ei-punkte li{display:flex;gap:11px;align-items:center;font-size:14px;color:var(--ink-2);line-height:1.35}
 .ei-punkte li i{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--anod-soft);color:var(--anod);flex:none}
 .btn.gross{padding:15px 18px;font-size:16px;border-radius:16px;font-weight:750;min-height:54px}
-.btn.glanz{position:relative;overflow:hidden}
-.btn.glanz::after{content:"";position:absolute;top:0;bottom:0;width:38%;left:-60%;pointer-events:none;
-  background:linear-gradient(100deg,transparent,color-mix(in srgb,var(--ground) 22%,transparent),transparent);transform:skewX(-20deg);animation:glanz 2.6s var(--e-weich) 1s 2 both}
-@keyframes glanz{0%,55%{transform:skewX(-20deg) translateX(0)}100%{transform:skewX(-20deg) translateX(520%)}}
 
 /* Zeichnungen: Rad, Figur und Cockpit. Farben je Design -- die Teile muessen
    auf OLED-Schwarz und auf Hell lesbar sein. */
-:root{--rs-schwarz:#3a3656;--rs-schwarz-2:#27243b;--rs-metall:#a8a3c8;--rs-reifen:#1d1a2a;--rs-stollen:#34304b;
-  --rs-schatten:rgba(123,92,255,.32);--rs-kante:rgba(0,0,0,0);--fg-haut:#d9a384;--fg-haut2:#b27a5e;--fg-haar:#3a3354;--fg-haar-hi:#5b5078;--fg-hose:#353052;
+:root{--rs-schwarz:#3c3d42;--rs-schwarz-2:#28292d;--rs-metall:#a3a6ad;--rs-reifen:#1d1d20;--rs-stollen:#333438;
+  --rs-lack-hell:#b9bdc4;--rs-lack:#959aa2;--rs-lack-dunkel:#6f747c;--rs-trikot:#4a4f59;--rs-trikot-2:#33373f;
+  --rs-schatten:rgba(0,0,0,0);--rs-kante:rgba(0,0,0,0);--fg-haut:#d9a384;--fg-haut2:#b27a5e;--fg-haar:#3a3354;--fg-haar-hi:#5b5078;--fg-hose:#353052;
   --fg-schuh:#1f1c30;--fg-helm:#efebfa;--fg-helm2:#c9c1e6;--fg-helm3:#9f97c6;--fg-ff:#4a4566;--fg-ff-hi:#5a557c;--fg-ff2:#3a3654;--fg-ff3:#2b283e;--fg-socke:#efebfa;
   --fg-haut-hi:#ecbd9e;--fg-hose-hi:#4c4672;--fg-hose2:#1d1a31;--fg-leder-hi:#3d395a;--fg-leder2:#110f1b;--fg-schoner:#2c2842;
   --fg-schoner-hi:#454063;--fg-kappe:#4d4870;--fg-kappe-hi:#77719e;--fg-socke2:#d8d2ea;--fg-socke3:#9f98c0;--fg-sohle:#5a5577;--fg-sohle-hi:#8983aa}
-:root[data-theme="light"]{--rs-schwarz:#2d2945;--rs-schwarz-2:#1e1b30;--rs-metall:#8c87ac;--rs-reifen:#24212f;--rs-stollen:#3d3954;
-  --rs-schatten:rgba(40,20,110,.2);--rs-kante:rgba(30,20,70,.45);--fg-haut:#d39a79;--fg-haut2:#a86f53;--fg-haar:#2c2544;--fg-haar-hi:#4a4066;--fg-hose:#2c2748;
+:root[data-theme="light"]{--rs-schwarz:#2e2f33;--rs-schwarz-2:#1f2023;--rs-metall:#8a8d94;--rs-reifen:#242427;--rs-stollen:#3a3b40;
+  --rs-lack-hell:#9ea3ab;--rs-lack:#7b818a;--rs-lack-dunkel:#5c6169;--rs-trikot:#454a54;--rs-trikot-2:#2e323a;
+  --rs-schatten:rgba(0,0,0,.12);--rs-kante:rgba(20,20,25,.4);--fg-haut:#d39a79;--fg-haut2:#a86f53;--fg-haar:#2c2544;--fg-haar-hi:#4a4066;--fg-hose:#2c2748;
   --fg-schuh:#1b1829;--fg-helm:#f4f1fb;--fg-helm2:#cfc6ea;--fg-helm3:#aca3d4;--fg-ff:#3b3656;--fg-ff-hi:#4b4669;--fg-ff2:#2f2b45;--fg-ff3:#221f33;--fg-socke:#f4f1fb;
   --fg-haut-hi:#e8b393;--fg-hose-hi:#443e68;--fg-hose2:#17142a;--fg-leder-hi:#36324f;--fg-leder2:#0e0c17;--fg-schoner:#27233b;
   --fg-schoner-hi:#3e395a;--fg-kappe:#46416a;--fg-kappe-hi:#6c6694;--fg-socke2:#dad4eb;--fg-socke3:#948db6;--fg-sohle:#4f4a6c;--fg-sohle-hi:#7b75a0}
@@ -1320,19 +1310,18 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .rs .r-dunkel2,.rs .r-dichtung,.rs .r-griff{fill:var(--rs-schwarz-2)}
 .rs .r-metall,.rs .r-pin,.rs .r-kassette-grund{fill:var(--rs-metall)}
 .rs .r-kassette-grund{opacity:.28}
-.rs .r-gold{fill:#e5ad4f}
+.rs .r-gold{fill:var(--rs-metall)}
 .rs .r-glanz{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;opacity:.3}
 .rs .r-kschatten{fill:none;stroke:#000;stroke-width:7;stroke-linecap:round;opacity:.2}
 .rs .r-schweiss{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.2}
 .rs .r-schutz{fill:var(--rs-schwarz-2);opacity:.92}
 .rs .r-dekor{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;opacity:.22}
-.rs .r-knopf{fill:#2f8cff}
-.rs .r-zug{fill:#e5484d}
+.rs .r-knopf,.rs .r-zug{fill:var(--rs-metall)}
 .rs .r-standlicht{fill:#fff;opacity:.35}
-.rs .r-standschatten{fill:#7a4d10;opacity:.28}
+.rs .r-standschatten{fill:#000;opacity:.22}
 /* Daempferfeder: vordere Windungen hell, hintere dunkel */
-.rs .r-feder{fill:none;stroke:#e5ad4f;stroke-width:9;stroke-linecap:round}
-.rs .r-feder2{fill:none;stroke:#8a6424;stroke-width:8;stroke-linecap:round}
+.rs .r-feder{fill:none;stroke:var(--rs-metall);stroke-width:9;stroke-linecap:round}
+.rs .r-feder2{fill:none;stroke:var(--rs-schwarz);stroke-width:8;stroke-linecap:round}
 /* Antrieb */
 .rs .r-kettengrund{fill:none;stroke:var(--rs-schwarz-2);stroke-width:11;stroke-linecap:round;stroke-linejoin:round}
 .rs .r-kette{fill:none;stroke:var(--rs-metall);stroke-width:6;stroke-dasharray:7 5;stroke-linejoin:round;opacity:.85}
@@ -1345,7 +1334,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .rs .r-schale{fill:none;stroke:var(--rs-schwarz-2);stroke-width:6;stroke-linecap:round}
 .rs .r-hebel{fill:none;stroke:var(--rs-metall);stroke-width:10;stroke-linecap:round}
 .rs .r-leitung{fill:none;stroke:var(--rs-schwarz-2);stroke-width:7;stroke-linecap:round}
-.rs .r-schrift{font-family:var(--f-head);font-weight:800;font-size:31px;letter-spacing:7px;fill:#fff;opacity:.92;stroke:none}
+.rs .r-schrift{font-family:var(--f-head);font-weight:800;font-size:31px;letter-spacing:7px;fill:#fff;opacity:.7;stroke:none}
 /* Fahrer: Farben der Materialien stehen als Verlauf im SVG, hier Linien und Flaechen darauf */
 .rs .r-sohle{fill:var(--fg-sohle)}
 .rs .r-sohlenband{fill:none;stroke:var(--fg-sohle-hi);stroke-width:5}
@@ -1383,7 +1372,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .rs .r-aermellicht{fill:none;stroke:#fff;stroke-width:7;stroke-linecap:round;opacity:.16}
 .rs .r-streifen{fill:#fff;opacity:.13}
 .rs .r-kragen{fill:none;stroke:#2c2257;stroke-width:14;stroke-linecap:round;opacity:.55}
-.rs .r-boden{stroke:var(--line);stroke-width:6;stroke-dasharray:60 40;stroke-linecap:round}
+.rs .r-boden{stroke:var(--line);stroke-width:4;stroke-linecap:round}
 .rs .r-mass{fill:none;stroke:var(--gut);stroke-width:7;stroke-linecap:round}
 .rs .r-hilf{fill:none;stroke:var(--gut);stroke-width:4;stroke-dasharray:14 12;opacity:.7}
 .rs text{font-family:var(--f-sans);font-weight:800;font-size:50px;fill:var(--gut);paint-order:stroke;stroke:var(--surface);stroke-width:14px;stroke-linejoin:round}
@@ -1391,16 +1380,6 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .rs .blende{animation:ei-einblenden .45s var(--e-weich) both;animation-delay:calc(var(--v,0) * 60ms + 100ms)}
 @keyframes zeichnen{from{stroke-dasharray:1 1;stroke-dashoffset:1}to{stroke-dasharray:1 1;stroke-dashoffset:0}}
 @keyframes ei-einblenden{from{opacity:0}}
-.rs .dreh{transform-box:fill-box;transform-origin:center;animation:dreh 1.4s linear infinite}
-.rs.faehrt .r-boden{animation:boden .9s linear infinite}
-.rs.faehrt .r-ganz{animation:reinrollen .8s var(--e-aus) both,wippen 2.8s ease-in-out .9s infinite}
-.rs .fahrt line{stroke:var(--anod);stroke-width:9;stroke-linecap:round;opacity:0;animation:fahrt 1.5s linear infinite}
-.rs .fahrt line:nth-child(2){animation-delay:.5s}
-.rs .fahrt line:nth-child(3){animation-delay:1s}
-@keyframes reinrollen{from{transform:translateX(-160px);opacity:0}to{transform:none;opacity:1}}
-@keyframes boden{to{stroke-dashoffset:-200}}
-@keyframes wippen{50%{transform:translateY(-3px)}}
-@keyframes fahrt{0%{transform:translateX(160px);opacity:0}25%{opacity:.7}100%{transform:translateX(-340px);opacity:0}}
 
 /* Regler fuer Koerpermasse und Budget */
 .ei-regler{margin:0 0 12px;padding:13px 14px 12px;border-radius:18px;background:var(--surface);border:1px solid var(--hair)}
@@ -1428,14 +1407,17 @@ body.tastatur .sheet-b{padding-bottom:14px}
 input.er{-webkit-appearance:none;appearance:none;width:100%;height:34px;background:transparent;margin:0;cursor:pointer;--p:50%}
 input.er:focus{outline:none}
 input.er::-webkit-slider-runnable-track{height:8px;border-radius:999px;
-  background:linear-gradient(90deg,#ff7a45,#7b5cff) 0 0 / var(--p) 100% no-repeat,var(--sunk)}
+  background:linear-gradient(var(--akzent-flaeche),var(--akzent-flaeche)) 0 0 / var(--p) 100% no-repeat,var(--sunk)}
 input.er::-moz-range-track{height:8px;border-radius:999px;background:var(--sunk)}
 input.er::-moz-range-progress{height:8px;border-radius:999px;background:var(--grad)}
 input.er::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:#fff;margin-top:-11px;
-  border:none;box-shadow:0 0 0 6px rgba(123,92,255,.32),0 4px 14px rgba(0,0,0,.5);transition:transform .15s,box-shadow .15s}
+  border:none;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.35);transition:transform .15s,box-shadow .15s}
 input.er::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:#fff;border:none;
-  box-shadow:0 0 0 6px rgba(123,92,255,.32),0 4px 14px rgba(0,0,0,.5)}
-input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thumb{transform:scale(1.14);box-shadow:0 0 0 9px rgba(123,92,255,.4),0 4px 14px rgba(0,0,0,.5)}
+  box-shadow:0 0 0 1px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.35)}
+input.er:active::-webkit-slider-thumb{transform:scale(1.08)}
+/* Tastaturfokus: klarer Ring in der Akzentfarbe statt Leuchten */
+input.er:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--anod)}
+input.er:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--anod)}
 
 /* Groesse und Gewicht: Figur mit Massstab, daneben die Rahmengroesse */
 .ei-figur{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:8px;align-items:end;margin:0 0 14px}
@@ -1481,14 +1463,14 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .fg-schatten{fill:var(--rs-schatten)}
 .ei-gr{display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:26px}
 .ei-gr b{width:96px;height:96px;border-radius:30px;display:grid;place-items:center;font-family:var(--f-head);font-size:40px;
-  font-weight:800;letter-spacing:-.04em;color:#fff;background:var(--grad);box-shadow:0 18px 44px -14px rgba(224,80,138,.55)}
+  font-weight:800;letter-spacing:-.04em;color:#fff;background:var(--grad)}
 .ei-gr b.plopp{animation:plopp-gross .3s var(--e-aus)}
 .ei-gr span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:750;text-align:center;line-height:1.3}
 @keyframes plopp-gross{0%{transform:scale(.94);opacity:0}100%{transform:none;opacity:1}}
 
 /* Cockpit von vorn: Schultern, Arme, Lenker -- die Breite live */
 .ei-cockpit{border-radius:22px;border:1px solid var(--hair);padding:12px 8px 12px;margin:0 0 14px;
-  background:radial-gradient(120% 90% at 50% 0%,var(--anod-soft),transparent 70%),var(--surface)}
+  background:var(--surface)}
 .ei-cockpit svg{width:100%;height:auto;display:block;max-height:320px;margin:0 auto}
 .ck-hautschatten{fill:var(--fg-haut2)}
 .ck-halslinie{fill:none;stroke:var(--fg-haut2);stroke-width:4;stroke-linecap:round;opacity:.6}
@@ -1543,7 +1525,7 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 
 /* Ergebnis: Rahmengroesse im Ring, Rad mit Massen, Kacheln */
 .fit-held{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;padding:16px;border-radius:22px;margin:0 0 12px;
-  background:linear-gradient(160deg,var(--surface),var(--surface-2));border:1px solid var(--hair);box-shadow:var(--shadow)}
+  background:var(--surface);border:1px solid var(--hair);box-shadow:var(--shadow)}
 .fit-ring{position:relative;width:98px;height:98px;flex:none}
 .fit-ring svg{width:98px;height:98px;display:block}
 .fit-ring .hg{fill:none;stroke:var(--sunk);stroke-width:8}
@@ -1569,14 +1551,14 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 /* Budget */
 .ei-geld{text-align:center;margin:8px 0 6px}
 .ei-geld b{display:block;font-family:var(--f-head);font-size:50px;font-weight:800;letter-spacing:-.045em;line-height:1.1;
-  color:var(--anod);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-variant-numeric:tabular-nums}
+  color:var(--ink);font-variant-numeric:tabular-nums}
 .ei-geld span{display:inline-block;margin-top:6px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
   color:var(--anod);background:var(--anod-soft);padding:5px 11px;border-radius:999px}
 
 /* Fertig */
 .ei-fertig{text-align:center;padding-top:34px}
 .ei-haken{width:112px;height:112px;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;background:var(--grad);
-  box-shadow:0 22px 60px -16px rgba(224,80,138,.55);animation:plopp-gross .4s var(--e-aus) both}
+  animation:plopp-gross .4s var(--e-aus) both}
 .ei-haken path{animation:zeichnen .45s var(--e-weich) both .25s}
 .ei-chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:4px 0 16px}
 .ei-chips span{padding:7px 13px;border-radius:999px;background:var(--surface);border:1px solid var(--hair);font-size:13px;font-weight:650;
@@ -1599,9 +1581,8 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
   transition:left .32s var(--e-weich),top .32s var(--e-weich),width .32s var(--e-weich),height .32s var(--e-weich),border-radius .32s var(--e-weich),opacity var(--t-kurz) var(--e-weich)}
 .tour-licht{box-shadow:0 0 0 300vmax rgba(4,3,12,.76)}
 .tour-licht.leer{left:50%!important;top:45%!important;width:0!important;height:0!important}
-.tour-ring{border:2px solid var(--anod);animation:tourPuls 1.7s ease-out infinite}
+.tour-ring{border:2px solid var(--anod)}
 .tour-ring.leer{opacity:0}
-@keyframes tourPuls{0%{box-shadow:0 0 0 0 rgba(123,92,255,.55)}100%{box-shadow:0 0 0 16px rgba(123,92,255,0)}}
 .tour-karte{position:fixed;left:16px;top:40%;background:var(--surface);border:1px solid var(--hair);border-radius:22px;padding:16px 16px 14px;
   box-shadow:0 26px 70px rgba(0,0,0,.55);opacity:0;transform:translateY(var(--hub)) scale(var(--zoom));
   transition:opacity var(--t-mittel) var(--e-weich),transform var(--t-mittel) var(--e-aus)}
@@ -1610,8 +1591,8 @@ input.er:active::-webkit-slider-thumb,input.er:focus-visible::-webkit-slider-thu
 .tk-bild{margin:-4px -6px 8px;height:118px}
 .tk-bild svg{width:100%;height:100%;display:block}
 .tk-kopf{display:flex;align-items:center;gap:12px}
-.tk-ic{width:42px;height:42px;flex:none;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#ff7a45,#7b5cff);
-  box-shadow:0 8px 22px rgba(110,80,255,.45);animation:tourPop var(--t-mittel) var(--e-aus) both}
+.tk-ic{width:42px;height:42px;flex:none;border-radius:14px;display:grid;place-items:center;color:#fff;background:var(--grad);
+  animation:tourPop var(--t-mittel) var(--e-aus) both}
 @keyframes tourPop{from{transform:scale(.9);opacity:0}}
 .tk-schritt{display:block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--anod-2);font-weight:800}
 .tour-karte h3{font-family:var(--f-head);font-size:20px;font-weight:800;letter-spacing:-.02em;margin:1px 0 0;line-height:1.15}
@@ -1725,13 +1706,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
   padding:14px 26px;font-size:16.5px;font-weight:700;min-height:52px}
 @media (hover:hover){.ls-cta:hover{opacity:.88}}
 .ls-klein{font-size:13px;color:var(--l-ink2);margin:12px auto 0;text-wrap:balance;max-width:320px}
-/* Farbband wie im Kopf von Bevel: weich, bunt, leicht bewegt */
-.ls-band{position:relative;height:120px;margin:34px -40px -70px;pointer-events:none}
-.ls-band i{position:absolute;inset:34px 0;border-radius:50%;filter:blur(18px);opacity:.75;
-  background:linear-gradient(90deg,#7cc9ff,#8be3c2 22%,#ffd98a 45%,#ffa3c4 66%,#b8a4ff 85%,#7cc9ff);background-size:200% 100%;
-  animation:lsband 14s linear infinite}
-@keyframes lsband{to{background-position:200% 0}}
-.ls-rad{position:relative;max-width:520px;margin:0 auto;padding:0 6px}
+.ls-rad{position:relative;max-width:520px;margin:34px auto 0;padding:0 6px}
 .ls-rad svg{width:100%;height:auto;display:block;overflow:visible}
 .ls-marken{text-align:center;padding:34px 0 10px}
 .ls-marken h3{font-size:19px;font-weight:700;letter-spacing:-.02em}
@@ -1750,9 +1725,9 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-titel.links p{margin-left:0}
 .ls-titel.ende{padding-top:72px}
 .ls-titel.ende .ls-cta{margin-top:24px}
-/* Funktionskarte: Titel und Satz oben links, Vorschau unten, Farbschein am Boden */
+/* Funktionskarte: Titel und Satz oben links, Vorschau unten -- einfarbig, ohne Farbschein */
 .ls-karte{position:relative;overflow:hidden;margin:0 max(14px,calc(50% - 380px)) 14px;border-radius:30px;padding:30px 26px 0;
-  background:linear-gradient(to bottom,var(--l-karte) 45%,color-mix(in srgb,var(--ton) 26%,var(--l-karte)) 100%)}
+  background:var(--l-karte)}
 .ls-karte h3{font-size:30px;line-height:1.08;letter-spacing:-.04em;font-weight:800}
 .ls-karte p{font-size:17px;line-height:1.42;color:var(--l-ink2);margin:10px 0 0;max-width:430px}
 .ls-vor{position:relative;margin-top:26px}
@@ -1762,14 +1737,14 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-app-t{font-size:14px;font-weight:750;text-align:center;margin:0 0 12px}
 .ls-app-z{font-size:12.5px;color:var(--l-ink2);text-align:center;margin-top:10px;line-height:1.4}
 .ls-app-z b{color:var(--l-ink)}
-.ls-ringe{display:grid;grid-template-columns:1fr 1.3fr 1fr;align-items:center;gap:6px}
+.ls-ringe{display:grid;grid-template-columns:1fr 1.6fr 1fr;align-items:center;gap:8px;padding:0 6px}
 .ls-ring{position:relative;display:block}
 .ls-ring svg{width:100%;display:block}
 .ls-ring .b{fill:none;stroke:color-mix(in srgb,var(--f) 18%,transparent);stroke-width:9}
 .ls-ring .w{fill:none;stroke:var(--f);stroke-width:9;stroke-linecap:round}
 .ls-ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-head);font-weight:800;font-size:17px;letter-spacing:-.04em}
 .ls-ring.gross b{font-size:28px}
-.ls-ringl{display:grid;grid-template-columns:1fr 1.3fr 1fr;text-align:center;font-size:11px;font-weight:650;color:var(--l-ink2);margin-top:5px}
+.ls-ringl{display:grid;grid-template-columns:1fr 1.6fr 1fr;text-align:center;font-size:11px;font-weight:650;color:var(--l-ink2);margin-top:5px}
 .ls-ringl span{line-height:1.2}
 .ls-platz{height:92px}
 .ls-schwebe{position:absolute;left:-4px;bottom:20px;display:flex;flex-direction:column;gap:1px;padding:11px 15px;border-radius:18px;
@@ -1813,13 +1788,8 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-dunkel > p{font-size:17px;line-height:1.45;color:#a1a1a6;margin:14px auto 34px;max-width:440px;padding:0 20px}
 .ls-dunkel .ls-karte{text-align:left;max-width:732px;margin-left:auto;margin-right:auto}
 @media (max-width:760px){.ls-dunkel .ls-karte{margin-left:14px;margin-right:14px}}
-.ls-orbw{width:300px;height:280px;margin:-50px auto -40px;display:grid;place-items:center;
-  background:radial-gradient(closest-side,rgba(123,92,255,.42),rgba(224,80,138,.14) 55%,transparent)}
-.ls-orb{position:relative;width:130px;height:130px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#fff 0%,#c9c2ff 22%,#7b5cff 52%,#e0508a 78%,#ff7a45 100%);animation:lsorb 6s ease-in-out infinite}
-.ls-orb i{position:absolute;top:44px;width:16px;height:26px;border-radius:999px;background:rgba(255,255,255,.85)}
-.ls-orb i:first-child{left:44px} .ls-orb i:last-child{right:44px}
-@keyframes lsorb{50%{transform:translateY(-8px) scale(1.03)}}
+.ls-orbw{display:grid;place-items:center;margin:0 auto 28px}
+.ls-orb{width:76px;height:76px;border-radius:24px;display:grid;place-items:center;background:#26262a;color:#f5f5f7}
 .ls-quer{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:0 14px 6px;scroll-snap-type:x mandatory;max-width:none}
 .ls-quer::-webkit-scrollbar{display:none}
 .ls-mehr{flex:none;width:250px;scroll-snap-align:start;background:var(--l-karte);border-radius:26px;padding:22px 20px;display:flex;flex-direction:column;gap:6px}
@@ -1839,9 +1809,9 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-preis > small{font-size:12.5px;color:var(--l-ink2);margin-top:6px}
 .ls-preis.pro{background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:2px solid transparent}
 .ls-preis.pro li svg{color:#5b45e0}
-/* Privatsphaere: dunkelgruene Karte mit Schloss und Punktraster */
+/* Privatsphaere: dunkelgruene Karte mit Schloss, einfarbig */
 .ls-privat{position:relative;overflow:hidden;margin:64px max(14px,calc(50% - 380px)) 0;border-radius:30px;padding:120px 26px 110px;text-align:center;
-  background:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.4px) 0 0 / 16px 16px,linear-gradient(to bottom,#18221f 0%,#16211d 55%,#1f5c45 100%);color:#e8efe9}
+  background:#18221f;color:#e8efe9}
 .ls-schloss{position:absolute;left:50%;top:50%;width:250px;height:290px;transform:translate(-50%,-50%);fill:none;stroke:rgba(255,255,255,.09);stroke-width:5}
 .ls-privat h2{position:relative;font-size:38px;line-height:1.04;letter-spacing:-.045em;font-weight:800;color:#f2f5f3}
 .ls-privat p{position:relative;font-size:17px;line-height:1.45;color:#b9c7bf;margin:14px auto 0;max-width:360px}
@@ -1937,11 +1907,11 @@ a:active,label:active,[role="button"]:active{opacity:.6}
 .adp{position:relative;width:100%;max-width:440px;max-height:calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
   overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:16px 16px 14px;border-radius:26px;outline:none;
   background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:saturate(180%) blur(28px);backdrop-filter:saturate(180%) blur(28px);
-  border:1px solid color-mix(in srgb,var(--anod) 32%,var(--hair));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 0 46px -12px color-mix(in srgb,var(--anod) 70%,transparent),var(--shadow-hoch);animation:plopp var(--t-mittel) var(--e-aus)}
+  border:1px solid var(--hair);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),var(--shadow-hoch);animation:plopp var(--t-mittel) var(--e-aus)}
 .adp-kopf{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
 .adp-i{width:36px;height:36px;flex:none;border-radius:12px;display:grid;place-items:center;color:#fff;font:800 18px/1 var(--f-head);
-  background:var(--grad);box-shadow:0 6px 20px -6px rgba(224,80,138,.75)}
+  background:var(--grad)}
 .adp-tt{flex:1;min-width:0}
 .adp-sub{display:block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:750;margin-bottom:2px}
 .adp-tt h3{font-size:17px;font-weight:800;line-height:1.25;letter-spacing:-.02em}
@@ -1965,7 +1935,8 @@ a:active,label:active,[role="button"]:active{opacity:.6}
 .coach-platz > .leit{max-width:1180px;margin:0 auto}
 /* Breiter Bildschirm: Schritte nebeneinander, damit die Karte den Aufbau nicht nach unten schiebt */
 @media (min-width:820px){
-  .coach-platz .leit-schritte{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:6px;margin-top:10px}
+  .coach-platz .leit-schritte{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0 18px;margin-top:10px}
+  .coach-platz .leit-s{border-bottom:0}
   .coach-platz .leit-cta{width:auto;min-width:260px;padding-left:28px;padding-right:28px}
 }
 @media (max-width:819px){body:not([data-view="aufbau"]) .coach-platz{display:none}}
@@ -2207,9 +2178,9 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-pk.an{border-color:var(--anod);background:var(--anod-soft)}
 .fw-pk em{position:absolute;top:8px;right:10px;font-style:normal;font-size:13px;color:var(--warn)}
 .fw-pk-ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;margin-bottom:4px;flex:none}
-.fw-pk-ic.downhill{background:linear-gradient(135deg,#ff7a45,#e0508a)}
-.fw-pk-ic.allround{background:linear-gradient(135deg,#3ddc84,#0fa0bd)}
-.fw-pk-ic.spruenge{background:linear-gradient(135deg,#7b5cff,#3b82f6)}
+.fw-pk-ic.downhill{background:color-mix(in srgb,var(--m-eins) 16%,transparent);color:var(--m-eins)}
+.fw-pk-ic.allround{background:var(--gut-soft);color:var(--gut)}
+.fw-pk-ic.spruenge{background:var(--anod-soft);color:var(--anod)}
 @media (max-width:379px){.fw-pk small{display:none}.fw-pk{min-height:84px}}
 @media (max-width:300px){.fw-prof{gap:4px}.fw-pk{padding:10px 6px}.fw-pk b{font-size:13.5px}}
 .fw-perkl{margin-top:8px}
@@ -2222,7 +2193,7 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-preis{padding:10px 12px;border-radius:12px;background:var(--warn-soft);color:var(--ink)!important;font-size:13px!important}
 /* Hinweis: Angaben vervollstaendigen */
 .fw-banner{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;width:100%;margin:0 0 12px;padding:12px 14px;border-radius:18px;text-align:left;color:var(--ink);
-  background:linear-gradient(135deg,color-mix(in srgb,var(--anod) 20%,transparent),color-mix(in srgb,#e0508a 12%,transparent));border:1px solid color-mix(in srgb,var(--anod) 35%,transparent)}
+  background:var(--anod-soft);border:1px solid color-mix(in srgb,var(--anod) 30%,transparent)}
 .fw-banner > svg:first-child{color:var(--anod)}
 .fw-banner span{display:flex;flex-direction:column;gap:2px}
 .fw-banner b{font-size:14.5px;font-weight:800}
@@ -2267,9 +2238,9 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-elw b{font-size:13px;font-weight:800;line-height:1.2}
 .fw-elw small{font-size:11px;color:var(--ink-3);line-height:1.25;overflow-wrap:anywhere}
 .fw-elw button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-hoch)}
-.fw-el-ic{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#7b5cff,#3b82f6)}
-.fw-el-ic.daempfer{background:linear-gradient(135deg,#f0b429,#ff7a45)}
-.fw-el-ic.rad{background:linear-gradient(135deg,#3ddc84,#0fa0bd)}
+.fw-el-ic{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;color:var(--anod);background:var(--anod-soft)}
+.fw-el-ic.daempfer{background:color-mix(in srgb,var(--m-eins) 16%,transparent);color:var(--m-eins)}
+.fw-el-ic.rad{background:var(--gut-soft);color:var(--gut)}
 .fw-elw .fw-el-ic{width:32px;height:32px;border-radius:10px}
 .fw-el-kopf{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;margin:0 2px 8px}
 .fw-el-t{display:flex;flex-direction:column;min-width:0}
@@ -2300,7 +2271,7 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-ki.lila{background:#8b5cf6}
 .fw-ki.gold{background:var(--il-gold);color:#2a1d00}
 .fw-ki.ring{background:var(--il-ring)}
-.fw-ki.grau{background:linear-gradient(135deg,#7d7d88,#55555f)}
+.fw-ki.grau{background:#6b6b74}
 .fw-k.fertig .fw-ki i{background:var(--gut);color:#fff}
 .fw-kn{display:flex;flex-direction:column;min-width:0}
 .fw-kn b{font-size:14.5px;font-weight:800;line-height:1.25}
@@ -2502,7 +2473,7 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 @media (min-width:760px){.fw-hero{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;padding:28px}}
 /* Setup-Karte (eigene Klassen: tk-* gehoert der Tour) */
 .trk{max-width:460px}
-.trk-i{background:linear-gradient(135deg,#3ddc84,#0fa0bd)}
+.trk-i{background:var(--gut-soft);color:var(--gut)}
 .trk-sek{background:var(--surface-2);border-radius:18px;padding:10px 10px 10px;margin-bottom:8px}
 .trk-sk{display:flex;align-items:center;gap:8px;margin:0 2px 8px;min-width:0;min-height:24px}
 .trk-sk b{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--anod);flex:none}
@@ -2557,8 +2528,8 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .toast-zurueck{margin-left:6px;padding:3px 12px;min-height:30px;border-radius:999px;color:inherit;font-weight:800;
   background:color-mix(in srgb,var(--surface) 20%,transparent)}
 .adp-guide{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;padding:12px 14px;border-radius:16px;color:var(--ink);
-  background:linear-gradient(135deg,color-mix(in srgb,var(--anod) 22%,transparent),color-mix(in srgb,#e0508a 14%,transparent));
-  border:1px solid color-mix(in srgb,var(--anod) 35%,transparent)}
+  background:var(--anod-soft);
+  border:1px solid color-mix(in srgb,var(--anod) 30%,transparent)}
 .adp-guide b{display:block;font-size:13.5px;font-weight:750;line-height:1.3}
 .adp-gk{display:block;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--anod);font-weight:800;margin-bottom:2px}
 /* Skizzen */
@@ -6894,7 +6865,6 @@ function startseiteHtml(){
           "Build your dream bike from individual parts, check your own bike or rate a used one. CrankScore checks how the parts fit together and shows you where your build could improve.")}</p>
         ${knopf(tx("Kostenlos starten", "Start for free"))}
         <p class="ls-klein">${tx(`Free ist kostenlos · Pro ab ${euro(PRO_JAHR_MONAT)} im Monat · ohne Anmeldung`, `Free costs nothing · Pro from ${euro(PRO_JAHR_MONAT)} a month · no sign-up`)}</p>
-        <div class="ls-band" aria-hidden="true"><i></i></div>
         <div class="ls-rad" aria-hidden="true">${radSvg({anim:true, sattel:780})}</div>
       </section>
       <section class="ls-marken ls-rein">
@@ -6908,7 +6878,7 @@ function startseiteHtml(){
       <section class="ls-titel ls-rein"><h2>${tx("Vor dem Kauf wissen,<br>ob alles passt.", "Be sure it all fits<br>before you buy.")}</h2>
         <p>${tx("Drei Zahlen zeigen dir, wo dein Rad steht — und was es besser macht.", "Three numbers show you where your bike stands — and what makes it better.")}</p></section>
       ${karte("var(--gut)", "Score", tx("Eine Zahl von 0 bis 100: Passen die Teile zusammen — und zu dem, was du fährst?", "One number from 0 to 100: do the parts fit together — and suit what you ride?"),
-        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.tech, "var(--m-pass)")}${lsRing(r.gesamt, "var(--gut)", true)}${lsRing(r.chara, "var(--m-eins)")}</div>
+        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.tech, "#8e8e93")}${lsRing(r.gesamt, "var(--gut)", true)}${lsRing(r.chara, "#8e8e93")}</div>
           <div class="ls-ringl"><span>${tx("Kompa\u00adtibilität", "Compat\u00adibility")}</span><span>Score</span><span>${wort("einsatz")}</span></div>
           <div class="ls-app-z"><b>${tx("Stimmig.", "Spot on.")}</b> ${tx("Alles zieht in Richtung Trail.", "The whole build is geared towards Trail.")}</div><div class="ls-platz"></div>`)
         + `<div class="ls-schwebe"><span>${tx("Preis", "Price")}</span><b>${eur(r.preis)}</b><span>${kg(r.gewicht)}</span></div>`)}
@@ -6934,7 +6904,7 @@ function startseiteHtml(){
         handy(`<div class="ls-urteil"><b>${tx("Fairer Preis", "Fair price")}</b><span>${tx("Beispiel: Angebot 2.400 € bei rund 2.650 € Gebrauchtwert", "Example: asking price €2,400 against a used value of about €2,650")}</span>
           <div class="ls-skala"><i></i><u></u></div></div>`))}
       <section class="ls-dunkel">
-        <div class="ls-orbw ls-rein" aria-hidden="true"><div class="ls-orb"><i></i><i></i></div></div>
+        <div class="ls-orbw ls-rein" aria-hidden="true"><div class="ls-orb">${ic(IC.guide, 34)}</div></div>
         <h2 class="ls-rein"><span>${tx("Frag einfach", "Just ask")}</span><br>${tx("den Guide", "the guide")}</h2>
         <p class="ls-rein">${tx("Er kennt dein Rad und rechnet mit deinen Teilen — direkt auf dem Handy, auch offline.", "It knows your bike and works with your parts — right on your phone, even offline.")}</p>
         ${karte("var(--m-pass)", tx("Antworten aus deinem Aufbau", "Answers from your build"), tx("Frag, was zur 100 fehlt, welche Gabel passt oder wofür dein Rad taugt.", "Ask what it takes to reach 100, which fork fits or what your bike is good for."),
@@ -7835,11 +7805,10 @@ function leitKarte(r){
     <div class="leit-kopf"><div><span class="leit-sub">${LEIT[modus].sub} · ${tx(`${erledigt} von ${st.length} erledigt`, `${erledigt} of ${st.length} done`)}</span><h2>${k.h}</h2></div>
       <button class="leit-weg" data-leitweg="1" aria-label="${tx("Karte ausblenden", "Hide card")}" title="${tx("Karte ausblenden", "Hide card")}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
-    <div class="leit-bahn" role="progressbar" aria-valuemin="0" aria-valuemax="${st.length}" aria-valuenow="${erledigt}"><i style="width:${Math.round(erledigt / st.length * 100)}%"></i></div>
     ${geschafft || !erledigt ? `<p class="leit-t">${k.t}</p>` : ""}
     ${geschafft ? "" : `<ol class="leit-schritte">${st.map((s, i) => `<li class="leit-s${s.fertig ? " fertig" : ""}${i === jetzt ? " jetzt" : ""}"${i === jetzt ? ` aria-current="step"` : ""}>
         <span class="leit-n">${s.fertig ? HAKEN : i + 1}</span>
-        <span class="leit-x"><b>${s.t}</b>${i === jetzt || s.fertig ? `<span>${s.d}</span>` : ""}</span></li>`).join("")}</ol>`}
+        <span class="leit-x"><b>${s.t}</b>${i === jetzt ? `<span>${s.d}</span>` : ""}</span></li>`).join("")}</ol>`}
     ${jetzt >= 0 && st[jetzt].act ? `<button class="btn wide leit-cta" ${st[jetzt].act}>${st[jetzt].cta}</button>` : ""}
   </section>`;
 }
@@ -8288,7 +8257,7 @@ function radSvg(o){
     for(let i = 0; i < 18; i++) loecher += C(polar(c, scheibe - 8, i * Math.PI / 9 + .17), 3, "r-loch");
     for(let i = 0; i < 6; i++){ const a = i * Math.PI / 3;
       spinne += zug([polar(c, 22, a - .3), polar(c, scheibe - 15, a - .1), polar(c, scheibe - 15, a + .12), polar(c, 22, a + .32)]) + "Z"; }
-    const zm = polar(c, scheibe - 3, zange), zt = [-Math.sin(zange), Math.cos(zange)], dreh = o.anim ? ` class="dreh"` : "";
+    const zm = polar(c, scheibe - 3, zange), zt = [-Math.sin(zange), Math.cos(zange)], dreh = "";
     return C(c, (R - 6 + F) / 2, "r-reifen", ` style="stroke-width:${r1(R - 6 - F)}"`) + C(c, R - 9, "r-lauf")
       + `<path class="r-flanke" style="stroke-width:${r1((R - F) * .45)}" d="${zug(bogen(c, (R + F) / 2 - 4, 2.1, 2.9))}"/>`
       + `<g${dreh}><path class="r-stollen" d="${stollen}"/>${rohr(polar(c, F - 32, 1.1), polar(c, F - 16, 1.1), 7, 7, "r-metall")}</g>`
@@ -8700,24 +8669,20 @@ function radSvg(o){
         <text class="blende" style="--v:${v++}" x="${r1(reach / 2)}" y="${r1(-y - 30)}" text-anchor="middle">Reach ${reach}</text>`)
       + `<text class="blende" style="--v:${v++}" x="${r1(pe[0] + 40)}" y="${r1(-pe[1] + 78)}" text-anchor="start">${tx("Kurbel", "Crank")} ${kurbel}</text>`;
   }
-  const fahrt = o.anim ? `<g class="fahrt"><line x1="${r1(links + 60)}" y1="${r1(-drop - Rv * .4)}" x2="${r1(links + 260)}" y2="${r1(-drop - Rv * .4)}"/>
-      <line x1="${r1(links + 20)}" y1="${r1(-drop)}" x2="${r1(links + 180)}" y2="${r1(-drop)}"/>
-      <line x1="${r1(links + 100)}" y1="${r1(-drop + Rv * .45)}" x2="${r1(links + 240)}" y2="${r1(-drop + Rv * .45)}"/></g>` : "";
   const art = ht ? tx("Dirt-Hardtail", "Dirt hardtail") : tx(`Freerider nach der Geometrie des Propain Spindrift 5 AL, Größe ${G.g}`, `Freeride bike with the geometry of the Propain Spindrift 5 AL, size ${G.g}`);
   const label = o.masse ? tx(`${art} mit deinen Maßen: Sattelhöhe ${sattel} mm, Kurbel ${kurbel} mm`, `${art} with your measurements: saddle height ${sattel} mm, crank ${kurbel} mm`) : art;
   return `<svg class="rs${o.anim ? " faehrt" : ""}${o.fahrer ? " mitfahrer" : ""}" viewBox="${r1(links)} ${r1(-oben)} ${r1(rechts - links)} ${r1(oben - unten)}" role="img" aria-label="${label}">
     <defs>
       <linearGradient id="${id("g")}" gradientUnits="userSpaceOnUse" x1="${r1(ax[0])}" y1="0" x2="${r1(vo[0])}" y2="${r1(-stack)}">
-        <stop offset="0" stop-color="#ff7a45"/><stop offset=".5" stop-color="#e0508a"/><stop offset="1" stop-color="#7b5cff"/></linearGradient>
-      <linearGradient id="${id("t")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9d6bff"/><stop offset="1" stop-color="#3f7dff"/></linearGradient>
-      <linearGradient id="${id("a")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7f4cf0"/><stop offset="1" stop-color="#2f6fe8"/></linearGradient>
+        <stop offset="0" style="stop-color:var(--rs-lack-dunkel)"/><stop offset=".55" style="stop-color:var(--rs-lack)"/><stop offset="1" style="stop-color:var(--rs-lack-hell)"/></linearGradient>
+      <linearGradient id="${id("t")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--rs-trikot)"/><stop offset="1" style="stop-color:var(--rs-trikot-2)"/></linearGradient>
+      <linearGradient id="${id("a")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--rs-trikot)"/><stop offset="1" style="stop-color:var(--rs-trikot-2)"/></linearGradient>
       <radialGradient id="${id("s")}"><stop offset="0" style="stop-color:var(--rs-schatten)"/><stop offset="1" style="stop-color:var(--rs-schatten)" stop-opacity="0"/></radialGradient>
       ${verl.join("")}
     </defs>
     <ellipse cx="${r1((ax[0] + vo[0]) / 2)}" cy="${r1(-boden + 6)}" rx="${r1((vo[0] - ax[0]) / 2 + Rv * .9)}" ry="34" fill="url(#${id("s")})"/>
     ${o.anim ? `<line class="r-boden" x1="${r1(links)}" y1="${r1(-boden + 8)}" x2="${r1(rechts)}" y2="${r1(-boden + 8)}"/>` : ""}
-    ${fahrt}
-    <g class="r-ganz${o.anim ? "" : " blende"}">
+    <g class="r-ganz blende">
       ${fHinten}${antriebHinten}
       ${rad(ax, Rh, Fh, ht ? 80 : 101.5, zangeH)}${rad(vo, Rv, Fv, ht ? 90 : 110, zangeV)}
       ${kassette}${rahmen}${ht ? "" : daempfer}${hinterbau}${ht ? "" : hebel}${gabel}
@@ -8810,12 +8775,12 @@ function figurSvg(h, kg){
   return `<svg viewBox="-16 -226 190 232" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${tx(`Fahrerfigur, ${h} cm groß`, `Rider figure, ${h} cm tall`)}">
     <defs>
       <linearGradient id="${id("t")}" gradientUnits="userSpaceOnUse" x1="${f1(X - .15 * h)}" y1="${f1(-.85 * h)}" x2="${f1(X + .15 * h)}" y2="${f1(-.5 * h)}">
-        <stop offset="0" stop-color="#9d6bff"/><stop offset="1" stop-color="#3f7dff"/></linearGradient>
+        <stop offset="0" style="stop-color:var(--rs-trikot)"/><stop offset="1" style="stop-color:var(--rs-trikot-2)"/></linearGradient>
       ${quer("h", mat("--fg-haut-hi", "--fg-haut", "--fg-haut2"))}${quer("s", mat("--fg-hose-hi", "--fg-hose", "--fg-hose2"))}
       ${quer("k", mat("--fg-socke", "--fg-socke2", "--fg-socke3"))}${quer("l", mat("--fg-leder-hi", "--fg-schuh", "--fg-leder2"))}
       ${quer("o", stopps([[0, "#fff", .1], [.22, "#fff", .24], [.5, "#fff", 0], [.84, "#0a0520", .24], [1, "#0a0520", .34]]))}
       <linearGradient id="${id("r")}" x1="0" y1="0" x2="1" y2="1">${stopps([[0, "var(--fg-haar-hi)"], [.6, "var(--fg-haar)"], [1, "var(--fg-haar)"]])}</linearGradient>
-      <linearGradient id="${id("b")}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff7a45" stop-opacity=".55"/><stop offset="1" stop-color="#7b5cff" stop-opacity=".55"/></linearGradient>
+      <linearGradient id="${id("b")}" x1="0" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--anod);stop-opacity:.45"/><stop offset="1" style="stop-color:var(--anod);stop-opacity:.45"/></linearGradient>
       <clipPath id="${id("c")}"><path d="${rumpf}"/></clipPath>
     </defs>
     <rect class="fg-band" x="13" y="-212" width="16" height="212" rx="4"/>
@@ -8913,12 +8878,12 @@ function cockpitSvg(f){
   return `<svg class="ck" viewBox="-470 -66 940 736" role="img" aria-label="${tx(`Schulterbreite ${zahlDe(f.schulter)} cm, Lenkerbreite ${B} mm`, `Shoulder width ${f.schulter} cm, bar width ${B} mm`)}">
     <defs>
       <linearGradient id="${id("t")}" gradientUnits="userSpaceOnUse" x1="${-sx}" y1="200" x2="${sx}" y2="470">
-        <stop offset="0" stop-color="#9d6bff"/><stop offset="1" stop-color="#3f7dff"/></linearGradient>
+        <stop offset="0" style="stop-color:var(--rs-trikot)"/><stop offset="1" style="stop-color:var(--rs-trikot-2)"/></linearGradient>
       <linearGradient id="${id("a")}" gradientUnits="userSpaceOnUse" x1="${-ex}" y1="260" x2="${ex}" y2="470">
-        <stop offset="0" stop-color="#8450f5"/><stop offset="1" stop-color="#2f70ea"/></linearGradient>
+        <stop offset="0" style="stop-color:var(--rs-trikot)"/><stop offset="1" style="stop-color:var(--rs-trikot-2)"/></linearGradient>
       <linearGradient id="${id("v")}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".2"/>
         <stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient>
-      <linearGradient id="${id("r")}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff7a45"/><stop offset="1" stop-color="#7b5cff"/></linearGradient>
+      <linearGradient id="${id("r")}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--rs-schwarz)"/><stop offset="1" style="stop-color:var(--rs-schwarz-2)"/></linearGradient>
       <linearGradient id="${id("l")}" x1="0" y1="0" x2="0" y2="1">${stopps([[0, "var(--fg-leder-hi)"], [.5, "var(--fg-schuh)"], [1, "var(--fg-leder2)"]])}</linearGradient>
       <linearGradient id="${id("h")}" x1="0" y1="0" x2="0" y2="1">${stopps([[0, "var(--fg-ff-hi)"], [.5, "var(--fg-ff)"], [1, "var(--fg-ff2)"]])}</linearGradient>
       <linearGradient id="${id("hs")}" x1="0" y1="0" x2="1" y2="0">${stopps([[0, "var(--fg-haut)"], [.25, "var(--fg-haut-hi)"], [.6, "var(--fg-haut)"], [1, "var(--fg-haut2)"]])}</linearGradient>
@@ -8996,10 +8961,9 @@ function cockpitSvg(f){
   </svg>`;
 }
 const ringSvg = () => { const n = ++svgNr; return `<svg viewBox="0 0 100 100" aria-hidden="true">
-  <defs><linearGradient id="rg${n}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a45"/><stop offset="1" stop-color="#7b5cff"/></linearGradient></defs>
-  <path class="hg" d="${kreisPfad(50, 50, 42)}"/><path class="vg" pathLength="1" stroke="url(#rg${n})" d="${kreisPfad(50, 50, 42)}"/></svg>`; };
-const kurbelSvg = `<svg viewBox="0 0 120 120" aria-hidden="true"><defs><linearGradient id="kuG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a45"/><stop offset="1" stop-color="#7b5cff"/></linearGradient></defs>
-  <g class="ku-dreh"><circle cx="60" cy="60" r="38" fill="none" stroke="url(#kuG)" stroke-width="9" stroke-dasharray="6 5"/>
+  <path class="hg" d="${kreisPfad(50, 50, 42)}"/><path class="vg" pathLength="1" style="stroke:var(--anod)" d="${kreisPfad(50, 50, 42)}"/></svg>`; };
+const kurbelSvg = `<svg viewBox="0 0 120 120" aria-hidden="true">
+  <g class="ku-dreh"><circle cx="60" cy="60" r="38" fill="none" style="stroke:var(--anod)" stroke-width="9" stroke-dasharray="6 5"/>
   <circle cx="60" cy="60" r="27" fill="none" stroke="var(--ink-3)" stroke-width="3"/>
   <path d="M60 60 96 88" stroke="var(--ink-2)" stroke-width="10" stroke-linecap="round"/><path d="M86 94h22" stroke="var(--ink-2)" stroke-width="8" stroke-linecap="round"/>
   <circle cx="60" cy="60" r="7" fill="var(--ink)"/></g></svg>`;
@@ -9055,7 +9019,7 @@ function konfetti(){
   if(bewegungAus()) return;
   const box = document.createElement("div");
   box.className = "konfetti"; box.setAttribute("aria-hidden", "true");
-  const farben = ["#ff7a45", "#e0508a", "#7b5cff", "#3ddc84", "#ffb938", "#ff5c72", "#c4b8ff"];
+  const farben = ["var(--anod)", "var(--ink-3)", "var(--gut)", "var(--ink-2)"];
   let h = "";
   for(let i = 0; i < 36; i++){
     const x = (Math.random() * 2 - 1) * 40, y = -(12 + Math.random() * 18), r = (Math.random() * 2 - 1) * 360;
@@ -9191,7 +9155,7 @@ const EI_SCHRITT = {
       <li><i>${ic(IC.groesse, 17)}</i>${tx("Rahmengröße und Lenkerbreite aus deinen Maßen", "Frame size and bar width from your measurements")}</li>
       <li><i>${ic(IC.fahrwerk, 17)}</i>${tx("Fahrwerk für dein Gewicht und deinen Stil", "Suspension for your weight and your style")}</li>
       <li><i>${ic(IC.pruef, 17)}</i>${tx("Prüfung: Passt jedes Teil zu den anderen?", "Check: does every part fit the others?")}</li></ul>`,
-    f:`<button class="btn wide gross glanz" data-eiweiter="1">${tx("Los geht's", "Let's go")}</button>
+    f:`<button class="btn wide gross" data-eiweiter="1">${tx("Los geht's", "Let's go")}</button>
       <p class="ei-klein">${tx(`Rund zwei Minuten · Free ist kostenlos · Pro ab ${euro(PRO_JAHR_MONAT)} im Monat`, `About two minutes · Free costs nothing · Pro from ${euro(PRO_JAHR_MONAT)} a month`)}</p>`}),
   ziel: () => ({h:`
     <p class="ei-sub" style="--i:0">${tx("Los geht's", "Let's go")}</p>
@@ -9273,7 +9237,7 @@ const EI_SCHRITT = {
         : tx("Trag ein, was in der Anzeige steht. Die App rechnet aus, was das Rad gebraucht wert ist — und ob es dir überhaupt passt.",
           "Enter what the listing says. The app works out what the bike is worth used — and whether it fits you at all.")}</p>
       <p class="ei-klein">${tx("Über dem Score zeigt dir „Nächster Schritt“, was als Nächstes dran ist. Fragen beantwortet der Guide (Sprechblase oben). Einen 30-Sekunden-Rundgang und alle Begriffe findest du unter ⋮ › Hilfe.", "Above the score, “Next step” shows what to do next. The guide (speech bubble at the top) answers questions. A 30-second tour and every term are under ⋮ › Help.")}</p></div>`,
-      f:`<button class="btn wide gross glanz" data-eifertig="1">${cta}</button>`};
+      f:`<button class="btn wide gross" data-eifertig="1">${cta}</button>`};
   }
 };
 /* Lenker-Spanne unter dem Cockpit */
@@ -9293,7 +9257,6 @@ function eiZeigen(still){
   let root = $("modal").querySelector(".ei");
   if(!root){
     $("modal").innerHTML = `<div class="ei" role="dialog" aria-modal="true" aria-label="${tx("Einrichtung", "Getting started")}">
-      <div class="ei-deko" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="ei-kopf"><button class="ei-zur" data-eizurueck="1" aria-label="${tx("Zurück", "Back")}">${ic(IC.zurueck, 20)}</button>
         <div class="ei-bahn" role="progressbar" aria-label="${tx("Fortschritt", "Progress")}" aria-valuemin="0" aria-valuemax="100"><i></i></div>
         <button class="ei-skip" data-eiskip="1"></button></div>
@@ -9527,7 +9490,7 @@ function tourZeigen(){
     <span class="tk-punkte" aria-hidden="true">${tour.liste.map((x, j) => `<i class="${j === tour.i ? "an" : j < tour.i ? "war" : ""}"></i>`).join("")}</span>
     <div class="tk-fuss">${letzte ? "" : `<button class="tk-skip" data-tour="ende">${tx("Überspringen", "Skip")}</button>`}
       ${tour.i > 0 && !letzte ? `<button class="btn ghost sm" data-tour="zurueck" aria-label="${tx("Zurück", "Back")}">${ic(IC.zurueck, 16)}</button>` : ""}
-      <button class="btn sm${letzte ? " glanz" : ""}" data-tour="weiter">${letzte ? tx("Los geht's", "Let's go") : tour.i === 0 ? tx("Zeig mir alles", "Show me around") : tx("Weiter", "Next")}</button></div>`;
+      <button class="btn sm" data-tour="weiter">${letzte ? tx("Los geht's", "Let's go") : tour.i === 0 ? tx("Zeig mir alles", "Show me around") : tx("Weiter", "Next")}</button></div>`;
   const setzen = () => {
     /* Karte bleibt aus Notch, Home-Balken und seitlicher Aussparung heraus */
     const sr = sicherRand(), li = 16 + sr.l, re = 16 + sr.r, ob = 12 + sr.t, un = 12 + sr.b;

@@ -36,8 +36,10 @@ mit XC-Bremsen ist fehlerfrei und trotzdem falsch gebaut.
 
 **Übersicht im Stil von Bevel.** Oben drei Ringe nebeneinander wie die
 Kennzahlen in der Gesundheits-App Bevel: in der Mitte groß der *Score*
-(Ampelfarbe: grün ab 85, gelb ab 60, sonst rot), links *Kompatibilität* (violett),
-rechts *Einsatz* (orange). Tippen auf einen Ring erklärt die Zahlen. Darunter
+(Ampelfarbe: grün ab 85, gelb ab 60, sonst rot), links *Kompatibilität*,
+rechts *Einsatz*. Diese beiden stehen seit 09.10.2026 kleiner und in Grau
+daneben, damit der Score klar im Mittelpunkt steht. Tippen auf einen Ring
+erklärt die Zahlen. Darunter
 ein Satz zum Stand und zwei Kacheln: *Preis* (mit Budget als Tankanzeige —
 wie viel frei ist oder dass es drüber liegt) und *Gewicht* (mit „x von y
 Teilen“). Darüber (seit 03.10.2026, vorher darunter) die Karte **Nächster Schritt**: statt aller Listen
@@ -64,19 +66,24 @@ Teil“:
 - Im Reiter Upgrades stehen die abgelehnten Slots mit „wieder zeigen“. Das Design dazu: echtes Schwarz (hell: iOS-
 Grau), Graphit-Karten ohne Rand mit großen Radien, Beschriftungen in normaler
 Schreibung statt gesperrter Versalien, Knöpfe schlicht weiß auf schwarz
-(hell umgekehrt), der bunte Verlauf Orange → Pink → Violett nur noch am
-Guide, am Assistenten und an „Nächster Schritt“. Grautexte haben mindestens
+(hell umgekehrt). Seit 09.10.2026 (Liam: „erwachsener, ruhiger, hochwertiger“)
+gibt es keine bunten Verläufe und kein Leuchten mehr: keine Farbwolken im
+Einstieg und hinter den Ringen, eine einfarbige Überschrift, ein schlichter
+Guide-Knopf wie die anderen runden Knöpfe. Farbe trägt nur noch ein Akzent
+(Violett, als Fläche `--akzent-flaeche`, `--grad` ist dieselbe Farbe) und die
+Statusfarben. Die Aufgabenkarte ist eine kompakte Liste ohne Balken und
+Farbflächen; nur der aktuelle Schritt hat eine Erklärung. Grautexte haben mindestens
 4,5:1 Kontrast, die Ringe mindestens 3:1. Die Seiten von Bevel selbst
 (bevel.health) waren aus der Entwicklungsumgebung gesperrt — Vorlage war die
 bekannte Bevel-App: Ringe oben, ein Coach-Tipp, ruhige Karten.
 
 **Startseite.** Aufgebaut wie bevel.health (nach einer Bildschirmaufnahme der
-Seite): hell, große Überschriften, schwarzer Knopf „Kostenlos starten“, ein
-weiches Farbband mit dem gezeichneten Rad im Kopf, dann „Kennt die Teile von“
+Seite): hell, große Überschriften, schwarzer Knopf „Kostenlos starten“, das
+gezeichnete Rad im Kopf, dann „Kennt die Teile von“
 mit laufenden Markennamen und drei Zahlen (Teile, Marken, Prüfregeln — aus dem
-Katalog gezählt), je Funktion eine große hellgraue Karte mit Handy-Vorschau und
-Farbschein (Wertung, Prüfung, Upgrades, Deine Größe, Gebrauchtrad), ein
-dunkler Abschnitt für den Guide mit leuchtender Kugel, „Und das ist nicht
+Katalog gezählt), je Funktion eine große hellgraue Karte mit Handy-Vorschau
+(Wertung, Prüfung, Upgrades, Deine Größe, Gebrauchtrad), ein
+dunkler Abschnitt für den Guide mit seinem Symbol, „Und das ist nicht
 alles“ zum Wischen, Free oder Pro, eine dunkelgrüne Karte zur Privatsphäre,
 „Bereit, wenn du es bist“ und eine Fußzeile mit Impressum und Datenschutz.
 Die Zahlen in den Vorschauen rechnet die App selbst (Wertung des Startrads, Fit
@@ -158,6 +165,11 @@ Hebeln und senkrechtem Stahlfederdämpfer 230×65, Gabel in den Maßen einer
 Brücke vorn über dem Reifen, Krone mit Klemmschrauben), Reifen mit Stollen,
 32 Speichen, Bremsscheiben, 12-fach-Antrieb mit Schaltwerk und Kettenführung,
 Vario-Stütze. Dirt und Trial bekommen ein 26″-Hardtail.
+Seit 09.10.2026 ist die Zeichnung sachlich gehalten: Rahmen in Metallgrau,
+Anbauteile in Graphit, Feder und Standrohre metallisch, Trikot dunkelgrau.
+Das Rad blendet einmal ein und steht dann still; es gibt keine drehenden
+Räder, kein Wippen und keine Bewegungslinien mehr. Die Farben kommen aus den
+Variablen `--rs-…` und passen sich dem hellen und dunklen Design an.
 Im Aufbau steht an Rahmen, Lenker, Vorbau, Kurbel und Stütze, was zu dir passt
 („auf 780 mm kürzen“, „Größe L bestellen“); die Prüfung hat eine eigene Rubrik
 *Passt das Rad zu dir?*, die nur zeigt, was nicht passt, und nicht in die
