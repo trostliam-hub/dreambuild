@@ -1797,3 +1797,172 @@ Alle Prüfungen in Chromium (Playwright). Ab „npm test“ am Code-Stand `b7751
 - **Visuell auf einem echten iPhone geprüft:** nein. Dafür ist Teil B von APP-UX-001-N1 jetzt frei.
 
 - **Veröffentlichung:** JA, Nachweis siehe oben.
+
+---
+
+## APP-DESIGN-002 — Stahlblau, Score-Ringe mit Logo, mehr Charakter (Liams Auftrag vom 09.10.2026)
+- **Bezug:** Liams Auftrag im Chat. Der Look wirkte zu langweilig; gewünscht waren mehr Charakter und eine hochwertige, professionelle Gestaltung:
+  - gedecktes Stahlblau statt Orange als Akzent; Orange nur noch für Warnungen
+  - drei Score-Ringe mit neuer Hierarchie und dem echten Logo im Gesamtring
+  - Statushinweise statt Bedeutung allein über Farbe
+  - einheitlich in Navigation, Knöpfen, Auswahl, Guide und Fahrwerk
+  - Vorher-Nachher auf Handy und Desktop, hell und dunkel
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 09.10.2026, 20:02 Uhr (Europe/Berlin)
+- **Status:** FERTIG PROGRAMMIERT und GETESTET (Chromium). **Nicht veröffentlicht.**
+- **Stand:**
+  - Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `77b9c3d` (vier Code-Commits ab `370c943`, dazu einer nur mit Belegen).
+  - Live bleibt Version 20261009-1648 (`main` `49c36c2`). Die Vorher-Bilder stammen von genau diesem Stand: Der Branch-Commit `370c943` hat am App-Code nichts geändert.
+- **Keine Änderung** an Kompatibilitätsregeln, Preisen, Pro-Regeln, Herstellerwerten oder gespeicherten Daten.
+  - Der neue Hinweis „Kaum für … ausgelegt“ nutzt dieselbe Schwelle (Einsatz unter 55), die das Urteil unter dem Score schon vorher verwendet hat.
+
+### Ausgangslage
+- **Farbe:** Orange stand überall gleich laut: Auswahl, Links, Fokus, Bereichszeichen. Die Hauptknöpfe waren schwarz bzw. weiß.
+- **Score:** drei gleich gebaute Ringe nebeneinander. Der Gesamtring wechselte nach Ampel die Farbe (grün, gelb, rot). Die Bedeutung hing damit an der Farbe; ein Wort dazu gab es nur im Satz darunter. Ein Logo gab es in der App nicht, nur den Schriftzug.
+- **Startseite:** noch eine eigene Palette mit Lila (Chat, Symbole, Pro-Haken) und grünem Score-Ring.
+- **Fahrwerk:** O-Ring (SAG) und der gerade aktive Marker in den Zeichnungen waren orange.
+- **Bilder:** Das gerenderte Beispielrad stand nur auf der Startseite und im Einstieg.
+
+### Was geändert ist
+**Farbe: Stahlblau, Schwarz, Graphit, klare helle Flächen**
+- **Hell:**
+  - Stahlblau `#2f5a80` auf `#eef1f4` (kühles Hellgrau statt warmem Werkstattgrau), Karten weiß
+  - Schrift `#0f1318`
+  - Statusleiste `#eef1f4`
+- **Dunkel:**
+  - echtes Schwarz (wie bisher), Karten Graphit `#141518`
+  - Stahlblau als Schrift `#8fb3d6`, als Fläche `#36608a`
+- **Stahlblau markiert gezielt:**
+  - wichtige Aktionen: gefüllte Knöpfe wie „Einbauen“, „Tauschen“, „Anleitung zeigen“, „Grundeinstellung speichern“
+  - aktive Zustände: gewählter Bereich mit Zahl, Auswahl mit Rand und leichter Tönung, aktueller Schritt in Aufgabenkarte und Fahrwerk, gewähltes Fahrwerk-Profil, der gerade erklärte Marker in den Fahrwerk-Zeichnungen
+  - im Guide: eigene Fragen und der Senden-Knopf
+  - den Gesamtscore
+- **Orange nur für Warnungen:** hell `#a8520a`, dunkel `#ff9f43` — Kompromiss, über Budget, „weniger auf Trail ausgelegt“.
+  - Rot heißt weiter Konflikt, Grün heißt passt.
+  - Der orange O-Ring in den Fahrwerk-Zeichnungen ist jetzt stahlblau.
+- **Keine Verläufe, kein Leuchten:** `--grad` ist einfarbig. Hinter den Ringen liegt keine Farbwolke.
+- **Kontrast vorab gerechnet:**
+  - Stahlblau auf Weiß 7,25:1; dunkel auf Schwarz 9,6:1
+  - weiße Schrift auf dem Knopf 7,25:1 (hell) bzw. 6,57:1 (dunkel)
+  - alle Ringe mindestens 3:1 zur Karte
+  - In der App gemessen: siehe „Geprüft“.
+
+**Score-Karte als technische Übersicht**
+- **Gesamtscore:** der große Ring (188 px am Handy, 180 px am Desktop), immer in Stahlblau.
+  - Im Ring oben das **echte CrankScore-Logo**, darunter die große Zahl (Barlow Semi Condensed).
+  - Das Logo ist das Zeichen des App-Symbols: Kettenblatt mit 22 Zähnen und Kurbel. Ich habe es aus `tools/app-symbol.py` exakt als Vektor nachgebaut, als `#cs-logo` einmal in der Seite.
+  - Hell ist das Logo Stahlblau und die Zahl fast schwarz, dunkel ist das Logo hell-stahlblau und die Zahl weiß.
+  - „Gesamtscore“ steht als Unterzeile direkt unter dem Ring. Erst stand die Beschriftung im Ring: Bei 280 px berührte das englische „Overall score“ den Ring, deshalb steht sie jetzt darunter.
+- **Kompatibilität und Einsatz:** zwei Kacheln darunter.
+  - Je ein kleiner Ring (56 px) mit gut lesbarer Zahl (20 px), Name und Unterzeile („Maße und Standards“, „für Trail“).
+  - Farben: Kompatibilität Schieferblau, Einsatz neutrales Grau — sichtbar, aber ohne Konkurrenz zum Gesamtring.
+- **Statushinweise in Worten**, je mit Zeichen und Farbe:
+  - ✕ „2 Konflikte“
+  - ! „1 Kompromiss“
+  - ! „3.799 € über Budget“
+  - ! „Kaum für Trail ausgelegt“
+  - ○ „1 Teil offen“
+  - ✓ „Alle Maße passen“
+- **Ein Tipp auf einen Hinweis führt zur Stelle:**
+  - Konflikte und Kompromisse → Prüfung
+  - Budget und Einsatz → Upgrades
+  - offenes Teil → dessen Auswahl
+- **Bewegung unverändert:** Die Zahl zählt hoch, der Ring füllt sich, bei Änderung pulsiert der Ring kurz. Das Logo bewegt sich nicht. „Bewegung reduzieren“ wird wie bisher beachtet.
+
+**Fahrradabbildung: Teilekarte im Aufbau**
+- Unter der Score-Karte steht das gerenderte Beispielrad (APP-3D-001), am Desktop in der Seitenspalte.
+- An jeder Teilegruppe sitzt ein Punkt mit Status: ✓ grün passt, ! orange Kompromiss, ✕ rot Konflikt; die Zeichen stehen im Punkt, die Farbe kommt nur dazu.
+- Ein Tipp springt zur Gruppe im Aufbau.
+- Darunter Legende, Hinweis „Tippe auf ein Bauteil …“ und deutlich „Abbildung: Beispielrad, nicht dein Modell.“
+- Die Punkte haben vorlesbare Namen, z. B. „Rahmen – Konflikt“.
+
+**Logo und Schriftzug**
+- Das Logo steht vor CRANKSCORE im App-Kopf (ab 400 px Breite) und auf der Startseite.
+- Unter 400 px braucht der Disziplin-Knopf den Platz. Das Logo steht dort ohnehin groß im Gesamtring direkt darunter.
+
+**Startseite**
+- Die Score-Vorschau zeigt dieselbe Hierarchie wie die App: großer Stahlblau-Ring mit Logo und Zahl, darunter die zwei kleinen.
+- „Kostenlos starten“ ist Stahlblau.
+- Lila ist ganz verschwunden: Chat-Blase, Symbole und Pro-Haken sind jetzt Stahlblau.
+- Die Privatsphäre-Karte ist Graphit statt Dunkelgrün.
+
+**Typografie und Abstände**
+- Kennzeilen wie PREIS und GEWICHT in kleinen gesperrten Versalien, Werte groß in Barlow Semi Condensed.
+- Karten mit 20 px Innenabstand, Gruppentitel 22 px.
+- Die Unterzeile eines Blatts („Bauteil wählen“, „Frag den Guide“) ist Stahlblau.
+
+### Vorher und nachher
+Vorher = Live 20261009-1648, nachher = Branch-Stand. Gleiche Szenen, Playwright/Chromium.
+
+| Tafel | Inhalt |
+|---|---|
+| `vorher-nachher-handy-hell.jpg` | Handy 390 px, hell: Aufbau, Prüfung, Fahrwerk, Upgrades, Einkauf |
+| `vorher-nachher-handy-dunkel.jpg` | dasselbe dunkel |
+| `vorher-nachher-desktop-hell.jpg` | Desktop 1280 px, hell: Aufbau, Fahrwerk, Upgrades |
+| `vorher-nachher-desktop-dunkel.jpg` | dasselbe dunkel |
+| `score-handy.jpg` | Score-Karte nah: mit 2 Konflikten und über Budget sowie „alles passt“, hell und dunkel |
+| `score-desktop.jpg` | Desktop-Seitenspalte mit Score-Karte und Teilekarte |
+| `startseite-guide.jpg` | Startseite (Kopf, Score-Vorschau) und Guide hell/dunkel |
+| `auswahl-und-blaetter.jpg` | Teilewahl, Konflikt am Teil, Radwahl (Deutsch hell, Englisch dunkel) |
+
+### Geprüft
+Alle Prüfungen in Chromium (Playwright), am Code-Stand `77b9c3d`, soweit nicht anders vermerkt:
+- **npm test** (Revision `77b9c3d`): alle Tests bestanden.
+  - Syntax
+  - Kompatibilität 199/199
+  - Setup und Speicher 16/16
+  - Ein Weg je Aufgabe 36/36
+  - Sprache 0 Funde in 9.324 Texten
+- **Animationen:** 100 von 102 Prüfpunkten — genau wie bei APP-UX-001.
+  - Die zwei Abweichungen betreffen wie dort nur den *emulierten* alten Safari ohne View Transitions: Der Farbwechsel ist stetig und blitzt nicht auf, kommt im Testbrowser aber mit weniger Zwischenbildern an.
+  - Zuerst waren es 98/102: Mit „Bewegung reduzieren“ blendete das Zeichen in den Teilekarten-Punkten beim Statuswechsel Schriftgröße und Zeilenhöhe über (1 ms). Behoben, das Zeichen wechselt jetzt ohne Übergang.
+- **Handy-Audit** (sieben Geräte von 320 px bis Querformat, Notch, Home-Balken), am Stand `77b9c3d`:
+  - Deutsch dunkel: 0 Funde, 0 Konsolenfehler
+  - Englisch hell: 0 Funde, 0 Konsolenfehler
+- **Funktion der neuen Elemente:** 24 von 24 Punkten (`funktion.js`, Handy und Desktop).
+  - Zahl im Ring gleich Gesamtscore, Ring passend gefüllt
+  - „Alle Maße passen“ ohne Problem
+  - vier Hinweise bei Konflikt, Kompromiss, Budget und fehlendem Teil; jeder führt an die richtige Stelle
+  - Teilekarten-Punkte mit Status im Namen; ein Tipp bringt die Gruppe nach oben
+  - Tipp auf den Gesamtring öffnet die Erklärung
+  - keine Skriptfehler
+- **Am Stand `1ff6831`:** Danach haben sich nur die Farbe der Fahrwerk-Marker (SVG) und ein Übergang geändert. Texte und Maße sind gleich geblieben.
+  - **Sprache bei 280 und 320 px:** 0 Funde.
+    - Zuerst gab es bei 320 px 120 Funde: Das neue Logo im App-Kopf kürzte den Disziplin-Knopf („XC + Downhill“).
+    - Das Logo steht im Kopf deshalb erst ab 400 px.
+    - Nachgemessen von 320 bis 1280 px, Deutsch und Englisch: nichts gekürzt (`kopf.js`).
+  - **Überstand:** 0 Elemente. Zuerst stand „Open app“ auf der Startseite bei 320 px Englisch 2 px über — behoben.
+  - **Kontrast:** 0 Unterschreitungen in 1.588 Texten (neun Ansichten, Handy und Desktop, hell und dunkel).
+- **Statusleiste:** alles OK — neue helle Farbe `#eef1f4`, mit und ohne View Transition, mit und ohne „Bewegung reduzieren“.
+- **Gesamtring bei 280 px Englisch:** Zahl und Logo bleiben mit Abstand im Ring. Die Ecken der Zahl liegen 49 px vom Mittelpunkt, der Innenrand bei 61 px.
+- **Fehler in meinem eigenen Prüfwerkzeug, gefunden und behoben:**
+  - Das kleine Hilfsskript, das für Aufnahmen einen Testserver startet, hat seinen Server nicht zuverlässig beendet. Ein späterer Lauf auf demselben Port bekam dann still den alten Stand.
+  - Aufgefallen ist es, weil eine Nachher-Aufnahme die alte Score-Karte zeigte.
+  - Die Aufnahme ist neu gemacht.
+  - Für jedes andere Bild in den Belegen habe ich nachgesehen, aus welchem Ordner der Server lieferte: Alle kamen vom richtigen Stand.
+  - Die Kontrastmessung lief erst nach der Reparatur.
+  - Das Skript bricht jetzt ab, wenn der Port schon belegt ist.
+  - Ob Läufe aus früheren Aufgaben betroffen waren, kann ich nicht mehr feststellen. Die heutigen Messungen decken den ganzen aktuellen Stand ab, also auch alles aus APP-UX-001.
+- **Nicht geprüft:**
+  - echtes iPhone und echter Safari
+  - Tastatur-Bedienung nicht gesondert; die neuen Elemente sind echte Knöpfe mit Namen
+
+### Belege (`belege/APP-DESIGN-002/`)
+- die acht Tafeln oben
+- `funktion.js`: Funktionstest der neuen Elemente
+- `kopf.js`: Kopfbreite von 320 bis 1280 px
+- `score.js`: Aufnahme der Score-Karte
+
+### Offen
+- **Echtes iPhone und Safari:** nicht geprüft, nur Chromium. Besonders ansehen:
+  - Logo-Maske im Gesamtring (SVG-`mask` über `<use>`)
+  - Teilekarten-Punkte bei Berührung
+  - Kopf mit Logo ab 400 px
+- **Liams Urteil zur Gestaltung:**
+  - Farbton, Ringgrößen und die Teilekarte im Aufbau sind Gestaltungsentscheidungen.
+  - Die Farben stehen zentral in `--anod`, `--akzent-flaeche`, `--ring-gesamt`, `--ring-pass` und `--ring-eins`.
+  - Die Teilekarte lässt sich mit einer Zeile ausblenden.
+- **Teilekarte zeigt immer das Beispielrad**, nicht das eigene Modell. Sie ist so beschriftet. Eine Abbildung je Rahmen gibt es nicht; ich habe keine erfunden.
+- **Veröffentlichung:** erst nach Liams ausdrücklicher Freigabe für diese Änderungen. Dann schreibt die Action den Versionsstempel, und Codex kann Teil B von APP-DESIGN-002-N1 prüfen.
+
+- **Veröffentlichung:** NEIN.

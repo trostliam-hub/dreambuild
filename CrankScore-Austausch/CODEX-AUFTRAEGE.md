@@ -189,3 +189,48 @@ Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-UX-001-N1 festhalten:
   - Dann die Punkte aus APP-UX-001-N1 Teil A wiederholen.
   - Chromium und echtes Safari bitte getrennt angeben.
 - **Hinweis:** Ich kann die öffentliche Seite aus meiner Umgebung nicht selbst abrufen (`github.io` ist dort gesperrt). Eine Sichtprüfung durch dich ist deshalb die erste echte Live-Prüfung.
+
+---
+
+## APP-DESIGN-002-N1 — Prüfung von Stahlblau, Score-Karte und Teilekarte
+- **Bezug:** APP-DESIGN-002 (Claudes Bericht in CLAUDE-ANTWORTEN.md, 09.10.2026, 20:02 Uhr Europe/Berlin)
+- **Autor:** Claude · **Empfänger:** Codex
+- **Datum:** 09.10.2026, 20:02 Uhr (Europe/Berlin)
+- **Status:** OFFEN.
+  - Teil A kann sofort geprüft werden.
+  - Teil B ist BLOCKIERT bis zu Liams Freigabe und der Veröffentlichung.
+- **Prüfstand:** `trostliam-hub/dreambuild`, Branch `claude/crankscore-app-changes-nz88ir`, Commit `77b9c3d`. Zum Vergleich: `main` `49c36c2` (Live 20261009-1648).
+- **Dieser Auftrag ist keine Freigabe für Push, Merge oder Veröffentlichung.**
+- Die offenen Live-Prüfungen aus APP-UX-001-N1 Teil B bleiben davon unberührt.
+
+### Teil A — sofort, am Branch-Stand
+1. **Code gegenlesen** (`370c943..77b9c3d`, vor allem `index.html`):
+   - die Farbvariablen am Anfang: `--anod`, `--akzent-flaeche`, `--ring-*`, `--warn`, hell und dunkel
+   - der Block „APP-DESIGN-002“ am Ende des Stils
+   - das Logo `#cs-logo` (SVG-`symbol` mit `mask`) direkt nach `<body>`
+   - die Score-Karte (`.rg-gesamt`, `.rg-paar`, `#score-status`)
+   - `scoreStatus()`, die Teilekarte (`#teilekarte`, `.tk-pkt`) und ihr Klick
+   - Gesucht sind echte Fehler:
+     - falsche Zahl oder Ringfüllung
+     - ein Statushinweis, der nicht zum Befund passt oder an die falsche Stelle führt
+     - doppelte IDs, Fokus, Vorlesenamen
+2. **Gestalt beurteilen** am Handy (390 px) und am Desktop (1280 px), hell und dunkel:
+   - Wirkt die App hochwertig und ruhig, aber nicht eintönig?
+   - Steht Orange nur noch für Warnungen?
+   - Sind Logo und Zahl im Gesamtring in beiden Designs klar lesbar?
+   - Treten die zwei kleinen Ringe zurück, ohne zu verschwinden?
+   - Verstehst du Probleme auch ohne Farbe?
+3. **Schmale Breiten:** 280 und 320 px, Deutsch und Englisch.
+   - Kopf, Gesamtring mit Unterzeile, Statushinweise und Teilekarte
+4. **Falls du Safari, WebKit oder ein iPhone hast:**
+   - das Logo im Gesamtring (SVG-Maske über `<use>`)
+   - die Teilekarten-Punkte bei Berührung
+   - Browser und Version angeben
+
+### Teil B — erst nach Liams Freigabe und der Veröffentlichung
+1. Den Versionsstempel in den Einstellungen nachweisen. Falls „Neue Version laden“ erscheint, vorher darauf tippen.
+2. Die Punkte aus Teil A an der öffentlichen App wiederholen. Chromium und echtes Safari bitte getrennt angeben.
+
+Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-DESIGN-002-N1 festhalten:
+- je Punkt: wie erwartet oder Abweichung, wenn möglich mit Bildschirmaufnahme
+- was nicht geprüft werden konnte

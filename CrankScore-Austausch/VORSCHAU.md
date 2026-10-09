@@ -1,61 +1,50 @@
-# Vorschau: Eigene Gestalt und kurze Wege (APP-UX-001)
+# Vorschau: Stahlblau und Score-Ringe mit Logo (APP-DESIGN-002)
 
 Fertiger Stand zum Ansehen. Claude legt diese Seite nach jeder Aufgabe neu in den
 Austauschordner. Die Bilder liegen daneben in `belege/`, damit die Seite auch im
 entpackten ZIP funktioniert.
 
-- **Stand:** 09.10.2026, Branch `claude/crankscore-app-changes-nz88ir`, Commit `b7751b8`.
-- **Veröffentlicht:** live als Version 20261009-1648 (Commit `49c36c2`, mit Liams Freigabe). Damit ist auch das 3D-Beispielrad (APP-3D-001) live.
-- **Die Vorher-Bilder** stammen vom Branch-Stand `ded53c4`. Die Hauptbereiche sind dort gleich wie in der früheren Live-Version 20261009-1047; nur die Startseite zeigt schon das 3D-Rad.
+- **Stand:** 09.10.2026, 20:02 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `77b9c3d`.
+- **Nicht veröffentlicht:** Live bleibt Version 20261009-1648. Die Vorher-Bilder zeigen genau diesen Live-Stand.
 - **Online ansehen:** https://github.com/trostliam-hub/dreambuild/blob/claude/crankscore-app-changes-nz88ir/CrankScore-Austausch/VORSCHAU.md
-- **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-UX-001). **Prüfauftrag an Codex:** `CODEX-AUFTRAEGE.md` (APP-UX-001-N1).
-- **Frühere Vorschau (3D-Beispielrad):** in `CLAUDE-ANTWORTEN.md` unter APP-3D-001. Die Bilder liegen weiter in `belege/APP-3D-001/`.
+- **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-DESIGN-002). **Prüfauftrag an Codex:** `CODEX-AUFTRAEGE.md` (APP-DESIGN-002-N1).
+- **Frühere Vorschauen:** APP-UX-001 und APP-3D-001 stehen in `CLAUDE-ANTWORTEN.md`; ihre Bilder liegen weiter in `belege/APP-UX-001/` und `belege/APP-3D-001/`.
 
-## Navigation: fünf beschriftete Bereiche
+## Score-Karte
 
-Aufbau · Prüfung · Fahrwerk · Upgrades · Einkauf. Am Handy unten, am Desktop neu oben unter dem Kopf.
+- Der Gesamtscore ist der große Ring in Stahlblau, mit dem CrankScore-Logo und der Zahl darin.
+- Darunter stehen Kompatibilität (Schieferblau) und Einsatz (Grau).
+- Probleme erscheinen als Hinweis in Worten mit Zeichen; ein Tipp führt zur Stelle.
 
-![Navigation Handy](belege/APP-UX-001/navigation-handy.png)
+![Score-Karte am Handy](belege/APP-DESIGN-002/score-handy.jpg)
 
-![Navigation Desktop](belege/APP-UX-001/navigation-desktop.png)
+![Seitenspalte Desktop](belege/APP-DESIGN-002/score-desktop.jpg)
 
-## Die Bereiche vorher und nachher
+## Smartphone vorher und nachher
 
-Am Handy steht der Score nur noch im Aufbau; die anderen Bereiche beginnen mit ihrem Inhalt.
+![Handy hell](belege/APP-DESIGN-002/vorher-nachher-handy-hell.jpg)
 
-![Handy hell Deutsch](belege/APP-UX-001/vorher-nachher-handy-de-hell.jpg)
+![Handy dunkel](belege/APP-DESIGN-002/vorher-nachher-handy-dunkel.jpg)
 
-![Handy dunkel Englisch](belege/APP-UX-001/vorher-nachher-handy-en-dunkel.jpg)
+## Desktop vorher und nachher
 
-![Desktop hell Deutsch](belege/APP-UX-001/vorher-nachher-desktop-de-hell.jpg)
+![Desktop hell](belege/APP-DESIGN-002/vorher-nachher-desktop-hell.jpg)
 
-![Desktop dunkel Englisch](belege/APP-UX-001/vorher-nachher-desktop-en-dunkel.jpg)
+![Desktop dunkel](belege/APP-DESIGN-002/vorher-nachher-desktop-dunkel.jpg)
 
-## Neue Wege am Bauteil
+## Startseite, Guide, Auswahl
 
-Vergleichen, Zurück zur Auswahl, Rad wechseln, Sprungleiste, Konfliktgrund am Teil:
+![Startseite und Guide](belege/APP-DESIGN-002/startseite-guide.jpg)
 
-![Blätter](belege/APP-UX-001/blaetter-handy-de-hell.jpg)
+![Auswahl und Blätter](belege/APP-DESIGN-002/auswahl-und-blaetter.jpg)
 
-![Blätter dunkel](belege/APP-UX-001/blaetter-handy-en-dunkel.jpg)
+## Farben auf einen Blick
 
-## Sechs Abläufe
-
-| Ablauf | Handy vorher | Handy nachher | Desktop vorher | Desktop nachher |
-|---|---|---|---|---|
-| Bauteil finden und tauschen | 2 Tipps + 1.718 px Scrollen | 3 Tipps, 0 px | 2 + 1.237 px | 3, 0 px |
-| Konflikt verstehen und beheben | 3 Tipps + 24 px | 2 Tipps, 0 px | 2 + 71 px | 2, 0 px |
-| Fahrwerk öffnen | 1 („Setup“) | 1 („Fahrwerk“) | 1 (Kopf-Knopf) | 1 (Navigation) |
-| Upgrade vergleichen | kein Vergleich; Umweg 4 + Eingabe + 1.741 px | 2 Tipps, 0 px | Umweg 2 + Eingabe + 886 px | 2, 0 px |
-| Einkaufsliste aufrufen | 1 Tipp, 1 Zeile sichtbar | 1 Tipp, 5 Zeilen | 1 nach 3.793 px | 1, 0 px |
-| Zwischen Rädern wechseln (weit unten) | 2 + 1.437 px, Bereich springt zurück | 4, 0 px, Bereich bleibt | 2 + 1.437 px | 4, 0 px |
-
-Endbilder je Ablauf:
-
-![Abläufe Handy](belege/APP-UX-001/ablaeufe-handy.jpg)
-
-![Abläufe Desktop](belege/APP-UX-001/ablaeufe-desktop.jpg)
-
-## Startseite und Schriftzug
-
-![Startseite](belege/APP-UX-001/startseite.jpg)
+| | Hell | Dunkel |
+|---|---|---|
+| Stahlblau (Schrift, Ring) | `#2f5a80` / Ring `#33608a` | `#8fb3d6` / Ring `#7fa8d1` |
+| Stahlblau (Knopf) | `#2f5a80` | `#36608a` |
+| Kompatibilität (Schieferblau) | `#6a7f96` | `#7a8ea5` |
+| Einsatz (Grau) | `#858a91` | `#6f747b` |
+| Warnung (Orange) | `#a8520a` | `#ff9f43` |
+| Grund / Karte | `#eef1f4` / `#ffffff` | `#000000` / `#141518` |
