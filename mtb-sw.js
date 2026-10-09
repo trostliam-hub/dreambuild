@@ -26,7 +26,9 @@ var ASSETS = [
   './fonts/inter-400-800-latin.woff2',
   './fonts/ibmplexmono-400-latin.woff2',
   './fonts/ibmplexmono-500-latin.woff2',
-  './fonts/ibmplexmono-600-latin.woff2'
+  './fonts/ibmplexmono-600-latin.woff2',
+  './fonts/barlowsemicondensed-600-latin.woff2',
+  './fonts/barlowsemicondensed-700-latin.woff2'
 ];
 var FREMD = [];                /* nichts von fremden Servern -- Schriften liegen in fonts/ */
 

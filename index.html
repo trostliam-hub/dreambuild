@@ -11,7 +11,7 @@
    Home-Bildschirm-Apps teils nur einmal und uebernimmt spaetere Aenderungen nicht. */
 (function(){var hell=false;try{hell=localStorage.getItem("mtb.design")==="hell";}catch(e){}
 if(hell)document.documentElement.dataset.theme="light";
-var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f2f7":"#000000";document.head.appendChild(m);})();</script>
+var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f1ee":"#000000";document.head.appendChild(m);})();</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -76,6 +76,42 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f2f
   src: url(fonts/ibmplexmono-600-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+/* Barlow Semi Condensed 600 latin-ext (APP-UX-001: Ueberschriften und Messwerte) */
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/barlowsemicondensed-600-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* Barlow Semi Condensed 600 latin (APP-UX-001: Ueberschriften und Messwerte) */
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/barlowsemicondensed-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Barlow Semi Condensed 700 latin-ext (APP-UX-001: Ueberschriften und Messwerte) */
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/barlowsemicondensed-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* Barlow Semi Condensed 700 latin (APP-UX-001: Ueberschriften und Messwerte) */
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(fonts/barlowsemicondensed-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 /* Inter 400 800 latin-ext */
 @font-face {
   font-family: 'Inter';
@@ -96,11 +132,15 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f2f
 }
 </style>
 <style>
-/* Schriften: auf dem iPhone die Systemschrift (SF Pro) -- sieht nativ aus und
-   braucht kein Netz. Anderswo Inter. Mono nur noch fuer Messwerte und Codes. */
+/* Schriften: Fliesstext in der Systemschrift (SF Pro auf dem iPhone, sonst
+   Inter) -- sieht nativ aus und braucht kein Netz. Ueberschriften und Messwerte
+   (Score, Preis, Gewicht, mm) in Barlow Semi Condensed: schmal, technisch wie
+   ein Datenblatt, mit gleich breiten Ziffern -- Zahlen stehen sauber
+   untereinander und lassen sich vergleichen (APP-UX-001). Mono nur fuer Codes. */
 :root{
   --f-sans:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI",system-ui,sans-serif;
-  --f-head:-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,"Segoe UI",system-ui,sans-serif;
+  --f-head:"Barlow Semi Condensed",-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,"Segoe UI",system-ui,sans-serif;
+  --f-zahl:"Barlow Semi Condensed",-apple-system,BlinkMacSystemFont,"SF Pro Display",Inter,system-ui,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
 
   /* Ruhig wie Bevel (Liams Wunsch 2026-09-30): echtes Schwarz, neutrale
@@ -114,11 +154,16 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f2f
   --ground:#000000; --surface:#141416; --surface-2:#1c1c1f; --sunk:#2a2a2e;
   --ink:#f5f5f7; --ink-2:#b3b3b9; --ink-3:#86868d;
   --line:#2c2c30; --line-soft:#212124; --hair:rgba(255,255,255,.07);
-  --anod:#a797ff; --anod-2:#c4b8ff; --anod-3:#6f9bff; --anod-soft:rgba(167,151,255,.14); --on-anod:#0d0a1f;
-  --akzent-flaeche:#6a55e8; --grad:linear-gradient(#6a55e8,#6a55e8);
-  --m-pass:#8f7dff; --m-eins:#ff9f43;
+  /* Markenfarbe Eloxal-Orange (APP-UX-001): wie eloxierte Anbauteile und die
+     Farbe von Federgabel-Decals. Sie markiert nur Auswahl und Orientierung
+     (gewaehlter Bereich, gewaehlte Option, Links, Fokus) -- nie einen Status.
+     Status bleibt Ampel: Gruen passt, Gelb Kompromiss, Rot Konflikt. Gelb
+     statt Bernstein, damit sich Warnung und Auswahl nicht verwechseln lassen. */
+  --anod:#ff8f4a; --anod-2:#ffb07f; --anod-3:#ffb07f; --anod-soft:rgba(255,143,74,.14); --on-anod:#1a0b00;
+  --akzent-flaeche:#b8460f; --grad:linear-gradient(#b8460f,#b8460f);
+  --m-pass:#9fb3c8; --m-eins:#ff8f4a;
   --gut:#3ddc84; --gut-soft:rgba(61,220,132,.13);
-  --warn:#ffb938; --warn-soft:rgba(255,185,56,.14);
+  --warn:#ffd23f; --warn-soft:rgba(255,210,63,.13);
   --bad:#ff5c72; --bad-soft:rgba(255,92,114,.15);
   --fester:#9a6bff; --weicher:#0fa0bd;      /* per dataviz-Validator gegen #0b0a12 geprueft */
   --glass:rgba(0,0,0,.8);
@@ -136,17 +181,19 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f2f
   color-scheme:dark;
 }
 :root[data-theme="light"]{
-  --ground:#f2f2f7; --surface:#ffffff; --surface-2:#f4f4f7; --sunk:#e8e8ed;
-  --ink:#0b0b0f; --ink-2:#45454c; --ink-3:#6e6e76;
-  --line:#e2e2e8; --line-soft:#ececf1; --hair:rgba(0,0,0,.07);
-  --anod:#5b45e0; --anod-2:#4634c4; --anod-3:#1f6fe5; --anod-soft:#eeebff; --on-anod:#ffffff;
-  --akzent-flaeche:#5b45e0; --grad:linear-gradient(#5b45e0,#5b45e0);
-  --m-pass:#6a55f0; --m-eins:#e26f0a;
-  --gut:#12805a; --gut-soft:#dcf4e9;
-  --warn:#9a6205; --warn-soft:#fbefd8;
+  /* Hell: warmes Werkstattgrau statt iOS-Blaugrau, weisse Karten. Alle
+     Textfarben >= 4,5:1 auf Grund, Karte und Flaeche (WCAG-Formel). */
+  --ground:#f2f1ee; --surface:#ffffff; --surface-2:#f6f5f2; --sunk:#e7e5e0;
+  --ink:#121110; --ink-2:#45433f; --ink-3:#66635d;
+  --line:#e2dfd9; --line-soft:#ecebe7; --hair:rgba(40,30,10,.08);
+  --anod:#b8460f; --anod-2:#9a3a0c; --anod-3:#9a3a0c; --anod-soft:#fcefe6; --on-anod:#ffffff;
+  --akzent-flaeche:#b8460f; --grad:linear-gradient(#b8460f,#b8460f);
+  --m-pass:#3f5a75; --m-eins:#b8460f;
+  --gut:#0f7653; --gut-soft:#ddf1e7;
+  --warn:#7d5c00; --warn-soft:#fbf0c9;
   --bad:#c42a52; --bad-soft:#fbe2ea;
   --fester:#6d3dff; --weicher:#0a8aa8;      /* per dataviz-Validator gegen #ffffff geprueft */
-  --glass:rgba(242,242,247,.88);
+  --glass:rgba(242,241,238,.88);
   --shadow:0 1px 2px rgba(0,0,0,.04),0 10px 28px -16px rgba(0,0,0,.14);
   --shadow-hoch:0 2px 6px rgba(0,0,0,.06),0 22px 48px -18px rgba(0,0,0,.22);
   color-scheme:light;
@@ -330,8 +377,8 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
    violett, Einsatz orange. Die Zahl steht in Schriftfarbe im Ring -- die
    Farbe traegt der Ring, lesbar bleibt die Zahl immer. Hinter den Ringen
    liegt ein weicher Farbschein aus denselben drei Farben. */
-.bar{padding:12px 16px 0}
-.bar-in{max-width:1180px;margin:0 auto;padding:20px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;
+.bar{padding:0}
+.bar-in{padding:18px 16px 14px;display:flex;flex-direction:column;align-items:center;gap:12px;
   background:var(--surface);border-radius:var(--r-karte);position:relative;overflow:hidden;isolation:isolate;
   box-shadow:var(--shadow)}
 .ringe{display:grid;grid-template-columns:1fr 1.6fr 1fr;align-items:end;gap:6px;width:100%;max-width:420px}
@@ -368,17 +415,29 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .kz-bahn[hidden]{display:none}
 .kz-bahn i{display:block;height:100%;border-radius:999px;background:var(--ink-2);transition:width .5s var(--feder)}
 .kz-bahn.ueber i{background:var(--bad)}
-@media (min-width:820px){
-  .bar-in{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:14px 36px;padding:22px 24px}
-  .ringe{width:420px;flex:none}
-  .bar-in > .verdict{order:3;flex-basis:100%}
-  .kz{width:320px;grid-template-columns:1fr;flex:none}
-  .bar-in > .wie{order:4}
-}
+/* Preis fuehrt direkt zur Einkaufsliste (nur beim Traumrad, sonst gibt es keine) */
+button.kz-z{text-align:left;font:inherit;color:inherit;cursor:pointer}
+button.kz-z:disabled{cursor:default}
+.kz-weiter{font-size:11.5px;font-weight:700;color:var(--anod)}
+button.kz-z:disabled .kz-weiter{display:none}
+@media (hover:hover){button.kz-z:not(:disabled):hover{background:var(--sunk)}}
 
+/* ── Seitenaufbau (APP-UX-001): ein Bereich zur Zeit, auf jeder Breite.
+   Handy: Uebersicht nur im Aufbau ueber der Teileliste. Breit: links der
+   Bereich, rechts klebt die Uebersicht -- der Score ist immer im Blick, ohne
+   sich in jedem Bereich zu wiederholen. ── */
 .wrap{max-width:1180px;margin:0 auto;padding:16px 16px calc(var(--tabs-h) + 30px + var(--tabs-unten));
   display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
-@media (min-width:820px){.wrap{grid-template-columns:minmax(0,1fr) 340px;align-items:start;padding-bottom:48px}}
+.seite{min-width:0;display:flex;flex-direction:column;gap:16px}
+body[data-view="aufbau"] #panel,body:not([data-view="aufbau"]) #aufbau{display:none}
+@media (max-width:819px){body:not([data-view="aufbau"]) .seite{display:none}}
+@media (min-width:820px){
+  .wrap{grid-template-columns:minmax(0,1fr) 316px;grid-template-areas:"inhalt seite";align-items:start;padding-bottom:48px}
+  .seite{grid-area:seite;position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + var(--nav-h) + 16px)}
+  body[data-view="aufbau"] .seite{top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + var(--nav-h) + 66px)}
+  #aufbau,#panel{grid-area:inhalt;min-width:0}
+  .bar-in{padding:20px 18px 16px}
+}
 
 
 @keyframes laedt{from{opacity:.55}to{opacity:1}}
@@ -657,9 +716,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 .slot.leer{opacity:.5;cursor:default;min-height:48px}
 
 .card{background:var(--surface);border:none;border-radius:var(--r-karte);padding:18px;box-shadow:var(--shadow)}
-.panel{display:flex;flex-direction:column;gap:16px}
-@media (min-width:820px){.panel{position:sticky;top:calc(env(safe-area-inset-top,0px) + 72px)}
-  #c-kauf{order:5}}                               /* am breiten Bildschirm: Einkaufsliste zuletzt */
+.panel{display:flex;flex-direction:column;gap:16px;min-width:0}
 
 .find{border-left:3px solid var(--line);padding:10px 0 10px 12px;display:flex;flex-direction:column;gap:5px}
 .find + .find{border-top:1px solid var(--line-soft)}
@@ -704,32 +761,50 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
 a.btn{text-decoration:none}
 .empty-note{font-size:13px;color:var(--ink-3);line-height:1.5;padding:4px 0;margin:0}
 
-/* ── Tableiste: schwebt, Glas, Icons ueber der Beschriftung ── */
+/* ── Hauptnavigation (APP-UX-001): fuenf Bereiche, immer beschriftet.
+   Handy: schwebt unten als Glasleiste, Symbol ueber der Beschriftung.
+   Breit: klebt oben unter dem Kopf, Symbol neben der Beschriftung, der
+   gewaehlte Bereich unterstrichen. Die Markenfarbe zeigt nur, wo man ist. ── */
 /* Abstand der Leiste zum unteren Rand: auf dem iPhone ganz ueber der Schutzzone
    des Home-Balkens -- vorher ragte sie 14 px hinein, und ein Wisch nach oben
    am unteren Rand traf statt des Balkens den Reiter. Ohne Schutzzone 10 px. */
-:root{--tabs-unten:max(10px, env(safe-area-inset-bottom,0px))}
+:root{--tabs-unten:max(10px, env(safe-area-inset-bottom,0px));--kopf-h:57px;--nav-h:49px}
 .tabs{position:fixed;left:12px;right:12px;bottom:var(--tabs-unten);z-index:45;
   max-width:520px;margin:0 auto;height:var(--tabs-h);padding:6px;border-radius:999px;
   background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);
-  border:1px solid var(--hair);box-shadow:var(--shadow-hoch);
-  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+  border:1px solid var(--hair);box-shadow:var(--shadow-hoch)}
+.tabs-in{height:100%;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
 .tabs button{position:relative;border-radius:999px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  font-size:11px;font-weight:650;color:var(--ink-3)}
-.tabs button svg{display:block}
+  font-size:11px;font-weight:650;color:var(--ink-3);min-width:0;padding:0 2px}
+.tabs button svg{display:block;flex:none;transition:color var(--t-kurz) var(--e-weich)}
+.tabs .tl{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.005em}
 .tabs button[aria-selected="true"]{color:var(--ink);background:var(--surface-2)}
+.tabs button[aria-selected="true"] svg{color:var(--anod)}
 .tabs .badge{position:absolute;top:4px;left:calc(50% + 8px)}
 .badge{font-size:10px;font-weight:800;padding:1px 6px;min-width:18px;text-align:center;
   border-radius:999px;background:var(--sunk);color:var(--ink-2);line-height:1.5}
 .tabs button[aria-selected="true"] .badge{background:var(--ink);color:var(--ground)}
 .badge.rot,.tabs button[aria-selected="true"] .badge.rot{background:var(--bad);color:#fff}
-@media (min-width:820px){.tabs{display:none}}
-@media (max-width:819px){
-  body[data-view="aufbau"]   #panel{display:none}
-  body[data-view="befunde"]  #aufbau,body[data-view="befunde"]  #c-up,body[data-view="befunde"] #c-spar,body[data-view="befunde"] #c-deals,body[data-view="befunde"] #c-kauf{display:none}
-  body[data-view="upgrades"] #aufbau,body[data-view="upgrades"] #c-find,body[data-view="upgrades"] #c-deals,body[data-view="upgrades"] #c-kauf{display:none}
-  body[data-view="deals"]    #aufbau,body[data-view="deals"]    #c-find,body[data-view="deals"] #c-up,body[data-view="deals"] #c-spar{display:none}
+.badge[hidden]{display:none}
+@media (max-width:360px){.tabs{left:8px;right:8px;padding:5px}.tabs-in{gap:2px}.tabs button{font-size:10.5px}}
+@media (min-width:820px){
+  .tabs{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--kopf-h));left:auto;right:auto;bottom:auto;z-index:39;
+    max-width:none;height:var(--nav-h);margin:6px 0 0;padding:0 16px;border-radius:0;box-shadow:none;
+    background:var(--glass);border:0;border-bottom:1px solid var(--line)}
+  .tabs-in{max-width:1180px;margin:0 auto;display:flex;gap:2px;align-items:stretch}
+  .tabs button{flex-direction:row;gap:8px;padding:0 14px;border-radius:0;font-size:14px;color:var(--ink-2);background:none}
+  .tabs button svg{width:18px;height:18px}
+  .tabs button::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2.5px;border-radius:2px 2px 0 0;background:var(--anod);
+    transform:scaleX(0);transition:transform var(--t-kurz) var(--e-aus)}
+  .tabs button[aria-selected="true"]{background:none;color:var(--ink)}
+  .tabs button[aria-selected="true"]::after{transform:none}
+  .tabs .badge{position:static}
+  @media (hover:hover){.tabs button:hover{color:var(--ink)}}
 }
+/* Ein Bereich zur Zeit: welche Karten zu welchem Bereich gehoeren */
+body[data-view="befunde"]  #c-up,body[data-view="befunde"] #c-spar,body[data-view="befunde"] #c-deals,body[data-view="befunde"] #c-kauf,
+body[data-view="upgrades"] #c-find,body[data-view="upgrades"] #c-deals,body[data-view="upgrades"] #c-kauf,
+body[data-view="deals"]    #c-find,body[data-view="deals"] #c-up,body[data-view="deals"] #c-spar{display:none}
 
 /* ── Schublade (Bottom-Sheet) ── */
 .scrim{position:fixed;inset:0;background:rgba(5,8,10,.52);z-index:60;display:grid;place-items:end center;
@@ -1692,8 +1767,9 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
   background:rgba(255,255,255,.82);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid transparent;transition:border-color .2s;position:relative;z-index:2}
 .ls.gerollt .ls-nav{border-bottom-color:var(--l-line)}
-.ls-logo{font-family:var(--f-head);font-weight:800;font-size:20px;letter-spacing:-.04em;color:var(--l-ink)}
-.ls-logo i{font-style:normal;color:#8e8e93;font-weight:700}
+/* Startseite (immer hell): derselbe Schriftzug wie im Kopf der App */
+.ls-logo{font-family:Inter,var(--f-sans);font-weight:800;font-size:18px;letter-spacing:-.01em;text-transform:uppercase;color:var(--l-ink)}
+.ls-logo i{font-style:normal;color:#b8460f;font-weight:800}
 .ls-mini{background:var(--l-ink);color:#fff;border-radius:999px;padding:8px 16px;font-size:13.5px;font-weight:700;white-space:nowrap}
 .ls-nav-r{display:flex;align-items:center;gap:8px}
 .ls-sprache{color:var(--l-ink);border:1px solid var(--l-line);border-radius:999px;padding:7px 13px;font-size:13.5px;font-weight:700;background:none;white-space:nowrap}
@@ -1877,7 +1953,7 @@ body{min-height:100vh;min-height:100dvh}
 .scrim,.ei,.ls-b{padding-left:var(--sa-l);padding-right:var(--sa-r)}
 .ls-nav{padding-left:max(18px, var(--sa-l));padding-right:max(18px, var(--sa-r))}
 /* Kleinste Handys (320 px): Logo, Sprache und Start-Knopf passen in eine Zeile */
-@media (max-width:350px){.ls-nav{padding-left:max(14px, var(--sa-l));padding-right:max(14px, var(--sa-r))}.ls-logo{font-size:18px}
+@media (max-width:350px){.ls-nav{padding-left:max(14px, var(--sa-l));padding-right:max(14px, var(--sa-r))}.ls-logo{font-size:16px}
   .ls-nav-r{gap:6px}.ls-mini,.ls-sprache{padding-left:11px;padding-right:11px;font-size:13px}}
 
 /* ── Tippflaechen: mindestens gut 30 px hoch, ohne das Schriftbild zu
@@ -1951,7 +2027,7 @@ a:active,label:active,[role="button"]:active{opacity:.6}
   .coach-platz .leit-s{border-bottom:0}
   .coach-platz .leit-cta{width:auto;min-width:260px;padding-left:28px;padding-right:28px}
 }
-@media (max-width:819px){body:not([data-view="aufbau"]) .coach-platz{display:none}}
+body:not([data-view="aufbau"]) .coach-platz{display:none}
 .sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
 .up-nein{font-size:12px;font-weight:650;color:var(--ink-3);padding:6px 4px;min-height:32px;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
 @media (hover:hover){.up-nein:hover{color:var(--ink)}}
@@ -2017,16 +2093,8 @@ a:active,label:active,[role="button"]:active{opacity:.6}
 /* ══ Setup (Liam 2026-10-05): eigener Reiter fuers Fahrwerk ══ */
 .setup{display:none;max-width:1180px;margin:0 auto;padding:14px max(16px, var(--sa-r)) calc(var(--tabs-h) + 30px + var(--tabs-unten)) max(16px, var(--sa-l))}
 body[data-view="setup"] .setup{display:block}
-body[data-view="setup"] main.wrap,body[data-view="setup"] .bar,body[data-view="setup"] .coach-platz{display:none}
-/* ohne Score-Leiste gibt es nichts zum Hochspringen: Name statt Mini-Score */
-body[data-view="setup"] .mini{visibility:hidden}
-body[data-view="setup"] .brand{opacity:1;transform:none}
+body[data-view="setup"] main.wrap,body[data-view="setup"] .coach-platz{display:none}
 @media (min-width:820px){.setup{padding-bottom:48px}}
-.hdr-setup{display:none;align-items:center;gap:6px;height:38px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:750;
-  color:var(--ink);background:var(--surface-2);border:1px solid var(--hair)}
-.hdr-setup .hs-zurueck,.hdr-setup[aria-pressed="true"] .hs-setup{display:none}
-.hdr-setup[aria-pressed="true"] .hs-zurueck{display:block}
-@media (min-width:820px){.hdr-setup{display:inline-flex}}
 .su-kopf{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:2px 2px 12px}
 .su-titel{min-width:0}
 .su-titel h2{font-family:var(--f-head);font-size:30px;font-weight:800;letter-spacing:-.035em;line-height:1.05;margin:0}
@@ -2602,6 +2670,175 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .adg-liste li{margin:3px 0}
 .adg code{font-family:var(--f-mono);font-size:11.5px;background:var(--surface-2);padding:1px 5px;border-radius:6px}
 </style>
+<style>
+/* ══ APP-UX-001: eigene Gestalt und kurze Wege (Liam 2026-10-09) ══
+   Markenfarbe nur fuer Auswahl und Orientierung, Ampel nur fuer Status.
+   Daten (Masse, Preise, Gewichte) stehen in schmalen Ziffern wie auf einem
+   Datenblatt; Aktionen sind Pillen, Daten eckige Schildchen. */
+
+/* Markenzeichen wie der Schriftzug auf dem Unterrohr des Beispielrads */
+.brand{font-family:Inter,var(--f-sans);font-weight:800;font-size:19px;letter-spacing:-.01em;text-transform:uppercase}
+.brand i{color:var(--anod);font-weight:800}
+@media (max-width:430px){.brand{font-size:17.5px}}
+@media (max-width:360px){.brand{font-size:15.5px}}
+@media (max-width:300px){.brand{font-size:13.5px}}
+
+/* Kopf beim Scrollen: Wertung + Radname, Tippen wechselt das Rad */
+/* Ohne Scrollen nimmt das Mini keinen Platz weg; beim Scrollen macht am Handy
+   die Disziplin Platz, damit der Radname ganz dasteht (nie abgeschnitten) */
+.mini{max-width:0;padding:0;gap:7px;white-space:nowrap;overflow:hidden;text-align:left}
+body.klein .mini{max-width:calc(100vw - 112px);padding:4px 12px 4px 4px;white-space:normal;overflow:visible}
+@media (min-width:820px){body.klein .mini{max-width:340px}}
+@media (max-width:819px){body.klein .dchip{display:none}}
+body.klein .brand{pointer-events:none;visibility:hidden;transition:opacity var(--t-kurz) var(--e-weich),transform var(--t-mittel) var(--e-aus),visibility 0s linear var(--t-kurz)}
+.kopf-links > .mini{position:relative;z-index:1}
+.mini span{color:var(--ink);font-weight:650;min-width:0;line-height:1.15;overflow-wrap:anywhere}
+.mini svg{flex:none;color:var(--ink-3)}
+.mini b{font-family:var(--f-zahl);font-size:14px;font-weight:700}
+
+/* Ueberschriften: Barlow ist schon schmal -- kein enges Spationieren */
+h1,h2,h3{letter-spacing:0}
+.grp-kopf h2{font-size:19px;font-weight:700;letter-spacing:0}
+.leit h2{font-size:21px;font-weight:700;letter-spacing:0}
+.sheet-h h3{font-size:21px;font-weight:700;letter-spacing:0}
+.su-titel h2{font-weight:700;letter-spacing:0;font-size:32px}
+.rg > b{font-family:var(--f-zahl);font-weight:700;letter-spacing:0;font-size:20px}
+.rg-gesamt > b{font-size:50px;font-weight:700;letter-spacing:-.01em}
+.kz-z b{font-family:var(--f-zahl);font-weight:700;letter-spacing:0;font-size:23px}
+.ek-summe b{font-family:var(--f-zahl);font-weight:700;letter-spacing:0;font-size:21px}
+.fed-wert,.kk-wert b{font-family:var(--f-zahl);font-weight:700;letter-spacing:0}
+.pro-tarif > b,.pro-preis b,.urteil .kopf,.er-wert,.ck-unter b,.fk > b,.ls-hero h1,.ls-lauf span,.ls-fakten b,.ls-karte h3,.ls-ring b,
+.ls-schwebe b,.ls-fit b,.su-frei h2,.ls-titel h2,.fw-weiter-t b,.fed-wert,.kk-wert b,.ei h2,.ei-gr b{letter-spacing:-.005em}
+/* Preise und Gewichte in Listen: gleich breite, schmale Ziffern -- vergleichbar */
+.slot-r .p,.ek-r .p,.opt-p,.an-p,.pv-p,.delta,.minus,.vg-a,.vg-b{font-family:var(--f-zahl);font-variant-numeric:tabular-nums}
+.slot-r .p{font-size:17px;font-weight:700;letter-spacing:0}
+.ek-r .p{font-size:16px;font-weight:700}
+.opt-p{font-size:17px;font-weight:700}
+.delta,.minus{font-size:15px;font-weight:700}
+
+/* Daten als Schildchen: eckig, schmale Schrift -- Aktionen bleiben runde Pillen */
+.chip{font-family:var(--f-zahl);font-size:12.5px;font-weight:600;letter-spacing:.01em;border-radius:6px;padding:2px 7px;
+  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line-soft)}
+.chip.anders{border-color:var(--anod);color:var(--ink)}
+
+/* Auswahl ueberall gleich: Markenfarbe als Rand und Hauch, Schrift bleibt lesbar */
+.filt button[aria-pressed="true"],.jl-reihe button[aria-pressed="true"],.sortier button[aria-pressed="true"],
+.marken button[aria-pressed="true"],.pchip[aria-pressed="true"]{background:var(--anod-soft);color:var(--ink);border-color:var(--anod);font-weight:700}
+.pchip[aria-pressed="true"]{border-width:1.5px}
+
+/* Hinweise sind keine Karten in der Karte: flache Zeile mit Randstrich */
+.fit-leer,.fit-hin.leer{background:none;border-radius:0;border-left:3px solid var(--line);padding:4px 0 4px 12px}
+.fit-leer b,.fit-hin.leer b{color:var(--ink)}
+.was-das{background:var(--surface-2)}
+.was-das b{color:var(--ink)}
+.find.hinweis{border-left-color:var(--ink-3)}
+.find.hinweis .pill{background:var(--surface-2);color:var(--ink-2)}
+.up-kopf{color:var(--ink-3)}
+.sparkasten{background:none;border:0;border-left:3px solid var(--gut);border-radius:0;padding:2px 0 2px 12px}
+
+/* Kartentitel der Bereiche: klare Ueberschrift statt grauer Kleinschrift */
+.card > .grp-h{margin:0 0 10px}
+.card > .grp-h h2{font-family:var(--f-head);font-size:21px;font-weight:700;letter-spacing:0;text-transform:none;color:var(--ink)}
+.card > .grp-h .rule{display:none}
+
+/* Teilegruppen: Symbol mit Statuspunkt statt nacktem Punkt */
+.grp-kopf{grid-template-columns:26px minmax(0,1fr) auto auto}
+.gi{position:relative;width:26px;height:26px;display:grid;place-items:center;color:var(--ink-2);margin-top:-1px}
+.gi .punkt{position:absolute;right:-3px;top:-2px;width:9px;height:9px;border-radius:50%;background:transparent;margin:0!important;box-shadow:none!important}
+.grp.stoerung .gi .punkt{background:var(--bad);border:2px solid var(--surface)}
+.grp.achtung .gi .punkt{background:var(--warn);border:2px solid var(--surface)}
+.grp.fertig .gi .punkt{background:var(--gut);border:2px solid var(--surface)}
+.grp,.mk,.urteil,#c-find,#c-up,#c-kauf{scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + 62px)}
+@media (min-width:820px){.grp,.mk,.urteil,#c-find,#c-up,#c-kauf{scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + var(--nav-h) + 62px)}}
+
+/* Sprungleiste: ein Tipp zu jeder Teilegruppe, klebt unter dem Kopf */
+.sprung-platz{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--kopf-h));z-index:38;background:var(--glass);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px)}
+body:not([data-view="aufbau"]) .sprung-platz,.sprung-platz:empty{display:none}
+.sprung{max-width:1180px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 16px}
+.sprung::-webkit-scrollbar{display:none}
+.sprung button{flex:none;display:flex;align-items:center;gap:7px;min-height:34px;padding:5px 12px 5px 10px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--line);font-size:12.5px;font-weight:650;color:var(--ink-2);box-shadow:var(--shadow)}
+.sprung .pkt{width:7px;height:7px;border-radius:50%;background:var(--line);flex:none}
+.sprung .stoerung .pkt{background:var(--bad)} .sprung .achtung .pkt{background:var(--warn)} .sprung .fertig .pkt{background:var(--gut)}
+@media (hover:hover){.sprung button:hover{color:var(--ink);border-color:var(--ink-3)}}
+@media (min-width:820px){.sprung-platz{top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + var(--nav-h));border-bottom:1px solid var(--line-soft)}
+  .sprung{flex-wrap:wrap}}
+
+/* Grund am Teil */
+.slot-fund{grid-column:1;font-size:12.5px;line-height:1.4;margin-top:5px;color:var(--ink-2)}
+.slot-fund b{font-weight:750}
+.slot-fund.fehler b{color:var(--bad)} .slot-fund.warnung b{color:var(--warn)}
+.fund-hier{font-size:13px;line-height:1.5;color:var(--ink-2);margin:0 0 12px;padding:2px 0 2px 12px;border-left:3px solid var(--bad)}
+.fund-hier b{color:var(--ink)}
+.fund-weiter{display:block;margin-top:4px;color:var(--ink-3);font-size:12.5px}
+
+/* Vergleich: verbautes Teil gegen dieses Teil */
+.vg{margin:0 0 12px;border-top:1px solid var(--line-soft)}
+.vg-z{display:grid;grid-template-columns:minmax(74px,.8fr) minmax(0,1fr) minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
+.vg-l{font-size:12px;color:var(--ink-3);font-weight:600}
+.vg-a,.vg-b{font-size:16px;font-weight:700;color:var(--ink);min-width:0;overflow-wrap:anywhere}
+.vg-a{color:var(--ink-2);font-weight:600}
+.vg-kopf .vg-a,.vg-kopf .vg-b{font-family:var(--f-sans);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.vg-kopf b{display:block;font-family:var(--f-head);font-size:15px;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:700;line-height:1.25;margin-top:2px}
+.vg-kopf .vg-b b{color:var(--anod)}
+.vd{display:inline-block;margin-left:6px;font-size:13px;font-weight:700}
+.vd.gut{color:var(--gut)} .vd.schlecht{color:var(--bad)}
+.vd:not(.gut):not(.schlecht){color:var(--ink-3)}
+.vg-daten .specs{margin-top:0;align-self:start}
+.vg-hin{font-size:11.5px;color:var(--ink-3);margin:7px 0 0}
+.vg-tun{margin:0 0 16px}
+.up-vgl{display:inline-block;margin-top:6px;font-size:12.5px;font-weight:700;color:var(--anod);padding:4px 0;min-height:30px}
+@media (hover:hover){.up-vgl:hover{text-decoration:underline;text-underline-offset:3px}}
+.sheet-h .zurueck{margin-left:-4px}
+
+/* Orange nur fuer Auswahl und Orientierung: Hinweis- und Erklaerflaechen
+   sind neutral, Symbolkacheln ruhig, und nirgends leuchtet etwas */
+.ad-info span,.fx-i span,.fx-tipp{box-shadow:none}
+.fx-tipp,.fw-banner,.fw-tip,.fw-warum p,.pro-grund{background:var(--surface-2);border-color:var(--line-soft)}
+.fx-zi,.fw-akt-ic,.fw-el-ic,.eo-ic,.ei-punkte li i,.g-av{background:var(--surface-2);color:var(--ink-2)}
+.fw-weiter-n{background:var(--ink);color:var(--surface)}
+.fw-b{background:var(--surface-2);color:var(--ink)}
+.fw-b span{background:var(--ink-3);color:var(--surface)}
+.adp-i,.tk-ic,.ls-coach-k i{background:var(--ink);color:var(--surface)}
+.fw-pill.hersteller{background:var(--surface-2);color:var(--ink-2)}
+/* Preis-Kachel: der Weg zur Einkaufsliste steht als eigene Zeile darunter */
+.kz-z .kz-l{display:block}
+.kz-weiter{display:block;margin:6px 0 0;font-size:12px}
+
+/* Konfliktkarte in der Uebersicht */
+.konflikte{padding:14px 16px;border:1px solid color-mix(in srgb,var(--bad) 55%,transparent)}
+body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:none}
+.kf-t{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;margin:0 0 6px}
+.kf-p{width:9px;height:9px;border-radius:50%;background:var(--bad);flex:none}
+.kf{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px;padding:8px 0;border-top:1px solid var(--line-soft)}
+.kf b{font-size:13.5px;font-weight:650;line-height:1.35;min-width:0;flex:1 1 150px}
+.kf-mehr{display:block;margin-top:6px;font-size:12.5px;font-weight:700;color:var(--anod);padding:6px 0;text-align:left}
+
+/* Kontrast >= 4,5:1 auch auf gewaehlten (getoenten) Flaechen und auf der roten Plakette */
+.pro-marke,.pro-tag{background:var(--akzent-flaeche)}
+.fw-pk.an small,.fw-ow[aria-pressed="true"] small,.rw-z.akt .rw-n span,.opt.sel .opt-g,.prof.akt .prof-w span{color:var(--ink-2)}
+.badge.rot,.tabs button[aria-selected="true"] .badge.rot{background:#c42a52;color:#fff}
+
+/* Radwechsel */
+.rw-gruppe{margin:4px 0 14px}
+.rw-gruppe .grp-h{margin-bottom:6px}
+.rw-z{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 13px;border-radius:var(--r);border:1px solid var(--line-soft);
+  background:var(--surface);margin-bottom:6px}
+.rw-z.akt{border-color:var(--anod);background:var(--anod-soft)}
+.rw-n{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.rw-n b{font-size:15px;overflow-wrap:anywhere}
+.rw-n span{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.rw-ok{color:var(--anod);flex:none}
+@media (hover:hover){.rw-z:not(.akt):hover{background:var(--surface-2)}}
+
+/* Bereichswechsel: nur ein kurzes Einblenden, nichts faehrt quer durchs Bild */
+@media (max-width:819px){
+  .rg-gesamt svg{max-width:128px}
+  .rg-gesamt > b{max-width:128px;font-size:44px}
+  .bar-in{gap:10px}
+}
+</style>
 </head>
 <body>
 
@@ -2609,18 +2846,17 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 <header class="top">
   <div class="top-in">
     <div class="kopf-links">
-      <span class="brand">Crank<i>Score</i><b class="pro-marke" id="pro-marke" hidden>Pro</b></span>
-      <button class="mini" id="mini" aria-label="Nach oben zum Score" data-ta="Nach oben zum Score|Back up to the score" tabindex="-1">
+      <span class="brand" aria-label="CrankScore">Crank<i>Score</i><b class="pro-marke" id="pro-marke" hidden>Pro</b></span>
+      <!-- Beim Scrollen: Wertung und Name des offenen Rads; Tippen wechselt das Rad -->
+      <button class="mini" id="mini" data-radwahl="1" aria-label="Rad wechseln" data-ta="Rad wechseln|Switch bike" tabindex="-1">
         <b id="mini-s">–</b><span id="mini-p">–</span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
       </button>
     </div>
     <button class="dchip" id="btn-disz" aria-label="Disziplin wählen" data-ta="Disziplin wählen|Choose discipline">
       <span class="dot"></span><span class="dn" id="disz-n">Trail</span>
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
     </button>
-    <button class="hdr-setup" id="btn-setup" data-view="setup" aria-pressed="false">
-      <svg class="hs-setup" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
-      <svg class="hs-zurueck" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span>Setup</span></button>
     <button class="iconbtn g-knopf" id="btn-guide" data-guide="1" aria-label="Frag den Guide" data-ta="Frag den Guide|Ask the guide">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/></svg>
     </button>
@@ -2638,53 +2874,82 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
   </div>
 </div>
 <div class="profile"><div class="profile-in" id="profile" role="group" aria-label="Profile" data-ta="Profile|Profiles"></div></div>
+<!-- Hauptnavigation (APP-UX-001): fuenf beschriftete Bereiche in Liams Reihenfolge.
+     Am Handy schwebt sie unten, am breiten Bildschirm klebt sie oben unter dem Kopf. -->
+<nav class="tabs" aria-label="Bereiche" data-ta="Bereiche|Sections">
+  <div class="tabs-in" role="tablist">
+  <button role="tab" data-view="aufbau" aria-selected="true">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2.5 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 16.5 9 5 9-5"/></svg>
+    <span class="tl" data-t="Aufbau|Build">Aufbau</span> <span class="badge" id="b-auf">0</span></button>
+  <button role="tab" data-view="befunde" aria-selected="false">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.5s7.5-3.6 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 5.9 7.5 9.5 7.5 9.5z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg>
+    <span class="tl" data-t="Prüfung|Check">Prüfung</span> <span class="badge" id="b-fin">0</span></button>
+  <button role="tab" data-view="setup" aria-selected="false" aria-label="Fahrwerk" data-ta="Fahrwerk|Suspension setup">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v6M16 2.5v6"/><path d="M6.5 8.5h11"/><path d="M8 8.5v8.5M16 8.5v8.5"/><path d="M8 17l-1 4.5M16 17l1 4.5"/><path d="M8 12h8"/></svg>
+    <span class="tl" data-t="Fahrwerk|Setup">Fahrwerk</span></button>
+  <button role="tab" data-view="upgrades" aria-selected="false">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>
+    <span class="tl" data-t="Upgrades|Upgrades">Upgrades</span> <span class="badge" id="b-up">0</span></button>
+  <button role="tab" data-view="deals" aria-selected="false" aria-label="Einkaufsliste" data-ta="Einkaufsliste|Shopping list">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2.2l2.3 11.2a1.6 1.6 0 0 0 1.6 1.3h8.6a1.6 1.6 0 0 0 1.6-1.2L21 8H6.2"/><circle cx="9.5" cy="20" r="1.3"/><circle cx="17.5" cy="20" r="1.3"/></svg>
+    <span class="tl" data-t="Einkauf|Shopping">Einkauf</span> <span class="badge" id="b-deal">0</span></button>
+  </div>
+</nav>
+<!-- Sprungleiste zu den Teilegruppen: nur im Aufbau, klebt unter Kopf und Navigation -->
+<div class="sprung-platz" id="sprung"></div>
 <!-- Naechster Schritt ueber dem Score (Liam 2026-10-03: "der Guide oben, der Score unten") -->
 <div class="coach-platz" id="coach-platz"></div>
 
-<!-- Uebersicht wie bei Bevel: drei Ringe nebeneinander, in der Mitte der
-     Score, links Kompatibilitaet, rechts Einsatz. Darunter ein Satz und die zwei
-     Zahlen, die man beim Bauen immer im Blick haben will. -->
-<div class="bar">
-  <div class="bar-in">
-    <div class="ringe">
-      <button class="rg rg-pass" data-scorehilfe="1" title="Passen die Teile technisch zusammen?" data-tt="Passen die Teile technisch zusammen?|Do the parts fit together technically?">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <circle class="rg-bahn" cx="50" cy="50" r="42"/>
-          <circle class="rg-wert" id="ring-tech" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
-        </svg>
-        <b class="num" id="n-tech">–</b>
-        <span class="rg-l" data-t="Kompatibilität|Compatibility">Kompatibilität</span>
-      </button>
-      <button class="rg rg-gesamt ring-wrap" data-scorehilfe="1" title="Gesamt-Score aus Kompatibilität und Einsatz" data-tt="Gesamt-Score aus Kompatibilität und Einsatz|Overall score from compatibility and discipline">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <circle class="rg-bahn" cx="50" cy="50" r="42"/>
-          <circle class="rg-wert" id="ring" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
-        </svg>
-        <b class="v" id="score">–</b>
-        <span class="rg-l" data-t="Score|Score">Score</span>
-      </button>
-      <button class="rg rg-eins" data-scorehilfe="1" title="Passen die Teile zu deiner Disziplin?" data-tt="Passen die Teile zu deiner Disziplin?|Do the parts suit your discipline?">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <circle class="rg-bahn" cx="50" cy="50" r="42"/>
-          <circle class="rg-wert" id="ring-char" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
-        </svg>
-        <b class="num" id="n-char">–</b>
-        <span class="rg-l" data-t="Einsatz|Discipline">Einsatz</span>
-      </button>
-    </div>
-    <p class="verdict" id="verdict"></p>
-    <div class="kz">
-      <div class="kz-z"><span class="kz-l" data-t="Preis|Price">Preis</span><b id="t-preis">–</b>
-        <span class="kz-bahn" id="t-bahn" hidden><i id="t-bahn-i"></i></span><span class="kz-s" id="t-budget"></span></div>
-      <div class="kz-z"><span class="kz-l" data-t="Gewicht|Weight">Gewicht</span><b id="t-gew">–</b><span class="kz-s" id="t-teile"></span></div>
-    </div>
-    <button class="wie" data-scorehilfe="1" data-t="Was bedeuten die Zahlen?|What do the numbers mean?">Was bedeuten die Zahlen?</button>
-  </div>
-</div>
-
 <main class="wrap">
+  <!-- Uebersicht: am Handy nur im Aufbau ueber der Teileliste, am breiten
+       Bildschirm klebt sie rechts neben jedem Bereich (APP-UX-001) -->
+  <aside class="seite" id="seite" aria-label="Übersicht" data-ta="Übersicht|Overview">
+  <!-- Nur bei echten Konflikten: Grund und Teilewechsel vor dem Score -- das ist dann das Wichtigste -->
+  <section class="card konflikte" id="konflikte" hidden></section>
+  <!-- Uebersicht wie bei Bevel: drei Ringe nebeneinander, in der Mitte der
+       Score, links Kompatibilitaet, rechts Einsatz. Darunter ein Satz und die zwei
+       Zahlen, die man beim Bauen immer im Blick haben will. -->
+  <div class="bar">
+    <div class="bar-in">
+      <div class="ringe">
+        <button class="rg rg-pass" data-scorehilfe="1" title="Passen die Teile technisch zusammen?" data-tt="Passen die Teile technisch zusammen?|Do the parts fit together technically?">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="rg-bahn" cx="50" cy="50" r="42"/>
+            <circle class="rg-wert" id="ring-tech" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
+          </svg>
+          <b class="num" id="n-tech">–</b>
+          <span class="rg-l" data-t="Kompatibilität|Compatibility">Kompatibilität</span>
+        </button>
+        <button class="rg rg-gesamt ring-wrap" data-scorehilfe="1" title="Gesamt-Score aus Kompatibilität und Einsatz" data-tt="Gesamt-Score aus Kompatibilität und Einsatz|Overall score from compatibility and discipline">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="rg-bahn" cx="50" cy="50" r="42"/>
+            <circle class="rg-wert" id="ring" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
+          </svg>
+          <b class="v" id="score">–</b>
+          <span class="rg-l" data-t="Score|Score">Score</span>
+        </button>
+        <button class="rg rg-eins" data-scorehilfe="1" title="Passen die Teile zu deiner Disziplin?" data-tt="Passen die Teile zu deiner Disziplin?|Do the parts suit your discipline?">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="rg-bahn" cx="50" cy="50" r="42"/>
+            <circle class="rg-wert" id="ring-char" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 50 50)"/>
+          </svg>
+          <b class="num" id="n-char">–</b>
+          <span class="rg-l" data-t="Einsatz|Discipline">Einsatz</span>
+        </button>
+      </div>
+      <p class="verdict" id="verdict"></p>
+      <div class="kz">
+        <button class="kz-z" id="kz-preis" data-view="deals"><span class="kz-l" data-t="Preis|Price">Preis</span><b id="t-preis">–</b>
+          <span class="kz-bahn" id="t-bahn" hidden><i id="t-bahn-i"></i></span><span class="kz-s" id="t-budget"></span>
+          <span class="kz-weiter" data-t="Zur Einkaufsliste ›|To shopping list ›">Zur Einkaufsliste ›</span></button>
+        <div class="kz-z"><span class="kz-l" data-t="Gewicht|Weight">Gewicht</span><b id="t-gew">–</b><span class="kz-s" id="t-teile"></span></div>
+      </div>
+      <button class="wie" data-scorehilfe="1" data-t="Was bedeuten die Zahlen?|What do the numbers mean?">Was bedeuten die Zahlen?</button>
+    </div>
+  </div>
+  </aside>
   <div id="aufbau"></div>
-  <aside class="panel" id="panel">
+  <div class="panel" id="panel">
     <div class="card" id="c-find">
       <div class="grp-h" style="margin-bottom:2px"><h2 data-t="Prüfung · passt alles zusammen?|Check · does everything fit?">Prüfung · passt alles zusammen?</h2><div class="rule"></div></div>
       <div id="findings"></div>
@@ -2705,28 +2970,11 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
       <div class="grp-h" style="margin-bottom:2px"><h2 data-t="Günstiger, gleiche Maße|Cheaper, same specs">Günstiger, gleiche Maße</h2><div class="rule"></div></div>
       <div id="sparen"></div>
     </div>
-  </aside>
+  </div>
 </main>
 <!-- Setup (Liam 2026-10-05): Fahrwerk Schritt fuer Schritt, gezeichnet von setupZeichnen() -->
-<section class="setup" id="setup" aria-label="Setup"></section>
+<section class="setup" id="setup" aria-label="Fahrwerk" data-ta="Fahrwerk|Suspension setup"></section>
 
-<nav class="tabs" role="tablist" aria-label="Ansicht" data-ta="Ansicht|View">
-  <button role="tab" data-view="aufbau" aria-selected="true">
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2.5 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 16.5 9 5 9-5"/></svg>
-    <span data-t="Aufbau|Build">Aufbau</span> <span class="badge" id="b-auf">0</span></button>
-  <button role="tab" data-view="befunde" aria-selected="false">
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.5s7.5-3.6 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 5.9 7.5 9.5 7.5 9.5z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg>
-    <span data-t="Prüfung|Check">Prüfung</span> <span class="badge" id="b-fin">0</span></button>
-  <button role="tab" data-view="upgrades" aria-selected="false">
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>
-    <span data-t="Upgrades|Upgrades">Upgrades</span> <span class="badge" id="b-up">0</span></button>
-  <button role="tab" data-view="deals" aria-selected="false">
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.6" cy="7.6" r="1.4"/></svg>
-    <span data-t="Kaufen|Buy">Kaufen</span> <span class="badge" id="b-deal">0</span></button>
-  <button role="tab" data-view="setup" aria-selected="false">
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
-    <span>Setup</span></button>
-</nav>
 
 <!-- Ploppt auf, sobald eine neue Version veroeffentlicht ist -- wie in Valkr.
      Geladen wird erst auf Tippen. -->
@@ -4116,7 +4364,7 @@ SLOTS.forEach(s => { const de = [s.label, s.was], en = SLOTS_EN[s.k];
    Dinge, die nichts miteinander zu tun haben ausser der Nachbarschaft. */
 const GRUPPEN = [
   {n:"Rahmen",    t:"Legt Laufradgröße, Achsmaße und Tretlager fest — und damit fast alles andere."},
-  {n:"Fahrwerk",  t:"Federweg vorn und hinten. Muss zur Freigabe des Rahmens passen."},
+  {n:"Fahrwerk",  d:"Gabel & Dämpfer", t:"Federweg vorn und hinten. Muss zur Freigabe des Rahmens passen."},
   {n:"Laufräder", t:"Freilauf, Maulweite und zulässiges Systemgewicht."},
   {n:"Reifen",    t:"Breite, Grip und Freiraum im Rahmen."},
   {n:"Antrieb",   t:"Schaltung, Kurbel und Innenlager — Freilauftyp, Kettenlinie und Tretlager müssen stimmen."},
@@ -4125,9 +4373,24 @@ const GRUPPEN = [
   {n:"Sitz",      t:"Sattelstütze und Sattel."},
   {n:"Kontakt",   t:"Pedale und Griffe — die Stellen, an denen du das Rad spürst."}
 ];
+/* Ein Symbol je Teilegruppe (APP-UX-001): Rahmen, Gabel, Laufrad, Reifen,
+   Kettenblatt, Bremsscheibe, Lenker, Sattel, Pedal -- eigene Strichzeichnungen
+   im 24er-Raster, damit man die Gruppe beim Scrollen am Bild erkennt */
+const GRUPPEN_IC = {
+  "Rahmen":'<circle cx="11" cy="17" r="1.6"/><path d="M11 17 18.3 9.6M9.6 7.4l9 .4M9.1 5.4 11 17M11 17l-7.6-.6M9.9 9.2l-6.5 7.2M19.3 5.6l-1.1 5"/>',
+  "Fahrwerk":'<path d="M12 2.2v3.6M5.8 6.2h12.4M7.6 6.2v6M16.4 6.2v6"/><rect x="6" y="12" width="3.2" height="9" rx="1.3"/><rect x="14.8" y="12" width="3.2" height="9" rx="1.3"/><path d="M9.2 14.4h5.6"/>',
+  "Laufräder":'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.8"/><path d="M12 3.6v6.6M12 13.8v6.6M3.6 12h6.6M13.8 12h6.6M6.1 6.1l4.6 4.6M13.3 13.3l4.6 4.6M6.1 17.9l4.6-4.6M13.3 10.7l4.6-4.6"/>',
+  "Reifen":'<circle cx="12" cy="12" r="8.6"/><circle cx="12" cy="12" r="5.4"/><path d="M12 1.6v2.2M12 20.2v2.2M1.6 12h2.2M20.2 12h2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>',
+  "Antrieb":'<circle cx="10" cy="11" r="7" stroke-dasharray="1.6 1.4"/><circle cx="10" cy="11" r="4.4"/><circle cx="10" cy="11" r="1.5"/><path d="m10 11 7.2 6.6M15.6 19.6h4.6"/>',
+  "Bremsen":'<circle cx="11" cy="13" r="8"/><circle cx="11" cy="13" r="2.3"/><circle cx="11" cy="7.6" r=".9"/><circle cx="16.4" cy="13" r=".9"/><circle cx="11" cy="18.4" r=".9"/><circle cx="5.6" cy="13" r=".9"/><path d="M14.6 3.4a10 10 0 0 1 6 6" stroke-width="3.4"/>',
+  "Cockpit":'<path d="M2.4 9.2c2.2.4 3.6 1.8 6 1.8h7.2c2.4 0 3.8-1.4 6-1.8M12 11v6.2M9.6 17.2h4.8M12 17.2v4"/><path d="M2.4 9.2l-.4 2.6M21.6 9.2l.4 2.6"/>',
+  "Sitz":'<path d="M2.6 8.2c3.2-1.8 7.6-2.2 12.6-1.7 2.6.3 4.6.9 6.2 1.7-2.2 1.2-5.2 1.7-8.4 1.8-4.6.2-7.8-.4-10.4-1.8z"/><path d="M12.4 10v11.4M10.4 12.4h4"/>',
+  "Kontakt":'<rect x="4" y="8" width="16" height="8" rx="2"/><path d="M9.6 12h4.8M7 8V6.4M12 8V6.4M17 8V6.4M7 16v1.6M12 16v1.6M17 16v1.6"/>'
+};
+const gruppenIc = n => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${GRUPPEN_IC[n] || ""}</svg>`;
 const GRUPPEN_EN = {
   Rahmen:["Frame", "Sets wheel size, axle standards and bottom bracket — and therefore almost everything else."],
-  Fahrwerk:["Suspension", "Travel front and rear. Must match what the frame is rated for."],
+  Fahrwerk:["Fork & shock", "Travel front and rear. Must match what the frame is rated for."],
   "Laufräder":["Wheels", "Freehub, inner rim width and system weight."],
   Reifen:["Tyres", "Width, grip and frame clearance."],
   Antrieb:["Drivetrain", "Gears, cranks and bottom bracket — freehub type, chainline and bottom bracket must match."],
@@ -4138,7 +4401,9 @@ const GRUPPEN_EN = {
 };
 /* n bleibt der Schluessel (eingeklappte Themen), angezeigt wird name */
 GRUPPEN.forEach(g => { const t = g.t, en = GRUPPEN_EN[g.n];
-  Object.defineProperties(g, {name:{get(){ return tx(g.n, en[0]); }}, t:{get(){ return tx(t, en[1]); }, enumerable:true}}); });
+  /* d: sichtbarer Name, wenn er vom Schluessel abweicht -- die Teilegruppe
+     "Fahrwerk" heisst "Gabel & Daempfer", seit der Bereich Fahrwerk das Setup ist */
+  Object.defineProperties(g, {name:{get(){ return tx(g.d || g.n, en[0]); }}, t:{get(){ return tx(t, en[1]); }, enumerable:true}}); });
 const quelleOf = s => s.quelle || s.k;
 const slotOf = k => SLOTS.find(x => x.k === k);
 /* Die Id eines Teils traegt seine Ausfuehrung mit: "g-zeb|charger3.2rc2~170"
@@ -4682,7 +4947,8 @@ function profilWechseln(id){
   profilZurueck(modus);
   aktivId[modus] = id;
   profilHolen(modus);
-  view = "aufbau";
+  /* Der Bereich bleibt: wer in der Pruefung das Rad wechselt, sieht die
+     Pruefung des anderen Rads (APP-UX-001) */
   sichern(); zeichne();
 }
 function profilNeu(kopieVon){
@@ -7365,18 +7631,55 @@ function eigenLoeschen(slotKey, id){
    nach etwas aus, das sie nicht sind, und beantworten die Frage "wie sieht
    das Teil aus" gerade nicht. */
 /* nurAnsehen: aus Kaufen geoeffnet -- dort wird nichts eingebaut, das geht nur im Aufbau */
+/* Aus der Teileliste geoeffnet: zurueck fuehrt in dieselbe Liste, mit Suche,
+   Filter und Scrollstand (APP-UX-001; vorher nur Schliessen, alles weg) */
+let detailVon = null;
+/* Vergleich mit dem verbauten Teil (APP-UX-001): Preis, Gewicht und Wertung
+   des ganzen Rads nebeneinander, dazu die Daten beider Teile. Gruen heisst
+   besser fuer dich: billiger, leichter, mehr Punkte. */
+function vergleichHtml(slotKey, t){
+  const jetztId = build[slotKey], jetzt = jetztId ? findeTeil(slotKey, jetztId) : null;
+  if(!jetzt || basisVon(jetzt.id) === basisVon(t.id) && jetzt.id === t.id) return "";
+  const a = bewerte(build), probe = {...build}; probe[slotKey] = t.id; const b = bewerte(probe);
+  const d = (x, y, besserKleiner, f) => { const v = y - x; if(!v) return `<span class="vd">±0</span>`;
+    const gut = besserKleiner ? v < 0 : v > 0; return `<span class="vd ${gut ? "gut" : "schlecht"}">${v > 0 ? "+" : "−"}${f(Math.abs(v))}</span>`; };
+  const pa = preisVon(jetzt), pb = preisVon(t), ga = jetzt.g || 0, gb = t.g || 0;
+  const zeile = (l, x, y, delta) => `<div class="vg-z"><span class="vg-l">${l}</span><span class="vg-a">${x}</span><span class="vg-b">${y}${delta || ""}</span></div>`;
+  const sa = specsVon(slotKey, jetzt), sb = specsVon(slotKey, t);
+  const chips = (liste, andere) => liste.map(c => `<span class="chip${andere.indexOf(c) < 0 ? " anders" : ""}">${esc(c)}</span>`).join("");
+  return `<section class="vg" aria-label="${tx("Vergleich mit deinem Teil", "Compared with your part")}">
+    <div class="vg-z vg-kopf"><span class="vg-l"></span><span class="vg-a">${tx("Verbaut", "Fitted")}<b>${esc(jetzt.n)}</b></span><span class="vg-b">${tx("Dieses Teil", "This part")}<b>${esc(t.n)}</b></span></div>
+    ${zeile(tx("Preis", "Price"), eur(pa), eur(pb), d(pa, pb, true, eur))}
+    ${ga && gb && !t.ersatz ? zeile(tx("Gewicht", "Weight"), gramm(ga), gramm(gb), d(ga, gb, true, gramm)) : ""}
+    ${a.teile ? zeile(tx("Score (ganzes Rad)", "Score (whole bike)"), a.gesamt, b.gesamt, d(a.gesamt, b.gesamt, false, x => x)) : ""}
+    ${a.teile ? zeile(tx("Kompatibilität", "Compatibility"), a.tech, b.tech, d(a.tech, b.tech, false, x => x)) : ""}
+    ${a.teile ? zeile(tx("Einsatz", "Discipline"), a.chara, b.chara, d(a.chara, b.chara, false, x => x)) : ""}
+    ${sa.length || sb.length ? `<div class="vg-z vg-daten"><span class="vg-l">${tx("Daten", "Specs")}</span><span class="vg-a specs">${chips(sa, sb)}</span><span class="vg-b specs">${chips(sb, sa)}</span></div>` : ""}
+    <p class="vg-hin">${tx("Umrandet: Angabe, in der sich die beiden Teile unterscheiden.", "Outlined: where the two parts differ.")}</p>
+  </section>`;
+}
 function oeffneDetail(slotKey, teilId, nurAnsehen){
   const t = findeTeil(slotKey, teilId);
   if(!t) return;
+  /* Kommt man aus der Teileliste, merkt sich das Blatt Liste und Scrollstand */
+  const liste = $("modal").querySelector("#opt-liste");
+  if(liste && offenerSlot === slotKey){ const sb = $("modal").querySelector(".sheet-b"); detailVon = {slot:slotKey, y:sb ? sb.scrollTop : 0}; }
+  else if(!detailOffen) detailVon = null;
   detailOffen = [slotKey, teilId, !!nurAnsehen];
+  const vgl = nurAnsehen ? "" : vergleichHtml(slotKey, t);
   const specs = specsVon(slotKey, t);
   const lst = angebote(t), a = bestesAngebot(t) || lst[0] || null, lieferbar = !!bestesAngebot(t);
   const bild = (lst.find(x => x.b) || {}).b || "";
   const jf = jahrFaktor(t) !== 1;
   const r = lieferbar ? rabatt(a) : 0;
+  const zurueck = detailVon && detailVon.slot === slotKey ? `<button class="iconbtn zurueck" data-detailzurueck="1" aria-label="${tx("Zurück zur Auswahl", "Back to the list")}">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>` : "";
+  const einbauKnopf = build[slotKey] === t.id || nurAnsehen ? "" :
+    `<div class="vg-tun"><button class="btn wide" data-einbau="${slotKey}|${t.id}">${wort("einbauen")}</button></div>`;
   zeigeSheet(`
-    <div class="sheet-h"><h3><span class="sub">${slotOf(slotKey).label}</span>${esc(t.n)}</h3>${zuBtn}</div>
+    <div class="sheet-h">${zurueck}<h3><span class="sub">${slotOf(slotKey).label}</span>${esc(t.n)}</h3>${zuBtn}</div>
     <div class="sheet-b">
+      ${vgl ? vgl + einbauKnopf : ""}
       ${bild ? `<img class="feed-gross" src="${esc(bild)}" alt="${esc(t.n)}" loading="lazy" onerror="this.remove()">
            <p class="hint" style="margin:8px 0 12px">${tx("Produktbild aus dem Shop-Feed.", "Product image from the shop feed.")}</p>` : ""}
       ${a ? `<div class="pv">
@@ -7409,8 +7712,7 @@ function oeffneDetail(slotKey, teilId, nurAnsehen){
       <p class="hint" style="margin:10px 0 0">${tx("Im Shop ansehen:", "View in shop:")}</p>
       ${affHtml(t)}
       ${linkVerwaltung ? linkEditor(t) : ""}
-      ${build[slotKey] === t.id || nurAnsehen ? "" :
-        `<div style="margin-top:12px"><button class="btn wide" data-einbau="${slotKey}|${t.id}">${wort("einbauen")}</button></div>`}
+      ${vgl ? "" : einbauKnopf}
       ${t.eigen ? `<div style="margin-top:10px"><button class="btn ghost wide" data-eigenweg="${slotKey}|${t.id}">${tx("Eigenes Teil löschen", "Delete this part")}</button></div>` : ""}
     </div>`);
 }
@@ -7701,6 +8003,14 @@ function specsVon(slotKey, t){
     default: break;
   }
   return c.filter(Boolean);
+}
+/* Am Teil selbst steht in einer Zeile, warum es nicht passt (APP-UX-001) --
+   die Loesung liegt einen Tipp entfernt: im Teileblatt oder in der Pruefung */
+function fundAmTeil(funde, slotKey){
+  const f = funde.filter(x => !x.ad && x.slots.indexOf(slotKey) >= 0 && (x.level === "fehler" || x.level === "warnung"))
+    .sort((a, b) => (a.level === "fehler" ? 0 : 1) - (b.level === "fehler" ? 0 : 1))[0];
+  if(!f) return "";
+  return `<span class="slot-fund ${f.level}"><b>${f.level === "fehler" ? tx("Passt nicht", "Doesn't fit") : tx("Kompromiss", "Compromise")}:</b> ${esc(f.titel)}</span>`;
 }
 function slotLevel(funde, slotKey){
   let lvl = null;
@@ -9456,13 +9766,13 @@ function tourStationen(){
        : tx("Tippe ein Teil an und wähle, was an deinem Rad verbaut ist.", "Tap a part and pick what's fitted to your bike.")},
     {sel:'.tabs [data-view="befunde"]||#c-find', ic:IC.pruef, h:tx("Prüfung", "Check"),
      t:tx("Hier steht, was nicht zusammenpasst — und mit welchem Teil du es löst.", "This shows what doesn't fit together — and which part fixes it.")},
+    {sel:'.tabs [data-view="setup"]', ic:IC.fahrwerk, h:tx("Fahrwerk", "Suspension setup"),
+     t:tx("Dein Fahrwerk Schritt für Schritt: Luftdruck, SAG und jeder Klick — mit Feintuning und Notizbuch.", "Your suspension step by step: air pressure, sag and every click — with fine-tuning and a notebook.")},
     {sel:'.tabs [data-view="upgrades"]||#c-up', ic:IC.upgrade, h:"Upgrades",
      t:tx("Was sich lohnt: echte Verbesserungen und — beim Traumrad — günstigere Teile mit gleichen Maßen.", "What's worth it: real improvements and — for a dream bike — cheaper parts with the same specs.")},
-    {sel:'.tabs [data-view="deals"]||#c-kauf', ic:IC.markt, h:tx("Kaufen", "Buy"),
+    {sel:'.tabs [data-view="deals"]||#c-kauf', ic:IC.markt, h:tx("Einkauf", "Shopping"),
      t:traum ? tx("Einkaufsliste mit allen Teilen und Shop-Links — dazu reduzierte Angebote.", "Shopping list with every part and shop links — plus discounted offers.")
        : tx("Reduzierte Teile, die zu deinem Rad passen.", "Discounted parts that fit your bike.")},
-    {sel:'.tabs [data-view="setup"]||#btn-setup', ic:IC.fahrwerk, h:"Setup",
-     t:tx("Dein Fahrwerk Schritt für Schritt: Luftdruck, SAG und jeder Klick — mit Feintuning und Notizbuch.", "Your suspension step by step: air pressure, sag and every click — with fine-tuning and a notebook.")},
     {sel:"#btn-disz", ic:IC.trail, h:tx("Bauziel", "Build plan"),
      t:tx("Disziplin und Budget dieses Rads — beim Traumrad auch Wunschmarken und der Assistent. Hier änderst du das.", "Discipline and budget of this bike — for a dream bike also favourite brands and the assistant. Change them here.")},
     {sel:"#btn-guide", ic:IC.guide, h:tx("Frag den Guide", "Ask the guide"),
@@ -9854,9 +10164,9 @@ function gFit(){
     + (f.geschaetzt.schritt ? " " + tx("Die Schrittlänge ist geschätzt — mit deiner echten wird es genauer.", "The inseam is estimated — with your real one it gets more accurate.") : ""), ak:[]};
 }
 function gFederung(){
-  if(!istPro()) return {h:tx(`Luftdruck, SAG und jede Knopfstellung in Klicks rechnet der Reiter Setup aus — der gehört zu <b>Pro</b> (${proPreis()}). Die Grundlagen erkläre ich dir gern: frag nach SAG, Zugstufe oder Druckstufe.`,
+  if(!istPro()) return {h:tx(`Luftdruck, SAG und jede Knopfstellung in Klicks rechnet der Reiter Fahrwerk aus — der gehört zu <b>Pro</b> (${proPreis()}). Die Grundlagen erkläre ich dir gern: frag nach SAG, Zugstufe oder Druckstufe.`,
     `Air pressure, sag and every knob position in clicks come from the Setup tab — that's part of <b>Pro</b> (${proPreis()}). I'm happy to explain the basics: ask about sag, rebound or compression.`), ak:["pro"]};
-  if(!(plan.fahrer > 0)) return {h:tx("Dafür brauche ich dein Gewicht — du trägst es unter ⋮ › <b>Fahrerprofil</b> ein. Der Reiter Setup fragt dann ein paar Fragen zum Fahrstil, und du bekommst Luftdruck, SAG und jede Knopfstellung in Klicks.",
+  if(!(plan.fahrer > 0)) return {h:tx("Dafür brauche ich dein Gewicht — du trägst es unter ⋮ › <b>Fahrerprofil</b> ein. Der Reiter Fahrwerk fragt dann ein paar Fragen zum Fahrstil, und du bekommst Luftdruck, SAG und jede Knopfstellung in Klicks.",
     "For that I need your weight — enter it under ⋮ › <b>Rider profile</b>. The Setup tab then asks a few questions about your riding, and you get air pressure, sag and every knob position in clicks."), ak:["menu"]};
   const fr = federRechnen();
   if(!fr.gabel && !fr.daempfer) return {h:tx("In diesem Aufbau ist noch keine Federung eingetragen. Wähl zuerst eine Gabel.", "There's no suspension in this build yet. Choose a fork first."), ak:["slot:gabel"]};
@@ -9865,7 +10175,7 @@ function gFederung(){
       : m.psi ? m.psi + " psi (" + barVon(m.psi) + " bar)" : x.hintenEl ? tx("Startdruck aus Trailhead oder der Anleitung, dann per SAG", "starting pressure from Trailhead or the manual, then by sag") : tx("Druck laut Aufkleber an der Gabel", "pressure from the sticker on the fork")}, Sag ${m.sag} %</li>`; };
   let h = tx(`Startwerte für ${plan.fahrer} kg im Modus ${esc(modusName(fedModus))}:`, `Starting values for ${plan.fahrer} kg in ${esc(modusName(fedModus))} mode:`)
     + "<ul>" + (fr.gabel ? zeile(tx("Gabel", "Fork"), fr.gabel) : "") + (fr.daempfer ? zeile(tx("Dämpfer", "Shock"), fr.daempfer) : "") + "</ul>"
-    + tx("LSC, HSC und Zugstufe in Klicks zeigt der Reiter Setup.", "The Setup tab shows LSC, HSC and rebound in clicks.");
+    + tx("LSC, HSC und Zugstufe in Klicks zeigt der Reiter Fahrwerk.", "The Setup tab shows LSC, HSC and rebound in clicks.");
   if(!fFertig()) h += " " + tx("Beantworte dort noch die Fragen zu deinem Fahrstil, dann werden die Werte genauer.", "Answer the riding-style questions there too, and the values get more accurate.");
   return {h:h, ak:[]};
 }
@@ -10667,8 +10977,8 @@ const GUIDE = [
    a:["Der Reiter <b>Upgrades</b> sortiert in drei Stufen: erst, was du <b>kostenlos umstellen</b> kannst, dann <b>Ersatz in derselben Klasse</b>, wo ein Teil nicht zu deinem Einsatz passt, dann <b>echte Upgrades</b> — nur Teile, die mindestens so hochwertig sind wie deine jetzigen und den Score heben.",
      "The <b>Upgrades</b> tab sorts into three levels: first what you can <b>adjust for free</b>, then <b>replacements in the same class</b> where a part doesn't suit your riding, then <b>real upgrades</b> — only parts at least as good as your current ones that raise the score."], ak:["view:upgrades"]},
   {id:"kaufen", k:"kaufen einkaufsliste einkauf bestellen shop shops link links haendler teile buy order shopping store parts", t:["Wo kaufe ich die Teile?", "Where do I buy the parts?"],
-   a:["Im Reiter <b>Kaufen</b> steht die Einkaufsliste: jedes Teil mit Preis und Knopf zum Shop, dazu die Summe. Die Liste kannst du als Text kopieren, etwa für deine Werkstatt. Bei <b>Mein Rad</b> und <b>Gebraucht</b> zeigt der Reiter reduzierte Teile, die zu deinem Rad passen. Bestellt wird im Shop — CrankScore verkauft selbst nichts.",
-     "The <b>Buy</b> tab has the shopping list: every part with price and a button to the shop, plus the total. You can copy the list as text, e.g. for your bike shop. In <b>My bike</b> and <b>Used</b>, the tab shows discounted parts that fit your bike. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
+   a:["Im Reiter <b>Einkauf</b> steht die Einkaufsliste: jedes Teil mit Preis und Knopf zum Shop, dazu die Summe. Die Liste kannst du als Text kopieren, etwa für deine Werkstatt. Bei <b>Mein Rad</b> und <b>Gebraucht</b> zeigt der Reiter reduzierte Teile, die zu deinem Rad passen. Bestellt wird im Shop — CrankScore verkauft selbst nichts.",
+     "The <b>Shopping</b> tab has the shopping list: every part with price and a button to the shop, plus the total. You can copy the list as text, e.g. for your bike shop. In <b>My bike</b> and <b>Used</b>, the tab shows discounted parts that fit your bike. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
   {id:"anzeige", k:"anzeige werbung partnerlink partnerlinks provision affiliate verdient verdienen kostenlos gratis finanziert sponsored ad ads free", t:["Ist die App kostenlos? Was heißt „Anzeige“?", "Is the app free? What does “Ad” mean?"],
    a:["Es gibt <b>Free</b> und <b>Pro</b>. Free ist kostenlos und kann fast alles; <b>Pro</b> kostet 6,99 € im Monat oder 3,99 € im Monat bei jährlicher Zahlung (47,88 € im Jahr, 36 € gespart) und bringt unbegrenzt viele Räder, das Fahrwerk-Setup und den Guide ohne Limit. Außerdem sind manche Shop-Links Partnerlinks: Kaufst du darüber, bekommt CrankScore eine kleine Provision — dein Preis bleibt gleich. Solche Links tragen direkt neben dem Shop den Hinweis <b>Anzeige</b>. Welches Teil passt, entscheidet die Prüfung, nicht die Provision.",
      "There's <b>Free</b> and <b>Pro</b>. Free costs nothing and does almost everything; <b>Pro</b> costs €6.99 a month, or €3.99 a month billed yearly (€47.88 a year, €36 saved), and adds unlimited bikes, suspension setup and unlimited Guide questions. Also, some shop links are partner links: if you buy through them, CrankScore gets a small commission — your price stays the same. Such links are marked <b>Ad</b> right next to the shop name. Which part fits is decided by the check, not by the commission."], ak:["pro"]},
@@ -10705,8 +11015,8 @@ const GUIDE = [
    a:["Mit ⋮ › <b>Dieses Rad zurücksetzen</b> fängst du beim aktuellen Rad von vorn an. Ein Rad ganz löschen kannst du über den Stift neben deinen Rädern. Deine Größe und dein Gewicht änderst du unter ⋮ › Fahrerprofil.",
      "Use ⋮ › <b>Reset this bike</b> to start the current bike from scratch. To delete a bike completely, use the pencil next to your bikes. You change your height and weight under ⋮ › Rider profile."], ak:["menu"]},
   {id:"teilen", k:"teilen kopieren kopie senden schicken werkstatt text export exportieren share copy send workshop", t:["Liste teilen oder kopieren", "Share or copy the list"],
-   a:["Im Reiter <b>Kaufen</b> kannst du die Einkaufsliste als Text kopieren — mit allen Teilen und Preisen. Den Text kannst du in jede Nachricht einfügen, etwa an deine Werkstatt.",
-     "In the <b>Buy</b> tab you can copy the shopping list as text — with every part and price. You can paste it into any message, e.g. to your bike shop."], ak:["view:deals"]},
+   a:["Im Reiter <b>Einkauf</b> kannst du die Einkaufsliste als Text kopieren — mit allen Teilen und Preisen. Den Text kannst du in jede Nachricht einfügen, etwa an deine Werkstatt.",
+     "In the <b>Shopping</b> tab you can copy the shopping list as text — with every part and price. You can paste it into any message, e.g. to your bike shop."], ak:["view:deals"]},
   {id:"tour", k:"rundgang tour einfuehrung einstieg nochmal wiederholen anleitung tutorial ueberblick introduction onboarding overview", t:["Rundgang nochmal", "Take the tour again"],
    a:["Den 30-Sekunden-Rundgang durch die App kannst du jederzeit neu starten — auch direkt hier. Größe und Gewicht änderst du unter ⋮ › Fahrerprofil, Disziplin und Budget im Bauziel (oben auf die Disziplin tippen).",
      "You can restart the 30-second tour of where everything is at any time — right here too. You change height and weight under ⋮ › Rider profile, discipline and budget in the build plan (tap the discipline at the top)."], ak:["tour"]},
@@ -13073,7 +13383,7 @@ function suVglHtml(f, d){
   const body = zeilen.map(z => z.kopf ? `<tr class="fw-v-kopf"><th colspan="${kopf.length + 1}">${z.kopf}</th></tr>`
     : `<tr><th scope="row">${esc(z.n)}</th>${kopf.map(([k]) => { const v = suVglArt === "profile" ? z.p(k) : z.e[k], anders = suVglArt === "profile" ? false : k !== "rec" && v !== "—" && v !== z.e.rec;
         return `<td class="${suVglArt === "profile" && k === fedModus ? "an" : ""}${anders ? " anders" : ""}">${esc(String(v))}</td>`; }).join("")}</tr>`).join("");
-  return `<div class="sheet-h"><h3><span class="sub">Setup</span>${tx("Vergleichen", "Compare")}</h3>${zuBtn}</div>
+  return `<div class="sheet-h"><h3><span class="sub">${tx("Fahrwerk", "Suspension setup")}</span>${tx("Vergleichen", "Compare")}</h3>${zuBtn}</div>
     <div class="sheet-b fw-vgl"><div class="fm-seg" role="group" aria-label="${tx("Ansicht", "View")}">
       <button data-fwvglart="profile" aria-pressed="${suVglArt === "profile"}">${tx("Drei Profile", "Three profiles")}</button>
       <button data-fwvglart="einzel" aria-pressed="${suVglArt === "einzel"}">${esc(modusKurz(fedModus))}: ${tx("Werte", "values")}</button></div>
@@ -13891,7 +14201,7 @@ function suAktionen(f, d, offen){
     ${kach(`data-fwob="${offen ? "weiter" : "ende"}"`, `<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/>`, tx("Deine Angaben", "Your details"), offen ? tx(`${offen} offen`, `${offen} open`) : plan.fahrer + " kg · " + esc(modusKurz(fedModus)), offen ? "offen" : "")}</div>`;
 }
 function setupHtml(){
-  const kopf = (sub, rechts) => `<div class="su-kopf"><div class="su-titel"><h2>Setup</h2><span>${sub}</span></div>${rechts || ""}</div>`;
+  const kopf = (sub, rechts) => `<div class="su-kopf"><div class="su-titel"><h2>${tx("Fahrwerk", "Suspension setup")}</h2><span>${sub}</span></div>${rechts || ""}</div>`;
   if(!istPro()) return kopf(tx("Dein Fahrwerk, Schritt für Schritt", "Your suspension, step by step")) + suProHtml();
   fwPruef();
   /* Start: der Assistent fragt alles Noetige -- nichts ist Pflicht ausser dem Gewicht */
@@ -14228,6 +14538,18 @@ function adTauschen(id){
   el.hidden = false;
   clearTimeout(zeigeToast.z); zeigeToast.z = setTimeout(() => { el.hidden = true; adRueck = null; }, 7000);
 }
+/* Folgenreiches ohne Rueckfrage, aber mit Rueckweg (APP-UX-001): Teil
+   entfernen und Rad zuruecksetzen passieren sofort, 7 Sekunden lang steht
+   im Hinweis "Rueckgaengig". Eine Rueckfrage vorher bleibt nur beim Loeschen
+   eines ganzen Rads -- das laesst sich nicht zurueckholen. */
+let toastRueck = null;
+function zeigeRueckgaengig(text, fn){
+  const el = $("toast"); if(!el){ return; }
+  toastRueck = fn; clearTimeout(zeigeToast.w); el.classList.remove("weg");
+  el.innerHTML = `${esc(text)} <button class="toast-zurueck" data-toastrueck="1">${tx("Rückgängig", "Undo")}</button>`;
+  el.hidden = false;
+  clearTimeout(zeigeToast.z); zeigeToast.z = setTimeout(() => { el.hidden = true; toastRueck = null; }, 7000);
+}
 function adZurueck(){
   if(!adRueck) return;
   build[adRueck.slot] = adRueck.id; adRueck = null;
@@ -14473,7 +14795,7 @@ function vorschlaegeZeichnen(){
     + (u.ersatz.length ? kopf(tx("Lösung: Ersatz in derselben Klasse", "Fix: replacement in the same class")) + u.ersatz.map(v => `
       <div class="up">
         <div><div class="up-n">${esc(v.teil.n)}</div>${statt(v)}
-          <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))}</div></div>
+          <div class="up-s">${v.slot.label} · ${v.mehr >= 0 ? "+" : "−"}${eur(Math.abs(v.mehr))}</div><button class="up-vgl" data-detail="${v.slot.k}|${v.teil.id}">${tx("Vergleichen", "Compare")}</button></div>
         <div class="up-r"><button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">${wort("einbauenKurz")}</button></div>
         ${shopZeile(v.teil)}
       </div>`).join("") : "") + `</div>` : "";
@@ -14484,7 +14806,7 @@ function vorschlaegeZeichnen(){
     + (u.upgrades.length ? kopf(tx("Echte Upgrades — besser als dein Teil", "Real upgrades — better than your part")) + u.upgrades.map(v => `
       <div class="up">
         <div><div class="up-n">${esc(v.teil.n)}</div>${statt(v)}
-          <div class="up-s">${v.slot.label} · ${v.mehr > 0 ? "+" : v.mehr < 0 ? "−" : "±"}${eur(Math.abs(v.mehr))} · ${v.gd > 0 ? "+" : v.gd < 0 ? "−" : "±"}${gramm(Math.abs(v.gd))}</div></div>
+          <div class="up-s">${v.slot.label} · ${v.mehr > 0 ? "+" : v.mehr < 0 ? "−" : "±"}${eur(Math.abs(v.mehr))} · ${v.gd > 0 ? "+" : v.gd < 0 ? "−" : "±"}${gramm(Math.abs(v.gd))}</div><button class="up-vgl" data-detail="${v.slot.k}|${v.teil.id}">${tx("Vergleichen", "Compare")}</button></div>
         <div class="up-r"><span class="delta">+${v.d} ${v.d === 1 ? tx("Punkt", "point") : tx("Punkte", "points")}</span>
           <button class="btn sm" data-einbau="${v.slot.k}|${v.teil.id}">${wort("einbauenKurz")}</button>
           <button class="up-nein" data-upnein="${v.slot.k}">${tx("Ablehnen", "Dismiss")}</button></div>
@@ -14503,6 +14825,7 @@ function vorschlaegeZeichnen(){
             <div class="spar-n">${esc(v.teil.n)}</div>
             <div class="spar-s">${v.slot.label} · ${eur(preisVon(v.teil))} ${tx("statt", "instead of")} ${eur(preisVon(findeTeil(v.slot.k, build[v.slot.k])))} · ${v.gd >= 0 ? "+" : "−"}${Math.abs(v.gd)} g</div>
             ${v.ab.length ? `<div class="spar-ab">${esc(v.ab.join(" · "))}</div>` : ""}
+            <button class="up-vgl" data-detail="${v.slot.k}|${v.teil.id}">${tx("Vergleichen", "Compare")}</button>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
             <span class="minus">−${eur(v.spart)}</span>
@@ -14592,7 +14915,8 @@ function zeichne(){
   if(leer){ cancelAnimationFrame($("score").raf || 0); $("score").textContent = "–"; $("score").dataset.w = 0; } else zaehle($("score"), r.gesamt);
   $("mini-s").textContent = leer ? "–" : r.gesamt;
   $("mini-s").style.color = leer ? "var(--ink-3)" : ampel(r.gesamt);
-  $("mini-p").textContent = eur(r.preis);
+  $("mini-p").textContent = profilName(aktivesProfil(), modus);
+  $("kz-preis").disabled = modus !== "traum";
   $("verdict").innerHTML = urteil(r);
   $("n-tech").textContent = leer ? "–" : r.tech;
   $("n-char").textContent = leer ? "–" : r.chara;
@@ -14721,6 +15045,22 @@ function zeichne(){
       bewertet wird nur, was drin steht.`, "Start with the frame — it sets wheel size, axle dimensions and bottom bracket and so narrows down everything else. Leave blank whatever you don't know; only what's entered gets rated.")}</p></div>` : "";
 
   $("coach-platz").innerHTML = leitKarte(r);
+  /* Stand je Gruppe: roter Konflikt, gelber Kompromiss, gruen vollstaendig --
+     fuer den Punkt am Gruppenkopf und fuer die Sprungleiste darueber */
+  const gStand = {};
+  for(const g of GRUPPEN){
+    const meine = SLOTS.filter(s => s.grp === g.n && zaehlt(build, s));
+    if(!meine.length) continue;
+    let st = "";
+    for(const sl of meine){ const l = slotLevel(r.funde, sl.k); if(l === "fehler"){ st = "stoerung"; break; } if(l === "warnung") st = "achtung"; }
+    if(!st && meine.every(sl => build[sl.k])) st = "fertig";
+    gStand[g.n] = st;
+  }
+  /* Sprungleiste (APP-UX-001): ein Tipp fuehrt zu jeder Teilegruppe, der
+     Punkt zeigt ihren Stand. Klebt beim Scrollen unter dem Kopf. */
+  const sprung = `<nav class="sprung" aria-label="${tx("Zu den Teilegruppen", "Jump to part groups")}">${GRUPPEN.filter(g => g.n in gStand).map(g =>
+    `<button class="${gStand[g.n]}" data-zugruppe="${esc(g.n)}"${gStand[g.n] === "stoerung" ? ` aria-label="${esc(g.name + tx(" – Konflikt", " – conflict"))}"` : gStand[g.n] === "achtung" ? ` aria-label="${esc(g.name + tx(" – Kompromiss", " – compromise"))}"` : ""}><i class="pkt"></i>${esc(g.name)}</button>`).join("")}</nav>`;
+  $("sprung").innerHTML = sprung;
   $("aufbau").innerHTML = diszHinweis() + fitAnpassKasten() + marktkarte + fotokarte + (leitAus ? leerHinweis : "") + GRUPPEN.map((g, gi) => {
     /* Optionale Lager zaehlen nur mit, wenn sie eingetragen sind */
     const meine = SLOTS.filter(s => s.grp === g.n && zaehlt(build, s));
@@ -14746,27 +15086,22 @@ function zeichne(){
         <span class="slot-n ${t ? "" : "empty"}">${t ? esc(titel) : s.opt ? tx("Optional — hinzufügen …", "Optional — add …") : tx("Teil wählen …", "Choose part …")}</span>
         ${!t ? `<span class="slot-was">${esc(s.was)}</span>` : einsteiger() ? `<span class="slot-was neu">${ic(IC.hilfe, 13)}${esc(s.was)}</span>` : ""}
         ${chips ? `<span class="specs">${chips}</span>` : ""}
+        ${t ? fundAmTeil(r.funde, s.k) : ""}
         ${kachelZusatz(s.k, t)}
         <span class="slot-r">${t ? kachelPreis(t) : `<span class="g">${s.opt ? tx("optional", "optional") : tx("offen", "open")}</span>`}</span>
       </button>${t ? varLeiste(s.k, t) : ""}${(r.adapter || []).filter(a => a.wo === s.k).map(adZeile).join("")}`;
     }).join("");
     /* Der Punkt am Thema fasst zusammen, was darin steckt: roter Konflikt,
        gelbe Einschränkung, grün wenn vollständig und sauber. */
-    let stand = "";
-    for(const sl of meine){
-      const l = slotLevel(r.funde, sl.k);
-      if(l === "fehler"){ stand = "stoerung"; break; }
-      if(l === "warnung") stand = "achtung";
-    }
+    const stand = gStand[g.n] || "";
     const voll = meine.filter(sl => build[sl.k]).length;
-    if(!stand && voll === meine.length) stand = "fertig";
     /* Leerer eigener Aufbau: erst der Rahmen, der Rest wartet eingeklappt --
        19 leere Zeilen auf einmal ueberfordern, und der Rahmen grenzt alles ein */
     const fokusRahmen = modus !== "traum" && !build.rahmen && g.n !== "Rahmen";
     const zu = zuGeklappt[g.n] === 1 || (fokusRahmen && zuGeklappt[g.n] !== 0);
     return `<section class="grp ${stand}${zu ? " eingeklappt" : ""}" style="--n:${gi + 2}">
       <button class="grp-kopf" data-thema="${esc(g.n)}" aria-expanded="${!zu}">
-        <span class="punkt"></span>
+        <span class="gi">${gruppenIc(g.n)}<i class="punkt"></i></span>
         <span><h2>${esc(g.name)}<span class="t">${esc(g.t)}</span></h2></span>
         <span class="zahl">${voll}/${meine.length}</span>
         <svg class="pfeil" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
@@ -14779,7 +15114,7 @@ function zeichne(){
     <b>What's only a rough guide:</b> geometry figures (wheelbase, head angle, seat tube), insertion depths,
     tyre clearances and weights. They describe the model in general, not the exact data sheet for every model year.<br>
     <b>Prices:</b> if a partner shop stocks the part, the app uses the cheapest offer in stock
-    (incl. VAT, plus delivery; as of the date in the Buy tab). Otherwise, it shows a guide price based on RRP — not an offer.<br>
+    (incl. VAT, plus delivery; as of the date in the Shopping tab). Otherwise, it shows a guide price based on RRP — not an offer.<br>
     <b>Links:</b> shop buttons with a dot lead directly to the product, those with a magnifying glass to the shop's search. Links marked “Ad”
     earn CrankScore a commission; your price doesn't change.${amazonAktiv() ? " As an Amazon Associate CrankScore earns from qualifying purchases." : ""}<br>
     <span class="recht-links"><button data-recht="impressum">Legal notice</button> · <button data-recht="datenschutz">Privacy</button></span> Trials dimensions are simplified to Mod 20/19″,
@@ -14790,12 +15125,19 @@ function zeichne(){
     Reifenfreiheiten und Gewichte. Sie stehen für die Modellklasse, nicht datenblattgenau für jedes
     Modelljahr.<br>
     <b>Preise:</b> Führt ein Partnershop das Teil, rechnet die App mit dem günstigsten lieferbaren Angebot
-    (inkl. MwSt., zzgl. Versand; Stand im Reiter Kaufen). Sonst rechnet sie mit einem Richtpreis auf UVP-Niveau — das ist kein Angebot.<br>
+    (inkl. MwSt., zzgl. Versand; Stand im Reiter Einkauf). Sonst rechnet sie mit einem Richtpreis auf UVP-Niveau — das ist kein Angebot.<br>
     <b>Links:</b> Shop-Knöpfe mit Punkt führen direkt zum Produkt, die mit Lupe zur Suche im Shop. Mit „Anzeige“
     markierte Links bringen CrankScore eine Provision; dein Preis ändert sich nicht.${amazonAktiv() ? " Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}<br>
     <span class="recht-links"><button data-recht="impressum">Impressum</button> · <button data-recht="datenschutz">Datenschutz</button></span> Trial-Maße sind auf Mod 20/19″,
     Street 24″ und Stock 26″ vereinfacht.</p>`);
 
+  /* Konflikte (rot) stehen in der Uebersicht mit dem Knopf zum Teil -- dieselbe
+     Aktion wie in der Pruefung, ohne erst dorthin zu wechseln (APP-UX-001) */
+  const harte = r.funde.filter(f => f.level === "fehler");
+  $("konflikte").hidden = !harte.length;
+  $("konflikte").innerHTML = harte.length ? `<h2 class="kf-t"><i class="kf-p"></i>${harte.length === 1 ? tx("Ein Konflikt", "One conflict") : tx(`${harte.length} Konflikte`, `${harte.length} conflicts`)}</h2>
+    ${harte.slice(0, 3).map(f => `<div class="kf"><b>${esc(f.titel)}</b>${f.fixSlot ? `<button class="btn ghost sm" data-slot="${f.fixSlot}">${slotOf(f.fixSlot) ? tx(slotOf(f.fixSlot).label + " wechseln", "Change " + slotOf(f.fixSlot).label.toLowerCase()) : tx("Teil wechseln", "Change part")}</button>` : ""}</div>`).join("")}
+    <button class="kf-mehr" data-view="befunde">${tx("Erklärung und alle Lösungen in der Prüfung ›", "Explanation and all fixes in Check ›")}</button>` : "";
   const rang = {fehler:0, warnung:1, hinweis:2};
   const sortiert = r.funde.slice().sort((a,b) => rang[a.level] - rang[b.level]);
   $("findings").innerHTML = !sortiert.length && !r.teile
@@ -14827,12 +15169,9 @@ function zeichne(){
   /* Einkaufsliste nur beim Traumrad -- am eigenen Rad und beim Angebot
      hat man die Teile schon */
   $("c-kauf").hidden = modus !== "traum";
-  /* Am breiten Bildschirm steht neben dem Aufbau nur die Summe -- die ganze
-     Liste erst im Kaufbereich, sonst stuenden alle Teile zweimal nebeneinander */
-  if(modus === "traum") $("einkauf").innerHTML = breit() && view !== "deals" && r.teile
-    ? `<div class="ek-summe"><span>${r.teile} ${r.teile === 1 ? tx("Teil", "part") : tx("Teile", "parts")}</span><b>${eur(r.preis)}</b></div>
-       <button class="btn ghost sm" data-view="deals">${tx("Einkaufsliste zeigen", "Show shopping list")}</button>`
-    : einkaufHtml(r);
+  /* Die Liste steht nur im Bereich Einkauf; daneben fuehrt die Preis-Kachel
+     der Uebersicht direkt hierher (APP-UX-001) */
+  if(modus === "traum") $("einkauf").innerHTML = einkaufHtml(r);
 
   $("b-auf").textContent = r.teile + "/" + r.moeglich;
   const nF = r.funde.filter(f => f.level === "fehler").length;
@@ -14865,9 +15204,6 @@ function zeichne(){
   const akt = document.activeElement;
   if(view === "setup"){ if(!(akt && $("setup").contains(akt) && /^(INPUT|TEXTAREA)$/.test(akt.tagName))) setupZeichnen(); }
   else if($("setup").firstChild) $("setup").innerHTML = "";
-  const bs = $("btn-setup");
-  if(bs){ bs.dataset.view = view === "setup" ? "aufbau" : "setup"; bs.setAttribute("aria-pressed", String(view === "setup"));
-    bs.querySelector("span").textContent = view === "setup" ? tx("Aufbau", "Build") : "Setup"; }
   auswahlInsBild();
   frischSlot = null;
 }
@@ -15195,7 +15531,7 @@ function designAnwenden(){
     /* Statusleiste: neues Meta-Tag statt nur den Wert zu aendern -- ein frisch
        eingefuegtes Tag liest iOS eher neu als einen geaenderten Wert */
     const alt = document.querySelector('meta[name="theme-color"]'), m = document.createElement("meta");
-    m.name = "theme-color"; m.content = hell ? "#f2f2f7" : "#000000";
+    m.name = "theme-color"; m.content = hell ? "#f2f1ee" : "#000000";
     if(alt) alt.replaceWith(m); else document.head.appendChild(m);
   };
   if(bewegungAus()){ setz(); return; }
@@ -15237,9 +15573,52 @@ function schliesse(){
   }
   schliesseNurZustand();
 }
-function schliesseNurZustand(){ schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; profUmbenennen = null; profLoeschFrage = null; }
+function schliesseNurZustand(){ schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; detailVon = null; profUmbenennen = null; profLoeschFrage = null; }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen" data-ta="Schließen|Close">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
+
+/* ── Bereiche (APP-UX-001) ──
+   Jeder Bereich merkt sich, wie weit man gescrollt hat: Aufbau -> Pruefung ->
+   zurueck zum Aufbau landet wieder beim selben Teil. Tippt man auf den
+   Bereich, in dem man schon ist, geht es nach oben -- wie in iOS-Apps. */
+const scrollJe = {};
+/* Oberkante des Inhalts: am Handy unter den Radknoepfen, breit unter der Navigation */
+const inhaltOben = () => { const n = document.querySelector(".tabs"), w = document.querySelector("main.wrap"), k = document.querySelector(".top");
+  return w ? Math.max(0, w.getBoundingClientRect().top + window.scrollY - (k ? k.offsetHeight : 0) - (breit() && n ? n.offsetHeight : 0)) : 0; };
+function zeigeBereich(v){
+  const vorher = view, y = window.scrollY;
+  if(v === vorher){ window.scrollTo({top:0, behavior:bewegungAus() ? "auto" : "smooth"}); return; }
+  scrollJe[vorher] = y;
+  view = v; einflug(); zeichne();
+  if(v === "upgrades" && typeof vorschlaegeZeichnen === "function") vorschlaegeZeichnen();
+  /* War man im alten Bereich unter den Radknoepfen, startet der neue Bereich
+     oben am Inhalt -- die Navigation bleibt, wo sie ist */
+  const ziel = scrollJe[v] != null ? scrollJe[v] : Math.min(y, inhaltOben());
+  window.scrollTo(0, Math.min(ziel, document.documentElement.scrollHeight - window.innerHeight));
+}
+/* Rad wechseln von ueberall: alle Raeder aller drei Arten in einem Blatt */
+function radZeile(m, p){
+  const akt = m === modus && p.id === aktivId[m];
+  const b = (m === modus && p.id === aktivId[m]) ? build : (p.build || {});
+  const teile = SLOTS.filter(x => b[x.k]).length;
+  const preis = SLOTS.reduce((a, x) => { const t = b[x.k] ? findeTeil(x.k, b[x.k]) : null; return a + (t ? preisVon(t) : 0); }, 0);
+  return `<button class="rw-z${akt ? " akt" : ""}" data-radwechsel="${m}|${p.id}" aria-pressed="${akt}">
+    <span class="rw-n"><b>${esc(profilName(p, m))}</b><span>${teile} ${teile === 1 ? tx("Teil", "part") : tx("Teile", "parts")}${teile ? " · " + eur(preis) : ""}</span></span>
+    ${akt ? `<span class="rw-ok">${HAKEN}</span>` : ""}</button>`;
+}
+function oeffneRadwahl(){
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${tx("Deine Räder", "Your bikes")}</span>${tx("Rad wechseln", "Switch bike")}</h3>${zuBtn}</div>
+    <div class="sheet-b">${MODI.map(m => `<div class="rw-gruppe"><div class="grp-h"><h2>${MODUS_NAME[m]}</h2><div class="rule"></div></div>
+      ${profile[m].map(p => radZeile(m, p)).join("")}</div>`).join("")}
+      <p class="hint" style="margin:12px 0 0">${tx("Umbenennen, kopieren oder löschen: am Stift neben den Rädern.", "Rename, copy or delete: tap the pencil next to the bikes.")}</p>
+      <button class="btn ghost sm" data-profile="1" style="margin-top:8px">${tx("Räder verwalten", "Manage bikes")}</button>
+    </div>`);
+}
+function radWechseln(m, id){
+  if(m !== modus) wechsle(m);
+  if(id !== aktivId[modus]){ profilZurueck(modus); aktivId[modus] = id; profilHolen(modus); }
+  sichern(); schliesse(); einflug(); zeichne();
+}
 
 function oeffneSlot(slotKey){
   const s = slotOf(slotKey);
@@ -15325,6 +15704,12 @@ function oeffneSlot(slotKey){
     <div class="sheet-h"><h3><span class="sub">${tx("Bauteil wählen", "Choose part")}</span>${s.label}</h3>
       ${build[slotKey] ? `<button class="btn ghost sm" data-leeren="${slotKey}">${tx("Teil entfernen", "Remove part")}</button>` : ""}${zuBtn}</div>
     <div class="sheet-b">
+      ${(() => {
+        /* Konflikt am verbauten Teil: Grund zuerst, darunter die passenden Teile (APP-UX-001) */
+        const f = curT ? basis.funde.filter(x => !x.ad && x.slots.indexOf(slotKey) >= 0 && x.level === "fehler")[0] : null;
+        return f ? `<div class="fund-hier"><b>${tx("Darum passt es gerade nicht", "Why it doesn't fit right now")}: ${esc(f.titel)}.</b> ${f.text}
+          <span class="fund-weiter">${tx("Unten stehen nur Teile, die passen. Einbauen löst den Konflikt.", "Below are only parts that fit. Fitting one resolves the conflict.")}</span></div>` : "";
+      })()}
       <p class="was-das"><b>${tx("Was ist das?", "What is it?")}</b> ${esc(s.was)}${filterAlle ? "" : tx(" Oben stehen die Teile, die zu deinem Aufbau passen — „passt“ heißt: Maße und Standards stimmen.", " The parts that fit your build come first — “fits” means dimensions and standards match.")}</p>
       ${slotKey === "rahmen" ? jahrLeiste() : ""}
       ${(() => {
@@ -16164,6 +16549,11 @@ document.addEventListener("click", e => {
     return;
   }
 
+  if(T("[data-detailzurueck]")){
+    const z = detailVon; detailOffen = null; detailVon = null;
+    if(z){ oeffneSlot(z.slot); const sb = $("modal").querySelector(".sheet-b"); if(sb) sb.scrollTop = z.y; }
+    return;
+  }
   const dt = T("[data-detail]");
   if(dt){ const q = slotUndTeil(dt.dataset.detail); oeffneDetail(q[0], q[1], !!dt.dataset.detailkauf); return; }
 
@@ -16207,7 +16597,13 @@ document.addEventListener("click", e => {
     return;
   }
   const le = T("[data-leeren]");
-  if(le){ build[le.dataset.leeren] = null; sichern(); schliesse(); zeichne(); return; }
+  if(le){ const k = le.dataset.leeren, vorher = build[k], ziel = aktivId[modus], m = modus;
+    build[k] = null; sichern(); schliesse(); zeichne();
+    if(vorher) zeigeRueckgaengig(tx(`${slotOf(k).label} entfernt.`, `${slotOf(k).label} removed.`), () => {
+      if(modus !== m || aktivId[modus] !== ziel) return;
+      build[k] = vorher; frischSlot = k; sichern(); zeichne(); });
+    return; }
+  if(T("[data-toastrueck]")){ const f = toastRueck; toastRueck = null; $("toast").hidden = true; if(f) f(); return; }
 
   const lkn = T("[data-lkneu]");
   if(lkn){ linkSpeichern(lkn.dataset.lkneu); return; }
@@ -16263,6 +16659,15 @@ document.addEventListener("click", e => {
     return;
   }
 
+  const zg = T("[data-zugruppe]");
+  if(zg){
+    const n = zg.dataset.zugruppe, kopf = () => Array.prototype.find.call(document.querySelectorAll("#aufbau .grp-kopf"), b => b.dataset.thema === n);
+    const k0 = kopf();
+    if(k0 && k0.getAttribute("aria-expanded") !== "true"){ zuGeklappt[n] = 0; sichern(); zeichne(); }
+    const k = kopf();
+    if(k) k.closest(".grp").scrollIntoView({behavior:bewegungAus() ? "auto" : "smooth", block:"start"});
+    return;
+  }
   const sl = T("[data-slot]");
   if(sl){ oeffneSlot(sl.dataset.slot); return; }
 
@@ -16355,7 +16760,7 @@ document.addEventListener("click", e => {
   if(pl2){ profilLoeschen(pl2.dataset.profweg); profLoeschFrage = null; oeffneProfile(); return; }
   const md = T("[data-modus]");
   if(md){
-    if(md.dataset.modus !== modus){ wechsle(md.dataset.modus); view = "aufbau"; sichern(); einflug(); zeichne(); }
+    if(md.dataset.modus !== modus){ wechsle(md.dataset.modus); sichern(); einflug(); zeichne(); }
     return;
   }
   if(T("[data-fotowahl]")){ fotoZiel = {art:"rad"}; const i = $("foto-in"); if(i) i.click(); return; }
@@ -16369,18 +16774,13 @@ document.addEventListener("click", e => {
 
   if(T("[data-aktualisieren]")){ appAktualisieren(); return; }
   if(T("[data-updweg]")){ updateWeg(); return; }
-  if(T("#mini")){ window.scrollTo({top:0, behavior:"smooth"}); return; }
+  if(T("[data-radwahl]")){ oeffneRadwahl(); return; }
+  const rw = T("[data-radwechsel]");
+  if(rw){ const q = rw.dataset.radwechsel.split("|"); radWechseln(q[0], q[1]); return; }
 
   /* body traegt selbst data-view (fuers CSS) -- nur echte Knoepfe zaehlen */
   const v = T("[data-view]");
-  if(v && v !== document.body){
-    view = v.dataset.view; einflug(); zeichne();
-    /* Am breiten Bildschirm gibt es keine Tableiste -- dort zur Karte springen */
-    const karte = breit() && {befunde:"c-find", upgrades:"c-up", deals:"c-kauf"}[view];
-    if(karte && $(karte) && !$(karte).hidden) $(karte).scrollIntoView({behavior:"smooth", block:"start"});
-    else window.scrollTo({top:0, behavior:"smooth"});
-    return;
-  }
+  if(v && v !== document.body){ zeigeBereich(v.dataset.view); return; }
 
   /* Anleitung, Hilfe */
   const sp = T("[data-springe]");
@@ -16451,12 +16851,21 @@ document.addEventListener("click", e => {
   }
   if(T("[data-ekkopie]")){ kopiere(einkaufText()); return; }
   if(T("[data-reset]")){
+    const m = modus, ziel = aktivId[modus];
+    const vorher = {build:JSON.parse(JSON.stringify(build)), foto:fotos[modus], sel:sel.slice(), plan:{...plan},
+      markt:JSON.parse(JSON.stringify(markt)), jahr:jahrWahl[modus]};
     setzeBau(modus === "traum" && profile.traum.length === 1 ? {...START} : leerBau(), true);
     fotos[modus] = null; sel = ["trail"]; plan = {...PLAN_START, fahrer:plan.fahrer};
     if(modus === "markt") markt = JSON.parse(JSON.stringify(MARKT_START));
     jahrWahl[modus] = jahrStart(modus);
     sichern(); schliesse(); zeichne();
-    zeigeToast(tx("Zurückgesetzt — das Rad steht wieder auf Anfang.", "Reset — the bike is back to the start."));
+    zeigeRueckgaengig(tx("Zurückgesetzt — das Rad steht wieder auf Anfang.", "Reset — the bike is back to the start."), () => {
+      if(modus !== m || aktivId[modus] !== ziel) return;
+      setzeBau(vorher.build, true); fotos[modus] = vorher.foto; sel = vorher.sel; plan = {...vorher.plan, fahrer:plan.fahrer};
+      if(m === "markt") markt = vorher.markt;
+      jahrWahl[modus] = vorher.jahr; sichern(); zeichne();
+      zeigeToast(tx("Wiederhergestellt.", "Restored."));
+    });
     return;
   }
 });
@@ -16639,10 +17048,11 @@ try{
   else start(null);
 }catch(e){ start(null); }
 
-/* Scrollt die Wertungskarte unter die Kopfzeile, uebernimmt die Kopfzeile
-   Wertung und Preis -- man sieht beim Bauen immer, wo man steht. */
+/* Scrollen die Radknoepfe unter die Kopfzeile, zeigt der Kopf Wertung und
+   Namen des offenen Rads -- man sieht immer, wo man steht, und wechselt das
+   Rad von dort mit einem Tipp (APP-UX-001; vorher Wertung und Preis). */
 try{
-  const ring = document.querySelector(".ring-wrap");
+  const ring = document.querySelector(".profile");
   if(ring && "IntersectionObserver" in window){
     new IntersectionObserver(es => {
       const e = es[es.length - 1];

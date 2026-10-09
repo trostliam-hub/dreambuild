@@ -70,12 +70,37 @@ Schreibung statt gesperrter Versalien, Knöpfe schlicht weiß auf schwarz
 gibt es keine bunten Verläufe und kein Leuchten mehr: keine Farbwolken im
 Einstieg und hinter den Ringen, eine einfarbige Überschrift, ein schlichter
 Guide-Knopf wie die anderen runden Knöpfe. Farbe trägt nur noch ein Akzent
-(Violett, als Fläche `--akzent-flaeche`, `--grad` ist dieselbe Farbe) und die
-Statusfarben. Die Aufgabenkarte ist eine kompakte Liste ohne Balken und
+(seit APP-UX-001 Eloxal-Orange statt Violett, als Fläche `--akzent-flaeche`,
+`--grad` ist dieselbe Farbe) und die Statusfarben. Die Aufgabenkarte ist eine kompakte Liste ohne Balken und
 Farbflächen; nur der aktuelle Schritt hat eine Erklärung. Grautexte haben mindestens
 4,5:1 Kontrast, die Ringe mindestens 3:1. Die Seiten von Bevel selbst
 (bevel.health) waren aus der Entwicklungsumgebung gesperrt — Vorlage war die
 bekannte Bevel-App: Ringe oben, ein Coach-Tipp, ruhige Karten.
+
+**Gestalt und Wege (APP-UX-001, 09.10.2026).** Liams Auftrag: eigenständig,
+hochwertig, menschlich, schnelle Wege. Umgesetzt:
+- *Navigation:* fünf beschriftete Bereiche – Aufbau, Prüfung, Fahrwerk,
+  Upgrades, Einkauf – am Handy unten, am Desktop als Leiste unter dem Kopf
+  (vorher am Desktop keine Navigation, nur ein Setup-Knopf). Jeder Bereich
+  merkt sich seinen Scrollstand; nochmal tippen geht nach oben. Rad- und
+  Moduswechsel lassen den Bereich stehen.
+- *Ein Bereich zur Zeit:* Der Score steht am Handy nur im Aufbau; Prüfung,
+  Upgrades und Einkauf beginnen mit ihrem Inhalt. Am Desktop klebt der Score
+  rechts neben jedem Bereich. Bei echten Konflikten steht darüber eine
+  Konfliktkarte mit „… wechseln“.
+- *Am Teil:* Sprungleiste zu den Teilegruppen (mit Statuspunkt), der
+  Konfliktgrund in der Teilezeile und oben im Teileblatt, „Zurück zur
+  Auswahl“ aus dem Detail (Suche, Filter, Scrollstand bleiben), Vergleich
+  verbaut ↔ neu (Preis, Gewicht, Score, Daten). Teil entfernen und Rad
+  zurücksetzen gehen sofort, mit 7 s „Rückgängig“; Rad löschen fragt weiter nach.
+- *Gestalt:* Markenfarbe Eloxal-Orange nur für Auswahl und Orientierung, Ampel
+  nur für Status (Warnung gelb statt bernstein); hell ein warmes Werkstattgrau,
+  dunkel weiter echtes Schwarz. Überschriften und Messwerte in Barlow Semi
+  Condensed (OFL, `fonts/`), Daten als eckige Schildchen, Aktionen als Pillen,
+  ein Symbol je Teilegruppe, Schriftzug CRANKSCORE wie auf dem Unterrohr des
+  Beispielrads. Hinweise sind flache Zeilen statt Karten in Karten, nichts
+  leuchtet. Alle Texte ≥ 4,5:1 (in der App gemessen).
+- Messung der sechs Abläufe vorher/nachher: `CrankScore-Austausch/CLAUDE-ANTWORTEN.md` (APP-UX-001).
 
 **Startseite.** Aufgebaut wie bevel.health (nach einer Bildschirmaufnahme der
 Seite): hell, große Überschriften, schwarzer Knopf „Kostenlos starten“, das
@@ -107,8 +132,10 @@ genau einen Ort:
 | Teile wählen | Aufbau |
 | Konflikte lösen | Prüfung (dort auch die kostenlose Umstellung und der Ersatz) |
 | Besser oder günstiger | Upgrades (Upgrades und „Günstiger, gleiche Maße“) |
-| Bestellen | Kaufen; am Desktop daneben nur die Summe |
-| Fahrwerk | Setup in der Navigation (Handy: Reiter, Desktop: Kopf) |
+| Bestellen | Einkauf (Navigation); die Preis-Kachel der Übersicht führt mit einem Tipp hin |
+| Fahrwerk | Fahrwerk in der Navigation (Handy unten, Desktop oben) |
+| Rad wechseln | Leiste unter den Modi (ein Tipp); beim Scrollen über Wertung und Radnamen im Kopf (alle Räder aller Arten) |
+| Teile vergleichen | „Vergleichen“ an jedem Vorschlag bzw. „Ansehen“ im Teileblatt: verbautes Teil und neues nebeneinander |
 | Guide | Sprechblase im Kopf (nicht zusätzlich im Menü) |
 | Hilfe | Einstellungen → Hilfe: Begriffe, Über CrankScore, Rundgang (freiwillig) |
 
@@ -191,21 +218,21 @@ Werkstatt. Die Maße gelten wie das Fahrergewicht für alle Profile.
 
 **Für Einsteiger.** Der **Rundgang** startet nur auf Wunsch (Einstellungen →
 Hilfe → App-Rundgang): ein Scheinwerfer wandert über die echten
-Bedienelemente (Wertung, Modi, Teile, Prüfung, Upgrades, Kaufen, Setup,
+Bedienelemente (Wertung, Modi, Teile, Prüfung, Fahrwerk, Upgrades, Einkauf,
 Bauziel, Menü), daneben eine Karte mit einem Satz, Fortschrittspunkten,
 Zurück und Überspringen; am Ende Konfetti. Auf breiten Bildschirmen zeigt er
 auf die Spalten statt auf die Reiter, Pfeiltasten blättern, Esc beendet.
 Wer im Fahrerprofil „Ganz neu dabei“ wählt, bekommt an jeder Teilekachel einen
 Satz, was das Teil tut. Über dem Score steht **eine Aufgabenkarte** „Nächster
 Schritt“: je Modus die Schritte als Status (Bauziel, fehlende Teile,
-Konflikte und Prüfung, beim Traumrad Budget, zuletzt Upgrades oder Kaufen) und
+Konflikte und Prüfung, beim Traumrad Budget, zuletzt Upgrades oder Einkauf) und
 höchstens ein Knopf für den aktuellen Schritt — beim Bauziel keiner, dort
 steht nur der Hinweis auf die Disziplin oben. Übernehmen oder Ablehnen gibt es
 dort nicht — das geht nur in der Prüfung bzw. unter Upgrades. Die Karte lässt
 sich ausblenden und unter Hilfe wieder zeigen. Die Erklärung der Wertung steht
 direkt an der Wertung. Ausführungen (Einbaumaß, Federweg …) sind eingeklappt,
 bis man sie ändern will; die Teilekachel nennt dann nur das Modell, damit
-nichts doppelt steht. Der Reiter *Kaufen* hat eine Einkaufsliste mit
+nichts doppelt steht. Der Reiter *Einkauf* hat eine Einkaufsliste mit
 Shop-Knöpfen, als Text kopierbar für die Werkstatt.
 
 **Sieben Disziplinen,** einzeln oder gemischt: Cross Country, Trail, Enduro,
@@ -361,8 +388,8 @@ und darunter zu jedem Knopf des gewählten Profils eine Kachel mit Strich-Skala
 Link zur offiziellen Hersteller-Anleitung und optional das eigene Top-Cap-Foto
 mit markierten Knöpfen.
 
-**Setup — eigener Reiter fürs Fahrwerk (Pro).** Fünfter Reiter unten (am
-Desktop der Knopf *Setup* oben rechts), für Einsteiger und Profis in einer
+**Fahrwerk — eigener Bereich fürs Setup (Pro).** Dritter Bereich der
+Navigation (Handy unten, Desktop oben; englisch *Setup*), für Einsteiger und Profis in einer
 Ansicht; Gabel und Dämpfer klar getrennt (Umschalter *Gabel · vorne* /
 *Dämpfer · hinten*). Ziel: Einsteiger wissen, was sie einstellen, wie und
 warum; Profis prüfen, verstellen und vergleichen schnell. Alle Werte sind
@@ -444,7 +471,7 @@ nebeneinander.
 **Live-Preise wie beim Preisvergleich.** Je Teil die Angebote der Partnershops
 mit Preis, UVP, Versand und Lieferbarkeit, „Sale −X %“ gegenüber der UVP laut
 Shop, „30-Tage-Tief“ aus dem eigenen Preisverlauf, eine Verlaufskurve über
-90 Tage und der Reiter *Kaufen* (Einkaufsliste und Deals): alles, was gerade reduziert ist und in den
+90 Tage und der Reiter *Einkauf* (Einkaufsliste und Deals): alles, was gerade reduziert ist und in den
 eigenen Aufbau passt. Der Aufbau rechnet mit dem günstigsten lieferbaren
 Angebot; ohne Angebot mit dem Richtpreis aus dem Katalog.
 

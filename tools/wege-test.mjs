@@ -151,7 +151,7 @@ const PRUEFUNGEN = [
       $('modal').querySelector('[data-wizfertig]').click();
       return {ergebnis, schritt, gleichesRad:aktivId.traum === id && profile.traum.length === n}; });
     return {ok:r.ergebnis && /5 von 5/.test(r.schritt) && r.gleichesRad, info:r}; }],
-  ['09 Setup nur ueber die Navigation: kein Knopf im Aufbau, im Menue oder im Guide', async () => {
+  ['09 Fahrwerk nur ueber die Navigation (Handy und Desktop): kein Knopf im Kopf, im Aufbau, im Menue oder im Guide', async () => {
     await neu();
     const r = await ev(() => { zeichne(); const auf = document.querySelectorAll('#aufbau [data-fed], .fed-auf').length; oeffneMenu(); const menu = $('modal').querySelectorAll('[data-fed]').length; schliesse();
       return {auf, menu, guide:gAktInfo('fed'), wiz:gAktInfo('wiz'), fit:gAktInfo('fit'), einstieg:gAktInfo('einstieg'), disz:gAktInfo('disz')}; });
@@ -159,7 +159,7 @@ const PRUEFUNGEN = [
     await seite.setViewportSize({width:1280, height:900}); await warte(200);
     const desk = {tab:await sichtbar('.tabs [data-view="setup"]'), kopf:await sichtbar('#btn-setup')};
     await seite.setViewportSize({width:390, height:844});
-    return {ok:!r.auf && !r.menu && !r.guide && !r.wiz && !r.fit && !r.einstieg && !r.disz && handy.tab + handy.kopf === 1 && desk.tab + desk.kopf === 1, info:{r, handy, desk}}; }],
+    return {ok:!r.auf && !r.menu && !r.guide && !r.wiz && !r.fit && !r.einstieg && !r.disz && handy.tab === 1 && !handy.kopf && desk.tab === 1 && !desk.kopf, info:{r, handy, desk}}; }],
   ['10-13 Setup (Pro-Testzustand): ein SAG-Start je Element, eine Testfahrt, ein Angaben-Editor, keine Teilewahl', async () => {
     await neu();
     const r = await ev(PRO => { eval('(' + PRO + ')()'); plan.fahrer = 80; sichern();
@@ -208,14 +208,129 @@ const PRUEFUNGEN = [
     await seite.reload(); await bereit();
     const nach = await ev(() => ({n:profile.traum.length, budgets:profile.traum.map(p => (p.id === aktivId.traum ? plan : p.plan).budget), fahrer:plan.fahrer, psi:(() => { const f = federRechnen(); return f.gabel ? suP(suDaten(f)).psi.gabel : null; })()}));
     return {ok:JSON.stringify(vor) === JSON.stringify(nach) && nach.n === 2 && nach.fahrer === 77, info:{vor, nach}}; }],
-  ['18c Desktop: Einkaufsliste nur im Kaufbereich, daneben nur die Summe', async () => {
+  ['18c/UX Einkaufsliste nur im Bereich Einkauf; der Preis in der Uebersicht fuehrt mit einem Tipp hin (Handy und Desktop)', async () => {
     await neu();
-    await seite.setViewportSize({width:1280, height:900}); await warte(200);
-    const r = await ev(() => { view = 'aufbau'; zeichne(); const neben = $('einkauf').querySelectorAll('.ek').length, knopf = $('einkauf').querySelectorAll('[data-view="deals"]').length;
-      $('einkauf').querySelector('[data-view="deals"]').click(); const voll = $('einkauf').querySelectorAll('.ek').length;
-      const dealsEinbau = $('deals').querySelectorAll('[data-einbau]').length; view = 'aufbau'; zeichne(); return {neben, knopf, voll, dealsEinbau}; });
+    const out = {};
+    for(const [w, h] of [[390, 844], [1280, 900]]){
+      await seite.setViewportSize({width:w, height:h}); await warte(200);
+      out[w] = await ev(() => { view = 'aufbau'; zeichne(); const sicht = el => !!el && el.getClientRects().length > 0;
+        const vorher = {liste:sicht($('c-kauf')), knopf:sicht($('kz-preis')) && !$('kz-preis').disabled};
+        $('kz-preis').click(); const nach = {view, liste:sicht($('c-kauf')), zeilen:[...$('einkauf').querySelectorAll('.ek')].filter(sicht).length, find:sicht($('c-find'))};
+        const dealsEinbau = $('deals').querySelectorAll('[data-einbau]').length;
+        wechsle('real'); view = 'aufbau'; zeichne(); const real = {knopfAus:$('kz-preis').disabled}; wechsle('traum'); view = 'aufbau'; zeichne();
+        return {vorher, nach, dealsEinbau, real}; });
+    }
     await seite.setViewportSize({width:390, height:844});
-    return {ok:!r.neben && r.knopf === 1 && r.voll > 3 && !r.dealsEinbau, info:r}; }],
+    const ok = Object.values(out).every(r => !r.vorher.liste && r.vorher.knopf && r.nach.view === 'deals' && r.nach.liste && r.nach.zeilen > 3 && !r.nach.find && !r.dealsEinbau && r.real.knopfAus);
+    return {ok, info:out}; }],
+  ['UX Navigation: fuenf beschriftete Bereiche auf Handy und Desktop, Fahrwerk und Einkauf direkt erreichbar', async () => {
+    await neu();
+    const out = {};
+    for(const [w, h] of [[390, 844], [1280, 900]]){
+      await seite.setViewportSize({width:w, height:h}); await warte(200);
+      out[w] = await ev(() => [...document.querySelectorAll('.tabs [data-view]')].filter(b => b.getClientRects().length && getComputedStyle(b).visibility !== 'hidden')
+        .map(b => ({v:b.dataset.view, l:b.querySelector('.tl').textContent.trim(), sichtbar:(() => { const r = b.getBoundingClientRect(); return r.width > 30 && r.bottom > 0 && r.top < innerHeight; })()})));
+    }
+    await seite.setViewportSize({width:390, height:844});
+    const soll = 'aufbau:Aufbau|befunde:Prüfung|setup:Fahrwerk|upgrades:Upgrades|deals:Einkauf';
+    const ok = Object.values(out).every(l => l.map(x => x.v + ':' + x.l).join('|') === soll && l.every(x => x.sichtbar));
+    return {ok, info:out}; }],
+  ['UX Score nur im Aufbau (Handy): Pruefung, Upgrades und Einkauf beginnen mit ihrem Inhalt', async () => {
+    await neu();
+    const r = await ev(() => { const out = {}; for(const v of ['aufbau', 'befunde', 'upgrades', 'deals']){ view = v; zeichne(); window.scrollTo(0, 0);
+      const bar = document.querySelector('.bar'), karte = {befunde:'c-find', upgrades:'c-up', deals:'c-kauf'}[v];
+      out[v] = {score:bar.getClientRects().length > 0, karteOben:karte ? Math.round($(karte).getBoundingClientRect().top) : null}; }
+      view = 'aufbau'; zeichne(); return out; });
+    const ok = r.aufbau.score && ['befunde', 'upgrades', 'deals'].every(v => !r[v].score && r[v].karteOben < 260);
+    return {ok, info:r}; }],
+  ['UX Scrollstand je Bereich: Aufbau -> Pruefung -> Aufbau landet beim selben Teil; nochmal tippen geht nach oben', async () => {
+    await neu();
+    await ev(() => { view = 'aufbau'; zeichne(); });
+    await seite.evaluate(() => window.scrollTo(0, 1400)); await warte(150);
+    const y0 = await ev(() => window.scrollY);
+    await seite.click('.tabs [data-view="befunde"]'); await warte(250);
+    const yP = await ev(() => window.scrollY);
+    await seite.click('.tabs [data-view="aufbau"]'); await warte(250);
+    const y1 = await ev(() => window.scrollY);
+    await seite.click('.tabs [data-view="aufbau"]'); await warte(900);
+    const y2 = await ev(() => window.scrollY);
+    return {ok:y0 > 1000 && Math.abs(y1 - y0) < 4 && y2 < 5 && yP < y0, info:{y0, yP, y1, y2}}; }],
+  ['UX Rad wechseln von ueberall: Kopf -> Blatt mit allen Raedern aller Arten, Bereich bleibt, Verwaltung nur am Stift', async () => {
+    await neu();
+    await ev(PRO => { eval('(' + PRO + ')()'); const a = aktivId.traum; profilNeu(); profile.traum.find(p => p.id === aktivId.traum).name = 'Zweitrad'; profilWechseln(a);
+      wechsle('real'); wechsle('traum'); view = 'upgrades'; zeichne(); vorschlaegeZeichnen(); }, PRO.toString());
+    await seite.evaluate(() => window.scrollTo(0, 500)); await warte(300);
+    const klein = await ev(() => document.body.classList.contains('klein') && getComputedStyle($('mini')).opacity === '1');
+    await seite.click('#mini'); await warte(350);
+    const blatt = await ev(() => ({zeilen:$('modal').querySelectorAll('[data-radwechsel]').length, gruppen:$('modal').querySelectorAll('.rw-gruppe').length,
+      verwalten:$('modal').querySelectorAll('[data-profile]').length, loeschen:$('modal').querySelectorAll('[data-profwegfrage],[data-profweg]').length}));
+    await ev(() => [...$('modal').querySelectorAll('[data-radwechsel]')].find(b => /^traum\|/.test(b.dataset.radwechsel) && b.getAttribute('aria-pressed') === 'false').click()); await warte(300);
+    const nach1 = await ev(() => ({modus, name:profilName(aktivesProfil(), modus), view, offen:!!$('modal').querySelector('.sheet')}));
+    await ev(() => { $('mini').click(); }); await warte(300);
+    await ev(() => [...$('modal').querySelectorAll('[data-radwechsel]')].find(b => /^real\|/.test(b.dataset.radwechsel)).click()); await warte(300);
+    const nach2 = await ev(() => ({modus, view}));
+    const ok = klein && blatt.zeilen === 4 && blatt.gruppen === 3 && blatt.verwalten === 1 && !blatt.loeschen && nach1.modus === 'traum' && nach1.name === 'Zweitrad' && nach1.view === 'upgrades' && !nach1.offen
+      && nach2.modus === 'real' && nach2.view === 'upgrades';
+    return {ok, info:{klein, blatt, nach1, nach2}}; }],
+  ['UX Upgrade vergleichen: Vergleichen oeffnet das Teil neben dem verbauten (Preis, Gewicht, Score, Daten) mit einem Einbau-Knopf', async () => {
+    await neu();
+    const r = await ev(() => { view = 'upgrades'; zeichne(); vorschlaegeZeichnen(); const k = $('upgrades').querySelector('.up-vgl'); if(!k) return {knopf:false};
+      const [slot, id] = k.dataset.detail.split('|'); k.click(); const m = $('modal');
+      const zeilen = [...m.querySelectorAll('.vg .vg-z')].map(z => (z.querySelector('.vg-l') || {}).textContent || '');
+      const einbau = [...m.querySelectorAll('[data-einbau]')].map(b => b.dataset.einbau);
+      const vorEinbau = m.querySelector('.vg + .vg-tun [data-einbau]') ? true : false;
+      m.querySelector('[data-einbau]').click();
+      return {knopf:true, zeilen, einbau, vorEinbau, eingebaut:build[slot] === id, zu:!$('modal').querySelector('.sheet')}; });
+    const ok = r.knopf && ['Preis', 'Gewicht', 'Score (ganzes Rad)', 'Kompatibilität', 'Einsatz', 'Daten'].every(t => r.zeilen.includes(t)) && r.einbau.length === 1 && r.vorEinbau && r.eingebaut && r.zu;
+    return {ok, info:r}; }],
+  ['UX Teileblatt: Ansehen -> Zurueck behaelt Suche, Filter und Scrollstand; Vergleich mit dem verbauten Teil', async () => {
+    await neu();
+    const r = await ev(async () => { const w = ms => new Promise(res => setTimeout(res, ms));
+      oeffneSlot('reifenHR'); await w(50); const inp = $('suche-in'); inp.value = 'maxxis'; inp.dispatchEvent(new Event('input', {bubbles:true})); await w(50);
+      const sb = $('modal').querySelector('.sheet-b'); sb.scrollTop = 260; const y = sb.scrollTop;
+      const opt = [...$('modal').querySelectorAll('#opt-liste .opt:not([hidden]):not(.sel) [data-detail]')][1] || $('modal').querySelector('#opt-liste .opt:not(.sel) [data-detail]');
+      opt.click(); await w(50);
+      const detail = {zurueck:!!$('modal').querySelector('[data-detailzurueck]'), vgl:!!$('modal').querySelector('.vg')};
+      $('modal').querySelector('[data-detailzurueck]').click(); await w(50);
+      const nach = {liste:!!$('opt-liste'), such:($('suche-in') || {}).value, y:$('modal').querySelector('.sheet-b').scrollTop};
+      schliesse(); return {y, detail, nach}; });
+    const ok = r.detail.zurueck && r.detail.vgl && r.nach.liste && r.nach.such === 'maxxis' && Math.abs(r.nach.y - r.y) < 4 && r.y > 100;
+    return {ok, info:r}; }],
+  ['UX Konflikt am Teil: Grund steht an der Zeile, das Teileblatt erklaert ihn und zeigt nur passende Teile; ein Einbau loest ihn', async () => {
+    await neu();
+    const r = await ev(() => {
+      wechsle('real');
+      const rahmen = katalog(quelleOf(slotOf('rahmen'))).find(t => t.daempfer); build.rahmen = rahmen.id;
+      katalog(quelleOf(slotOf('daempfer'))).find(t => { build.daempfer = t.id; return pruefe(build).some(b => b.level === 'fehler' && (b.slots || []).indexOf('daempfer') >= 0); });
+      sichern(); view = 'aufbau'; zeichne();
+      const zeile = document.querySelector('#aufbau [data-slot="daempfer"] .slot-fund.fehler');
+      const sprung = document.querySelector('.sprung [data-zugruppe="Fahrwerk"]');
+      document.querySelector('#aufbau [data-slot="daempfer"]').click();
+      const m = $('modal'), grund = !!m.querySelector('.fund-hier'), alle = m.querySelector('[data-filt="0"]').getAttribute('aria-pressed');
+      const k = m.querySelector('.opt[data-passt="1"]:not(.sel) [data-einbau]'); k.click();
+      const rest = pruefe(build).filter(b => b.level === 'fehler' && (b.slots || []).indexOf('daempfer') >= 0).length;
+      return {zeile:!!zeile, sprungRot:!!sprung && sprung.classList.contains('stoerung'), grund, alle, rest}; });
+    return {ok:r.zeile && r.sprungRot && r.grund && r.alle === 'false' && r.rest === 0, info:r}; }],
+  ['UX Sprungleiste: oeffnet eine eingeklappte Gruppe und bringt sie unter den Kopf', async () => {
+    await neu();
+    await ev(() => { zuGeklappt['Bremsen'] = 1; sichern(); view = 'aufbau'; zeichne(); window.scrollTo(0, 0); });
+    await seite.click('.sprung [data-zugruppe="Bremsen"]'); await warte(900);
+    const r = await ev(() => { const k = [...document.querySelectorAll('#aufbau .grp-kopf')].find(b => b.dataset.thema === 'Bremsen');
+      const top = k.getBoundingClientRect().top, kopf = document.querySelector('.top').getBoundingClientRect().bottom;
+      return {offen:k.getAttribute('aria-expanded'), top:Math.round(top), kopf:Math.round(kopf), sprungKlebt:Math.round(document.querySelector('.sprung').getBoundingClientRect().top)}; });
+    return {ok:r.offen === 'true' && r.top >= r.kopf && r.top < r.kopf + 140, info:r}; }],
+  ['UX Rueckweg statt Rueckfrage: Teil entfernen und Rad zuruecksetzen lassen sich 7 s lang rueckgaengig machen; Rad loeschen fragt weiter nach', async () => {
+    await neu();
+    const r = await ev(PRO => { eval('(' + PRO + ')()');
+      const vorher = build.gabel; oeffneSlot('gabel'); $('modal').querySelector('[data-leeren]').click();
+      const weg = build.gabel === null, knopf = !!$('toast').querySelector('[data-toastrueck]');
+      $('toast').querySelector('[data-toastrueck]').click(); const zurueck = build.gabel === vorher;
+      build.griffe = null; plan.budget = 4321; sichern(); zeichne();
+      const teile = JSON.stringify(build) + plan.budget; oeffneMenu(); $('modal').querySelector('[data-reset]').click();
+      const leer = JSON.stringify(build) + plan.budget; $('toast').querySelector('[data-toastrueck]').click(); const wieder = JSON.stringify(build) + plan.budget;
+      profilNeu(); oeffneProfile(); const frage = $('modal').querySelectorAll('[data-profwegfrage]').length, sofort = $('modal').querySelectorAll('[data-profweg]').length; schliesse();
+      return {weg, knopf, zurueck, teile, leer, wieder, frage, sofort}; }, PRO.toString());
+    return {ok:r.weg && r.knopf && r.zurueck && r.wieder === r.teile && r.leer !== r.teile && r.frage === 2 && r.sofort === 0, info:{...r, teile:r.teile.length, leer:r.leer.length, wieder:r.wieder.length}}; }],
   ['17 Hilfe: eine Begriffsliste mit Fahrwerk, Englisch ohne deutsche Reste in den neuen Texten', async () => {
     await neu('en');
     const r = await ev(() => { oeffneBegriffe(); const b = $('modal').textContent; schliesse(); oeffneMenu(); const m = $('modal').textContent; schliesse(); zeichne();
