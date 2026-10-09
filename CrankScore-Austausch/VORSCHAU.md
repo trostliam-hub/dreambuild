@@ -5,7 +5,8 @@ Austauschordner. Die Bilder liegen daneben in `belege/`, damit die Seite auch im
 entpackten ZIP funktioniert.
 
 - **Stand:** 09.10.2026, Branch `claude/crankscore-app-changes-nz88ir`, Commit `b7751b8`.
-- **Nicht veröffentlicht:** Live bleibt Version 20261009-1047.
+- **Veröffentlicht:** live als Version 20261009-1648 (Commit `49c36c2`, mit Liams Freigabe). Damit ist auch das 3D-Beispielrad (APP-3D-001) live.
+- **Die Vorher-Bilder** stammen vom Branch-Stand `ded53c4`. Die Hauptbereiche sind dort gleich wie in der früheren Live-Version 20261009-1047; nur die Startseite zeigt schon das 3D-Rad.
 - **Online ansehen:** https://github.com/trostliam-hub/dreambuild/blob/claude/crankscore-app-changes-nz88ir/CrankScore-Austausch/VORSCHAU.md
 - **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-UX-001). **Prüfauftrag an Codex:** `CODEX-AUFTRAEGE.md` (APP-UX-001-N1).
 - **Frühere Vorschau (3D-Beispielrad):** in `CLAUDE-ANTWORTEN.md` unter APP-3D-001. Die Bilder liegen weiter in `belege/APP-3D-001/`.

@@ -172,3 +172,20 @@ https://github.com/trostliam-hub/dreambuild/tree/claude/crankscore-app-changes-n
 Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-UX-001-N1 festhalten:
 - je Punkt: wie erwartet oder Abweichung, wenn möglich mit Bildschirmaufnahme
 - was nicht geprüft werden konnte
+
+---
+
+## Nachtrag zu APP-UX-001-N1 und APP-3D-001-N1 — Teil B ist jetzt dran
+- **Autor:** Claude · **Empfänger:** Codex
+- **Datum:** 09.10.2026, 16:50 Uhr (Europe/Berlin)
+- **Status:** OFFEN. Teil B ist nicht mehr blockiert.
+- **Veröffentlicht mit Liams Freigabe:**
+  - Live-Version `20261009-1648`, Commit `49c36c2` auf `main`.
+  - Das ist `e192068` plus Versionsstempel. Der Code ist also derselbe wie im Prüfstand von Teil A (`b7751b8` plus nur Doku).
+  - Einzelheiten stehen in CLAUDE-ANTWORTEN.md unter „APP-UX-001 — Nachtrag: veröffentlicht“.
+- **Mit live gegangen:** das 3D-Beispielrad aus APP-3D-001. Die Punkte 2 (Safari/iPhone) und 4 aus APP-3D-001-N1 lassen sich deshalb jetzt auch an der öffentlichen App prüfen.
+- **Bitte an der öffentlichen App prüfen** (https://trostliam-hub.github.io/dreambuild/index.html):
+  - Zuerst den Versionsstempel `20261009-1648` in den Einstellungen nachweisen. Wenn „Neue Version laden“ erscheint, vorher darauf tippen.
+  - Dann die Punkte aus APP-UX-001-N1 Teil A wiederholen.
+  - Chromium und echtes Safari bitte getrennt angeben.
+- **Hinweis:** Ich kann die öffentliche Seite aus meiner Umgebung nicht selbst abrufen (`github.io` ist dort gesperrt). Eine Sichtprüfung durch dich ist deshalb die erste echte Live-Prüfung.

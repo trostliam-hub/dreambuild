@@ -1759,3 +1759,41 @@ Alle Prüfungen in Chromium (Playwright). Ab „npm test“ am Code-Stand `b7751
   - Barlow-Schrift im Home-Bildschirm-Modus
 - **Liams Urteil zur Farbe:** Orange ist eine Gestaltungsentscheidung. Falls Liam eine andere Markenfarbe will, steht sie an einer Stelle (`--anod`, `--akzent-flaeche`).
 - **Veröffentlichung:** erst nach Liams ausdrücklicher Freigabe für diese Änderungen. Dann schreibt die Action den Versionsstempel; danach ist die Live-Prüfung (Teil B für Codex) möglich.
+
+---
+
+## APP-UX-001 — Nachtrag: veröffentlicht
+- **Bezug:** APP-UX-001
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 09.10.2026, 16:50 Uhr (Europe/Berlin)
+- **Status:** ERLEDIGT (veröffentlicht)
+- **Freigabe:** Liam im Chat am 09.10.2026 auf meinen Bericht zu APP-UX-001: „Ja kannste veröffentlichen“.
+
+### Was passiert ist
+- **Push von `e192068` auf `main`:** Fast-Forward von `3e5a4df`, um 16:45 Uhr.
+- **Action „Veroeffentlichen“, Run 37946575893, alle drei Jobs erfolgreich:**
+  - **pruefen:** `npm test` auf GitHub bestanden.
+  - **stempeln:** Commit `49c36c2` „App aktualisiert (Version 20261009-1648)“. Er ändert nur `APP_VERSION` in `index.html` und den Cache-Namen in `mtb-sw.js`.
+  - **veroeffentlichen:** „Pages neu bauen“ und „Live-Stand pruefen“ erfolgreich. Der zweite Schritt endet nur dann erfolgreich, wenn die öffentliche `index.html` den neuen Stempel enthält.
+- **„pages build and deployment“ für `49c36c2`:** erfolgreich.
+- **Branch:** per Fast-Forward auf `49c36c2` nachgezogen und gepusht.
+- **Eigene Abfrage der öffentlichen Seite:** aus meiner Umgebung nicht möglich, `github.io` ist dort gesperrt (Netzwerkregel). Der Nachweis stützt sich deshalb auf den Schritt „Live-Stand pruefen“ und auf den Inhalt von `49c36c2`. Darin stecken `zeigeBereich`, `oeffneRadwahl`, `vergleichHtml`, `fundAmTeil`, Barlow Semi Condensed und die Sprungleiste.
+
+### Was mit live gegangen ist
+- **APP-UX-001** vollständig, wie im Bericht oben beschrieben.
+- **APP-3D-001** (3D-Beispielrad, weiß mit CRANKSCORE und roter Gabel, auf Startseite, Begrüßung und erster Rundgang-Karte). Es war bisher nur auf dem Branch. Der neue Stand baut darauf auf; mit der Freigabe ist es deshalb ebenfalls live.
+- **Ordner `3d/` und `CrankScore-Austausch/`:** liegen jetzt auch auf `main`. Die App lädt sie nicht; öffentlich lesbar waren sie schon über den Branch.
+
+### Berichtigung zum Bericht oben
+- Die Vorher-Bilder stammen vom Branch-Stand `ded53c4`, nicht von der damaligen Live-Version 20261009-1047.
+- Die fünf Hauptbereiche sind in beiden Ständen gleich.
+- Unterschied nur auf der Startseite, in der Begrüßung und auf der ersten Rundgang-Karte: Dort zeigte `ded53c4` schon das 3D-Beispielrad (APP-3D-001).
+- Die Beschriftung „Vorher (Live 20261009-1047)“ auf den Tafeln ist in diesem Punkt ungenau.
+
+### Stand
+- **Code fertig:** ja.
+- **Tests bestanden:** ja (Chromium lokal, CI, Action).
+- **Live:** ja, Version 20261009-1648.
+- **Visuell auf einem echten iPhone geprüft:** nein. Dafür ist Teil B von APP-UX-001-N1 jetzt frei.
+
+- **Veröffentlichung:** JA, Nachweis siehe oben.
