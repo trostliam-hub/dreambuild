@@ -1,4 +1,41 @@
-# Vorschau: Beispielrad raus aus dem Aufbau (APP-DESIGN-004)
+# Vorschau: CrankScore überarbeitet (APP-BEVEL-002)
+
+Liams Auftrag `CLAUDE-APP-BEVEL-002` vom 10.10.2026: Aufbau als Arbeitsfläche, Prüfung unter dem Rad, Teile finden ohne Rückschritte, Adapter als Paket, geprüfte Produktlinks, Wunschliste, Vergleich, 3D und eine kurze Einführung.
+
+- **Stand:** 11.10.2026, 01:25 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `8791136`.
+- **Veröffentlicht:** nein. Live bleibt Version 20261010-0045; die Vorher-Bilder zeigen genau diese Version.
+- **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-BEVEL-002), mit Abnahmekriterien, Testszenarien, Werkzeugen, Blockern und offenen Punkten.
+
+## Was sich ändert
+- **Vier Bereiche:** Aufbau, Wunschliste, Fahrwerk, Einkauf. Prüfung und Upgrades sind keine eigenen Reiter mehr.
+- **Aufbau:** oben dein Rad (Foto, beim Spindrift das 3D-Modell, sonst die Seitenansicht deines Rahmens), darunter „Passendes Teil finden“, dann die Prüfung — zugeklappt eine Zeile, Konflikte bleiben mit „Lösung finden“ sichtbar.
+- **Teile finden:** Ziel, Marke, Budget (Teil plus Zubehör). Drei Vorschläge mit Gesamtpreis, Vor- und Nachteilen. Nur was für das Ziel wirklich besser ist; sonst sagt die App: „Dein aktuelles Teil passt gut.“
+- **Adapter:** werden automatisch eingeplant oder entfallen — mit Grund, Preis und Rückgängig. Fehlt eine Herstellerangabe, fragt die App nach statt zu raten.
+- **Zum Produkt:** nur mit geprüftem Angebot. Ohne Preis-Feed (Secret `PREIS_FEEDS` fehlt) steht ehrlich „Derzeit kein geprüftes Angebot“.
+- **Wunschliste je Rad,** Vergleich vorher/nachher, Verlauf mit Rückgängig.
+- **Farben:** warme helle Flächen und weiches Anthrazit statt Kühlgrau und Schwarz.
+
+![Prüfung](belege/APP-BEVEL-002/T1-pruefung.jpg)
+
+![Teileblatt](belege/APP-BEVEL-002/T2-teileblatt.jpg)
+
+![Upgrades](belege/APP-BEVEL-002/T3-upgrades.jpg)
+
+![Aufbau](belege/APP-BEVEL-002/T4-aufbau.jpg)
+
+![Hell und Englisch](belege/APP-BEVEL-002/T5-hell-en.jpg)
+
+![Desktop](belege/APP-BEVEL-002/T6-desktop.jpg)
+
+![Neu](belege/APP-BEVEL-002/T7-neu.jpg)
+
+![Radbild](belege/APP-BEVEL-002/T8-radbild.jpg)
+
+![Einführung und 3D](belege/APP-BEVEL-002/T9-szenen-3d.jpg)
+
+---
+
+## Vorschau APP-DESIGN-004: Beispielrad raus aus dem Aufbau
 
 Liams Wunsch vom 10.10.2026: „kannst du das rad weg machen was über dem foto gezeit wird weil nicht jedes rad so ist“.
 

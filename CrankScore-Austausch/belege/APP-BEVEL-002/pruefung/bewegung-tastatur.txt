@@ -1,0 +1,12 @@
+  ok   normale Bewegung: Prüfung klappt weich auf, Merken pulst, Szenen gleiten, Ring zählt
+  ok   no-preference: Teiletausch hebt das neue Teil hervor
+  ok   no-preference: Enter öffnet das Teileblatt mit Fokus darin, Escape schließt, Fokus kehrt zur Zeile zurück
+  ok   no-preference: sichtbarer Fokusrahmen an der Teilezeile
+  ok   no-preference: keine Seitenfehler
+  ok   reduzierte Bewegung: keine Ein- und Ausflüge (Prüfung, Merken, Szenen, Ring)
+  ok   reduce: Teiletausch hebt das neue Teil hervor
+  ok   reduce: Enter öffnet das Teileblatt mit Fokus darin, Escape schließt, Fokus kehrt zur Zeile zurück
+  ok   reduce: sichtbarer Fokusrahmen an der Teilezeile
+  ok   reduce: keine Seitenfehler
+
+BEWEGUNG: alles bestanden

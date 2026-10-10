@@ -2420,3 +2420,190 @@ Gemessen mit Tipps und Scrollstrecke bis zum Ziel; Handy 390 × 844, Desktop 128
 
 - **Veröffentlichung:** JA, Nachweis siehe oben.
 
+
+---
+
+## APP-BEVEL-002 — CrankScore überarbeitet: Aufbau als Arbeitsfläche, Teile finden, Adapter-Paket, Wunschliste (Liams Auftrag vom 10.10.2026)
+- **Bezug:** `CLAUDE-APP-BEVEL-002.md` (Liams Upload), mit dem Ziel „mache alles was da drinne steht bis alles gemacht ist“.
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 11.10.2026, 01:25 Uhr (Europe/Berlin)
+- **Status:** FERTIG PROGRAMMIERT und GETESTET (Chromium). **Nicht veröffentlicht** — dafür braucht es Liams ausdrückliche Freigabe.
+- **Stand:** Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `8791136`. Sechs Commits ab dem Live-Stand `cb3ce2e` (Version 20261010-0045):
+  `c54d239`, `e47d919`, `0e2cdc0`, `05782be`, `1921d78`, `8791136`.
+- **Tests auf GitHub** (Workflow „Tests“) für jeden dieser Pushes: grün.
+
+### Was umgesetzt ist (nach den Abschnitten des Auftrags)
+1. **Bestand und Werkzeuge:** Projektanweisungen, Austauschordner, App, Code, Datenmodell und Nutzerwege geprüft. Gespeicherte Daten bleiben unverändert; neue Felder kommen nur dazu (siehe „Gespeicherte Daten“).
+2. **Design:**
+   - warme helle Flächen (`#f2f0ec`) und weiches Anthrazit (`#16181b`) statt Kühlgrau und Schwarz;
+   - Stahlblau bleibt der einzige Akzent, weniger Schein am Ring;
+   - Rot im dunklen Design heller (`#ff7586`) mit dunkler Schrift auf roten Flächen, damit 4,5:1 hält;
+   - unter dem Score steht in einem Satz, woraus die Zahl entsteht (62 % Kompatibilität, 38 % Einsatz, wie viele Teile bewertet sind) und **was nicht geprüft ist** (Systemgewicht, Rahmengröße, fehlende Bremsaufnahme).
+3. **Navigation:**
+   - vier Bereiche — **Aufbau, Wunschliste, Fahrwerk, Einkauf**; die Reiter Prüfung und Upgrades sind weg;
+   - im Aufbau: Radbild → Kachel „Passendes Teil finden“ → **Prüfung** (zugeklappt eine Zeile wie „1 Punkt prüfen“ oder „Keine Konflikte in den geprüften Angaben“; Konflikte bleiben mit „Lösung finden“ sichtbar) → Gruppen ab dem Rahmen;
+   - Teilezeilen zeigen Kategorie, Modell, Kernangabe und Preis. Ein Tipp öffnet das Teileblatt; dort stehen alle Angaben, Ausführung und Adapter.
+4. **Teile finden:**
+   - ein Blatt mit vier Fragen: Kategorie (vorausgewählt am Teil), Ziel, Marke („Marke egal“ oder mehrere), Preis („Preis offen“ oder Budget für Teil **plus** Zubehör);
+   - drei Vorschläge, weitere auf Tipp;
+   - jede Karte: Bild (wenn der Feed eines liefert), genaue Ausführung, Gesamtpreis, Status, Vor- und Nachteile, Unbekanntes;
+   - Aktionen: **Vergleichen, Merken, Im Aufbau ersetzen, Zum Produkt** — alle getestet.
+5. **Empfehlungen ohne Rückschritte:**
+   - Ziele je Teil aus Katalogangaben: Mehr Bremskraft (Kolben, Scheiben), Mehr Federweg, Mehr Hub, Größere Bandbreite, Höhere Belastbarkeit, Leichter;
+   - als „Einschätzung“ gekennzeichnet: Mehr Grip und „Besser für Trail“ (die Eignung der App);
+   - dazu: Konflikt lösen, **Defektes Teil ersetzen**, **Günstiger ersetzen** (eigener Modus, mit Einschränkungen);
+   - ein Vorschlag muss in den Zielgrößen besser und nirgends schlechter sein; Unbekanntes zählt nie als besser;
+   - verglichen wird auf gleicher Grundlage (gleiche Scheibengröße, gleicher Federweg und Hub, außer sie sind das Ziel). Größere Scheiben an der eigenen Bremse zeigt der Hinweis „Gleiches Teil, Scheiben …“;
+   - gibt es nichts Besseres: „Dein aktuelles Teil passt gut. Für dein Ziel sehen wir derzeit keinen überzeugenden Wechsel.“;
+   - die Plus-Punkte je Teil in der Liste (pauschale Punktgewinne) sind entfernt;
+   - Recon statt Pike Ultimate und MT420 statt XT M8120 kommen in keinem Verbesserungsziel vor (Test).
+6. **Adapter als Paket:**
+   - Adapter werden aus altem und neuem Aufbau abgeleitet, vorn und hinten getrennt: **neu nötig / bleibt / entfällt**, mit Grund („Wird gebraucht, weil die Gabel eine Aufnahme für 180 mm hat und die Scheibe vorn 203 mm misst.“);
+   - Preis und Gewicht gehen in Gesamtpreis, Vergleich und Einkauf ein;
+   - Folgeumstellungen (Freilauf, Scheibe, Klemmung) gehören zum Paket;
+   - Übernehmen schreibt einen **Verlauf je Rad** mit Rückgängig. Entfallene Adapter stehen im Verlauf, nichts wird doppelt;
+   - **Fehlt die Bremsaufnahme** im Katalog (48 von 83 Gabeln, 67 von 90 Rahmen), steht ein Hinweis „Angabe fehlt“ ohne Abzug, mit gezielter Frage (Post Mount 160/180/200, Flat Mount 140/160, IS 160, „Weiß ich nicht“). Die Antwort gilt nur für dieses Rad und geht in die Adapterrechnung ein.
+7. **Produktlinks und Preise:**
+   - „Zum Produkt“ nur mit **geprüftem Angebot**:
+     - aus dem Partner-Feed, lieferbar, https;
+     - die Ausführung ist im Namen erkannt;
+     - Preisstand höchstens 48 Stunden alt;
+     - bei Bremsen nur Sets;
+     - der Link ist nicht als kaputt markiert;
+   - oder mit einer vom Betreiber eingetragenen Produktseite, aber nur bei Teilen ohne preisrelevante Ausführung;
+   - sonst „Derzeit kein geprüftes Angebot“ und Merken. Suchlinks gibt es nur noch im Detail, beschriftet als Suche;
+   - Angebote werden mit Versand verglichen; unbekannter Versand ist gekennzeichnet, Anzeige-Links sind markiert, die Provision bestimmt die Reihenfolge nicht;
+   - `tools/preise.py` erkennt bei Bremsen Set/vorn/hinten, prüft die Links (`k`) und unterscheidet „versandkostenfrei“ von „unbekannt“. Der letzte Punkt war ein echter Fehler: der Offline-Test hat ihn gefunden.
+8. **Wunschliste je Rad:**
+   - Merken am Vorschlag oder von Hand (Kategorie und Modell oder Link);
+   - Ziel, Budget, Preis mit Herkunft, Passform und Zubehör stehen dabei;
+   - getrennte Schritte: **Im Aufbau testen** (mit „Übernehmen“/„Zurück“), **Zur Einkaufsliste**, **übernehmen** (Traumrad: „In den Aufbau übernehmen“, eigenes Rad: „Als verbaut übernehmen“);
+   - Ziel und Budget lassen sich ändern;
+   - bleibt nach Neuladen, nichts vermischt sich zwischen Rädern (Test).
+9. **Vergleich:**
+   - Tabelle je Kenngröße mit Dein Teil, Neu und dem Urteil für das Ziel (besser, schlechter, gleich, anders, unbekannt);
+   - Teilpreis, Zubehör, Kosten des Wechsels, Gewicht und Kompatibilität des ganzen Rads;
+   - was es löst und was neu aufkommt, fehlende Angaben.
+10. **3D mit Blender:**
+    - Jedes Objekt der Szene trägt seine Teile-Kategorie, in der `.blend` und als glTF-extras an 146 Knoten des GLB (0,88 MB, Draco).
+    - Im Aufbau erscheint das Modell **nur beim Propain Spindrift**. „In 3D ansehen“ lädt three.js (lokal unter `vendor/three-0.169.0/`) und das GLB erst auf Tippen, in rund 1,2 s.
+    - Man kann drehen und zoomen und eine Baugruppe hervorheben.
+    - Ohne WebGL oder bei einem Fehler bleibt das Bild stehen.
+    - Andere Rahmen zeigen ihre eigene Seitenansicht aus der Katalog-Geometrie, beschriftet als vereinfacht. Ohne Rahmen steht ein Platzhalter da; ein fremdes Rad erscheint nicht.
+11. **Einführung:**
+    - drei Szenen vor der Ersteinrichtung, getrennt von ihr. Szene 1 „Ohne Überblick“ zeigt den Fall Gabel PM 180 mit Bremse 203 mm. Szene 2 „Mit CrankScore“ zeigt den Adapter +23 mm und die ganze Lösung in Richtpreisen aus dem Katalog. Szene 3: „Dein Rad. Passende Teile. Klarer Plan.“;
+    - jederzeit überspringbar (auch mit Escape), kommt nur einmal, unter Einstellungen › Hilfe erneut ansehbar.
+12. **Animationen:**
+    - dezent: Prüfung klappt auf, Merken pulst kurz, Szenen gleiten, der Ring in Szene 2 läuft einmal, das getauschte Teil leuchtet auf;
+    - bei „Bewegung reduzieren“ fällt alles Gleitende weg, und Fokusrahmen erscheinen sofort.
+
+### Abnahmekriterien
+| Kriterium | Stand | Nachweis |
+|---|---|---|
+| Prüfung aufklappbar zwischen Radbild und Rahmen | erfüllt | `bevel-test` (Reihenfolge, Enter per Tastatur, Zustand bleibt), Tafel T1 |
+| Teileauswahl, Ziele, Marken, Budget verändern die Ergebnisse | erfüllt | `bevel-test`: Budget, Marke, Ziel |
+| Keine unbegründeten Downgrades | erfüllt | `bevel-test`: alle Plätze und Ziele, Recon/MT420 |
+| Adapter korrekt, inkl. unbekannter Angaben | erfüllt | `bevel-test`: nötig, entfällt, fehlende Angabe |
+| Produktbuttons nur zu geprüften Produktseiten | im Code erfüllt; **echte Angebote fehlen** (Blocker) | `bevel-test`: Angebote, keine Suchlinks |
+| Vergleich, Wunschliste, Speicherung, Rückgängig | erfüllt | `bevel-test`, `wege-test` |
+| Einführung kurz, überspringbar, dauerhaft abgeschlossen | erfüllt | `bevel-test`: Einführung |
+| DE/EN, hell/dunkel, reduzierte Bewegung | erfüllt | Abnahme (400 Ansichten), Sprachtest, Bewegung |
+| 390 px und Desktop ohne Überlauf | erfüllt (280, 320, 390, 1280 px) | Abnahme: 0 Überstand |
+| Keine neuen Konsolenfehler | erfüllt | Abnahme, Handy-Audit, alle Tests: 0 |
+
+### Testszenarien aus dem Auftrag
+Alle in `tools/bevel-test.mjs` (20 von 20 bestanden):
+- gute Bremse ohne Upgrade
+- begrenztes Budget
+- markenoffene Suche
+- nötiger Adapter
+- entfallender Adapter
+- fehlende Spezifikation
+- nicht lieferbares, veraltetes, einzelnes und kaputtes Angebot
+- mehrere Radprofile
+
+### Geprüft (Code-Stand `8791136`, Chromium/Playwright 1.56 headless)
+- **npm test:**
+  - Kompatibilität 199/199
+  - Setup 16/16
+  - Wege 36/36 (angepasst an die neue Navigation)
+  - Sprache 0 Funde in 8.725 Texten
+  - Szenarien 20/20 (neu)
+  - Preis-Skript offline 0 Fehler (neu)
+- **Abnahme** (`belege/APP-BEVEL-002/skripte/abnahme.js`): 400 Ansichten in 25 Szenen × DE/EN × hell/dunkel × 280/320/390/1280 px, 13.324 Texte:
+  - 0 Überstand
+  - 0 Kontrastunterschreitungen (WCAG AA)
+  - 0 zu kleine Tippflächen
+  - 0 Fehler
+- **Bewegung und Tastatur:** alles bestanden. Enter öffnet das Teileblatt, Escape schließt, und der Fokus kehrt zurück; mit und ohne reduzierte Bewegung.
+- **Handy-Audit** (sieben Geräte 320 px bis Querformat, DE dunkel und EN hell): je 0 Funde, 0 Konsolenfehler.
+- **Randfälle und Tastatur** (Prüfskript aus APP-REDESIGN-001, angepasst): alles bestanden. Gefunden und behoben:
+  - fehlender Fokusrahmen bei reduzierter Bewegung (er wuchs 1 ms lang aus 0 px)
+  - „Was ist das?“ fehlte im Finder
+- **Animationstest** (aus APP-ANIM-001, Farben angepasst): 101/102. Der eine Punkt ist der bekannte Bildabstand bei der nachgebildeten Safari-Ausweichlösung im Testbrowser, wie vorher.
+- **Statusleiste:** alles bestanden mit `#f2f0ec` und `#16181b`.
+- **3D:** in Chromium mit SwiftShader geladen. 157 Meshes, alle mit Kategorie; Baugruppe hervorheben, drehen und Speicher freigeben beim Schließen funktionieren.
+- **Nicht geprüft:** echtes iPhone und Safari, echte Shop-Angebote (siehe Blocker).
+
+### Verwendete Werkzeuge
+- Node 22, Playwright 1.56 mit Chromium (für alle Browserprüfungen), Python 3
+- Blender als Python-Modul `bpy` 5.0.1 (schon aus APP-DESIGN-002 vorhanden; für die Modul-Eigenschaften und den GLB-Export)
+- three.js 0.169.0 aus dem npm-Register, lokal abgelegt mit Lizenz
+- Websuche zu Bevel (lieferte keine Gestaltungsdetails)
+- Keine weiteren Plugins oder Skills installiert. Es gab nichts, was hier echte Daten liefert.
+
+### Echte Blocker
+- **Bevel-Screenshots:** bevel.health, apps.apple.com und reeoo.com sind aus der Arbeitsumgebung gesperrt (Proxy 403 oder Name nicht auflösbar). Die Richtung stammt aus dem Auftragstext und dem bestehenden Designsystem, nicht aus echten Bevel-Bildern.
+- **Shops und Hersteller:** Shop- und Herstellerseiten sind gesperrt (bike-components, Bike24, Propain, SRAM, Shimano, Fox, Awin). Keine Produktseite ließ sich prüfen.
+- **Preis-Feeds:** Das Secret `PREIS_FEEDS` fehlt, die Action „Live-Preise“ liefert deshalb **0 Angebote**. Die App zeigt deshalb überall ehrlich „Derzeit kein geprüftes Angebot“ und Richtpreise. Produktbilder gibt es erst mit Feed.
+- **Propain-Referenzen** für den Rahmen ebenfalls gesperrt. Wie nah das Modell am echten Spindrift ist, ließ sich nicht mit offiziellen Bildern abgleichen.
+- Wer will, kann die gesperrten Adressen in den Umgebungseinstellungen von Claude Code unter „Netzwerkzugriff“ freigeben.
+
+### Offene Punkte
+- **Fehlende Herstellerdaten:**
+  - Wartung, Scheibendicke und Belagtyp stehen nicht im Katalog. Es gibt dafür kein Ziel; bei Bremsen steht es unter „Nicht bekannt“.
+  - 48 Gabeln und 67 Rahmen haben keine Bremsaufnahme hinterlegt. Ich habe keine Werte erfunden; die App fragt nach.
+- **Veröffentlichung im Modus „GitHub Actions“:** Pages veröffentlicht derzeit aus dem Branch, so wird alles ausgeliefert.
+  - Stellt jemand auf „GitHub Actions“ um, kopiert der Schritt „Seite zusammenstellen“ nur `index.html`, `fonts/`, `docs/` und einige Dateien mehr.
+  - Dann müssten dort auch `bilder/`, `vendor/` und `3d/modell/` hinzu. `bilder/` fehlt dort schon heute.
+  - Workflows ändere ich nicht.
+- **Renderings und Geometrie:** Die Renderings des Modells sind unverändert (Form und Materialien gleich). Neu sind Modulstruktur, GLB und Betrachter.
+- **Angebote mit Links:** Betreiber-Links gelten je Modell. Für Teile mit Ausführungen zählt deshalb nur ein Feed-Angebot als geprüft.
+
+### Gespeicherte Daten
+- Neu je Rad:
+  - `wuensche` (Wunschliste)
+  - `verlauf` (Änderungen mit Rückgängig)
+  - `test` (Teil zur Probe)
+  - im Aufbau `angaben` (eigene Angaben zur Bremsaufnahme)
+- Neu im Gerät: `mtb.pruef` (Prüfung auf oder zu) und `mtb.szenen` (Einführung gesehen).
+- Bestehende Daten werden nicht umgeschrieben.
+
+### Bewusste Änderungen an der Bewertung
+- **Kompatibilitätsregeln, Preise, Pro-Regeln:** unverändert.
+- **Neu ist der Hinweis „Angabe fehlt“** für die Bremsaufnahme:
+  - kein Abzug;
+  - er ersetzt das bisherige stille Auslassen;
+  - mit der Antwort des Nutzers rechnet die bestehende Adapterregel.
+- **Begründung:** Abschnitt 6 des Auftrags verlangt die gezielte Rückfrage.
+
+### Belege (`belege/APP-BEVEL-002/`)
+- Tafeln vorher (Live 20261010-0045) gegen nachher:
+  - `T1-pruefung.jpg`
+  - `T2-teileblatt.jpg`
+  - `T3-upgrades.jpg`
+  - `T4-aufbau.jpg`
+  - `T5-hell-en.jpg`
+  - `T6-desktop.jpg`
+- Nur nachher: `T7-neu.jpg` (Wunschliste, fehlende Angabe, Kategorie, Test), `T8-radbild.jpg` (Spindrift, Hardtail, Teilezeilen), `T9-szenen-3d.jpg`.
+- `bilder/`: Seitenansicht für mehrere Rahmen, 3D-Ansicht
+- `pruefung/`: npm test, Abnahme, Bewegung und Tastatur
+- `skripte/`: Abnahme, Bewegung, Vorher/Nachher-Aufnahmen, Szenen, 3D, Seitenansicht
+
+### Stand
+- **Fertig programmiert:** ja (`8791136`).
+- **Getestet:** ja (Chromium lokal und GitHub-Tests).
+- **Live:** nein. Live bleibt Version 20261010-0045.
+- **Nächster Schritt:** Mit Liams ausdrücklicher Freigabe veröffentliche ich (Push auf `main`, die Action stempelt die Version).
+
+- **Veröffentlichung:** NEIN.

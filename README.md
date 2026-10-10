@@ -125,6 +125,62 @@ Charakter, hochwertig und professionell, ruhig, aber nicht eintönig.
 - Logo auch im Schriftzug (im App-Kopf erst ab 400 px Breite) und auf der
   Startseite; die Score-Vorschau dort zeigt dieselbe Hierarchie.
 
+**Aufbau als Arbeitsfläche, Teile finden, Wunschliste (APP-BEVEL-002, 10./11.10.2026).**
+Liams Auftrag `CLAUDE-APP-BEVEL-002`; Bericht und Belege: `CrankScore-Austausch/CLAUDE-ANTWORTEN.md`
+und `CrankScore-Austausch/belege/APP-BEVEL-002/`.
+- *Farben:* warme helle Neutralflächen (`--ground #f2f0ec`) und weiches Anthrazit
+  (`--ground #16181b`, `--surface #1f2226`) statt Kühlgrau und Schwarz; weniger Schein am
+  Ring; Rot im dunklen Design `#ff7586` mit dunkler Schrift darauf (`--on-bad`), damit 4,5:1 hält.
+- *Score:* darunter die Datenbasis in einem Satz (62 % Kompatibilität, 38 % Einsatz,
+  wie viele Teile bewertet sind) und was **nicht geprüft** ist — eine hohe Zahl
+  ist keine vollständige Prüfung.
+- *Navigation:* vier Bereiche — Aufbau, Wunschliste, Fahrwerk, Einkauf. Die Reiter
+  Prüfung und Upgrades entfallen; alte Sprungziele (`view:befunde`, `view:upgrades`)
+  führen zur Prüfung im Aufbau bzw. zum Finder.
+- *Aufbau:* Radbild (eigenes Foto; beim Propain Spindrift das 3D-Modell mit „In 3D
+  ansehen“; sonst die Seitenansicht aus der Katalog-Geometrie des gewählten Rahmens,
+  `radGeo()`, als vereinfacht beschriftet; ohne Rahmen ein Platzhalter), darunter die
+  Kachel „Passendes Teil finden“, dann die **Prüfung** (zugeklappt eine Zeile wie
+  „1 Punkt prüfen“; Konflikte bleiben mit „Lösung finden“ sichtbar), dann die Gruppen
+  ab dem Rahmen. Teilezeilen: Kategorie, Modell, Kernangabe, Preis; alles Weitere im Teileblatt.
+- *Teileblatt / Finder:* oben dein Teil (alle Angaben, Ausführung, Adapter), dann
+  „Passendes finden“ oder „Alle“. Fragen: Ziel (je Teil, z. B. Mehr Bremskraft,
+  Leichter, Besser für die Disziplin, Defektes Teil ersetzen, Günstiger ersetzen),
+  Marke (oder „Marke egal“), Preis offen oder Budget für Teil **plus** Zubehör.
+  Drei Vorschläge, weitere auf Tipp; je Karte Gesamtpreis, Status, Vor- und Nachteile,
+  Unbekanntes, Vergleichen, Merken, Im Aufbau ersetzen, Zum Produkt.
+- *Empfehlungen (`finderRechnen`, `kgVergleich`):* nur Katalogangaben (`KG`: Kolben,
+  Scheiben, Gewicht, Federweg, Hub, Bandbreite, Freigabe, Maulweite, Breite) und, als
+  „Einschätzung“ markiert, Grip und Eignung. Ein Vorschlag muss in den Zielgrößen
+  mindestens einmal besser und nirgends schlechter sein; unbekannte Werte zählen nie
+  als besser. Verglichen wird auf gleicher Grundlage (`gleicheBasis`: gleiche
+  Scheibengröße, Federweg und Hub, außer sie sind das Ziel). Nichts Besseres: „Dein
+  aktuelles Teil passt gut. Für dein Ziel sehen wir derzeit keinen überzeugenden
+  Wechsel.“ Billiger nur im eigenen Modus „Günstiger ersetzen“ mit Einschränkungen.
+- *Paket (`paketFuer`):* Adapter werden aus altem und neuem Aufbau abgeleitet und
+  verglichen (neu nötig / bleibt / entfällt), Folgeumstellungen (Freilauf, Scheibe,
+  Klemmung über `passendeAusfuehrung`) gehören dazu. `uebernehmen()` schreibt einen
+  Verlauf je Rad (`profil.verlauf`) mit Rückgängig.
+- *Fehlende Angaben:* Ohne Bremsaufnahme von Gabel oder Rahmen im Katalog entsteht ein
+  Hinweis „Angabe fehlt“ (kein Abzug) mit gezielter Frage; die Antwort gilt je Rad
+  (`build.angaben`) und geht in die Adapterrechnung ein.
+- *Angebote:* „Zum Produkt“ nur mit geprüftem Angebot (Feed, lieferbar, https,
+  Ausführung im Namen erkannt, Preisstand höchstens 48 h, bei Bremsen nur Sets, Link
+  nicht als kaputt markiert) oder vom Betreiber eingetragener Produktseite (nur bei
+  Teilen ohne preisrelevante Ausführung). Sonst „Derzeit kein geprüftes Angebot“.
+  Suchlinks nur noch im Detail, als Suche beschriftet. `tools/preise.py` erkennt bei
+  Bremsen Set/vorn/hinten, prüft Links und hält „versandkostenfrei“ von „unbekannt“ getrennt.
+- *Wunschliste je Rad (`profil.wuensche`):* Merken, von Hand eintragen, im Aufbau
+  testen (`profil.test`, mit Weg zurück), zur Einkaufsliste, übernehmen; Ziel und
+  Budget lassen sich ändern.
+- *Vergleich (`oeffneVergleich`):* Tabelle je Kenngröße für das Ziel (besser,
+  schlechter, gleich, anders, unbekannt), Teilpreis, Zubehör, Kosten des Wechsels,
+  Gewicht und Kompatibilität des ganzen Rads.
+- *3D:* `vendor/three-0.169.0/` (lokal, MIT) und `3d/modell/spindrift-5-al.glb` laden
+  erst auf Tippen; Baugruppen tragen ihre Teile-Kategorie (`3d/skripte/module.py`).
+- *Einführung:* drei überspringbare Szenen vor der Ersteinrichtung (`mtb.szenen`),
+  erneut unter Einstellungen › Hilfe.
+
 **Designsystem „Datenblatt“ (APP-REDESIGN-001, 09.10.2026).** Liams Ziel: die
 ganze App eigenständig und professionell, ohne Vorlagen-Look, mit kurzen Wegen.
 Der Stilblock „APP-REDESIGN-001“ steht am Ende des `<head>`. Ausführlich:
@@ -733,7 +789,10 @@ Datensicherung, keine erfundenen Fahrwerkswerte ueber alle Gabeln und
 Daempfer) sowie „Ein Weg je Aufgabe" aus `tools/wege-test.mjs` (keine
 doppelten Einstiege, Fahrerprofil, Bauziel, Aufgabenkarte, Setup, Migration,
 Handy/Desktop, Deutsch/Englisch) und die Sprachprüfung aus `tools/sprach-test.mjs`
-(alle Ansichten auf Deutsch und Englisch, siehe *Sprache und Texte*). Ergebnis mit
+(alle Ansichten auf Deutsch und Englisch, siehe *Sprache und Texte*), die Szenarien aus
+`tools/bevel-test.mjs` (Finder, keine Rückschritte, Budget, Marke, Adapter nötig und
+entfallend, fehlende Angabe, Angebote, mehrere Räder, Wunschliste, Vergleich, Einführung)
+und `tools/preise-test.py` (Preis-Skript mit einem Feed als Datei, ohne Netz). Ergebnis mit
 Revision, Zahlen und Fehlern in `test-ergebnis.json`.
 Einzeln: `npm run test:kompat`, `npm run test:setup`, `npm run test:wege`,
 `npm run test:sprache`. Playwright ist in

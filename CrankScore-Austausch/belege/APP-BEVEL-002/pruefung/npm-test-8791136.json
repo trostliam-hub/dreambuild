@@ -1,0 +1,74 @@
+{
+ "revision": "87911368c13d51b115485ccf9b8f8d64578cec0e",
+ "aenderungen": false,
+ "node": "v22.22.2",
+ "teile": [
+  {
+   "name": "Syntax index.html",
+   "ok": true,
+   "zeile": "2 Skripte",
+   "erwartet": 2,
+   "gelaufen": 2
+  },
+  {
+   "name": "Kompatibilität",
+   "ok": true,
+   "zeile": "199 von 199 bestanden, erwartet 199, Exit 0",
+   "exit": 0,
+   "bestanden": 199,
+   "gelaufen": 199,
+   "erwartet": 199,
+   "fehl": []
+  },
+  {
+   "name": "Setup und Speicher",
+   "ok": true,
+   "zeile": "16 von 16 bestanden, Exit 0",
+   "exit": 0,
+   "bestanden": 16,
+   "gelaufen": 16,
+   "erwartet": null,
+   "fehl": []
+  },
+  {
+   "name": "Ein Weg je Aufgabe",
+   "ok": true,
+   "zeile": "36 von 36 bestanden, Exit 0",
+   "exit": 0,
+   "bestanden": 36,
+   "gelaufen": 36,
+   "erwartet": null,
+   "fehl": []
+  },
+  {
+   "name": "Sprache Deutsch/Englisch",
+   "ok": true,
+   "zeile": "0 Funde in 8725 Texten, Exit 0",
+   "exit": 0,
+   "funde": 0,
+   "texte": 8725,
+   "fehl": []
+  },
+  {
+   "name": "Teile finden, Adapter, Wunschliste (BEVEL-002)",
+   "ok": true,
+   "zeile": "20 von 20 bestanden, Exit 0",
+   "exit": 0,
+   "bestanden": 20,
+   "gelaufen": 20,
+   "erwartet": null,
+   "fehl": []
+  },
+  {
+   "name": "Preis-Skript offline",
+   "ok": true,
+   "zeile": "0 Fehler, Exit 0",
+   "exit": 0,
+   "fehl": []
+  }
+ ],
+ "playwright": "1.56.1",
+ "ok": true,
+ "dauerSek": 176,
+ "zeit": "2026-10-10T23:20:29.980Z"
+}
