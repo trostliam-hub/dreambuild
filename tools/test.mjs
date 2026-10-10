@@ -7,6 +7,8 @@
  * 4. Ein Weg je Aufgabe (tools/wege-test.mjs)
  * 5. Sprache (tools/sprach-test.mjs): alle Ansichten auf Deutsch und Englisch,
  *    keine Funde (Sprachmischung, Zahlformate, Reste, abgeschnittene Texte)
+ * 6. Szenarien APP-BEVEL-002 (tools/bevel-test.mjs)
+ * 7. Preis-Skript offline (tools/preise-test.py)
  *
  * Schreibt test-ergebnis.json (Revision, Zahlen, Fehler) und endet mit
  * Exit-Code 1, sobald etwas fehlschlaegt oder weniger Tests liefen als
@@ -65,6 +67,17 @@ const lauf = (datei, muster, erwartet) => {
   const ok = r.status === 0 && funde === 0 && texte >= 5000;
   teil('Sprache Deutsch/Englisch', ok, {zeile:m ? `${funde} Funde in ${texte} Texten, Exit ${r.status}` : `keine Schlusszeile, Exit ${r.status}`,
     exit:r.status, funde, texte, fehl:ok ? [] : aus.split('\n').filter(z => z.trim()).slice(-25), ausgabe:aus.slice(-4000)});
+}
+/* 6. Szenarien aus APP-BEVEL-002: Finder, Empfehlungen, Adapter, Angebote, Wunschliste */
+{
+  const r = lauf('bevel-test.mjs', /BEVEL: (\d+) von (\d+) Prüfungen bestanden/, null);
+  teil('Teile finden, Adapter, Wunschliste (BEVEL-002)', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
+/* 7. Preis-Skript offline: Feed als Datei, kein Netz */
+{
+  const r = spawnSync('python3', [path.join(wurzel, 'tools', 'preise-test.py')], {cwd:wurzel, encoding:'utf8', env:{...process.env, PREIS_LINKS_PRUEFEN:'0'}});
+  const aus = (r.stdout || '') + (r.stderr || ''), m = aus.match(/PREISE: (\d+) Fehler/), ok = r.status === 0 && m && m[1] === '0';
+  teil('Preis-Skript offline', !!ok, {zeile:m ? `${m[1]} Fehler, Exit ${r.status}` : `keine Schlusszeile, Exit ${r.status}`, exit:r.status, fehl:ok ? [] : aus.split('\n').filter(z => /FEHL|Error/.test(z)).slice(0, 20), ausgabe:aus.slice(-3000)});
 }
 if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:'absichtlich fehlgeschlagen (CRANKSCORE_TEST_FEHLER=1)'});
 

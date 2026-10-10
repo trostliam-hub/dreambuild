@@ -6,7 +6,8 @@ laedt die Produktfeeds der Partnershops, ordnet jede Zeile einem Teil aus dem
 Katalog in index.html zu und schreibt
 
   preise.json       -- aktuelle Angebote je Teil und Shop (Preis, UVP, Versand,
-                       Lager, Link, Bild)
+                       Lager, Link, Bild; bei Bremsen der Umfang z: Set, vorn
+                       oder hinten; k: Link geprueft 1 / kaputt 0 / offen)
   preisverlauf.json -- guenstigster Preis je Teil und Tag, 180 Tage
 
 Die Feed-Adressen stehen im Repository-Secret PREIS_FEEDS, eine je Zeile:
@@ -19,7 +20,7 @@ Datei im Repo -- das Repo ist oeffentlich. Ohne Secret passiert nichts.
 
 Nur Standardbibliothek, damit die Action ohne Installation laeuft.
 """
-import csv, datetime, gzip, io, json, os, re, sys, urllib.request, zipfile
+import csv, datetime, gzip, io, json, os, re, sys, urllib.error, urllib.request, zipfile
 
 WURZEL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 csv.field_size_limit(10 * 1024 * 1024)
@@ -130,8 +131,23 @@ def ziele(teile):
         kurz += [m.group(1) for m in re.finditer(r'(?<![\w.,])(\d{1,2})(?![\w.,])', name)
                  if not any(a <= m.start() < b for a, b in belegt)]
         out.append({"id": t["id"], "w": lang, "k": kurz, "sp": spannen, "p": t["p"], "art": ART.get(t["b"]),
-                    "rahmen": t["b"] == "rahmen", "erlaubt": [f for f in FREMD if f in normal(name)]})
+                    "rahmen": t["b"] == "rahmen", "bremse": t["b"] == "bremsen", "erlaubt": [f for f in FREMD if f in normal(name)]})
     return out
+
+# Bremsen fuehrt der Katalog als Satz (vorn und hinten). Shops verkaufen sie
+# auch einzeln -- solche Zeilen sind nicht dasselbe Produkt und duerfen im
+# Preisvergleich nicht neben dem Satz stehen (BEVEL-002). Erkannt am Namen.
+SET_W = ["set", "satz", "paar", "pair", "vorne und hinten", "vorne hinten", "vr hr", "front and rear", "front rear", "kit"]
+VORN_W = ["vorderrad", "vorne", "vorn", "front", "vr"]
+HINTEN_W = ["hinterrad", "hinten", "rear", "hr"]
+def umfang(name):
+    w = " " + normal(name) + " "
+    if any(" " + x + " " in w for x in SET_W): return "set"
+    v = any(" " + x + " " in w for x in VORN_W)
+    h = any(" " + x + " " in w for x in HINTEN_W)
+    if v and not h: return "vorn"
+    if h and not v: return "hinten"
+    return None
 
 # ── Feeds lesen ─────────────────────────────────────────────────────────────
 SPALTEN = {
@@ -160,6 +176,12 @@ def zahl(x):
         return v if v > 0 else None
     except ValueError:
         return None
+
+# Versand darf 0 sein (versandkostenfrei) -- das ist etwas anderes als "unbekannt"
+def versand(x):
+    if x is None or not str(x).strip(): return None
+    if re.fullmatch(r'\s*0+([.,]0+)?\s*(EUR|€)?\s*', str(x)): return 0.0
+    return zahl(x)
 
 def oeffnen(quelle):
     if re.match(r'https?://', quelle, re.I):
@@ -225,17 +247,18 @@ def lies_feed(shop, quelle, zl, nach_marke):
             if any(m < m2 for _, m2 in mengen): continue
             # Preis weit weg vom Richtpreis: Set, Zubehoer oder Komplettrad
             if z["p"] and not (0.3 * z["p"] <= preis <= 1.8 * z["p"]): continue
+            uf = umfang(nm) if z.get("bremse") else None
             # Je Teil mehrere Angebote halten: "Super Deluxe Ultimate" und
             # "Super Deluxe Select+" sind dasselbe Katalogteil in zwei
             # Ausfuehrungen -- welche Ausfuehrung ein Angebot meint, liest die
             # App aus dem Namen. Groessen (Zahlen ab 26, mm, Zoll) zaehlen
             # nicht als eigene Ausfuehrung, sonst stuende jede Laenge einzeln da.
-            schl = " ".join(x for x in n.split() if not ((x.isdigit() and int(x) >= 26) or x in ("mm", "zoll")))
+            schl = " ".join(x for x in n.split() if not ((x.isdigit() and int(x) >= 26) or x in ("mm", "zoll"))) + (" |" + uf if uf else "")
             gruppe = beste.setdefault(z["id"], {})
             alt = gruppe.get(schl)
             if alt and (len(alt["n"]), alt["p"]) <= (len(nm), preis): continue
             uvp = zahl(f[i["uvp"]]) if i["uvp"] >= 0 and i["uvp"] < len(f) else None
-            vers = zahl(f[i["versand"]]) if i["versand"] >= 0 and i["versand"] < len(f) else None
+            vers = versand(f[i["versand"]]) if i["versand"] >= 0 and i["versand"] < len(f) else None
             link = f[i["link"]].strip() if i["link"] >= 0 and i["link"] < len(f) else ""
             bild = f[i["bild"]].strip() if i["bild"] >= 0 and i["bild"] < len(f) else ""
             lager = f[i["lager"]].strip().lower() if i["lager"] >= 0 and i["lager"] < len(f) else ""
@@ -248,8 +271,37 @@ def lies_feed(shop, quelle, zl, nach_marke):
                 "n": nm[:140],
                 "a": (0 if lager in ("0", "no", "false", "out of stock", "nicht lieferbar") else 1) if lager else None,
             }
+            if uf: gruppe[schl]["z"] = uf
     # je Teil hoechstens acht Ausfuehrungen, die guenstigsten zuerst
     return {tid: sorted(g.values(), key=lambda a: a["p"])[:8] for tid, g in beste.items()}, zeilen
+
+# ── Links pruefen ───────────────────────────────────────────────────────────
+# Je Teil das guenstigste lieferbare Angebot: fuehrt der Link noch auf eine
+# Seite (Status unter 400)? k: 1 geprueft, 0 kaputt; ungeprueft bleibt leer.
+# Die App zeigt "Zum Produkt" nur bei Links, die nicht als kaputt gelten.
+def link_ok(url, zeit=10):
+    for methode in ("HEAD", "GET"):
+        try:
+            req = urllib.request.Request(url, method=methode, headers={"User-Agent": "CrankScore-Preise/1.0", "Range": "bytes=0-0"})
+            with urllib.request.urlopen(req, timeout=zeit) as r:
+                return 1 if r.status < 400 else 0
+        except urllib.error.HTTPError as e:
+            if methode == "HEAD" and e.code in (403, 405, 501): continue    # HEAD nicht erlaubt -> GET
+            return 0 if e.code in (404, 410) else None
+        except Exception:
+            return None                                                    # Netz weg: offen lassen, nicht verurteilen
+    return None
+
+def links_pruefen(angebote, hoechstens=400):
+    geprueft = 0
+    for tid, liste in angebote.items():
+        for a in liste:
+            if a.get("a") == 0 or not a.get("l"): continue
+            if geprueft >= hoechstens: return geprueft
+            k = link_ok(a["l"]); geprueft += 1
+            if k is not None: a["k"] = k
+            if k != 0: break                                               # erstes brauchbares je Teil reicht
+    return geprueft
 
 # ── Hauptteil ───────────────────────────────────────────────────────────────
 def main():
@@ -274,7 +326,9 @@ def main():
         shops.append({"name": shop, "zeilen": zeilen, "treffer": len(beste)})
         print("  %s: %d Zeilen, %d Teile gefunden" % (shop, zeilen, len(beste)))
         for tid, liste in beste.items(): angebote.setdefault(tid, []).extend(liste)
-    for tid in angebote: angebote[tid].sort(key=lambda a: a["p"])
+    for tid in angebote: angebote[tid].sort(key=lambda a: a["p"] + (a["v"] or 0))
+    if os.environ.get("PREIS_LINKS_PRUEFEN", "1") != "0":
+        print("Links geprueft: %d" % links_pruefen(angebote))
 
     jetzt = datetime.datetime.now(datetime.timezone.utc)
     json.dump({"stand": jetzt.strftime("%Y-%m-%dT%H:%M:%SZ"), "shops": shops, "teile": angebote},

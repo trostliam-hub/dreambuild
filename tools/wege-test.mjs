@@ -76,7 +76,7 @@ const PRUEFUNGEN = [
     const g = await ev(() => { eiSetze('fahrer', 500); const hoch = plan.fahrer; eiSetze('fahrer', 5); const tief = plan.fahrer; eiSetze('fahrer', 82); return {hoch, tief, jetzt:plan.fahrer, b:EI_BEREICH.fahrer}; });
     await ev(() => eiSkip());
     /* Keine Masse-Eingaben ausserhalb des Fahrerprofils */
-    const rest = await ev(() => { view = 'befunde'; zeichne(); return {fitstart:document.querySelectorAll('[data-fitstart]').length, teaser:document.querySelectorAll('.fit-teaser').length}; });
+    const rest = await ev(() => { view = 'aufbau'; pruefOffen = true; zeichne(); return {fitstart:document.querySelectorAll('[data-fitstart]').length, teaser:document.querySelectorAll('.fit-teaser').length}; });
     return {ok:m.fp === 1 && !m.mf && !m.mb && !m.start && !m.guide && !m.fit && !m.fed && JSON.stringify(e.schritte) === JSON.stringify(['erfahrung', 'charakter', 'koerper', 'masse', 'fit'])
       && g.hoch === 180 && g.tief === 30 && g.jetzt === 82 && !rest.fitstart && !rest.teaser, info:{m, e, g, rest}}; }],
   ['03 Budget nur im Bauziel, eine Regel, je Rad', async () => {
@@ -94,28 +94,32 @@ const PRUEFUNGEN = [
     const r = await ev(() => { const k = $('coach-platz'); return {karten:k.querySelectorAll('.leit').length, schrittKnoepfe:k.querySelectorAll('.leit-s button, button.leit-s').length,
       knoepfe:k.querySelectorAll('.leit button:not(.leit-weg)').length, bauzielKnopf:k.querySelectorAll('[data-wiz]').length, einbau:k.querySelectorAll('[data-einbau],[data-upnein]').length, coach:!!$('coach'), aufbauLeit:$('aufbau').querySelectorAll('.leit, .wiz-cta, [data-wiz]').length}; });
     return {ok:r.karten === 1 && !r.schrittKnoepfe && r.knoepfe <= 1 && !r.bauzielKnopf && !r.einbau && !r.coach && !r.aufbauLeit, info:r}; }],
-  ['15 Upgrade: jede Einbau-Aktion genau einmal, nach Einbau neu berechnet', async () => {
+  ['15/BEVEL-002 Finder: Im Aufbau ersetzen baut genau dieses Teil ein, mit Verlauf und Rueckgaengig', async () => {
     await neu();
-    await ev(() => { modus === 'traum' || wechsle('traum'); view = 'upgrades'; zeichne(); vorschlaegeZeichnen(); });
-    const vor = await ev(() => { const w = [...document.querySelectorAll('[data-einbau]')].map(b => b.dataset.einbau); return {n:w.length, eindeutig:new Set(w).size === w.length, erst:($('upgrades').querySelector('[data-einbau]') || {}).dataset}; });
-    if(!vor.erst) return {ok:false, info:{vor, grund:'kein Upgrade im Startaufbau'}};
-    const nach = await ev(e => { const [slot, id] = e.einbau.split('|'); $('upgrades').querySelector(`[data-einbau="${e.einbau}"]`).click(); vorschlaegeZeichnen();
-      const w = [...document.querySelectorAll('[data-einbau]')].map(b => b.dataset.einbau);
-      return {eingebaut:build[slot] === id || basisVon(build[slot]) === basisVon(id), nochDa:w.indexOf(e.einbau) >= 0, eindeutig:new Set(w).size === w.length}; }, vor.erst);
-    return {ok:vor.n > 0 && vor.eindeutig && nach.eingebaut && !nach.nochDa && nach.eindeutig, info:{vor, nach}}; }],
-  ['16 Konflikt: Loesungen nur in der Pruefung, nicht unter Upgrades', async () => {
+    const r = await ev(() => { modus === 'traum' || wechsle('traum'); const vorher = build.gabel;
+      oeffneSlot('gabel', {ziel:'leicht'}); const m = $('modal'), w = [...m.querySelectorAll('[data-ersetzen]')].map(b => b.dataset.ersetzen);
+      if(!w.length) return {n:0};
+      const t0 = w[0].indexOf('|'), slot = w[0].slice(0, t0), id = w[0].slice(t0 + 1); m.querySelector(`[data-ersetzen="${w[0]}"]`).click();
+      const eingebaut = build[slot] === id, verlauf = verlaufListe().length, toast = !!$('toast').querySelector('[data-toastrueck]'), zu = !$('modal').querySelector('.sheet');
+      $('toast').querySelector('[data-toastrueck]').click();
+      return {n:w.length, eindeutig:new Set(w).size === w.length, eingebaut, verlauf, toast, zu, zurueck:build.gabel === vorher, verlaufDanach:verlaufListe().length}; });
+    return {ok:r.n > 0 && r.eindeutig && r.eingebaut && r.verlauf === 1 && r.toast && r.zu && r.zurueck && r.verlaufDanach === 0, info:r}; }],
+  ['16/BEVEL-002 Konflikt: Pruefung im Aufbau zeigt ihn auch zugeklappt, Loesung fuehrt zu passenden Teilen', async () => {
     await neu();
     const r = await ev(() => {
       wechsle('real');
       const rahmen = katalog(quelleOf(slotOf('rahmen'))).find(t => t.daempfer); build.rahmen = rahmen.id;
       const d = katalog(quelleOf(slotOf('daempfer'))).find(t => { build.daempfer = t.id; return pruefe(build).some(b => b.level === 'fehler' && (b.slots || []).indexOf('daempfer') >= 0); });
-      sichern(); view = 'befunde'; zeichne(); vorschlaegeZeichnen();
-      const upTxt = $('upgrades').textContent;
-      const upKopf = [...$('upgrades').querySelectorAll('.up-kopf')].map(e => e.textContent).join(' | ');
-      return {konflikt:!!d, loesungen:!!$('loesungen'), upKopf, upLoesung:/Lösung|Ersatz|umstellen/.test(upKopf),
-        findKnoepfe:$('findings').querySelectorAll('[data-slot]').length, karteEinbau:$('coach-platz').querySelectorAll('[data-einbau]').length};
-    });
-    return {ok:r.konflikt && r.loesungen && !r.upLoesung && r.findKnoepfe > 0 && !r.karteEinbau, info:r}; }],
+      sichern(); pruefOffen = false; view = 'aufbau'; zeichne();
+      const p = $('pruef'), zu = p.querySelector('.pf-kopf').getAttribute('aria-expanded') === 'false';
+      const sichtbar = p.querySelectorAll('.pf-wichtig .pf-k').length, knopf = p.querySelector('.pf-wichtig [data-ziel="konflikt"]');
+      const vorRahmen = !!(p.compareDocumentPosition(document.querySelector('#aufbau .grp')) & Node.DOCUMENT_POSITION_FOLLOWING);
+      const unterBild = !!(document.querySelector('#aufbau .radbild').compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING);
+      knopf.click(); const ziel = finder.ziel, vorschlaege = $('modal').querySelectorAll('[data-ersetzen]').length; schliesse();
+      p.querySelector('.pf-kopf').click(); vorschlaegeZeichnen();
+      return {konflikt:!!d, zu, sichtbar, vorRahmen, unterBild, ziel, vorschlaege, offen:pruefOffen, loesungen:!!$('loesungen'), findKnoepfe:$('findings').querySelectorAll('[data-slot]').length,
+        karteEinbau:$('coach-platz').querySelectorAll('[data-einbau],[data-ersetzen]').length}; });
+    return {ok:r.konflikt && r.zu && r.sichtbar > 0 && r.vorRahmen && r.unterBild && r.ziel === 'konflikt' && r.vorschlaege > 0 && r.offen && r.loesungen && r.findKnoepfe > 0 && !r.karteEinbau, info:r}; }],
   ['14 Ueber Budget: Aufgabenkarte nennt den Status, Sparen nur unter Upgrades', async () => {
     await neu();
     const r = await ev(() => { plan.budget = 1000; sichern(); zeichne(); const k = $('coach-platz').textContent;
@@ -215,7 +219,7 @@ const PRUEFUNGEN = [
       await seite.setViewportSize({width:w, height:h}); await warte(200);
       out[w] = await ev(() => { view = 'aufbau'; zeichne(); const sicht = el => !!el && el.getClientRects().length > 0;
         const vorher = {liste:sicht($('c-kauf')), knopf:sicht($('kz-preis')) && !$('kz-preis').disabled};
-        $('kz-preis').click(); const nach = {view, liste:sicht($('c-kauf')), zeilen:[...$('einkauf').querySelectorAll('.ek')].filter(sicht).length, find:sicht($('c-find'))};
+        $('kz-preis').click(); const nach = {view, liste:sicht($('c-kauf')), zeilen:[...$('einkauf').querySelectorAll('.ek')].filter(sicht).length, find:sicht($('c-wunsch'))};
         const dealsEinbau = $('deals').querySelectorAll('[data-einbau]').length;
         wechsle('real'); view = 'aufbau'; zeichne(); const real = {knopfAus:$('kz-preis').disabled}; wechsle('traum'); view = 'aufbau'; zeichne();
         return {vorher, nach, dealsEinbau, real}; });
@@ -223,7 +227,7 @@ const PRUEFUNGEN = [
     await seite.setViewportSize({width:390, height:844});
     const ok = Object.values(out).every(r => !r.vorher.liste && r.vorher.knopf && r.nach.view === 'deals' && r.nach.liste && r.nach.zeilen > 3 && !r.nach.find && !r.dealsEinbau && r.real.knopfAus);
     return {ok, info:out}; }],
-  ['UX Navigation: fuenf beschriftete Bereiche auf Handy und Desktop, Fahrwerk und Einkauf direkt erreichbar', async () => {
+  ['UX/BEVEL-002 Navigation: vier beschriftete Bereiche auf Handy und Desktop, Wunschliste, Fahrwerk und Einkauf direkt erreichbar', async () => {
     await neu();
     const out = {};
     for(const [w, h] of [[390, 844], [1280, 900]]){
@@ -232,23 +236,23 @@ const PRUEFUNGEN = [
         .map(b => ({v:b.dataset.view, l:b.querySelector('.tl').textContent.trim(), sichtbar:(() => { const r = b.getBoundingClientRect(); return r.width > 30 && r.bottom > 0 && r.top < innerHeight; })()})));
     }
     await seite.setViewportSize({width:390, height:844});
-    const soll = 'aufbau:Aufbau|befunde:Prüfung|setup:Fahrwerk|upgrades:Upgrades|deals:Einkauf';
+    const soll = 'aufbau:Aufbau|wunsch:Wunschliste|setup:Fahrwerk|deals:Einkauf';
     const ok = Object.values(out).every(l => l.map(x => x.v + ':' + x.l).join('|') === soll && l.every(x => x.sichtbar));
     return {ok, info:out}; }],
-  ['UX Score nur im Aufbau (Handy): Pruefung, Upgrades und Einkauf beginnen mit ihrem Inhalt', async () => {
+  ['UX Score nur im Aufbau (Handy): Wunschliste und Einkauf beginnen mit ihrem Inhalt', async () => {
     await neu();
-    const r = await ev(() => { const out = {}; for(const v of ['aufbau', 'befunde', 'upgrades', 'deals']){ view = v; zeichne(); window.scrollTo(0, 0);
-      const bar = document.querySelector('.bar'), karte = {befunde:'c-find', upgrades:'c-up', deals:'c-kauf'}[v];
+    const r = await ev(() => { const out = {}; for(const v of ['aufbau', 'wunsch', 'deals']){ view = v; zeichne(); window.scrollTo(0, 0);
+      const bar = document.querySelector('.bar'), karte = {wunsch:'c-wunsch', deals:'c-kauf'}[v];
       out[v] = {score:bar.getClientRects().length > 0, karteOben:karte ? Math.round($(karte).getBoundingClientRect().top) : null}; }
       view = 'aufbau'; zeichne(); return out; });
-    const ok = r.aufbau.score && ['befunde', 'upgrades', 'deals'].every(v => !r[v].score && r[v].karteOben < 260);
+    const ok = r.aufbau.score && ['wunsch', 'deals'].every(v => !r[v].score && r[v].karteOben < 260);
     return {ok, info:r}; }],
-  ['UX Scrollstand je Bereich: Aufbau -> Pruefung -> Aufbau landet beim selben Teil; nochmal tippen geht nach oben', async () => {
+  ['UX Scrollstand je Bereich: Aufbau -> Wunschliste -> Aufbau landet beim selben Teil; nochmal tippen geht nach oben', async () => {
     await neu();
     await ev(() => { view = 'aufbau'; zeichne(); });
     await seite.evaluate(() => window.scrollTo(0, 1400)); await warte(150);
     const y0 = await ev(() => window.scrollY);
-    await seite.click('.tabs [data-view="befunde"]'); await warte(250);
+    await seite.click('.tabs [data-view="wunsch"]'); await warte(250);
     const yP = await ev(() => window.scrollY);
     await seite.click('.tabs [data-view="aufbau"]'); await warte(250);
     const y1 = await ev(() => window.scrollY);
@@ -258,7 +262,7 @@ const PRUEFUNGEN = [
   ['UX Rad wechseln von ueberall: Kopf -> Blatt mit allen Raedern aller Arten, Bereich bleibt, Verwaltung nur am Stift', async () => {
     await neu();
     await ev(PRO => { eval('(' + PRO + ')()'); const a = aktivId.traum; profilNeu(); profile.traum.find(p => p.id === aktivId.traum).name = 'Zweitrad'; profilWechseln(a);
-      wechsle('real'); wechsle('traum'); view = 'upgrades'; zeichne(); vorschlaegeZeichnen(); }, PRO.toString());
+      wechsle('real'); wechsle('traum'); view = 'deals'; zeichne(); }, PRO.toString());
     await seite.evaluate(() => window.scrollTo(0, 500)); await warte(300);
     const klein = await ev(() => document.body.classList.contains('klein') && getComputedStyle($('mini')).opacity === '1');
     await seite.click('#mini'); await warte(350);
@@ -269,24 +273,25 @@ const PRUEFUNGEN = [
     await ev(() => { $('mini').click(); }); await warte(300);
     await ev(() => [...$('modal').querySelectorAll('[data-radwechsel]')].find(b => /^real\|/.test(b.dataset.radwechsel)).click()); await warte(300);
     const nach2 = await ev(() => ({modus, view}));
-    const ok = klein && blatt.zeilen === 4 && blatt.gruppen === 3 && blatt.verwalten === 1 && !blatt.loeschen && nach1.modus === 'traum' && nach1.name === 'Zweitrad' && nach1.view === 'upgrades' && !nach1.offen
-      && nach2.modus === 'real' && nach2.view === 'upgrades';
+    const ok = klein && blatt.zeilen === 4 && blatt.gruppen === 3 && blatt.verwalten === 1 && !blatt.loeschen && nach1.modus === 'traum' && nach1.name === 'Zweitrad' && nach1.view === 'deals' && !nach1.offen
+      && nach2.modus === 'real' && nach2.view === 'deals';
     return {ok, info:{klein, blatt, nach1, nach2}}; }],
-  ['UX Upgrade vergleichen: Vergleichen oeffnet das Teil neben dem verbauten (Preis, Gewicht, Score, Daten) mit einem Einbau-Knopf', async () => {
+  ['UX/BEVEL-002 Vergleich: vorher und nachher je Kenngroesse fuer das Ziel, Gesamtkosten mit Zubehoer, ein Ersetzen-Knopf', async () => {
     await neu();
-    const r = await ev(() => { view = 'upgrades'; zeichne(); vorschlaegeZeichnen(); const k = $('upgrades').querySelector('.up-vgl'); if(!k) return {knopf:false};
-      const [slot, id] = k.dataset.detail.split('|'); k.click(); const m = $('modal');
-      const zeilen = [...m.querySelectorAll('.vg .vg-z')].map(z => (z.querySelector('.vg-l') || {}).textContent || '');
-      const einbau = [...m.querySelectorAll('[data-einbau]')].map(b => b.dataset.einbau);
-      const vorEinbau = m.querySelector('.vg + .vg-tun [data-einbau]') ? true : false;
-      m.querySelector('[data-einbau]').click();
-      return {knopf:true, zeilen, einbau, vorEinbau, eingebaut:build[slot] === id, zu:!$('modal').querySelector('.sheet')}; });
-    const ok = r.knopf && ['Preis', 'Gewicht', 'Score (ganzes Rad)', 'Kompatibilität', 'Einsatz', 'Daten'].every(t => r.zeilen.includes(t)) && r.einbau.length === 1 && r.vorEinbau && r.eingebaut && r.zu;
+    const r = await ev(() => { oeffneSlot('gabel', {ziel:'leicht'}); const k = $('modal').querySelector('[data-vergleich]'); if(!k) return {knopf:false};
+      const t0 = k.dataset.vergleich.indexOf('|'), slot = k.dataset.vergleich.slice(0, t0), id = k.dataset.vergleich.slice(t0 + 1); k.click(); const m = $('modal');
+      const zeilen = [...m.querySelectorAll('.vt tbody th')].map(z => z.textContent.trim());
+      const urteile = [...m.querySelectorAll('.vt tbody .vu')].map(z => z.textContent.trim());
+      const ersetzen = [...m.querySelectorAll('[data-ersetzen]')].map(b => b.dataset.ersetzen);
+      m.querySelector('[data-ersetzen]').click();
+      return {knopf:true, zeilen, urteile, ersetzen, eingebaut:build[slot] === id, zu:!$('modal').querySelector('.sheet')}; });
+    const ok = r.knopf && ['Gewicht', 'Kosten des Wechsels', 'Teilpreis', 'Kompatibilität'].every(t => r.zeilen.some(z => z.indexOf(t) === 0)) && r.urteile.includes('besser')
+      && r.ersetzen.length === 1 && r.eingebaut && r.zu;
     return {ok, info:r}; }],
   ['UX Teileblatt: Ansehen -> Zurueck behaelt Suche, Filter und Scrollstand; Vergleich mit dem verbauten Teil', async () => {
     await neu();
     const r = await ev(async () => { const w = ms => new Promise(res => setTimeout(res, ms));
-      oeffneSlot('reifenHR'); await w(50); const inp = $('suche-in'); inp.value = 'maxxis'; inp.dispatchEvent(new Event('input', {bubbles:true})); await w(50);
+      oeffneSlot('reifenHR', {tab:'alle'}); await w(50); const inp = $('suche-in'); inp.value = 'maxxis'; inp.dispatchEvent(new Event('input', {bubbles:true})); await w(50);
       const sb = $('modal').querySelector('.sheet-b'); sb.scrollTop = 260; const y = sb.scrollTop;
       const opt = [...$('modal').querySelectorAll('#opt-liste .opt:not([hidden]):not(.sel) [data-detail]')][1] || $('modal').querySelector('#opt-liste .opt:not(.sel) [data-detail]');
       opt.click(); await w(50);
@@ -306,11 +311,12 @@ const PRUEFUNGEN = [
       const zeile = document.querySelector('#aufbau [data-slot="daempfer"] .slot-fund.fehler');
       const sprung = document.querySelector('.sprung [data-zugruppe="Fahrwerk"]');
       document.querySelector('#aufbau [data-slot="daempfer"]').click();
-      const m = $('modal'), grund = !!m.querySelector('.fund-hier'), alle = m.querySelector('[data-filt="0"]').getAttribute('aria-pressed');
-      const k = m.querySelector('.opt[data-passt="1"]:not(.sel) [data-einbau]'); k.click();
+      const m = $('modal'), grund = !!m.querySelector('.fund-hier'), ziel = finder.ziel;
+      oeffneSlot('daempfer', {tab:'alle'}); const alle = $('modal').querySelector('[data-filt="0"]').getAttribute('aria-pressed');
+      oeffneSlot('daempfer', {tab:'finden'}); const k = $('modal').querySelector('[data-ersetzen]'); k.click();
       const rest = pruefe(build).filter(b => b.level === 'fehler' && (b.slots || []).indexOf('daempfer') >= 0).length;
-      return {zeile:!!zeile, sprungRot:!!sprung && sprung.classList.contains('stoerung'), grund, alle, rest}; });
-    return {ok:r.zeile && r.sprungRot && r.grund && r.alle === 'false' && r.rest === 0, info:r}; }],
+      return {zeile:!!zeile, sprungRot:!!sprung && sprung.classList.contains('stoerung'), grund, ziel, alle, rest}; });
+    return {ok:r.zeile && r.sprungRot && r.grund && r.ziel === 'konflikt' && r.alle === 'false' && r.rest === 0, info:r}; }],
   ['UX Sprungleiste: oeffnet eine eingeklappte Gruppe und bringt sie unter den Kopf', async () => {
     await neu();
     await ev(() => { zuGeklappt['Bremsen'] = 1; sichern(); view = 'aufbau'; zeichne(); window.scrollTo(0, 0); });
@@ -344,7 +350,7 @@ const PRUEFUNGEN = [
     for(const [w, h] of [[390, 844], [1280, 900]]){
       await seite.setViewportSize({width:w, height:h}); await warte(150);
       out[w] = await ev(() => { const r = {}; for(const m of ['traum', 'real', 'markt']){ if(modus !== m) wechsle(m);
-        for(const v of ['aufbau', 'befunde', 'upgrades', 'deals']){ view = v; zeichne(); vorschlaegeZeichnen(); }
+        for(const v of ['aufbau', 'wunsch', 'deals']){ view = v; zeichne(); vorschlaegeZeichnen(); }
         r[m] = [...document.querySelectorAll('button')].filter(b => (b.offsetParent !== null) && !b.textContent.trim() && !b.getAttribute('aria-label') && !b.title).length; }
         view = 'aufbau'; zeichne(); return r; });
     }
@@ -377,7 +383,7 @@ const PRUEFUNGEN = [
       eiSkip();
       /* Laufraeder mit Freigabe im Aufbau: ohne Gewicht steht "Nicht geprueft" in der Pruefung */
       const lr = katalog(quelleOf(slotOf('laufraeder'))).find(t => t.maxSys); if(lr) build.laufraeder = lr.id; sichern();
-      view = 'befunde'; zeichne(); const nichtGeprueft = !!$('findings').querySelector('.nicht-geprueft');
+      view = 'aufbau'; zeichne(); const nichtGeprueft = !!$('findings').querySelector('.nicht-geprueft');
       plan.fahrer = 80; sichern(); zeichne(); const mitGewicht = !!$('findings').querySelector('.nicht-geprueft');
       return {nachDurchklicken, leerAnzeige, eingetragen, entfernt, nichtGeprueft, mitGewicht};
     });
