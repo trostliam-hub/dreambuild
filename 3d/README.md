@@ -1,14 +1,25 @@
 # 3D-Beispielrad (Propain Spindrift 5 AL, Größe L, Mullet)
 
-Ein mit Blender gebautes 3D-Modell, das in der App als **vorgerendertes Bild** die
-gezeichnete Radgrafik auf Startseite, Begrüßung und in der ersten Rundgang-Karte
-ersetzt (`bilder/beispielrad-seite-640.webp` und `-1200.webp`). Die App lädt kein
-3D-Modell; drehen oder zoomen bringt an diesen Stellen keinen konkreten Nutzen.
-Das GLB liegt für später bereit.
+Ein mit Blender gebautes 3D-Modell. In der App steht es auf zwei Arten:
 
-Das Modell zeigt **ein Beispielrad**. Es steht nicht für den Rahmen, den jemand in
-der App ausgewählt hat; deshalb steht unter dem Bild „Beispielrad: Propain
-Spindrift 5 AL, Größe L, Mullet“.
+- als **vorgerendertes Bild** (`bilder/beispielrad-seite-640.webp` und `-1200.webp`)
+  im Radbild des Aufbaus, **nur wenn der gewählte Rahmen der Propain Spindrift ist**
+  (BEVEL-002; vorher stand es als Beispielrad auch über fremden Rädern);
+- als **3D-Ansicht auf Tippen** („In 3D ansehen“): three.js aus `vendor/three-0.169.0/`
+  und das GLB laden erst dann, aus diesem Repo, nie beim Start. Ohne WebGL oder bei
+  einem Ladefehler bleibt das Bild stehen.
+
+Nachgebaut ist nur der **Rahmen**. Gabel, Dämpfer, Laufräder, Antrieb, Bremsen,
+Cockpit und Sitz sind allgemeine Bauformen in echten Maßen — das steht in der App
+unter der Ansicht, und im GLB trägt jedes dieser Teile `generisch: true`.
+
+**Module (BEVEL-002):** `skripte/module.py` ordnet jedes Objekt einer
+Teile-Kategorie der App zu (`rahmen`, `gabel`, `daempfer`, `laufraeder`,
+`reifenVR`, `reifenHR`, `bremsen`, `kurbel`, `kassette`, `kette`, `schaltwerk`,
+`innenlager`, `pedale`, `lenker`, `vorbau`, `griffe`, `steuersatz`, `stuetze`,
+`sattel`). Die Zuordnung steht als Objekt-Eigenschaft in der .blend
+(`crankscore_slot`, `generisch`) und als glTF-`extras` an 146 Knoten im GLB. Der
+Betrachter hebt damit eine Baugruppe hervor, ohne Namen zu raten.
 
 **Aussehen:** nach Liams Vergleichsfoto eines Propain (09.10.2026) — weißer Rahmen,
 rote Tauchrohre, schwarze Anbauteile, rahmenfarbener oberer Hebel, silberne
@@ -17,12 +28,16 @@ Flat-Pedale. Auf dem Unterrohr steht statt des Herstellernamens groß
 dunkel, „SCORE“ grau); unten am Tretlager ein dunkler Unterrohrschutz. Andere
 Markenlogos (Gabel, Laufräder, Reifen) sind nicht nachgebildet.
 
+**Grenze:** Die Herstellerseiten (propain-bikes.com) sind aus der Arbeitsumgebung
+gesperrt. Wie nah das Modell am echten Rad ist, ließ sich deshalb nicht mit
+offiziellen Bildern abgleichen; die Maße stammen aus den unten genannten Quellen.
+
 ## Dateien
 
 | Datei | Inhalt | Größe |
 |---|---|---|
 | `modell/spindrift-5-al.blend` | bearbeitbare Szene (komprimiert, Schriftzug-Textur eingepackt): Sammlungen je Baugruppe, Studio, zwei Kameras, Animation | 1,7 MB |
-| `modell/spindrift-5-al.glb` | optimiertes GLB (Draco, Stufe 10) mit Schriftzug-Textur, ein Animations-Clip „Spindrift_Bewegung“ | 0,87 MB |
+| `modell/spindrift-5-al.glb` | optimiertes GLB (Draco, Stufe 10) mit Schriftzug-Textur, Modul-Angaben als extras, ein Animations-Clip „Spindrift_Bewegung“ — lädt die App auf Tippen | 0,88 MB |
 | `bilder/rad-seite.png`, `bilder/rad-dreiviertel.png` | Renderings mit transparentem Grund und weichem Bodenschatten (Cycles, 128 Samples, entrauscht) | 1,4 und 1,1 MB |
 | `skripte/` | alles, was Modell, Renderings, GLB und Prüfung reproduzierbar erzeugt | |
 | `skripte/unterrohr-dekor.png` | Schriftzug-Textur des Unterrohrs (aus `dekor.py`) | 0,1 MB |
@@ -159,6 +174,7 @@ python bau.py ../modell/spindrift-5-al.blend          # oder: blender -b -P bau.
 python kollision.py                                    # Kollisionsprüfung (0/50/100 %)
 python render_final.py ../modell/spindrift-5-al.blend /tmp/roh 128 2000
 python nachbearbeitung.py /tmp/roh/roh-seite.png /tmp/roh/roh-dreiviertel.png /tmp/bilder
+python module_speichern.py ../modell/spindrift-5-al.blend   # Teile-Kategorien in die .blend
 python export_glb.py ../modell/spindrift-5-al.blend ../modell/spindrift-5-al.glb 1
 ```
 

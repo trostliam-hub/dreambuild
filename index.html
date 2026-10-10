@@ -3319,6 +3319,14 @@ label.fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px
 .vt-satz.gut b{color:var(--gut)} .vt-satz.w b{color:var(--warn)} .vt-satz.no b{color:var(--bad)}
 .vt-akt{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
 .ag-wahl button{min-width:120px}
+/* 3D-Betrachter */
+.d3{position:relative;width:100%;aspect-ratio:1 / .62;border-radius:var(--r);background:var(--surface-2);display:grid;place-items:center;overflow:hidden;touch-action:none}
+.d3 canvas{display:block;width:100% !important;height:100% !important;cursor:grab}
+.d3.aus{aspect-ratio:auto;display:block;padding:10px;touch-action:auto}
+.d3.aus .brad-b{display:block}.d3.aus img{display:block;width:100%;height:auto}
+.d3-lade{font-size:13px;color:var(--ink-3)}
+.d3-grund{display:block;margin-top:8px;font-size:12.5px;color:var(--ink-2)}
+.d3-gruppen{margin-top:10px}
 @media (prefers-reduced-motion:reduce){.pf-inhalt.auf,.merk-puls{animation:none}.pf-pfeil{transition:none}}
 </style>
 </head>
@@ -16105,6 +16113,7 @@ function radbildKarte(){
     <div class="rb-bild">${bild}</div>
     ${unter ? `<p class="rb-unter">${unter}</p>` : ""}
     ${fotoKn || modus === "real" ? `<div class="rb-akt">${fotoKn}${modus === "real" ? `<button class="btn ghost sm" data-spick="1">${tx("Wo steht was am Rad?", "What's where on your bike?")}</button>` : ""}</div>` : ""}
+    ${art === "render" ? `<div class="rb-akt"><button class="btn ghost sm" data-d3="1">${tx("In 3D ansehen", "View in 3D")}</button></div>` : ""}
     <button class="rb-finder" data-finder="1">
       <span class="rb-f-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></span>
       <span class="rb-f-t"><b>${tx("Passendes Teil finden", "Find a matching part")}</b><span>${tx("Für dein Rad und dein Ziel — mit Marke und Budget", "For your bike and your goal — with brand and budget")}</span></span>
@@ -16206,6 +16215,91 @@ function deinTeilHtml(k){
     <div class="dt-akt"><button class="btn ghost sm" data-detail="${k}|${esc(t.id)}">${tx("Preise und Daten", "Prices and specs")}</button>
       <button class="btn ghost sm" data-leeren="${k}">${tx("Teil entfernen", "Remove part")}</button></div>
   </section>`;
+}
+
+
+/* ═══════════ BEVEL-002: 3D-Betrachter ═══════════
+   Nur beim Propain Spindrift, weil nur dessen Rahmen nachgebaut ist. three.js
+   und das GLB (3d/modell/, Draco) laden erst auf Tippen, aus diesem Repo. Ohne
+   WebGL oder bei einem Fehler bleibt das Bild stehen. Gerendert wird nur, wenn
+   sich etwas bewegt -- kein Dauerlauf. Die Baugruppen tragen ihre
+   Teile-Kategorie (3d/skripte/module.py); alles ausser dem Rahmen ist eine
+   allgemeine Bauform, kein bestimmtes Produkt. */
+const D3_PFAD = "vendor/three-0.169.0/", D3_GLB = "3d/modell/spindrift-5-al.glb";
+const D3_GRUPPEN = [["", ["Alles", "Everything"], null], ["rahmen", ["Rahmen", "Frame"], ["rahmen", "steuersatz"]],
+  ["fahrwerk", ["Gabel & Dämpfer", "Fork & shock"], ["gabel", "daempfer"]], ["laufraeder", ["Laufräder", "Wheels"], ["laufraeder", "reifenVR", "reifenHR"]],
+  ["antrieb", ["Antrieb", "Drivetrain"], ["kassette", "kette", "schaltwerk", "kurbel", "innenlager", "pedale"]], ["bremsen", ["Bremsen", "Brakes"], ["bremsen"]],
+  ["cockpit", ["Cockpit", "Cockpit"], ["lenker", "vorbau", "griffe"]], ["sitz", ["Sitz", "Saddle & post"], ["stuetze", "sattel"]]];
+let d3 = null;
+function oeffne3D(){
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">Propain Spindrift 5 AL · ${tx("3D-Modell", "3D model")}</span>${tx("Dein Rahmen in 3D", "Your frame in 3D")}</h3>${zuBtn}</div>
+    <div class="sheet-b">
+      <div class="d3" id="d3" aria-label="${tx("3D-Ansicht, mit Ziehen drehen", "3D view, drag to rotate")}" role="img">
+        <span class="d3-lade" id="d3-lade">${tx("3D-Modell lädt …", "Loading 3D model …")}</span></div>
+      <div class="fi-chips d3-gruppen" role="group" aria-label="${tx("Baugruppe hervorheben", "Highlight an assembly")}">${D3_GRUPPEN.map(([k, n]) => `<button data-d3gruppe="${k}" aria-pressed="${!k}">${tx(n[0], n[1])}</button>`).join("")}</div>
+      <p class="hint" style="margin-top:10px">${tx("Ziehen dreht, zwei Finger oder Mausrad zoomen. Nachgebaut ist nur der Rahmen; Gabel, Dämpfer, Laufräder, Antrieb und Bremsen sind allgemeine Bauformen in echten Maßen — nicht deine Teile und keine bestimmten Produkte.",
+        "Drag to rotate, pinch or scroll to zoom. Only the frame is modelled on the real one; fork, shock, wheels, drivetrain and brakes are generic shapes in real dimensions — not your parts and not specific products.")}</p>
+    </div>`);
+  starte3D();
+}
+function d3Fallback(box, grund){
+  if(!box) return;
+  box.classList.add("aus");
+  box.innerHTML = `<span class="brad-b" style="aspect-ratio:${RAD_BILD.b} / ${RAD_BILD.h}"><img class="brad-img" src="bilder/beispielrad-seite-640.webp" alt="${tx("Propain Spindrift 5 AL von der Seite", "Propain Spindrift 5 AL, side view")}" width="${RAD_BILD.b}" height="${RAD_BILD.h}"></span>
+    <span class="d3-grund">${grund}</span>`;
+}
+async function starte3D(){
+  const box = $("d3");
+  if(!box) return;
+  let gl = null;
+  try{ const c = document.createElement("canvas"); gl = c.getContext("webgl2") || c.getContext("webgl"); }catch(e){}
+  if(!gl){ d3Fallback(box, tx("Dieses Gerät zeigt kein 3D (WebGL ist aus). Das Bild zeigt dasselbe Modell.", "This device can't show 3D (WebGL is off). The image shows the same model.")); return; }
+  try{
+    const [THREE, G, D, O, R] = await Promise.all(["three.module.min.js", "GLTFLoader.js", "DRACOLoader.js", "OrbitControls.js", "RoomEnvironment.js"].map(f => import("./" + D3_PFAD + f)));
+    if(!$("d3")) return;                                         /* Blatt inzwischen zu */
+    const w = box.clientWidth, hh = Math.round(w * .62);
+    const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1)); renderer.setSize(w, hh);
+    renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1;
+    const szene = new THREE.Scene(), pm = new THREE.PMREMGenerator(renderer);
+    szene.environment = pm.fromScene(new R.RoomEnvironment(), .04).texture;
+    const kamera = new THREE.PerspectiveCamera(30, w / hh, .01, 100);
+    const draco = new D.DRACOLoader(); draco.setDecoderPath("./" + D3_PFAD + "draco/");
+    const lader = new G.GLTFLoader(); lader.setDRACOLoader(draco);
+    const gltf = await new Promise((ok, nein) => lader.load("./" + D3_GLB, ok, undefined, nein));
+    if(!$("d3")){ renderer.dispose(); return; }
+    const rad = gltf.scene; szene.add(rad);
+    const bb = new THREE.Box3().setFromObject(rad), mitte = bb.getCenter(new THREE.Vector3()), gr = bb.getSize(new THREE.Vector3());
+    rad.position.sub(mitte);
+    const abst = Math.max(gr.x, gr.y, gr.z) * 1.2;
+    kamera.position.set(abst * .62, abst * .22, abst * .78); kamera.lookAt(0, 0, 0);
+    const steuer = new O.OrbitControls(kamera, renderer.domElement);
+    steuer.enablePan = false; steuer.minDistance = abst * .45; steuer.maxDistance = abst * 2; steuer.target.set(0, 0, 0); steuer.update();
+    const zeichne3 = () => renderer.render(szene, kamera);
+    steuer.addEventListener("change", zeichne3);
+    /* Teile-Kategorie je Mesh: vom Knoten oder seinen Eltern (glTF extras -> userData) */
+    const meshes = [];
+    rad.traverse(o => { if(!o.isMesh) return; let p = o, s = null; while(p && !s){ s = p.userData && p.userData.crankscore_slot; p = p.parent; }
+      o.material = o.material.clone(); meshes.push({o:o, slot:s, op:o.material.opacity, tr:o.material.transparent}); });
+    box.innerHTML = ""; box.appendChild(renderer.domElement); box.classList.add("da");
+    zeichne3();
+    d3 = {renderer:renderer, steuer:steuer, pm:pm, draco:draco, zeichne:zeichne3, meshes:meshes};
+  }catch(e){
+    d3Fallback($("d3"), tx("Das 3D-Modell ließ sich gerade nicht laden. Das Bild zeigt dasselbe Modell.", "The 3D model couldn't be loaded right now. The image shows the same model."));
+  }
+}
+/* Eine Baugruppe hervorheben: die anderen treten zurueck */
+function d3Gruppe(k){
+  if(!d3) return;
+  const g = D3_GRUPPEN.find(x => x[0] === k), slots = g && g[2];
+  for(const m of d3.meshes){ const an = !slots || slots.indexOf(m.slot) >= 0;
+    m.o.material.transparent = an ? m.tr : true; m.o.material.opacity = an ? m.op : .07; m.o.material.depthWrite = an; m.o.material.needsUpdate = true; }
+  d3.zeichne();
+}
+function d3Weg(){
+  if(!d3) return;
+  try{ d3.steuer.dispose(); d3.pm.dispose(); d3.draco.dispose(); d3.renderer.dispose(); }catch(e){}
+  d3 = null;
 }
 
 let frischSlot = null;             /* gerade eingebaut: leuchtet einmal auf */
@@ -16883,7 +16977,7 @@ function schliesse(){
     if(z && z.getClientRects().length) try{ z.focus({preventScroll:true}); }catch(e){}
   }, 0);
 }
-function schliesseNurZustand(){ schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; detailVon = null; profUmbenennen = null; profLoeschFrage = null; }
+function schliesseNurZustand(){ d3Weg(); schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; detailVon = null; profUmbenennen = null; profLoeschFrage = null; }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen" data-ta="Schließen|Close">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 
@@ -17866,6 +17960,9 @@ document.addEventListener("click", e => {
 
   /* BEVEL-002: Finder, Paket, Wunschliste, Vergleich, Pruefung */
   if(T("[data-finder]")){ oeffneFinderStart(); return; }
+  if(T("[data-d3]")){ oeffne3D(); return; }
+  const d3g = T("[data-d3gruppe]");
+  if(d3g){ d3Gruppe(d3g.dataset.d3gruppe); d3g.parentElement.querySelectorAll("[data-d3gruppe]").forEach(b => b.setAttribute("aria-pressed", String(b === d3g))); return; }
   if(T("[data-pruef]")){ pruefUmschalten(); if(pruefOffen) vorschlaegeZeichnen(); return; }
   const tsr = T("[data-ts]");
   if(tsr){ if(offenerSlot) oeffneSlot(offenerSlot, {tab:tsr.dataset.ts}); return; }
