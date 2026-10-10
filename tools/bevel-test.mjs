@@ -221,6 +221,22 @@ const PRUEFUNGEN = [
       const de = /\b(Leichter|Merken|Vergleichen|Gemerkt|Passt mit|Richtpreis|statt|Einschätzung|Wunschliste|Prüfung|Keine Konflikte|Zubehör|Teil eintragen)\b/;
       return {a:de.test(a) ? a.match(de)[0] : '', b:de.test(b) ? b.match(de)[0] : '', c:de.test(c) ? c.match(de)[0] : '', d:de.test(d) ? d.match(de)[0] : ''}; });
     return {ok:!r.a && !r.b && !r.c && !r.d, info:r}; }],
+  ['Einfuehrung: drei Szenen vor der Einrichtung, ueberspringbar, nur einmal, per Tastatur, erneut ueber die Hilfe', async () => {
+    await seite.goto(URL0); await ev(() => { localStorage.clear(); localStorage.setItem('mtb.sprache', 'de'); }); await seite.reload();
+    await seite.waitForSelector('[data-lsstart]'); await seite.click('[data-lsstart]');
+    await seite.waitForSelector('#szenen .sz');
+    const r1 = await ev(() => ({punkte:document.querySelectorAll('#szenen .sz-punkte i').length, weg:!!document.querySelector('[data-szweg]'), ei:!!document.querySelector('#modal .ei'), fokus:document.activeElement && document.activeElement.dataset.szweiter}));
+    await seite.keyboard.press('ArrowRight'); await seite.keyboard.press('ArrowRight');
+    const r2 = await ev(() => ({szene:szene.i, titel:document.querySelector('#sz-h').textContent}));
+    await seite.keyboard.press('Escape'); await seite.waitForTimeout(500);
+    const r3 = await ev(() => ({gesehen:localStorage.getItem('mtb.szenen'), weg:!document.querySelector('#szenen .sz'), ei:!!document.querySelector('#modal .ei')}));
+    await ev(() => { localStorage.setItem('mtb.einstieg2', '1'); }); await seite.reload(); await bereit(); await seite.waitForTimeout(500);
+    const r4 = await ev(() => ({szenen:!!document.querySelector('#szenen .sz')}));
+    await ev(() => { oeffneMenu(); $('modal').querySelector('[data-szenen]').click(); }); await seite.waitForTimeout(500);
+    const r5 = await ev(() => ({wieder:!!document.querySelector('#szenen .sz')}));
+    await ev(() => document.querySelector('[data-szweg]').click()); await seite.waitForTimeout(400);
+    const r = {r1, r2, r3, r4, r5};
+    return {ok:r1.punkte === 3 && r1.weg && !r1.ei && r1.fokus === '1' && r2.szene === 2 && /Klarer Plan/.test(r2.titel) && r3.gesehen === '1' && r3.weg && r3.ei && !r4.szenen && r5.wieder, info:r}; }],
 ];
 
 let bestanden = 0, gelaufen = 0;

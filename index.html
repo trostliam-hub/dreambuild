@@ -3327,6 +3327,46 @@ label.fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px
 .d3-lade{font-size:13px;color:var(--ink-3)}
 .d3-grund{display:block;margin-top:8px;font-size:12.5px;color:var(--ink-2)}
 .d3-gruppen{margin-top:10px}
+/* Einfuehrung in drei Szenen */
+#szenen{position:fixed;inset:0;z-index:120;background:var(--ground);display:flex;justify-content:center;
+  padding:calc(env(safe-area-inset-top,0px) + 12px) max(16px, var(--sa-r, 0px)) calc(env(safe-area-inset-bottom,0px) + 16px) max(16px, var(--sa-l, 0px));animation:sz-auf var(--t-mittel) var(--e-aus)}
+#szenen:empty{display:none}
+#szenen.weg{animation:sz-zu .24s var(--e-ein) forwards}
+@keyframes sz-auf{from{opacity:0}to{opacity:1}} @keyframes sz-zu{to{opacity:0}}
+.sz{width:100%;max-width:520px;display:flex;flex-direction:column;min-height:100%}
+.sz-kopf{display:flex;align-items:center;justify-content:space-between;min-height:48px}
+.sz-punkte{display:flex;gap:6px}
+.sz-punkte i{width:22px;height:4px;border-radius:2px;background:var(--line);transition:background var(--t-mittel) var(--e-weich)}
+.sz-punkte i.an{background:var(--anod)} .sz-punkte i.war{background:color-mix(in srgb,var(--anod) 45%,var(--line))}
+.sz-weg{min-height:44px;padding:0 6px;font-size:14px;font-weight:650;color:var(--ink-2)}
+.sz-inhalt{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:12px 0;animation:sz-rein var(--t-mittel) var(--e-aus)}
+@keyframes sz-rein{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+.sz-bild{min-height:220px;display:grid;place-items:center;margin-bottom:10px}
+.sz-ue{font-size:12.5px;font-weight:650;color:var(--anod)}
+.sz h2{font-family:var(--f-zahl);font-size:30px;line-height:1.08;letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
+.sz p{margin:0;font-size:15.5px;line-height:1.55;color:var(--ink-2);text-wrap:pretty}
+.sz-fuss{display:flex;justify-content:space-between;gap:10px;padding-top:8px}
+.sz-fuss .btn{min-width:120px}
+.sz-chaos{position:relative;width:100%;max-width:340px;height:220px}
+.sz-zettel{position:absolute;padding:9px 12px;border-radius:var(--r-s);background:var(--surface);box-shadow:var(--shadow);font-size:13px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.sz-zettel b{margin-left:8px;color:var(--warn);font-family:var(--f-zahl)}
+.sz-pruef{display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:center}
+.sz-ring{position:relative;width:118px;height:118px;display:grid;place-items:center}
+.sz-ring svg{position:absolute;inset:0}
+.sz-bahn{fill:none;stroke:var(--line);stroke-width:7}
+.sz-wert{fill:none;stroke:var(--ring-gesamt);stroke-width:7;stroke-linecap:round;stroke-dasharray:263.9;stroke-dashoffset:21;animation:sz-ring .9s var(--e-aus)}
+@keyframes sz-ring{from{stroke-dashoffset:263.9}}
+.sz-ring b{font-family:var(--f-zahl);font-size:38px;color:var(--ink)}
+.sz-zeilen{display:flex;flex-direction:column;gap:8px}
+.sz-z{display:flex;gap:8px;align-items:center;font-size:13.5px;color:var(--ink-2)}
+.sz-z svg{flex:none;color:var(--ink-3)} .sz-z.ok svg{color:var(--gut)} .sz-z.ad svg{color:var(--anod)}
+.sz-plan{width:100%;display:grid;place-items:center}
+.sz-karte{width:100%;max-width:330px;border:1px solid var(--line-soft);border-radius:var(--r);background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:5px;box-shadow:var(--shadow)}
+.sz-kk{font-size:12px;font-weight:650;color:var(--ink-3)} .sz-karte b{font-size:16px;color:var(--ink)}
+.sz-kz{font-size:13px;color:var(--ink-2);display:flex;gap:8px} .sz-kz i{font-style:normal;font-weight:800} .sz-p{color:var(--gut)} .sz-m{color:var(--warn)}
+.sz-kn{display:flex;gap:6px;margin-top:6px} .sz-kn i{font-style:normal;font-size:12px;font-weight:700;padding:6px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2)}
+.sz-kn i.an{background:var(--akzent-flaeche);color:#fff}
+@media (prefers-reduced-motion:reduce){#szenen,#szenen.weg,.sz-inhalt,.sz-wert{animation:none}}
 @media (prefers-reduced-motion:reduce){.pf-inhalt.auf,.merk-puls{animation:none}.pf-pfeil{transition:none}}
 </style>
 </head>
@@ -7787,12 +7827,83 @@ window.addEventListener("hashchange", () => {
   try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
   schliesse(); oeffneStartseite();
 });
+
+/* ═══════════ BEVEL-002: Einfuehrung in drei Szenen ═══════════
+   Vor der Ersteinrichtung, getrennt von ihr: was CrankScore loest, in drei
+   Bildern -- ohne Ueberblick, mit CrankScore, der Plan. Ueberspringbar, kommt
+   genau einmal (mtb.szenen), unter Einstellungen > Hilfe erneut ansehbar.
+   Gezeichnet mit den Bausteinen der App, keine Fotos fremder Raeder. */
+const szenenGesehen = () => { try{ return localStorage.getItem("mtb.szenen") === "1"; }catch(e){ return true; } };
+let szene = {i:0, danach:null};
+function szenenHtml(){
+  const S = [
+    {k:"ohne", ue:tx("Ohne Überblick", "Without an overview"), h:tx("Viele Teile, viele offene Fragen", "Lots of parts, lots of open questions"),
+     t:tx("Passt die Gabel zum Rahmen? Braucht die Bremse einen Adapter? Ist das teurere Teil wirklich besser — oder nur teurer?", "Does the fork fit the frame? Does the brake need an adapter? Is the pricier part really better — or just pricier?"),
+     bild:`<div class="sz-chaos" aria-hidden="true">${[[tx("Gabel 160 mm", "Fork 160 mm"), "?"], [tx("Scheibe 203 mm", "Rotor 203 mm"), "?"], [tx("Freilauf XD", "XD freehub"), "?"], [tx("Ø 31,6 oder 34,9?", "Ø 31.6 or 34.9?"), "?"], [tx("Angebot −30 %?", "Deal −30%?"), "?"]]
+       .map(([t, z], i) => { const [l, o, w] = [[0, 2, -5], [42, 18, 4], [6, 40, -2], [40, 60, 5], [12, 80, -4]][i];
+         return `<span class="sz-zettel" style="left:${l}%;top:${o}%;transform:rotate(${w}deg)">${esc(t)}<b>${z}</b></span>`; }).join("")}</div>`},
+    {k:"mit", ue:tx("Mit CrankScore", "With CrankScore"), h:tx("Geprüft statt geraten", "Checked, not guessed"),
+     t:tx("Jedes Teil wird gegen dein Rad geprüft. Adapter rechnet die App mit ein, fehlende Angaben stehen offen da.", "Every part is checked against your bike. Adapters are included, and missing details are shown openly."),
+     bild:`<div class="sz-pruef" aria-hidden="true"><span class="sz-ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" class="sz-bahn"/><circle cx="50" cy="50" r="42" class="sz-wert" transform="rotate(-90 50 50)"/></svg><b>92</b></span>
+       <span class="sz-zeilen"><span class="sz-z ok">${ST_IC.gut}${tx("Keine Konflikte in den geprüften Angaben", "No conflicts in the checked data")}</span>
+       <span class="sz-z ad">${ST_IC.offen}${tx("1 Adapter eingeplant · 17 €", "1 adapter included · €17")}</span>
+       <span class="sz-z">${ST_IC.offen}${tx("1 Angabe fehlt — die App fragt nach", "1 detail missing — the app asks")}</span></span></div>`},
+    {k:"plan", ue:tx("Dein Plan", "Your plan"), h:tx("Dein Rad. Passende Teile. Klarer Plan.", "Your bike. Matching parts. A clear plan."),
+     t:tx("Ziel wählen, Marke und Budget festlegen — die App zeigt nur, was wirklich besser ist. Merken, vergleichen, einbauen, mit Rückgängig.", "Pick a goal, brand and budget — the app only shows what's really better. Save, compare, fit — with undo."),
+     bild:`<div class="sz-plan" aria-hidden="true"><span class="sz-karte"><span class="sz-kk">${tx("Bremsen · Mehr Bremskraft", "Brakes · More braking power")}</span><b>${tx("4 statt 2 Kolben", "4 instead of 2 pistons")}</b>
+       <span class="sz-kz"><i class="sz-p">+</i>${tx("Scheibe vorn 203 statt 180 mm", "Front rotor 203 vs 180 mm")}</span><span class="sz-kz"><i class="sz-m">−</i>${tx("140 g schwerer", "140 g heavier")}</span>
+       <span class="sz-kn"><i>${tx("Vergleichen", "Compare")}</i><i>${tx("Merken", "Save")}</i><i class="an">${tx("Ersetzen", "Replace")}</i></span></span></div>`}];
+  const s = S[szene.i], letzte = szene.i === S.length - 1;
+  return `<div class="sz" role="dialog" aria-modal="true" aria-labelledby="sz-h" data-szene="${s.k}">
+    <div class="sz-kopf"><span class="sz-punkte" aria-label="${tx(`Szene ${szene.i + 1} von ${S.length}`, `Scene ${szene.i + 1} of ${S.length}`)}">${S.map((x, i) => `<i class="${i === szene.i ? "an" : i < szene.i ? "war" : ""}"></i>`).join("")}</span>
+      <button class="sz-weg" data-szweg="1">${tx("Überspringen", "Skip")}</button></div>
+    <div class="sz-inhalt" key="${szene.i}">
+      <div class="sz-bild">${s.bild}</div>
+      <span class="sz-ue">${s.ue}</span>
+      <h2 id="sz-h">${s.h}</h2>
+      <p>${s.t}</p>
+    </div>
+    <div class="sz-fuss">${szene.i > 0 ? `<button class="btn ghost" data-szzurueck="1">${tx("Zurück", "Back")}</button>` : "<span></span>"}
+      <button class="btn" data-szweiter="1">${letzte ? tx("Los geht's", "Let's go") : tx("Weiter", "Next")}</button></div>
+  </div>`;
+}
+function oeffneSzenen(danach){
+  szene = {i:0, danach:danach || null};
+  let el = $("szenen");
+  if(!el){ el = document.createElement("div"); el.id = "szenen"; document.body.appendChild(el); }
+  el.innerHTML = szenenHtml(); sperre();
+  const b = el.querySelector("[data-szweiter]"); if(b) try{ b.focus({preventScroll:true}); }catch(e){}
+}
+function szeneZeigen(i){
+  szene.i = i;
+  const el = $("szenen"); if(!el) return;
+  el.innerHTML = szenenHtml();
+  const b = el.querySelector("[data-szweiter]"); if(b) try{ b.focus({preventScroll:true}); }catch(e){}
+}
+function szenenEnde(){
+  try{ localStorage.setItem("mtb.szenen", "1"); }catch(e){}
+  const el = $("szenen"), f = szene.danach; szene.danach = null;
+  if(el){ if(bewegungAus()) el.remove(); else { el.classList.add("weg"); setTimeout(() => el.remove(), 260); } }
+  freigeben();
+  if(f) setTimeout(f, bewegungAus() ? 0 : 180);
+}
+/* Erste Einrichtung: neue Nutzer sehen vorher einmal die Szenen */
+function einstiegNeu(){ if(szenenGesehen()) oeffneEinstieg("voll"); else oeffneSzenen(() => oeffneEinstieg("voll")); }
+document.addEventListener("keydown", e => {
+  if(!$("szenen") || !$("szenen").firstElementChild) return;
+  if(e.key === "Escape"){ e.preventDefault(); szenenEnde(); }
+  else if(e.key === "ArrowRight"){ e.preventDefault(); if(szene.i < 2) szeneZeigen(szene.i + 1); }
+  else if(e.key === "ArrowLeft"){ e.preventDefault(); if(szene.i > 0) szeneZeigen(szene.i - 1); }
+  else if(e.key === "Tab"){ const f = [...$("szenen").querySelectorAll("button")]; if(!f.length) return;
+    const i = f.indexOf(document.activeElement), n = e.shiftKey ? (i <= 0 ? f.length - 1 : i - 1) : (i + 1) % f.length; e.preventDefault(); f[n].focus(); }
+});
+
 /* Starten: wer neu ist, kommt in den Einstieg, alle anderen in die App */
 function startseiteStart(){
   schliesseStartseite();
   let neu = false;
   try{ neu = !localStorage.getItem("mtb.einstieg2"); }catch(e){}
-  if(neu) oeffneEinstieg("voll");
+  if(neu) einstiegNeu();
 }
 
 /* ═══════════ Live-Preise ═══════════
@@ -17652,6 +17763,7 @@ function oeffneMenu(){
       <div class="hilfe-liste">${[
         ['data-hilfe="begriffe"', IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie, SAG … einfach erklärt", "Boost, freehub, chainline, sag … explained simply")],
         ['data-startseite="1"', "logo", tx("Über CrankScore", "About CrankScore"), tx("Alles, was die App kann — auf einer Seite", "Everything the app does — on one page")],
+        ['data-szenen="1"', IC.auge, tx("Einführung ansehen", "Watch the intro"), tx("Drei kurze Szenen: was CrankScore für dich löst", "Three short scenes: what CrankScore does for you")],
         ['data-hilfe="tour"', IC.tour, tx("App-Rundgang", "App tour"), tx("In 30 Sekunden: wo was ist", "In 30 seconds: where everything is")]
       ].concat(leitAus ? [['data-hilfe="leit"', IC.auge, tx("Aufgabenkarte wieder zeigen", "Show the task card again"), tx("Die Karte „Nächster Schritt“ über dem Score", "The “Next step” card above the score")]] : [])
         .map(([a, i, t, u]) => `<button class="hl-zeile" ${a}><span class="hl-ic">${i === "logo" ? csLogo(20) : ic(i, 18)}</span><span><b>${t}</b><span>${u}</span></span>${ic(IC.weiter, 16)}</button>`).join("")}</div>
@@ -17961,6 +18073,10 @@ document.addEventListener("click", e => {
   /* BEVEL-002: Finder, Paket, Wunschliste, Vergleich, Pruefung */
   if(T("[data-finder]")){ oeffneFinderStart(); return; }
   if(T("[data-d3]")){ oeffne3D(); return; }
+  if(T("[data-szenen]")){ schliesse(); setTimeout(() => oeffneSzenen(null), 200); return; }
+  if(T("[data-szweg]")){ szenenEnde(); return; }
+  if(T("[data-szweiter]")){ if(szene.i >= 2) szenenEnde(); else szeneZeigen(szene.i + 1); return; }
+  if(T("[data-szzurueck]")){ szeneZeigen(Math.max(0, szene.i - 1)); return; }
   const d3g = T("[data-d3gruppe]");
   if(d3g){ d3Gruppe(d3g.dataset.d3gruppe); d3g.parentElement.querySelectorAll("[data-d3gruppe]").forEach(b => b.setAttribute("aria-pressed", String(b === d3g))); return; }
   if(T("[data-pruef]")){ pruefUmschalten(); if(pruefOffen) vorschlaegeZeichnen(); return; }
@@ -18484,7 +18600,7 @@ function start(daten){
   const startHash = /^#start$/i.test(location.hash);
   if(startHash){ try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){} }
   if((startHash || (erstesMal && !istInstalliert())) && !daten && !linkVerwaltung && !btLink) oeffneStartseite();
-  else if(erstesMal && !daten && !linkVerwaltung && !btLink) setTimeout(() => { if(!$("modal").firstElementChild) oeffneEinstieg("voll"); }, 250);
+  else if(erstesMal && !daten && !linkVerwaltung && !btLink) setTimeout(() => { if(!$("modal").firstElementChild) einstiegNeu(); }, 250);
   /* Der Rundgang startet nie von selbst -- er ist eine freiwillige Einfuehrung
      unter Einstellungen > Hilfe (Doppelungen-Pruefung 2026-10-06) */
   else einflug();

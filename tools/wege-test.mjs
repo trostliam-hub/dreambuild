@@ -59,6 +59,9 @@ const PRUEFUNGEN = [
     /* Erster Start: Startseite, "Starten" fuehrt in den Einstieg */
     await seite.waitForFunction(() => !!document.querySelector('[data-lsstart]') || !!document.querySelector('.ei'));
     await ev(() => { const b = document.querySelector('[data-lsstart]'); if(b) b.click(); });
+    /* BEVEL-002: vor der Einrichtung einmal die drei Szenen -- ueberspringbar */
+    await seite.waitForFunction(() => !!document.querySelector('#szenen .sz') || !!document.querySelector('.ei'));
+    await ev(() => { const w = document.querySelector('[data-szweg]'); if(w) w.click(); });
     await seite.waitForFunction(() => !!document.querySelector('.ei'));
     const r1 = await ev(() => ({schritte:eiSchritte(), modal:!!$('modal').querySelector('.ei')}));
     await ev(() => { ei.ziel = 'traum'; eiFertig(); });
