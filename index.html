@@ -11,7 +11,7 @@
    Home-Bildschirm-Apps teils nur einmal und uebernimmt spaetere Aenderungen nicht. */
 (function(){var hell=false;try{hell=localStorage.getItem("mtb.design")==="hell";}catch(e){}
 if(hell)document.documentElement.dataset.theme="light";
-var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#eef1f4":"#000000";document.head.appendChild(m);})();</script>
+var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0ec":"#16181b";document.head.appendChild(m);})();</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -151,9 +151,11 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#eef1f
      mehr: --grad ist nur noch eine einfarbige Akzentflaeche (weisse Schrift
      darauf >= 4,5:1). Kontraste per WCAG-Formel geprueft: Grautexte >= 4,5:1,
      Ringe >= 3:1. */
-  --ground:#000000; --surface:#141518; --surface-2:#1c1e22; --sunk:#2a2d32;
-  --ink:#f3f5f7; --ink-2:#b4b9c0; --ink-3:#878d95;
-  --line:#2d3035; --line-soft:#222428; --hair:rgba(255,255,255,.07);
+  /* BEVEL-002 (Liam 2026-10-10): weiches Anthrazit statt reinem Schwarz,
+     klar abgestufte Flaechen; Texte >= 4,5:1 auch auf --sunk. */
+  --ground:#16181b; --surface:#1f2226; --surface-2:#262a2f; --sunk:#30343a;
+  --ink:#f2f3f5; --ink-2:#bcc0c6; --ink-3:#9ca1a8;
+  --line:#363a40; --line-soft:#2b2e33; --hair:rgba(255,255,255,.06);
   /* Markenfarbe gedecktes Stahlblau (APP-DESIGN-002, Liam 2026-10-09): mit
      Schwarz, Graphit und klaren hellen Flaechen. Es hebt gezielt hervor --
      wichtige Aktionen, aktive Zustaende, den gewaehlten Bereich, den
@@ -165,13 +167,13 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#eef1f
      einen weichen Schein (--ring-schein). */
   --anod:#8ec2f7; --anod-2:#b5d8fb; --anod-3:#b5d8fb; --anod-soft:rgba(142,194,247,.15); --on-anod:#0b1520;
   --akzent-flaeche:#2f6db0; --grad:linear-gradient(#2f6db0,#2f6db0);
-  --ring-gesamt:#6fb2f5; --ring-pass:#7a8ea5; --ring-eins:#6f747b; --ring-schein:rgba(111,178,245,.55);
+  --ring-gesamt:#6fb2f5; --ring-pass:#7a8ea5; --ring-eins:#7b8087; --ring-schein:rgba(111,178,245,.18);
   --m-pass:#7a8ea5; --m-eins:#8ec2f7;
   --gut:#3ddc84; --gut-soft:rgba(61,220,132,.13);
   --warn:#ff9f43; --warn-soft:rgba(255,159,67,.14);
   --bad:#ff5c72; --bad-soft:rgba(255,92,114,.15);
   --fester:#9a6bff; --weicher:#0fa0bd;      /* per dataviz-Validator gegen #0b0a12 geprueft */
-  --glass:rgba(0,0,0,.8);
+  --glass:rgba(22,24,27,.86);
   --shadow:none;
   --shadow-hoch:0 2px 10px rgba(0,0,0,.6),0 24px 60px -22px rgba(0,0,0,.9);
   --r:18px; --r-s:12px; --r-karte:24px;
@@ -188,18 +190,19 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#eef1f
 :root[data-theme="light"]{
   /* Hell: klare, leicht kuehle Flaechen zu Stahlblau und Graphit. Alle
      Textfarben >= 4,5:1 auf Grund, Karte und Flaeche (WCAG-Formel). */
-  --ground:#eef1f4; --surface:#ffffff; --surface-2:#f5f7f9; --sunk:#e3e8ed;
-  --ink:#0f1318; --ink-2:#3d444d; --ink-3:#5f6772;
-  --line:#d9dfe5; --line-soft:#e7ebef; --hair:rgba(15,30,50,.08);
+  /* BEVEL-002: warme helle Neutralflaechen statt kuehlem Grau */
+  --ground:#f2f0ec; --surface:#ffffff; --surface-2:#f8f6f2; --sunk:#e9e6e0;
+  --ink:#14171b; --ink-2:#43474d; --ink-3:#5b5f65;
+  --line:#dfdbd4; --line-soft:#ebe8e2; --hair:rgba(40,30,20,.08);
   --anod:#2563a8; --anod-2:#1d4f87; --anod-3:#1d4f87; --anod-soft:#e3eefa; --on-anod:#ffffff;
   --akzent-flaeche:#2563a8; --grad:linear-gradient(#2563a8,#2563a8);
-  --ring-gesamt:#3a80cc; --ring-pass:#6a7f96; --ring-eins:#858a91; --ring-schein:rgba(58,128,204,.32);
+  --ring-gesamt:#3a80cc; --ring-pass:#6a7f96; --ring-eins:#80858c; --ring-schein:rgba(58,128,204,.10);
   --m-pass:#6a7f96; --m-eins:#2563a8;
   --gut:#0f7653; --gut-soft:#ddf1e7;
   --warn:#a8520a; --warn-soft:#fbeadb;
   --bad:#c42a52; --bad-soft:#fbe2ea;
   --fester:#6d3dff; --weicher:#0a8aa8;      /* per dataviz-Validator gegen #ffffff geprueft */
-  --glass:rgba(238,241,244,.88);
+  --glass:rgba(242,240,236,.88);
   --shadow:0 1px 2px rgba(0,0,0,.04),0 10px 28px -16px rgba(0,0,0,.14);
   --shadow-hoch:0 2px 6px rgba(0,0,0,.06),0 22px 48px -18px rgba(0,0,0,.22);
   color-scheme:light;
@@ -3136,6 +3139,9 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
 .fw-elw small{color:var(--ink-2)}
 /* Logo statt Funkelstern bei Pro und "Ueber CrankScore" */
 .cs-logo-ic{display:block;flex:none}
+/* ── BEVEL-002: Datenbasis am Score ── */
+.datenbasis{margin:10px 2px 0;font-size:12.5px;line-height:1.5;color:var(--ink-3);text-align:center;text-wrap:pretty}
+.datenbasis .db-offen{color:var(--warn);font-weight:600}
 </style>
 </head>
 <body>
@@ -3273,6 +3279,9 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
           <span class="kz-weiter" data-t="Zur Einkaufsliste ›|To shopping list ›">Zur Einkaufsliste ›</span></button>
         <div class="kz-z"><span class="kz-l" data-t="Gewicht|Weight">Gewicht</span><b id="t-gew">–</b><span class="kz-s" id="t-teile"></span></div>
       </div>
+      <!-- Datenbasis (BEVEL-002): woraus die Zahl entsteht und was nicht geprueft ist --
+           eine hohe Zahl soll keine vollstaendige Pruefung vortaeuschen -->
+      <p class="datenbasis" id="datenbasis"></p>
       <button class="wie" data-scorehilfe="1" data-t="Was bedeuten die Zahlen?|What do the numbers mean?">Was bedeuten die Zahlen?</button>
     </div>
   </div>
@@ -8892,19 +8901,49 @@ const spindriftGroesse = reach => SPINDRIFT.reduce((b, g) => Math.abs(g.reach - 
 /* Aussenradius mit 2,5″-Reifen und Felgenhorn (ETRTO / 2) je Laufradgroesse */
 const RAD_R = {"29":380, "27.5":355, "26":335};
 const FELGE_R = {"29":311, "27.5":292, "26":279};
+/* Seitenansicht des eigenen Rahmens (BEVEL-002): aus Radstand, Kettenstrebe,
+   Lenk- und Sitzwinkel, Tretlagerabsenkung, Sitzrohr und dem Federweg der
+   Gabel ergeben sich Reach und Stack -- so steht ein Downhiller anders da als
+   ein XC-Hardtail. Steuerrohr und Gabel-Einbauhoehe sind Naeherungen, deshalb
+   heisst es "vereinfacht". null ohne Rahmen oder ohne Geometrie. */
+function radGeo(b){
+  const r = b.rahmen ? findeTeil("rahmen", b.rahmen) : null;
+  if(!r || !r.geo || !r.geo.rs || !r.geo.ks || !r.geo.lw || !r.geo.sw) return null;
+  const g = b.gabel ? findeTeil("gabel", b.gabel) : null, br = b.bremsen ? findeTeil("bremsen", b.bremsen) : null;
+  const lr = x => x === "27.5" ? "27.5" : x === "26" ? "26" : x === "24" || x === "20" ? "26" : "29";
+  const lrV = lr(r.lrV), lrH = lr(r.lrH || r.lrV);
+  const ht = !r.daempfer || !!(r.ohne && r.ohne.indexOf("daempfer") >= 0);
+  const fw = (g && g.travel) || r.maxGabel || 120, off = (g && g.offset) || 44;
+  const lw = r.geo.lw * Math.PI / 180, drop = r.geo.ta != null ? r.geo.ta : 20, ks = r.geo.ks, sr = r.geo.sr || 430;
+  const steuer = sr < 400 ? 100 : sr > 470 ? 125 : 110;
+  const Rv = RAD_R[lrV], Rh = RAD_R[lrH], boden = drop - Rv;
+  const axx = -Math.sqrt(Math.max(0, ks * ks - Math.pow(boden + Rh, 2)));
+  const L = fw + (lrV === "29" ? 412 : lrV === "27.5" ? 398 : 390) + 30;
+  const vx = axx + r.geo.rs;
+  const hu = [vx - L * Math.cos(lw) - off * Math.sin(lw), drop + L * Math.sin(lw) - off * Math.cos(lw)];
+  const ho = [hu[0] - steuer * Math.cos(lw), hu[1] + steuer * Math.sin(lw)];
+  const sV = br && br.sV ? br.sV : 180, sH = br && br.sH ? br.sH : 180;
+  return {ht:ht, lrV:lrV, lrH:lrH, lw:r.geo.lw, sw:r.geo.sw, ks:ks, drop:drop, off:off, fw:fw, steuer:steuer, sr:sr,
+    reach:Math.round(ho[0]), stack:Math.round(ho[1]), sV:sV, sH:sH, lack:r.fb && r.fb.h ? r.fb.h : null,
+    label:tx(`${r.n}: Seitenansicht aus der Katalog-Geometrie, vereinfacht`, `${r.n}: side view from the catalogue geometry, simplified`)};
+}
 function radSvg(o){
   o = o || {};
   const {add, sub, mul, len, unit, nrm, lerp, polar} = V;
   const n = ++svgNr, id = s => "rs" + n + s;
-  const ht = !!o.hardtail, G = spindriftGroesse(o.reach);
-  const lrV = ht ? "26" : G.lr || (o.lr === "27.5" ? "27.5" : "29");
-  const lrH = ht ? "26" : G.lr || (o.lr === "29" || o.lr === "27.5" ? o.lr : "27.5");
+  /* o.geo (BEVEL-002): Geometrie eines beliebigen Katalograhmens statt des
+     Spindrift -- ht heisst dann nur "ohne Hinterbaufederung", ss steht fuer
+     den Dirt-Antrieb (Singlespeed, starre Stuetze) */
+  const gx = o.geo || null;
+  const ht = gx ? !!gx.ht : !!o.hardtail, ss = !gx && !!o.hardtail, G = spindriftGroesse(o.reach);
+  const lrV = gx ? gx.lrV : ht ? "26" : G.lr || (o.lr === "27.5" ? "27.5" : "29");
+  const lrH = gx ? gx.lrH : ht ? "26" : G.lr || (o.lr === "29" || o.lr === "27.5" ? o.lr : "27.5");
   const Rv = RAD_R[lrV], Rh = RAD_R[lrH], Fv = FELGE_R[lrV], Fh = FELGE_R[lrH];
-  const lw = (ht ? 69 : 63.9) * Math.PI / 180, sw = (ht ? 73 : 78.4) * Math.PI / 180;
-  const ks = ht ? 385 : 445, drop = ht ? -12 : 20, off = ht ? 41 : 44, fw = ht ? 100 : 180;
-  const steuer = ht ? 100 : G.steuer, sr = ht ? (o.sr || 360) : G.sr, reach = ht ? (o.reach || 400) : G.reach;
+  const lw = (gx ? gx.lw : ht ? 69 : 63.9) * Math.PI / 180, sw = (gx ? gx.sw : ht ? 73 : 78.4) * Math.PI / 180;
+  const ks = gx ? gx.ks : ht ? 385 : 445, drop = gx ? gx.drop : ht ? -12 : 20, off = gx ? gx.off : ht ? 41 : 44, fw = gx ? gx.fw : ht ? 100 : 180;
+  const steuer = gx ? gx.steuer : ht ? 100 : G.steuer, sr = gx ? gx.sr : ht ? (o.sr || 360) : G.sr, reach = gx ? gx.reach : ht ? (o.reach || 400) : G.reach;
   /* Dirt: Stack aus der Einbauhoehe einer 100er-Gabel (515 mm) */
-  const stack = ht ? Math.round((515 + steuer) * Math.sin(lw) - off * Math.cos(lw) + drop) : G.stack;
+  const stack = gx ? gx.stack : ht ? Math.round((515 + steuer) * Math.sin(lw) - off * Math.cos(lw) + drop) : G.stack;
   const sattel = o.sattel || 745, kurbel = o.kurbel || 170, vorbau = o.vorbau || 45;
   const r1 = v => Math.round(v * 10) / 10, P = a => r1(a[0]) + " " + r1(-a[1]);
   const C = (a, r, k, x) => `<circle class="${k}" cx="${r1(a[0])}" cy="${r1(-a[1])}" r="${r1(r)}"${x || ""}/>`;
@@ -9006,7 +9045,7 @@ function radSvg(o){
     + `<path${lack} d="${glatt([[-40, 14], [-26, -26], [18, -40], [54, -8], [62, 40], [30, 52], [-18, 46]].map(p => [p[0], -p[1]]), true)}"/>`
     + plastisch(UR, URw)
     + schlauch([lerp(u0, u1, .06), lerp(u0, u1, .24), lerp(u0, u1, .44)].map(p => add(p, mul(nrm(ud), -22))), [22, 22, 20], "r-schutz")
-    + `<text class="r-schrift" x="${r1(um[0])}" y="${r1(-um[1])}" transform="rotate(${r1(-uw)} ${r1(um[0])} ${r1(-um[1])})" text-anchor="middle" dominant-baseline="central">CRANKSCORE</text>`
+    + (gx ? "" : `<text class="r-schrift" x="${r1(um[0])}" y="${r1(-um[1])}" transform="rotate(${r1(-uw)} ${r1(um[0])} ${r1(-um[1])})" text-anchor="middle" dominant-baseline="central">CRANKSCORE</text>`)
     + schlauch(OR, ORw, "", lack) + plastisch(OR, ORw)
     + `<path${lack} d="M${P(zA)}Q${P(zK)} ${P(zB)}L${P(lerp(ho, hu, .7))}L${P(lerp(ho, hu, .2))}Z"/>`
     + schlauch(HT, HTw, "", lack) + plastisch(HT, HTw)
@@ -9068,7 +9107,7 @@ function radSvg(o){
      beim Dirt-Rad starr. Sattel mit Streben. */
   const pOben = Math.max(sr + 30, sattel - 170);
   const sattelPkt = [[-150, -20], [-144, -4], [-126, 8], [-60, 5], [40, -3], [138, -10], [164, -18], [154, -31], [40, -38], [-60, -37], [-128, -35]];
-  const sitz = (ht || sattel - 62 < pOben + 12 ? rohr(st(sr + 6), st(sattel - 40), 30, 30, "r-dunkel2")
+  const sitz = (ss || sattel - 62 < pOben + 12 ? rohr(st(sr + 6), st(sattel - 40), 30, 30, "r-dunkel2")
       : rohr(st(sr + 6), st(pOben), 36, 36, "r-dunkel2") + rohr(st(pOben - 2), st(pOben + 10), 40, 40, "r-dunkel")
         + rohr(st(pOben + 10), st(sattel - 62), 30, 30, "r-stuetze") + glanz(st(pOben + 10), st(sattel - 62), 30, 30))
     + rohr(st(sattel - 66), st(sattel - 40), 46, 36, "r-dunkel")
@@ -9094,14 +9133,14 @@ function radSvg(o){
   /* Antrieb: 32er-Kettenblatt mit Fuehrung und Bashguard, 12-fach-Kassette
      10–51, Schaltwerk mit zwei Roellchen, Kette als S um beide Roellchen.
      Dirt: Singlespeed, 14er-Ritzel. Radien = Teilkreise der Zaehne. */
-  const rk = 64.7, rz = ht ? 29 : 48.5, rp = 17;
+  const rk = 64.7, rz = ss ? 29 : 48.5, rp = 17;
   const tang = (c1, r1_, c2, r2, oben) => { const d = sub(c2, c1), l = len(d), u = mul(d, 1 / l), v = [-u[1], u[0]], s = (r1_ - r2) / l, c = Math.sqrt(1 - s * s);
     const nA = add(mul(u, s), mul(v, c)), nB = add(mul(u, s), mul(v, -c)), nn = (nA[1] > nB[1]) === oben ? nA : nB;
     return [add(c1, mul(nn, r1_)), add(c2, mul(nn, r2))]; };
   const ab = (a0, a1) => a1 < a0 ? a1 + 2 * Math.PI : a1;
   const [t1, t2] = tang([0, 0], rk, ax, rz, true);
   let kettePts, werk = "";
-  if(ht){
+  if(ss){
     const [b1, b2] = tang([0, 0], rk, ax, rz, false);
     kettePts = [t1, t2].concat(bogen(ax, rz, winkel(ax, t2), ab(winkel(ax, t2), winkel(ax, b2))), [b1], bogen([0, 0], rk, winkel([0, 0], b1), ab(winkel([0, 0], b1), winkel([0, 0], t1))));
   } else {
@@ -9113,7 +9152,7 @@ function radSvg(o){
       + rohr(add(ax, [-10, -6]), add(ax, [-34, -30]), 28, 26, "r-dunkel")
       + rohr(jp1, jp2, 42, 40, "r-dunkel2") + glanz(jp1, jp2, 42, 40) + C(jp1, 7, "r-metall") + C(jp2, 7, "r-metall");
   }
-  const kassette = ht ? C(ax, 32, "r-kassette-grund") + C(ax, 31, "r-kassette") + C(ax, 20, "r-dunkel2")
+  const kassette = ss ? C(ax, 32, "r-kassette-grund") + C(ax, 31, "r-kassette") + C(ax, 20, "r-dunkel2")
     : C(ax, 104, "r-kassette-grund") + [104, 95, 86, 77, 68, 59, 51, 43, 36, 29, 23].map(r => C(ax, r, "r-kassette")).join("") + C(ax, 16, "r-dunkel2");
   const kette = `<path class="r-kettengrund" d="${zug(kettePts)}"/><path class="r-kette" d="${zug(kettePts)}"/>`;
   const pedal = (p, fern) => {
@@ -9124,7 +9163,7 @@ function radSvg(o){
   const antriebHinten = rohr([0, 0], pf, 40, 28, "r-dunkel2") + pedal(pf, true);
   const kurbelVorn = C([0, 0], 66.5, "r-zaehne") + C([0, 0], 60, "r-blatt") + C([0, 0], 48, "r-dunkel2")
     + [0, 1, 2, 3].map(i => C(polar([0, 0], 34, i * Math.PI / 2 + .4), 7, "r-dunkel")).join("")
-    + (ht ? "" : rohr(polar([0, 0], 80, 1.85), polar([0, 0], 80, 2.35), 20, 20, "r-dunkel") + `<path class="r-bash" d="${zug(bogen([0, 0], 76, -1.35, .15))}"/>`)
+    + (ss ? "" : rohr(polar([0, 0], 80, 1.85), polar([0, 0], 80, 2.35), 20, 20, "r-dunkel") + `<path class="r-bash" d="${zug(bogen([0, 0], 76, -1.35, .15))}"/>`)
     + rohr([0, 0], pe, 44, 28, "r-dunkel") + glanz([0, 0], pe, 44, 28) + C([0, 0], 19, "r-metall") + C([0, 0], 8, "r-dunkel2") + pedal(pe, false);
 
   /* Fahrer: Beine und Arme ueber zwei Glieder zwischen festen Punkten
@@ -9376,9 +9415,9 @@ function radSvg(o){
         <text class="blende" style="--v:${v++}" x="${r1(reach / 2)}" y="${r1(-y - 30)}" text-anchor="middle">Reach ${reach}</text>`)
       + `<text class="blende" style="--v:${v++}" x="${r1(pe[0] + 40)}" y="${r1(-pe[1] + 78)}" text-anchor="start">${tx("Kurbel", "Crank")} ${kurbel}</text>`;
   }
-  const art = ht ? tx("Dirt-Hardtail", "Dirt hardtail") : tx(`Freerider nach der Geometrie des Propain Spindrift 5 AL, Größe ${G.g}`, `Freeride bike with the geometry of the Propain Spindrift 5 AL, size ${G.g}`);
+  const art = gx ? gx.label : ht ? tx("Dirt-Hardtail", "Dirt hardtail") : tx(`Freerider nach der Geometrie des Propain Spindrift 5 AL, Größe ${G.g}`, `Freeride bike with the geometry of the Propain Spindrift 5 AL, size ${G.g}`);
   const label = o.masse ? tx(`${art} mit deinen Maßen: Sattelhöhe ${sattel} mm, Kurbel ${kurbel} mm`, `${art} with your measurements: saddle height ${sattel} mm, crank ${kurbel} mm`) : art;
-  return `<svg class="rs${o.anim ? " faehrt" : ""}${o.fahrer ? " mitfahrer" : ""}" viewBox="${r1(links)} ${r1(-oben)} ${r1(rechts - links)} ${r1(oben - unten)}" role="img" aria-label="${label}">
+  return `<svg class="rs${o.anim ? " faehrt" : ""}${o.fahrer ? " mitfahrer" : ""}${gx ? " rs-geo" : ""}"${gx && gx.lack ? ` style="--rs-lack:${gx.lack}"` : ""} viewBox="${r1(links)} ${r1(-oben)} ${r1(rechts - links)} ${r1(oben - unten)}" role="img" aria-label="${label}">
     <defs>
       <linearGradient id="${id("g")}" gradientUnits="userSpaceOnUse" x1="${r1(ax[0])}" y1="0" x2="${r1(vo[0])}" y2="${r1(-stack)}">
         <stop offset="0" style="stop-color:var(--rs-lack-dunkel)"/><stop offset=".55" style="stop-color:var(--rs-lack)"/><stop offset="1" style="stop-color:var(--rs-lack-hell)"/></linearGradient>
@@ -9391,7 +9430,7 @@ function radSvg(o){
     ${o.anim ? `<line class="r-boden" x1="${r1(links)}" y1="${r1(-boden + 8)}" x2="${r1(rechts)}" y2="${r1(-boden + 8)}"/>` : ""}
     <g class="r-ganz blende">
       ${fHinten}${antriebHinten}
-      ${rad(ax, Rh, Fh, ht ? 80 : 101.5, zangeH)}${rad(vo, Rv, Fv, ht ? 90 : 110, zangeV)}
+      ${rad(ax, Rh, Fh, gx ? gx.sH / 2 : ht ? 80 : 101.5, zangeH)}${rad(vo, Rv, Fv, gx ? gx.sV / 2 : ht ? 90 : 110, zangeV)}
       ${kassette}${rahmen}${ht ? "" : daempfer}${hinterbau}${ht ? "" : hebel}${gabel}
       ${kette}${werk}${sitz}${cockpit}${kurbelVorn}
       ${fVorn}
@@ -11364,7 +11403,7 @@ const GUIDE = [
    a:["Unter Setup › „Alle berechneten Werte und Herstellerangaben“ steht bei jeder Gabel und jedem Dämpfer ein Link zur offiziellen Anleitung mit echten Bildern der Rädchen. Oder du fotografierst die Oberseite deiner Gabel und tippst einmal auf jeden Knopf — dann schreibt die App die Einstellung direkt ins Foto. Das Foto bleibt auf deinem Handy.",
      "Under Setup › “All calculated values & manufacturer info” every fork and shock has a link to the official manual with real pictures of the dials. Or photograph your top cap and tap each knob once — the app then writes the setting straight into the photo. The photo stays on your phone."]},
   {id:"design", k:"design dunkel dunkler dunkle hell heller helle modus darkmode farbe schwarz oled weiss hintergrund dark light theme colour color", t:["Hell oder dunkel?", "Light or dark?"],
-   a:["Standard ist OLED-Schwarz — das spart auf vielen Handys Akku. Unter ⋮ › Design stellst du auf Hell um.", "The default is OLED black — it saves battery on many phones. Under ⋮ › Appearance you can switch to light mode."], ak:["menu"]},
+   a:["Standard ist das dunkle Design in weichem Anthrazit. Unter ⋮ › Design stellst du auf Hell um.", "The default is the dark design in soft charcoal. Under ⋮ › Appearance you can switch to light mode."], ak:["menu"]},
   {id:"sprache", k:"sprache englisch deutsch language english german uebersetzen translate", t:["Sprache umstellen", "Change language"],
    a:["Ganz oben in den Einstellungen (⋮) stellst du zwischen Deutsch und Englisch um, ebenso auf der Startseite. Die ganze App wechselt sofort, auch der Guide, und merkt sich deine Wahl.", "Right at the top of the settings (⋮) you switch between German and English, and on the start page too. The whole app switches at once, including the guide, and remembers your choice."], ak:["menu"]},
   {id:"install", k:"installieren installation homescreen startbildschirm herunterladen download offline icon symbol iphone android store playstore install", t:["Wie hole ich die App aufs Handy?", "How do I install the app?"],
@@ -15260,6 +15299,24 @@ function zaehle(el, ziel){
   el.raf = requestAnimationFrame(schritt);
 }
 let frischSlot = null;             /* gerade eingebaut: leuchtet einmal auf */
+/* Datenbasis am Score (BEVEL-002): erst die Rechnung in einem Satz, dann was
+   fehlt oder nicht geprueft werden kann -- sichtbar, nicht erst in der Hilfe */
+function ungeprueft(r){
+  const out = [];
+  const lrT = build.laufraeder && !entfaellt(build, "laufraeder") ? findeTeil("laufraeder", build.laufraeder) : null;
+  if(lrT && lrT.maxSys && !(plan.fahrer > 0)) out.push(tx("Systemgewicht", "system weight"));
+  if(r.teile && !(koerper.groesse > 0)) out.push(tx("Rahmengröße zu deinem Körper", "frame size for your body"));
+  for(const f of r.funde) if(f.fehlt && out.indexOf(f.fehlt) < 0) out.push(f.fehlt);
+  return out;
+}
+function datenbasisHtml(r, leer){
+  if(leer) return tx("Sobald Teile im Aufbau sind, steht hier, woraus der Score entsteht.", "As soon as parts are in the build, this shows what the score is based on.");
+  const ung = ungeprueft(r), voll = r.teile >= r.moeglich;
+  const rechnung = tx("Gesamtscore aus 62 % Kompatibilität und 38 % Einsatz.", "Overall score from 62% compatibility and 38% discipline.");
+  const basis = voll ? tx(`Bewertet sind alle ${r.moeglich} Teile.`, `All ${r.moeglich} parts are rated.`)
+    : tx(`Bewertet sind ${r.teile} von ${r.moeglich} Teilen — was fehlt, zählt noch nicht.`, `${r.teile} of ${r.moeglich} parts are rated — anything missing doesn't count yet.`);
+  return `${rechnung} ${basis}${ung.length ? ` <span class="db-offen">${tx("Nicht geprüft:", "Not checked:")} ${esc(ung.join(", "))}.</span>` : ""}`;
+}
 function zeichne(){
   erg = bewerte(build);
   const r = erg;
@@ -15307,6 +15364,7 @@ function zeichne(){
   /* Nur Anzeige (APP-REDESIGN-001): Teile ohne Gewichtsangabe zaehlen in der Summe mit 0 g --
      das steht jetzt dabei, statt dass die Summe vollstaendig wirkt. Die Rechnung bleibt gleich. */
   const ohneG = SLOTS.filter(s => zaehlt(build, s) && build[s.k]).map(s => findeTeil(s.k, build[s.k])).filter(t => t && !t.ersatz && !t.g).length;
+  $("datenbasis").innerHTML = datenbasisHtml(r, leer);
   $("t-teile").textContent = ohneG ? tx(`${r.teile} von ${r.moeglich} Teilen, ${ohneG} ohne Gewicht`, `${r.teile} of ${r.moeglich} parts, ${ohneG} without weight`)
     : tx(`${r.teile} von ${r.moeglich} Teilen`, `${r.teile} of ${r.moeglich} parts`);
 
@@ -15915,7 +15973,7 @@ function designAnwenden(){
     /* Statusleiste: neues Meta-Tag statt nur den Wert zu aendern -- ein frisch
        eingefuegtes Tag liest iOS eher neu als einen geaenderten Wert */
     const alt = document.querySelector('meta[name="theme-color"]'), m = document.createElement("meta");
-    m.name = "theme-color"; m.content = hell ? "#eef1f4" : "#000000";
+    m.name = "theme-color"; m.content = hell ? "#f2f0ec" : "#16181b";
     if(alt) alt.replaceWith(m); else document.head.appendChild(m);
   };
   if(bewegungAus()){ setz(); return; }
@@ -16646,7 +16704,7 @@ function oeffneMenu(){
         .map(([a, i, t, u]) => `<button class="hl-zeile" ${a}><span class="hl-ic">${i === "logo" ? csLogo(20) : ic(i, 18)}</span><span><b>${t}</b><span>${u}</span></span>${ic(IC.weiter, 16)}</button>`).join("")}</div>
       <div class="grp-h" style="margin-top:14px"><h2>${tx("Design", "Appearance")}</h2><div class="rule"></div></div>
       <div class="seg" role="group" aria-label="${tx("Design", "Appearance")}" data-wahl="${designHell() ? "hell" : "oled"}" style="margin:0 0 6px">
-        <button data-design="oled" aria-pressed="${!designHell()}">${ic(`<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>`, 15)}${tx("OLED-Schwarz", "OLED black")}</button>
+        <button data-design="oled" aria-pressed="${!designHell()}">${ic(`<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>`, 15)}${tx("Dunkel", "Dark")}</button>
         <button data-design="hell" aria-pressed="${designHell()}">${ic(`<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>`, 15)}${tx("Hell", "Light")}</button></div>
       <div class="grp-h" style="margin-top:14px"><h2>App</h2><div class="rule"></div></div>
       <div class="app-stand">
