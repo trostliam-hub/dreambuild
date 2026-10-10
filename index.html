@@ -171,7 +171,7 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0e
   --m-pass:#7a8ea5; --m-eins:#8ec2f7;
   --gut:#3ddc84; --gut-soft:rgba(61,220,132,.13);
   --warn:#ff9f43; --warn-soft:rgba(255,159,67,.14);
-  --bad:#ff5c72; --bad-soft:rgba(255,92,114,.15);
+  --bad:#ff7586; --bad-soft:rgba(255,117,134,.15); --on-bad:#16181b;   /* BEVEL-002: heller, damit Rot auf Anthrazit 4,5:1 schafft; Schrift darauf dunkel */
   --fester:#9a6bff; --weicher:#0fa0bd;      /* per dataviz-Validator gegen #0b0a12 geprueft */
   --glass:rgba(22,24,27,.86);
   --shadow:none;
@@ -200,7 +200,7 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0e
   --m-pass:#6a7f96; --m-eins:#2563a8;
   --gut:#0f7653; --gut-soft:#ddf1e7;
   --warn:#a8520a; --warn-soft:#fbeadb;
-  --bad:#c42a52; --bad-soft:#fbe2ea;
+  --bad:#c42a52; --bad-soft:#fbe2ea; --on-bad:#ffffff;
   --fester:#6d3dff; --weicher:#0a8aa8;      /* per dataviz-Validator gegen #ffffff geprueft */
   --glass:rgba(242,240,236,.88);
   --shadow:0 1px 2px rgba(0,0,0,.04),0 10px 28px -16px rgba(0,0,0,.14);
@@ -366,7 +366,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
   padding:10px 12px;font:inherit;font-size:15px;font-weight:650;color:var(--ink)}
 .prof-akt{display:flex;flex-wrap:wrap;gap:6px}
 .prof-neu{margin-top:6px}
-.btn.rot{background:var(--bad);color:#fff;border-color:transparent}
+.btn.rot{background:var(--bad);color:var(--on-bad, #fff);border-color:transparent}
 .kombi{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 2px}
 .kombi span{font-size:12px;color:var(--ink-3)}
 .kombi .btn[aria-pressed="true"]{color:var(--anod);border-color:var(--anod)}
@@ -805,7 +805,7 @@ a.btn{text-decoration:none}
 .badge{font-size:10px;font-weight:800;padding:1px 6px;min-width:18px;text-align:center;
   border-radius:999px;background:var(--sunk);color:var(--ink-2);line-height:1.5}
 .tabs button[aria-selected="true"] .badge{background:var(--ink);color:var(--ground)}
-.badge.rot,.tabs button[aria-selected="true"] .badge.rot{background:var(--bad);color:#fff}
+.badge.rot,.tabs button[aria-selected="true"] .badge.rot{background:var(--bad);color:var(--on-bad, #fff)}
 .badge[hidden]{display:none}
 @media (max-width:360px){.tabs{left:8px;right:8px;padding:5px}.tabs-in{gap:2px}.tabs button{font-size:10.5px}}
 /* Aussendisplay (unter 300 px): Leiste fast randlos, damit "Fahrwerk" und "Shopping" ganz dastehen */
@@ -1141,7 +1141,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 /* Sale gegen UVP und 30-Tage-Tief -- zwei klar getrennte Aussagen */
 .sale,.tief,.sale-mini{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.01em;line-height:1.5;
   padding:1px 7px;border-radius:999px;white-space:nowrap}
-.sale,.sale-mini{background:var(--bad);color:#fff}
+.sale,.sale-mini{background:var(--bad);color:var(--on-bad, #fff)}
 .tief{background:var(--gut-soft,rgba(46,160,90,.14));color:var(--gut)}
 .sale-mini{font-size:10px;padding:0 6px;margin:2px 0}
 .slot-r .p.live{color:var(--gut)}
@@ -1293,7 +1293,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .var-zu{align-self:flex-end;font-size:12.5px;color:var(--anod);font-weight:700;padding:4px 2px}
 .grp .jahrleiste + .slot{border-top:1px solid var(--line-soft)}
 .jl-reihe button.nein{border-color:color-mix(in srgb,var(--bad) 55%,transparent);color:var(--bad)}
-.jl-reihe button.nein[aria-pressed="true"]{background:var(--bad);color:#fff;border-color:transparent}
+.jl-reihe button.nein[aria-pressed="true"]{background:var(--bad);color:var(--on-bad, #fff);border-color:transparent}
 .jl-h.no{color:var(--bad);font-weight:600}
 .wahl{font-size:11.5px;font-weight:650;color:var(--anod);margin-top:6px}
 .eigen-box{border:1px dashed var(--line);border-radius:var(--r);padding:13px 14px;display:flex;flex-direction:column;
@@ -1785,7 +1785,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
    und Pro darueber aufgehen. */
 .ls{position:fixed;inset:0;z-index:55;background:#fff;color:#1d1d1f;display:flex;flex-direction:column;
   --l-karte:#f2f2f5;--l-ink:#1d1d1f;--l-ink2:#6e6e73;--l-line:#e3e3e8;animation:einblenden .3s ease;
-  --gut:#2fb86b;--bad:#e0344f;--m-pass:#6a7f96;--m-eins:#858a91;--anod:#2563a8}
+  --gut:#2fb86b;--bad:#e0344f;--on-bad:#fff;--m-pass:#6a7f96;--m-eins:#858a91;--anod:#2563a8}
 .ls-nav{flex:none;display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;
   background:rgba(255,255,255,.82);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid transparent;transition:border-color .2s;position:relative;z-index:2}
@@ -3211,7 +3211,7 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
 /* Reiter im Blatt */
 .ts-reiter{display:flex;align-items:center;gap:10px;margin:4px 0 12px}
 .ts-in{display:inline-flex;padding:3px;border-radius:999px;background:var(--sunk);gap:2px}
-.ts-in button{min-height:38px;padding:6px 14px;border-radius:999px;font-size:13.5px;font-weight:650;color:var(--ink-2);transition:background var(--t-kurz) var(--e-weich),color var(--t-kurz) var(--e-weich)}
+.ts-in button{min-height:40px;padding:6px 14px;border-radius:999px;font-size:13.5px;font-weight:650;color:var(--ink-2);transition:background var(--t-kurz) var(--e-weich),color var(--t-kurz) var(--e-weich)}
 .ts-in button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
 .ts-in button span{font-family:var(--f-zahl);color:var(--ink-3);margin-left:2px}
 .ts-kat{margin-left:auto;font-size:13px;font-weight:650;color:var(--anod);min-height:38px;padding:0 4px}
@@ -3348,7 +3348,7 @@ label.fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px
 .sz-fuss{display:flex;justify-content:space-between;gap:10px;padding-top:8px}
 .sz-fuss .btn{min-width:120px}
 .sz-chaos{position:relative;width:100%;max-width:340px;height:220px}
-.sz-zettel{position:absolute;padding:9px 12px;border-radius:var(--r-s);background:var(--surface);box-shadow:var(--shadow);font-size:13px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.sz-zettel{position:absolute;max-width:58%;white-space:normal !important;line-height:1.3;padding:9px 12px;border-radius:var(--r-s);background:var(--surface);box-shadow:var(--shadow);font-size:13px;font-weight:600;color:var(--ink-2);white-space:nowrap}
 .sz-zettel b{margin-left:8px;color:var(--warn);font-family:var(--f-zahl)}
 .sz-pruef{display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:center}
 .sz-ring{position:relative;width:118px;height:118px;display:grid;place-items:center}
@@ -3356,15 +3356,15 @@ label.fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px
 .sz-bahn{fill:none;stroke:var(--line);stroke-width:7}
 .sz-wert{fill:none;stroke:var(--ring-gesamt);stroke-width:7;stroke-linecap:round;stroke-dasharray:263.9;stroke-dashoffset:21;animation:sz-ring .9s var(--e-aus)}
 @keyframes sz-ring{from{stroke-dashoffset:263.9}}
-.sz-ring b{font-family:var(--f-zahl);font-size:38px;color:var(--ink)}
+.sz-ring .sz-logo{position:relative;inset:auto;width:46%;height:auto;aspect-ratio:304/228;color:var(--ring-gesamt)}
 .sz-zeilen{display:flex;flex-direction:column;gap:8px}
 .sz-z{display:flex;gap:8px;align-items:center;font-size:13.5px;color:var(--ink-2)}
 .sz-z svg{flex:none;color:var(--ink-3)} .sz-z.ok svg{color:var(--gut)} .sz-z.ad svg{color:var(--anod)}
-.sz-plan{width:100%;display:grid;place-items:center}
+.sz-plan{width:100%;display:grid;grid-template-columns:minmax(0,1fr);place-items:center}
 .sz-karte{width:100%;max-width:330px;border:1px solid var(--line-soft);border-radius:var(--r);background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:5px;box-shadow:var(--shadow)}
 .sz-kk{font-size:12px;font-weight:650;color:var(--ink-3)} .sz-karte b{font-size:16px;color:var(--ink)}
 .sz-kz{font-size:13px;color:var(--ink-2);display:flex;gap:8px} .sz-kz i{font-style:normal;font-weight:800} .sz-p{color:var(--gut)} .sz-m{color:var(--warn)}
-.sz-kn{display:flex;gap:6px;margin-top:6px} .sz-kn i{font-style:normal;font-size:12px;font-weight:700;padding:6px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2)}
+.sz-kn{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px} .sz-kn i{font-style:normal;font-size:12px;font-weight:700;padding:6px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2)}
 .sz-kn i.an{background:var(--akzent-flaeche);color:#fff}
 @media (prefers-reduced-motion:reduce){#szenen,#szenen.weg,.sz-inhalt,.sz-wert{animation:none}}
 @media (prefers-reduced-motion:reduce){.pf-inhalt.auf,.merk-puls{animation:none}.pf-pfeil{transition:none}}
@@ -7711,8 +7711,8 @@ function startseiteHtml(){
   const marken = f.marken.slice(0, 16).map(x => `<span>${esc(x)}</span>`).join("");
   const mehr = [
     [IC.markt, tx("Einkaufsliste", "Shopping list"), tx("Jedes Teil mit Preis und Knopf zum Shop, dazu die Summe.", "Every part with price and a button to the shop, plus the total.")],
-    [IC.upgrade, tx("Upgrades mit Punktgewinn", "Upgrades with score gains"), tx("Nur Teile, die mindestens so gut sind wie deine und den Score heben.", "Only parts at least as good as yours that raise your score.")],
-    [IC.real, tx("Günstiger, gleiche Maße", "Cheaper, same specs"), tx("Wo du sparst, ohne dass sich an der Kompatibilität etwas ändert.", "Where you save without affecting compatibility.")],
+    [IC.upgrade, tx("Passendes Teil finden", "Find a matching part"), tx("Ziel, Marke, Budget: nur Teile, die laut Katalog wirklich besser sind — mit Adaptern und Gesamtpreis.", "Goal, brand, budget: only parts that are really better on paper — with adapters and total price.")],
+    [IC.real, tx("Wunschliste je Rad", "Wishlist for each bike"), tx("Merken, im Aufbau testen, vergleichen, auf die Einkaufsliste — mit Rückgängig.", "Save, try in your build, compare, add to the shopping list — with undo.")],
     [IC.traum, tx("Traumrad-Assistent", "Dream bike assistant"), tx("Disziplin, Budget, Marken — und ein fertiger Aufbau.", "Discipline, budget, brands — and a finished build.")],
     [IC.pruef, tx("Drei Modi", "Three modes"), tx("Traumrad planen, eigenes Rad prüfen, Gebrauchtrad bewerten.", "Plan a dream bike, check your own, rate a used one.")],
     [IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie — jeweils in einem Satz.", "Boost, freehub, chainline — each in one sentence.")],
@@ -7835,18 +7835,25 @@ window.addEventListener("hashchange", () => {
    Gezeichnet mit den Bausteinen der App, keine Fotos fremder Raeder. */
 const szenenGesehen = () => { try{ return localStorage.getItem("mtb.szenen") === "1"; }catch(e){ return true; } };
 let szene = {i:0, danach:null};
+/* Das Beispiel der Szenen aus dem Katalog: Shimano XT M8120 mit 203/180 an einer
+   Gabel mit PM-180-Aufnahme braucht vorn einen PM-Adapter +23 mm */
+function szBsp(){
+  const t = findeTeil("bremsen", "b-xt"), teil = t ? preisVon(t) : 0, ad = adPreisPM(23);
+  return {teil:teil, ad:ad, gesamt:teil + ad};
+}
 function szenenHtml(){
   const S = [
-    {k:"ohne", ue:tx("Ohne Überblick", "Without an overview"), h:tx("Viele Teile, viele offene Fragen", "Lots of parts, lots of open questions"),
-     t:tx("Passt die Gabel zum Rahmen? Braucht die Bremse einen Adapter? Ist das teurere Teil wirklich besser — oder nur teurer?", "Does the fork fit the frame? Does the brake need an adapter? Is the pricier part really better — or just pricier?"),
-     bild:`<div class="sz-chaos" aria-hidden="true">${[[tx("Gabel 160 mm", "Fork 160 mm"), "?"], [tx("Scheibe 203 mm", "Rotor 203 mm"), "?"], [tx("Freilauf XD", "XD freehub"), "?"], [tx("Ø 31,6 oder 34,9?", "Ø 31.6 or 34.9?"), "?"], [tx("Angebot −30 %?", "Deal −30%?"), "?"]]
-       .map(([t, z], i) => { const [l, o, w] = [[0, 2, -5], [42, 18, 4], [6, 40, -2], [40, 60, 5], [12, 80, -4]][i];
+    {k:"ohne", ue:tx("Ohne Überblick", "Without an overview"), h:tx("Neue Bremse da — und sie passt nicht", "New brake arrives — and it doesn't fit"),
+     t:tx(`Beispiel: Die Gabel hat eine Aufnahme für 180-mm-Scheiben, die neue Bremse kommt mit 203 mm. Ohne Adapter sitzt der Sattel falsch. Solche Fragen gibt es an jedem Teil.`, `Example: the fork is made for 180 mm rotors, the new brake comes with 203 mm. Without an adapter the caliper sits in the wrong place. Questions like this come up with every part.`),
+     bild:`<div class="sz-chaos" aria-hidden="true">${[[tx("Gabel: Aufnahme PM 180", "Fork: PM 180 mount"), ""], [tx("Bremse: Scheibe 203 mm", "Brake: 203 mm rotor"), "?"], [tx("Adapter?", "Adapter?"), "?"], [tx("Freilauf XD oder MS?", "XD or MS freehub?"), "?"], [tx("Ø 31,6 oder 34,9?", "Ø 31.6 or 34.9?"), "?"]]
+       .map(([t, z], i) => { const [l, o, w] = [[0, 0, -4], [40, 19, 3], [4, 41, -2], [40, 60, 4], [8, 80, -3]][i];
          return `<span class="sz-zettel" style="left:${l}%;top:${o}%;transform:rotate(${w}deg)">${esc(t)}<b>${z}</b></span>`; }).join("")}</div>`},
     {k:"mit", ue:tx("Mit CrankScore", "With CrankScore"), h:tx("Geprüft statt geraten", "Checked, not guessed"),
-     t:tx("Jedes Teil wird gegen dein Rad geprüft. Adapter rechnet die App mit ein, fehlende Angaben stehen offen da.", "Every part is checked against your bike. Adapters are included, and missing details are shown openly."),
-     bild:`<div class="sz-pruef" aria-hidden="true"><span class="sz-ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" class="sz-bahn"/><circle cx="50" cy="50" r="42" class="sz-wert" transform="rotate(-90 50 50)"/></svg><b>92</b></span>
+     t:tx(`Die App erkennt es vorher: <b>Post-Mount-Adapter +23 mm</b> wird eingeplant. Ganze Lösung: ${eur(szBsp().gesamt)} statt ${eur(szBsp().teil)} — Richtpreise aus dem Katalog. Fehlende Angaben stehen offen da.`,
+       `The app spots it in advance: a <b>+23 mm post-mount adapter</b> is included. Complete solution: ${eur(szBsp().gesamt)} instead of ${eur(szBsp().teil)} — catalogue guide prices. Missing details are shown openly.`),
+     bild:`<div class="sz-pruef" aria-hidden="true"><span class="sz-ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" class="sz-bahn"/><circle cx="50" cy="50" r="42" class="sz-wert" transform="rotate(-90 50 50)"/></svg><svg class="sz-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg></span>
        <span class="sz-zeilen"><span class="sz-z ok">${ST_IC.gut}${tx("Keine Konflikte in den geprüften Angaben", "No conflicts in the checked data")}</span>
-       <span class="sz-z ad">${ST_IC.offen}${tx("1 Adapter eingeplant · 17 €", "1 adapter included · €17")}</span>
+       <span class="sz-z ad">${ST_IC.offen}${tx(`1 Adapter eingeplant · ${eur(szBsp().ad)}`, `1 adapter included · ${eur(szBsp().ad)}`)}</span>
        <span class="sz-z">${ST_IC.offen}${tx("1 Angabe fehlt — die App fragt nach", "1 detail missing — the app asks")}</span></span></div>`},
     {k:"plan", ue:tx("Dein Plan", "Your plan"), h:tx("Dein Rad. Passende Teile. Klarer Plan.", "Your bike. Matching parts. A clear plan."),
      t:tx("Ziel wählen, Marke und Budget festlegen — die App zeigt nur, was wirklich besser ist. Merken, vergleichen, einbauen, mit Rückgängig.", "Pick a goal, brand and budget — the app only shows what's really better. Save, compare, fit — with undo."),
@@ -10801,8 +10808,8 @@ function gFehlt(){
     `All parts are in, but ${fehl === 1 ? "one conflict is" : fehl + " conflicts are"} open — fix those first.`), ak:["view:befunde"]};
   if(modus === "traum") return {h:tx("Alles drin und es passt. Jetzt kannst du über die Einkaufsliste bestellen — und dir unter Setup die ersten Einstellungen fürs Fahrwerk holen.",
     "Everything's in and it fits. Now you can order from the shopping list — and get your first suspension settings under Setup."), ak:["view:deals"]};
-  if(modus === "real") return {h:tx("Alles eingetragen und es passt. Schau in die Upgrades, was sich lohnt — und stell die Federung ein.",
-    "Everything's entered and it fits. Check the upgrades for what's worth it — and set up your suspension."), ak:["view:upgrades"]};
+  if(modus === "real") return {h:tx("Alles eingetragen und es passt. Unter „Passendes Teil finden“ siehst du, was sich für dein Ziel wirklich lohnt — und unter Fahrwerk stellst du die Federung ein.",
+    "Everything's entered and it fits. “Find a matching part” shows what's really worth it for your goal — and under Setup you can tune your suspension."), ak:["view:upgrades"]};
   return {h:tx("Alles eingetragen. Gib noch Alter, Zustand und Preis aus der Anzeige an — dann siehst du, ob das Angebot fair ist.",
     "Everything's entered. Now add age, condition and the price from the listing — then you'll see whether the asking price is fair."), ak:["springe:.mk"]};
 }
@@ -11676,14 +11683,17 @@ const GUIDE = [
    a:["Der Assistent steckt im <b>Bauziel</b> (beim Traumrad oben auf die Disziplin tippen): Disziplin, Budget, Wunschmarken, Schwerpunkt — dann stellt er ein komplettes Rad zusammen. Er hält dein Budget ein (höchstens 100 € darüber), nimmt nur Teile, die zusammenpassen, und wählt Kurbel, Stütze und Vorbau passend zu deinen Maßen. Erst „Aufbau übernehmen“ tauscht die Teile. Danach kannst du jedes Teil selbst tauschen.",
      "The assistant lives in the <b>build plan</b> (for a dream bike, tap the discipline at the top): discipline, budget, favourite brands, priority — then it puts a complete bike together. It keeps to your budget (at most €100 over), only takes parts that fit together and picks cranks, seatpost and stem to suit your measurements. Nothing changes until you tap “Use this build”. Afterwards you can swap any part yourself."]},
   {id:"tauschen", k:"tauschen teil teile wechseln aendern auswaehlen waehlen einbauen austauschen ersetzen hinzufuegen eintragen suchen swap change pick choose replace add part parts search", t:["Wie wähle oder tausche ich ein Teil?", "How do I choose or swap a part?"],
-   a:["Tippe im Reiter <b>Aufbau</b> auf ein Teil, zum Beispiel die Gabel. Es öffnet sich eine Liste: oben die Teile, die zu deinem Rad passen, mit Preis, Gewicht und Eignung. Suchen kannst du nach Marke, Modell oder Maß, etwa „Fox 36“ oder „Boost“. Ein Tipp auf das Teil baut es ein.",
-     "In the <b>Build</b> tab, tap a part, for example the fork. A list opens: at the top the parts that fit your bike, with price, weight and suitability. You can search by brand, model or size, e.g. “Fox 36” or “Boost”. Tap a part to add it to your build."], ak:["slot:gabel"]},
+   a:["Tippe im Reiter <b>Aufbau</b> auf ein Teil, zum Beispiel die Gabel. Oben steht dein Teil mit allen Angaben. Darunter wählst du: <b>Passendes finden</b> (Ziel, Marke, Budget — drei Vorschläge) oder <b>Alle</b>: die ganze Liste, suchbar nach Marke, Modell oder Maß, etwa „Fox 36“ oder „Boost“. „Im Aufbau ersetzen“ baut ein Teil ein, samt nötiger Adapter — und lässt sich rückgängig machen.",
+     "In the <b>Build</b> tab, tap a part, for example the fork. Your part is at the top with all its specs. Below you choose: <b>Find a match</b> (goal, brand, budget — three suggestions) or <b>All</b>: the full list, searchable by brand, model or size, e.g. “Fox 36” or “Boost”. “Replace in build” fits a part, including any adapters it needs — and can be undone."], ak:["slot:gabel"]},
   {id:"upgrades", k:"upgrade upgrades verbessern verbesserung besser lohnt lohnen aufruesten tuning tunen improve better worth", t:["Welche Upgrades lohnen sich?", "Which upgrades are worth it?"],
-   a:["Der Reiter <b>Upgrades</b> sortiert in drei Stufen: erst, was du <b>kostenlos umstellen</b> kannst, dann <b>Ersatz in derselben Klasse</b>, wo ein Teil nicht zu deinem Einsatz passt, dann <b>echte Upgrades</b> — nur Teile, die mindestens so hochwertig sind wie deine jetzigen und den Score heben.",
-     "The <b>Upgrades</b> tab sorts into three levels: first what you can <b>adjust for free</b>, then <b>replacements in the same class</b> where a part doesn't suit your riding, then <b>real upgrades</b> — only parts at least as good as your current ones that raise the score."], ak:["view:upgrades"]},
+   a:["Tippe unter dem Radbild auf <b>Passendes Teil finden</b> oder direkt auf ein Teil und wähl ein <b>Ziel</b>, etwa „Mehr Bremskraft“ oder „Leichter“. Vorgeschlagen wird nur, was in den Angaben dafür <b>besser und nirgends schlechter</b> ist als dein Teil — mit Adaptern, Gesamtpreis, Vor- und Nachteilen. Unbekannte Angaben zählen nicht als besser. Gibt es nichts Überzeugendes, sagt die App das. Billiger ist kein Upgrade: dafür gibt es den eigenen Modus <b>Günstiger ersetzen</b>.",
+     "Tap <b>Find a matching part</b> below the bike image, or tap a part directly, and pick a <b>goal</b> such as “More braking power” or “Lighter”. You only get parts that are <b>better on paper and worse nowhere</b> compared with yours — with adapters, total price, pros and cons. Unknown data never counts as better. If nothing convincing exists, the app says so. Cheaper isn't an upgrade: there's a separate <b>Cheaper replacement</b> mode for that."], ak:["view:upgrades"]},
+  {id:"wunsch", k:"wunschliste merken gemerkt wunsch spaeter testen vergleichen wishlist save saved later try compare", t:["Wie funktioniert die Wunschliste?", "How does the wishlist work?"],
+   a:["Bei jedem Vorschlag tippst du <b>Merken</b> — oder trägst unter <b>Wunschliste</b> ein Teil von Hand ein. Jedes Rad hat seine eigene Liste, getrennt von dem, was verbaut ist. Von dort: <b>Im Aufbau testen</b> (mit Weg zurück), <b>Zur Einkaufsliste</b> oder <b>übernehmen</b>. Jede Änderung steht im Verlauf und lässt sich rückgängig machen.",
+     "Tap <b>Save</b> on any suggestion — or add a part by hand under <b>Wishlist</b>. Each bike has its own list, kept separate from what's fitted. From there: <b>Try in build</b> (with a way back), <b>To shopping list</b> or <b>add it</b>. Every change is logged and can be undone."], ak:["view:wunsch"]},
   {id:"kaufen", k:"kaufen einkaufsliste einkauf bestellen shop shops link links haendler teile buy order shopping store parts", t:["Wo kaufe ich die Teile?", "Where do I buy the parts?"],
-   a:["Im Reiter <b>Einkauf</b> steht die Einkaufsliste: jedes Teil mit Preis und Knopf zum Shop, dazu die Summe. Die Liste kannst du als Text kopieren, etwa für deine Werkstatt. Bei <b>Mein Rad</b> und <b>Gebraucht</b> zeigt der Reiter reduzierte Teile, die zu deinem Rad passen. Bestellt wird im Shop — CrankScore verkauft selbst nichts.",
-     "The <b>Shopping</b> tab has the shopping list: every part with price and a button to the shop, plus the total. You can copy the list as text, e.g. for your bike shop. In <b>My bike</b> and <b>Used</b>, the tab shows discounted parts that fit your bike. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
+   a:["Im Reiter <b>Einkauf</b> steht die Einkaufsliste: jedes Teil mit Preis, dazu die Summe — und was du aus der Wunschliste zum Kaufen vorgemerkt hast. <b>Zum Produkt</b> erscheint nur, wenn ein geprüftes Angebot für genau diese Ausführung da ist; sonst steht dort „Derzeit kein geprüftes Angebot“. Die Liste kannst du als Text kopieren, etwa für deine Werkstatt. Bestellt wird im Shop — CrankScore verkauft selbst nichts.",
+     "The <b>Shopping</b> tab has the shopping list: every part with price, plus the total — and whatever you marked to buy from your wishlist. <b>View product</b> only appears when there's a verified offer for exactly this version; otherwise it says “No verified offer right now”. You can copy the list as text, e.g. for your bike shop. You order in the shop — CrankScore sells nothing itself."], ak:["view:deals"]},
   {id:"anzeige", k:"anzeige werbung partnerlink partnerlinks provision affiliate verdient verdienen kostenlos gratis finanziert sponsored ad ads free", t:["Ist die App kostenlos? Was heißt „Anzeige“?", "Is the app free? What does “Ad” mean?"],
    a:["Es gibt <b>Free</b> und <b>Pro</b>. Free ist kostenlos und kann fast alles; <b>Pro</b> kostet 6,99 € im Monat oder 3,99 € im Monat bei jährlicher Zahlung (47,88 € im Jahr, 36 € gespart) und bringt unbegrenzt viele Räder, das Fahrwerk-Setup und den Guide ohne Limit. Außerdem sind manche Shop-Links Partnerlinks: Kaufst du darüber, bekommt CrankScore eine kleine Provision — dein Preis bleibt gleich. Solche Links tragen direkt neben dem Shop den Hinweis <b>Anzeige</b>. Welches Teil passt, entscheidet die Prüfung, nicht die Provision.",
      "There's <b>Free</b> and <b>Pro</b>. Free costs nothing and does almost everything; <b>Pro</b> costs €6.99 a month, or €3.99 a month billed yearly (€47.88 a year, €36 saved), and adds unlimited bikes, suspension setup and unlimited Guide questions. Also, some shop links are partner links: if you buy through them, CrankScore gets a small commission — your price stays the same. Such links are marked <b>Ad</b> right next to the shop name. Which part fits is decided by the check, not by the commission."], ak:["pro"]},
@@ -15596,7 +15606,8 @@ const kgName = k => k === "eig" ? tx(`Eignung für ${selNamen()}`, `Suitability 
 /* Ziele: kg sind die Hauptgroessen. Federweg ist sonst "nur anders" -- als
    Ziel zaehlt mehr. */
 const ZIEL = {
-  kraft:{n:["Mehr Bremskraft", "More braking power"], s:["Mehr Kolben oder größere Scheiben", "More pistons or bigger rotors"], kg:["kolben", "sV", "sH"]},
+  kraft:{n:["Mehr Bremskraft", "More braking power"], s:["Mehr Kolben oder größere Scheiben — größere Scheiben nehmen auf langen Abfahrten auch mehr Wärme auf", "More pistons or bigger rotors — bigger rotors also absorb more heat on long descents"], kg:["kolben", "sV", "sH"]},
+  ersatz:{n:["Defektes Teil ersetzen", "Replace a broken part"], s:["Gleiche Maße, ähnliche Klasse — dein Modell zuerst", "Same dimensions, similar class — your model first"], kg:[]},
   federweg:{n:["Mehr Federweg", "More travel"], s:["Innerhalb der Freigabe deines Rahmens", "Within your frame's rating"], kg:["travel"]},
   hub:{n:["Mehr Hub", "More drop"], s:["So weit das Sitzrohr es zulässt", "As far as the seat tube allows"], kg:["hub"]},
   spanne:{n:["Größere Bandbreite", "Wider range"], s:["Mehr Abstand zwischen leichtestem und schwerstem Gang", "More spread between the easiest and hardest gear"], kg:["spanne"]},
@@ -15616,7 +15627,7 @@ const zielName = z => z === "einsatz" ? tx(`Besser für ${selNamen()}`, `Better 
 const zielSub = z => ZIEL[z] ? tx(ZIEL[z].s[0], ZIEL[z].s[1]) : "";
 function zieleFuer(k, jetzt, konflikt){
   if(!jetzt) return ["passend", "leichtest", "guenstig"];
-  return (konflikt ? ["konflikt"] : []).concat(ZIELE_JE[k] || [], ["leicht", "einsatz", "sparen"]);
+  return (konflikt ? ["konflikt"] : []).concat(ZIELE_JE[k] || [], ["leicht", "einsatz", "ersatz", "sparen"]);
 }
 /* Vergleich zweier Teile Kenngroesse fuer Kenngroesse (a = deins, c = Kandidat) */
 function kgVergleich(k, a, c, ziel){
@@ -15775,6 +15786,8 @@ function finderRechnen(k){
     const pa = passendeAusfuehrung(k, jetzt, build);
     if(pa){ const pk = paketFuer(k, pa, vor); if(!pk.neueFehler.length && pk.geloest.some(f => f.slots.indexOf(k) >= 0)) roh.push({t:pa, pk:pk, gleich:true, rang:-1}); }
   }
+  /* Ersatz: dasselbe Teil noch einmal steht vorn */
+  if(ziel === "ersatz" && jetzt) roh.push({t:jetzt, pk:paketFuer(k, jetzt, vor), gleichNeu:true, vg:kgVergleich(k, jetzt, jetzt, ziel), rang:-1e9});
   for(const t0 of kandidaten(k, build)){
     if((jb && basisVon(t0.id) === jb) || t0.eigen || !vorliebeOk(k, t0)) continue;
     const t = gleicheBasis(k, t0, jetzt, ziel), pk = paketFuer(k, t, vor);
@@ -15789,6 +15802,10 @@ function finderRechnen(k){
       const spart = preisVon(jetzt) - pk.gesamt;
       if(spart < Math.max(8, preisVon(jetzt) * .05) || ungeeignet) continue;
       rang = vg.schlechter.length * 1000 - spart;
+    } else if(ziel === "ersatz"){
+      /* gleiche harte Masse, Klasse und Eignung nah am bisherigen Teil */
+      if(!massGleich(k, jetzt, t) || ungeeignet) continue;
+      rang = Math.abs(Math.log((grundpreis(t) || 1) / (grundpreis(jetzt) || 1))) + Math.abs(eig - eigJ) * .3 + vg.schlechter.length * .2;
     } else if(ziel === "passend"){ rang = -eig * 100 + pk.gesamt / 1000; }
     else if(ziel === "leichtest"){ if(!(t.g > 0) || (t.e && eig < 3)) continue; rang = t.g; }
     else if(ziel === "guenstig"){ if(t.e && eig < 3) continue; rang = pk.gesamt; }
@@ -15853,6 +15870,7 @@ function finderKarte(k, x, jetzt){
   const merk = istGemerkt(k, t.id);
   let pro = [], contra = [], anders = [];
   if(x.gleich){ pro.push(tx("Dasselbe Teil in einer anderen Ausführung — kein neues Modell.", "The same part in a different version — no new model.")); pro.push(esc((x.t.aenderung || []).join(", "))); }
+  else if(x.gleichNeu){ pro.push(tx("Dein Modell noch einmal — passt sicher wie bisher.", "Your model again — fits exactly as before.")); }
   else if(x.vg){
     pro = x.vg.besser.map(kgSatz); contra = x.vg.schlechter.map(kgSatz); anders = x.vg.anders.map(kgSatz);
     if(finder.ziel === "sparen") pro.unshift(`<b>${tx(`${eur(preisVon(jetzt) - pk.gesamt)} günstiger`, `${eur(preisVon(jetzt) - pk.gesamt)} cheaper`)}</b> <span class="kg-w">${tx("inkl. Zubehör", "incl. accessories")}</span>`);
@@ -15865,7 +15883,8 @@ function finderKarte(k, x, jetzt){
   }
   for(const f of pk.geloest.filter(f => f.slots.indexOf(k) >= 0)) pro.unshift(`<b>${tx("Löst", "Fixes")}:</b> ${esc(f.titel)}`);
   for(const f of pk.neueWarn) contra.push(`<b>${tx("Kompromiss", "Compromise")}:</b> ${esc(f.titel)}`);
-  const offen = (x.vg ? x.vg.unbekannt.map(e => kgName(e.k)) : []).concat(pk.fehlt.map(f => f.fehlt));
+  const offen = (x.vg ? x.vg.unbekannt.map(e => kgName(e.k)) : []).concat(pk.fehlt.map(f => f.fehlt),
+    k === "bremsen" && !x.gleichNeu ? [tx("Scheibendicke und Belagtyp (Bremse mit eigenen Scheiben kaufen)", "rotor thickness and pad type (buy the brake with its own rotors)")] : []);
   const li = l => l.map(s => `<li>${s}</li>`).join("");
   return `<article class="fk" data-fk="${esc(t.id)}">
     <div class="fk-kopf">
@@ -15880,8 +15899,8 @@ function finderKarte(k, x, jetzt){
     ${anders.length ? `<p class="fk-anders"><b>${tx("Anders", "Different")}:</b> ${anders.join(" · ")}</p>` : ""}
     ${offen.length ? `<p class="fk-offen"><b>${tx("Nicht bekannt", "Not known")}:</b> ${esc(offen.join(", "))}</p>` : ""}
     <div class="fk-akt">
-      <button class="btn sm" data-ersetzen="${k}|${esc(t.id)}">${jetzt ? tx("Im Aufbau ersetzen", "Replace in build") : tx("In den Aufbau", "Add to build")}</button>
-      ${jetzt ? `<button class="btn ghost sm" data-vergleich="${k}|${esc(t.id)}">${tx("Vergleichen", "Compare")}</button>` : ""}
+      ${x.gleichNeu ? "" : `<button class="btn sm" data-ersetzen="${k}|${esc(t.id)}">${jetzt ? tx("Im Aufbau ersetzen", "Replace in build") : tx("In den Aufbau", "Add to build")}</button>`}
+      ${jetzt && !x.gleichNeu ? `<button class="btn ghost sm" data-vergleich="${k}|${esc(t.id)}">${tx("Vergleichen", "Compare")}</button>` : ""}
       <button class="btn ghost sm merk" data-merken="${k}|${esc(t.id)}" aria-pressed="${merk}">${merk ? tx("Gemerkt", "Saved") : tx("Merken", "Save")}</button>
       <span class="fk-shop">${zumProduktHtml(t, true)}</span>
     </div>
@@ -16041,6 +16060,7 @@ function wunschHtml(){
         ${w.stufe !== "einkauf" ? `<button class="btn ghost sm" data-wkauf="${w.id}">${tx("Zur Einkaufsliste", "To shopping list")}</button>` : `<button class="btn ghost sm" data-wkauf="${w.id}">${tx("Von der Einkaufsliste", "Off the shopping list")}</button>`}
         ${t && !verbaut ? `<button class="btn sm" data-wverbaut="${w.id}"${pk && pk.neueFehler.length ? " disabled" : ""}>${modus === "traum" ? tx("In den Aufbau übernehmen", "Add to build") : tx("Als verbaut übernehmen", "Mark as fitted")}</button>` : ""}
         ${t ? `<button class="btn ghost sm" data-vergleich="${w.slot}|${esc(t.id)}">${tx("Vergleichen", "Compare")}</button>` : ""}
+        <button class="btn ghost sm" data-wfinder="${w.id}">${tx("Ziel oder Budget ändern", "Change goal or budget")}</button>
         <button class="btn ghost sm" data-wweg="${w.id}">${tx("Entfernen", "Remove")}</button>
       </div></article>`;
   };
@@ -18119,6 +18139,9 @@ document.addEventListener("click", e => {
       zeigeRueckgaengig(tx("Von der Wunschliste entfernt.", "Removed from the wishlist."), () => { if(modus !== m || aktivId[modus] !== rad) return; wunschListe().splice(Math.min(i, wunschListe().length), 0, w); sichern(); zeichne(); }); }
     return; }
   if(T("[data-vlzurueck]")){ rueckgaengigLetzte(); return; }
+  const wf = T("[data-wfinder]");
+  if(wf){ const w = wunschListe().find(x => x.id === wf.dataset.wfinder); if(!w) return;
+    oeffneSlot(w.slot, {tab:"finden"}); if(w.ziel) finder.ziel = w.ziel; finder.budgetAn = w.budget > 0; finder.budget = w.budget || 0; oeffneSlot(w.slot); return; }
   const fr = T("[data-frage]");
   if(fr){ oeffneAngabe(fr.dataset.frage); return; }
   const ag = T("[data-angabe]");

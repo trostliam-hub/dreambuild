@@ -62,7 +62,7 @@ const PRUEFUNGEN = [
     const r = await ev(F => { const finde = eval(F); build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern();
       const out = {}; let schlecht = [];
       for(const [k, boese] of [['gabel', 'g-recon'], ['bremsen', 'b-mt420']]){
-        for(const z of zieleFuer(k, findeTeil(k, build[k]), 0).filter(z => z !== 'sparen')){
+        for(const z of zieleFuer(k, findeTeil(k, build[k]), 0).filter(z => ['sparen', 'ersatz'].indexOf(z) < 0)){
           const e = finde(k, z); out[k + ':' + z] = e.treffer.length;
           if(e.treffer.some(x => basisVon(x.t.id) === boese)) schlecht.push(k + ':' + z);
           /* jede Empfehlung ist in den Zielgroessen besser und nirgends schlechter oder unbekannt */
@@ -77,11 +77,16 @@ const PRUEFUNGEN = [
     await neu();
     const r = await ev(F => { const finde = eval(F); const fehl = []; let n = 0;
       for(const s of SLOTS){ const jetzt = build[s.k] ? findeTeil(s.k, build[s.k]) : null; if(!jetzt || entfaellt(build, s.k)) continue;
-        for(const z of zieleFuer(s.k, jetzt, 0).filter(z => ['sparen', 'konflikt'].indexOf(z) < 0)){
+        for(const z of zieleFuer(s.k, jetzt, 0).filter(z => ['sparen', 'konflikt', 'ersatz'].indexOf(z) < 0)){
           const e = finde(s.k, z);
           for(const x of e.treffer){ n++; if(x.pk.neueFehler.length || !x.vg || x.vg.pB === 0 || x.vg.pS || x.vg.pU) fehl.push(s.k + ':' + z + ':' + x.t.id); } } }
       return {n, fehl:fehl.slice(0, 10)}; }, FINDE);
     return {ok:r.n > 20 && !r.fehl.length, info:r}; }],
+  ['Defektes Teil ersetzen: dein Modell zuerst, danach nur Teile mit gleichen Massen', async () => {
+    await neu();
+    const r = await ev(F => { const finde = eval(F); build.bremsen = 'b-xt'; sichern(); const e = finde('bremsen', 'ersatz'), j = findeTeil('bremsen', build.bremsen);
+      return {erst:e.treffer[0] && e.treffer[0].t.id === j.id, n:e.treffer.length, gleich:e.treffer.slice(1).every(x => !!massGleich('bremsen', j, x.t)), passt:e.treffer.every(x => !x.pk.neueFehler.length)}; }, FINDE);
+    return {ok:r.erst && r.n > 1 && r.gleich && r.passt, info:r}; }],
   ['Begrenztes Budget: nur Loesungen bis zum Betrag (Teil plus Zubehoer), ausgeblendete werden genannt', async () => {
     await neu();
     const r = await ev(F => { const finde = eval(F); const offen = finde('gabel', 'leicht'), knapp = finde('gabel', 'leicht', [], 900);
