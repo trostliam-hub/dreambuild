@@ -242,6 +242,8 @@ button:active:not(:disabled){transform:scale(.97)}
   :root{--hub:0px;--hub-gross:0px;--zoom:1;--t-tipp:0ms;--t-kurz:120ms;--t-mittel:150ms;--t-design:0ms}
   *,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;
     transition-duration:1ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
+  /* Fokusrahmen sofort da -- sonst wuerde er wegen der 1-ms-Uebergaenge kurz aus 0 px heranwachsen (BEVEL-002) */
+  :focus-visible{transition-property:none!important}
   .scrim,.scrim > .sheet,.toast,.upd-pop,.adp-scrim,.adp,.tour,.ei{animation-duration:150ms!important}
   .scrim.weg,.scrim.weg > .sheet,.toast.weg{animation-duration:120ms!important}
   button:active:not(:disabled),.rg:active:not(:disabled),.slot:active:not(:disabled),.shop:active{transform:none!important}
@@ -17177,7 +17179,7 @@ function oeffneSlot(slotKey, opt){
       <button role="tab" data-ts="alle" aria-selected="${finder.tab === "alle"}">${tx("Alle", "All")} <span>${katalog(quelleOf(s)).length}</span></button></div>
     <button class="ts-kat" data-finder="1">${tx("Andere Kategorie", "Other category")}</button></div>`;
   if(finder.tab === "finden"){
-    zeigeSheet(kopf + `<div class="sheet-b">${deinTeilHtml(slotKey)}${reiter}${finderHtml(slotKey)}</div>`);
+    zeigeSheet(kopf + `<div class="sheet-b">${deinTeilHtml(slotKey)}${reiter}<details class="was-das"><summary>${tx("Was ist das?", "What is it?")}</summary><p>${esc(s.was)}</p></details>${finderHtml(slotKey)}</div>`);
     return;
   }
   const basis = bewerte(build);
