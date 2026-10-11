@@ -7,7 +7,10 @@ Ein mit Blender gebautes 3D-Modell. In der App steht es auf zwei Arten:
   (BEVEL-002; vorher stand es als Beispielrad auch über fremden Rädern);
 - als **3D-Ansicht auf Tippen** („In 3D ansehen“): three.js aus `vendor/three-0.169.0/`
   und das GLB laden erst dann, aus diesem Repo, nie beim Start. Ohne WebGL oder bei
-  einem Ladefehler bleibt das Bild stehen.
+  einem Ladefehler bleibt das Bild stehen. Seit Abschnitt 10 beleuchtet der
+  Betrachter das Rad zusätzlich mit einem Licht von oben und legt einen weichen
+  Bodenschatten darunter (VSM-Schatten, Schattenmaterial am Boden); ausgeblendete
+  Baugruppen werfen keinen Schatten.
 
 Nachgebaut ist nur der **Rahmen**. Gabel, Dämpfer, Laufräder, Antrieb, Bremsen,
 Cockpit und Sitz sind allgemeine Bauformen in echten Maßen — das steht in der App
@@ -117,11 +120,35 @@ Antrieb (Kurbeln, Kettenblatt, Kettenführung, Bashguard, Kassette 10–52, Scha
 Kette), Bremsen, Cockpit, Sitz (Stütze, Sattel), Leitungen. Die Bewegung hängt an
 Steuer-Empties in der Sammlung „Steuerung“.
 
+**Details (BEVEL-002, Abschnitt 10):** Speichennippel (32 je Rad, blank), ein
+Tubeless-Ventil je Felge (Presta, mit Mutter und Kappe, mittig zwischen zwei
+Speichenenden), Bremsscheiben aus eigenem Stahl, Kette mit blanken Laschen und
+dunklen Rollen, Schaltwerk mit B-Gelenk, zwei Parallelogramm-Laschen mit Bolzen,
+P-Gelenk und einem Käfig mit Taille (statt eines einzelnen Blocks), Sattel mit
+Volumen (Polster mit runder Kante auf einer Schale, Oberkante rund 45 mm über den
+Streben wie bei üblichen MTB-Sätteln; vorher ein flaches Brett), Anschluss oben am
+vorderen Bremssattel und die **vordere Bremsleitung**, die vorher fehlte: vom
+Sattel hinter dem linken Tauchrohr hoch, außen herum zum Clip an der Gabelbrücke,
+in einem Bogen vor dem Steuerrohr zum rechten Hebel. Alles sind allgemeine
+Bauformen; Herstellerwerte wurden nicht neu angenommen.
+
 Materialien: lackiertes Aluminium (`Lack_Rahmen`, Farbe als Parameter
 `baue(lack="#e7e8e5")`), lackierte Tauchrohre (`Gabel_Lack`, `baue(gabel="#b11c2a")`),
 schwarz eloxiertes Aluminium, Kunststoff, Gummi, blanker und dunkler Stahl, Standrohr,
 Kolbenstange, Feder, Sattel, Lager — matt bis seidig, keine Spiegelflächen. Bauteile
 und Farben lassen sich einzeln tauschen.
+
+**Aussehen im Rendering (`skripte/aussehen.py`, Abschnitt 10):** harte Teile
+(gefräst, gegossen, gestanzt) bekommen einen Bevel-Knoten, damit ihre Kanten Licht
+fangen wie echte gerundete Kanten; Reifen und Griffe eine feine Körnung; der
+Klarlack von Rahmen und Gabel eine sehr leichte Orangenhaut; die Bremsscheiben
+eine gedrehte Oberfläche (Anisotropie um die Achse). Das Studio ist ein Verlauf
+(Boden dunkel, Horizont, Decke hell), den Lack und Metall spiegeln, dazu eine
+große Softbox oben, ein schmaler Lichtstreifen auf der Kameraseite für lange
+Glanzlinien auf den Rohren, eine schwache Aufhellung und zwei Streiflichter von
+hinten. Diese Knoten wirken nur in Cycles. Das GLB bekommt die Grundwerte
+(Farbe, Metall, Rauheit, Klarlack); `export_glb.py` nimmt die Anisotropie vor dem
+Export heraus, weil das Modell an den Scheiben keine UV-Koordinaten hat.
 
 Schriftzug: Das Unterrohr hat eine UV-Abwicklung (`werkzeug.rohr(..., uv=True)`), das
 Material `Lack_Rahmen_Dekor` legt `unterrohr-dekor.png` darüber. Auf der
@@ -146,7 +173,10 @@ Vierkolbenbremsen, Scheiben 220/203), keine Nachbildung bestimmter Produkte.
 Kein Endlos-Loop. Die Kette hat ein kleines Skelett: Glieder am Kettenblatt folgen
 dem Rahmen, an Kassette und Schaltwerk dem Hinterbau, jedes freie Trum hat einen
 Knochen, der beim Einfedern gedreht und gestreckt wird — so bleibt die Kette
-geschlossen und läuft über der Kettenstrebe. In der App läuft keine Animation.
+geschlossen und läuft über der Kettenstrebe. Die vordere Bremsleitung hat ein
+eigenes Skelett mit zwei Knochen: der untere Teil folgt den Tauchrohren, der obere
+bleibt am Lenker, dazwischen wird gemischt — die Leitung reißt beim Einfedern nicht
+ab. In der App läuft keine Animation.
 
 ## Geprüft
 
@@ -158,6 +188,11 @@ geschlossen und läuft über der Kettenstrebe. In der App läuft keine Animation
 - **GLB** in Chromium (headless, WebGL über SwiftShader) mit three.js 0.169 und
   DRACOLoader: lädt in 0,4–0,6 s, 157 Meshes, eine Textur, ein Clip, keine Konsolenfehler; Ruhe,
   eingefedert und gerollt sichtbar.
+- **Abschnitt 10:** Kollisionen nach den neuen Details wieder **0 unerwartete** bei 0/50/100 %
+  (die vordere Leitung wird mit ihrem Skelett ein- und ausgefedert geprüft); gewollt und
+  in die Liste aufgenommen sind nur Leitung im Sattel-Anschluss, Leitung im Clip,
+  Anschluss im Sattel und Schaltzug im B-Gelenk. Im App-Betrachter (SwiftShader,
+  390 px): lädt in 2,1 s, 176 Meshes, alle mit Teile-Kategorie, keine Konsolenfehler.
 - **Renderings** auf hellem (#f2f2f7, Weiß) und dunklem Grund (Schwarz, #1c1c1e).
 
 Nicht geprüft: echte Geräte (kein iPhone/Android in der Arbeitsumgebung) und

@@ -9,6 +9,7 @@ import geo
 import werkzeug as W
 import teile as T
 import rahmen as R
+import aussehen as A
 from werkzeug import MM, v
 
 Z0 = geo.TRETLAGER_HOEHE                       # Tretlager ueber dem Boden
@@ -28,6 +29,7 @@ def baue(lack="#e7e8e5", gabel="#b11c2a", dekor=DEKOR):
     sc = bpy.context.scene
     sc.unit_settings.system = "METRIC"
     W.materialien(lack, gabel)
+    A.zusatzmaterialien()
     if dekor and os.path.exists(dekor):
         W.dekor_material("Lack_Rahmen_Dekor", dekor)
     haupt = W.sammlung("Spindrift_5_AL_L_Mix")
@@ -103,17 +105,17 @@ def baue(lack="#e7e8e5", gabel="#b11c2a", dekor=DEKOR):
         an(ob, e_gabel)
     # ---------------- Laufraeder
     fa, ra = P(geo.FA), P(geo.RA)
-    vorn = [T.reifen("Reifen_vorn_29x2.5", geo.R_VORN, 63, fa, C["Laufrad_vorn"]),
+    vorn = [T.reifen("Reifen_vorn_29x2.5", geo.R_VORN, 63, fa, C["Laufrad_vorn"], wulst=311),
             T.felge("Felge_vorn_29", 311, fa, C["Laufrad_vorn"]),
             T.nabe("Nabe_vorn_110", fa, C["Laufrad_vorn"], 110, 37),
-            T.speichen("Speichen_vorn", fa, 37, 24, 300, C["Laufrad_vorn"]),
+            T.speichen("Speichen_vorn", fa, 37, 24, 300, C["Laufrad_vorn"], r_felgenbett=311 - 22),
             T.bremsscheibe("Bremsscheibe_vorn_220", 110, fa, 46, C["Laufrad_vorn"])]
     for ob in vorn:
         an(ob, e_rad_v)
-    hinten = [T.reifen("Reifen_hinten_27.5x2.5", geo.R_HINTEN, 63, ra, C["Laufrad_hinten"]),
-              T.felge("Felge_hinten_27.5", 292, ra, C["Laufrad_hinten"]),
+    hinten = [T.reifen("Reifen_hinten_27.5x2.5", geo.R_HINTEN, 63, ra, C["Laufrad_hinten"], wulst=292),
+              T.felge("Felge_hinten_27.5", 292, ra, C["Laufrad_hinten"], ventil_w=math.radians(208.125)),
               T.nabe("Nabe_hinten_148", ra, C["Laufrad_hinten"], 148, (21, 33), freilauf=True),
-              T.speichen("Speichen_hinten", ra, (21, 31), 24, 280, C["Laufrad_hinten"]),
+              T.speichen("Speichen_hinten", ra, (21, 31), 24, 280, C["Laufrad_hinten"], r_felgenbett=292 - 22),
               T.bremsscheibe("Bremsscheibe_hinten_203", 101.5, ra, 58.6, C["Laufrad_hinten"])]
     kas, kradien = T.kassette("Kassette_10-52", ra, C["Antrieb"], y_klein=-66.5)
     hinten.append(kas)
@@ -181,16 +183,32 @@ def baue(lack="#e7e8e5", gabel="#b11c2a", dekor=DEKOR):
         ob, _ = W.zahnrad(nme, 12, 12.7, 6, y21, c, "Kunststoff_schwarz", C["Antrieb"])
         ob.data.transform(Matrix.Translation(Vector((0, 0, Z0 * MM))))
         sw.append(ob)
-    kaefig = W.kreise_umriss([(up[0], up[1], rp + 9), (lp[0], lp[1], rp + 11)], n=28)
+    # Kaefig mit Taille zwischen den Rollen (dichtere Umrisspunkte, damit die Einschnuerung rund wird)
+    kaefig = W.tailliert(W.kreise_umriss([(up[0], up[1], rp + 9), (lp[0], lp[1], rp + 11)], n=56), up, lp, 0.22)
     kaefig_i = W.kreise_umriss([(up[0], up[1], 10), (lp[0], lp[1], rp + 11)], n=28)   # innen oben kurz: frei von den grossen Ritzeln
     for y0, y1, nme, um in ((y21 - 9, y21 - 6.5, "Kaefig_aussen", kaefig), (y21 + 6.5, y21 + 8.5, "Kaefig_innen", kaefig_i)):
         ob = W.platte("Schaltwerk_" + nme, um, y0, y1, "Alu_schwarz_eloxiert" if "aussen" in nme else "Kunststoff_schwarz", C["Antrieb"], fase=0.8)
         ob.data.transform(Matrix.Translation(Vector((0, 0, Z0 * MM))))
         sw.append(ob)
-    koerper = W.kreise_umriss([(geo.RA[0] - 4, geo.RA[1] - 18, 13), (geo.RA[0] - 22, geo.RA[1] - 48, 17), (up[0] - 2, up[1] + 14, 15)], n=28)
-    ob = W.platte("Schaltwerk_Koerper", koerper, -98, -84, "Alu_schwarz_eloxiert", C["Antrieb"], fase=3.0)
-    ob.data.transform(Matrix.Translation(Vector((0, 0, Z0 * MM))))
-    sw.append(ob)
+    # Schaltwerk-Koerper (allgemeine Bauform): B-Gelenk am Schaltauge, Parallelogramm aus zwei Laschen mit
+    # blanken Bolzen, P-Gelenk ueber der oberen Rolle -- statt eines einzelnen Blocks
+    b_k = (geo.RA[0] - 6, geo.RA[1] - 20)
+    m_k = (geo.RA[0] - 26, geo.RA[1] - 47)
+    p_k = (up[0] - 3, up[1] + 17)
+    for nme, y0, y1, dr in (("Schaltwerk_Koerper", -101, -95, 0), ("Schaltwerk_Lasche_innen", -86, -82, 2)):
+        um = W.kreise_umriss([(b_k[0], b_k[1], 12 - dr), (m_k[0], m_k[1], 14 - dr), (p_k[0], p_k[1], 12 - dr)], n=28)
+        ob = W.platte(nme, um, y0, y1, "Alu_schwarz_eloxiert", C["Antrieb"], fase=1.6)
+        ob.data.transform(Matrix.Translation(Vector((0, 0, Z0 * MM))))
+        sw.append(ob)
+    sw.append(W.zyl("Schaltwerk_B_Gelenk", P(b_k, -97), P(b_k, -79), 11, "Alu_schwarz_eloxiert", C["Antrieb"], n=28))
+    sw.append(W.zyl("Schaltwerk_P_Gelenk", P(p_k, -102), P(p_k, -81), 12, "Alu_schwarz_eloxiert", C["Antrieb"], n=28))
+    sw.append(W.zyl("Schaltwerk_Mitte", P(m_k, -95.5), P(m_k, -85.5), 9, "Kunststoff_schwarz", C["Antrieb"], n=24))
+    lv = Vector((p_k[0] - b_k[0], 0, p_k[1] - b_k[1])).normalized()
+    quer = (-lv.z * 6, lv.x * 6)
+    for c_ in (b_k, p_k):
+        for sg in (-1, 1):
+            pk = (c_[0] + sg * quer[0], c_[1] + sg * quer[1])
+            sw.append(W.zyl("Schaltwerk_Bolzen", P(pk, -102.6), P(pk, -100.4), 2.8, "Stahl_blank", C["Antrieb"], n=14))
     sw.append(W.zyl("Schaltwerk_Achse", P(up, -92), P(up, y21), 6, "Stahl_dunkel", C["Antrieb"], n=16))
     for ob in sw:
         an(ob, e_hinterbau)
@@ -250,12 +268,18 @@ def baue(lack="#e7e8e5", gabel="#b11c2a", dekor=DEKOR):
         return ob
     sv = sattel_bremse("Bremssattel_vorn", geo.FA, 110, math.radians(205), 46, C["Bremsen"])
     an(sv, e_gabel)
+    w_sv = math.radians(205)
+    c_sv = (geo.FA[0] + 101 * math.cos(w_sv), geo.FA[1] + 101 * math.sin(w_sv))
+    t_sv = (-math.sin(w_sv), math.cos(w_sv))
+    banjo = (c_sv[0] - t_sv[0] * 30, c_sv[1] - t_sv[1] * 30)          # oberes Ende des Sattels
+    an(W.zyl("Bremssattel_vorn_Anschluss", P(banjo, 58), P(banjo, 70), 6.0, "Alu_schwarz_eloxiert", C["Bremsen"], n=20), e_gabel)
     sh = sattel_bremse("Bremssattel_hinten", geo.RA, 101.5, math.radians(48), 58.6, C["Bremsen"])
     an(sh, e_hinterbau)
     # ---------------- Cockpit
     hto = P(geo.HT_O)
     oben = -d
     teile_c = []
+    geber = {}
     teile_c.append(W.zyl("Steuersatz_oben", hto, hto + oben * (8 * MM), 28.5, "Kunststoff_schwarz", C["Cockpit"], n=40, r2=24))
     teile_c.append(W.zyl("Spacer", hto + oben * (8 * MM), hto + oben * (18 * MM), 18.5, "Alu_schwarz_eloxiert", C["Cockpit"], n=32))
     v0 = hto + oben * (18 * MM)
@@ -278,6 +302,7 @@ def baue(lack="#e7e8e5", gabel="#b11c2a", dekor=DEKOR):
         teile_c.append(W.zyl(f"Bremshebel_Schelle_{'R' if s < 0 else 'L'}", k0 - r_ * (7 * MM), k0 + r_ * (7 * MM), 16, "Alu_schwarz_eloxiert", C["Cockpit"], n=24))
         gz = k0 + q * (30 * MM) + oben * (8 * MM)
         teile_c.append(W.zyl(f"Geberzylinder_{'R' if s < 0 else 'L'}", k0 + q * (8 * MM), gz, 11, "Alu_schwarz_eloxiert", C["Cockpit"], n=24))
+        geber[s] = gz
         blatt_pts = [gz, gz + r_ * (40 * MM) + q * (14 * MM) - oben * (6 * MM), gz + r_ * (95 * MM) + q * (8 * MM) - oben * (18 * MM)]
         teile_c.append(W.rohr(f"Bremshebel_{'R' if s < 0 else 'L'}", blatt_pts, [8, 7, 7], [16, 14, 13], "Alu_schwarz_eloxiert", C["Cockpit"], n=16, seite=oben))
     for ob in teile_c:
@@ -319,9 +344,66 @@ def baue(lack="#e7e8e5", gabel="#b11c2a", dekor=DEKOR):
     e = P((geo.RA[0] - 18, geo.RA[1] - 40), -92)
     zug = W.rohr("Schaltzug_hinten", [a, a.lerp(e, 0.5) + Vector((-30 * MM, -8 * MM, -10 * MM)), e], 5, 5, "Kunststoff_schwarz", C["Leitungen"], n=10)
     an(zug, e_hinterbau)
+    leitung = bremsleitung_vorn(C, S, wurzel, e_gabel, d, q, banjo, geber[-1], -d, an)
     bpy.context.view_layer.update()
-    return dict(skelett=skel, hb_ruhe=hb_ruhe, skelett_ruhe=skel_ruhe, wurzel=wurzel, hinterbau=e_hinterbau, hebel_o=e_hebel_o, hebel_u=e_hebel_u, gabel=e_gabel, rad_v=e_rad_v, rad_h=e_rad_h,
+    A.veredeln()
+    return dict(leitung=leitung, skelett=skel, hb_ruhe=hb_ruhe, skelett_ruhe=skel_ruhe, wurzel=wurzel, hinterbau=e_hinterbau, hebel_o=e_hebel_o, hebel_u=e_hebel_u, gabel=e_gabel, rad_v=e_rad_v, rad_h=e_rad_h,
                 d_oben=e_d_o, d_unten=e_d_u, federfuss=e_federfuss, rot=rot)
+
+
+def bremsleitung_vorn(C, S, wurzel, e_gabel, d, q, banjo, geber_r, oben, an):
+    """Vordere Bremsleitung (fehlte bis Abschnitt 10): vom Anschluss oben am Sattel hinter dem linken Tauchrohr
+    hoch, aussen herum nach vorn zur Fuehrung an der Gabelbruecke, in einem Bogen vor dem Steuerrohr zum rechten
+    Hebel (der linke Hebel fuehrt nach hinten, wie bei Bremsleitung_hinten). Der untere Teil federt mit der Gabel
+    (Knochen "Leitung_Gabel"), der obere bleibt am Lenker (Knochen "Leitung_Rahmen"); dazwischen wird gemischt,
+    damit die Leitung beim Einfedern nicht abreisst."""
+    G = T.Gabelmass
+    dicht = 2.0 + 26.0 + G.offen
+    lang_a, vers = geo.GABEL_ACHSE_LAENGS, geo.GABEL_VERSATZ
+    htu = P(geo.HT_U)
+    def Pg(lang, vor, y):
+        return htu + d * (lang * MM) + q * (vor * MM) + Vector((0, y * MM, 0))
+    t_sv = (-math.sin(math.radians(205)), math.cos(math.radians(205)))
+    pts = [P(banjo, 64), P((banjo[0] - t_sv[0] * 16, banjo[1] - t_sv[1] * 16), 74),
+           Pg(lang_a - 70, vers - 50, 84), Pg(lang_a - 190, vers - 40, 98), Pg(lang_a - 300, vers - 12, 110),
+           Pg(dicht + 50, vers + 30, 104), Pg(dicht - 2, vers + 66, 60),                    # Fuehrung (Index 6)
+           Pg(-70, vers + 112, 34),                                                          # ab hier am Lenker (Index 7)
+           Pg(-175, vers + 112, -70), geber_r + q * (40 * MM) - oben * (22 * MM), geber_r + q * (3 * MM)]
+    i_fuehrung, i_lenker = 6, 7
+    ob = W.rohr("Bremsleitung_vorn", pts, 5, 5, "Kunststoff_schwarz", C["Leitungen"], n=10, seite=Vector((0, 1, 0)))
+    # Fuehrung an der Bruecke (Clip)
+    clip = W.zyl("Gabel_Leitungsfuehrung", Pg(dicht - 1, vers + 46, 60), Pg(dicht - 2, vers + 69, 60), 4.5, "Kunststoff_schwarz", C["Gabel"], n=16)
+    an(clip, e_gabel)
+    # Skelett mit zwei Knochen
+    sk_d = bpy.data.armatures.new("Leitung_Skelett")
+    sk = bpy.data.objects.new("Leitung_Skelett", sk_d)
+    S.objects.link(sk)
+    bpy.context.view_layer.objects.active = sk
+    sk.select_set(True)
+    bpy.ops.object.mode_set(mode="EDIT")
+    for nme, kopf in (("Leitung_Rahmen", P(geo.HT_U)), ("Leitung_Gabel", P(geo.FA))):
+        eb_ = sk_d.edit_bones.new(nme)
+        eb_.head, eb_.tail = kopf, kopf + Vector((0, 0.05, 0))
+        eb_.roll = 0.0
+    bpy.ops.object.mode_set(mode="OBJECT")
+    sk.select_set(False)
+    an(sk, wurzel)
+    # Gewichte entlang der Leitung (Reihenfolge der Ecken wie in werkzeug.rohr: Ringe, dann zwei Kappenmitten)
+    _, par = W.catmull(pts, 10)
+    n = 10
+    vg_g, vg_r = ob.vertex_groups.new(name="Leitung_Gabel"), ob.vertex_groups.new(name="Leitung_Rahmen")
+    for vi in range(len(ob.data.vertices)):
+        p = par[vi // n] if vi < len(par) * n else (par[0] if vi == len(par) * n else par[-1])
+        t = min(1.0, max(0.0, (p - i_fuehrung) / (i_lenker - i_fuehrung)))
+        wg = 1.0 - t * t * (3 - 2 * t)
+        if wg > 0:
+            vg_g.add([vi], wg, "REPLACE")
+        if wg < 1:
+            vg_r.add([vi], 1.0 - wg, "REPLACE")
+    an(ob, sk)
+    mod = ob.modifiers.new("Skelett", "ARMATURE")
+    mod.object = sk
+    return sk
 
 
 # ================================================================ Pose
@@ -347,6 +429,9 @@ def pose(E, hub_hinten=0.0, hub_vorn=0.0, boden=True, rollen_mm=0.0):
     # Gabel: Tauchrohre und Vorderrad entlang der Lenkachse
     d = Vector((geo.DIR_LENK[0], 0, geo.DIR_LENK[1]))
     E["gabel"].matrix_world = W_.matrix_world @ Matrix.Translation(P(geo.FA) - P((0, 0)) - d * (hub_vorn * MM))
+    lk = E.get("leitung")
+    if lk:
+        lk.pose.bones["Leitung_Gabel"].matrix = Matrix.Translation(-d * (hub_vorn * MM)) @ lk.data.bones["Leitung_Gabel"].matrix_local
     # Raeder drehen beim Rollen (Abrollen ohne Schlupf): Winkel = Weg / Radius
     # Abstand Nabe -> Eltern-Ursprung bleibt erhalten (Hinterrad haengt am Hinterbau-Empty in U_HINTEN)
     E["rad_v"].matrix_local = Matrix.Rotation(rollen_mm / geo.R_VORN, 4, "Y")
@@ -404,6 +489,14 @@ def keyframes(E, frame):
         pb.keyframe_insert("location", frame=frame)
         pb.keyframe_insert("rotation_quaternion", frame=frame)
         pb.keyframe_insert("scale", frame=frame)
+    lk = E.get("leitung")
+    if lk:
+        ad = lk.animation_data or lk.animation_data_create()
+        if ad.action is None:
+            ad.action = akt
+        pb = lk.pose.bones["Leitung_Gabel"]
+        pb.rotation_mode = "QUATERNION"
+        pb.keyframe_insert("location", frame=frame)
 
 
 def animation(E, fps=30):
@@ -425,7 +518,7 @@ def animation(E, fps=30):
 
 
 # ================================================================ Studio
-def studio(hintergrund=(0.94, 0.94, 0.96)):
+def studio():
     sc = bpy.context.scene
     col = W.sammlung("Studio")
     # Schattenfaenger als Boden
@@ -436,31 +529,8 @@ def studio(hintergrund=(0.94, 0.94, 0.96)):
         c.objects.unlink(boden)
     col.objects.link(boden)
     boden.is_shadow_catcher = True
-    # Welt: neutral, wenig Umgebungslicht
-    w = bpy.data.worlds.new("Studio")
-    sc.world = w
-    w.use_nodes = True
-    w.node_tree.nodes["Background"].inputs[0].default_value = (*hintergrund, 1)
-    w.node_tree.nodes["Background"].inputs[1].default_value = 0.15
-    # Lichter: grosse Softbox oben vorn, Aufhellung, zwei Streiflichter von hinten fuer klare Kanten
-    def flaeche(name, ort, ziel, energie, groesse, form="RECTANGLE", gy=None, schatten=True):
-        l = bpy.data.lights.new(name, "AREA")
-        l.use_shadow = schatten
-        l.energy = energie
-        l.shape = form
-        l.size = groesse
-        l.size_y = gy or groesse
-        ob = bpy.data.objects.new(name, l)
-        ob.location = ort
-        ob.rotation_euler = (Vector(ziel) - Vector(ort)).to_track_quat("-Z", "Y").to_euler()
-        col.objects.link(ob)
-        return ob
-    flaeche("Softbox_oben", (0.35, -1.6, 2.6), (0.2, 0, 0.55), 320, 2.4, gy=1.6)
-    flaeche("Aufheller", (0.4, -3.0, 0.6), (0.2, 0, 0.6), 70, 2.0, gy=1.2)
-    # Streiflichter nur fuer Kanten: ohne eigenen Schatten (sonst unruhige Bodenschatten)
-    flaeche("Streiflicht_hinten_links", (-1.8, 1.4, 1.4), (0.0, 0, 0.6), 160, 0.6, gy=2.4, schatten=False)
-    flaeche("Streiflicht_hinten_rechts", (2.2, 1.2, 1.5), (0.3, 0, 0.6), 140, 0.6, gy=2.4, schatten=False)
-    flaeche("Kante_unten", (0.2, -1.4, 0.15), (0.2, 0, 0.4), 25, 3.0, gy=0.3, schatten=False)
+    # Welt und Licht: Fotostudio mit Verlauf und Lichtstreifen (aussehen.py, Abschnitt 10)
+    A.studio_licht(col)
     # Kameras
     cs = bpy.data.cameras.new("Seite")
     cs.type = "ORTHO"

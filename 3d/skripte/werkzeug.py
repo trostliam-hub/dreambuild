@@ -256,6 +256,27 @@ def kreise_umriss(kreise, n=28):
     return huelle(pts)
 
 
+def tailliert(umriss, a, b, staerke=0.25):
+    """Umriss (x, z mm) zwischen zwei Mittelpunkten a und b einschnueren (Schaltwerk-Kaefig): der Abstand
+    zur Achse a-b sinkt in der Mitte um 'staerke' (Anteil), an den Enden gar nicht."""
+    ax, az = b[0] - a[0], b[1] - a[1]
+    L2 = ax * ax + az * az
+    dicht = []                       # gerade Huellenstuecke unterteilen (hoechstens 3 mm), sonst gibt es nichts einzuschnueren
+    for i, p in enumerate(umriss):
+        q = umriss[(i + 1) % len(umriss)]
+        k = max(1, int(math.dist(p, q) / 3.0))
+        dicht += [(p[0] + (q[0] - p[0]) * j / k, p[1] + (q[1] - p[1]) * j / k) for j in range(k)]
+    out = []
+    for x, z in dicht:
+        t = ((x - a[0]) * ax + (z - a[1]) * az) / L2
+        if 0.0 < t < 1.0:
+            fx, fz = a[0] + ax * t, a[1] + az * t
+            k = 1 - staerke * math.sin(math.pi * t) ** 2
+            x, z = fx + (x - fx) * k, fz + (z - fz) * k
+        out.append((x, z))
+    return out
+
+
 def platte(name, umriss, y0, y1, mat, col, fase=1.2, ebene=None, glatt=True):
     """Ebene Platte in der Seitenebene (x, z in mm), Dicke von y0 bis y1 (mm).
     ebene: optional (ursprung, ex, ez, ey) als Vektoren fuer andere Ebenen (in m bzw. Einheitsvektoren)."""

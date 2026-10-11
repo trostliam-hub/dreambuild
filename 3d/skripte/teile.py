@@ -3,14 +3,17 @@ Alle Masse in mm (Herstellerangaben, wo bekannt, sonst uebliche Masse der Bauart
 import math
 import bmesh
 from mathutils import Vector, Matrix
-from werkzeug import (ringplatte, MM, v, rohr, zyl, drehteil, platte, zahnrad, kreise_umriss, fertig, verbinden)
+from werkzeug import (ringplatte, MM, MAT, v, rohr, zyl, drehteil, platte, zahnrad, kreise_umriss, fertig, verbinden)
 
 
 # ================================================================ Laufrad
-def reifen(name, R, breite, mitte, col, knopf_h=5.5):
-    """Reifen 2,5": Karkasse als Rotationskoerper, Stollen als einzelne Bloecke."""
+def reifen(name, R, breite, mitte, col, knopf_h=5.5, wulst=None):
+    """Reifen 2,5": Karkasse als Rotationskoerper, Stollen als einzelne Bloecke.
+    wulst: Radius des Felgensitzes (mm) -- der Reifen sitzt dort auf. Ohne Angabe geschaetzt (Rk - 58); das liess
+    hinten (27,5") 3,5 mm Luft zwischen Felgenhorn und Reifen, durch die man in der Seitenansicht hindurchsah."""
     Rk = R - knopf_h                      # Karkasse ohne Stollen
-    wulst = Rk - 58                       # ungefaehr der Felgenrand
+    if wulst is None:
+        wulst = Rk - 58
     h = breite / 2
     prof = []
     # halbe Kontur (von der Wulst ueber die Schulter zur Mitte), dann gespiegelt
@@ -54,11 +57,20 @@ def reifen(name, R, breite, mitte, col, knopf_h=5.5):
     return verbinden(name, [t, k])
 
 
-def felge(name, wulst_r, mitte, col):
+def felge(name, wulst_r, mitte, col, ventil_w=math.radians(-84.375)):
     p = [(wulst_r + 6, -17.5), (wulst_r - 15, -17.5), (wulst_r - 20, -12), (wulst_r - 22, 0), (wulst_r - 20, 12),
          (wulst_r - 15, 17.5), (wulst_r + 6, 17.5), (wulst_r + 6, 14.5), (wulst_r, 13.5), (wulst_r - 2, 0),
          (wulst_r, -13.5), (wulst_r + 6, -14.5), (wulst_r + 6, -17.5)]
-    return drehteil(name, p, mitte, "Alu_schwarz_eloxiert", col, n=96, winkel=35)
+    f = drehteil(name, p, mitte, "Alu_schwarz_eloxiert", col, n=96, winkel=35)
+    # Tubeless-Ventil (Presta, 6 mm): radial nach innen, mittig zwischen zwei Speichenenden (Speichen alle 11,25 Grad)
+    r_innen = wulst_r - 22
+    def rp(r):
+        return mitte + Vector((math.cos(ventil_w) * r * MM, 0, math.sin(ventil_w) * r * MM))
+    teile = [f,
+             zyl(name + "_Ventil", rp(wulst_r - 14), rp(r_innen - 30), 3.0, "Ventil", col, n=16),
+             zyl(name + "_Ventilmutter", rp(r_innen + 0.5), rp(r_innen - 5), 5.5, "Ventil", col, n=6, glatt=False),
+             zyl(name + "_Ventilkappe", rp(r_innen - 30), rp(r_innen - 42), 3.9, "Kunststoff_schwarz", col, n=16)]
+    return verbinden(name, teile)
 
 
 def nabe(name, mitte, col, breite, flansch, freilauf=False):
@@ -76,9 +88,11 @@ def nabe(name, mitte, col, breite, flansch, freilauf=False):
     return drehteil(name, p, mitte, "Alu_schwarz_eloxiert", col, n=48, winkel=30)
 
 
-def speichen(name, mitte, flansch, r_loch, r_felge, col, kreuz=3):
-    """32 Speichen, dreifach gekreuzt. Halb je Flansch, abwechselnd ziehend und schiebend."""
+def speichen(name, mitte, flansch, r_loch, r_felge, col, kreuz=3, r_felgenbett=None):
+    """32 Speichen, dreifach gekreuzt. Halb je Flansch, abwechselnd ziehend und schiebend.
+    r_felgenbett: Innenradius der Felge -- dort sitzen die Nippel (12 mm lang, 4 mm dick, blank)."""
     bm = bmesh.new()
+    bm_n = bmesh.new()
     n_seite = 16
     fr, fl = flansch if isinstance(flansch, tuple) else (flansch, flansch)
     for seite, y in ((-1, -fr), (1, fl)):
@@ -94,15 +108,28 @@ def speichen(name, mitte, flansch, r_loch, r_felge, col, kreuz=3):
             s.free()
             bm.from_mesh(me_tmp)
             __import__("bpy").data.meshes.remove(me_tmp)
-            # Nippel
-    return fertig(name, bm, "Stahl_dunkel", col, glatt=True, winkel=60)
+            # Nippel: vom Felgenbett 12 mm entlang der Speiche nach innen
+            if r_felgenbett:
+                u = (a - e).normalized()
+                k0 = (r_felge - r_felgenbett - 1.5) * MM
+                n_ = zyl("tmp", e + u * k0, e + u * (k0 + 12 * MM), 2.0, None, None, n=8, bm_rueck=True)
+                me_tmp = __import__("bpy").data.meshes.new("tmp")
+                n_.to_mesh(me_tmp)
+                n_.free()
+                bm_n.from_mesh(me_tmp)
+                __import__("bpy").data.meshes.remove(me_tmp)
+    sp = fertig(name, bm, "Stahl_dunkel", col, glatt=True, winkel=60)
+    if not r_felgenbett:
+        bm_n.free()
+        return sp
+    return verbinden(name, [sp, fertig(name + "_Nippel", bm_n, "Stahl_blank", col, glatt=True, winkel=60)])
 
 
 def bremsscheibe(name, r_aussen, mitte, y, col):
     """Scheibe: Reibring mit Bohrungen, sechs Arme zur Centerlock-Aufnahme."""
     import bpy
     spur = 17.0
-    ring = platte(name + "_Ring", kreise_umriss([(0, 0, r_aussen)], n=120), y - 0.9, y + 0.9, "Stahl_blank", col, fase=0.3, glatt=False)
+    ring = platte(name + "_Ring", kreise_umriss([(0, 0, r_aussen)], n=120), y - 0.9, y + 0.9, "Bremsscheibe", col, fase=0.3, glatt=False)
     # Innenausschnitt und Bohrungen per Boolean
     loch_teile = []
     innen = zyl(name + "_innen", Vector((0, (y - 5) * MM, 0)), Vector((0, (y + 5) * MM, 0)), r_aussen - spur, None, col, n=96)
@@ -240,6 +267,8 @@ def kette(name, kreise, y_von, y_bis, z0, col, gruppen=None, zuordnung=None):
             d = (B - A)
             mitte = (A + B) / 2 + Vector((0, sy * dy * MM, 0))
             geo = bmesh.ops.create_cube(bm, size=1.0)
+            for f_ in {f_ for q_ in geo["verts"] for f_ in q_.link_faces}:
+                f_.material_index = 1          # Laschen blank, Rollen dunkel
             bmesh.ops.scale(bm, verts=geo["verts"], vec=Vector(((12.7 + 6.5) * MM, 1.0 * MM, 7.2 * MM)))
             w = math.atan2(d.z, d.x)
             bmesh.ops.rotate(bm, verts=geo["verts"], cent=Vector(), matrix=Matrix.Rotation(-w, 3, "Y"))
@@ -250,6 +279,8 @@ def kette(name, kreise, y_von, y_bis, z0, col, gruppen=None, zuordnung=None):
             for vi in range(n0, len(bm.verts)):
                 bm.verts[vi][dl][gi] = 1.0
     ob = fertig(name, bm, "Stahl_dunkel", col, glatt=True, winkel=40)
+    if "Kette_Stahl" in MAT:
+        ob.data.materials.append(MAT["Kette_Stahl"])
     for g in (gruppen or []):
         ob.vertex_groups.new(name=g)
     return ob, pfad
@@ -375,41 +406,53 @@ def lenker(col, mitte, achse, vor, breite=800, rise=30, back=8, up=5, klemme=35)
 
 
 def sattel(col, spitze, hinten_pkt, oben):
-    """Sattel: Schale aus Querschnitten (Laenge ~270, hinten 140 breit), Polster, zwei Streben."""
+    """Sattel (allgemeine Bauform, ~275 x 140 mm): Polster mit abgerundeter Kante auf einer Schale.
+    Querschnitt als Superellipse (oben flach gewoelbt, Seiten steil), hinten leicht hochgezogen; Hoehe ueber
+    den Streben wie bei ueblichen MTB-Saetteln (Oberkante rund 45 mm ueber den Streben). Die unteren Flaechen
+    tragen das Schalen-Material."""
     import bpy
     bm = bmesh.new()
     L = (spitze - hinten_pkt).length / MM
     ex = (spitze - hinten_pkt).normalized()
     ez = oben.normalized()
     ey = ez.cross(ex).normalized()
-    stationen = 18
-    n = 20
+    stationen = 22
+    n = 28
     ringe = []
     for i in range(stationen + 1):
         t = i / stationen
         x = t * L
-        # Breite: hinten breit, zur Nase schmal
+        # Breite: hinten breit, zur Nase schmal; Heck und Nase rund
         b = 70 * (1 - t) ** 0.6 * (1 - 0.15 * t) + 18 * t
         if t < 0.08:
-            b *= 0.85 + t * 1.8
-        h = 22 + 10 * math.sin(math.pi * min(1, t * 1.3)) - 8 * t
-        anstieg = 10 * (1 - t) ** 3     # Heck leicht hochgezogen
+            b *= 0.82 + t * 2.2
+        if t > 0.94:
+            b *= 1 - (t - 0.94) * 4
+        oben_h = 26 + 6 * math.sin(math.pi * min(1, t * 1.25)) - 12 * t     # Polster ueber der Sehne
+        unten_h = 7 - 3 * t                                                   # Schale unter der Sehne
+        anstieg = 9 * (1 - t) ** 3                                            # Heck leicht hochgezogen
         ring = []
         for j in range(n):
             w = 2 * math.pi * j / n
-            yy = b * math.cos(w)
-            zz = (h * 0.55 * math.sin(w) if math.sin(w) > 0 else h * 0.2 * math.sin(w)) + anstieg
+            c, sn = math.cos(w), math.sin(w)
+            yy = b * math.copysign(abs(c) ** 0.55, c)
+            zz = (oben_h * abs(sn) ** 0.75 if sn > 0 else -unten_h * abs(sn) ** 0.9) + anstieg
             ring.append(bm.verts.new(hinten_pkt + ex * (x * MM) + ey * (yy * MM) + ez * (zz * MM)))
         ringe.append(ring)
     for r0, r1 in zip(ringe, ringe[1:]):
         for j in range(n):
-            bm.faces.new((r0[j], r0[(j + 1) % n], r1[(j + 1) % n], r1[j]))
+            f = bm.faces.new((r0[j], r0[(j + 1) % n], r1[(j + 1) % n], r1[j]))
+            w = 2 * math.pi * (j + 0.5) / n
+            f.material_index = 1 if math.sin(w) < -0.12 else 0
     for ring, umk in ((ringe[0], True), (ringe[-1], False)):
         c = bm.verts.new(sum((q.co for q in ring), Vector()) / n)
         for j in range(n):
-            bm.faces.new((ring[j], ring[(j + 1) % n], c) if umk else (ring[(j + 1) % n], ring[j], c))
+            f = bm.faces.new((ring[j], ring[(j + 1) % n], c) if umk else (ring[(j + 1) % n], ring[j], c))
+            f.material_index = 0
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     s = fertig("Sattel", bm, "Sattel", col)
+    if "Sattel_Schale" in MAT:
+        s.data.materials.append(MAT["Sattel_Schale"])
     sub = s.modifiers.new("Glaetten", "SUBSURF")
     sub.levels = 2
     sub.render_levels = 2

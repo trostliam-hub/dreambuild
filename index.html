@@ -16405,6 +16405,17 @@ async function starte3D(){
     const bb = new THREE.Box3().setFromObject(rad), mitte = bb.getCenter(new THREE.Vector3()), gr = bb.getSize(new THREE.Vector3());
     rad.position.sub(mitte);
     const abst = Math.max(gr.x, gr.y, gr.z) * 1.2;
+    /* Abschnitt 10: Licht von oben mit weichem Bodenschatten -- das Rad steht, statt zu schweben.
+       Licht und Boden haengen an der Szene, nicht an der Kamera: der Schatten bleibt beim Drehen liegen. */
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
+    const licht = new THREE.DirectionalLight(0xffffff, 1.4), sg = Math.max(gr.x, gr.z) * .75;
+    licht.position.set(abst * .08, abst * 2.2, abst * .18); licht.castShadow = true;
+    licht.shadow.mapSize.set(1024, 1024); licht.shadow.radius = 16; licht.shadow.blurSamples = 24; licht.shadow.bias = -.0005;
+    Object.assign(licht.shadow.camera, {left:-sg, right:sg, top:sg, bottom:-sg, near:.01, far:abst * 4});
+    szene.add(licht);
+    const boden = new THREE.Mesh(new THREE.PlaneGeometry(sg * 3, sg * 3), new THREE.ShadowMaterial({opacity:.2}));
+    boden.rotation.x = -Math.PI / 2; boden.position.y = -gr.y / 2 + .001; boden.receiveShadow = true; szene.add(boden);
+    szene.environmentIntensity = .85;
     kamera.position.set(abst * .62, abst * .22, abst * .78); kamera.lookAt(0, 0, 0);
     const steuer = new O.OrbitControls(kamera, renderer.domElement);
     steuer.enablePan = false; steuer.minDistance = abst * .45; steuer.maxDistance = abst * 2; steuer.target.set(0, 0, 0); steuer.update();
@@ -16413,10 +16424,10 @@ async function starte3D(){
     /* Teile-Kategorie je Mesh: vom Knoten oder seinen Eltern (glTF extras -> userData) */
     const meshes = [];
     rad.traverse(o => { if(!o.isMesh) return; let p = o, s = null; while(p && !s){ s = p.userData && p.userData.crankscore_slot; p = p.parent; }
-      o.material = o.material.clone(); meshes.push({o:o, slot:s, op:o.material.opacity, tr:o.material.transparent}); });
+      o.castShadow = true; o.material = o.material.clone(); meshes.push({o:o, slot:s, op:o.material.opacity, tr:o.material.transparent}); });
     box.innerHTML = ""; box.appendChild(renderer.domElement); box.classList.add("da");
     zeichne3();
-    d3 = {renderer:renderer, steuer:steuer, pm:pm, draco:draco, zeichne:zeichne3, meshes:meshes};
+    d3 = {renderer:renderer, steuer:steuer, pm:pm, draco:draco, licht:licht, zeichne:zeichne3, meshes:meshes};
   }catch(e){
     d3Fallback($("d3"), tx("Das 3D-Modell ließ sich gerade nicht laden. Das Bild zeigt dasselbe Modell.", "The 3D model couldn't be loaded right now. The image shows the same model."));
   }
@@ -16426,12 +16437,13 @@ function d3Gruppe(k){
   if(!d3) return;
   const g = D3_GRUPPEN.find(x => x[0] === k), slots = g && g[2];
   for(const m of d3.meshes){ const an = !slots || slots.indexOf(m.slot) >= 0;
-    m.o.material.transparent = an ? m.tr : true; m.o.material.opacity = an ? m.op : .07; m.o.material.depthWrite = an; m.o.material.needsUpdate = true; }
+    m.o.material.transparent = an ? m.tr : true; m.o.material.opacity = an ? m.op : .07; m.o.material.depthWrite = an; m.o.material.needsUpdate = true;
+    m.o.castShadow = an; }
   d3.zeichne();
 }
 function d3Weg(){
   if(!d3) return;
-  try{ d3.steuer.dispose(); d3.pm.dispose(); d3.draco.dispose(); d3.renderer.dispose(); }catch(e){}
+  try{ d3.steuer.dispose(); d3.pm.dispose(); d3.draco.dispose(); d3.licht.shadow.dispose(); d3.renderer.dispose(); }catch(e){}
   d3 = null;
 }
 

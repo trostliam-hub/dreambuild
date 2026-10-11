@@ -5,6 +5,7 @@ seine Teile-Kategorie (module.py), damit der Betrachter in der App Baugruppen he
 import sys, os, bpy
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from module import markieren
+from aussehen import fuer_gltf
 blend, ziel = sys.argv[1], os.path.abspath(sys.argv[2])
 draco = (sys.argv[3] == "1") if len(sys.argv) > 3 else True
 bpy.ops.wm.open_mainfile(filepath=blend)
@@ -24,6 +25,7 @@ for ob in alle(haupt):
 # BEVEL-002: jede Baugruppe traegt ihre Teile-Kategorie als glTF-extras
 zahl, ohne = markieren(list(alle(haupt)))
 print("Module:", zahl, "ohne Zuordnung:", ohne)
+print("nur im Rendering (Anisotropie):", fuer_gltf(), "Materialien")
 bpy.context.scene.frame_set(1)
 bpy.ops.export_scene.gltf(filepath=ziel, export_format="GLB", use_selection=True, export_yup=True, export_apply=False,
                           export_animations=True, export_animation_mode="ACTIONS", export_frame_range=True,

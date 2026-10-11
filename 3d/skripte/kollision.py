@@ -25,7 +25,10 @@ ERLAUBT = [
     ("Lenker", "Griff*"), ("Lenker", "Bremshebel_*"), ("Lenker", "Geberzylinder_*"), ("Bremshebel_*", "*"), ("Geberzylinder_*", "*"), ("Griff*", "Griff*"),
     ("Lenker", "Schaltzug"), ("Lenker", "Bremsleitung_hinten"), ("Lenker", "Stuetzenzug"), ("Schaltzug", "*"), ("Stuetzenzug", "*"), ("Bremsleitung_hinten", "*"),
     ("Stuetze_*", "Stuetze_*"), ("Stuetze_*", "Sattel*"), ("Sattel*", "Sattel*"),
-    ("Daempfer_*", "Daempfer_*"), ("Schaltwerk_Koerper", "Schaltzug_hinten"),
+    ("Daempfer_*", "Daempfer_*"), ("Schaltwerk_*", "Schaltzug_hinten"),
+    # Abschnitt 10: Leitung im Anschluss am Sattel und im Clip an der Gabelbruecke, Anschluss im Sattel
+    ("Bremsleitung_vorn", "Bremssattel_vorn_Anschluss"), ("Bremsleitung_vorn", "Gabel_Leitungsfuehrung"),
+    ("Bremsleitung_vorn", "Geberzylinder_*"), ("Bremssattel_vorn", "Bremssattel_vorn_Anschluss"),
     ("Pedal*", "Pedal*"), ("Kurbel_*", "Pedal*"),
 ]
 def erlaubt(a, b):
