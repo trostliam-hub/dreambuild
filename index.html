@@ -3674,6 +3674,19 @@ details.legal p{margin:0 0 var(--sp-2)}
 .vt .vu{white-space:normal}
 .vt tbody th{min-width:0;width:30%;hyphens:auto;overflow-wrap:anywhere}
 .vt th,.vt td{padding:8px 4px}
+/* Adapter automatisch dabei (Liam 11.10.2026): ruhig in der Akzentfarbe statt Warnorange --
+   ein eingeplanter Adapter ist erledigt, nicht zu loesen. Orange bleibt Kompromissen vorbehalten. */
+.ad-zeile{background:linear-gradient(90deg,var(--anod-soft),transparent 75%),var(--surface)}
+.ad-ic{color:var(--anod);background:var(--anod-soft)}
+.ad-k{color:var(--anod)}
+.ek-ad .ek-k{color:var(--anod)}
+.mit-ad b{color:var(--ink)}
+.find.ad{border-left-color:var(--anod)}
+.find.ad .pill{background:var(--anod-soft);color:var(--anod)}
+.slot-ad{grid-column:1;display:flex;gap:6px;align-items:flex-start;margin-top:5px;font-size:12.5px;line-height:1.4;color:var(--ink-2);text-align:left}
+.slot-ad svg{flex:none;margin-top:2px;color:var(--anod)}
+.slot-ad b{font-weight:700;color:var(--ink)}
+.pz-ad b:first-child{color:var(--anod)}
 </style>
 </head>
 <body>
@@ -6853,10 +6866,11 @@ function echteFehler(b){
 
 /* Klartext statt Fachwort an den Befunden */
 /* Drei Arten von Befund, klar getrennt: passt nicht (rot), mit Einschraenkung
-   (gelb: Kompromiss, Adapter, Tipp) und fehlende Angaben (Fehlt noch; "Nicht
-   geprueft" steht als eigene Zeile darunter) */
+   (gelb: Kompromiss, Tipp) und fehlende Angaben (Fehlt noch; "Nicht
+   geprueft" steht als eigene Zeile darunter). Ein noetiger Adapter ist keine
+   Einschraenkung: automatisch dabei, ruhig in der Akzentfarbe (Liam 11.10.2026). */
 const STUFE = zweisprachig({fehler:["passt nicht", "doesn't fit"], warnung:["Kompromiss", "compromise"], hinweis:["Tipp", "tip"]}, ["fehler", "warnung", "hinweis"]);
-const stufeTxt = f => f.offen ? tx("fehlt noch", "missing") : f.fehlt ? tx("Angabe fehlt", "detail missing") : f.adapter ? tx("passt mit Adapter", "fits with adapter") : STUFE[f.level] || f.level;
+const stufeTxt = f => f.offen ? tx("fehlt noch", "missing") : f.fehlt ? tx("Angabe fehlt", "detail missing") : f.adapter ? tx("Adapter dabei", "adapter included") : STUFE[f.level] || f.level;
 /* Statushinweise unter den Ringen (APP-DESIGN-002): Probleme stehen in
    Worten und mit Zeichen da, nicht nur als Farbe -- und fuehren mit einem
    Tipp dorthin, wo man sie loest. Ohne Problem ein ruhiges "passt". */
@@ -6896,8 +6910,8 @@ function urteil(r){
     `Everything fits technically, but the build isn't really made for ${zn}. Weakest link: <b>${imSatz(r.schwach.slot.label)}</b>.`);
   const ad = r.adapter || [];
   if(ad.length && r.funde.every(f => f.level !== "warnung" || f.ad))
-    return `<span class="mit-ad">${tx(`<b>Passt mit Adapter.</b> ${ad.length === 1 ? "Der Adapter ist" : "Die " + ad.length + " Adapter sind"} schon eingeplant (${eur(ad.reduce((x, a) => x + a.p, 0))}).`,
-      `<b>Fits with ${ad.length === 1 ? "an adapter" : "adapters"}.</b> ${ad.length === 1 ? "The adapter is" : "The " + ad.length + " adapters are"} already included (${eur(ad.reduce((x, a) => x + a.p, 0))}).`)}</span>`;
+    return `<span class="mit-ad">${tx(`<b>Passt.</b> ${ad.length === 1 ? "Der nötige Adapter ist" : "Die " + ad.length + " nötigen Adapter sind"} automatisch dabei (${eur(ad.reduce((x, a) => x + a.p, 0))}).`,
+      `<b>Fits.</b> ${ad.length === 1 ? "The adapter it needs is" : "The " + ad.length + " adapters it needs are"} included automatically (${eur(ad.reduce((x, a) => x + a.p, 0))}).`)}</span>`;
   if(r.tech < 90) return tx(`Fahrbar, mit Kompromissen. Die Prüfung unter dem Radbild sagt, welche.`, `Rideable, with compromises. The check below the bike image tells you which.`);
   if(r.chara >= 85) return tx(`<b>Stimmig.</b> Alles zieht in Richtung ${zn}.`, `<b>Spot on.</b> The whole build is geared towards ${zn}.`);
   return r.schwach ? tx(`Sauberer Aufbau für ${zn}. Am meisten Luft nach oben: <b>${r.schwach.slot.label}</b>.`, `Clean build for ${zn}. Most room to improve: <b>${imSatz(r.schwach.slot.label)}</b>.`)
@@ -9102,8 +9116,8 @@ function fundAmTeil(funde, slotKey){
 function slotLevel(funde, slotKey){
   let lvl = null;
   for(const f of funde){
-    /* Ein Adapter faerbt nur das Teil, an dem er sitzt -- dort steht auch seine Zeile */
-    if((f.ad ? [f.ad.wo] : f.slots).indexOf(slotKey) < 0) continue;
+    /* Ein automatisch eingeplanter Adapter faerbt nichts (Liam 11.10.2026) -- seine Zeile steht am Teil, das ihn traegt */
+    if(f.ad || f.slots.indexOf(slotKey) < 0) continue;
     if(f.level === "fehler") return "fehler";
     if(f.level === "warnung") lvl = "warnung";
   }
@@ -11067,7 +11081,7 @@ function oeffneScoreHilfe(){
         A conflict means the bike can't be built like this. The check below the bike image lists every conflict and how to fix it.</div>
       <div class="erk"><b>Discipline</b>Do the parts suit what you want to ride (${esc(selNamen())})? An enduro bike with
         light XC brakes fits technically, but won't brake hard enough on long descents. Change the discipline at the top right.</div>
-      <div class="erk"><b>Colours on the parts</b>Red border: doesn't fit the rest. Yellow border: compromise or adapter needed.
+      <div class="erk"><b>Colours on the parts</b>Red border: doesn't fit the rest. Yellow border: compromise. Blue row below a part: an adapter the combination needs — included automatically.
         Green dot on a group: complete and all good.</div>
       <div class="erk"><b>Price and weight</b>The total of all parts. If a partner shop stocks a part, the cheapest offer in stock
         counts; otherwise a guide price based on RRP.</div>` : `
@@ -11077,7 +11091,7 @@ function oeffneScoreHilfe(){
         Ein Konflikt heißt: So lässt sich das Rad nicht bauen. In der Prüfung unter dem Radbild steht jeder Konflikt mit Lösung.</div>
       <div class="erk"><b>Einsatz</b>Passen die Teile zu dem, was du fahren willst (${esc(selNamen())})? Ein Enduro-Rad mit
         leichten XC-Bremsen passt technisch, bremst auf langen Abfahrten aber zu schwach. Die Disziplin stellst du oben rechts um.</div>
-      <div class="erk"><b>Farben an den Teilen</b>Roter Rand: passt nicht zum Rest. Gelber Rand: Kompromiss oder Adapter nötig.
+      <div class="erk"><b>Farben an den Teilen</b>Roter Rand: passt nicht zum Rest. Gelber Rand: Kompromiss. Blaue Zeile unter einem Teil: ein Adapter, den die Kombination braucht — automatisch dabei.
         Grüner Punkt an einer Gruppe: vollständig und alles passt.</div>
       <div class="erk"><b>Preis und Gewicht</b>Die Summe aller Teile. Führt ein Partnershop das Teil, zählt das günstigste lieferbare
         Angebot, sonst ein Richtpreis auf UVP-Niveau.</div>`}
@@ -15588,8 +15602,29 @@ const AD_GUIDE = {
   steuersatz:["Welcher Steuersatz passt zu Rahmen und Gabel?", "Which headset fits my frame and fork?"]
 };
 const adGuideTitel = g => AD_GUIDE[g] ? tx(AD_GUIDE[g][0], AD_GUIDE[g][1]) : "";
+/* ── Adapter automatisch (Liam 11.10.2026: "automatisch genommen, aber gesagt") ──
+   Ein Adapter, den die Kombination verlangt, gehoert zum Aufbau -- er ist kein
+   Problem, das man loesen muss, und faerbt nichts gelb. Kommt er beim Einbauen
+   dazu oder faellt er weg, sagt die Meldung es mit Namen; unter dem Teil, das
+   ihn verlangt (etwa der Bremse), steht er weiter -- als Hinweis, nicht als Warnung. */
+const adName = a => a.artikel ? a.artikel.n : a.n;
+function adapterMeldung(vor, nach){
+  const s = new Set((vor || []).map(adSchl)), n = new Set((nach || []).map(adSchl));
+  const dazu = (nach || []).filter(a => !s.has(adSchl(a))), weg = (vor || []).filter(a => !n.has(adSchl(a)));
+  const pos = a => a.pos ? " " + a.pos : "", posEn = a => a.pos ? ` (${a.pos})` : "";
+  const t = [];
+  for(const a of dazu) t.push(tx(`Adapter${pos(a)} automatisch dazugenommen: ${adName(a)} (${eur(a.p || 0)}).`, `Adapter added automatically${posEn(a)}: ${adName(a)} (${eur(a.p || 0)}).`));
+  for(const a of weg) t.push(tx(`Adapter${pos(a)} entfällt: ${adName(a)}.`, `Adapter no longer needed${posEn(a)}: ${adName(a)}.`));
+  return t.join(" ");
+}
+/* Unter dem Teil, das den Adapter verlangt, aber nicht traegt (Bremse -> Adapter an der Gabel) */
+function adAmTeil(funde, slotKey){
+  return funde.filter(f => f.ad && f.ad.wo !== slotKey && (f.slots || []).indexOf(slotKey) >= 0).map(f =>
+    `<span class="slot-ad">${ic(AD_SVG, 13)}<span>${tx(`Braucht Adapter${f.ad.pos ? " " + esc(f.ad.pos) : ""}: <b>${esc(adName(f.ad))}</b> — automatisch dabei`,
+      `Needs an adapter${f.ad.pos ? " (" + esc(f.ad.pos) + ")" : ""}: <b>${esc(adName(f.ad))}</b> — included automatically`)}</span></span>`).join("");
+}
 function adZeile(a){
-  const art = modus === "traum" ? tx("Pflicht-Adapter · automatisch", "Required adapter · automatic") : tx("Adapter · am Rad nötig", "Adapter · needed on the bike");
+  const art = tx("Adapter · automatisch dabei", "Adapter · included automatically");
   const warum = tx("Warum dieser Adapter?", "Why this adapter?");
   return `<div class="ad-zeile">
     <span class="ad-ic" aria-hidden="true">${ic(AD_SVG, 16)}</span>
@@ -16217,7 +16252,7 @@ const STATUS_RANG = {ok:0, ad:1, offen:2, w:3, no:4};
 function paketZeilen(pk, kurz){
   const z = [];
   for(const s of pk.scheibenNeu) z.push(`<li class="pz-neu"><b>${tx("Neu nötig", "Needed")}:</b> ${esc(scheibeName(s))} · ${tx("Preis nicht hinterlegt", "price not on file")}${kurz ? "" : `<span class="pz-grund">${scheibeGrund(s)}</span>`}</li>`);
-  for(const a of pk.neu) z.push(`<li class="pz-neu"><b>${tx("Neu nötig", "Needed")}${a.pos ? " (" + esc(a.pos) + ")" : ""}:</b> ${esc(a.n)} · ${eur(a.p || 0)} <span class="kg-w">${tx("Richtpreis", "guide price")}</span>${kurz ? "" : `<span class="pz-grund">${tx("Wird gebraucht, weil", "Needed because")} ${adGrundKurz(a)} ${adArtikelHinweis(a)}</span>`}</li>`);
+  for(const a of pk.neu) z.push(`<li class="pz-neu pz-ad"><b>${tx("Kommt automatisch dazu", "Added automatically")}${a.pos ? " (" + esc(a.pos) + ")" : ""}:</b> ${esc(a.n)} · ${eur(a.p || 0)} <span class="kg-w">${tx("Richtpreis", "guide price")}</span>${kurz ? "" : `<span class="pz-grund">${tx("Wird gebraucht, weil", "Needed because")} ${adGrundKurz(a)} ${adArtikelHinweis(a)}</span>`}</li>`);
   for(const x of pk.folge) z.push(`<li class="pz-neu"><b>${tx("Umstellen", "Change")}:</b> ${esc(slotOf(x.slot).label)} — ${esc(x.aenderung.join(", ") || x.zu.n)} · ${x.kosten ? eur(x.kosten) : tx("Preis nicht hinterlegt", "price not on file")}</li>`);
   for(const a of pk.weg) z.push(`<li class="pz-weg"><b>${tx("Entfällt", "No longer needed")}${a.pos ? " (" + esc(a.pos) + ")" : ""}:</b> ${esc(a.n)}</li>`);
   if(!kurz){
@@ -16619,10 +16654,11 @@ function uebernehmen(k, id, quelle){
   verlaufListe().splice(40);
   frischSlot = k;
   sichern(); schliesse(); zeichne();
-  const zus = [pk.neu.length ? tx(`${pk.neu.length} Adapter neu`, `${pk.neu.length} new adapter${pk.neu.length === 1 ? "" : "s"}`) : "",
-    pk.scheibenNeu.length ? tx(`${pk.scheibenNeu.length === 1 ? "1 Scheibe" : pk.scheibenNeu.length + " Scheiben"} neu`, `${pk.scheibenNeu.length} new rotor${pk.scheibenNeu.length === 1 ? "" : "s"}`) : "",
-    pk.weg.length ? tx(`${pk.weg.length} entfällt`, `${pk.weg.length} no longer needed`) : "", pk.folge.length ? tx(`${pk.folge.length} Umstellung`, `${pk.folge.length} change`) : ""].filter(Boolean).join(", ");
-  zeigeRueckgaengig(tx(`${slotOf(k).label}: ${t.nb || t.n}.`, `${slotOf(k).label}: ${t.nb || t.n}.`) + (zus ? " " + zus + "." : "") + hinweis, () => {
+  /* Adapter mit Namen (Liam 11.10.2026): automatisch dazugenommen -- und gesagt */
+  const zus = [pk.scheibenNeu.length ? tx(`${pk.scheibenNeu.length === 1 ? "1 Scheibe" : pk.scheibenNeu.length + " Scheiben"} neu`, `${pk.scheibenNeu.length} new rotor${pk.scheibenNeu.length === 1 ? "" : "s"}`) : "",
+    pk.folge.length ? tx(`${pk.folge.length} Umstellung`, `${pk.folge.length} change`) : ""].filter(Boolean).join(", ");
+  const adTxt = adapterMeldung(pk.weg, pk.neu);
+  zeigeRueckgaengig(tx(`${slotOf(k).label}: ${t.nb || t.n}.`, `${slotOf(k).label}: ${t.nb || t.n}.`) + (adTxt ? " " + adTxt : "") + (zus ? " " + zus + "." : "") + hinweis, () => {
     if(modus !== m || aktivId[modus] !== rad) return;
     rueckgaengigLetzte();
   });
@@ -16722,9 +16758,11 @@ function wunschTesten(wid){
   if(!p || !t) return;
   if(p.test) testBeenden(true);
   p.test = {wid:wid, slot:w.slot, von:build[w.slot] || null, zu:t.id};
+  const adVor = bewerte(build).adapter;
   build[w.slot] = t.id; frischSlot = w.slot;
   sichern(); view = "aufbau"; zeichne(); window.scrollTo({top:0, behavior:bewegungAus() ? "auto" : "smooth"});
-  zeigeToast(tx("Zur Probe eingebaut — oben im Aufbau behältst du es oder gehst zurück.", "Fitted for a trial — keep it or go back at the top of your build."), 4200);
+  const adTxt = adapterMeldung(adVor, bewerte(build).adapter);
+  zeigeToast(tx("Zur Probe eingebaut — oben im Aufbau behältst du es oder gehst zurück.", "Fitted for a trial — keep it or go back at the top of your build.") + (adTxt ? " " + adTxt : ""), adTxt ? 6000 : 4200);
 }
 function testBeenden(still){
   const p = aktivesProfil();
@@ -16987,7 +17025,7 @@ function pruefKarte(r){
   const offenZeile = ung.length ? `<div class="pf-offen"><span><b>${tx("Nicht geprüft:", "Not checked:")}</b> ${esc(ung.join(", "))}.</span>${frageF ? `<button class="btn ghost sm" data-frage="${frageF.frage.k}">${esc(frageF.fehlt ? tx(`${frageF.fehlt[0].toUpperCase() + frageF.fehlt.slice(1)} angeben`, `Add ${frageF.fehlt}`) : tx("Angabe ergänzen", "Add the detail"))}</button>` : ""}${koerperFehlt ? `<button class="btn ghost sm" data-fahrerprofil="1">${tx("Körperdaten ergänzen", "Add your body data")}</button>` : ""}</div>` : "";
   const meta = [harte.length ? (harte.length === 1 ? tx("1 Konflikt", "1 conflict") : tx(`${harte.length} Konflikte`, `${harte.length} conflicts`)) : "",
     warn.length ? (warn.length === 1 ? tx("1 Kompromiss", "1 compromise") : tx(`${warn.length} Kompromisse`, `${warn.length} compromises`)) : "",
-    ad.length ? (ad.length === 1 ? tx("1 Adapter eingeplant", "1 adapter included") : tx(`${ad.length} Adapter eingeplant`, `${ad.length} adapters included`)) : "",
+    ad.length ? (ad.length === 1 ? tx("1 Adapter automatisch dabei", "1 adapter included automatically") : tx(`${ad.length} Adapter automatisch dabei`, `${ad.length} adapters included automatically`)) : "",
     fehlt.length ? (fehlt.length === 1 ? tx("1 Angabe fehlt", "1 detail missing") : tx(`${fehlt.length} Angaben fehlen`, `${fehlt.length} details missing`)) : "",
     fitOffen ? tx("Größe ansehen", "Check sizing") : "", tipp.length && !punkte ? (tipp.length === 1 ? tx("1 Tipp", "1 tip") : tx(`${tipp.length} Tipps`, `${tipp.length} tips`)) : ""].filter(Boolean);
   const loesung = f => f.fixSlot ? `<button class="btn ghost sm" data-slot="${f.fixSlot}" data-ziel="konflikt">${tx("Lösung finden", "Find a fix")}</button>` : "";
@@ -17043,7 +17081,7 @@ function slotZeile(s, r){
       <span class="slot-k">${label}${test ? ` <span class="slot-test">${tx("Test", "Trial")}</span>` : ""}</span>
       <span class="slot-n ${t ? "" : "empty"}">${t ? esc(titel) : s.opt ? tx("Optional — hinzufügen …", "Optional — add …") : modus === "traum" ? tx("Teil wählen …", "Choose part …") : tx("Teil eintragen …", "Enter part …")}</span>
       ${t && kern ? `<span class="slot-kern">${esc(kern)}</span>` : !t ? `<span class="slot-was">${esc(s.was)}</span>` : ""}
-      ${t ? fundAmTeil(r.funde, s.k) : ""}
+      ${t ? fundAmTeil(r.funde, s.k) + adAmTeil(r.funde, s.k) : ""}
       <span class="slot-r">${t ? kachelPreis(t) : `<span class="g">${s.opt ? tx("optional", "optional") : tx("offen", "open")}</span>`}</span>
     </button>${(r.adapter || []).filter(a => a.wo === s.k).map(adZeile).join("")}`;
 }
@@ -17402,12 +17440,17 @@ function zeichne(){
   { const ps = $("platz-score"), pl = $("platz-leit");
     if(ps) ps.replaceWith($("seite")); if(pl) pl.replaceWith($("coach-platz")); }
 
+  /* Automatisch eingeplante Adapter stehen zuletzt und ruhig da -- erledigt, nicht zu loesen (Liam 11.10.2026) */
   const rang = {fehler:0, warnung:1, hinweis:2};
-  const sortiert = r.funde.slice().sort((a,b) => rang[a.level] - rang[b.level]);
+  const sortiert = r.funde.slice().sort((a,b) => (a.ad ? 3 : rang[a.level]) - (b.ad ? 3 : rang[b.level]));
+  const adFund = f => `<div class="find ad">
+        <div class="find-t"><span class="pill">${tx("Automatisch dabei", "Included automatically")}</span>${esc(tx(`Adapter${f.ad.pos ? " " + f.ad.pos : ""}: ${f.ad.kurz || adName(f.ad)}`, `Adapter${f.ad.pos ? " (" + f.ad.pos + ")" : ""}: ${f.ad.kurz || adName(f.ad)}`))}</div>
+        <p>${tx("Nötig, weil", "Needed because")} ${adGrundKurz(f.ad)} ${tx("Er steckt schon in deinem Aufbau — du musst nichts tun.", "It's already in your build — nothing for you to do.")}</p>${adZeile(f.ad)}
+      </div>`;
   $("findings").innerHTML = !sortiert.length && !r.teile
     ? `<div class="fit-leer"><span>${tx("<b>Noch keine Teile im Aufbau.</b> Wähle zuerst einen Rahmen — danach prüft die App jedes Teil, das dazukommt.", "<b>No parts in the build yet.</b> Choose a frame first — after that the app checks every part you add.")}</span></div>`
     : sortiert.length
-    ? sortiert.map(f => `<div class="find ${f.level}">
+    ? sortiert.map(f => f.ad ? adFund(f) : `<div class="find ${f.level}">
         <div class="find-t"><span class="pill">${stufeTxt(f)}</span>${esc(f.titel)}</div><p>${f.text}</p>${f.ad ? adZeile(f.ad) : ""}
         ${f.frage ? `<div><button class="btn ghost sm" data-frage="${f.frage.k}">${tx("Angabe ergänzen", "Add the detail")}</button></div>`
           : f.fixSlot ? `<div><button class="btn ghost sm" data-slot="${f.fixSlot}"${f.level === "fehler" ? ` data-ziel="konflikt"` : ""}>${f.level === "fehler" ? tx("Lösung finden", "Find a fix") : slotOf(f.fixSlot) ? tx(slotOf(f.fixSlot).label + " ansehen", "View " + slotOf(f.fixSlot).label.toLowerCase()) : tx("Teil ansehen", "View part")}</button></div>` : ""}
@@ -18933,10 +18976,14 @@ document.addEventListener("click", e => {
     const cur = build[sk] ? findeTeil(sk, build[sk]) : null;
     if(cur && cur.v){
       const w = cur.wahl.slice(); w[+q[1]] = +q[2];
+      const adVor = bewerte(build).adapter;
       build[sk] = varianteNachIndex(rohTeil(quelleOf(slotOf(sk)), cur.basisId), w).id;
       varOffen[sk] = true;                  /* offen lassen, bis "Fertig" */
       sichern(); zeichne();
       if(offenerSlot === sk && $("modal").querySelector(".sheet")) oeffneSlot(sk);
+      /* Andere Scheibe, anderer Freilauf: kommt dadurch ein Adapter dazu oder faellt weg, steht es da */
+      const adTxt = adapterMeldung(adVor, bewerte(build).adapter);
+      if(adTxt) zeigeToast(adTxt, 5200);
     }
     return;
   }

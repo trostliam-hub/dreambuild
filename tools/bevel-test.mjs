@@ -182,6 +182,35 @@ const PRUEFUNGEN = [
       rueckgaengigLetzte(); const zurueck = bewerte(build).adapter.filter(a => a.art === 'bremse' && a.wo === 'gabel').length;
       return {vorAd, weg:pk.weg.map(a => a.n), nachAd, verlaufWeg:e.weg, doppelt, zurueck}; });
     return {ok:r.vorAd === 1 && r.weg.length >= 1 && r.nachAd === 0 && r.verlaufWeg.length >= 1 && !r.doppelt && r.zurueck === 1, info:r}; }],
+  /* Liam 11.10.2026: Adapter automatisch nehmen, es sagen -- und unter dem eingebauten Teil steht er weiter, ohne Warnfarbe */
+  ['Adapter automatisch: Meldung nennt ihn, keine Warnfarbe, unter der Bremse "braucht Adapter", Ausfuehrungswechsel meldet Wegfall, Englisch', async () => {
+    await neu();
+    const r = await ev(() => { build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = null; sichern(); view = 'aufbau'; zeichne();
+      const basis = rohTeil('bremsen', 'b-xt'), i = basis.v.findIndex(d => d.k === 'Scheiben'), w = findeTeil('bremsen', 'b-xt').wahl.slice();
+      w[i] = basis.v[i].o.findIndex(o => o.s.sV === 203); const v = varianteNachIndex(basis, w);
+      uebernehmen('bremsen', v.id, 'liste');
+      const meldung = $('toast').textContent.replace(/\s+/g, ' ');
+      if(!pruefOffen) pruefUmschalten(true);
+      const gabel = document.querySelector('#aufbau .slot[data-slot="gabel"]'), bremse = document.querySelector('#aufbau .slot[data-slot="bremsen"]');
+      const unter = bremse && bremse.querySelector('.slot-ad') ? bremse.querySelector('.slot-ad').textContent.replace(/\s+/g, ' ') : '';
+      const zeile = document.querySelector('#aufbau .ad-zeile .ad-k'), farbe = zeile ? getComputedStyle(zeile).color : '';
+      const probe = document.createElement('span'); probe.style.color = 'var(--warn)'; document.body.appendChild(probe); const warnFarbe = getComputedStyle(probe).color; probe.remove();
+      const warnFund = [...document.querySelectorAll('#findings .find.warnung')].some(f => /Adapter/.test(f.textContent));
+      const adFund = document.querySelector('#findings .find.ad') ? document.querySelector('#findings .find.ad').textContent.replace(/\s+/g, ' ') : '';
+      const kopf = document.querySelector('#pruef .pf-meta') ? document.querySelector('#pruef .pf-meta').textContent : '';
+      /* Ausfuehrung zurueck auf 180 mm ueber den echten Klickweg: der Adapter faellt weg, die Meldung sagt es */
+      const w2 = w.slice(); w2[i] = basis.v[i].o.findIndex(o => o.s.sV === 180 && o.s.sH === findeTeil('bremsen', build.bremsen).sH); if(w2[i] < 0) w2[i] = basis.v[i].o.findIndex(o => o.s.sV === 180);
+      const k = document.createElement('button'); k.dataset.var = `bremsen|${i}|${w2[i]}`; document.body.appendChild(k); k.click(); k.remove();
+      const wegMeldung = $('toast').textContent.replace(/\s+/g, ' '), adNach = bewerte(build).adapter.length;
+      /* Englisch: derselbe Hinweis unter der Bremse */
+      build.bremsen = v.id; sprache = 'en'; zeichne();
+      const en = (document.querySelector('#aufbau .slot[data-slot="bremsen"] .slot-ad') || {textContent:''}).textContent.replace(/\s+/g, ' ');
+      sprache = 'de'; zeichne();
+      return {meldung, gabelKlasse:gabel ? gabel.className : '', unter, farbe, warnFarbe, warnFund, adFund, kopf, wegMeldung, adNach, en}; });
+    const ok = /Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P\/PM/.test(r.meldung) && !/warnung|fehler/.test(r.gabelKlasse) && !!r.farbe && r.farbe !== r.warnFarbe
+      && /Braucht Adapter vorn: Shimano SM-MA-F203P\/PM — automatisch dabei/.test(r.unter) && !r.warnFund && /Automatisch dabei/.test(r.adFund) && /automatisch dabei/.test(r.kopf)
+      && /Adapter vorn entfällt: Shimano SM-MA-F203P\/PM/.test(r.wegMeldung) && r.adNach === 0 && /Needs an adapter \(front\): Shimano SM-MA-F203P\/PM — included automatically/.test(r.en);
+    return {ok, info:r}; }],
   /* BEVEL-003 Abschnitt 5: die im Audit angebotene 220/203 ausdruecklich -- vorn belegt (Pike ab 2023: 220 mm),
      hinten am Stumpjumper Alloy nicht belegt: "Noch zu pruefen" mit Frage, keine bestaetigte Passform */
   ['Adapter konkret und Freigabe 220/203: Artikel je Position, unbelegte Freigabe wird erfragt statt bestaetigt', async () => {

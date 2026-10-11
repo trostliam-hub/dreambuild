@@ -660,10 +660,14 @@ Texte; `setzeSprache()` wechselt sie und zeichnet alles neu.
   stehen allein. Eine Fehlermeldung sagt, was passiert ist und wie es weitergeht.
 - Stimme: Die App spricht von sich als „die App“, Guide und Testfahrt-Assistent als
   „ich“, „wir“ steht nur im Rechtstext (der Betreiber).
-- Prüfung: „passt nicht“ (Konflikt), „Kompromiss“, „passt mit Adapter“,
-  „Tipp“ und „fehlt noch“ (Teil fehlt, darum noch nicht geprüft). Kann die App
-  etwas mangels Angaben nicht prüfen, sagt sie „Nicht geprüft“ und warum —
+- Prüfung: „passt nicht“ (Konflikt), „Kompromiss“, „Tipp“ und „fehlt noch“
+  (Teil fehlt, darum noch nicht geprüft). Kann die App etwas mangels Angaben
+  nicht prüfen, sagt sie „Nicht geprüft“ und warum —
   „passt“ steht nur da, wo wirklich geprüft wurde.
+- Adapter: Verlangt eine Kombination einen Adapter, nimmt die App ihn automatisch
+  dazu und sagt es beim Einbauen mit Namen. Er ist kein Kompromiss (keine Warnfarbe),
+  steht als „Automatisch dabei“ in der Prüfung, als Zeile am Teil, das ihn trägt, und
+  als „Braucht Adapter … — automatisch dabei“ unter dem Teil, das ihn verlangt.
 - Fahrwerk: zu jeder Einstellung, was sie bewirkt und wann eine Änderung
   sinnvoll ist. Werte nur mit Quelle — Herstellertabelle, oder ausdrücklich
   als Erfahrungsregel gekennzeichnet.
