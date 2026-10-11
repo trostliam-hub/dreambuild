@@ -1,0 +1,4 @@
+npm test (Revision 1b21e02 + Bilder, lokal): Syntax ok, Kompatibilitaet 199/199, Setup 16/16, Wege 36/36, Sprache 0 Funde in 8725 Texten, BEVEL-002 20/20, Preis-Skript 0 Fehler
+ABNAHME (390 und 1280 px, DE/EN, hell/dunkel): 200 Ansichten, 7330 Texte, Ueberstand 0, Kontrast 0, zu kleine Tippflaechen 0, Fehler 0
+Kollision (kollision.py, endgueltiges Modell): Ruhe 0, Hub 50 % 0, Hub 100 % 0 unerwartete Schnitte
+Renderzeit render_final.py (128 Samples, 2000 px, 4 Kerne): 552 s fuer beide Ansichten

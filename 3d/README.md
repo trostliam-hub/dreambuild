@@ -39,15 +39,16 @@ offiziellen Bildern abgleichen; die Maße stammen aus den unten genannten Quelle
 
 | Datei | Inhalt | Größe |
 |---|---|---|
-| `modell/spindrift-5-al.blend` | bearbeitbare Szene (komprimiert, Schriftzug-Textur eingepackt): Sammlungen je Baugruppe, Studio, zwei Kameras, Animation | 1,7 MB |
-| `modell/spindrift-5-al.glb` | optimiertes GLB (Draco, Stufe 10) mit Schriftzug-Textur, Modul-Angaben als extras, ein Animations-Clip „Spindrift_Bewegung“ — lädt die App auf Tippen | 0,88 MB |
-| `bilder/rad-seite.png`, `bilder/rad-dreiviertel.png` | Renderings mit transparentem Grund und weichem Bodenschatten (Cycles, 128 Samples, entrauscht) | 1,4 und 1,1 MB |
+| `modell/spindrift-5-al.blend` | bearbeitbare Szene (komprimiert, Schriftzug-Textur eingepackt): Sammlungen je Baugruppe, Studio, zwei Kameras, Animation | 1,8 MB |
+| `modell/spindrift-5-al.glb` | optimiertes GLB (Draco, Stufe 10) mit Schriftzug-Textur, Modul-Angaben als extras, ein Animations-Clip „Spindrift_Bewegung“ — lädt die App auf Tippen | 0,93 MB |
+| `bilder/rad-seite.png`, `bilder/rad-dreiviertel.png` | Renderings mit transparentem Grund und weichem Bodenschatten (Cycles, 128 Samples, entrauscht; Fotostudio aus `aussehen.py`) | 1,4 und 1,1 MB |
 | `skripte/` | alles, was Modell, Renderings, GLB und Prüfung reproduzierbar erzeugt | |
 | `skripte/unterrohr-dekor.png` | Schriftzug-Textur des Unterrohrs (aus `dekor.py`) | 0,1 MB |
 | `skripte/lagersuche/` | die numerische Suche der Hinterbau-Drehpunkte (Belege, nicht nötig zum Bauen) | |
 | `pruefung/` | Prüfseite für das GLB mit three.js (Chromium) | |
 
-Ohne Draco wäre das GLB 5,0 MB groß. Das Modell hat rund 133 000 Dreiecke in 138 Objekten.
+Ohne Draco wäre das GLB 5,2 MB groß. Das Modell hat rund 159 000 Dreiecke in 149 Objekten
+(vor Abschnitt 10: 133 000 in 138; dazugekommen sind vor allem Sattel, Nippel, Ventile und die vordere Leitung).
 
 ## Maße
 
@@ -207,6 +208,7 @@ cd 3d/skripte
 python dekor.py unterrohr-dekor.png                    # Schriftzug-Textur (nur nach Änderungen nötig)
 python bau.py ../modell/spindrift-5-al.blend          # oder: blender -b -P bau.py -- ../modell/spindrift-5-al.blend
 python kollision.py                                    # Kollisionsprüfung (0/50/100 %)
+# (bau.py holt Materialfeinheiten und Studio-Licht aus aussehen.py)
 python render_final.py ../modell/spindrift-5-al.blend /tmp/roh 128 2000
 python nachbearbeitung.py /tmp/roh/roh-seite.png /tmp/roh/roh-dreiviertel.png /tmp/bilder
 python module_speichern.py ../modell/spindrift-5-al.blend   # Teile-Kategorien in die .blend
