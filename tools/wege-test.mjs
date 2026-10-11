@@ -95,7 +95,7 @@ const PRUEFUNGEN = [
   ['05/14/15/16 Eine Aufgabenkarte: Schritte nur Status, genau ein Knopf, kein Einbau/Ablehnen darin', async () => {
     await neu();
     const r = await ev(() => { const k = $('coach-platz'); return {karten:k.querySelectorAll('.leit').length, schrittKnoepfe:k.querySelectorAll('.leit-s button, button.leit-s').length,
-      knoepfe:k.querySelectorAll('.leit button:not(.leit-weg)').length, bauzielKnopf:k.querySelectorAll('[data-wiz]').length, einbau:k.querySelectorAll('[data-einbau],[data-upnein]').length, coach:!!$('coach'), aufbauLeit:$('aufbau').querySelectorAll('.leit, .wiz-cta, [data-wiz]').length}; });
+      knoepfe:k.querySelectorAll('.leit button:not(.leit-weg)').length, bauzielKnopf:k.querySelectorAll('[data-wiz]').length, einbau:k.querySelectorAll('[data-einbau],[data-upnein]').length, coach:!!$('coach'), aufbauLeit:[...$('aufbau').querySelectorAll('.leit, .wiz-cta, [data-wiz]')].filter(e => !e.closest('#coach-platz')).length}; });
     return {ok:r.karten === 1 && !r.schrittKnoepfe && r.knoepfe <= 1 && !r.bauzielKnopf && !r.einbau && !r.coach && !r.aufbauLeit, info:r}; }],
   ['15/BEVEL-002 Finder: Im Aufbau ersetzen baut genau dieses Teil ein, mit Verlauf und Rueckgaengig', async () => {
     await neu();
@@ -320,14 +320,17 @@ const PRUEFUNGEN = [
       const rest = pruefe(build).filter(b => b.level === 'fehler' && (b.slots || []).indexOf('daempfer') >= 0).length;
       return {zeile:!!zeile, sprungRot:!!sprung && sprung.classList.contains('stoerung'), grund, ziel, alle, rest}; });
     return {ok:r.zeile && r.sprungRot && r.grund && r.ziel === 'konflikt' && r.alle === 'false' && r.rest === 0, info:r}; }],
-  ['UX Sprungleiste: oeffnet eine eingeklappte Gruppe und bringt sie unter den Kopf', async () => {
+  /* BEVEL-003: statt Sprungleiste -- "Was moechtest du verbessern?" fuehrt mit einem Tipp in die
+     Auswahl fuer genau dieses Teil, eine eingeklappte Gruppe oeffnet sich mit einem Tipp auf ihren Kopf */
+  ['UX Verbessern und Gruppen: ein Tipp oeffnet die Auswahl fuer das Teil bzw. die eingeklappte Gruppe', async () => {
     await neu();
     await ev(() => { zuGeklappt['Bremsen'] = 1; sichern(); view = 'aufbau'; zeichne(); window.scrollTo(0, 0); });
-    await seite.click('.sprung [data-zugruppe="Bremsen"]'); await warte(900);
-    const r = await ev(() => { const k = [...document.querySelectorAll('#aufbau .grp-kopf')].find(b => b.dataset.thema === 'Bremsen');
-      const top = k.getBoundingClientRect().top, kopf = document.querySelector('.top').getBoundingClientRect().bottom;
-      return {offen:k.getAttribute('aria-expanded'), top:Math.round(top), kopf:Math.round(kopf), sprungKlebt:Math.round(document.querySelector('.sprung').getBoundingClientRect().top)}; });
-    return {ok:r.offen === 'true' && r.top >= r.kopf && r.top < r.kopf + 140, info:r}; }],
+    await seite.click('#aufbau .verb [data-slot="bremsen"]'); await warte(500);
+    const blatt = await ev(() => { const m = $('modal'); const h = m.querySelector('.sheet-h'); return {offen:!!m.querySelector('.sheet'), titel:h ? h.textContent : '', finder:!!m.querySelector('#fi-erg, .fi-schritt, .fi-frage')}; });
+    await ev(() => schliesse()); await warte(400);
+    await seite.click('#aufbau .grp-kopf[data-thema="Bremsen"]'); await warte(400);
+    const r = await ev(() => { const k = document.querySelector('#aufbau .grp-kopf[data-thema="Bremsen"]'); return {offen:k.getAttribute('aria-expanded'), zeilen:k.closest('.grp').querySelectorAll('.slot').length}; });
+    return {ok:blatt.offen && /Bremse/.test(blatt.titel) && blatt.finder && r.offen === 'true', info:{blatt, r}}; }],
   ['UX Rueckweg statt Rueckfrage: Teil entfernen und Rad zuruecksetzen lassen sich 7 s lang rueckgaengig machen; Rad loeschen fragt weiter nach', async () => {
     await neu();
     const r = await ev(PRO => { eval('(' + PRO + ')()');

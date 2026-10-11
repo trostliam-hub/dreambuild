@@ -3371,6 +3371,157 @@ label.fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px
 @media (prefers-reduced-motion:reduce){#szenen,#szenen.weg,.sz-inhalt,.sz-wert{animation:none}}
 @media (prefers-reduced-motion:reduce){.pf-inhalt.auf,.merk-puls{animation:none}.pf-pfeil{transition:none}}
 </style>
+<style>
+/* ══ BEVEL-003 (Liams Nachbesserungsauftrag vom 11.10.2026): neuer Seitenaufbau ══
+   Mobil zuerst, dann Desktop. Reihenfolge im Aufbau: ruhiger Kopf mit aktivem Rad
+   und Profil -> grosses Radbild -> kompakte Score-Zusammenfassung -> Pruefung ->
+   "Was moechtest du verbessern?" -> Anleitung -> Teile. Keine Score-Saeule neben
+   jedem Bereich, keine Modus-Leiste und keine Sprungleiste mehr (Rad wechseln:
+   Kopf; Teilegruppen: im Aufbau). Skala: 13 Hilfe, 14 Zusatz, 16 Text, 20 Karten-
+   titel, 24-28 Abschnitt, Score 44; Abstaende 4/8/12/16/24/32; Ziele >= 44 px. */
+:root{--fs-h:13px;--fs-z:14px;--fs-t:16px;--fs-k:20px;--fs-a:24px;--fs-g:28px;
+  --sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--ziel:44px;--kopf-h:60px}
+:root[data-theme="light"]{--surface:#fdfcfa;--surface-2:#f6f4f0}
+body{font-size:var(--fs-t);line-height:1.5}
+
+/* ── Kopf: Logo, aktives Rad, Guide, Profil ── */
+.top-in{max-width:1120px;min-height:60px;padding:8px 16px;gap:8px}
+.kopf-links{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;margin-right:0}
+.kopf-links > *{grid-area:auto}
+body.klein .brand,.brand{opacity:1;visibility:visible;transform:none;pointer-events:auto}
+.brand{font-size:0;flex:none;display:flex;align-items:center}
+.brand .brand-logo{display:block;width:30px;height:23px;margin:0}
+.brand .pro-marke{display:none}
+.mini,body.klein .mini{opacity:1;transform:none;pointer-events:auto;visibility:visible;display:flex;align-items:center;gap:10px;
+  min-height:var(--ziel);min-width:0;max-width:none;flex:0 1 auto;padding:4px 10px 4px 4px;border-radius:14px;background:none;white-space:nowrap}
+@media (hover:hover){.mini:hover{background:var(--surface-2)}}
+.mini b{min-width:34px;height:34px;border-radius:12px;font-size:14px;font-family:var(--f-zahl);font-weight:700;color:var(--anod)!important;
+  background:var(--anod-soft)}
+.mini-t{display:flex;flex-direction:column;align-items:flex-start;min-width:0;line-height:1.2;text-align:left}
+.mini .mini-a{font-size:12px;font-weight:600;color:var(--ink-3)}
+.mini #mini-p{font-size:15px;line-height:1.15;font-weight:700;color:var(--ink);max-width:100%;white-space:normal;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.mini > svg{flex:none;color:var(--ink-3)}
+.top .iconbtn{width:var(--ziel);height:var(--ziel);background:var(--surface-2);color:var(--ink-2)}
+.radleiste,.sprung-platz{display:none!important}
+
+/* ── Navigation: am Handy unten (vier Bereiche), am Desktop mitten im Kopf ── */
+.tabs{height:64px;max-width:460px}
+.tabs button{font-size:12px;gap:4px}
+@media (min-width:820px){
+  :root{--nav-h:0px}
+  .tabs{position:fixed;top:env(safe-area-inset-top,0px);left:50%;right:auto;bottom:auto;transform:translateX(-50%);z-index:41;
+    height:60px;max-width:none;width:auto;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;
+    -webkit-backdrop-filter:none;backdrop-filter:none}
+  .tabs-in{display:flex;gap:4px;align-items:center;height:100%}
+  .tabs button{height:var(--ziel);padding:0 14px;border-radius:999px;font-size:15px;font-weight:600;color:var(--ink-2);gap:8px}
+  .tabs button::after{display:none}
+  .tabs button[aria-selected="true"]{background:var(--surface-2);color:var(--ink)}
+  .mini{max-width:calc(50vw - 360px)}
+}
+@media (min-width:820px) and (max-width:1023px){.tabs .tl{display:none}.tabs button{padding:0 12px}}
+
+/* ── Seite: eine Spalte; im Aufbau die Uebersicht, sonst schmaler Inhalt ── */
+.wrap,body .wrap{display:block;max-width:1120px;padding:16px 16px calc(var(--tabs-h) + 44px + var(--tabs-unten))}
+@media (min-width:820px){.wrap,body .wrap{padding:24px 24px 64px}
+  body:not([data-view="aufbau"]) #panel{max-width:760px;margin:0 auto}}
+#aufbau > *{margin-top:0;margin-bottom:var(--sp-5)}
+#aufbau > :last-child{margin-bottom:0}
+#park{display:none}
+
+/* Uebersicht: Rad gross, daneben (Desktop) bzw. darunter Score und Pruefung */
+.ueb{display:grid;gap:var(--sp-4);grid-template-columns:minmax(0,1fr)}
+.ueb-r{display:grid;gap:var(--sp-4);align-content:start;min-width:0}
+@media (min-width:900px){.ueb{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);align-items:stretch}
+  .ueb .radbild{display:flex;flex-direction:column;justify-content:center}}
+.ueb .radbild{margin:0;padding:var(--sp-4) var(--sp-4) var(--sp-3);border-radius:var(--r-karte)}
+.ueb .rb-bild{border-radius:var(--r)}
+.ueb .radbild.geo .rb-bild,.ueb .radbild.render .rb-bild{padding:var(--sp-3) 0}
+.rb-unter{font-size:var(--fs-h);color:var(--ink-3);line-height:1.45;margin:var(--sp-2) 2px 0}
+.rb-akt{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-3)}
+.rb-akt .btn{min-height:var(--ziel)}
+
+/* Score kompakt: grosser Ring (Logo ueber der Zahl), zwei kleine Ringe, ein Satz */
+#seite,body[data-view="aufbau"] #seite{position:static;top:auto;max-height:none;overflow:visible;display:block;grid-area:auto;min-width:0}
+#seite .bar-in{padding:var(--sp-4);gap:var(--sp-3);align-items:stretch;border-radius:var(--r-karte)}
+#seite #btn-disz,body.klein #seite #btn-disz{display:flex;align-self:flex-start;max-width:100%;min-height:36px;gap:6px;padding:4px 12px;font-size:var(--fs-z);background:var(--surface-2)}
+#seite #btn-disz .dc-l{color:var(--ink-3);font-weight:500}
+#seite #btn-disz .dn{font-weight:700;color:var(--ink)}
+#seite .ringe{flex-direction:row;align-items:center;justify-content:flex-start;gap:var(--sp-4);max-width:none}
+#seite .rg-gesamt{flex:none;width:124px;gap:4px}
+#seite .rg-gesamt svg.rg-kreis{max-width:124px;filter:none}
+#seite .rg-gesamt > .rg-l{font-size:var(--fs-h);color:var(--ink-3);font-weight:600}
+#seite .rg-gesamt > .rg-l::before{display:none}
+#seite .rg-gesamt .v,#seite .rg-gesamt b.v{font-size:40px}
+#seite .rg-paar{display:flex;flex-direction:column;gap:var(--sp-2);flex:1 1 auto;width:auto;min-width:0}
+#seite .rg-paar .rg{flex-direction:row;justify-content:flex-start;align-items:center;gap:var(--sp-3);padding:6px 8px;border-radius:14px;background:none!important;min-height:var(--ziel)}
+#seite .rg-klein,#seite .rg-klein svg{width:46px;height:46px}
+#seite .rg-klein .num{font-size:17px}
+#seite .rg-txt{align-items:flex-start;text-align:left}
+#seite .rg-paar .rg-l{font-size:var(--fs-z);font-weight:650;color:var(--ink)}
+#seite .rg-s{font-size:var(--fs-h);color:var(--ink-3)}
+#seite .score-status{display:none}
+#seite .verdict{text-align:left;font-size:var(--fs-t);line-height:1.45;color:var(--ink);max-width:none;margin:0;text-wrap:pretty}
+#seite .datenbasis{text-align:left;font-size:var(--fs-z);margin:0;color:var(--ink-3)}
+#seite .kz{max-width:none;margin:0;gap:var(--sp-2)}
+#seite .kz-z{padding:10px 12px;border-radius:14px}
+#seite .kz-z b{font-size:20px}
+#seite .wie{align-self:flex-start;font-size:var(--fs-z);min-height:var(--ziel);padding:0}
+
+/* Pruefung: kompakt, fehlende Angaben stehen schon im zugeklappten Zustand da */
+.ueb .pruef{margin:0;border-radius:var(--r-karte)}
+.pf-kopf{min-height:64px}
+.pf-t b{font-size:var(--fs-t)}
+.pf-meta{font-size:var(--fs-z)}
+.pf-offen{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-2) var(--sp-3);padding:0 var(--sp-4) var(--sp-4);font-size:var(--fs-z);color:var(--ink-2)}
+.pf-offen b{color:var(--ink);font-weight:650}
+.pf-offen .btn{min-height:40px}
+.pruef.offen-daten{border-left-color:var(--anod)}
+
+/* "Was moechtest du verbessern?" */
+.verb{background:var(--surface);border-radius:var(--r-karte);box-shadow:var(--shadow);padding:20px var(--sp-4) var(--sp-4)}
+.verb h2{font-size:22px;line-height:1.2;font-weight:700;letter-spacing:-.015em}
+.verb-s{font-size:var(--fs-z);color:var(--ink-3);margin:6px 0 var(--sp-4);line-height:1.45}
+.verb-k{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-2)}
+@media (min-width:640px){.verb-k{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.verb-b{display:flex;align-items:center;gap:10px;min-height:52px;padding:10px 12px;border-radius:16px;background:var(--surface-2);
+  font-size:var(--fs-t);font-weight:600;color:var(--ink);text-align:left;min-width:0}
+.verb-b > span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.verb-ic{flex:none;color:var(--anod);display:grid;place-items:center}
+.verb-b.mehr .verb-ic{color:var(--ink-3)}
+@media (hover:hover){.verb-b:hover{background:var(--sunk)}}
+:root[data-theme="light"] .verb-b{background:var(--ground)}
+
+/* Anleitung: im Fluss nach "Verbessern", schmal */
+#aufbau > .coach-platz{display:block}
+#aufbau > .coach-platz:empty{display:none}
+#aufbau .coach-platz > .leit{max-width:none;margin:0;border-radius:var(--r-karte)}
+
+/* Teile: Abschnittstitel, Gruppen ohne Beschreibung (die steht im "Was ist das?") */
+.teile-kopf{margin-bottom:var(--sp-3)!important}
+.teile-kopf h2{font-size:var(--fs-a);font-weight:700;letter-spacing:-.015em}
+.teile{display:grid;gap:var(--sp-4);grid-template-columns:minmax(0,1fr)}
+@media (min-width:1000px){.teile{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
+.teile .grp{margin:0}
+.grp-kopf h2 .t{display:none}
+.grp-kopf h2{font-size:var(--fs-k)}
+.grp-kopf{min-height:60px}
+.slot{min-height:60px}
+.slot-k{font-size:var(--fs-h)}
+.slot-n{font-size:var(--fs-t)}
+.slot-kern{font-size:var(--fs-z)}
+.slot-was{font-size:var(--fs-z);display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Rechtliches: kurz, Datenherkunft aufklappbar */
+details.legal{font-size:var(--fs-z);line-height:1.55;color:var(--ink-3);border-top:1px solid var(--line-soft);padding-top:var(--sp-3)}
+details.legal summary{cursor:pointer;min-height:var(--ziel);display:flex;align-items:center;font-weight:600;color:var(--ink-2);list-style:none}
+details.legal summary::-webkit-details-marker{display:none}
+details.legal summary::after{content:"";width:8px;height:8px;margin-left:10px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-2px);transition:transform var(--t-kurz) var(--e-weich)}
+details.legal[open] summary::after{transform:rotate(-135deg) translateY(-2px)}
+details.legal p{margin:0 0 var(--sp-2)}
+.recht-links{font-size:var(--fs-z);color:var(--ink-3);margin:var(--sp-2) 0 0}
+.recht-links button{min-height:var(--ziel);color:var(--ink-2);text-decoration:underline;text-underline-offset:3px}
+</style>
 </head>
 <body>
 <!-- Das CrankScore-Logo (APP-DESIGN-002): Kettenblatt mit vier Armen und dem
@@ -3394,21 +3545,18 @@ label.fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px
   <div class="top-in">
     <div class="kopf-links">
       <span class="brand" aria-label="CrankScore"><svg class="brand-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>Crank<i>Score</i><b class="pro-marke" id="pro-marke" hidden>Pro</b></span>
-      <!-- Beim Scrollen: Wertung und Name des offenen Rads; Tippen wechselt das Rad -->
-      <button class="mini" id="mini" data-radwahl="1" aria-label="Rad wechseln" data-ta="Rad wechseln|Switch bike" tabindex="-1">
-        <b id="mini-s">–</b><span id="mini-p">–</span>
+      <!-- BEVEL-003: das aktive Rad steht immer im Kopf -- Art (Traumrad, Mein Rad,
+           Gebraucht) klein darueber, Tippen oeffnet alle Raeder aller Arten -->
+      <button class="mini" id="mini" data-radwahl="1" aria-label="Rad wechseln" data-ta="Rad wechseln|Switch bike">
+        <b id="mini-s">–</b><span class="mini-t"><span class="mini-a" id="mini-a"></span><span id="mini-p">–</span></span>
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
       </button>
     </div>
-    <button class="dchip" id="btn-disz" aria-label="Disziplin wählen" data-ta="Disziplin wählen|Choose discipline">
-      <span class="dot"></span><span class="dn" id="disz-n">Trail</span>
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-    </button>
     <button class="iconbtn g-knopf" id="btn-guide" data-guide="1" aria-label="Frag den Guide" data-ta="Frag den Guide|Ask the guide">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/></svg>
     </button>
-    <button class="iconbtn" id="btn-menu" aria-label="Einstellungen" data-ta="Einstellungen|Settings">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg>
+    <button class="iconbtn profil-knopf" id="btn-menu" aria-label="Profil und Einstellungen" data-ta="Profil und Einstellungen|Profile and settings">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20.5c1.4-3.9 4.2-5.8 7.5-5.8s6.1 1.9 7.5 5.8"/></svg>
     </button>
   </div>
 </header>
@@ -3460,6 +3608,10 @@ label.fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px
       <!-- Score-Karte (APP-DESIGN-002/003, APP-REDESIGN-001): oben der Gesamtscore
            in Stahlblau, im Ring das CrankScore-Logo und darunter die Zahl, darunter Kompatibilitaet (Schieferblau) und
            Einsatz (Grau) mit Beschriftung, dann Statushinweise in Worten -->
+      <button class="dchip" id="btn-disz" aria-label="Disziplin wählen" data-ta="Disziplin wählen|Choose discipline">
+        <span class="dc-l" data-t="Bewertet für|Rated for">Bewertet für</span><span class="dn" id="disz-n">Trail</span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
       <div class="ringe">
         <button class="rg rg-gesamt ring-wrap" data-scorehilfe="1" title="Gesamt-Score aus Kompatibilität und Einsatz" data-tt="Gesamt-Score aus Kompatibilität und Einsatz|Overall score from compatibility and discipline">
           <svg class="rg-kreis" viewBox="0 0 100 100" aria-hidden="true">
@@ -3514,6 +3666,9 @@ label.fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px
        Den Stand je Teilegruppe zeigen die Sprungleiste und die Statushinweise am Score. -->
   </aside>
   <div id="aufbau"></div>
+  <!-- BEVEL-003: Score-Karte und Anleitung stehen im Aufbau an ihrem Platz (zeichne
+       haengt sie dort ein); waehrend #aufbau neu entsteht, warten sie hier -->
+  <div id="park" hidden></div>
   <div class="panel" id="panel">
     <div class="card" id="c-wunsch">
       <div class="grp-h" style="margin-bottom:2px"><h2 data-t="Wunschliste|Wishlist">Wunschliste</h2><div class="rule"></div></div>
@@ -8735,7 +8890,7 @@ function leitSchritte(r){
       {t:tx("Bauziel festlegen", "Plan your build"), fertig: plan.budget > 0,
        /* Kein eigener Knopf: das Bauziel hat genau einen dauerhaften Weg, die Disziplin oben (APP-002) */
        d: plan.budget > 0 ? tx(`${esc(selNamen())} · Budget ${eur(plan.budget)}.`, `${esc(selNamen())} · budget ${eur(plan.budget)}.`)
-         : tx(`Tippe oben auf „${esc(selNamen())}“: Disziplin, Budget und Wunschmarken — daraus stellt die App einen passenden Aufbau zusammen.`, `Tap “${esc(selNamen())}” at the top: discipline, budget and favourite brands — the app works out a matching build from them.`),
+         : tx(`Tippe beim Score auf „Bewertet für ${esc(selNamen())}“: Disziplin, Budget und Wunschmarken — daraus stellt die App einen passenden Aufbau zusammen.`, `Tap “Rated for ${esc(selNamen())}” next to the score: discipline, budget and favourite brands — the app works out a matching build from them.`),
        act:"", cta:""},
       {t:tx("Teile ansehen und anpassen", "Review and adjust parts"), fertig: !offen.length,
        d: offen.length ? tx(`Noch offen: ${offenTxt}.`, `Still missing: ${offenTxt}.`) : tx("Alle Teile gewählt.", "All parts chosen."),
@@ -16247,11 +16402,24 @@ function radbildKarte(){
     ${unter ? `<p class="rb-unter">${unter}</p>` : ""}
     ${fotoKn || modus === "real" ? `<div class="rb-akt">${fotoKn}${modus === "real" ? `<button class="btn ghost sm" data-spick="1">${tx("Wo steht was am Rad?", "What's where on your bike?")}</button>` : ""}</div>` : ""}
     ${art === "render" ? `<div class="rb-akt"><button class="btn ghost sm" data-d3="1">${tx("In 3D ansehen", "View in 3D")}</button></div>` : ""}
-    <button class="rb-finder" data-finder="1">
-      <span class="rb-f-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></span>
-      <span class="rb-f-t"><b>${tx("Passendes Teil finden", "Find a matching part")}</b><span>${tx("Für dein Rad und dein Ziel — mit Marke und Budget", "For your bike and your goal — with brand and budget")}</span></span>
-      <svg class="rb-f-pf" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-    </button>
+  </section>`;
+}
+
+/* BEVEL-003: sichtbarer Einstieg "Was moechtest du an deinem Rad verbessern?" --
+   die haeufigen Bereiche als Knoepfe, alles andere unter "Andere Teile". Jeder
+   Knopf oeffnet die kurze Auswahl (Ziel, Marke, Budget) fuer genau dieses Teil;
+   Rad und aktuelles Teil kennt sie schon. Beim Gebrauchtrad wird bewertet, nicht
+   umgebaut -- dort steht die Karte nicht. */
+const VERB_SLOTS = ["bremsen", "gabel", "daempfer", "reifenVR", "laufraeder", "stuetze"];
+function verbessernKarte(){
+  if(modus === "markt" || !build.rahmen) return "";
+  const ks = VERB_SLOTS.filter(k => slotOf(k) && !entfaellt(build, k));
+  const grp = k => (slotOf(k) || {}).grp;
+  return `<section class="verb" aria-labelledby="verb-t">
+    <h2 id="verb-t">${tx("Was möchtest du an deinem Rad verbessern?", "What would you like to improve on your bike?")}</h2>
+    <p class="verb-s">${tx("Wähle ein Teil — dann fragt die App kurz nach Ziel, Marke und Budget.", "Pick a part — the app then asks briefly about goal, brand and budget.")}</p>
+    <div class="verb-k">${ks.map(k => `<button class="verb-b" data-slot="${k}" data-tab="finden"><span class="verb-ic">${gruppenIc(grp(k))}</span><span>${esc(k === "reifenVR" ? tx("Reifen", "Tyres") : slotOf(k).label)}</span></button>`).join("")}
+      <button class="verb-b mehr" data-finder="1"><span class="verb-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/></svg></span><span>${tx("Andere Teile", "Other parts")}</span></button></div>
   </section>`;
 }
 
@@ -16266,10 +16434,16 @@ function pruefKarte(r){
   const ad = r.funde.filter(f => f.ad), fehlt = r.funde.filter(f => f.fehlt), tipp = r.funde.filter(f => f.level === "hinweis" && !f.fehlt);
   const fitOffen = fitListe.filter(x => x.s !== "ok").length;
   const punkte = harte.length + warn.length;
+  /* BEVEL-003: was nicht geprueft werden kann (Systemgewicht, Rahmengroesse, fehlende
+     Herstellerangaben), steht schon im zugeklappten Zustand -- nicht erst im Score oder nach Aufklappen */
+  const ung = r.teile ? ungeprueft(r) : [];
   const stand = !r.teile ? "leer" : harte.length ? "stoerung" : warn.length ? "achtung" : "ok";
   const titel = !r.teile ? tx("Noch nichts zu prüfen", "Nothing to check yet")
     : punkte ? (punkte === 1 ? tx("1 Punkt prüfen", "1 thing to check") : tx(`${punkte} Punkte prüfen`, `${punkte} things to check`))
+    : ung.length ? tx("Keine Konflikte — aber nicht alles geprüft", "No conflicts — but not everything checked")
     : tx("Keine Konflikte in den geprüften Angaben", "No conflicts in the checked data");
+  const koerperFehlt = ung.some(x => x === tx("Systemgewicht", "system weight") || x === tx("Rahmengröße zu deinem Körper", "frame size for your body"));
+  const offenZeile = ung.length ? `<div class="pf-offen"><span><b>${tx("Nicht geprüft:", "Not checked:")}</b> ${esc(ung.join(", "))}.</span>${koerperFehlt ? `<button class="btn ghost sm" data-fahrerprofil="1">${tx("Angaben ergänzen", "Add your details")}</button>` : ""}</div>` : "";
   const meta = [harte.length ? (harte.length === 1 ? tx("1 Konflikt", "1 conflict") : tx(`${harte.length} Konflikte`, `${harte.length} conflicts`)) : "",
     warn.length ? (warn.length === 1 ? tx("1 Kompromiss", "1 compromise") : tx(`${warn.length} Kompromisse`, `${warn.length} compromises`)) : "",
     ad.length ? (ad.length === 1 ? tx("1 Adapter eingeplant", "1 adapter included") : tx(`${ad.length} Adapter eingeplant`, `${ad.length} adapters included`)) : "",
@@ -16277,13 +16451,13 @@ function pruefKarte(r){
     fitOffen ? tx("Größe ansehen", "Check sizing") : "", tipp.length && !punkte ? (tipp.length === 1 ? tx("1 Tipp", "1 tip") : tx(`${tipp.length} Tipps`, `${tipp.length} tips`)) : ""].filter(Boolean);
   const loesung = f => f.fixSlot ? `<button class="btn ghost sm" data-slot="${f.fixSlot}" data-ziel="konflikt">${tx("Lösung finden", "Find a fix")}</button>` : "";
   const wichtig = harte.length ? `<div class="pf-wichtig">${harte.map(f => `<div class="pf-k"><span><b>${esc(f.titel)}</b>${(f.slots || []).filter(k => slotOf(k)).length ? `<small>${esc(f.slots.filter(k => slotOf(k)).map(k => slotOf(k).label).join(" · "))}</small>` : ""}</span>${loesung(f)}</div>`).join("")}</div>` : "";
-  return `<section class="pruef ${stand}${pruefOffen ? " offen" : ""}" id="pruef" aria-label="${tx("Prüfung", "Check")}">
+  return `<section class="pruef ${stand}${ung.length && stand === "ok" ? " offen-daten" : ""}${pruefOffen ? " offen" : ""}" id="pruef" aria-label="${tx("Prüfung", "Check")}">
     <button class="pf-kopf" data-pruef="1" aria-expanded="${pruefOffen}" aria-controls="pf-inhalt">
       <span class="pf-ic" aria-hidden="true">${stand === "stoerung" || stand === "achtung" ? ST_IC[stand === "stoerung" ? "bad" : "warn"] : stand === "ok" ? ST_IC.gut : ST_IC.offen}</span>
       <span class="pf-t"><span class="pf-l">${tx("Prüfung", "Check")}</span><b>${titel}</b>${meta.length ? `<span class="pf-meta">${esc(meta.join(" · "))}</span>` : ""}</span>
       <svg class="pf-pfeil" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
     </button>
-    ${wichtig}
+    ${wichtig}${offenZeile}
     <div class="pf-inhalt" id="pf-inhalt"${pruefOffen ? "" : " hidden"}><div class="pf-in">${diszHinweis()}${fitAnpassKasten()}<div id="findings"></div></div></div>
   </section>`;
 }
@@ -16316,7 +16490,13 @@ function slotZeile(s, r){
   const rr = build.rahmen ? findeTeil("rahmen", build.rahmen) : null;
   const label = (rr && s.k === "reifenVR") ? s.label + " · " + rr.lrV + "″" : (rr && s.k === "reifenHR") ? s.label + " · " + rr.lrH + "″" : s.label;
   const aw = t ? ausfWerte(t) : "", titel = t ? (aw && t.nb ? t.nb : t.n) : "";
-  const kern = t ? ohneDoppel(specsVon(s.k, t), titel).slice(0, aw ? 1 : 2).concat(aw ? [aw] : []).join(" · ") : "";
+  /* BEVEL-003: was die gewaehlte Ausfuehrung schon nennt ("180/180 mm", "Federweg 140 mm",
+     "Durchmesser 34,9 mm"), steht nicht noch einmal aus den Kernangaben davor */
+  const zahlen = x => (String(x).match(/\d+(?:[.,]\d+)?/g) || []).map(z => z.replace(",", "."));
+  const awZ = zahlen(aw);
+  const awKl = String(aw).toLowerCase();
+  const kern = t ? ohneDoppel(specsVon(s.k, t), titel).filter(c => { const z = zahlen(c); return !(z.length && z.every(x => awZ.indexOf(x) >= 0)) && !(awKl && awKl.indexOf(String(c).toLowerCase()) >= 0); })
+    .slice(0, aw ? 1 : 2).concat(aw ? [aw] : []).join(" · ") : "";
   const p = aktivesProfil(), test = p && p.test && p.test.slot === s.k;
   return `<button class="slot ${lvl || ""}${frischSlot === s.k ? " frisch" : ""}${s.opt && !t ? " optional" : ""}${test ? " im-test" : ""}" data-slot="${s.k}">
       <span class="slot-k">${label}${test ? ` <span class="slot-test">${tx("Test", "Trial")}</span>` : ""}</span>
@@ -16464,7 +16644,8 @@ function datenbasisHtml(r, leer){
   const rechnung = tx("Gesamtscore aus 62 % Kompatibilität und 38 % Einsatz.", "Overall score from 62% compatibility and 38% discipline.");
   const basis = voll ? tx(`Bewertet sind alle ${r.moeglich} Teile.`, `All ${r.moeglich} parts are rated.`)
     : tx(`Bewertet sind ${r.teile} von ${r.moeglich} Teilen — was fehlt, zählt noch nicht.`, `${r.teile} of ${r.moeglich} parts are rated — anything missing doesn't count yet.`);
-  return `${rechnung} ${basis}${ung.length ? ` <span class="db-offen">${tx("Nicht geprüft:", "Not checked:")} ${esc(ung.join(", "))}.</span>` : ""}`;
+  /* BEVEL-003: was nicht geprueft ist, nennt die Pruefung direkt darunter -- hier nur die Rechnung */
+  return `${rechnung} ${basis}`;
 }
 function zeichne(){
   erg = bewerte(build);
@@ -16492,6 +16673,7 @@ function zeichne(){
   $("mini-s").textContent = leer ? "–" : r.gesamt;
   $("mini-s").style.color = leer ? "var(--ink-3)" : "var(--anod)";
   $("mini-p").textContent = profilName(aktivesProfil(), modus);
+  $("mini-a").textContent = MODUS_NAME[modus];
   $("kz-preis").disabled = modus !== "traum";
   $("verdict").innerHTML = urteil(r);
   $("s-char").textContent = tx("für ", "for ") + selNamen();
@@ -16627,7 +16809,13 @@ function zeichne(){
   const sprung = `<nav class="sprung" aria-label="${tx("Zu den Teilegruppen", "Jump to part groups")}">${GRUPPEN.filter(g => g.n in gStand).map(g =>
     `<button class="${gStand[g.n]}" data-zugruppe="${esc(g.n)}"${gStand[g.n] === "stoerung" ? ` aria-label="${esc(g.name + tx(" – Konflikt", " – conflict"))}"` : gStand[g.n] === "achtung" ? ` aria-label="${esc(g.name + tx(" – Kompromiss", " – compromise"))}"` : ""}><i class="pkt"></i>${esc(g.name)}</button>`).join("")}</nav>`;
   $("sprung").innerHTML = sprung;
-  $("aufbau").innerHTML = testBanner() + marktkarte + radbildKarte() + pruefKarte(r) + (leitAus ? leerHinweis : "") + GRUPPEN.map((g, gi) => {
+  /* BEVEL-003: Score-Karte und Anleitung parken, solange #aufbau neu entsteht --
+     danach haengen sie an ihrem Platz in der Uebersicht bzw. nach "Verbessern" */
+  for(const id of ["seite", "coach-platz"]){ const e = $(id); if(e && $("aufbau").contains(e)) $("park").appendChild(e); }
+  $("aufbau").innerHTML = testBanner() + marktkarte
+    + `<section class="ueb" aria-label="${tx("Übersicht", "Overview")}">${radbildKarte()}<div class="ueb-r"><div id="platz-score"></div>${pruefKarte(r)}</div></section>`
+    + verbessernKarte() + `<div id="platz-leit"></div>` + (leitAus ? leerHinweis : "")
+    + `<div class="teile-kopf"><h2>${modus === "markt" ? tx("Teile am Rad", "Parts on the bike") : tx("Deine Teile", "Your parts")}</h2></div><div class="teile">` + GRUPPEN.map((g, gi) => {
     /* Optionale Lager zaehlen nur mit, wenn sie eingetragen sind */
     const meine = SLOTS.filter(s => s.grp === g.n && zaehlt(build, s));
     if(!meine.length) return "";                       /* Thema ganz ohne Slot am Rahmen */
@@ -16649,28 +16837,29 @@ function zeichne(){
       </button>
       <div class="grp-inhalt">${rows}${g.n === "Rahmen" ? (modus === "markt" ? "" : jahrLeiste()) : ""}</div>
     </section>`;
-  }).join("") + (sprache === "en" ? `<p class="legal">
-    <b>What you can rely on:</b> the standards — axle dimensions, head tube, bottom bracket, seatpost diameter,
-    freehub type, brake mount. The check is based on these, and they're documented for each model.<br>
-    <b>What's only a rough guide:</b> geometry figures (wheelbase, head angle, seat tube), insertion depths,
-    tyre clearances and weights. They describe the model in general, not the exact data sheet for every model year.<br>
-    <b>Prices:</b> if a partner shop stocks the part, the app uses the cheapest offer in stock
-    (incl. VAT, plus delivery; as of the date in the Shopping tab). Otherwise, it shows a guide price based on RRP — not an offer.<br>
-    <b>Links:</b> shop buttons with a dot lead directly to the product, those with a magnifying glass to the shop's search. Links marked “Ad”
-    earn CrankScore a commission; your price doesn't change.${amazonAktiv() ? " As an Amazon Associate CrankScore earns from qualifying purchases." : ""}<br>
-    <span class="recht-links"><button data-recht="impressum">Legal notice</button> · <button data-recht="datenschutz">Privacy</button></span> Trials dimensions are simplified to Mod 20/19″,
-    Street 24″ and Stock 26″.</p>` : `<p class="legal">
-    <b>Was hier belastbar ist:</b> die Standards — Achsmaße, Steuerrohr, Tretlager, Stützendurchmesser,
-    Freilauftyp, Scheibenaufnahme. Darauf baut die Prüfung auf, und sie sind für jedes Modell dokumentiert.<br>
-    <b>Was Richtwert ist:</b> Geometriezahlen (Radstand, Lenkwinkel, Sitzrohr), Einstecktiefen,
-    Reifenfreiheiten und Gewichte. Sie stehen für die Modellklasse, nicht datenblattgenau für jedes
-    Modelljahr.<br>
-    <b>Preise:</b> Führt ein Partnershop das Teil, rechnet die App mit dem günstigsten lieferbaren Angebot
-    (inkl. MwSt., zzgl. Versand; Stand im Reiter Einkauf). Sonst rechnet sie mit einem Richtpreis auf UVP-Niveau — das ist kein Angebot.<br>
-    <b>Links:</b> Shop-Knöpfe mit Punkt führen direkt zum Produkt, die mit Lupe zur Suche im Shop. Mit „Anzeige“
-    markierte Links bringen CrankScore eine Provision; dein Preis ändert sich nicht.${amazonAktiv() ? " Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}<br>
-    <span class="recht-links"><button data-recht="impressum">Impressum</button> · <button data-recht="datenschutz">Datenschutz</button></span> Trial-Maße sind auf Mod 20/19″,
-    Street 24″ und Stock 26″ vereinfacht.</p>`);
+  }).join("") + `</div>` + (sprache === "en" ? `<details class="legal"><summary>Where the data comes from</summary>
+    <p><b>What you can rely on:</b> the standards — axle dimensions, head tube, bottom bracket, seatpost diameter,
+    freehub type, brake mount. The check is based on these, and they're documented for each model.</p>
+    <p><b>What's only a rough guide:</b> geometry figures, insertion depths, tyre clearances and weights. They describe the
+    model in general, not the exact data sheet for every model year. Trials dimensions are simplified to Mod 20/19″, Street 24″ and Stock 26″.</p>
+    <p><b>Prices:</b> if a partner shop stocks the part, the app uses the cheapest checked offer in stock
+    (incl. VAT, plus delivery; with the date it was checked). Otherwise it shows a guide price based on RRP — not an offer.</p>
+    <p><b>Links:</b> “Go to product” only ever leads to a checked product page, never to a shop search. Links marked “Ad”
+    earn CrankScore a commission; your price doesn't change.${amazonAktiv() ? " As an Amazon Associate CrankScore earns from qualifying purchases." : ""}</p>
+    </details><p class="recht-links"><button data-recht="impressum">Legal notice</button> · <button data-recht="datenschutz">Privacy</button></p>`
+    : `<details class="legal"><summary>Woher die Daten kommen</summary>
+    <p><b>Belastbar:</b> die Standards — Achsmaße, Steuerrohr, Tretlager, Stützendurchmesser,
+    Freilauftyp, Scheibenaufnahme. Darauf baut die Prüfung auf, und sie sind für jedes Modell dokumentiert.</p>
+    <p><b>Richtwert:</b> Geometriezahlen, Einstecktiefen, Reifenfreiheiten und Gewichte. Sie stehen für die Modellklasse,
+    nicht datenblattgenau für jedes Modelljahr. Trial-Maße sind auf Mod 20/19″, Street 24″ und Stock 26″ vereinfacht.</p>
+    <p><b>Preise:</b> Führt ein Partnershop das Teil, rechnet die App mit dem günstigsten geprüften, lieferbaren Angebot
+    (inkl. MwSt., zzgl. Versand; mit Prüfdatum). Sonst rechnet sie mit einem Richtpreis auf UVP-Niveau — das ist kein Angebot.</p>
+    <p><b>Links:</b> „Zum Produkt“ führt nur auf eine geprüfte Produktseite, nie auf eine Shop-Suche. Mit „Anzeige“
+    markierte Links bringen CrankScore eine Provision; dein Preis ändert sich nicht.${amazonAktiv() ? " Als Amazon-Partner verdient CrankScore an qualifizierten Verkäufen." : ""}</p>
+    </details><p class="recht-links"><button data-recht="impressum">Impressum</button> · <button data-recht="datenschutz">Datenschutz</button></p>`);
+  /* Score-Karte in die Uebersicht, Anleitung nach "Verbessern" */
+  { const ps = $("platz-score"), pl = $("platz-leit");
+    if(ps) ps.replaceWith($("seite")); if(pl) pl.replaceWith($("coach-platz")); }
 
   const rang = {fehler:0, warnung:1, hinweis:2};
   const sortiert = r.funde.slice().sort((a,b) => rang[a.level] - rang[b.level]);
@@ -18655,15 +18844,11 @@ try{
 /* Scrollen die Radknoepfe unter die Kopfzeile, zeigt der Kopf Wertung und
    Namen des offenen Rads -- man sieht immer, wo man steht, und wechselt das
    Rad von dort mit einem Tipp (APP-UX-001; vorher Wertung und Preis). */
+/* BEVEL-003: das aktive Rad steht immer im Kopf; "klein" heisst nur noch
+   "gescrollt" (Kopf bekommt eine feine Linie) */
 try{
-  const ring = document.querySelector(".profile");
-  if(ring && "IntersectionObserver" in window){
-    new IntersectionObserver(es => {
-      const e = es[es.length - 1];
-      document.body.classList.toggle("klein", !e.isIntersecting && e.boundingClientRect.top < 80);
-      $("mini").tabIndex = document.body.classList.contains("klein") ? 0 : -1;
-    }, {rootMargin:"-60px 0px 0px 0px"}).observe(ring);
-  }
+  const klein = () => document.body.classList.toggle("klein", window.scrollY > 24);
+  window.addEventListener("scroll", klein, {passive:true}); klein();
 }catch(e){}
 
 /* ═══════════ 12 · Aktualisieren ═══════════

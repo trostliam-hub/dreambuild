@@ -137,7 +137,8 @@ const PRUEFUNGEN = [
     await neu();
     const r = await ev(() => { build.gabel = 'g-recon'; build.bremsen = 'b-xt'; sichern(); zeichne();
       const f = bewerte(build).funde.find(x => x.frage && x.frage.k === 'gabel');
-      const ohne = bewerte(build).tech, datenbasis = $('datenbasis').textContent;
+      /* BEVEL-003: fehlende Angaben stehen im zugeklappten Pruefungsbereich, nicht mehr am Score */
+      pruefUmschalten(false); const ohne = bewerte(build).tech, datenbasis = ($('pruef').querySelector('.pf-offen') || {textContent:''}).textContent;
       oeffneAngabe('gabel'); const knoepfe = $('modal').querySelectorAll('[data-angabe]').length; schliesse();
       angabeSetzen('gabel', 'PM', 160);
       const nach = bewerte(build), ad = nach.adapter.filter(a => a.wo === 'gabel' && a.art === 'bremse'), weg = !nach.funde.some(x => x.frage && x.frage.k === 'gabel');
@@ -201,13 +202,18 @@ const PRUEFUNGEN = [
       const txt = m.textContent; schliesse();
       return {kopf, zeilen, ziel:/Ziel: Mehr Bremskraft/.test(txt), kosten:/Kosten des Wechsels/.test(txt), fehlend:/Fehlende Angaben/.test(txt), besser:/besser/.test(txt)}; });
     return {ok:r.kopf.length === 4 && r.zeilen.some(z => /^Kolben/.test(z)) && r.ziel && r.kosten && r.fehlend && r.besser, info:r}; }],
-  ['Pruefung im Aufbau: zwischen Radbild und Rahmen, aufklappbar per Tastatur, Zustand bleibt', async () => {
+  /* BEVEL-003: Reihenfolge Rad -> Score -> Pruefung -> "Verbessern" -> Teile (Rahmen zuerst) */
+  ['Pruefung im Aufbau: unter Rad und Score, vor "Verbessern" und dem Rahmen, aufklappbar per Tastatur, Zustand bleibt', async () => {
     await neu();
     await ev(() => { pruefOffen = false; try{ localStorage.setItem('mtb.pruef', 'zu'); }catch(e){} view = 'aufbau'; zeichne(); });
     const kopf = await seite.$('#pruef .pf-kopf'); await kopf.focus(); await seite.keyboard.press('Enter'); await seite.waitForTimeout(200);
-    const r = await ev(() => { const p = $('pruef'), kinder = [...$('aufbau').children].map(e => e.className.split(' ')[0]);
-      return {reihe:kinder.slice(0, 4), offen:p.querySelector('.pf-kopf').getAttribute('aria-expanded'), inhalt:!$('pf-inhalt').hidden, gespeichert:localStorage.getItem('mtb.pruef')}; });
-    return {ok:r.reihe.indexOf('radbild') >= 0 && r.reihe.indexOf('pruef') === r.reihe.indexOf('radbild') + 1 && r.reihe[r.reihe.indexOf('pruef') + 1] === 'grp' && r.offen === 'true' && r.inhalt && r.gespeichert === 'auf', info:r}; }],
+    const r = await ev(() => { const p = $('pruef'), a = $('aufbau');
+      const teile = ['.radbild', '#seite', '#pruef', '.verb', '.grp'].map(q => a.querySelector(q));
+      const vor = (x, y) => !!x && !!y && !!(x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING);
+      const rahmen = a.querySelector('.grp [data-slot="rahmen"]');
+      return {da:teile.map(x => !!x), reihe:teile.every((x, i) => i === 0 || vor(teile[i - 1], x)), rahmenZuerst:!!rahmen && a.querySelector('.grp').contains(rahmen),
+        offen:p.querySelector('.pf-kopf').getAttribute('aria-expanded'), inhalt:!$('pf-inhalt').hidden, gespeichert:localStorage.getItem('mtb.pruef')}; });
+    return {ok:r.da.every(Boolean) && r.reihe && r.rahmenZuerst && r.offen === 'true' && r.inhalt && r.gespeichert === 'auf', info:r}; }],
   ['Radbild: kein fremdes Rad -- eigenes Foto, Spindrift-Modell nur beim Spindrift, sonst Geometrie oder Platzhalter', async () => {
     await neu();
     const r = await ev(() => { const art = () => ($('aufbau').querySelector('.radbild') || {className:''}).className.replace('radbild', '').trim();
