@@ -2676,3 +2676,30 @@ Alle in `tools/bevel-test.mjs` (20 von 20 bestanden):
 - **Getestet:** ja (lokal; GitHub-Tests laufen nach dem Push).
 - **Live:** nein. Live bleibt Version 20261010-0045.
 - **Veröffentlichung:** NEIN, erst nach Liams ausdrücklicher Freigabe.
+
+
+## APP-BEVEL-002 — Nachtrag: veröffentlicht
+- **Bezug:** APP-BEVEL-002 samt Nachtrag Abschnitt 10
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 11.10.2026, 11:59 Uhr
+- **Freigabe:** Liam am 11.10.2026: „ja veröffentlichen“.
+
+### Was passiert ist
+- `main` von `cb3ce2e` auf `7fdf529` vorgespult: 11 Commits, keine Zusammenführung nötig.
+- Die Action „Veroeffentlichen“ (Lauf 38129991616) ist komplett grün:
+  - Prüfen (`npm test`)
+  - Stempeln: Commit `b1e62fb`, Version **20261011-1156**
+  - Pages neu bauen
+  - Live-Stand prüfen
+- Pages baut aus dem Branch `main`. Damit sind auch `vendor/three-0.169.0/`, `3d/modell/` und `bilder/` online. Die Kopierliste des Workflows brauchte keine Änderung, am Workflow wurde nichts geändert.
+
+### Stand
+- **Fertig programmiert:** ja.
+- **Getestet:** ja.
+  - Lokal: `npm test` und Abnahme.
+  - GitHub: Tests auf dem Branch und Prüfschritt der Veröffentlichung.
+- **Tatsächlich live:** ja, Version 20261011-1156 unter https://trostliam-hub.github.io/dreambuild/ (Testadresse).
+  - Bestätigt hat das der Schritt „Live-Stand pruefen“ der Action: Er hat die Seite abgerufen und dort den neuen Stempel gefunden.
+  - Aus meiner Arbeitsumgebung ist `trostliam-hub.github.io` gesperrt; selbst abrufen konnte ich die Seite nicht.
+- Geöffnete Apps zeigen „Neue Version laden“.
+- crankscore.de bleibt die Teaser-Seite ohne Link zur App; eine `CNAME`-Datei gibt es weiterhin nicht.

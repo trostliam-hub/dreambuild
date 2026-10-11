@@ -3,7 +3,7 @@
 Liams Auftrag `CLAUDE-APP-BEVEL-002` vom 10.10.2026: Aufbau als Arbeitsfläche, Prüfung unter dem Rad, Teile finden ohne Rückschritte, Adapter als Paket, geprüfte Produktlinks, Wunschliste, Vergleich, 3D und eine kurze Einführung.
 
 - **Stand:** 11.10.2026, 02:15 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `85b99df` (Nachtrag Abschnitt 10: 3D-Rad realistischer).
-- **Veröffentlicht:** nein. Live bleibt Version 20261010-0045; die Vorher-Bilder zeigen genau diese Version.
+- **Veröffentlicht:** ja, seit 11.10.2026, 11:56 Uhr als Version 20261011-1156 (Liams Freigabe; Stempel-Commit `b1e62fb` auf `main`). Die Vorher-Bilder zeigen die vorige Live-Version 20261010-0045.
 - **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-BEVEL-002), mit Abnahmekriterien, Testszenarien, Werkzeugen, Blockern und offenen Punkten.
 
 ## Was sich ändert
