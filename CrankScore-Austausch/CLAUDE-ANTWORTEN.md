@@ -2607,3 +2607,72 @@ Alle in `tools/bevel-test.mjs` (20 von 20 bestanden):
 - **Nächster Schritt:** Mit Liams ausdrücklicher Freigabe veröffentliche ich (Push auf `main`, die Action stempelt die Version).
 
 - **Veröffentlichung:** NEIN.
+
+
+## APP-BEVEL-002 — Nachtrag: Abschnitt 10, 3D-Rad realistischer
+- **Bezug:** APP-BEVEL-002, Abschnitt 10 (Blender: Proportionen, Materialien, Licht, Details)
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 11.10.2026, 02:15 Uhr
+- **Anlass:** Im Bericht oben stand als offener Punkt „Renderings unverändert“. Das ist jetzt erledigt.
+
+### Was sich am Modell geändert hat
+- **Fehler behoben (Proportion):**
+  - Der hintere Reifen saß 3,5 mm über dem Felgenhorn.
+  - Der Reifen schätzte seinen Wulst aus dem Radius, statt auf dem 27,5″-Felgensitz (584 mm) zu sitzen.
+  - In der Seitenansicht sah man deshalb durch einen dünnen Ring hindurch. Auf hellem Grund war er im bisherigen App-Bild sichtbar.
+  - Jetzt sitzen beide Reifen auf dem Felgensitz (vorn 311, hinten 292 mm Radius).
+- **Neue Details:**
+  - Speichennippel, blank, 32 je Rad.
+  - Ein Tubeless-Ventil je Felge, mit Mutter und Kappe.
+  - Bremsscheiben aus eigenem Stahl.
+  - Kette mit blanken Laschen (vorher dunkel, wie eine gestrichelte Linie).
+  - Schaltwerk mit B-Gelenk, zwei Parallelogramm-Laschen mit Bolzen, P-Gelenk und Käfig mit Taille (vorher ein Block).
+  - Sattel mit Volumen: Polster mit runder Kante auf einer Schale, etwa 45 mm über den Streben. Vorher war er ein flaches Brett.
+  - Anschluss am vorderen Bremssattel.
+  - Die vordere Bremsleitung fehlte bisher ganz. Sie hat ein eigenes Skelett, damit sie beim Einfedern nicht abreißt.
+  - Alles sind allgemeine Bauformen. Herstellerwerte habe ich nicht neu angenommen.
+- **Materialien und Licht (nur Renderings):** Neuer Baustein `3d/skripte/aussehen.py`:
+  - Kantenglanz (Bevel) an gefrästen und gegossenen Teilen.
+  - Körnung auf Reifen und Griffen.
+  - Klarlack mit leichter Orangenhaut.
+  - Gedrehte Bremsscheiben.
+  - Ein Fotostudio mit Verlauf statt einer gleichmäßig grauen Welt, dazu ein Lichtstreifen für Glanzlinien auf den Rohren.
+- **3D-Betrachter in der App:**
+  - Neu ist ein Licht von oben mit weichem Bodenschatten, damit das Rad steht statt zu schweben.
+  - Ausgeblendete Baugruppen werfen keinen Schatten.
+  - Das GLB bleibt im Format gleich. Es hat 18 statt 14 Materialien und ist mit 0,93 MB nur wenig größer als vorher (0,88 MB).
+
+### Geprüft
+- Kollisionsprüfung: 0 unerwartete Schnitte bei 0, 50 und 100 % Federweg.
+  - Die neue Leitung wird dabei mitgefedert.
+  - Gewollte Berührungen sind einzeln in der Liste begründet.
+- 3D-Betrachter in Chromium mit SwiftShader (Handy, 390 px):
+  - Laden in 1,8 s.
+  - 176 Meshes, alle mit Teile-Kategorie.
+  - Keine Konsolenfehler.
+- Desktop hell und dunkel, vorher gegen nachher: `belege/APP-BEVEL-002/T10-3d-realismus.jpg`.
+- `npm test`: alle Teile grün (Kompatibilität 199/199, Setup 16/16, Wege 36/36, Sprache 0 Funde, BEVEL-002 20/20, Preis-Skript 0 Fehler; Abnahme bei 390 und 1280 px in DE/EN, hell und dunkel: 200 Ansichten, 0 Überstand, 0 Kontrast, 0 zu kleine Tippflächen, 0 Fehler).
+- Seitenansicht auf Magenta geprüft: kein Durchblick mehr zwischen Felge und Reifen.
+
+### Dateien
+- `3d/skripte/aussehen.py` ist neu.
+- Geändert:
+  - `bau.py`, `teile.py`, `werkzeug.py` (Käfig mit Taille)
+  - `kollision.py` (vier neue gewollte Berührungen)
+  - `export_glb.py` (Anisotropie nur im Rendering)
+- Neu erzeugt:
+  - `3d/modell/spindrift-5-al.blend`, `.glb`
+  - `3d/bilder/rad-seite.png`, `rad-dreiviertel.png`
+  - App-Bilder `bilder/beispielrad-seite-640/1200.webp` und das Vorschaubild in `index.html` (`RAD_BILD`)
+- `index.html`: Licht und Schatten im Betrachter (`starte3D`, `d3Gruppe`).
+
+### Grenzen
+- Die Propain-Seiten sind weiterhin gesperrt. Wie nah das Modell am echten Rad ist, ließ sich nicht mit offiziellen Bildern abgleichen.
+- Die Gabelbrücke ragt etwas über die Dichtungen; ein Absenken hätte die Reifenfreiheit unter 9 mm gedrückt. Sie bleibt deshalb, wie sie ist.
+- Nicht auf echten Geräten geprüft (kein iPhone oder Android hier).
+
+### Stand
+- **Fertig programmiert:** ja (`1b21e02` Modell und Betrachter, `85b99df` Renderings und App-Bilder).
+- **Getestet:** ja (lokal; GitHub-Tests laufen nach dem Push).
+- **Live:** nein. Live bleibt Version 20261010-0045.
+- **Veröffentlichung:** NEIN, erst nach Liams ausdrücklicher Freigabe.

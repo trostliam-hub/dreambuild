@@ -178,6 +178,8 @@ und `CrankScore-Austausch/belege/APP-BEVEL-002/`.
   Gewicht und Kompatibilität des ganzen Rads.
 - *3D:* `vendor/three-0.169.0/` (lokal, MIT) und `3d/modell/spindrift-5-al.glb` laden
   erst auf Tippen; Baugruppen tragen ihre Teile-Kategorie (`3d/skripte/module.py`).
+  Licht von oben und ein weicher Bodenschatten (VSM) lassen das Rad stehen; Details,
+  Materialien und Studio-Licht der Renderings kommen aus `3d/skripte/aussehen.py`.
 - *Einführung:* drei überspringbare Szenen vor der Ersteinrichtung (`mtb.szenen`),
   erneut unter Einstellungen › Hilfe.
 

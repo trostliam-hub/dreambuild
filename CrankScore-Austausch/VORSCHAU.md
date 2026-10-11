@@ -2,7 +2,7 @@
 
 Liams Auftrag `CLAUDE-APP-BEVEL-002` vom 10.10.2026: Aufbau als Arbeitsfläche, Prüfung unter dem Rad, Teile finden ohne Rückschritte, Adapter als Paket, geprüfte Produktlinks, Wunschliste, Vergleich, 3D und eine kurze Einführung.
 
-- **Stand:** 11.10.2026, 01:25 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `8791136`.
+- **Stand:** 11.10.2026, 02:15 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `85b99df` (Nachtrag Abschnitt 10: 3D-Rad realistischer).
 - **Veröffentlicht:** nein. Live bleibt Version 20261010-0045; die Vorher-Bilder zeigen genau diese Version.
 - **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-BEVEL-002), mit Abnahmekriterien, Testszenarien, Werkzeugen, Blockern und offenen Punkten.
 
@@ -14,6 +14,11 @@ Liams Auftrag `CLAUDE-APP-BEVEL-002` vom 10.10.2026: Aufbau als Arbeitsfläche, 
 - **Zum Produkt:** nur mit geprüftem Angebot. Ohne Preis-Feed (Secret `PREIS_FEEDS` fehlt) steht ehrlich „Derzeit kein geprüftes Angebot“.
 - **Wunschliste je Rad,** Vergleich vorher/nachher, Verlauf mit Rückgängig.
 - **Farben:** warme helle Flächen und weiches Anthrazit statt Kühlgrau und Schwarz.
+- **3D-Rad (Nachtrag):**
+  - Neue Details: Nippel, Ventile, die fehlende vordere Bremsleitung, ein echtes Schaltwerk, ein Sattel mit Volumen und eine blanke Kette.
+  - Material und Licht wie im Fotostudio.
+  - Im 3D-Betrachter steht das Rad jetzt auf einem weichen Bodenschatten.
+  - Behoben: Am Hinterrad sah man durch einen dünnen Ring zwischen Felge und Reifen. Der Reifen saß 3,5 mm zu hoch.
 
 ![Prüfung](belege/APP-BEVEL-002/T1-pruefung.jpg)
 
@@ -32,6 +37,8 @@ Liams Auftrag `CLAUDE-APP-BEVEL-002` vom 10.10.2026: Aufbau als Arbeitsfläche, 
 ![Radbild](belege/APP-BEVEL-002/T8-radbild.jpg)
 
 ![Einführung und 3D](belege/APP-BEVEL-002/T9-szenen-3d.jpg)
+
+![3D-Rad realistischer](belege/APP-BEVEL-002/T10-3d-realismus.jpg)
 
 ---
 
