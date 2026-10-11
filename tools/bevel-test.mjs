@@ -268,9 +268,32 @@ const PRUEFUNGEN = [
       testBeenden(); const zurueck = basisVon(build.bremsen);
       view = 'wunsch'; zeichne(); $('wunschliste').querySelector(`[data-wkauf="${w.id}"]`).click();
       view = 'deals'; zeichne(); const imEinkauf = /Magura MT4/.test($('einkauf').textContent);
+      /* BEVEL-003: "als montiert uebernehmen" zeigt erst das Paket, dort wird uebernommen */
       view = 'wunsch'; zeichne(); $('wunschliste').querySelector(`[data-wverbaut="${w.id}"]`).click();
-      return {test, zurueck, imEinkauf, verbaut:basisVon(build.bremsen), weg:!wunschListe().length, verlauf:verlaufListe()[0] && verlaufListe()[0].quelle}; });
-    return {ok:r.test.bau === 'b-mt4' && r.test.banner && r.zurueck === 'b-xt' && r.imEinkauf && r.verbaut === 'b-mt4' && r.weg && r.verlauf === 'wunsch', info:r}; }],
+      const paket = !!$('modal').querySelector('.vt-paket'), knopf = ($('modal').querySelector('[data-ersetzen]') || {textContent:''}).textContent.trim();
+      $('modal').querySelector('[data-ersetzen]').click();
+      return {test, zurueck, imEinkauf, paket, knopf, verbaut:basisVon(build.bremsen), weg:!wunschListe().length, verlauf:verlaufListe()[0] && verlaufListe()[0].quelle}; });
+    return {ok:r.test.bau === 'b-mt4' && r.test.banner && r.zurueck === 'b-xt' && r.imEinkauf && r.paket && /montiert/.test(r.knopf) && r.verbaut === 'b-mt4' && r.weg && r.verlauf === 'wunsch', info:r}; }],
+  /* BEVEL-003 Abschnitt 6: Test ist Vorschau -- gespeichert bleibt das echte Teil, auch ueber Neuladen und Radwechsel */
+  ['Test nie als verbaut: Speicher haelt das echte Teil, Neuladen zeigt den Test wieder, anderes Rad unberuehrt, Einkauf nur Wuensche', async () => {
+    await neu();
+    const a = await ev(() => { wechsle('real'); build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern();
+      const radA = aktivId.real; merken('bremsen', 'b-mt4'); const w = wunschListe()[0]; wunschTesten(w.id);
+      const gespeichert = JSON.parse(localStorage.getItem('mtb.profile')).liste.real.find(p => p.id === radA).build.bremsen;
+      const imSpeicherBuilds = JSON.parse(localStorage.getItem('mtb.builds')).real.bremsen;
+      return {radA, gespeichert, imSpeicherBuilds, imAufbau:basisVon(build.bremsen), kopf:$('mini-a').textContent}; });
+    await seite.reload(); await bereit();
+    const b = await ev(radA => { const nachLaden = {bau:basisVon(build.bremsen), banner:!!document.querySelector('.test-banner'), kopf:$('mini-a').textContent};
+      profilNeu(); build.rahmen = 'f-stumpy'; build.bremsen = 'b-deore'; sichern(); const radB = {bau:build.bremsen, banner:!!document.querySelector('.test-banner')};
+      profilWechseln(radA); const zurueckA = basisVon(build.bremsen);
+      merken('gabel', 'g-lyrik'); wunschListe().find(x => x.slot === 'gabel').stufe = 'einkauf'; wunschListe().find(x => x.slot === 'bremsen').stufe = 'einkauf'; sichern();
+      view = 'deals'; zeichne(); const ek = $('einkauf').textContent;
+      testBeenden(); const ende = basisVon(build.bremsen);
+      return {nachLaden, radB, zurueckA, ende, einkauf:{rahmen:/Stumpjumper/.test(ek), gabel:/Lyrik/.test(ek), hinweis:/schon verbaut ist, steht hier nicht/.test(ek)}}; }, a.radA);
+    const ok = a.gespeichert === 'b-xt' && String(a.imSpeicherBuilds).split('|')[0] === 'b-xt' && a.imAufbau === 'b-mt4' && /Test läuft/.test(a.kopf)
+      && b.nachLaden.bau === 'b-mt4' && b.nachLaden.banner && /Test läuft/.test(b.nachLaden.kopf) && b.radB.bau === 'b-deore' && !b.radB.banner
+      && b.zurueckA === 'b-mt4' && b.ende === 'b-xt' && !b.einkauf.rahmen && b.einkauf.gabel && b.einkauf.hinweis;
+    return {ok, info:{a, b}}; }],
   ['Vorher/nachher: Tabelle auf gleicher Grundlage mit Ziel, Gesamtkosten, Zubehoer und Unbekanntem', async () => {
     await neu();
     const r = await ev(() => { build.gabel = 'g-recon'; build.bremsen = 'b-deore2'; sichern(); finder.slot = 'bremsen'; finder.ziel = 'kraft';

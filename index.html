@@ -3612,6 +3612,22 @@ details.legal p{margin:0 0 var(--sp-2)}
 .vt-summe b{font-family:var(--f-zahl);font-size:20px}
 .vt-paket .hint{margin:6px 0 0;font-size:var(--fs-h)}
 .vt-akt .btn{min-height:var(--ziel)}
+/* Wunschliste (Abschnitt 6): vier Stufen sichtbar, eine Hauptaktion, Nebenaktionen als Links */
+.wl.wl3{padding:16px;border-radius:var(--r-karte);background:var(--surface);margin:0 0 var(--sp-3)}
+.wl3 .wl-t{grid-template-columns:minmax(0,1fr) auto}
+.wl3 .wl-t b{font-size:var(--fs-t)}
+.wl-p{grid-column:2;grid-row:1 / span 2;align-self:start;font-family:var(--f-zahl);font-size:18px;font-weight:700}
+.wl-weg{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:12px 0 0;padding:0;counter-reset:wl}
+.wl-weg li{position:relative;padding-top:10px;font-size:12px;line-height:1.3;color:var(--ink-3);min-width:0}
+.wl-weg li::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;border-radius:2px;background:var(--sunk)}
+.wl-weg li.fertig::before{background:var(--anod);opacity:.45}
+.wl-weg li.jetzt{color:var(--ink);font-weight:650}
+.wl-weg li.jetzt::before{background:var(--anod)}
+@media (prefers-reduced-motion:no-preference){.wl-weg li::before{transition:background var(--t-mittel,.25s) var(--e-weich)}}
+.wl-hin{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:var(--anod-soft);font-size:var(--fs-h);color:var(--ink-2);line-height:1.45}
+.wl3 .wl-akt .btn{min-height:var(--ziel)}
+.wl-neben{display:flex;flex-wrap:wrap;gap:2px 16px;margin-top:6px}
+.wl-neben .linkbtn{min-height:40px;font-size:var(--fs-z);color:var(--ink-2)}
 /* Das Blatt ist eine Flex-Spalte: ohne flex:none schrumpfte die Tabelle mit overflow auf 0 px */
 .vt-wrap{flex:none}
 .vt .vu{white-space:normal}
@@ -5744,6 +5760,8 @@ function profilHolen(m){
   const p = aktivesProfil(m);
   aktivId[m] = p.id;
   builds[m] = {...leerBau(), ...(p.build || {})};
+  /* Laufender Test: gespeichert ist das echte Teil -- die Vorschau liegt wieder darueber */
+  if(p.test && slotOf(p.test.slot)){ if((builds[m][p.test.slot] || null) === (p.test.von || null)) builds[m][p.test.slot] = p.test.zu; else if(builds[m][p.test.slot] !== p.test.zu) delete p.test; }
   p.build = builds[m];
   jahrWahl[m] = p.jahr || jahrStart(m);
   let f = null;
@@ -6032,11 +6050,19 @@ function speicherFehler(was){
   try{ zeigeToast(was || tx("Speichern fehlgeschlagen: Der Speicher des Browsers ist voll oder gesperrt. Deine letzten Änderungen sind nur bis zum Schließen da — lösche alte Fotos oder Räder und versuch es erneut.",
     "Saving failed: the browser's storage is full or blocked. Your latest changes only last until you close the app — delete old photos or bikes and try again."), 9000); }catch(e){}
 }
+/* BEVEL-003: ein Test im Aufbau ist eine Vorschau -- gespeichert wird immer das
+   echte Teil (test.von); beim Laden liegt der Test wieder sichtbar darueber */
+function echterBau(p, b){
+  const x = p && p.test;
+  return x && b && b[x.slot] === x.zu ? {...b, [x.slot]:x.von} : b;
+}
 function sichern(){
   let ok = true;
   try{ builds[modus] = build; profilZurueck(modus); }catch(e){}
-  for(const [k, v] of [["mtb.profile", () => JSON.stringify({v:1, modus:modus, aktiv:aktivId, liste:profile})], ["mtb.fahrer", () => String(plan.fahrer || 0)],
-    ["mtb.builds", () => JSON.stringify(builds)], ["mtb.modus", () => modus], ["mtb.feed", () => JSON.stringify(feed)], ["mtb.links", () => JSON.stringify(linksLokal)],
+  const profEcht = () => { const l = {}; for(const m of MODI) l[m] = (profile[m] || []).map(p => p.test ? {...p, build:echterBau(p, p.build)} : p); return l; };
+  const buildsEcht = () => { const o = {}; for(const m in builds) o[m] = echterBau(aktivesProfil(m), builds[m]); return o; };
+  for(const [k, v] of [["mtb.profile", () => JSON.stringify({v:1, modus:modus, aktiv:aktivId, liste:profEcht()})], ["mtb.fahrer", () => String(plan.fahrer || 0)],
+    ["mtb.builds", () => JSON.stringify(buildsEcht())], ["mtb.modus", () => modus], ["mtb.feed", () => JSON.stringify(feed)], ["mtb.links", () => JSON.stringify(linksLokal)],
     ["mtb.linkadmin", () => linkVerwaltung ? "1" : "0"], ["mtb.betreiber", () => JSON.stringify(betreiberLokal)], ["mtb.zu", () => JSON.stringify(zuGeklappt)],
     ["mtb.eigene", () => JSON.stringify(eigene)], ["mtb.jahr", () => JSON.stringify(jahrWahl)], ["mtb.sel", () => JSON.stringify(sel)],
     ["mtb.plan", () => JSON.stringify(plan)], ["mtb.markt", () => JSON.stringify(markt)], ["mtb.aff", () => JSON.stringify(aff)]]){
@@ -16220,6 +16246,8 @@ let finder = {slot:null, ziel:"", marken:[], budget:0, budgetAn:false, mehr:fals
 const FINDER_START = 3;
 /* Rueckweg aus dem Vergleich: Platz und Scrollstand der Ergebnisse */
 let vglZurueck = null;
+/* Vergleich aus der Wunschliste geoeffnet ("als montiert uebernehmen"): dieser Eintrag */
+let vglWunsch = null;
 function finderRechnen(k){
   const jetzt = build[k] && !entfaellt(build, k) ? findeTeil(k, build[k]) : null;
   const vor = bewerte(build);
@@ -16557,32 +16585,47 @@ function wunschHtml(){
   const kopf = `<div class="wl-kopf"><p>${tx(`Für <b>${esc(profilName(p, modus))}</b> — getrennt von dem, was verbaut ist.`, `For <b>${esc(profilName(p, modus))}</b> — kept separate from what's fitted.`)}</p>
     <button class="btn ghost sm" data-wunschneu="1">${tx("Teil eintragen", "Add a part")}</button></div>`;
   const vor = bewerte(build);
+  /* BEVEL-003: vier Stufen, sichtbar je Eintrag -- nur ansehen (gemerkt), im Aufbau testen
+     (Vorschau, nie verbaut gespeichert), kaufen (Einkaufsliste), montiert (uebernommen, mit Paket) */
+  const STUFEN = [["gemerkt", tx("Gemerkt", "Saved")], ["test", tx("Im Aufbau testen", "Trying in build")], ["einkauf", tx("Kaufen", "Buying")], ["verbaut", modus === "traum" ? tx("Im Aufbau", "In build") : tx("Montiert", "Fitted")]];
   const eintrag = w => {
     const t = wunschTeil(w), s = slotOf(w.slot);
     if(!s) return "";
     const imTest = test && test.wid === w.id;
     const pk = t ? paketFuer(w.slot, t, vor) : null, st = pk ? paketStatus(pk) : null;
     const verbaut = t && build[w.slot] === t.id && !imTest;
+    const stufe = imTest ? "test" : verbaut ? "verbaut" : w.stufe === "einkauf" ? "einkauf" : "gemerkt";
+    const si = STUFEN.findIndex(x => x[0] === stufe);
     const d = (l, v) => `<div><dt>${l}</dt><dd>${v}</dd></div>`;
-    return `<article class="wl${imTest ? " test" : ""}">
-      <div class="wl-t"><span class="wl-k">${esc(s.label)}</span><b>${esc(t ? t.n : (w.frei && w.frei.n) || "")}</b>
-        <span class="wl-stufe ${w.stufe}">${w.stufe === "einkauf" ? tx("Auf der Einkaufsliste", "On the shopping list") : imTest ? tx("Im Test", "Testing") : verbaut ? tx("Verbaut", "Fitted") : tx("Gemerkt", "Saved")}</span></div>
+    const zub = pk ? pk.scheibenNeu.map(x => scheibeName(x) + " · " + tx("Preis nicht hinterlegt", "price not on file")).concat(pk.neu.map(a => a.n + " · " + eur(a.p || 0)), pk.folge.map(x => slotOf(x.slot).label + ": " + (x.aenderung.join(", ") || x.zu.n))) : [];
+    const kannTesten = t && !verbaut && !(pk && pk.neueFehler.length);
+    const akt = imTest
+      ? `<button class="btn sm" data-wtestok="1">${tx("Übernehmen", "Keep it")}</button><button class="btn ghost sm" data-wtestende="1">${tx("Test abbrechen", "Cancel trial")}</button>`
+      : verbaut ? ""
+      : stufe === "einkauf"
+        ? `${t ? `<button class="btn sm" data-wverbaut="${w.id}"${pk && pk.neueFehler.length ? " disabled" : ""}>${modus === "traum" ? tx("In den Aufbau übernehmen", "Add to build") : tx("Als montiert übernehmen", "Mark as fitted")}</button>` : ""}
+           ${kannTesten ? `<button class="btn ghost sm" data-wtest="${w.id}">${tx("Im Aufbau testen", "Try in build")}</button>` : ""}
+           <button class="btn ghost sm" data-wkauf="${w.id}">${tx("Von der Einkaufsliste", "Off the shopping list")}</button>`
+        : `${kannTesten ? `<button class="btn sm" data-wtest="${w.id}">${tx("Im Aufbau testen", "Try in build")}</button>` : ""}
+           <button class="btn ghost sm" data-wkauf="${w.id}">${tx("Auf die Einkaufsliste", "To shopping list")}</button>
+           ${t ? `<button class="btn ghost sm" data-wverbaut="${w.id}"${pk && pk.neueFehler.length ? " disabled" : ""}>${modus === "traum" ? tx("In den Aufbau übernehmen", "Add to build") : tx("Als montiert übernehmen", "Mark as fitted")}</button>` : ""}`;
+    return `<article class="wl wl3${imTest ? " test" : ""}" data-wl="${w.id}">
+      <div class="wl-t"><span class="wl-k">${esc(s.label)}</span><b>${esc(t ? t.nb || t.n : (w.frei && w.frei.n) || "")}</b>
+        ${t ? `<span class="wl-p">${eur(pk.gesamt)}</span>` : ""}</div>
+      <ol class="wl-weg" aria-label="${tx("Stand", "Status")}">${STUFEN.map((x, i) => `<li class="${i < si ? "fertig" : i === si ? "jetzt" : ""}"${i === si ? ' aria-current="step"' : ""}><span>${x[1]}</span></li>`).join("")}</ol>
+      ${imTest ? `<p class="wl-hin">${tx("Vorschau im Aufbau: Score und Prüfung zeigen das Teil, gespeichert bleibt dein verbautes Teil.", "Preview in your build: score and check show the part; your fitted part stays saved.")}</p>` : ""}
       <dl class="wl-daten">
+        ${pk ? d(tx("Zustand", "Status"), `<span class="fk-st ${st.k}">${st.t}</span>${pk.neueFehler.length ? " " + esc(pk.neueFehler[0].titel) : pk.fehlt.length ? " " + esc(pk.fehlt.map(f => f.fehlt).join(", ")) : ""}`) : d(tx("Zustand", "Status"), tx("nicht prüfbar — Teil ist nicht im Katalog", "can't be checked — part isn't in the catalogue"))}
         ${zielName(w.ziel) ? d(tx("Ziel", "Goal"), esc(zielName(w.ziel))) : ""}
         ${d(tx("Budget", "Budget"), w.budget > 0 ? eur(w.budget) : tx("offen", "open"))}
         ${t ? d(tx("Preis", "Price"), `${eur(pk.gesamt)} <small>${preisHerkunft(t)}</small>`) : d(tx("Preis", "Price"), tx("nicht im Katalog", "not in the catalogue"))}
-        ${pk ? d(tx("Passt", "Fit"), `<span class="fk-st ${st.k}">${st.t}</span>${pk.neueFehler.length ? " " + esc(pk.neueFehler[0].titel) : ""}`) : d(tx("Passt", "Fit"), tx("nicht prüfbar — Teil ist nicht im Katalog", "can't be checked — part isn't in the catalogue"))}
-        ${pk && (pk.neu.length || pk.folge.length) ? d(tx("Zubehör", "Accessories"), esc(pk.neu.map(a => a.n + " · " + eur(a.p || 0)).concat(pk.folge.map(x => slotOf(x.slot).label + ": " + (x.aenderung.join(", ") || x.zu.n))).join("; "))) : ""}
+        ${zub.length ? d(tx("Dazu nötig", "Also needed"), esc(zub.join("; "))) : ""}
         ${w.frei && w.frei.l ? d(tx("Link", "Link"), `<a href="${esc(w.frei.l)}" target="_blank" rel="noopener nofollow">${esc(kurzUrl(w.frei.l))}</a>`) : ""}
       </dl>
-      <div class="wl-akt">
-        ${t && !verbaut ? (imTest ? `<button class="btn sm" data-wtestende="1">${tx("Test beenden", "End test")}</button>` : `<button class="btn ghost sm" data-wtest="${w.id}"${pk && pk.neueFehler.length ? " disabled" : ""}>${tx("Im Aufbau testen", "Try in build")}</button>`) : ""}
-        ${w.stufe !== "einkauf" ? `<button class="btn ghost sm" data-wkauf="${w.id}">${tx("Zur Einkaufsliste", "To shopping list")}</button>` : `<button class="btn ghost sm" data-wkauf="${w.id}">${tx("Von der Einkaufsliste", "Off the shopping list")}</button>`}
-        ${t && !verbaut ? `<button class="btn sm" data-wverbaut="${w.id}"${pk && pk.neueFehler.length ? " disabled" : ""}>${modus === "traum" ? tx("In den Aufbau übernehmen", "Add to build") : tx("Als verbaut übernehmen", "Mark as fitted")}</button>` : ""}
-        ${t ? `<button class="btn ghost sm" data-vergleich="${w.slot}|${esc(t.id)}">${tx("Vergleichen", "Compare")}</button>` : ""}
-        <button class="btn ghost sm" data-wfinder="${w.id}">${tx("Ziel oder Budget ändern", "Change goal or budget")}</button>
-        <button class="btn ghost sm" data-wweg="${w.id}">${tx("Entfernen", "Remove")}</button>
-      </div></article>`;
+      <div class="wl-akt">${akt}</div>
+      <div class="wl-neben">${t ? `<button class="linkbtn" data-vergleich="${w.slot}|${esc(t.id)}">${tx("Vergleichen", "Compare")}</button>` : ""}
+        <button class="linkbtn" data-wfinder="${w.id}">${tx("Ziel oder Budget ändern", "Change goal or budget")}</button>
+        <button class="linkbtn" data-wweg="${w.id}">${tx("Entfernen", "Remove")}</button></div></article>`;
   };
   const verlauf = verlaufListe();
   return kopf + (l.length ? l.map(eintrag).join("") : `<p class="empty-note">${tx("Noch nichts gemerkt. Tippe bei einem Vorschlag auf „Merken“ — oder trag ein Teil von Hand ein.", "Nothing saved yet. Tap “Save” on a suggestion — or add a part by hand.")}</p>`)
@@ -16655,14 +16698,22 @@ function wunschSpeichern(){
 }
 /* Geplante Kaeufe aus der Wunschliste fuer den Bereich Einkauf */
 function wunschKaufHtml(){
-  const l = wunschListe().filter(w => w.stufe === "einkauf");
+  const l = wunschListe().filter(w => w.stufe === "einkauf" && !(w.teil && build[w.slot] === w.teil && !(aktivesProfil() && aktivesProfil().test && aktivesProfil().test.wid === w.id)));
   if(!l.length) return "";
   const vor = bewerte(build);
-  return `<div class="wk"><div class="grp-h"><h2>${tx("Aus der Wunschliste", "From your wishlist")}</h2><div class="rule"></div></div>
-    ${l.map(w => { const t = wunschTeil(w), pk = t ? paketFuer(w.slot, t, vor) : null;
-      return `<div class="ek"><div><span class="ek-k">${esc(slotOf(w.slot).label)}</span><span class="ek-n">${esc(t ? t.n : w.frei.n)}</span>
-        ${pk && pk.neu.length ? `<span class="ek-fit">${tx("dazu", "plus")} ${esc(pk.neu.map(a => a.n).join(", "))}</span>` : ""}</div>
-        <div class="ek-r">${t ? `<span class="p">${eur(pk.gesamt)}</span>${zumProduktHtml(t, true)}` : w.frei.l ? `<a class="shop such" href="${esc(w.frei.l)}" target="_blank" rel="noopener nofollow">${esc(kurzUrl(w.frei.l))}</a>` : ""}</div></div>`; }).join("")}
+  let summe = 0, offen = false;
+  const zeilen = l.map(w => { const t = wunschTeil(w), pk = t ? paketFuer(w.slot, t, vor) : null;
+    if(pk){ summe += pk.gesamt; if(pk.scheibenNeu.length || pk.versandOffen) offen = true; }
+    /* BEVEL-003: was dazu gekauft werden muss -- Scheiben, Adapter, Umstellung; vorhandene Teile nicht */
+    const dazu = pk ? pk.scheibenNeu.map(scheibeName).concat(pk.neu.map(a => a.n), pk.folge.map(x => slotOf(x.slot).label + ": " + (x.aenderung.join(", ") || x.zu.n))) : [];
+    return `<div class="ek"><div><span class="ek-k">${esc(slotOf(w.slot).label)}</span><span class="ek-n">${esc(t ? t.nb || t.n : w.frei.n)}</span>
+        ${dazu.length ? `<span class="ek-fit">${tx("dazu", "plus")} ${esc(dazu.join(", "))}</span>` : ""}
+        ${pk && pk.weiter.length ? `<span class="ek-fit">${tx("vorhanden, nicht neu kaufen", "already there, don't rebuy")}: ${esc(pk.weiter.map(a => a.n).join(", "))}</span>` : ""}</div>
+        <div class="ek-r">${t ? `<span class="p">${eur(pk.gesamt)}</span>${zumProduktHtml(t, true)}` : w.frei.l ? `<a class="shop bez" href="${esc(w.frei.l)}" target="_blank" rel="noopener nofollow">${esc(kurzUrl(w.frei.l))}</a>` : ""}</div></div>`; });
+  return `<div class="wk"><div class="grp-h"><h2>${modus === "traum" ? tx("Aus der Wunschliste", "From your wishlist") : tx("Deine Einkaufsliste", "Your shopping list")}</h2><div class="rule"></div></div>
+    ${modus === "traum" ? "" : `<p class="hint" style="margin:0 0 10px">${tx("Nur was du aus der Wunschliste kaufen willst, mit nötigem Zubehör. Was an deinem Rad schon verbaut ist, steht hier nicht.", "Only what you want to buy from your wishlist, with the accessories it needs. What's already on your bike isn't listed.")}</p>`}
+    ${zeilen.join("")}
+    <div class="ek-summe"><span>${l.length === 1 ? tx("1 Teil", "1 part") : tx(`${l.length} Teile`, `${l.length} parts`)}${offen ? tx(" · ohne Scheiben bzw. unbekannten Versand", " · excl. rotors or unknown shipping") : ""}</span><b>${eur(summe)}</b></div>
   </div>`;
 }
 
@@ -16725,7 +16776,7 @@ function oeffneVergleich(k, id){
         <p class="hint">${tx("Preise:", "Prices:")} ${preisHerkunft(t)}.${grip ? " " + tx("„Einschätzung“ ist eine Bewertung der App, keine Herstellerangabe.", "“Assessment” is the app's rating, not a manufacturer figure.") : ""}</p>
       </section>
       <div class="vt-akt">
-        ${jetzt && build[k] === t.id ? "" : `<button class="btn" data-ersetzen="${k}|${esc(t.id)}"${pk.neueFehler.length ? " disabled" : ""}>${jetzt ? (pk.neu.length || pk.folge.length ? tx("Paket übernehmen", "Apply package") : tx("Im Aufbau ersetzen", "Replace in build")) : tx("In den Aufbau", "Add to build")}</button>`}
+        ${jetzt && build[k] === t.id && !(vglWunsch && aktivesProfil() && aktivesProfil().test) ? "" : `<button class="btn" data-ersetzen="${k}|${esc(t.id)}"${pk.neueFehler.length ? " disabled" : ""}>${vglWunsch && modus !== "traum" ? tx("Als montiert übernehmen", "Mark as fitted") : jetzt ? (pk.neu.length || pk.folge.length || pk.scheibenNeu.length ? tx("Paket übernehmen", "Apply package") : tx("Im Aufbau ersetzen", "Replace in build")) : tx("In den Aufbau", "Add to build")}</button>`}
         <button class="btn ghost merk" data-merken="${k}|${esc(t.id)}" aria-pressed="${istGemerkt(k, t.id)}">${istGemerkt(k, t.id) ? tx("Gemerkt", "Saved") : tx("Merken", "Save")}</button>
         ${zumProduktHtml(t)}
       </div>
@@ -17083,7 +17134,7 @@ function zeichne(){
   $("mini-s").textContent = leer ? "–" : r.gesamt;
   $("mini-s").style.color = leer ? "var(--ink-3)" : "var(--anod)";
   $("mini-p").textContent = profilName(aktivesProfil(), modus);
-  $("mini-a").textContent = MODUS_NAME[modus];
+  { const tp = aktivesProfil(); $("mini-a").textContent = MODUS_NAME[modus] + (tp && tp.test ? tx(" · Test läuft", " · trial running") : ""); }
   $("kz-preis").disabled = modus !== "traum";
   $("verdict").innerHTML = urteil(r);
   $("s-char").textContent = tx("für ", "for ") + selNamen();
@@ -17721,7 +17772,7 @@ function schliesse(){
     if(z && z.getClientRects().length) try{ z.focus({preventScroll:true}); }catch(e){}
   }, 0);
 }
-function schliesseNurZustand(){ d3Weg(); schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; detailOffen = null; detailVon = null; profUmbenennen = null; profLoeschFrage = null; }
+function schliesseNurZustand(){ d3Weg(); schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; vglWunsch = null; detailOffen = null; detailVon = null; profUmbenennen = null; profLoeschFrage = null; }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen" data-ta="Schließen|Close">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 
@@ -18743,11 +18794,16 @@ document.addEventListener("click", e => {
     if(finder.budgetAn){ const i = $("fi-budget"); if(i) i.focus(); } return; }
   if(T("[data-fimehr]")){ finder.mehr = !finder.mehr; finderNeu(); return; }
   const ers1 = T("[data-ersetzen]");
-  if(ers1){ const q = slotUndTeil(ers1.dataset.ersetzen); uebernehmen(q[0], q[1], "finder"); return; }
+  if(ers1){ const q = slotUndTeil(ers1.dataset.ersetzen), l = wunschListe(), w = vglWunsch ? l.find(x => x.id === vglWunsch && x.slot === q[0] && (x.teil === q[1] || (findeTeil(x.slot, x.teil) || {}).id === q[1])) : null;
+    vglWunsch = null;
+    if(w){ l.splice(l.indexOf(w), 1); const p = aktivesProfil(); if(p && p.test && p.test.wid === w.id){ build[p.test.slot] = p.test.von; delete p.test; } uebernehmen(q[0], q[1], "wunsch"); }
+    else uebernehmen(q[0], q[1], "finder");
+    return; }
   const vgl1 = T("[data-vergleich]");
   if(vgl1){ const q = slotUndTeil(vgl1.dataset.vergleich), b = $("modal").querySelector(".sheet-b");
     /* Aus den Ergebnissen: Rueckweg mit Scrollstand merken (Ziel, Marke, Budget bleiben in finder) */
     vglZurueck = vgl1.closest("#fi") && offenerSlot === q[0] ? {slot:q[0], id:q[1], y:b ? b.scrollTop : 0} : null;
+    vglWunsch = null;
     oeffneVergleich(q[0], q[1]); return; }
   const mk1 = T("[data-merken]");
   if(mk1){ const q = slotUndTeil(mk1.dataset.merken); merken(q[0], q[1], mk1); return; }
@@ -18762,9 +18818,10 @@ document.addEventListener("click", e => {
     if(w){ w.stufe = w.stufe === "einkauf" ? "gemerkt" : "einkauf"; sichern(); zeichne();
       zeigeToast(w.stufe === "einkauf" ? tx("Auf der Einkaufsliste — unter Einkauf.", "On the shopping list — under Shopping.") : tx("Von der Einkaufsliste genommen, bleibt gemerkt.", "Taken off the shopping list, still saved.")); }
     return; }
+  /* BEVEL-003: vor dem Uebernehmen das ganze Paket (Vergleich); "Paket uebernehmen" dort nimmt den Wunsch von der Liste */
   const wv = T("[data-wverbaut]");
-  if(wv){ const l = wunschListe(), w = l.find(x => x.id === wv.dataset.wverbaut);
-    if(w && w.teil){ l.splice(l.indexOf(w), 1); uebernehmen(w.slot, w.teil, "wunsch"); } return; }
+  if(wv){ const w = wunschListe().find(x => x.id === wv.dataset.wverbaut);
+    if(w && w.teil){ vglZurueck = null; vglWunsch = w.id; oeffneVergleich(w.slot, w.teil); } return; }
   const ww = T("[data-wweg]");
   if(ww){ const l = wunschListe(), i = l.findIndex(x => x.id === ww.dataset.wweg), m = modus, rad = aktivId[modus];
     if(i >= 0){ const w = l.splice(i, 1)[0]; const p = aktivesProfil(); if(p && p.test && p.test.wid === w.id) testBeenden(true);
