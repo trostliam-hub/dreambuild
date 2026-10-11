@@ -128,7 +128,7 @@ const PRUEFUNGEN = [
     await neu();
     const r = await ev(F => { const finde = eval(F); const offen = finde('gabel', 'leicht'), knapp = finde('gabel', 'leicht', [], 900);
       return {offen:offen.treffer.length, knapp:knapp.treffer.length, alleDrunter:knapp.treffer.every(x => x.pk.gesamt <= 900), aus:knapp.ausBudget,
-        summe:knapp.treffer.every(x => Math.abs(x.pk.gesamt - (x.pk.teilPreis + x.pk.adPreis + x.pk.folgePreis)) < 0.01)}; }, FINDE);
+        summe:knapp.treffer.every(x => Math.abs(x.pk.gesamt - (x.pk.teilPreis + x.pk.adPreis + x.pk.folgePreis + (x.pk.versand || 0))) < 0.01)}; }, FINDE);
     return {ok:r.offen > r.knapp && r.alleDrunter && r.aus === r.offen - r.knapp && r.summe, info:r}; }],
   ['Marke egal gegen Wunschmarke: Auswahl aendert die Ergebnisse wirklich', async () => {
     await neu();
@@ -221,6 +221,29 @@ const PRUEFUNGEN = [
       return {leer, aus, ok, veraltet, einzel, kaputt, ohneHttps}; });
     const kein = x => !x.link && /Derzeit kein geprüftes Angebot/.test(x.html);
     return {ok:kein(r.leer) && kein(r.aus) && r.ok.link && /Zum Produkt/.test(r.ok.html) && /Anzeige/.test(r.ok.html) && kein(r.veraltet) && kein(r.einzel) && kein(r.kaputt) && kein(r.ohneHttps), info:r}; }],
+  /* BEVEL-003 Abschnitt 4: Einzelbremsen vorn + hinten desselben Shops bilden den Satz; gepruefte Produktseite ohne Preis */
+  ['Produktseite und Gesamtkosten: Satz aus vorn + hinten mit Versand, gepruefte Seite ohne Preisbehauptung, Einzelbremse allein zaehlt nicht', async () => {
+    await neu();
+    const r = await ev(() => { wechsle('real'); build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-deore'; sichern();
+      const t = findeTeil('bremsen', 'b-xt'), frisch = new Date().toISOString(), heute = frisch.slice(0, 10);
+      const o = {s:'Testshop', u:null, b:'', a:1, k:1};
+      live.teile = {'b-xt':[{...o, p:169, v:3.95, l:'https://shop.example/xt-vorn', n:'Shimano XT BR-M8120 Vorderrad', z:'vorn'}, {...o, p:175, v:3.95, l:'https://shop.example/xt-hinten', n:'Shimano XT BR-M8120 Hinterrad', z:'hinten'}]};
+      live.stand = frisch; live.seiten = {}; ANGEBOTE.clear();
+      const g = gepruefteAngebote(t)[0], pl = produktLink(t), html = zumProduktHtml(t), her = preisHerkunft(t), pk = paketFuer('bremsen', t);
+      const paar = {p:g && g.p, v:g && g.v, z:g && g.z, l2:!!(pl && pl.l2), knoepfe:/Zum Produkt · vorn/.test(html) && /Hinten/.test(html), her, gesamt:pk.gesamt, teil:pk.teilPreis, ad:pk.adPreis, versand:pk.versand};
+      live.teile = {'b-xt':[{...o, p:169, v:0, l:'https://shop.example/xt-vorn', n:'Shimano XT BR-M8120 Vorderrad', z:'vorn'}]}; ANGEBOTE.clear();
+      const einzeln = !produktLink(t);
+      live.teile = {}; live.seiten = {'b-xt':[{s:'Rose', l:'https://shop.example/vorn', z:'vorn', d:heute, k:1}, {s:'Rose', l:'https://shop.example/hinten', z:'hinten', d:heute, k:1}]}; ANGEBOTE.clear();
+      const ps = produktLink(t), shtml = zumProduktHtml(t), sher = preisHerkunft(t);
+      const seite = {art:ps && ps.art, stand:/Seite geprüft am/.test(shtml) && /Preis nicht live/.test(shtml), richt:/nicht live gelesen/.test(sher), preisRicht:preisVon(t) === t.p};
+      live.seiten = {'b-xt':[{s:'Rose', l:'https://shop.example/vorn', z:'vorn', d:heute, k:0}, {s:'Rose', l:'https://shop.example/hinten', z:'hinten', d:heute, k:1}]};
+      const durchgefallen = !produktLink(t);
+      live.seiten = {}; live.stand = null; ANGEBOTE.clear();
+      return {paar, einzeln, seite, durchgefallen}; });
+    const p = r.paar;
+    const ok = p.p === 344 && p.v === 3.95 && p.z === 'paar' && p.l2 && p.knoepfe && /zusammengerechnet/.test(p.her) && /kein vollständiger Marktvergleich/.test(p.her) && /ohne Scheiben/.test(p.her)
+      && p.teil === 344 && Math.abs(p.gesamt - (344 + p.ad + 3.95)) < 0.01 && r.einzeln && r.seite.art === 'seite' && r.seite.stand && r.seite.richt && r.seite.preisRicht && r.durchgefallen;
+    return {ok, info:r}; }],
   ['Keine Suchlinks als Produktlink: Listen und Einkauf zeigen nur geprueftes Angebot oder nichts', async () => {
     await neu();
     const r = await ev(() => { aff.an = Object.fromEntries(SHOPS.map(s => [s.id, true])); live.teile = {}; ANGEBOTE.clear();
@@ -229,7 +252,7 @@ const PRUEFUNGEN = [
       oeffneSlot('bremsen', {tab:'finden'}); const finder = $('modal').querySelectorAll('.fk a.such').length; schliesse();
       oeffneDetail('bremsen', build.bremsen); const detail = $('modal').querySelectorAll('a.such').length, beschriftet = /führt zur Suche, nicht zu einer geprüften Produktseite/.test($('modal').textContent); schliesse();
       return {ek, liste, finder, detail, beschriftet}; });
-    return {ok:!r.ek && !r.liste && !r.finder && (r.detail === 0 || r.beschriftet), info:r}; }],
+    return {ok:!r.ek && !r.liste && !r.finder && r.detail === 0, info:r}; }],
   ['Mehrere Raeder: Wunschliste je Rad getrennt, bleibt nach Neuladen', async () => {
     await neu();
     await ev(() => { pro = {key:'x', inst:'i', status:'aktiv', geprueft:Date.now()}; const a = aktivId[modus]; merken('bremsen', 'b-mt4'); profilNeu(); merken('gabel', 'g-recon'); merken('sattel', (katalog('sattel')[0] || {}).id); profilWechseln(a); });

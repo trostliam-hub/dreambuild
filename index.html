@@ -7630,38 +7630,27 @@ const eigeneLinks = teil => eigeneLinksId(teil.basisId || teil.id);
 const amazonAktiv = () => !!netzWert("amazonTag") ||
   Object.keys(Object.assign({}, linksServer.teile, linksLokal.teile)).some(id => eigeneLinksId(id).some(x => x.s === "Amazon"));
 
-function shopLink(shop, teil){
-  const ziel = shop.suche.replace(/\{q\}/g, encodeURIComponent(suchName(teil)));
-  if(shop.netz === "amazon")
-    return netzWert("amazonTag") ? ziel + "&tag=" + encodeURIComponent(netzWert("amazonTag")) : ziel;
-  if(shop.netz === "awin" && netzWert("awinId") && midVon(shop.id))
-    return "https://www.awin1.com/cread.php?awinmid=" + encodeURIComponent(midVon(shop.id)) +
-           "&awinaffid=" + encodeURIComponent(netzWert("awinId")) +
-           "&ued=" + encodeURIComponent(ziel);
-  return ziel;                                  /* unkonfiguriert: ehrlicher Direktlink */
-}
 const shopVerdient = sh => sh.netz === "amazon" ? !!netzWert("amazonTag") : !!(netzWert("awinId") && midVon(sh.id));
 const shopsAn = () => SHOPS.filter(sh => aff.an[sh.id]);
-const LUPE = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>`;
 
 /* Zuerst die Links, die direkt auf das Produkt fuehren: eigene, dann die aus
    dem Produktfeed. Die Suche im Shop nur noch fuer Shops ohne Direktlink --
    und mit Lupe, damit niemand eine Produktseite erwartet. */
+/* BEVEL-003: nur Links, die auf eine gepruefte Produktseite fuehren -- gepruefte
+   Angebote, gepruefte Seiten, Betreiber-Links (nicht bei Bremsen oder Teilen mit
+   preisrelevanter Ausfuehrung). Eine Shop-Suche verlinkt die App nicht mehr. */
 function affHtml(teil, kompakt){
+  const knopf = d => `<a class="shop bez" href="${esc(d.l)}" target="_blank" rel="sponsored nofollow noopener" title="${tx("Direkt zum Produkt bei", "Straight to the product at")} ${esc(d.s)}"><span class="pkt"></span>${esc(d.s)}${d.zu ? " · " + esc(d.zu) : ""}</a>`;
+  if(kompakt){ const pl = produktLink(teil); return pl ? knopf({s:pl.s, l:pl.l}) + (pl.l2 ? knopf({s:pl.s, l:pl.l2, zu:tx("hinten", "rear")}) : "") : ""; }
   const direkt = [];
-  for(const x of eigeneLinks(teil)) if(!direkt.some(d => d.s === x.s)) direkt.push({s:x.s, l:linkZiel(x.l)});
-  for(const a of angebote(teil)) if(a.l && !direkt.some(d => d.s === a.s)) direkt.push({s:a.s === "Dein Feed" ? tx("Zum Produkt", "To the product") : a.s, l:a.l});
-  const suche = shopsAn().filter(sh => !direkt.some(d => d.s === sh.name || (sh.netz === "amazon" && d.s === "Amazon")));
-  const knopf = d => `<a class="shop bez" href="${esc(d.l)}" target="_blank" rel="sponsored nofollow noopener" title="${tx("Direkt zum Produkt bei", "Straight to the product at")} ${esc(d.s)}"><span class="pkt"></span>${esc(d.s)}</a>`;
-  const such = sh => `<a class="shop such" href="${esc(shopLink(sh, teil))}" target="_blank" rel="sponsored nofollow noopener" title="${tx("Bei " + esc(sh.name) + " suchen", "Search " + esc(sh.name))}">${LUPE}${esc(sh.name)}</a>`;
-  /* BEVEL-002: kompakt (Listen, Einkauf) nur ein Link, der wirklich zum Produkt fuehrt -- keine Suche */
-  if(kompakt){ const pl = produktLink(teil); return pl ? knopf({s:pl.s, l:pl.l}) : ""; }
-  if(!direkt.length && !suche.length) return "";
-  return (direkt.length ? `<span class="shops">
+  const dazu = (s, l, zu) => { if(l && !direkt.some(d => d.l === l)) direkt.push({s:s, l:l, zu:zu}); };
+  for(const a of gepruefteAngebote(teil)){ dazu(a.s, a.l, a.l2 ? tx("vorn", "front") : ""); if(a.l2) dazu(a.s, a.l2, tx("hinten", "rear")); }
+  for(const x of gepruefteSeiten(teil)){ dazu(x.s, x.l, x.l2 ? tx("vorn", "front") : ""); if(x.l2) dazu(x.s, x.l2, tx("hinten", "rear")); }
+  if(!preisWahl(teil) && !istBremse(teil)) for(const x of eigeneLinks(teil)) dazu(x.s, linkZiel(x.l), "");
+  if(!direkt.length) return `<p class="such-l">${tx("Keine geprüfte Produktseite hinterlegt. Eine Shop-Suche verlinkt die App bewusst nicht.", "No verified product page on file. The app deliberately doesn't link to a shop search.")}</p>`;
+  return `<span class="shops">
     <span class="werbung" title="${tx("Provisions-Link — die Reihenfolge hängt nicht davon ab", "Affiliate link — the order doesn't depend on it")}">${tx("Anzeige", "Ad")}</span>
-    ${direkt.map(knopf).join("")}</span>` : "")
-    + (suche.length ? `<p class="such-l">${tx("Selbst im Shop suchen — führt zur Suche, nicht zu einer geprüften Produktseite:", "Search a shop yourself — this opens a search, not a verified product page:")}</p>
-    <span class="shops">${suche.some(shopVerdient) ? `<span class="werbung">${tx("Anzeige", "Ad")}</span>` : ""}${suche.map(such).join("")}</span>` : "");
+    ${direkt.map(knopf).join("")}</span>`;
 }
 
 /* Link-Kasten im Detailblatt -- nur in der Link-Verwaltung */
@@ -8242,7 +8231,7 @@ function startseiteStart(){
    Preis, UVP, Versand, Lager und Direktlink. preisverlauf.json haelt je Tag
    den guenstigsten Preis. Beides liegt neben der App -- die Feed-Adressen mit
    dem persoenlichen Schluessel stehen nur im Secret des Repos, nie hier. */
-let live = {stand:"", shops:[], teile:{}};
+let live = {stand:"", shops:[], teile:{}, seiten:{}};
 let verlauf = {};
 const ANGEBOTE = new Map();                   /* je Teil-Id, geleert bei neuen Preisen */
 const preiseNeu = () => ANGEBOTE.clear();
@@ -8260,7 +8249,9 @@ function liveLaden(){
       if(!p || !p.teile) zeichne();
     }
     if(!p || !p.teile || typeof p.teile !== "object" || Array.isArray(p.teile)) return;
-    live = {stand:String(p.stand || ""), shops:Array.isArray(p.shops) ? p.shops : [], teile:p.teile};
+    live = {stand:String(p.stand || ""), shops:Array.isArray(p.shops) ? p.shops : [], teile:p.teile,
+      /* BEVEL-003: von der Action gepruefte Produktseiten -- ohne Preis */
+      seiten:p.seiten && typeof p.seiten === "object" && !Array.isArray(p.seiten) ? p.seiten : {}};
     preiseNeu();
     zeichne();
   });
@@ -8303,10 +8294,11 @@ function angebote(t){
   const fe = (feed.treffer || {})[id];
   if(fe && fe.preis > 0 && angebotPasst(fe.name || "", t))
     roh.push({s:"Dein Feed", p:+fe.preis, u:+fe.uvp || null, v:null, l:https(fe.url), b:https(fe.bild), n:String(fe.name || ""), a:null});
+  /* Je Shop und Umfang das guenstigste -- sonst verdraengte die Vorderradbremse die hintere (BEVEL-003) */
   const jeShop = {};
   for(const a of roh){
-    const alt = jeShop[a.s];
-    if(!alt || (alt.a === 0 && a.a !== 0) || ((alt.a === 0) === (a.a === 0) && a.p < alt.p)) jeShop[a.s] = a;
+    const key = a.s + "|" + (a.z || ""), alt = jeShop[key];
+    if(!alt || (alt.a === 0 && a.a !== 0) || ((alt.a === 0) === (a.a === 0) && a.p < alt.p)) jeShop[key] = a;
   }
   const out = Object.keys(jeShop).map(k => jeShop[k])
     .sort((x, y) => (x.a === 0 ? 1 : 0) - (y.a === 0 ? 1 : 0) || x.p - y.p);
@@ -8349,9 +8341,11 @@ function jahrFaktor(teil){
   if(alter === 1) return 0.85;
   return restwertFaktor(alter);
 }
-/* Mit Live-Preis rechnet der ganze Aufbau mit dem guenstigsten lieferbaren
-   Angebot, sonst mit dem Richtpreis aus dem Katalog. */
-const grundpreis = teil => { const a = bestesAngebot(teil); return a ? a.p : (teil.p || 0); };
+/* Mit Live-Preis rechnet der ganze Aufbau mit dem guenstigsten gepruefen
+   Angebot (frisch, lieferbar, gleicher Umfang -- BEVEL-003), sonst mit dem
+   Richtpreis aus dem Katalog. Ein veralteter Preis oder eine Einzelbremse
+   ersetzt den Richtpreis nicht. */
+const grundpreis = teil => { const a = gepruefteAngebote(teil)[0]; return a ? a.p : (teil.p || 0); };
 const preisVon = teil => { const g = grundpreis(teil), f = jahrFaktor(teil); return f === 1 ? g : Math.round(g * f); };
 
 /* Preisangaben fuer Liste und Detail. Rabatt nur, wenn der Preis der
@@ -8661,7 +8655,8 @@ function oeffneDetail(slotKey, teilId, nurAnsehen){
   detailOffen = [slotKey, teilId, !!nurAnsehen];
   const vgl = nurAnsehen ? "" : vergleichHtml(slotKey, t);
   const specs = specsVon(slotKey, t);
-  const lst = angebote(t), a = bestesAngebot(t) || lst[0] || null, lieferbar = !!bestesAngebot(t);
+  /* BEVEL-003: bei Bremsen nur Saetze (auch vorn + hinten zusammengerechnet) -- eine Einzelbremse ist nicht dieses Teil */
+  const lst = istBremse(t) ? gepruefteAngebote(t) : angebote(t), a = (istBremse(t) ? lst[0] : bestesAngebot(t)) || lst[0] || null, lieferbar = istBremse(t) ? !!lst[0] : !!bestesAngebot(t);
   const bild = (lst.find(x => x.b) || {}).b || "";
   const jf = jahrFaktor(t) !== 1;
   const r = lieferbar ? rabatt(a) : 0;
@@ -8713,11 +8708,11 @@ function angebotZeile(a){
   const r = rabatt(a);
   const vs = a.v === 0 ? tx("versandkostenfrei", "free shipping") : a.v > 0 ? "+ " + eurG(a.v) + tx(" Versand", " shipping") : tx("zzgl. Versand", "plus delivery");
   return `<div class="angebot">
-    <div class="an-l"><b>${esc(a.s)}</b>${a.n ? `<span class="an-n">${esc(a.n)}</span>` : ""}
+    <div class="an-l"><b>${esc(a.s)}</b>${a.z === "paar" ? `<span class="an-n">${tx("Vorder- und Hinterradbremse einzeln, zusammengerechnet", "front and rear brake bought separately, added up")}</span>` : a.n ? `<span class="an-n">${esc(a.n)}</span>` : ""}
       <span class="an-m">${a.a === 0 ? `<span class="aus">${tx("nicht lieferbar", "out of stock")}</span> · ` : a.a === 1 ? tx("lieferbar · ", "in stock · ") : ""}${vs}</span></div>
     <div class="an-r"><span class="an-p">${eurG(a.p)}</span>
       ${r >= 5 ? `<span class="sale">−${prozent(r)}</span>` : ""}${a.u > a.p ? `<span class="opt-g">${tx("UVP", "RRP")} <s>${eurG(a.u)}</s></span>` : ""}
-      ${a.l ? `<a class="shop bez" href="${esc(a.l)}" target="_blank" rel="sponsored nofollow noopener"><span class="pkt"></span>${tx("Zum Shop", "Go to shop")}</a>` : ""}</div>
+      ${a.l ? `<a class="shop bez" href="${esc(a.l)}" target="_blank" rel="sponsored nofollow noopener"><span class="pkt"></span>${a.l2 ? tx("Vorn", "Front") : tx("Zum Shop", "Go to shop")}</a>` : ""}${a.l2 ? `<a class="shop bez" href="${esc(a.l2)}" target="_blank" rel="sponsored nofollow noopener"><span class="pkt"></span>${tx("Hinten", "Rear")}</a>` : ""}</div>
   </div>`;
 }
 /* Preisverlauf der letzten 90 Tage: guenstigstes Angebot je Tag. Eine Linie,
@@ -16085,6 +16080,8 @@ function paketFuer(k, t, vor, b){
   /* Gleiche Bremse, nur andere Scheiben: die Bremse bleibt -- gekauft werden Scheiben und Adapter */
   const bleibt = k === "bremsen" && jetzt && t.id !== jetzt.id && basisVon(t.id) === basisVon(jetzt.id);
   const teilPreis = bleibt ? 0 : preisVon(t), adPreis = neu.reduce((s, a) => s + (a.p || 0), 0), fPreis = folge.reduce((s, x) => s + x.kosten, 0);
+  /* Versand des gepruefen Angebots gehoert zu den Kosten des Wechsels (BEVEL-003) */
+  const ang = bleibt ? null : gepruefteAngebote(t)[0], versand = ang && ang.v > 0 ? ang.v : 0;
   const pk = {k:k, t:t, jetzt:jetzt, probe:probe, vor:vor, nach:nach, folge:folge, bleibt:bleibt,
     neu:neu, weiter:aN.filter(a => sV.has(adSchl(a))), weg:weg, scheiben:scheiben, scheibenNeu:scheiben.filter(s => !s.bleibt),
     neueFehler:nach.funde.filter(f => f.level === "fehler" && !fV.has(f.titel)),
@@ -16093,7 +16090,8 @@ function paketFuer(k, t, vor, b){
     /* neue Hinweise am Teil, die kein Zubehoer im Paket erklaert -- dann ist es "noch zu pruefen" */
     neueHinw:nach.funde.filter(f => f.level === "hinweis" && !f.fehlt && !f.zub && !hV.has(f.titel) && betrifft(f)),
     fehlt:nach.funde.filter(f => f.fehlt && betrifft(f)),
-    teilPreis:teilPreis, adPreis:adPreis, folgePreis:fPreis, gesamt:teilPreis + adPreis + fPreis,
+    teilPreis:teilPreis, adPreis:adPreis, folgePreis:fPreis, versand:versand, versandOffen:!!ang && ang.v == null, angebot:ang || null,
+    gesamt:teilPreis + adPreis + fPreis + versand,
     dGewicht:(t.ersatz ? 0 : t.g || 0) - (jetzt && !jetzt.ersatz ? jetzt.g || 0 : 0) + neu.reduce((s, a) => s + (a.g || 0), 0) - weg.reduce((s, a) => s + (a.g || 0), 0)};
   /* Sinkt die Kompatibilitaet, ohne dass Adapter, Scheiben, Umstellung oder ein Kompromiss es erklaeren */
   pk.unerklaert = vor.teile && nach.teile && nach.tech < vor.tech && !neu.length && !folge.length && !pk.scheibenNeu.length && !pk.neueWarn.length;
@@ -16138,31 +16136,66 @@ function adGrundKurz(a){
    oder vom Betreiber eingetragen -- bei Teilen mit preisrelevanter
    Ausfuehrung nur aus dem Feed, weil die Seite die Ausfuehrung nicht
    festlegt. Sonst: "Derzeit kein gepruefte Angebot" und Merken. */
-const STAND_MAX_H = 48;
-const liveAlterH = () => { const d = live.stand ? new Date(live.stand) : null; return d && !isNaN(d) ? (Date.now() - d) / 36e5 : null; };
-const liveFrisch = () => { const h = liveAlterH(); return h != null && h <= STAND_MAX_H; };
-const preisWahl = t => !!(t.v && t.v.some(d => d.o.length > 1 && d.o.some(o => Math.abs(o.p) >= 20)));
+/* Als Funktionsdeklarationen: grundpreis() braucht sie schon frueher im Skript */
+function liveAlterH(){ const d = live.stand ? new Date(live.stand) : null; return d && !isNaN(d) ? (Date.now() - d) / 36e5 : null; }
+function liveFrisch(){ const h = liveAlterH(); return h != null && h <= 48; }      /* Stand hoechstens 48 h */
+function preisWahl(t){ return !!(t.v && t.v.some(d => d.o.length > 1 && d.o.some(o => Math.abs(o.p) >= 20))); }
 /* Bremsen sind im Katalog ein Satz (vorn und hinten): Einzelbremsen aus dem
    Feed sind nicht dasselbe Produkt */
-const umfangPasst = (t, a) => !(t.kolben && a.z && a.z !== "set");
+/* BEVEL-003: eine Zeile ohne belegten Umfang ist bei Bremsen kein Satz */
+const istBremse = t => !!t && t.kolben != null && !!t.mount && t.mount !== "Felge";
+function umfangPasst(t, a){ return !istBremse(t) || a.z === "set"; }
 function gepruefteAngebote(t){
   if(!t || jahrFaktor(t) !== 1 || !liveFrisch()) return [];
+  const roh = angebote(t).filter(a => a.a !== 0 && a.l && a.k !== 0 && a.s !== "Dein Feed");
+  const l = roh.filter(a => umfangPasst(t, a));
+  /* Shops verkaufen Bremsen meist einzeln: vorn + hinten desselben Shops ist auch ein Satz.
+     Versand einmal gerechnet (eine Bestellung), unbekannt, wenn er bei einer Seite fehlt. */
+  if(istBremse(t)) for(const sh of [...new Set(roh.map(a => a.s))]){
+    const v = roh.find(a => a.s === sh && a.z === "vorn"), h = roh.find(a => a.s === sh && a.z === "hinten");
+    if(v && h && !l.some(a => a.s === sh)) l.push({s:sh, p:v.p + h.p, u:v.u && h.u ? v.u + h.u : null, v:v.v == null || h.v == null ? null : Math.max(v.v, h.v),
+      l:v.l, l2:h.l, b:v.b || h.b, n:v.n + " + " + h.n, a:1, z:"paar", k:v.k === 1 && h.k === 1 ? 1 : null});
+  }
   /* Verglichen wird mit Versand, soweit bekannt; unbekannter Versand steht dabei */
-  return angebote(t).filter(a => a.a !== 0 && a.l && a.k !== 0 && a.s !== "Dein Feed" && umfangPasst(t, a))
-    .sort((x, y) => (x.p + (x.v || 0)) - (y.p + (y.v || 0)));
+  return l.sort((x, y) => (x.p + (x.v || 0)) - (y.p + (y.v || 0)));
+}
+/* Hinterlegte Produktseiten (produktseiten.json), von der Preis-Action geprueft:
+   erreichbar, keine Suche, Modell auf der Seite; hoechstens 30 Tage alt. Ohne
+   Preis. Bei Bremsen nur ein Satz oder vorn und hinten desselben Shops; bei
+   Teilen mit preisrelevanter Ausfuehrung nur eine Seite fuer genau diese. */
+function gepruefteSeiten(t){
+  const l = t && live.seiten ? live.seiten[t.basisId || t.id] : null;
+  if(!Array.isArray(l)) return [];
+  const ok = l.filter(x => x && x.k === 1 && /^https:\/\//i.test(x.l || "") && x.d && (Date.now() - new Date(x.d)) / 864e5 <= 30
+    && (!preisWahl(t) || (x.v && ausfWerte(t).indexOf(x.v) >= 0)));
+  if(!istBremse(t)) return ok;
+  const set = ok.filter(x => x.z === "set");
+  if(set.length) return set;
+  for(const sh of [...new Set(ok.map(x => x.s))]){
+    const v = ok.find(x => x.s === sh && x.z === "vorn"), h = ok.find(x => x.s === sh && x.z === "hinten");
+    if(v && h) return [{s:sh, l:v.l, l2:h.l, d:v.d < h.d ? v.d : h.d, z:"paar", k:1}];
+  }
+  return [];
 }
 function produktLink(t){
   const g = gepruefteAngebote(t)[0];
-  if(g) return {l:g.l, s:g.s, art:"angebot", a:g};
+  if(g) return {l:g.l, l2:g.l2, s:g.s, art:"angebot", a:g};
+  const sx = gepruefteSeiten(t)[0];
+  if(sx) return {l:sx.l, l2:sx.l2, s:sx.s, art:"seite", d:sx.d};
+  /* Betreiber-Links legen weder Ausfuehrung noch (bei Bremsen) den Umfang fest */
   const e = eigeneLinks(t)[0];
-  if(e && !preisWahl(t)) return {l:linkZiel(e.l), s:e.s, art:"betreiber"};
+  if(e && !preisWahl(t) && !istBremse(t)) return {l:linkZiel(e.l), s:e.s, art:"betreiber"};
   return null;
 }
 /* Wie der Preis zustande kommt, in einem Satz */
 function preisHerkunft(t){
   const g = gepruefteAngebote(t);
-  if(g.length) return tx(`Günstigstes geprüftes Angebot: ${esc(g[0].s)}, ${g.length === 1 ? "1 Shop" : g.length + " Shops"} mit dieser Ausführung verglichen, inkl. MwSt., ${g[0].v === 0 ? "versandkostenfrei" : g[0].v > 0 ? "zzgl. " + eurG(g[0].v) + " Versand" : "Versand unbekannt"} · Stand ${liveStand()}`,
-    `Cheapest verified offer: ${esc(g[0].s)}, ${g.length === 1 ? "1 shop" : g.length + " shops"} with this version compared, incl. VAT, ${g[0].v === 0 ? "free shipping" : g[0].v > 0 ? "plus " + eurG(g[0].v) + " shipping" : "shipping unknown"} · as of ${liveStand()}`);
+  /* Umfang und Vergleichsrahmen ausdruecklich -- kein Anspruch auf den ganzen Markt */
+  const umf = g.length && g[0].z === "paar" ? tx(" (Vorder- und Hinterradbremse einzeln, zusammengerechnet)", " (front and rear brake bought separately, added up)") : "";
+  const ohneS = istBremse(t) ? tx(", ohne Scheiben", ", excluding rotors") : "";
+  if(g.length) return tx(`Günstigstes geprüftes Angebot: ${esc(g[0].s)}${umf}, ${g.length === 1 ? "1 Partnershop" : g.length + " Partnershops"} mit dieser Ausführung verglichen — kein vollständiger Marktvergleich. Inkl. MwSt.${ohneS}, ${g[0].v === 0 ? "versandkostenfrei" : g[0].v > 0 ? "zzgl. " + eurG(g[0].v) + " Versand" : "Versand unbekannt"} · Stand ${liveStand()}`,
+    `Cheapest verified offer: ${esc(g[0].s)}${umf}, ${g.length === 1 ? "1 partner shop" : g.length + " partner shops"} with this version compared — not a full market check. Incl. VAT${ohneS}, ${g[0].v === 0 ? "free shipping" : g[0].v > 0 ? "plus " + eurG(g[0].v) + " shipping" : "shipping unknown"} · as of ${liveStand()}`);
+  if(gepruefteSeiten(t).length) return tx("Richtpreis (UVP-Niveau) — die Produktseite ist geprüft, ihr Preis wird nicht live gelesen", "Guide price (RRP level) — the product page is verified, its price isn't read live");
   if(jahrFaktor(t) !== 1) return tx("Schätzwert für das gewählte Modelljahr", "Estimate for the chosen model year");
   if(hatLive() && !liveFrisch()) return tx("Richtpreis — die Shoppreise sind veraltet", "Guide price — shop prices are out of date");
   return tx("Richtpreis (UVP-Niveau), kein Angebot", "Guide price (RRP level), not an offer");
@@ -16171,7 +16204,11 @@ function zumProduktHtml(t, klein){
   const pl = produktLink(t);
   if(!pl) return `<span class="kein-angebot">${tx("Derzeit kein geprüftes Angebot", "No verified offer right now")}</span>`;
   const ad = linkVerdient(pl.l) || pl.art === "angebot";
-  return `<a class="btn ghost ${klein ? "sm " : ""}zum-produkt" href="${esc(pl.l)}" target="_blank" rel="sponsored nofollow noopener">${tx("Zum Produkt", "View product")}<span class="zp-shop">${esc(pl.s)}</span></a>${ad ? `<span class="werbung" title="${tx("Provisions-Link — die Reihenfolge der Angebote hängt nicht davon ab", "Affiliate link — the order of offers doesn't depend on it")}">${tx("Anzeige", "Ad")}</span>` : ""}`;
+  const a = (l, txt) => `<a class="btn ghost ${klein ? "sm " : ""}zum-produkt" href="${esc(l)}" target="_blank" rel="sponsored nofollow noopener">${txt}<span class="zp-shop">${esc(pl.s)}</span></a>`;
+  /* Satz aus zwei Einzelbremsen: je Rad eine Produktseite */
+  const knoepfe = pl.l2 ? a(pl.l, tx("Zum Produkt · vorn", "View product · front")) + a(pl.l2, tx("Hinten", "Rear")) : a(pl.l, tx("Zum Produkt", "View product"));
+  const stand = pl.art === "seite" ? `<span class="zp-stand">${tx(`Seite geprüft am ${esc(datum(new Date(pl.d), true))} · Preis nicht live`, `Page verified on ${esc(datum(new Date(pl.d), true))} · price not live`)}</span>` : "";
+  return knoepfe + stand + (ad ? `<span class="werbung" title="${tx("Provisions-Link — die Reihenfolge der Angebote hängt nicht davon ab", "Affiliate link — the order of offers doesn't depend on it")}">${tx("Anzeige", "Ad")}</span>` : "");
 }
 
 /* ── Finder (BEVEL-003): drei Schritte, dann Kacheln ──
@@ -16682,6 +16719,7 @@ function oeffneVergleich(k, id){
         <ul class="pz">${pk.bleibt ? `<li class="pz-weiter"><b>${tx("Bleibt", "Kept")}:</b> ${esc(jetzt.nb || jetzt.n)}<span class="pz-grund">${tx("gleiches Modell — es ändern sich nur Scheiben und Adapter", "same model — only rotors and adapters change")}</span></li>`
           : `<li class="pz-neu"><b>${esc(slotOf(k).label)}:</b> ${esc(t.n)} · ${eur(pk.teilPreis)}${jetzt && build[k] !== t.id ? `<span class="pz-grund">${tx("ersetzt", "replaces")} ${esc(jetzt.n)} · ${eur(pa)}</span>` : ""}</li>`}</ul>
         ${paketZeilen(pk, false)}
+        ${pk.angebot ? `<ul class="pz"><li class="pz-neu"><b>${tx("Versand", "Shipping")} (${esc(pk.angebot.s)}):</b> ${pk.versandOffen ? tx("unbekannt — nicht eingerechnet", "unknown — not included") : pk.versand ? eur(pk.versand) : tx("kostenlos", "free")}</li></ul>` : ""}
         <p class="vt-summe"><span>${tx("Kosten des Wechsels", "Cost of the switch")}</span><b>${eur(pk.gesamt)}</b></p>
         ${pk.scheibenNeu.length ? `<p class="hint">${tx("Ohne Scheiben — der Scheibenpreis steht nicht im Katalog, und ob sie beiliegen, hängt vom Angebot ab.", "Excluding rotors — their price isn't on file, and whether they're included depends on the offer.")}</p>` : ""}
         <p class="hint">${tx("Preise:", "Prices:")} ${preisHerkunft(t)}.${grip ? " " + tx("„Einschätzung“ ist eine Bewertung der App, keine Herstellerangabe.", "“Assessment” is the app's rating, not a manufacturer figure.") : ""}</p>

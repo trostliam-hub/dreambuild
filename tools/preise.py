@@ -16,7 +16,13 @@ Die Feed-Adressen stehen im Repository-Secret PREIS_FEEDS, eine je Zeile:
   Bike24|https://...
 
 Sie enthalten den persoenlichen API-Schluessel und duerfen deshalb nie in eine
-Datei im Repo -- das Repo ist oeffentlich. Ohne Secret passiert nichts.
+Datei im Repo -- das Repo ist oeffentlich. Ohne Secret gibt es keine Angebote.
+
+Unabhaengig davon (BEVEL-003): produktseiten.json nennt je Teil Produktdetail-
+seiten (Shop oder Hersteller). Sie werden hoechstens alle 7 Tage geprueft --
+erreichbar, keine Suchseite, Modellname auf der Seite -- und landen ohne Preis
+unter "seiten" in preise.json. Die App zeigt sie als "Zum Produkt", behauptet
+dort aber keinen aktuellen Preis.
 
 Nur Standardbibliothek, damit die Action ohne Installation laeuft.
 """
@@ -303,11 +309,64 @@ def links_pruefen(angebote, hoechstens=400):
             if k != 0: break                                               # erstes brauchbares je Teil reicht
     return geprueft
 
+# ── Hinterlegte Produktseiten pruefen (BEVEL-003) ─────────────────────────────
+# Eine Seite zaehlt, wenn sie erreichbar ist (auch nach Weiterleitung keine
+# Suche) und jedes Merkmal (m, z. B. "M8120") im Titel oder Text steht.
+# k: 1 geprueft, 0 durchgefallen; Netzfehler lassen k offen.
+SUCHE = re.compile(r"(/search|/suche|[?&](q|s|query|search|suche)=)", re.I)
+def seite_pruefen(url, merkmale, zeit=15):
+    if not str(url).startswith("https://") or SUCHE.search(url): return 0, ""
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (CrankScore-Produktseiten/1.0)", "Accept-Language": "de,en;q=0.8"})
+        with urllib.request.urlopen(req, timeout=zeit) as r:
+            if r.status >= 400 or SUCHE.search(r.geturl() or ""): return 0, ""
+            roh = r.read(800000).decode("utf-8", "replace")
+    except urllib.error.HTTPError as e:
+        return (0, "") if e.code in (404, 410) else (None, "")
+    except Exception:
+        return None, ""
+    m = re.search(r"<title[^>]*>(.*?)</title>", roh, re.I | re.S)
+    titel = re.sub(r"\s+", " ", m.group(1)).strip()[:160] if m else ""
+    text = " " + normal(titel + " " + roh) + " "
+    treffer = bool(merkmale) and all((" " + normal(x) + " ") in text for x in merkmale)
+    return (1 if treffer else 0), titel
+
+def seiten_pruefen(alt, pfad=None, heute=None, pruefer=None):
+    pfad = pfad or os.path.join(WURZEL, "produktseiten.json")
+    pruefer = pruefer or seite_pruefen
+    heute = heute or datetime.date.today()
+    try: liste = json.load(open(pfad, encoding="utf-8")).get("teile", {})
+    except (OSError, ValueError): return alt or {}
+    vorher = {(tid, x.get("l")): x for tid, l in (alt or {}).items() for x in l}
+    out = {}
+    for tid, seiten in liste.items():
+        for x in seiten:
+            l = x.get("l", "")
+            v = vorher.get((tid, l))
+            try: frisch = v and v.get("k") is not None and (heute - datetime.date.fromisoformat(v.get("d", ""))).days < 7
+            except ValueError: frisch = False
+            if frisch: out.setdefault(tid, []).append(v); continue
+            k, titel = pruefer(l, x.get("m") or [])
+            if k is None and v: out.setdefault(tid, []).append(v); continue   # Netzfehler: alten Stand halten, keinen Commit erzeugen
+            e = {"s": x.get("s", ""), "l": l, "z": x.get("z"), "v": x.get("v"), "d": heute.isoformat()}
+            if k is not None: e["k"] = k
+            if titel: e["t"] = titel
+            out.setdefault(tid, []).append(e)
+    return out
+
 # ── Hauptteil ───────────────────────────────────────────────────────────────
 def main():
     feeds = [z.strip() for z in os.environ.get("PREIS_FEEDS", "").splitlines() if z.strip() and not z.strip().startswith("#")]
+    pfad_p = os.path.join(WURZEL, "preise.json")
+    try: alt = json.load(open(pfad_p, encoding="utf-8"))
+    except (OSError, ValueError): alt = {}
+    seiten = seiten_pruefen(alt.get("seiten")) if os.environ.get("PREIS_SEITEN_PRUEFEN", "1") != "0" else alt.get("seiten", {})
     if not feeds:
-        print("PREIS_FEEDS ist leer -- keine Feeds hinterlegt, nichts zu tun.")
+        print("PREIS_FEEDS ist leer -- keine Feeds hinterlegt, keine Angebote.")
+        if seiten and seiten != alt.get("seiten"):
+            neu = {"stand": alt.get("stand", ""), "shops": alt.get("shops", []), "teile": alt.get("teile", {}), "seiten": seiten}
+            json.dump(neu, open(pfad_p, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+            print("Produktseiten geprueft: %d Teile" % len(seiten))
         return
     teile = katalog()
     zl = ziele(teile)
@@ -331,7 +390,7 @@ def main():
         print("Links geprueft: %d" % links_pruefen(angebote))
 
     jetzt = datetime.datetime.now(datetime.timezone.utc)
-    json.dump({"stand": jetzt.strftime("%Y-%m-%dT%H:%M:%SZ"), "shops": shops, "teile": angebote},
+    json.dump({"stand": jetzt.strftime("%Y-%m-%dT%H:%M:%SZ"), "shops": shops, "teile": angebote, "seiten": seiten},
               open(os.path.join(WURZEL, "preise.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
     # Verlauf: je Tag der guenstigste Preis, 180 Tage

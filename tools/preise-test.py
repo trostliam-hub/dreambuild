@@ -42,5 +42,26 @@ ok("Hinterrad: nicht lieferbar, Versand unbekannt", bool(hr) and hr[0]["a"] == 0
 ok("Aufkleber nicht als Bremse", all("Aufkleber" not in a["n"] for a in xt))
 pike = beste.get("g-pike", [])
 ok("http-Link wird verworfen", bool(pike) and pike[0]["l"] == "", pike)
+# BEVEL-003: hinterlegte Produktseiten -- ohne Netz, mit Pruef-Attrappe
+import datetime, json as _json
+SEITEN = {"teile": {"b-xt": [{"s": "Rose", "l": "https://shop.example/xt-vorn", "z": "vorn", "m": ["M8120"]},
+                             {"s": "Rose", "l": "https://shop.example/suche?q=xt", "z": "hinten", "m": ["M8120"]}]}}
+def attrappe(url, merk):
+    if "suche" in url: return preise.seite_pruefen(url, merk)          # Suchseite faellt ohne Netz durch
+    return 1, "Shimano Deore XT BR-M8120 Vorderrad"
+with tempfile.TemporaryDirectory() as d:
+    pf = os.path.join(d, "produktseiten.json"); open(pf, "w", encoding="utf-8").write(_json.dumps(SEITEN))
+    heute = datetime.date(2026, 10, 11)
+    s1 = preise.seiten_pruefen({}, pf, heute, attrappe)
+    xt = s1.get("b-xt", [])
+    ok("Seiten: geprueft mit Datum, Umfang und Titel", len(xt) == 2 and xt[0].get("k") == 1 and xt[0]["d"] == "2026-10-11" and xt[0]["z"] == "vorn" and xt[0].get("t"), xt)
+    ok("Seiten: Suchseite faellt durch", xt[1].get("k") == 0, xt[1])
+    zaehl = []
+    s2 = preise.seiten_pruefen(s1, pf, heute + datetime.timedelta(days=3), lambda u, m: (zaehl.append(u), (1, "x"))[1])
+    ok("Seiten: innerhalb 7 Tagen nicht neu geprueft", not zaehl and s2 == s1, zaehl)
+    s3 = preise.seiten_pruefen(s1, pf, heute + datetime.timedelta(days=8), lambda u, m: (zaehl.append(u), (1, "x"))[1])
+    ok("Seiten: nach 7 Tagen neu geprueft", len(zaehl) == 2 and s3["b-xt"][0]["d"] == "2026-10-19", zaehl)
+ok("Seite: nur https", preise.seite_pruefen("http://unsicher.example/x", ["M8120"]) == (0, ""))
+
 print("\nPREISE: %d Fehler" % len(fehler))
 sys.exit(1 if fehler else 0)

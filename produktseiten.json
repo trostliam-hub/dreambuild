@@ -1,0 +1,23 @@
+{
+ "_hinweis": "Produktdetailseiten je Katalog-Teil (BEVEL-003). Die Action prueft sie hoechstens alle 7 Tage (tools/preise.py): erreichbar, keine Suchseite, Merkmale m auf der Seite. Nur gepruefte erscheinen in der App -- ohne Preisbehauptung. z: Umfang (set, vorn, hinten). Quelle der Adressen: Suchindex, 11.10.2026.",
+ "teile": {
+  "b-xt": [
+   {
+    "s": "Rose Bikes",
+    "l": "https://www.rosebikes.com/p/shimano-deore-xt-br-m8120-4-piston-front-brake-caliper-2678960",
+    "z": "vorn",
+    "m": [
+     "M8120"
+    ]
+   },
+   {
+    "s": "Rose Bikes",
+    "l": "https://www.rosebikes.com/p/shimano-deore-xt-br-m8120-4-piston-rear-brake-caliper-2678961",
+    "z": "hinten",
+    "m": [
+     "M8120"
+    ]
+   }
+  ]
+ }
+}
