@@ -2,8 +2,12 @@
 
 Liams Nachbesserungsauftrag vom 11.10.2026 nach der Live-Prüfung: sichtbar neuer Aufbau, Teilewechsel als kurze Führung, keine widersprüchlichen Bewertungen, Produktseiten und Gesamtkosten, konkrete Adapter, Wunschliste mit Stufen, ein Einstieg.
 
-- **Stand:** 11.10.2026, 14:20 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `8b8b32e` (Tests und Belege `17ed4eb`).
-- **Veröffentlicht:** NEIN. Live bleibt Version 20261011-1156. Die öffentliche Seite zeigt den alten Stand. Die Bilder unten stammen vom Branch; die Vorher-Bilder zeigen die Live-Version.
+- **Stand:** 11.10.2026, 15:35 Uhr, `main` = Stempel-Commit `e3f9997` (Code `091c653`).
+- **Veröffentlicht:** JA, Version **20261011-1532** unter https://trostliam-hub.github.io/dreambuild/ (Testadresse).
+  - Freigabe: Liam, „Kannste veröffentlichen“.
+  - Lauf „Veroeffentlichen“ 38143394062: Prüfen, Stempeln, Pages und Live-Stand prüfen, alles grün.
+  - Der erste Lauf 38141146259 war rot. Ursache und Behebung stehen im Nachtrag in `CLAUDE-ANTWORTEN.md`. Die Einführung geht seitdem ohne Durchblitzen direkt in die Einrichtung über.
+  - Die Vorher-Bilder unten zeigen die frühere Live-Version 20261011-1156.
 - **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-BEVEL-003): je Abschnitt Anforderung, Umsetzung, Prüfung und Ergebnis, getrennt nach erledigt, teilweise und blockiert.
 
 ## Was sich ändert

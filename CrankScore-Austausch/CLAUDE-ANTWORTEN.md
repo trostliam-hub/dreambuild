@@ -2897,3 +2897,53 @@ Alle in `tools/bevel-test.mjs` (20 von 20 bestanden):
 - **Getestet:** ja, lokal (`npm test` grün) und auf GitHub (grün bis `8b8b32e`).
 - **Live:** nein. Live bleibt Version 20261011-1156.
 - **Veröffentlichung:** NEIN, erst nach Liams ausdrücklicher Freigabe.
+
+
+## APP-BEVEL-003 — Nachtrag: veröffentlicht
+- **Bezug:** APP-BEVEL-003 (Nachbesserung nach Live-Prüfung)
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 11.10.2026, 15:35 Uhr
+- **Freigabe:** Liam am 11.10.2026: „Kannste veröffentlichen“.
+
+### Was passiert ist
+- **Erster Versuch, rot:**
+  - `main` von `6183038` auf `8f12ff0` vorgespult (9 Commits).
+  - Der Lauf „Veroeffentlichen“ 38141146259 scheiterte im Prüfschritt. 26 von 27 BEVEL-Prüfungen bestanden, durchgefallen ist „Einfuehrung: drei Szenen …“.
+  - Stempeln und Veröffentlichen wurden deshalb übersprungen. Das Tor hat gehalten.
+  - Weil Pages aus dem Branch `main` baut, war der neue Code trotzdem seit etwa 14:56 Uhr online, aber ohne neuen Stempel. Geöffnete Apps zeigten kein „Neue Version laden“.
+- **Ursache, kein Zufall:**
+  - Beim Schließen der Szenen liefen zwei getrennte Zeitgeber: Einrichtung nach 180 ms, Szenen-Ebene weg nach 260 ms.
+  - Dazwischen blendete der Aufbau mit seinen Unschärfe-Kopfleisten durch. Ohne Grafikkarte kostet dieses Bild bis 300 ms, die Ebene war also erst nach 400–500 ms weg.
+  - Der Test sah fest nach 500 ms nach.
+  - Messung und Skripte: `belege/APP-BEVEL-003/veroeffentlichung/messung.md`.
+- **Behoben in `091c653`:**
+  - Die Einrichtung öffnet sofort und liegt deckend unter den ausblendenden Szenen. Der Aufbau blitzt nicht mehr durch, das sieht man auch auf dem Handy.
+  - Escape gehört während der Szenen allein ihnen. Vorher hätte der allgemeine Escape-Handler die eben geöffnete Einrichtung im selben Tastendruck geschlossen; der strengere Test hat das gefunden.
+  - Während des Ausblendens wirken weder Tasten noch Klicks.
+  - Der Test wartet auf den Zustand statt fest 500 ms und prüft zusätzlich Sperre und Freigabe der Seite.
+  - `tools/test.mjs` schreibt zu jeder FEHL-Zeile die Befundzeile ins Log. Den Testbericht als Artefakt kann ich aus meiner Umgebung nicht laden.
+  - Kein Test wurde abgeschaltet oder abgeschwächt.
+- **Zweiter Lauf, grün:**
+  - `main` auf `091c653` vorgespult.
+  - Lauf 38143394062 komplett grün:
+    - Prüfen (`npm test`)
+    - Stempeln: Commit `e3f9997`, Version **20261011-1532**, Cache `dreambuild-20261011-1532`
+    - Pages neu bauen
+    - Live-Stand prüfen: „Live: Version 20261011-1532“
+  - Die Zeile `curl: (23)` davor ist harmlos; grep schließt die Ausgabe vorzeitig, sobald er den Stempel gefunden hat.
+- Am Workflow wurde nichts geändert.
+
+### Stand
+- **Fertig programmiert:** ja.
+- **Getestet:** ja.
+  - Lokal: `npm test` komplett grün, `tools/bevel-test.mjs` dreimal unter voller CPU-Last mit 27 von 27 Prüfungen.
+  - Alle Wege aus den Szenen geprüft: Escape, Überspringen und „Los geht's“, jeweils mit normaler und reduzierter Bewegung.
+  - GitHub: Tests auf dem Branch grün (`091c653`, `6fd0570`) und Prüfschritt der Veröffentlichung grün.
+- **Tatsächlich live:** ja, Version 20261011-1532 unter https://trostliam-hub.github.io/dreambuild/ (Testadresse).
+  - Bestätigt hat das der Schritt „Live-Stand pruefen“ der Action.
+  - Aus meiner Arbeitsumgebung ist `trostliam-hub.github.io` gesperrt; selbst abrufen konnte ich die Seite nicht.
+- Geöffnete Apps zeigen jetzt „Neue Version laden“.
+- **Noch offen aus APP-BEVEL-003:**
+  - Die Prüfung der Produktseiten (`produktseiten.json`) läuft erst mit dem nächsten planmäßigen Lauf „Live-Preise“ auf `main`, etwa alle sechs Stunden. Der letzte Lauf um 14:53 Uhr lag noch vor der Veröffentlichung.
+  - Echte Angebote brauchen weiter das Secret `PREIS_FEEDS`.
+- crankscore.de bleibt die Teaser-Seite ohne Link zur App; eine `CNAME`-Datei gibt es weiterhin nicht.
