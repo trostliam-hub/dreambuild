@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-t="seite.titel">x</title>
+<meta name="description" content="x" data-t-content="seite.desc">
+<link rel="canonical" href="https://crankscore.de/">
+<meta name="theme-color" content="#f2f0ec">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="icon" href="/img/favicon-96.png" sizes="96x96" type="image/png">
+<link rel="icon" href="/img/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="de_DE">
+<meta property="og:site_name" content="CrankScore">
+<meta property="og:title" content="x" data-t-content="seite.ogtitel">
+<meta property="og:description" content="x" data-t-content="seite.ogdesc">
+<meta property="og:url" content="https://crankscore.de/">
+<meta property="og:image" content="https://crankscore.de/img/vorschau.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="x" data-t-content="seite.ogbild">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"CrankScore","alternateName":"crankscore.de","url":"https://crankscore.de/","inLanguage":["de","en"]},{"@type":"Organization","name":"CrankScore","url":"https://crankscore.de/","logo":"https://crankscore.de/img/icon-512.png"}]}</script>
+<meta name="twitter:card" content="summary_large_image">
+<script src="/seite.js?v=0" data-texte="/texte.js?v=0" defer></script>
+{{KOPFSKRIPT}}
+<link rel="preload" href="fonts/inter-400-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/barlowsemicondensed-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* Schriften liegen auf diesem Server -- keine Verbindung zu Google Fonts (DSGVO). Wie in der App: Ueberschriften,
+   Zahlen und Masse in Barlow Semi Condensed, Fliesstext in Inter. Die Ersatzschriften haben die Masse der echten,
+   damit beim Nachladen nichts springt. */
+@font-face{font-family:"Inter";src:url(fonts/inter-400-800-latin.woff2) format("woff2");font-weight:400 800;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Inter";src:url(fonts/inter-400-800-latin-ext.woff2) format("woff2");font-weight:400 800;font-display:swap;
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Semi Condensed";src:url(fonts/barlowsemicondensed-700-latin.woff2) format("woff2");font-weight:700;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Semi Condensed";src:url(fonts/barlowsemicondensed-700-latin-ext.woff2) format("woff2");font-weight:700;font-display:swap;
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Semi Condensed";src:url(fonts/barlowsemicondensed-600-latin.woff2) format("woff2");font-weight:600;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Semi Condensed";src:url(fonts/barlowsemicondensed-600-latin-ext.woff2) format("woff2");font-weight:600;font-display:swap;
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Inter Ersatz";src:local("Arial"),local("Helvetica"),local("Liberation Sans"),local("Arimo");
+  size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0%}
+@font-face{font-family:"Barlow Ersatz";src:local("Arial"),local("Helvetica"),local("Liberation Sans"),local("Arimo");
+  size-adjust:82.33%;ascent-override:121.46%;descent-override:24.29%;line-gap-override:0%}
+
+/* ── Farben wie in der App (APP-BEVEL-002/003): warme helle Flaechen, Anthrazit im Dunkeln, Stahlblau als einziger
+   Akzent, Gruen/Gelb/Rot nur fuer Zustaende. Keine Verlaeufe, kein Leuchten. Alle Texte >= 4,5:1. ── */
+:root{
+  --grund:#f2f0ec;--flaeche:#fbfaf7;--flaeche-2:#f6f4f0;--versenkt:#e9e6e0;--linie:#dfdbd4;--linie-zart:#ebe8e2;
+  --tinte:#14171b;--text:#43474d;--grau:#5b5f65;
+  --stahl:#2563a8;--stahl-2:#1d4f87;--stahl-zart:#e3eefa;--knopf:#2563a8;--knopf-2:#1d4f87;--auf-knopf:#fff;
+  --gut:#0f7653;--warn:#a8520a;--schlecht:#c42a52;
+  --geraet:#1b1d21;--geraet-rand:#30343a;--app-grund:#f2f0ec;
+  --schatten:0 1px 2px rgba(20,23,27,.04),0 12px 32px -18px rgba(20,23,27,.22);
+  --schatten-hoch:0 2px 4px rgba(20,23,27,.05),0 30px 60px -28px rgba(20,23,27,.38);
+  --schrift:"Inter","Inter Ersatz",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --titel:"Barlow Semi Condensed","Barlow Ersatz","Arial Narrow",system-ui,sans-serif;
+  --breite:1200px;--rand:clamp(20px,5vw,48px);--kopf:68px;
+  --r-gross:32px;--r-karte:24px;--r:16px;--r-s:10px;
+  --kurz:150ms;--mittel:220ms;--lang:300ms;--raus:cubic-bezier(.2,.8,.2,1);
+  color-scheme:light}
+/* Dunkel: gesetzt vom Skript im Kopf und von seite.js (Wahl auf irgendeiner Seite oder Einstellung des Geraets) */
+:root[data-design="dunkel"]{
+  --grund:#16181b;--flaeche:#1f2226;--flaeche-2:#1b1e21;--versenkt:#30343a;--linie:#363a40;--linie-zart:#2b2e33;
+  --tinte:#f2f3f5;--text:#c3c7cc;--grau:#a2a7ae;
+  --stahl:#8ec2f7;--stahl-2:#b5d8fb;--stahl-zart:rgba(142,194,247,.14);--knopf:#2f6db0;--knopf-2:#3a7cc2;
+  --gut:#3ddc84;--warn:#ff9f43;--schlecht:#ff7586;
+  --geraet:#0c0d0f;--geraet-rand:#3a3e45;--app-grund:#16181b;
+  --schatten:0 1px 2px rgba(0,0,0,.3),0 12px 32px -18px rgba(0,0,0,.6);
+  --schatten-hoch:0 2px 4px rgba(0,0,0,.3),0 30px 60px -28px rgba(0,0,0,.8);
+  color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--kopf) + 16px + env(safe-area-inset-top))}
+body{margin:0;background-color:var(--grund);color:var(--text);font:400 17px/1.6 var(--schrift);-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;overflow-x:clip;font-feature-settings:"cv11"}
+img,svg{display:block;max-width:100%}
+img{height:auto}
+a{color:inherit}
+p{margin:0}
+h1,h2,h3{font-family:var(--titel);font-weight:700;color:var(--tinte);margin:0;letter-spacing:-.005em;text-wrap:balance}
+h1{font-size:clamp(50px,8.6vw,104px);line-height:.94}
+h2{font-size:clamp(36px,5.4vw,62px);line-height:1}
+h3{font-size:clamp(23px,2.4vw,28px);line-height:1.1;font-weight:600}
+:focus-visible{outline:3px solid var(--stahl);outline-offset:3px;border-radius:6px}
+.weg{position:absolute;left:12px;top:-60px;z-index:100;padding:12px 18px;border-radius:12px;background:var(--tinte);color:var(--grund);font-weight:600;text-decoration:none}
+.weg:focus{top:calc(12px + env(safe-area-inset-top))}
+.innen{max-width:calc(var(--breite) + 2 * var(--rand));margin:0 auto;padding:0 max(var(--rand),env(safe-area-inset-right)) 0 max(var(--rand),env(safe-area-inset-left))}
+.etikett{display:block;font:600 14px/1.3 var(--schrift);color:var(--stahl);margin:0 0 14px}
+.lead{font-size:clamp(18px,1.6vw,20px);line-height:1.55;color:var(--text);max-width:36em}
+.einleitung{max-width:760px}
+.einleitung p{margin-top:18px}
+section{padding:clamp(72px,10vw,140px) 0 0}
+.nur-dunkel{display:none}
+[data-design="dunkel"] .nur-dunkel{display:block}
+[data-design="dunkel"] .nur-hell{display:none}
+
+/* ── Marke: Logo der App (Kettenblatt mit Kurbel) und Schriftzug wie am Unterrohr des Beispielrads ── */
+.marke{display:inline-flex;align-items:center;gap:10px;flex:none;min-height:44px;color:var(--tinte);text-decoration:none;border-radius:8px}
+.marke .logo{width:34px;height:26px;color:var(--stahl)}
+.marke .schrift{font:700 21px/1 var(--titel);letter-spacing:.07em}
+.marke .schrift b{font-weight:700;color:var(--grau)}
+
+/* ── Kopfzeile: deckend in Seitenfarbe, reicht unter die Statusleiste; Kante erst beim Scrollen ── */
+.kopf{position:sticky;top:0;z-index:50;background:var(--grund);padding-top:env(safe-area-inset-top);border-bottom:1px solid transparent;
+  transition:border-color var(--mittel)}
+.kopf.unten{border-bottom-color:var(--linie)}
+.kopf .innen{display:flex;align-items:center;gap:14px;height:var(--kopf)}
+.nav{display:none;gap:4px;margin:0 auto}
+.nav a{padding:8px 13px;border-radius:999px;color:var(--text);font-size:15px;font-weight:500;text-decoration:none;white-space:nowrap;
+  transition:color var(--kurz),background-color var(--kurz)}
+.nav a:hover{color:var(--tinte);background:var(--versenkt)}
+.nav a.an{color:var(--tinte);background:var(--flaeche);box-shadow:inset 0 0 0 1px var(--linie)}
+.kopf-rechts{display:flex;align-items:center;gap:10px;margin-left:auto}
+.sprache{display:none;background:var(--versenkt);border-radius:999px;padding:3px}
+[data-design] .sprache{display:flex}
+.sprache button,.segment button{font:600 13px var(--schrift);border:0;background:none;color:var(--text);padding:6px 11px;border-radius:999px;cursor:pointer;min-height:34px;
+  transition:background-color var(--mittel) var(--raus),color var(--kurz),box-shadow var(--mittel) var(--raus)}
+.sprache button:hover,.segment button:hover{color:var(--tinte)}
+.sprache button[aria-pressed="true"],.segment button[aria-pressed="true"]{background:var(--flaeche);color:var(--tinte);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.rund{display:none;place-items:center;width:42px;height:42px;flex:none;padding:0;border:0;border-radius:50%;background:var(--versenkt);color:var(--tinte);cursor:pointer;
+  transition:background-color var(--kurz),transform var(--kurz) var(--raus)}
+[data-design] .rund{display:grid}
+.rund:hover{background:var(--linie)}
+.rund:active{transform:scale(.92)}
+.rund svg{grid-area:1/1;width:19px;height:19px}
+.design svg{transition:opacity var(--mittel) var(--raus),transform var(--lang) var(--raus)}
+.design .sonne,[data-design="dunkel"] .design .mond{opacity:0;transform:rotate(-90deg) scale(.5)}
+[data-design="dunkel"] .design .sonne{opacity:1;transform:none}
+.kopf .knopf{min-height:42px;padding:0 18px;font-size:15px}
+button.laedt{animation:puls 1s ease-in-out infinite}
+@keyframes puls{50%{opacity:.45}}
+/* Kopfzeile je Breite: unter 480 px nur Marke und Menue (der App-Knopf steht im Einstieg und im Menue), unter 760 px
+   Sprache und Design nur im Menue, die Navigation ab 1120 px (darunter passt sie in Deutsch nicht neben die Knoepfe) */
+@media (max-width:479px){ .kopf .knopf{display:none} }
+@media (max-width:759px){ .kopf .sprache,[data-design] .kopf .sprache,.kopf .design,[data-design] .kopf .design{display:none} }
+@media (max-width:379px){ .marke .schrift{font-size:18px} .marke .logo{width:28px;height:22px} }
+@media (min-width:1120px){ .nav{display:flex} .menue-knopf,[data-design] .menue-knopf{display:none} }
+
+/* ── Menue (bis 1119 px): ganze Flaeche als <dialog>; Esc schliesst, der Fokus kehrt zum Knopf zurueck ── */
+.menue{position:fixed;inset:0;width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);border:0;
+  background:var(--grund);color:var(--text);overflow-y:auto;overscroll-behavior:contain;opacity:0;transform:translateY(-8px);
+  transition:opacity var(--mittel) var(--raus),transform var(--mittel) var(--raus),overlay var(--mittel) allow-discrete,display var(--mittel) allow-discrete}
+.menue[open]{opacity:1;transform:none}
+@starting-style{ .menue[open]{opacity:0;transform:translateY(-8px)} }
+.menue::backdrop{background:transparent}
+html:has(.menue[open]){overflow:hidden}
+.menue-kopf{display:flex;align-items:center;justify-content:space-between;gap:12px;height:var(--kopf);padding:0 max(var(--rand),env(safe-area-inset-right)) 0 max(var(--rand),env(safe-area-inset-left))}
+.menue-inhalt{padding:8px max(var(--rand),env(safe-area-inset-right)) 32px max(var(--rand),env(safe-area-inset-left));max-width:640px}
+.menue-liste{list-style:none;padding:0;margin:0}
+.menue-liste a{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;font:700 clamp(26px,7vw,32px)/1.1 var(--titel);
+  color:var(--tinte);text-decoration:none;border-bottom:1px solid var(--linie);transition:color var(--kurz)}
+.menue-liste a::after{content:"";flex:none;width:9px;height:9px;border:solid currentColor;border-width:2px 2px 0 0;transform:rotate(45deg);opacity:.35;transition:transform var(--mittel) var(--raus),opacity var(--kurz)}
+.menue-liste a:hover,.menue-liste a.an{color:var(--stahl)}
+.menue-liste a:hover::after{opacity:.8;transform:translateX(3px) rotate(45deg)}
+.menue[open] .menue-liste li,.menue[open] .menue-einst,.menue[open] .menue-app{animation:auf var(--mittel) var(--raus) backwards}
+.menue[open] .menue-liste li:nth-child(2){animation-delay:25ms} .menue[open] .menue-liste li:nth-child(3){animation-delay:50ms}
+.menue[open] .menue-liste li:nth-child(4){animation-delay:75ms} .menue[open] .menue-liste li:nth-child(5){animation-delay:100ms}
+.menue[open] .menue-einst,.menue[open] .menue-app{animation-delay:125ms}
+.menue-app{margin-top:28px;width:100%;max-width:420px}
+.menue-einst{display:grid;gap:18px;margin-top:28px}
+.menue-einst .etikett{color:var(--grau);margin-bottom:8px}
+.segment{display:flex;width:100%;max-width:420px;background:var(--versenkt);border-radius:999px;padding:3px}
+.segment button{flex:1;font-size:15px;min-height:44px}
+
+/* ── Knoepfe: Pille, Hauptknopf Stahlblau wie in der App; beim Zeigen 1 px hoch, beim Druecken leicht kleiner ── */
+.knoepfe{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.knopf{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border:0;border-radius:999px;
+  font:600 16px var(--schrift);text-decoration:none;cursor:pointer;white-space:nowrap;
+  transition:transform var(--mittel) var(--raus),background-color var(--mittel),box-shadow var(--mittel) var(--raus)}
+.knopf.haupt{background:var(--knopf);color:var(--auf-knopf)}
+.knopf.zweit{background:var(--flaeche);color:var(--tinte);box-shadow:inset 0 0 0 1px var(--linie)}
+.knopf svg{width:18px;height:18px}
+.knopf:active{transform:scale(.97);transition-duration:var(--kurz)}
+@media (hover:hover){
+  .knopf.haupt:hover{background:var(--knopf-2);transform:translateY(-1px)}
+  .knopf.zweit:hover{transform:translateY(-1px);box-shadow:inset 0 0 0 1px var(--grau)}
+}
+.knopf[data-app][data-bald]{background:var(--tinte);color:var(--grund)}
+.knopf[data-app][data-bald]::before{content:"";width:8px;height:8px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 3px rgba(61,220,132,.28)}
+
+/* ── Geraete: Handy mit echter App-Aufnahme, Fenster fuer die Desktop-Ansicht ── */
+.handy{position:relative;width:100%;aspect-ratio:720/1640;padding:3.4%;border-radius:15% / 6.6%;background:var(--geraet);
+  box-shadow:inset 0 0 0 1.5px var(--geraet-rand),var(--schatten-hoch)}
+.handy .glas{position:relative;height:100%;border-radius:11.5% / 5.2%;overflow:hidden;background:var(--app-grund)}
+.handy .leiste{height:5.2%;display:flex;align-items:center;justify-content:space-between;padding:0 9% 0 11%;color:var(--tinte);
+  font:600 clamp(8px,3.6cqw,14px)/1 var(--schrift)}
+.handy .leiste::before{content:"9:41"}
+.handy .leiste::after{content:"";width:9%;aspect-ratio:2.4;border-radius:2px;background:currentColor;opacity:.9}
+.handy .insel{position:absolute;top:1.3%;left:50%;width:30%;height:3%;transform:translateX(-50%);border-radius:999px;background:#000}
+.handy img{width:100%}
+.handy{container-type:inline-size}
+.fenster{border-radius:18px;background:var(--flaeche);box-shadow:inset 0 0 0 1px var(--linie),var(--schatten-hoch);overflow:hidden}
+.fenster .balken{display:flex;gap:7px;align-items:center;height:34px;padding:0 16px;border-bottom:1px solid var(--linie)}
+.fenster .balken i{width:10px;height:10px;border-radius:50%;background:var(--versenkt)}
+.fenster img{width:100%}
+.unterschrift{margin-top:14px;font-size:13.5px;line-height:1.5;color:var(--grau)}
+
+/* ── Einstieg ── */
+.held{padding-top:clamp(28px,5vw,64px)}
+.held-raster{display:grid;gap:clamp(36px,5vw,56px);align-items:center}
+.held h1{margin-top:6px}
+.held .lead{margin-top:24px}
+.fakten{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:36px;font-size:15px;color:var(--grau)}
+.fakten b{display:block;font:700 34px/1 var(--titel);color:var(--tinte);font-variant-numeric:tabular-nums;margin-bottom:2px}
+.daten-zeile{margin-top:20px;font-size:14px;color:var(--grau)}
+.held h1{font-size:clamp(40px,11.4vw,64px)}
+.held-bild{position:relative;margin:0;display:grid;grid-template-columns:minmax(0,1fr) 33%;align-items:end}
+.held-bild picture:first-child{grid-column:1;align-self:center;margin-right:-12%}
+.held-bild .rad{width:100%}
+.held-bild .handy{grid-column:2;position:relative;z-index:1;max-width:290px;justify-self:end}
+.held-bild .unterschrift{grid-column:1 / -1;margin-top:20px;max-width:30em}
+@media (min-width:1024px){
+  .held-raster{grid-template-columns:minmax(0,11fr) minmax(0,13fr)}
+  .held h1{font-size:clamp(56px,5.3vw,80px)}
+  .held-bild{grid-template-columns:minmax(0,1fr) 31%}
+}
+@media (max-width:599px){ .fakten b{font-size:30px} }
+
+/* ── Karten allgemein ── */
+.karte{background:var(--flaeche);border-radius:var(--r-karte);box-shadow:inset 0 0 0 1px var(--linie-zart),var(--schatten);padding:clamp(24px,3vw,32px)}
+.karte h3{margin-bottom:10px}
+.karte p{font-size:16px;line-height:1.6}
+.raster{display:grid;gap:16px;margin-top:clamp(36px,5vw,56px)}
+@media (min-width:760px){ .raster.drei{grid-template-columns:repeat(3,1fr)} .raster.zwei{grid-template-columns:repeat(2,1fr)} .raster.vier{grid-template-columns:repeat(2,1fr)} }
+@media (min-width:1100px){ .raster.vier{grid-template-columns:repeat(4,1fr)} }
+.symbol{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--stahl-zart);color:var(--stahl);margin-bottom:22px}
+.symbol svg{width:24px;height:24px}
+.modus .etikett{margin-bottom:6px}
+
+/* ── Produktansicht ── */
+.produkt .fenster{margin-top:clamp(36px,5vw,56px)}
+.produkt .raster{margin-top:28px}
+.produkt .raster > div{padding:4px 2px}
+.produkt h3{font-size:22px;margin-bottom:8px}
+.produkt p{font-size:16px}
+
+/* ── Ablauf: vier Schritte mit grosser Ziffer ── */
+.schritt-liste{list-style:none;padding:0;margin-bottom:0}
+.schritt .nr{display:block;font:700 54px/1 var(--titel);color:var(--stahl);font-variant-numeric:tabular-nums;margin-bottom:18px}
+
+/* ── Datenblatt: Seitenansicht mit nummerierten Punkten und Legende ── */
+.blatt-karte{margin-top:clamp(36px,5vw,56px);padding:clamp(20px,4vw,48px);border-radius:var(--r-gross)}
+.blatt-raster{display:grid;gap:clamp(24px,4vw,48px);align-items:center}
+@media (min-width:1024px){ .blatt-raster{grid-template-columns:minmax(0,7fr) minmax(0,4fr)} }
+.seite-bild{position:relative}
+.punkt{position:absolute;display:grid;place-items:center;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;
+  background:var(--knopf);color:#fff;font:700 14px/1 var(--titel);box-shadow:0 0 0 4px color-mix(in srgb,var(--knopf) 22%,transparent)}
+.legende{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.legende li{display:grid;grid-template-columns:30px 1fr;gap:4px 12px;padding:12px 0;border-bottom:1px solid var(--linie-zart)}
+.legende li:last-child{border-bottom:0}
+.legende .n{grid-row:span 2;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--stahl-zart);color:var(--stahl);font:700 14px/1 var(--titel)}
+.legende .k{font-size:14px;color:var(--grau);line-height:1.3}
+.legende .w{font:600 19px/1.25 var(--titel);color:var(--tinte);font-variant-numeric:tabular-nums}
+.blatt-karte .unterschrift{margin-top:24px}
+
+/* ── Funktionen: abwechselnd Text und Handy ── */
+.funktion{display:grid;gap:clamp(32px,5vw,72px);align-items:center;margin-top:clamp(56px,8vw,112px)}
+.funktion .handy{width:min(300px,72vw);margin:0 auto}
+.funktion h3{font-size:clamp(30px,3.6vw,44px);font-weight:700;margin-bottom:16px}
+.funktion .etikett{margin-bottom:10px}
+.funktion p{max-width:34em}
+.haken{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px}
+.haken li{position:relative;padding-left:32px;font-size:16px;line-height:1.5}
+.haken li::before{content:"";position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:50%;background:var(--stahl-zart)}
+.haken li::after{content:"";position:absolute;left:6px;top:7px;width:8px;height:5px;border:solid var(--stahl);border-width:0 0 2px 2px;transform:rotate(-45deg)}
+.buehne{position:relative;padding:clamp(28px,5vw,56px) 0;border-radius:var(--r-gross);background:var(--flaeche-2);box-shadow:inset 0 0 0 1px var(--linie-zart)}
+@media (min-width:900px){
+  .funktion{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .funktion.links .buehne{order:-1}
+}
+.klein-raster .karte{display:flex;flex-direction:column}
+.klein-raster h3{font-size:22px}
+.marke-pro{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:6px;background:var(--tinte);color:var(--grund);font:700 13px/1.4 var(--titel);letter-spacing:.04em;vertical-align:3px}
+
+/* ── Beispiel ── */
+.beispiel-raster{display:grid;gap:clamp(36px,5vw,72px);align-items:center;margin-top:clamp(36px,5vw,56px)}
+@media (min-width:900px){ .beispiel-raster{grid-template-columns:minmax(0,7fr) minmax(0,5fr)} }
+.ausgang{padding:18px 20px;border-radius:var(--r);background:var(--flaeche);box-shadow:inset 0 0 0 1px var(--linie);font-size:16px;color:var(--tinte)}
+.schritte{list-style:none;counter-reset:s;margin:24px 0 0;padding:0;display:grid;gap:4px}
+.schritte li{counter-increment:s;position:relative;padding:14px 0 14px 44px;border-bottom:1px solid var(--linie-zart);font-size:16px;line-height:1.55}
+.schritte li:last-child{border-bottom:0}
+.schritte li::before{content:counter(s);position:absolute;left:0;top:13px;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;
+  background:var(--stahl-zart);color:var(--stahl);font:700 15px/1 var(--titel)}
+.schritte b{color:var(--tinte)}
+.beispiel .buehne .handy{width:min(320px,74vw);margin:0 auto}
+
+/* ── Ehrlich gerechnet ── */
+.ehrlich .karte h3{font-size:22px}
+
+/* ── Preise ── */
+.preise .raster{max-width:920px}
+.tarif{display:flex;flex-direction:column;padding:clamp(28px,3.4vw,40px)}
+.tarif .name{font:700 26px/1 var(--titel);color:var(--tinte);display:flex;align-items:center;gap:10px}
+.tarif .betrag{display:flex;align-items:baseline;gap:8px;margin-top:22px}
+.tarif .betrag b{font:700 60px/1 var(--titel);color:var(--tinte);font-variant-numeric:tabular-nums}
+.tarif .betrag span{font-size:16px;color:var(--grau)}
+.tarif .sub{margin-top:8px;font-size:15px;color:var(--grau);min-height:3em}
+.tarif .haken{margin-top:26px;padding-top:22px;border-top:1px solid var(--linie)}
+.tarif.pro{background:var(--tinte);color:#c9cdd2;box-shadow:var(--schatten-hoch)}
+.tarif.pro .name,.tarif.pro .betrag b{color:#fff}
+.tarif.pro .sub,.tarif.pro .betrag span{color:#aeb3ba}
+.tarif.pro .haken{border-top-color:rgba(255,255,255,.14)}
+.tarif.pro .haken li::before{background:rgba(142,194,247,.16)}
+.tarif.pro .haken li::after{border-color:#8ec2f7}
+[data-design="dunkel"] .tarif.pro{background:#262a2f;box-shadow:inset 0 0 0 1px #3a3e45,var(--schatten-hoch)}
+.preise .hinweis{margin-top:20px;font-size:14.5px;color:var(--grau);max-width:46em}
+
+/* ── Fragen ── */
+.fragen-liste{margin-top:clamp(32px,4vw,48px);max-width:860px;border-top:1px solid var(--linie)}
+.fragen-liste details{border-bottom:1px solid var(--linie)}
+.fragen-liste summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 2px;cursor:pointer;
+  font:600 clamp(20px,2.2vw,24px)/1.25 var(--titel);color:var(--tinte);border-radius:8px}
+.fragen-liste summary::-webkit-details-marker{display:none}
+.fragen-liste summary::after{content:"";flex:none;width:11px;height:11px;margin-right:6px;border:solid var(--grau);border-width:0 2px 2px 0;transform:translateY(-3px) rotate(45deg);
+  transition:transform var(--mittel) var(--raus)}
+.fragen-liste details[open] summary::after{transform:translateY(2px) rotate(-135deg)}
+.fragen-liste details p{padding:0 2px 24px;max-width:46em}
+@supports selector(::details-content){
+  .fragen-liste details::details-content{block-size:0;overflow:clip;transition:block-size var(--lang) var(--raus),content-visibility var(--lang) allow-discrete}
+  .fragen-liste details[open]::details-content{block-size:auto}
+  :root{interpolate-size:allow-keywords}
+}
+
+/* ── Schluss: dunkle Buehne mit dem Rad von hinten ── */
+.schluss-karte{position:relative;overflow:hidden;border-radius:var(--r-gross);background:#16181b;color:#c3c7cc;padding:clamp(32px,6vw,72px);
+  display:grid;gap:24px;align-items:center}
+[data-design="dunkel"] .schluss-karte{background:#1f2226;box-shadow:inset 0 0 0 1px #2b2e33}
+.schluss-karte h2{color:#f2f3f5}
+.schluss-karte p{max-width:30em;margin-top:16px}
+.schluss-karte .knopf.haupt{background:#2f6db0}
+.schluss-karte .knopf.haupt:hover{background:#3a7cc2}
+.schluss-karte .knopf[data-bald]{background:#f2f3f5;color:#16181b}
+.schluss-karte .knopf.zweit{background:transparent;color:#f2f3f5;box-shadow:inset 0 0 0 1px #4a4f57}
+.schluss-karte .rad{width:100%;max-width:640px;margin:0 auto}
+.teilen.ok{background:#0f7653!important;color:#fff!important;box-shadow:none!important}
+@media (min-width:900px){ .schluss-karte{grid-template-columns:minmax(0,5fr) minmax(0,6fr)} }
+
+/* ── Fuss ── */
+.fuss{margin-top:clamp(72px,10vw,140px);border-top:1px solid var(--linie);padding:clamp(40px,6vw,64px) 0 calc(32px + env(safe-area-inset-bottom))}
+.fuss-raster{display:grid;gap:32px 24px;grid-template-columns:1fr 1fr}
+.fuss-raster > div:first-child{grid-column:1 / -1}
+.fuss-raster p{margin-top:12px;font-size:15px;color:var(--grau);max-width:22em}
+.fuss h2{font:600 14px/1.3 var(--schrift);color:var(--grau);margin:0 0 12px}
+.fuss ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.fuss ul a,.fuss ul button{font:500 15px/1.5 var(--schrift);color:var(--text);text-decoration:none;background:none;border:0;padding:4px 0;cursor:pointer;text-align:left}
+.fuss ul a:hover,.fuss ul button:hover{color:var(--tinte)}
+.fuss ul button[aria-pressed="true"]{color:var(--tinte);text-decoration:underline;text-decoration-color:var(--stahl);text-underline-offset:4px;text-decoration-thickness:2px}
+.sprach-wahl,.design-wahl{display:none}
+[data-design] .sprach-wahl,[data-design] .design-wahl{display:block}
+.fuss .klein{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;margin-top:40px;padding-top:24px;border-top:1px solid var(--linie);font-size:13px;line-height:1.55;color:var(--grau)}
+.fuss .klein .hinweise{max-width:62em}
+@media (min-width:900px){ .fuss-raster{grid-template-columns:2fr 1fr 1fr 1fr 1fr} .fuss-raster > div:first-child{grid-column:auto} }
+
+/* ── Meldungen (seite.js): unten mittig, kurz eingeblendet ── */
+.meldung{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));z-index:60;max-width:min(92vw,460px);padding:12px 18px;border-radius:14px;
+  background:var(--tinte);color:var(--grund);font-size:15px;line-height:1.4;box-shadow:var(--schatten-hoch);
+  opacity:0;transform:translate(-50%,8px);pointer-events:none;transition:opacity var(--mittel) var(--raus),transform var(--mittel) var(--raus)}
+.meldung.da{opacity:1;transform:translate(-50%,0)}
+.meldung.fehler{background:#c42a52;color:#fff}
+[data-design="dunkel"] .meldung.fehler{background:#ff7586;color:#14060a}
+
+/* ── Erscheinen: einmal, kurz, nur opacity/transform ── */
+@keyframes auf{from{opacity:0;transform:translateY(12px)}}
+.js [data-zeige]{opacity:0}
+.js [data-zeige].da{opacity:1;animation:auf var(--lang) var(--raus) backwards}
+/* Besucher mit gespeichertem Deutsch: Seite kurz aus, bis seite.js die deutschen Texte eingesetzt hat
+   (sie kaemen sonst erst englisch, dann deutsch) */
+.sprache-lade body{visibility:hidden}
+.sprache-lade img[loading="lazy"]{display:none}
+
+/* ── Wechsel hell/dunkel: View Transition 250 ms, sonst Farbuebergang ── */
+::view-transition-old(root),::view-transition-new(root){animation-duration:250ms;animation-timing-function:ease}
+.design-wechsel,.design-wechsel *,.design-wechsel *::before,.design-wechsel *::after{transition:background-color 250ms ease,color 250ms ease,border-color 250ms ease,box-shadow 250ms ease!important}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:0s!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:0s!important;transition-delay:0s!important}
+  .js [data-zeige]{opacity:1}
+  button.laedt{opacity:.55}
+}
+@media (pointer:coarse){ .sprache button{min-height:38px;padding:6px 13px} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <mask id="cs-loch" maskUnits="userSpaceOnUse" x="-152" y="-114" width="304" height="228"><rect x="-152" y="-114" width="304" height="228" fill="#fff"/><circle r="15" fill="#000"/><circle cx="129.8" cy="-33.3" r="9" fill="#000"/></mask>
+    <symbol id="cs-logo" viewBox="-152 -114 304 228"><g mask="url(#cs-loch)" fill="currentColor">{{LOGOPFADE}}</g></symbol>
+  </defs>
+</svg>
+<a class="weg" href="#inhalt" data-t="weg">x</a>
+<header class="kopf" id="kopf">
+  <div class="innen">
+    {{MARKE}}
+    <nav class="nav" aria-label="x" data-t-aria="nav.aria">
+      <a href="#ablauf" data-t="nav.ablauf">x</a>
+      <a href="#funktionen" data-t="nav.funktionen">x</a>
+      <a href="#beispiel" data-t="nav.beispiel">x</a>
+      <a href="#preise" data-t="nav.preise">x</a>
+      <a href="#fragen" data-t="nav.fragen">x</a>
+    </nav>
+    <div class="kopf-rechts">
+      <div class="sprache" role="group" aria-label="x" data-t-aria="sprache.aria">
+        <button type="button" data-sprache="de" aria-pressed="false" lang="de" aria-label="Deutsch">DE</button>
+        <button type="button" data-sprache="en" aria-pressed="true" lang="en" aria-label="English">EN</button>
+      </div>
+      <button type="button" class="rund design" id="design" aria-pressed="false" aria-label="x" data-t-aria="design.aria">
+        <svg class="mond" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.6 6.6 0 0 0 10.7 10.7z"/></svg>
+        <svg class="sonne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      </button>
+      <a class="knopf haupt" data-app href="#q0" data-t="app.bald">x</a>
+      <button type="button" class="rund menue-knopf" id="menue-knopf" aria-controls="menue" aria-expanded="false" aria-label="x" data-t-aria="menue.oeffnen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 8.5h16M4 15.5h16"/></svg></button>
+    </div>
+  </div>
+</header>
+<dialog class="menue" id="menue" aria-label="x" data-t-aria="menue.aria">
+  <div class="menue-kopf">
+    {{MARKE}}
+    <button type="button" class="rund menue-zu" aria-label="x" data-t-aria="menue.schliessen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button>
+  </div>
+  <div class="menue-inhalt">
+    <nav aria-label="x" data-t-aria="menue.nav">
+      <ul class="menue-liste">
+        <li><a href="#ablauf" data-t="nav.ablauf">x</a></li>
+        <li><a href="#funktionen" data-t="nav.funktionen">x</a></li>
+        <li><a href="#beispiel" data-t="nav.beispiel">x</a></li>
+        <li><a href="#preise" data-t="nav.preise">x</a></li>
+        <li><a href="#fragen" data-t="nav.fragen">x</a></li>
+      </ul>
+    </nav>
+    <a class="knopf haupt menue-app" data-app href="#q0" data-t="app.bald">x</a>
+    <div class="menue-einst">
+      <div><span class="etikett" id="menue-sprache" data-t="fuss.h3">x</span>
+        <div class="segment" role="group" aria-labelledby="menue-sprache"><button type="button" data-sprache="de" aria-pressed="false" lang="de">Deutsch</button><button type="button" data-sprache="en" aria-pressed="true" lang="en">English</button></div></div>
+      <div><span class="etikett" id="menue-design" data-t="fuss.h4">x</span>
+        <div class="segment" role="group" aria-labelledby="menue-design"><button type="button" data-design-wahl="hell" aria-pressed="false" data-t="design.hell">x</button><button type="button" data-design-wahl="dunkel" aria-pressed="false" data-t="design.dunkel">x</button><button type="button" data-design-wahl="auto" aria-pressed="true" data-t="design.auto">x</button></div></div>
+    </div>
+  </div>
+</dialog>
+
+<main id="inhalt">
+  <section class="held" id="start" aria-labelledby="titel">
+    <div class="innen held-raster">
+      <div class="held-text">
+        <p class="etikett" data-t="start.etikett">x</p>
+        <h1 id="titel" data-th="start.h1">x</h1>
+        <p class="lead" data-t="start.lead">x</p>
+        <div class="knoepfe">
+          <a class="knopf haupt" data-app href="#q0" data-t="app.bald">x</a>
+          <a class="knopf zweit" href="#ablauf" data-t="start.knopf2">x</a>
+        </div>
+        <p class="fakten" data-th="start.fakten">x</p>
+        <p class="daten-zeile" data-t="start.daten">x</p>
+      </div>
+      <figure class="held-bild">
+        {{RAD rad-held alt.rad.held (min-width:1240px) 490px, (min-width:1024px) 40vw, 68vw|eager}}
+        {{HANDY uebersicht alt.app.uebersicht (min-width:1240px) 220px, (min-width:1024px) 18vw, 33vw|eager}}
+        <figcaption class="unterschrift" data-t="start.bild">x</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="fuer-wen" aria-labelledby="zg-titel">
+    <div class="innen">
+      <div class="einleitung" data-zeige>
+        <span class="etikett" data-t="zg.etikett">x</span>
+        <h2 id="zg-titel" data-t="zg.h2">x</h2>
+        <p class="lead" data-t="zg.p">x</p>
+      </div>
+      <div class="raster drei">
+        <article class="karte modus" data-zeige>
+          <div class="symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="16" r="3.5"/><circle cx="18.5" cy="16" r="3.5"/><path d="M5.5 16 9.5 8h7l2 8M9.5 8 12 16h-6.5M12 16l4.5-8M8.5 5.5h2.5M15 5h2.5l-1 3"/></svg></div>
+          <span class="etikett" data-t="m1.etikett">x</span>
+          <h3 data-t="m1.h3">x</h3>
+          <p data-t="m1.p">x</p>
+        </article>
+        <article class="karte modus" data-zeige>
+          <div class="symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.6 17.2a1.9 1.9 0 0 0 2.7 2.7l5.7-5.7a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.5-.5-2.4z"/></svg></div>
+          <span class="etikett" data-t="m2.etikett">x</span>
+          <h3 data-t="m2.h3">x</h3>
+          <p data-t="m2.p">x</p>
+        </article>
+        <article class="karte modus" data-zeige>
+          <div class="symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.4"/></svg></div>
+          <span class="etikett" data-t="m3.etikett">x</span>
+          <h3 data-t="m3.h3">x</h3>
+          <p data-t="m3.p">x</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="produkt" id="app" aria-labelledby="produkt-titel">
+    <div class="innen">
+      <div class="einleitung" data-zeige>
+        <span class="etikett" data-t="produkt.etikett">x</span>
+        <h2 id="produkt-titel" data-t="produkt.h2">x</h2>
+        <p class="lead" data-t="produkt.p">x</p>
+      </div>
+      <div class="fenster" data-zeige><div class="balken" aria-hidden="true"><i></i><i></i><i></i></div>{{DESKTOP alt.app.desktop (min-width:1240px) 1200px, 94vw}}</div>
+      <div class="raster drei">
+        <div data-zeige><h3 data-t="p1.h3">x</h3><p data-t="p1.p">x</p></div>
+        <div data-zeige><h3 data-t="p2.h3">x</h3><p data-t="p2.p">x</p></div>
+        <div data-zeige><h3 data-t="p3.h3">x</h3><p data-t="p3.p">x</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ablauf" aria-labelledby="ablauf-titel">
+    <div class="innen">
+      <div class="einleitung" data-zeige>
+        <span class="etikett" data-t="ablauf.etikett">x</span>
+        <h2 id="ablauf-titel" data-t="ablauf.h2">x</h2>
+        <p class="lead" data-t="ablauf.p">x</p>
+      </div>
+      <ol class="raster vier schritt-liste">
+        <li class="karte schritt" data-zeige><span class="nr" aria-hidden="true">01</span><h3 data-t="s1.h3">x</h3><p data-t="s1.p">x</p></li>
+        <li class="karte schritt" data-zeige><span class="nr" aria-hidden="true">02</span><h3 data-t="s2.h3">x</h3><p data-t="s2.p">x</p></li>
+        <li class="karte schritt" data-zeige><span class="nr" aria-hidden="true">03</span><h3 data-t="s3.h3">x</h3><p data-t="s3.p">x</p></li>
+        <li class="karte schritt" data-zeige><span class="nr" aria-hidden="true">04</span><h3 data-t="s4.h3">x</h3><p data-t="s4.p">x</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="pruefung" aria-labelledby="blatt-titel">
+    <div class="innen">
+      <div class="einleitung" data-zeige>
+        <span class="etikett" data-t="blatt.etikett">x</span>
+        <h2 id="blatt-titel" data-t="blatt.h2">x</h2>
+        <p class="lead" data-t="blatt.p">x</p>
+      </div>
+      <div class="karte blatt-karte" data-zeige>
+        <div class="blatt-raster">
+          <div class="seite-bild">
+            {{RAD rad-seite alt.rad.seite (min-width:1240px) 700px, (min-width:1024px) 56vw, 86vw}}
+            {{PUNKTE}}
+          </div>
+          <ol class="legende">
+            <li><span class="n" aria-hidden="true">1</span><span class="k" data-t="b1.k">x</span><span class="w" data-t="b1.w">x</span></li>
+            <li><span class="n" aria-hidden="true">2</span><span class="k" data-t="b2.k">x</span><span class="w" data-t="b2.w">x</span></li>
+            <li><span class="n" aria-hidden="true">3</span><span class="k" data-t="b3.k">x</span><span class="w" data-t="b3.w">x</span></li>
+            <li><span class="n" aria-hidden="true">4</span><span class="k" data-t="b4.k">x</span><span class="w" data-t="b4.w">x</span></li>
+            <li><span class="n" aria-hidden="true">5</span><span class="k" data-t="b5.k">x</span><span class="w" data-t="b5.w">x</span></li>
+            <li><span class="n" aria-hidden="true">6</span><span class="k" data-t="b6.k">x</span><span class="w" data-t="b6.w">x</span></li>
+            <li><span class="n" aria-hidden="true">7</span><span class="k" data-t="b7.k">x</span><span class="w" data-t="b7.w">x</span></li>
+          </ol>
+        </div>
+        <p class="unterschrift" data-t="blatt.quelle">x</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="funktionen" aria-labelledby="funk-titel">
+    <div class="innen">
+      <div class="einleitung" data-zeige>
+        <span class="etikett" data-t="funk.etikett">x</span>
+        <h2 id="funk-titel" data-t="funk.h2">x</h2>
+        <p class="lead" data-t="funk.p">x</p>
+      </div>
+      <article class="funktion" aria-labelledby="fp-titel">
+        <div data-zeige><span class="etikett" data-t="fp.etikett">x</span><h3 id="fp-titel" data-t="fp.h3">x</h3><p data-t="fp.p">x</p>
+          <ul class="haken"><li data-t="fp.l1">x</li><li data-t="fp.l2">x</li><li data-t="fp.l3">x</li></ul></div>
+        <div class="buehne" data-zeige>{{HANDY pruefung alt.app.pruefung (min-width:900px) 300px, 72vw}}</div>
+      </article>
+      <article class="funktion links" aria-labelledby="ff-titel">
+        <div data-zeige><span class="etikett" data-t="ff.etikett">x</span><h3 id="ff-titel" data-t="ff.h3">x</h3><p data-t="ff.p">x</p>
+          <ul class="haken"><li data-t="ff.l1">x</li><li data-t="ff.l2">x</li><li data-t="ff.l3">x</li></ul></div>
+        <div class="buehne" data-zeige>{{HANDY finden alt.app.finden (min-width:900px) 300px, 72vw}}</div>
+      </article>
+      <article class="funktion" aria-labelledby="fv-titel">
+        <div data-zeige><span class="etikett" data-t="fv.etikett">x</span><h3 id="fv-titel" data-t="fv.h3">x</h3><p data-t="fv.p">x</p>
+          <ul class="haken"><li data-t="fv.l1">x</li><li data-t="fv.l2">x</li><li data-t="fv.l3">x</li></ul></div>
+        <div class="buehne" data-zeige>{{HANDY vergleich alt.app.vergleich (min-width:900px) 300px, 72vw}}</div>
+      </article>
+      <article class="funktion links" aria-labelledby="fw-titel">
+        <div data-zeige><span class="etikett" data-t="fw.etikett">x</span><h3 id="fw-titel" data-t="fw.h3">x</h3><p data-t="fw.p">x</p>
+          <ul class="haken"><li data-t="fw.l1">x</li><li data-t="fw.l2">x</li><li data-t="fw.l3">x</li></ul></div>
+        <div class="buehne" data-zeige>{{HANDY wunsch alt.app.wunsch (min-width:900px) 300px, 72vw}}</div>
+      </article>
+      <article class="funktion" aria-labelledby="fe-titel">
+        <div data-zeige><span class="etikett" data-t="fe.etikett">x</span><h3 id="fe-titel" data-t="fe.h3">x</h3><p data-t="fe.p">x</p>
+          <ul class="haken"><li data-t="fe.l1">x</li><li data-t="fe.l2">x</li><li data-t="fe.l3">x</li></ul></div>
+        <div class="buehne" data-zeige>{{HANDY einkauf alt.app.einkauf (min-width:900px) 300px, 72vw}}</div>
+      </article>
+      <div class="raster drei klein-raster">
+        <article class="karte" data-zeige>
+          <div class="symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v7M16 3v7M6 10h4v4H6zM14 10h4v4h-4zM8 14v7M16 14v7M8 6h8"/></svg></div>
+          <h3><span data-t="k1.h3">x</span><span class="marke-pro" data-t="pro.marke">x</span></h3><p data-t="k1.p">x</p>
+        </article>
+        <article class="karte" data-zeige>
+          <div class="symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-11.2 6.5L4 19.5l1.5-4.4A7.5 7.5 0 1 1 20 11.5z"/><path d="M9 10.5h6M9 13.5h4"/></svg></div>
+          <h3 data-t="k2.h3">x</h3><p data-t="k2.p">x</p>
+        </article>
+        <article class="karte" data-zeige>
+          <div class="symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="14" height="12" rx="2.5"/><path d="M7 4.5h12a2 2 0 0 1 2 2V16"/></svg></div>
+          <h3><span data-t="k3.h3">x</span><span class="marke-pro" data-t="pro.marke">x</span></h3><p data-t="k3.p">x</p>
+        </article>
+        <article class="karte" data-zeige>
+          <div class="symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 7.5v6M9.5 11l2.5 2.5 2.5-2.5M10 18h4"/></svg></div>
+          <h3 data-t="k4.h3">x</h3><p data-t="k4.p">x</p>
+        </article>
+        <article class="karte" data-zeige>
+          <div class="symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 20 7.3v9.4l-8 4.5-8-4.5V7.3z"/><path d="M4 7.3l8 4.5 8-4.5M12 11.8v9.4"/></svg></div>
+          <h3 data-t="k5.h3">x</h3><p data-t="k5.p">x</p>
+        </article>
+        <article class="karte" data-zeige>
+          <div class="symbol" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5 5 13.5h6.5L11 21.5l8-11h-6.5z"/></svg></div>
+          <h3 data-t="k6.h3">x</h3><p data-t="k6.p">x</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="beispiel" id="beispiel" aria-labelledby="bsp-titel">
+    <div class="innen">
+      <div class="einleitung" data-zeige>
+        <span class="etikett" data-t="bsp.etikett">x</span>
+        <h2 id="bsp-titel" data-t="bsp.h2">x</h2>
+      </div>
+      <div class="beispiel-raster">
+        <div data-zeige>
+          <p class="ausgang" data-t="bsp.p">x</p>
+          <ol class="schritte">
+            <li data-th="bsp.1">x</li>
+            <li data-th="bsp.2">x</li>
+            <li data-th="bsp.3">x</li>
+            <li data-th="bsp.4">x</li>
+            <li data-th="bsp.5">x</li>
+          </ol>
+          <p class="unterschrift" data-t="bsp.quelle">x</p>
+        </div>
+        <div class="buehne" data-zeige>{{HANDY paket alt.app.paket (min-width:900px) 320px, 74vw}}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ehrlich" id="ehrlich" aria-labelledby="eh-titel">
+    <div class="innen">
+      <div class="einleitung" data-zeige>
+        <span class="etikett" data-t="eh.etikett">x</span>
+        <h2 id="eh-titel" data-t="eh.h2">x</h2>
+        <p class="lead" data-t="eh.p">x</p>
+      </div>
+      <div class="raster vier">
+        <article class="karte" data-zeige><h3 data-t="e1.h3">x</h3><p data-t="e1.p">x</p></article>
+        <article class="karte" data-zeige><h3 data-t="e2.h3">x</h3><p data-t="e2.p">x</p></article>
+        <article class="karte" data-zeige><h3 data-t="e3.h3">x</h3><p data-t="e3.p">x</p></article>
+        <article class="karte" data-zeige><h3 data-t="e4.h3">x</h3><p data-t="e4.p">x</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="preise" id="preise" aria-labelledby="pr-titel">
+    <div class="innen">
+      <div class="einleitung" data-zeige>
+        <span class="etikett" data-t="pr.etikett">x</span>
+        <h2 id="pr-titel" data-t="pr.h2">x</h2>
+        <p class="lead" data-t="pr.p">x</p>
+      </div>
+      <div class="raster zwei">
+        <article class="karte tarif" data-zeige aria-labelledby="free-titel">
+          <h3 class="name" id="free-titel" data-t="free.name">x</h3>
+          <p class="betrag"><b data-t="free.preis">x</b></p>
+          <p class="sub" data-t="free.sub">x</p>
+          <ul class="haken"><li data-t="free.l1">x</li><li data-t="free.l2">x</li><li data-t="free.l3">x</li><li data-t="free.l4">x</li><li data-t="free.l5">x</li></ul>
+        </article>
+        <article class="karte tarif pro" data-zeige aria-labelledby="pro-titel">
+          <h3 class="name" id="pro-titel" data-t="pro.marke">x</h3>
+          <p class="betrag"><b data-t="pro.preis">x</b><span data-t="pro.einheit">x</span></p>
+          <p class="sub" data-t="pro.sub">x</p>
+          <ul class="haken"><li data-t="pro.l1">x</li><li data-t="pro.l2">x</li><li data-t="pro.l3">x</li><li data-t="pro.l4">x</li></ul>
+        </article>
+      </div>
+      <p class="hinweis"><span data-t="pr.hinweis">x</span> <span data-vor-release data-t="pr.bald">x</span></p>
+    </div>
+  </section>
+
+  <section id="fragen" aria-labelledby="fragen-titel">
+    <div class="innen">
+      <div class="einleitung" data-zeige>
+        <span class="etikett" data-t="fragen.etikett">x</span>
+        <h2 id="fragen-titel" data-t="fragen.h2">x</h2>
+      </div>
+      <div class="fragen-liste">
+        <details id="q0" data-vor-release><summary data-t="q0.q">x</summary><p data-t="q0.a">x</p></details>
+        <details><summary data-t="q1.q">x</summary><p data-t="q1.a">x</p></details>
+        <details><summary data-t="q2.q">x</summary><p data-t="q2.a">x</p></details>
+        <details><summary data-t="q3.q">x</summary><p data-t="q3.a">x</p></details>
+        <details><summary data-t="q4.q">x</summary><p data-t="q4.a">x</p></details>
+        <details><summary data-t="q5.q">x</summary><p data-t="q5.a">x</p></details>
+        <details><summary data-t="q6.q">x</summary><p data-t="q6.a">x</p></details>
+        <details><summary data-t="q7.q">x</summary><p data-t="q7.a">x</p></details>
+        <details><summary data-t="q8.q">x</summary><p data-t="q8.a">x</p></details>
+        <details><summary data-t="q9.q">x</summary><p data-t="q9.a">x</p></details>
+        <details><summary data-t="q10.q">x</summary><p data-t="q10.a">x</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="schluss" id="schluss" aria-labelledby="schluss-titel">
+    <div class="innen">
+      <div class="schluss-karte" data-zeige>
+        <div>
+          <h2 id="schluss-titel"><span data-nach-release data-t="schluss.h2">x</span><span data-vor-release data-t="schluss.bald.h2">x</span></h2>
+          <p><span data-nach-release data-t="schluss.p">x</span><span data-vor-release data-t="schluss.bald.p">x</span></p>
+          <div class="knoepfe">
+            <a class="knopf haupt" data-app href="#q0" data-t="app.bald">x</a>
+            <button type="button" class="knopf zweit teilen" id="teilen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg><span data-t="schluss.knopf">x</span></button>
+          </div>
+          <span hidden data-t="schluss.kopiert">x</span><span hidden data-t="schluss.fehler">x</span>
+        </div>
+        {{RAD rad-heck alt.rad.heck (min-width:1240px) 580px, (min-width:900px) 46vw, 80vw}}
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="fuss">
+  <div class="innen">
+    <div class="fuss-raster">
+      <div>
+        {{MARKE}}
+        <p data-t="fuss.claim">x</p>
+      </div>
+      <div>
+        <h2 data-t="fuss.h1">x</h2>
+        <ul><li><a href="#ablauf" data-t="nav.ablauf">x</a></li><li><a href="#funktionen" data-t="nav.funktionen">x</a></li><li><a href="#beispiel" data-t="nav.beispiel">x</a></li><li><a href="#preise" data-t="nav.preise">x</a></li><li><a href="#fragen" data-t="nav.fragen">x</a></li></ul>
+      </div>
+      <div>
+        <h2 data-t="fuss.h2">x</h2>
+        <ul><li><a href="impressum.html" data-t="fuss.imp">x</a></li><li><a href="datenschutz.html" data-t="fuss.ds">x</a></li></ul>
+      </div>
+      <div class="sprach-wahl">
+        <h2 data-t="fuss.h3">x</h2>
+        <ul><li><button type="button" data-sprache="de" aria-pressed="false" lang="de">Deutsch</button></li><li><button type="button" data-sprache="en" aria-pressed="true" lang="en">English</button></li></ul>
+      </div>
+      <div class="design-wahl">
+        <h2 data-t="fuss.h4">x</h2>
+        <ul><li><button type="button" data-design-wahl="hell" aria-pressed="false" data-t="design.hell">x</button></li><li><button type="button" data-design-wahl="dunkel" aria-pressed="false" data-t="design.dunkel">x</button></li><li><button type="button" data-design-wahl="auto" aria-pressed="true" data-t="design.auto">x</button></li></ul>
+      </div>
+    </div>
+    <div class="klein">
+      <div class="hinweise"><span data-t="fuss.bilder">x</span> <span data-t="fuss.marken">x</span></div>
+      <span>© 2026 CrankScore</span>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  /* Reste der App, die am 29.09. kurz hier lag, abmelden (siehe mtb-sw.js) */
+  if("serviceWorker" in navigator && navigator.serviceWorker.getRegistrations){
+    navigator.serviceWorker.getRegistrations().then(function(r){ r.forEach(function(x){ x.unregister(); }); }).catch(function(){});
+  }
+  var doc = document.documentElement;
+  doc.classList.add("js");
+  var ruhig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hatIO = "IntersectionObserver" in window;
+  function alle(sel, wo){ return [].slice.call((wo || document).querySelectorAll(sel)); }
+  /* Texte fuer Meldungen stehen versteckt im Markup und wechseln mit der Sprache */
+  function text(schluessel){ var e = document.querySelector('[data-t="' + schluessel + '"]'); return e ? e.textContent : ""; }
+
+  /* ── Menue unter 1120 px: <dialog> mit allen Abschnitten, App, Sprache und Design. Esc und der Schliessen-Knopf
+     bringen den Fokus zurueck auf den Menue-Knopf; ein Link schliesst und springt. ── */
+  var menue = document.getElementById("menue"), menueKnopf = document.getElementById("menue-knopf");
+  if(menue && menueKnopf && typeof menue.showModal === "function"){
+    var perLink = false;
+    menueKnopf.addEventListener("click", function(){ perLink = false; menue.showModal(); menueKnopf.setAttribute("aria-expanded", "true"); });
+    menue.querySelector(".menue-zu").addEventListener("click", function(){ menue.close(); });
+    alle('a[href^="#"]', menue).forEach(function(a){ a.addEventListener("click", function(){ perLink = true; menue.close(); }); });
+    menue.addEventListener("close", function(){ menueKnopf.setAttribute("aria-expanded", "false"); if(!perLink) menueKnopf.focus(); });
+    if(window.matchMedia){
+      var breit = window.matchMedia("(min-width: 1120px)");
+      var zu = function(){ if(breit.matches && menue.open) menue.close(); };
+      if(breit.addEventListener) breit.addEventListener("change", zu); else if(breit.addListener) breit.addListener(zu);
+    }
+  } else if(menueKnopf){ menueKnopf.hidden = true; }
+
+  /* ── Vor dem Release fuehrt "Kommt bald" zur Frage "Wann erscheint CrankScore?" und klappt sie auf ── */
+  var q0 = document.getElementById("q0");
+  alle('a[data-app][href="#q0"]').forEach(function(a){ a.setAttribute("data-bald", ""); a.addEventListener("click", function(){ if(q0) q0.open = true; }); });
+
+  /* ── Seite teilen: Web Share, sonst Link in die Zwischenablage; klappt beides nicht, sagt eine Meldung es ── */
+  var teilen = document.getElementById("teilen");
+  if(teilen) teilen.addEventListener("click", function(){
+    var url = "https://crankscore.de/";
+    function geklappt(){
+      var span = teilen.querySelector("span"), vorher = span.textContent;
+      teilen.style.minWidth = teilen.offsetWidth + "px"; teilen.classList.add("ok");
+      span.textContent = text("schluss.kopiert");
+      setTimeout(function(){ span.textContent = vorher; teilen.style.minWidth = ""; teilen.classList.remove("ok"); }, 2200);
+    }
+    function fehler(){ if(window.CS && CS.melde) CS.melde(text("schluss.fehler"), "fehler"); }
+    function kopieren(){
+      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(geklappt, fehler); else fehler();
+    }
+    if(navigator.share){ navigator.share({title: "CrankScore", url: url}).catch(function(e){ if(!e || e.name !== "AbortError") kopieren(); }); return; }
+    kopieren();
+  });
+
+  /* ── Kopfzeile: Kante erst beim Scrollen (Klasse nur bei Wechsel setzen) ── */
+  var kopf = document.getElementById("kopf"), unten = null;
+  var kante = function(){ var u = window.scrollY > 8; if(u !== unten){ unten = u; kopf.classList.toggle("unten", u); } };
+  window.addEventListener("scroll", kante, {passive: true}); kante();
+
+  /* ── aktiver Abschnitt in Navigation und Menue ── */
+  var navLinks = alle(".nav a, .menue-liste a");
+  if(hatIO){
+    var nio = new IntersectionObserver(function(eintraege){
+      eintraege.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var ziel = "#" + (e.target.getAttribute("data-nav") || e.target.id);
+        navLinks.forEach(function(a){
+          var an = a.getAttribute("href") === ziel;
+          a.classList.toggle("an", an);
+          if(an) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
+        });
+      });
+    }, {rootMargin: "-40% 0px -55% 0px"});
+    alle("main > section[id]").forEach(function(s){ nio.observe(s); });
+  }
+
+  /* ── Inhalte erscheinen einmal, kurz, wenn sie ins Bild kommen; Geschwister leicht versetzt ── */
+  var teile = alle("[data-zeige]");
+  if(ruhig || !hatIO){ teile.forEach(function(e){ e.classList.add("da"); }); }
+  else {
+    var io = new IntersectionObserver(function(eintraege){
+      eintraege.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var nachbarn = [].slice.call(e.target.parentNode.children).filter(function(x){ return x.hasAttribute("data-zeige"); });
+        e.target.style.animationDelay = Math.min(Math.max(0, nachbarn.indexOf(e.target)), 3) * 60 + "ms";
+        e.target.classList.add("da");
+        io.unobserve(e.target);
+      });
+    }, {rootMargin: "0px 0px -40px 0px", threshold: 0});
+    teile.forEach(function(e){ io.observe(e); });
+  }
+})();
+</script>
+</body>
+</html>

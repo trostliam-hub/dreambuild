@@ -1,0 +1,9 @@
+en | Handy light: FCP 676 ms, LCP 676 ms, load 1844 ms, CLS 0.0008, Long Tasks 10 (709 ms Blockade), beim Laden 7 Anfragen / 276 KB, nach Scrollen 318 KB, Animationen 0 (endlos 0), Scroll: 668 Frames, Median 16.7 ms, >25 ms: 0 (0.0 %), >50 ms: 0
+   Verschiebungen: [{"v":0.0008,"t":1702,"q":"knopf zweit"}]
+en | Handy light: FCP 628 ms, LCP 628 ms, load 1808 ms, CLS 0.0007, Long Tasks 8 (492 ms Blockade), beim Laden 7 Anfragen / 276 KB, nach Scrollen 318 KB, Animationen 0 (endlos 0), Scroll: 668 Frames, Median 16.7 ms, >25 ms: 2 (0.3 %), >50 ms: 1
+   Verschiebungen: [{"v":0.0001,"t":1598,"q":"knopf zweit"},{"v":0.0006,"t":1711,"q":"knopf zweit"}]
+en | Handy dark: FCP 688 ms, LCP 688 ms, load 1732 ms, CLS 0.0008, Long Tasks 8 (497 ms Blockade), beim Laden 7 Anfragen / 274 KB, nach Scrollen 315 KB, Animationen 0 (endlos 0), Scroll: 668 Frames, Median 16.7 ms, >25 ms: 1 (0.1 %), >50 ms: 0
+   Verschiebungen: [{"v":0.0008,"t":1636,"q":"knopf zweit"}]
+en | Desktop light: FCP 240 ms, LCP 240 ms, load 217 ms, CLS 0.0000, Long Tasks 1 (72 ms Blockade), beim Laden 8 Anfragen / 318 KB, nach Scrollen 594 KB, Animationen 0 (endlos 0), Scroll: 485 Frames, Median 16.7 ms, >25 ms: 0 (0.0 %), >50 ms: 0
+en | Desktop light: FCP 264 ms, LCP 264 ms, load 218 ms, CLS 0.0000, Long Tasks 2 (87 ms Blockade), beim Laden 8 Anfragen / 318 KB, nach Scrollen 594 KB, Animationen 0 (endlos 0), Scroll: 485 Frames, Median 16.7 ms, >25 ms: 0 (0.0 %), >50 ms: 0
+en | Desktop dark: FCP 232 ms, LCP 232 ms, load 205 ms, CLS 0.0000, Long Tasks 1 (60 ms Blockade), beim Laden 8 Anfragen / 315 KB, nach Scrollen 586 KB, Animationen 0 (endlos 0), Scroll: 485 Frames, Median 16.7 ms, >25 ms: 0 (0.0 %), >50 ms: 0

@@ -322,3 +322,23 @@ Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-REDESIGN-001-N1 festhalten:
   - Dann die Punkte aus APP-REDESIGN-001-N1 Teil A wiederholen.
   - Chromium und echtes Safari bitte getrennt angeben.
 - **Hinweis:** Ich kann die öffentliche Seite aus meiner Umgebung nicht selbst abrufen (`github.io` ist dort gesperrt). Deine Sichtprüfung ist die erste echte Live-Prüfung.
+
+
+---
+
+## WEB-RELEASE-001-N1 — Website-Überarbeitung gegen den App-Stand prüfen
+- **Autor:** Claude (Website-Chat) · **Empfänger:** Codex
+- **Datum:** 11.10.2026, 17:33 Uhr (Europe/Berlin)
+- **Status:** OFFEN
+- **Bezug:** CLAUDE-ANTWORTEN.md „WEB-RELEASE-001“. Repository `trostliam-hub/crankscore-web`, Branch `claude/website-release`, Commit `1927ca3`. Live ist unverändert `main` `d251fc6`.
+- **Dieser Auftrag erteilt keine Freigabe für Push, Merge oder Veröffentlichung.**
+
+### Bitte prüfen
+1. **Aussagen gegen die App:** Stimmen auf der Website (Branch, `texte.js`, Deutsch und Englisch) Free/Pro-Leistungen, Preise (6,99 € / 3,99 € jährlich, 47,88 €), Datenschutz (kein Konto, Lizenzcode an Lemon Squeezy), Offline, Adapterauswahl, Wunschliste, Einkaufsliste mit dem öffentlichen App-Stand 20261011-1532 überein? Besonders: Wird irgendwo ein Preisvergleich oder ein direkter Produktlink als verfügbar dargestellt?
+2. **Beispiel:** Lässt sich das Beispiel „Mehr Bremskraft – ohne neue Bremse“ (Mein Rad, Stumpjumper Alloy, Pike, XT M8120 203/180, Ziel Bremskraft, Vergleichen) in der öffentlichen App mit denselben Werten nachstellen (SM-MA-F220P/PM vorn statt F203P/PM, hinten neu SM-MA-F203P/PM, 41 €, „Noch zu prüfen“)?
+3. **Gestaltung:** Wirkt die Website neben der App wie ein Produkt (Farben, Schriften, Logo, Begriffe), am Handy (390 px) und am Desktop, hell und dunkel?
+4. **Falls du Safari, ein iPhone oder einen Screenreader hast:** Statusleiste hell/dunkel, Menü (Fokus, Esc), Vorlesenamen der Knöpfe. Browser und Version angeben.
+
+Ansehen: Branch auf GitHub oder lokal (`python3 -m http.server` im Repo-Ordner). Liams private Vorschau kann nur er öffnen.
+
+Ergebnisse bitte in CODEX-ANTWORTEN.md unter WEB-RELEASE-001-N1: je Punkt wie erwartet oder Abweichung, und was nicht geprüft werden konnte.

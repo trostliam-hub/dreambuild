@@ -1,0 +1,21 @@
+OK   Gerät dunkel ohne Wahl → dunkel {"d":"dunkel","metas":"#16181b","knopf":"true","fuss":"auto","speicher":null,"bg":"rgb(22, 24, 27)","cs":"dark","sichtbar":"grid"}
+OK   Klick Kopf → hell {"d":"hell","metas":"#f2f0ec","knopf":"false","fuss":"hell","speicher":"hell","bg":"rgb(242, 240, 236)","cs":"light","sichtbar":"grid"}
+OK   nach Neuladen weiter hell {"d":"hell","metas":"#f2f0ec","knopf":"false","fuss":"hell","speicher":"hell","bg":"rgb(242, 240, 236)","cs":"light","sichtbar":"grid"}
+OK   Impressum folgt Wahl hell {"d":"hell","metas":"#f2f0ec","knopf":"false","fuss":"","speicher":"hell","bg":"rgb(242, 240, 236)","cs":"light","sichtbar":"grid"}
+OK   Impressum-Schalter → dunkel {"d":"dunkel","metas":"#16181b","knopf":"true","fuss":"","speicher":"dunkel","bg":"rgb(22, 24, 27)","cs":"dark","sichtbar":"grid"}
+OK   Datenschutz dunkel
+OK   Startseite übernimmt dunkel {"d":"dunkel","metas":"#16181b","knopf":"true","fuss":"dunkel","speicher":"dunkel","bg":"rgb(22, 24, 27)","cs":"dark","sichtbar":"grid"}
+OK   Wie Gerät → Speicher leer, dunkel (Gerät) {"d":"dunkel","metas":"#16181b","knopf":"true","fuss":"auto","speicher":null,"bg":"rgb(22, 24, 27)","cs":"dark","sichtbar":"grid"}
+OK   Gerät wechselt auf hell → folgt {"d":"hell","metas":"#f2f0ec","knopf":"false","fuss":"auto","speicher":null,"bg":"rgb(242, 240, 236)","cs":"light","sichtbar":"grid"}
+OK   feste Wahl dunkel bleibt bei Gerätewechsel {"d":"dunkel","metas":"#16181b","knopf":"true","fuss":"dunkel","speicher":"dunkel","bg":"rgb(22, 24, 27)","cs":"dark","sichtbar":"grid"}
+OK   anderer Tab zieht mit
+OK   Englisch {"aria":"Dark mode","h4":"Appearance","kn":"Light/Dark/Match device"}
+OK   zurück Deutsch {"aria":"Dunkles Design","kn":"Hell/Dunkel/Wie Gerät"}
+OK   keine Konsolenfehler []
+OK   Gerät hell + Wahl dunkel → dunkel ab erstem Bild
+OK   ohne JS (light): hell, Schalter versteckt rgb(242, 240, 236),none,none
+OK   ohne JS Impressum: Schalter versteckt
+OK   ohne JS (dark): hell, Schalter versteckt rgb(242, 240, 236),none,none
+OK   ohne JS Impressum: Schalter versteckt
+OK   Googlebot bekommt Englisch (Standard)
+alles OK

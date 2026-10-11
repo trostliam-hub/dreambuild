@@ -1,0 +1,24 @@
+OK     Handy: Menü-Knopf sichtbar, Navigation und Kopf-Knopf im Menü {"menue":"grid","kopfKnopf":"none","nav":"none"}
+OK     Menü öffnet, Fokus im Menü {"offen":true,"exp":"true","fokusIn":true}
+OK     Tab bleibt im Menü (20 Schritte)
+OK     Esc schließt, Fokus zurück auf den Menü-Knopf {"offen":false,"fokus":"menue-knopf"}
+OK     Sprache im Menü: bleibt offen, alles deutsch {"offen":true,"link":"So funktioniert’s","app":"Kommt bald"}
+OK     Design im Menü: dunkel
+OK     Menü-Link schließt und springt unter die Kopfzeile {"offen":false,"top":84,"kopf":69}
+OK     „Kommt bald“ öffnet „Wann erscheint CrankScore?“ {"q0":true,"hash":"#q0","sicht":true}
+OK     dunkles Design: dunkle deutsche App-Aufnahme geladen, helle verborgen img/app/de/dunkel/uebersicht-klein.avif
+OK     erster Tab: „Skip to content“ sichtbar
+OK     Sprung zum Inhalt: nächster Tab landet im Inhalt
+OK     Tastatur: 39 Tab-Stopps, alle mit Fokusrahmen []
+OK     Frage öffnet per Enter
+OK     Navigation markiert den sichtbaren Abschnitt (aria-current)
+OK     alle Sprunglinks haben ein Ziel []
+OK     Teilen kopiert den Link
+OK     Teilen ohne Zwischenablage: Meldung erscheint
+OK     Fuß-Link führt zu Legal notice
+OK     Fuß-Link führt zu Privacy policy
+OK     weniger Bewegung: keine laufenden Animationen, alles sofort sichtbar, kein weiches Scrollen {"laufend":0,"unsichtbar":0,"glatt":"auto"}
+OK     Erscheinen: vorher unsichtbar, Animation 300 ms {"vor":"0","dauer":300}
+OK     Release: alle Knöpfe „Open the app“ mit Adresse, Vorab-Inhalte weg {"knoepfe":["Open the app>https://app.beispiel.invalid/","Open the app>https://app.beispiel.invalid/","Open the app>https://app.beispiel.invalid/","Open the app>https://app.beispiel.invalid/"],"q0":true,"bald":true,"nach":true,"h2":"Ready to plan your build?"}
+OK     keine Konsolenfehler []
+alles OK

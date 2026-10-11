@@ -2947,3 +2947,76 @@ Alle in `tools/bevel-test.mjs` (20 von 20 bestanden):
   - Die Prüfung der Produktseiten (`produktseiten.json`) läuft erst mit dem nächsten planmäßigen Lauf „Live-Preise“ auf `main`, etwa alle sechs Stunden. Der letzte Lauf um 14:53 Uhr lag noch vor der Veröffentlichung.
   - Echte Angebote brauchen weiter das Secret `PREIS_FEEDS`.
 - crankscore.de bleibt die Teaser-Seite ohne Link zur App; eine `CNAME`-Datei gibt es weiterhin nicht.
+
+
+---
+
+## WEB-RELEASE-001 — crankscore.de für den gemeinsamen Release überarbeitet (Liams Auftrag vom 11.10.2026)
+- **Bezug:** Liams Auftrag im Website-Chat vom 11.10.2026: „Überarbeite die gesamte Website https://crankscore.de und aktualisiere sie vollständig auf den neuesten funktionierenden Stand der CrankScore-App … Dokumentiere die Änderungen und offenen Punkte anschließend automatisch im Austauschordner.“ Grundlage waren die Einträge APP-REDESIGN-001, APP-BEVEL-002 und APP-BEVEL-003 in dieser Datei und die Auftragskopien unter `belege/APP-BEVEL-00x/`.
+- **Autor:** Claude (Website-Chat) · **Empfänger:** Liam, Codex, App-Chat
+- **Datum:** 11.10.2026, 17:33 Uhr (Europe/Berlin)
+- **Status:** PRÜFBEREIT (Branch). **Nicht veröffentlicht.**
+- **Repository / Branch / Commit:** `trostliam-hub/crankscore-web`, Branch `claude/website-release`, Commit `1927ca3`. Er baut auf `claude/website-modern` auf (Modernisierung, Englisch als Standard, Statusleiste; ebenfalls noch nicht veröffentlicht).
+- **Live:** unverändert. crankscore.de zeigt weiter `main` = `d251fc6`.
+- **Geprüfter App-Stand:** `main` von `trostliam-hub/dreambuild`, Version **20261011-1532** (Commit `333e2c9`), lokal in Chromium gestartet. Die öffentliche Test-App ist aus meiner Umgebung gesperrt; geprüft habe ich den Code-Stand, der laut APP-BEVEL-003-Nachtrag live ist.
+- **Vorschau:** private Seite https://claude.ai/artifact/8ewLLk3UbBnUaAXsmixS48 (nur Liam kann sie öffnen, solange er sie nicht teilt). Sie zeigt den Release-Zustand mit „App öffnen“; ein Klick dort meldet nur, dass die Adresse zum Release eingetragen wird. Bilder und Ablauf: `belege/WEB-RELEASE-001/VORSCHAU.md`.
+
+### Was am App-Stand geprüft und für die Website übernommen wurde
+| Thema | Befund in der App (20261011-1532) | Auf der Website |
+|---|---|---|
+| Design | warme Flächen `#f2f0ec`/`#fbfaf7`, Anthrazit `#16181b`/`#1f2226`, Stahlblau `#2563a8`/`#8ec2f7`, Barlow Semi Condensed + Inter, Kettenblatt-Logo | übernommen (gleiche Werte, gleiche Schriften, gleiches Logo) |
+| Katalog | 766 Teile, 125 Marken, 7 Disziplinen (`tools/katalog-export.mjs` am 11.10.) | so genannt |
+| Kompatibilitätsprüfung, Score, fehlende Angaben | vorhanden | als verfügbar beschrieben |
+| Teile finden (Ziel, Marke, Budget), keine Rückschritte, „Behalten sinnvoll“ | vorhanden, BEVEL-Tests grün | als verfügbar beschrieben |
+| Adapter automatisch | vorhanden: konkrete Artikel je Bremsmarke, vorn/hinten, bleibt/neu/entfällt, Richtpreise | als verfügbar beschrieben, mit echtem Beispiel (XT M8120 203/180 → 220/203: SM-MA-F220P/PM vorn statt F203P/PM, hinten neu SM-MA-F203P/PM, 41 € ohne Scheiben, Freigabe hinten „Noch zu prüfen“) |
+| Wunschliste, Einkaufsliste | vorhanden (vier Stufen, Test als Vorschau, Liste als Text) | als verfügbar beschrieben |
+| Direkte Produktlinks, Preisvergleich | **nicht funktionsfähig**: `PREIS_FEEDS` fehlt, `links.json` ohne Partner-ID; die App zeigt „Richtpreis — kein geprüftes Angebot“ | **nicht** als verfügbar beschrieben; die Seite sagt nur, dass „Zum Produkt“ erst bei einem geprüften Angebot erscheint |
+| Free/Pro | Free: ein Rad je Modus, Guide 10 Fragen/Tag; Pro: beliebig viele Räder, Fahrwerk-Setup, Guide ohne Limit; 6,99 € im Monat oder 3,99 € im Monat jährlich (47,88 €) | so übernommen |
+| Pro kaufen | in `links.json` fehlen `proKauf`/`proKaufJahr` — Pro ist derzeit nicht kaufbar | vor dem Release steht „Pro ist erhältlich, sobald die App startet“ |
+| Datenschutz | kein Konto, Daten im Browser, Guide auf dem Gerät, nur der Lizenzcode an Lemon Squeezy | so übernommen |
+| Offline | App startet nach dem ersten Laden ohne Netz (selbst geprüft: Service Worker aktiv, Neuladen offline in Chromium) | so übernommen |
+
+### Was umgesetzt ist
+1. **Gestaltung wie die App:** Farben, Schriften, Logo und Schriftzug „CRANKSCORE“ wie am Unterrohr des Beispielrads; keine Verläufe, keine bunten Karten, kein Markenband mehr. Hell und dunkel, beide Designs mit eigenen App-Aufnahmen.
+2. **Startseite neu aufgebaut:** Einstieg mit „App öffnen“ (vor dem Release „Kommt bald“), Rad + Handy; Für wen (Traumrad, Mein Rad, Gebraucht); Produktansicht (echte Desktop-Aufnahme); Ablauf in vier Schritten; Datenblatt mit Rahmenwerten aus dem Katalog; Funktionen (Prüfung, Teile finden, Vergleich und Adapter, Wunschliste, Einkauf, dazu Fahrwerk-Setup, Guide, mehrere Räder, Offline, 3D, E-MTB); konkretes Beispiel; „Ehrlich gerechnet“; Free/Pro; elf Fragen; Schluss.
+3. **Echte App-Aufnahmen** aus 20261011-1532, je Deutsch/Englisch und hell/dunkel (8 Szenen, 128 Bilddateien AVIF/WebP). Die alten Aufnahmen (`img/s/`) sind entfernt.
+4. **Radvisuals mit Blender** (`bpy` 5.0.1, Cycles, 160 Samples) aus `3d/modell/spindrift-5-al.blend` dieses Repos: Dreiviertel tief, Seitenansicht (mit nummerierten Rahmenwerten), Heck. Nahaufnahmen habe ich bewusst verworfen, weil dort die allgemein gezeichneten Anbauteile zu einfach wirken. Auf der Seite steht, dass Rahmen nachgebaut und Anbauteile allgemein sind. Das Modell selbst ist unverändert.
+5. **Texte** Deutsch und Englisch neu (252 Einträge in `texte.js`), Begriffe wie in der App. Seitentitel, Beschreibungen, Vorschaubild für geteilte Links neu.
+6. **Release-Schalter:** `WERTE.appAdresse` in `texte.js`. Leer heißen alle App-Knöpfe „Kommt bald“; mit Adresse „App öffnen“, die Vorab-Inhalte verschwinden. Das Werkzeug lehnt die Testadresse der App ab.
+7. **Rechtsseiten und 404** im neuen Design. Inhaltlich geändert ist nur ein Satz im Impressum (Preise: jetzt „Richtpreise auf UVP-Niveau oder geprüfte Angebote“ statt „aus Produktdaten der Partnershops“) — **Liam bitte bestätigen**.
+
+### Geprüft (lokal, Chromium/Playwright, Protokolle unter `belege/WEB-RELEASE-001/pruefung/`)
+- `node werkzeuge/texte.mjs --pruefen`: 252 Einträge, alle genutzt, keine Fehler (nur Hinweise auf gleiche Wörter wie „Pro“).
+- html-validate: alle vier Seiten gültig.
+- **Sprache:** 20 von 20 Prüfungen (erster Besuch immer Englisch, Wechsel und Speicherung, Rechtsseiten, anderer Tab, Teilen-Meldung, Deutsch nicht ladbar, Bots, ohne JavaScript); Reste-Suche in Text, `alt`, `aria-label`, `title` und Meta auf allen Seiten in beiden Sprachen: keine Funde.
+- **Bedienung** (23 Prüfungen): Menü am Handy (Fokus bleibt drin, Esc, Fokus zurück, Sprache und Design im Menü, Sprung unter die Kopfzeile), „Kommt bald“ öffnet die Frage, dunkle deutsche App-Aufnahme lädt im dunklen Design, Sprunglink zum Inhalt, 39 Tab-Stopps alle mit sichtbarem Fokusrahmen, Frage per Enter, aktive Navigation, alle Anker mit Ziel, Teilen und Teilen-Fehler, Fuß-Links, reduzierte Bewegung (keine laufende Animation, alles sichtbar, kein weiches Scrollen), Erscheinen in 300 ms, **Release-Schalter** (Kopie mit gesetzter Adresse: alle vier Knöpfe „Open the app“, Vorab-Inhalte weg).
+- **Kopfzeilen** aller Seiten 320–1600 px in 4-px-Schritten, DE/EN: sauber. **Inhalt** aller Seiten auf 14 Breiten, DE/EN: kein Überlauf, nichts abgeschnitten.
+- **Geräte-Audit** (12 Geräte von 320 px bis 4K, 20 Ansichten je Sprache): 0 Konsolenfehler, 0 Netzfehler, 0 Überlauf, keine zu großen Bilder. Kleine Tippflächen nur bei Links mitten im Text der Datenschutzerklärung (nach WCAG 2.5.8 ausgenommen).
+- **Barrierefreiheit (axe):** 4 Seiten × 2 Breiten × hell/dunkel × DE/EN = 32 Kombinationen, keine Verstöße (inklusive Kontrast).
+- **Design-Schalter und Statusleiste:** alles bestanden mit `#f2f0ec`/`#16181b`.
+- **Leistung** (lokal ohne Kompression; Handy mit 4-facher CPU-Drossel und langsamem 4G): Englisch erste Anzeige 0,63–0,68 s, Layoutverschiebung (CLS) 0,0008; Desktop 0,24–0,26 s, CLS 0. Mit gespeichertem Deutsch wartet die Seite auf die deutschen Texte: erste Anzeige am gedrosselten Handy 2,3–2,5 s (Obergrenze 2,5 s), CLS 0.
+- **App-Offline-Aussage:** Service Worker aktiv, App lädt nach dem ersten Besuch offline neu (Chromium).
+- Jekyll-Build wie bei GitHub Pages: sauber, keine internen Dateien, keine Testadresse in der Ausgabe.
+
+### Grenzen
+- Nur Chromium. Kein echtes iPhone/Safari, kein Firefox, kein Screenreader.
+- crankscore.de und die öffentliche Test-App sind aus meiner Umgebung gesperrt; alles ist lokal geprüft.
+- Ladezeiten lokal ohne Kompression gemessen (GitHub Pages komprimiert); die Werte sind eher zu hoch.
+- Bevel-Seiten sind aus der Umgebung gesperrt; die Richtung stammt aus `belege/APP-BEVEL-003/bevel-analyse.md` und dem Designsystem der App.
+
+### Offene Punkte für Liam
+1. **Adresse der App zum Release** (für `WERTE.appAdresse`). Bis dahin zeigt die Website „Kommt bald“.
+2. **Pro-Kauf-Links** (`proKauf`, `proKaufJahr` in `links.json` der App) fehlen; ohne sie ist Pro nicht kaufbar.
+3. **Preis-Feeds** (`PREIS_FEEDS`): ohne sie gibt es keine geprüften Angebote. Die Website verspricht deshalb weder Preisvergleich noch Produktlinks. Kommen die Feeds, prüfe ich die Texte `e1`, `fe.l3` und `q6` neu.
+4. **Impressum:** Anbieterangaben fehlen weiter; der geänderte Satz zu Preisen braucht deine Bestätigung.
+5. **Veröffentlichen:** `claude/website-release` (und damit auch `claude/website-modern`) ist nicht auf `main`. Veröffentlichen nur mit deiner Freigabe — sinnvoll zusammen mit dem App-Release.
+
+### Anliegen an das App-Team (keine Website-Arbeit, nur gemeldet)
+- **Tippfehler im Englischen:** im Paket des Vergleichs „… 203 mm. bolts included.“ (kleines „b“ nach dem Punkt), z. B. Bremse XT M8120, Ziel „More stopping power“, Vergleichen → „What the switch includes“.
+- **App-Symbol:** Das Startbildschirm-Symbol (`icon-180/192/512.png`) ist noch petrol/limettengrün, die App selbst stahlblau. Die Website nutzt in der Seite das stahlblaue Logo und als Favicon weiter das App-Symbol. Soll das Symbol zum Release angepasst werden?
+
+### Stand
+- **Fertig programmiert:** ja (Commit oben).
+- **Getestet:** ja, lokal (siehe oben).
+- **Live:** nein.
+- **Veröffentlichung:** NEIN.
