@@ -38,7 +38,10 @@ const teil = (name, ok, details) => { bericht.teile.push({name, ok, ...details})
 const lauf = (datei, muster, erwartet) => {
   const r = spawnSync(process.execPath, [path.join(wurzel, 'tools', datei)], {cwd:wurzel, encoding:'utf8', env:process.env, maxBuffer:64e6});
   const aus = (r.stdout || '') + (r.stderr || ''), m = aus.match(muster);
-  const bestanden = m ? +m[1] : 0, gelaufen = m ? +m[2] : 0, fehl = aus.split('\n').filter(z => /^\s*FEHL|JS-Fehler|Error:/.test(z)).slice(0, 20);
+  /* Zu jeder FEHL-Zeile auch die eingerueckte Befundzeile darunter -- so steht
+     im Log, welche Teilpruefung scheiterte, ohne den Bericht herunterzuladen */
+  const zl = aus.split('\n'), fehl = zl.flatMap((z, i) => /^\s*FEHL|JS-Fehler|Error:/.test(z) ? [z].concat(/^\s*FEHL/.test(z) && /^\s{6,}\S/.test(zl[i + 1] || '') ? [zl[i + 1].slice(0, 600)] : []) : []).slice(0, 30);
+  const bestanden = m ? +m[1] : 0, gelaufen = m ? +m[2] : 0;
   return {exit:r.status, bestanden, gelaufen, erwartet, fehl, ausgabe:aus.slice(-4000), ok:r.status === 0 && m && bestanden === gelaufen && (erwartet == null || gelaufen === erwartet)};
 };
 /* 2. Kompatibilitaet: erwartete Zahl aus den Falllisten selbst */

@@ -3333,7 +3333,7 @@ label.fld input:focus{border-color:var(--anod);outline:none;box-shadow:0 0 0 4px
 #szenen{position:fixed;inset:0;z-index:120;background:var(--ground);display:flex;justify-content:center;
   padding:calc(env(safe-area-inset-top,0px) + 12px) max(16px, var(--sa-r, 0px)) calc(env(safe-area-inset-bottom,0px) + 16px) max(16px, var(--sa-l, 0px));animation:sz-auf var(--t-mittel) var(--e-aus)}
 #szenen:empty{display:none}
-#szenen.weg{animation:sz-zu .24s var(--e-ein) forwards}
+#szenen.weg{animation:sz-zu .24s var(--e-ein) forwards;pointer-events:none}
 @keyframes sz-auf{from{opacity:0}to{opacity:1}} @keyframes sz-zu{to{opacity:0}}
 .sz{width:100%;max-width:520px;display:flex;flex-direction:column;min-height:100%}
 .sz-kopf{display:flex;align-items:center;justify-content:space-between;min-height:48px}
@@ -8277,6 +8277,8 @@ function oeffneSzenen(danach){
   szene = {i:0, danach:danach || null};
   let el = $("szenen");
   if(!el){ el = document.createElement("div"); el.id = "szenen"; document.body.appendChild(el); }
+  /* War die Ebene gerade beim Ausblenden, bleibt sie jetzt stehen */
+  clearTimeout(szenenEnde.z); el.classList.remove("weg"); try{ el.inert = false; }catch(e){}
   el.innerHTML = szenenHtml(); sperre();
   const b = el.querySelector("[data-szweiter]"); if(b) try{ b.focus({preventScroll:true}); }catch(e){}
 }
@@ -8289,15 +8291,26 @@ function szeneZeigen(i){
 function szenenEnde(){
   try{ localStorage.setItem("mtb.szenen", "1"); }catch(e){}
   const el = $("szenen"), f = szene.danach; szene.danach = null;
-  if(el){ if(bewegungAus()) el.remove(); else { el.classList.add("weg"); setTimeout(() => el.remove(), 260); } }
-  freigeben();
-  if(f) setTimeout(f, bewegungAus() ? 0 : 180);
+  if(el){
+    clearTimeout(szenenEnde.z);
+    if(bewegungAus()) el.remove();
+    else { el.classList.add("weg"); try{ el.inert = true; }catch(e){} szenenEnde.z = setTimeout(() => el.remove(), 260); }
+  }
+  /* Folgt die Einrichtung, liegt sie sofort deckend unter den ausblendenden
+     Szenen: dazwischen blitzt der Aufbau nicht auf, die Seite bleibt
+     durchgehend gesperrt, und es haengt nichts an einem zweiten Zeitgeber */
+  if(!f){ freigeben(); return; }
+  try{ f(); }catch(err){ freigeben(); throw err; }
+  const ei = $("modal").querySelector(".ei");
+  if(ei && el && !bewegungAus()) ei.style.animation = "none";
 }
 /* Erste Einrichtung: neue Nutzer sehen vorher einmal die Szenen */
 function einstiegNeu(){ if(szenenGesehen()) oeffneEinstieg("voll"); else oeffneSzenen(() => oeffneEinstieg("voll")); }
 document.addEventListener("keydown", e => {
-  if(!$("szenen") || !$("szenen").firstElementChild) return;
-  if(e.key === "Escape"){ e.preventDefault(); szenenEnde(); }
+  if(!$("szenen") || !$("szenen").firstElementChild || $("szenen").classList.contains("weg")) return;
+  /* Escape gehoert hier allein den Szenen -- sonst schloesse der allgemeine
+     Escape-Handler die gerade geoeffnete Einrichtung gleich wieder */
+  if(e.key === "Escape"){ e.preventDefault(); e.stopImmediatePropagation(); szenenEnde(); }
   else if(e.key === "ArrowRight"){ e.preventDefault(); if(szene.i < 2) szeneZeigen(szene.i + 1); }
   else if(e.key === "ArrowLeft"){ e.preventDefault(); if(szene.i > 0) szeneZeigen(szene.i - 1); }
   else if(e.key === "Tab"){ const f = [...$("szenen").querySelectorAll("button")]; if(!f.length) return;

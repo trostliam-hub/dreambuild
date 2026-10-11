@@ -355,15 +355,26 @@ const PRUEFUNGEN = [
     const r1 = await ev(() => ({punkte:document.querySelectorAll('#szenen .sz-punkte i').length, weg:!!document.querySelector('[data-szweg]'), ei:!!document.querySelector('#modal .ei'), fokus:document.activeElement && document.activeElement.dataset.szweiter}));
     await seite.keyboard.press('ArrowRight'); await seite.keyboard.press('ArrowRight');
     const r2 = await ev(() => ({szene:szene.i, titel:document.querySelector('#sz-h').textContent}));
-    await seite.keyboard.press('Escape'); await seite.waitForTimeout(500);
-    const r3 = await ev(() => ({gesehen:localStorage.getItem('mtb.szenen'), weg:!document.querySelector('#szenen .sz'), ei:!!document.querySelector('#modal .ei')}));
+    /* Die Einrichtung liegt sofort unter den ausblendenden Szenen; danach
+       verschwindet die Szenen-Ebene. Gewartet wird auf den Zustand, nicht auf
+       eine feste Zeit -- ohne Grafikkarte (CI) dauert ein Bild bis 300 ms. */
+    await seite.keyboard.press('Escape');
+    const r3a = await ev(() => ({ei:!!document.querySelector('#modal .ei'), gesperrt:document.body.style.position === 'fixed'}));
+    await seite.waitForFunction(() => !document.querySelector('#szenen .sz'), null, {timeout:5000}).catch(() => {});
+    const r3 = await ev(() => ({gesehen:localStorage.getItem('mtb.szenen'), weg:!document.querySelector('#szenen .sz'), ei:!!document.querySelector('#modal .ei'), gesperrt:document.body.style.position === 'fixed'}));
     await ev(() => { localStorage.setItem('mtb.einstieg2', '1'); }); await seite.reload(); await bereit(); await seite.waitForTimeout(500);
     const r4 = await ev(() => ({szenen:!!document.querySelector('#szenen .sz')}));
-    await ev(() => { oeffneMenu(); $('modal').querySelector('[data-szenen]').click(); }); await seite.waitForTimeout(500);
+    await ev(() => { oeffneMenu(); $('modal').querySelector('[data-szenen]').click(); });
+    await seite.waitForFunction(() => !!document.querySelector('#szenen .sz'), null, {timeout:5000}).catch(() => {});
     const r5 = await ev(() => ({wieder:!!document.querySelector('#szenen .sz')}));
-    await ev(() => document.querySelector('[data-szweg]').click()); await seite.waitForTimeout(400);
-    const r = {r1, r2, r3, r4, r5};
-    return {ok:r1.punkte === 3 && r1.weg && !r1.ei && r1.fokus === '1' && r2.szene === 2 && /Klarer Plan/.test(r2.titel) && r3.gesehen === '1' && r3.weg && r3.ei && !r4.szenen && r5.wieder, info:r}; }],
+    /* Ohne Folgeschritt gibt das Ende die Seite frei; Tasten waehrend des Ausblendens wirken nicht mehr */
+    await ev(() => document.querySelector('[data-szweg]') && document.querySelector('[data-szweg]').click());
+    await seite.keyboard.press('ArrowRight');
+    await seite.waitForFunction(() => !document.querySelector('#szenen .sz'), null, {timeout:5000}).catch(() => {});
+    const r6 = await ev(() => ({weg:!document.querySelector('#szenen .sz'), frei:document.body.style.position === '', modal:!!$('modal').firstElementChild}));
+    const r = {r1, r2, r3a, r3, r4, r5, r6};
+    return {ok:r1.punkte === 3 && r1.weg && !r1.ei && r1.fokus === '1' && r2.szene === 2 && /Klarer Plan/.test(r2.titel) && r3a.ei && r3a.gesperrt
+      && r3.gesehen === '1' && r3.weg && r3.ei && r3.gesperrt && !r4.szenen && r5.wieder && r6.weg && r6.frei && !r6.modal, info:r}; }],
 ];
 
 let bestanden = 0, gelaufen = 0;
