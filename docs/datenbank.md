@@ -92,6 +92,26 @@ Kolben stärker bremsen, hängt von Übersetzung, Belag und Hebel ab. Weniger
 Kolben als bisher gilt als Kompromiss gegenüber der jetzigen Ausstattung
 (Mindestanforderung), nicht als „schlechter“.
 
+### Freigaben und Adapter (BEVEL-003, Abschnitt 5)
+- **Höchstscheibe:** Gabeln haben `maxScheibeVR` nur noch, wo `ms` belegt ist
+  (vorher stand für 31 Gabeln stillschweigend 203 mm). `msSeit` sagt, ab welchem
+  Modelljahr die Freigabe belegt ist (Pike-Familie: 220 mm ab 2023, Vital MTB und
+  Händler-Datenblätter). Fehlt die Freigabe und ist die Scheibe größer als die
+  native Aufnahme, meldet die Prüfung „Freigabe … nicht hinterlegt“ (Hinweis ohne
+  Abzug, „Noch zu prüfen“) und fragt nach (`build.angaben["<id>|max"]`).
+- **Stumpjumper Alloy hinten:** 203 mm war nicht belegt (Specialized nennt für
+  2019–2020 höchstens 200 mm hinten); jetzt offen, die App fragt.
+- **Adapter-Artikel:** `PM_ARTIKEL` nennt je Schritt den Artikel — Shimano
+  SM-MA-F180P/P2, F203P/P, F203P/PM, F203P/PL2, F220P/PM, F220P/PL2, F220P/PL;
+  Magura QM40, QM42, QM44, QM45, QM46, QM1.5; SRAM Post Bracket 20P-1, 20P-2,
+  40P (00.5318.007.006), 17P — mit belegter Position (vorn/hinten) und ob
+  Schrauben beiliegen. Erst die Marke der Bremse, sonst ein genormter
+  Post-Mount-Adapter einer anderen Marke (gekennzeichnet). Ohne Artikel steht die
+  Größe, die man beim Händler nennt. Preise bleiben Richtpreise.
+- **Scheiben:** Beim Bremsenwechsel steht je Rad eine Zeile — bleibt (gleiche
+  Marke und Größe) oder neu (andere Größe/Marke, Aufnahme wie die Naben). Ihr
+  Preis steht nicht im Katalog und wird nicht geschätzt.
+
 ### Eignung (`e`) — was sie ist und was nicht
 `e` ist eine **redaktionelle Einordnung** der App (0–5 je Disziplin), keine
 Herstellerangabe und keine Messung. Grundlage ist die Bauklasse des Teils

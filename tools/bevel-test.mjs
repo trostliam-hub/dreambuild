@@ -170,6 +170,23 @@ const PRUEFUNGEN = [
       rueckgaengigLetzte(); const zurueck = bewerte(build).adapter.filter(a => a.art === 'bremse' && a.wo === 'gabel').length;
       return {vorAd, weg:pk.weg.map(a => a.n), nachAd, verlaufWeg:e.weg, doppelt, zurueck}; });
     return {ok:r.vorAd === 1 && r.weg.length >= 1 && r.nachAd === 0 && r.verlaufWeg.length >= 1 && !r.doppelt && r.zurueck === 1, info:r}; }],
+  /* BEVEL-003 Abschnitt 5: die im Audit angebotene 220/203 ausdruecklich -- vorn belegt (Pike ab 2023: 220 mm),
+     hinten am Stumpjumper Alloy nicht belegt: "Noch zu pruefen" mit Frage, keine bestaetigte Passform */
+  ['Adapter konkret und Freigabe 220/203: Artikel je Position, unbelegte Freigabe wird erfragt statt bestaetigt', async () => {
+    await neu();
+    const r = await ev(() => { wechsle('real'); build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-xt'; build.angaben = {}; sichern();
+      const basis = rohTeil('bremsen', 'b-xt'), i = basis.v.findIndex(d => d.k === 'Scheiben'), w = findeTeil('bremsen', 'b-xt').wahl.slice();
+      w[i] = basis.v[i].o.findIndex(o => o.s.sV === 220 && o.s.sH === 203); const v = varianteNachIndex(basis, w);
+      const pk = paketFuer('bremsen', v), st = paketStatus(pk).t;
+      const ad = pk.neu.map(a => a.pos + ': ' + a.n), frage = pk.fehlt.map(f => f.frage && f.frage.k);
+      build.angaben['f-stumpy|max'] = {max:203}; const mit203 = paketStatus(paketFuer('bremsen', v)).t;
+      build.angaben['f-stumpy|max'] = {max:200}; const mit200 = paketFuer('bremsen', v).neueFehler.map(f => f.titel);
+      jahrWahl[modus] = 2021; build.angaben = {}; const alt = bewerte({...build, bremsen:v.id}).funde.filter(f => f.fehlt).map(f => f.fehlt); jahrWahl[modus] = null;
+      return {st, ad, frage, mit203, mit200, alt, gesamt:pk.gesamt, bleibt:pk.bleibt, scheiben:pk.scheibenNeu.length}; });
+    const ok = r.st === 'Noch zu prüfen' && r.ad.some(a => /^hinten: Shimano SM-MA-F203P\/PM/.test(a)) && r.ad.some(a => /^vorn: Shimano SM-MA-F220P\/PM/.test(a))
+      && r.frage.indexOf('rahmen|max') >= 0 && r.mit203 === 'Passend mit Zubehör' && r.mit200.some(t => /hinten zu groß/.test(t))
+      && r.alt.some(x => /vorn für 220/.test(x)) && r.bleibt && r.scheiben === 2;
+    return {ok, info:r}; }],
   ['Fehlende Angabe: Hinweis mit gezielter Frage, kein Abzug, Antwort rechnet den Adapter', async () => {
     await neu();
     const r = await ev(() => { build.gabel = 'g-recon'; build.bremsen = 'b-xt'; sichern(); zeichne();

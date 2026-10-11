@@ -3972,9 +3972,10 @@ function FL(std){ return dim("Freilauf", ["HG", "Micro Spline", "XD"].map(f =>
   o_(f, f, {freilauf:f}, {h:[FL_HINW[f][0] + " · beim Kauf wählen oder später tauschen (40–110 €)", FL_HINW[f][1] + " · choose when buying or swap later (€40–110)"],
     kurz:[f.replace(" ", "-") + "-Freilauf", f + " freehub"]})), std); }
 const SCHEIBEN = {
-  Shimano:[[160,160],[180,160],[180,180],[203,180],[203,203],[220,203]],
-  SRAM:[[160,160],[180,160],[180,180],[200,180],[200,200],[220,200],[220,220]],
-  sonst:[[160,160],[180,160],[180,180],[203,180],[203,203],[220,203]]
+  /* BEVEL-003: 220 vorn auch mit 180 hinten -- Scheiben sind je Rad frei kombinierbar */
+  Shimano:[[160,160],[180,160],[180,180],[203,180],[203,203],[220,180],[220,203]],
+  SRAM:[[160,160],[180,160],[180,180],[200,180],[200,200],[220,180],[220,200],[220,220]],
+  sonst:[[160,160],[180,160],[180,180],[203,180],[203,203],[220,180],[220,203]]
 };
 function SCH(marke, sV, sH){
   let l = SCHEIBEN[marke] || SCHEIBEN.sonst;
@@ -4104,7 +4105,10 @@ EINBAU.trailEnduro = [...new Set(EINBAU.trail.concat(EINBAU.enduro))];
 
 function GB(id, n, m, x){
   const t = {id:id, n:n, m:m, travel:x.std, schaft:x.schaft || "tapered", va:x.va || "110x15", lr:x.lr || ["29","27.5"],
-             offset:x.off || 44, maxReifen:x.mr || 66, maxScheibeVR:x.ms || 203, e:x.e, g:x.g, p:x.p};
+             offset:x.off || 44, maxReifen:x.mr || 66, maxScheibeVR:x.ms || null, e:x.e, g:x.g, p:x.p};
+  /* BEVEL-003: ohne belegte Freigabe (ms) keine Hoechstscheibe -- frueher stand hier stillschweigend 203.
+     msSeit: ab welchem Modelljahr die Freigabe belegt ist (aeltere Generationen: nicht hinterlegt) */
+  if(x.msSeit) t.msSeit = x.msSeit;
   if(x.pm) t.pmV = x.pm;                        /* Post Mount nativ fuer diese Scheibe, s. bremsAufnahme() */
   const v = [];
   if(x.ka) v.push(KA(typeof x.ka === "string" ? KART[x.ka] : x.ka, x.kaStd));
@@ -4160,7 +4164,9 @@ rahmen:[
   bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:64, maxScheibeHR:180, pmHR:160, udh:true,
   daempfer:{el:185,hub:50,typ:"Trunnion"}, geo:{rs:1175,ks:435,lw:66.5,sw:76,  sr:430,ta:35}, ohne:[], fb:{h:"#1d2c4e",a:"#d6403a"}, e:E(5,3,0,0,0,0,0), g:2450, p:2799},
  {id:"f-stumpy", n:"Specialized Stumpjumper Alloy", m:"Specialized", seit:2021, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", steuerrohr:"IS42/IS52", ha:"148x12",
-  bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:64, maxScheibeHR:203, pmHR:180, udh:true,
+  /* maxScheibeHR (BEVEL-003): 203 mm war nicht belegt -- Specialized nennt fuer den Stumpjumper 2019-2020
+     hinten hoechstens 200 mm, fuer diese Generation fand sich keine Angabe. Deshalb offen, die App fragt nach. */
+  bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:64, maxScheibeHR:null, pmHR:180, udh:true,
   daempfer:{el:190,hub:45,typ:"Standard"}, geo:{rs:1210,ks:437,lw:65.5,sw:76.5,sr:430,ta:35}, ohne:[], fb:{h:"#49545f",a:"#e9ecef"}, e:E(3,5,3,0,0,0,0), g:3400, p:2099},
  {id:"f-hightower", n:"Santa Cruz Hightower C", m:"Santa Cruz", seit:2022, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", steuerrohr:"IS41/IS52", ha:"148x12",
   bb:"BSA73", stuetze:31.6, einsteck:230, maxReifen:64, maxScheibeHR:203, pmHR:180, udh:true,
@@ -4300,10 +4306,10 @@ gabel:[
  GB("g-35",         "RockShox 35 Gold RL", "RockShox", {fw:[120,130,140,150,160], std:140, mr:64, e:E(2,4,2,0,0,0,0), g:2150, p:429}),
  GB("g-psylo",      "RockShox Psylo Gold RC", "RockShox", {fw:[140,150,160], std:150, e:E(1,5,4,1,0,0,0), g:2100, p:649}),
  GB("g-revelation", "RockShox Revelation RC", "RockShox", {fw:[120,130,140,150], std:150, e:E(1,5,3,0,0,0,0), g:2250, p:489}),
- GB("g-pike",       "RockShox Pike Ultimate", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, ka:"pikeUlt", e:E(2,5,3,0,0,0,0), g:1890, p:1049}),
- GB("g-pikesp",     "RockShox Pike Select+", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, ka:"sel31", e:E(2,5,3,0,0,0,0), g:1950, p:849}),
- GB("g-pikesel",    "RockShox Pike Select · Charger RC", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, e:E(2,5,3,0,0,0,0), g:1780, p:699}),
- GB("g-pikebase",   "RockShox Pike · Rush RC", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, e:E(2,4,2,0,0,0,0), g:1850, p:549}),
+ GB("g-pike",       "RockShox Pike Ultimate", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, msSeit:2023, ka:"pikeUlt", e:E(2,5,3,0,0,0,0), g:1890, p:1049}),
+ GB("g-pikesp",     "RockShox Pike Select+", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, msSeit:2023, ka:"sel31", e:E(2,5,3,0,0,0,0), g:1950, p:849}),
+ GB("g-pikesel",    "RockShox Pike Select · Charger RC", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, msSeit:2023, e:E(2,5,3,0,0,0,0), g:1780, p:699}),
+ GB("g-pikebase",   "RockShox Pike · Rush RC", "RockShox", {pm:180, fw:[120,130,140], std:140, ms:220, msSeit:2023, e:E(2,4,2,0,0,0,0), g:1850, p:549}),
  GB("g-yari",       "RockShox Yari RC", "RockShox", {pm:180, fw:[150,160,170], std:160, e:E(0,3,4,2,0,0,0), g:2380, p:549}),
  GB("g-lyrik",      "RockShox Lyrik Ultimate", "RockShox", {pm:180, fw:[140,150,160,170], std:160, ms:220, ka:"lyrikUlt", e:E(0,4,5,2,0,0,0), g:2270, p:1299}),
  GB("g-lyrikselect","RockShox Lyrik Select+", "RockShox", {pm:180, fw:[140,150,160], std:160, ms:220, ka:"sel31", e:E(0,3,5,2,0,0,0), g:2120, p:899}),
@@ -5357,7 +5363,9 @@ function optionPasst(slotKey, d, o, b){
       const g = b.gabel ? findeTeil("gabel", b.gabel) : null;
       if(!g && !r) return null;
       /* kleiner als die native Post-Mount-Aufnahme geht nicht, groesser mit Adapter */
-      return (!g || (s.sV <= g.maxScheibeVR && !(g.pmV && s.sV < g.pmV))) && (!r || (s.sH <= r.maxScheibeHR && !(r.pmHR && (r.hrAufnahme || "PM") === "PM" && s.sH < r.pmHR)));
+      /* Unbekannte Hoechstscheibe sperrt nicht -- der Vorschlag steht dann als "noch zu pruefen" da */
+      const mV = g ? maxScheibe(b, g, "v") : null, mH = r ? maxScheibe(b, r, "h") : null;
+      return (!g || ((mV == null || s.sV <= mV) && !(g.pmV && s.sV < g.pmV))) && (!r || ((mH == null || s.sH <= mH) && !(r.pmHR && (r.hrAufnahme || "PM") === "PM" && s.sH < r.pmHR)));
     }
     case "Durchmesser": return r && r.stuetze ? parseFloat(s.d) === r.stuetze : null;
     case "Nabenbreite": return r ? s.ha === r.ha : null;
@@ -6094,6 +6102,39 @@ const A = (t,x,sl,txt,ad) => ({level:"warnung", adapter:true, titel:t, text:txt,
    ginge (Ausfuehrung eines Teils umstellen), sofern der Katalog das hergibt.
    Preise sind Richtwerte fuer Markenadapter (Shimano, SRAM, Hope, Magura). */
 const adPreisPM = d => d <= 5 ? 8 : d <= 25 ? 17 : 24;
+/* Konkrete Post-Mount-Adapter (BEVEL-003, Abschnitt 5): [Marke, Artikel, PM nativ,
+   Scheibe, Position, Schrauben dabei]. Position "vh" vorn und hinten belegt, "v" nur
+   vorn, "h" nur hinten, "?" nicht belegt. Quellen: Haendler-Datenblaetter (Rabe, Rose,
+   evo, Worldwide Cyclery, All Terrain Cycles, ebike24, Steed Cycles), bike24-Tabelle
+   der Magura-QM-Adapter, SRAM-Support (40P fuer 180 -> 220 mm, Teilenummer
+   00.5318.007.006). Post Mount ist genormt (74 mm Lochabstand); ein Adapter eines
+   anderen Herstellers steht nur da, wenn es keinen des Bremsenherstellers gibt. */
+const PM_ARTIKEL = [
+  ["Shimano", "SM-MA-F180P/P2", 160, 180, "v", 1], ["Shimano", "SM-MA-F203P/P", 160, 203, "v", 1], ["Shimano", "SM-MA-F203P/PM", 180, 203, "vh", 1],
+  ["Shimano", "SM-MA-F203P/PL2", 200, 203, "v", 1], ["Shimano", "SM-MA-F220P/PM", 180, 220, "vh", 1], ["Shimano", "SM-MA-F220P/PL2", 200, 220, "?", 0], ["Shimano", "SM-MA-F220P/PL", 203, 220, "?", 0],
+  ["Magura", "QM40", 140, 160, "vh", 0], ["Magura", "QM40", 160, 180, "vh", 0], ["Magura", "QM42", 160, 203, "?", 0], ["Magura", "QM44", 180, 203, "vh", 0],
+  ["Magura", "QM45", 180, 220, "v", 0], ["Magura", "QM45", 140, 180, "h", 0], ["Magura", "QM46", 203, 220, "?", 0], ["Magura", "QM1.5", 200, 203, "vh", 0, ["2 × 1,5 mm", "2 × 1.5 mm"]],
+  ["SRAM", "Post Bracket 20P-1", 160, 180, "?", 1], ["SRAM", "Post Bracket 20P-2", 180, 200, "?", 1], ["SRAM", "Post Bracket 20P-2", 200, 220, "?", 1],
+  ["SRAM", "Post Bracket 40P (00.5318.007.006)", 180, 220, "?", 1], ["SRAM", "Post Bracket 17P", 203, 220, "h", 1]
+];
+/* Was zum Artikel noch zu sagen ist -- Marke, Position, Schrauben; ohne Artikel die Groesse fuer den Haendler */
+function adArtikelHinweis(a){
+  if(a.art !== "bremse" || !a.grafik || a.grafik.aufnahme !== "PM") return "";
+  const x = a.artikel, h = [];
+  if(!x) return tx(`Kein belegter Artikel für diesen Schritt — beim Händler „${a.kurz}“ nennen.`, `No verified article for this step — ask the shop for “${a.kurz}”.`);
+  if(!x.eigen) h.push(tx(`Von ${x.marke}: Post Mount ist genormt (74 mm Lochabstand), einen Adapter des Bremsenherstellers kennt der Katalog nicht`, `By ${x.marke}: post mount is standardised (74 mm spacing); the catalogue has no adapter from the brake maker`));
+  if(!x.posBelegt) h.push(tx("ob vorn oder hinten freigegeben, beim Kauf bestätigen", "confirm front or rear use when buying"));
+  h.push(x.schrauben ? tx("Schrauben liegen bei", "bolts included") : tx("ob Schrauben beiliegen, ist nicht belegt", "whether bolts are included isn't confirmed"));
+  return h.join(" · ") + ".";
+}
+/* Bester belegter Artikel: erst die Marke der Bremse, dann belegte Position, dann andere Marke */
+function pmArtikel(nativ, scheibe, pos, marke){
+  const l = PM_ARTIKEL.filter(a => a[2] === nativ && a[3] === scheibe && (a[4] === "?" || a[4].indexOf(pos) >= 0));
+  if(!l.length) return null;
+  const wert = a => (a[0] === marke ? 0 : 2) + (a[4] === "?" ? 1 : 0);
+  const a = l.slice().sort((x, y) => wert(x) - wert(y))[0];
+  return {marke:a[0], n:a[0] + " " + a[1] + (a[6] ? ` (${tx(a[6][0], a[6][1])})` : ""), eigen:a[0] === marke, posBelegt:a[4] !== "?", schrauben:!!a[5]};
+}
 const adGewPM = d => d <= 5 ? 6 : d <= 25 ? 42 : 60;
 const halb = d => zahlDe(Math.round(d / 2 * 10) / 10);
 /* Ohne Aufnahme im Katalog ist der Adapterbedarf offen (BEVEL-002): ein
@@ -6102,6 +6143,21 @@ const angabeFehlt = (k, teil) => Object.assign(H(k === "gabel" ? tx("Bremsaufnah
   tx(`Für <code>${teil.n}</code> steht die Aufnahme (z. B. PM 180) nicht im Katalog. Ob ${k === "gabel" ? "vorn" : "hinten"} ein Adapter nötig ist, kann die App deshalb nicht prüfen — mit deiner Angabe schon.`,
      `The mount for <code>${teil.n}</code> (e.g. PM 180) isn't in the catalogue, so the app can't check whether the ${k === "gabel" ? "front" : "rear"} needs an adapter — with your input it can.`)),
   {fehlt:k === "gabel" ? tx("Bremsaufnahme vorn", "front brake mount") : tx("Bremsaufnahme hinten", "rear brake mount"), frage:{k:k}});
+/* Freigegebene Hoechstscheibe (BEVEL-003): die Angabe des Nutzers fuer dieses Rad,
+   sonst der Katalog -- bei Gabeln nur ab dem Modelljahr, fuer das die Freigabe
+   belegt ist. null = nicht hinterlegt: dann wird nicht geraten, sondern gefragt. */
+function maxScheibe(b, teil, wo){
+  if(!teil) return null;
+  const a = b && b.angaben ? b.angaben[(teil.basisId || teil.id) + "|max"] : null;
+  if(a && a.max > 0) return a.max;
+  const m = wo === "v" ? teil.maxScheibeVR : teil.maxScheibeHR;
+  if(m == null || (teil.msSeit && jahrAktiv() < teil.msSeit)) return null;
+  return m;
+}
+const maxFehlt = (k, teil, mm) => Object.assign(H(k === "gabel" ? tx(`Freigabe der Gabel für ${mm} mm nicht hinterlegt`, `Fork rating for ${mm} mm not on file`) : tx(`Freigabe des Rahmens für ${mm} mm nicht hinterlegt`, `Frame rating for ${mm} mm not on file`), "", [k, "bremsen"],
+  tx(`Bis zu welcher Scheibe <code>${teil.n}</code> ${k === "gabel" ? "vorn" : "hinten"} freigegeben ist, steht nicht im Katalog${teil.msSeit ? ` (belegt erst ab Modelljahr ${teil.msSeit})` : ""}. Ob <code>${mm} mm</code> erlaubt ist, kann die App deshalb nicht bestätigen — mit der Angabe aus deinem Handbuch schon.`,
+     `The largest rotor <code>${teil.n}</code> is rated for at the ${k === "gabel" ? "front" : "rear"} isn't in the catalogue${teil.msSeit ? ` (only on file from model year ${teil.msSeit})` : ""}. So the app can't confirm that <code>${mm} mm</code> is allowed — with the figure from your manual it can.`)),
+  {fehlt:k === "gabel" ? tx(`Freigabe vorn für ${mm} mm`, `front rating for ${mm} mm`) : tx(`Freigabe hinten für ${mm} mm`, `rear rating for ${mm} mm`), frage:{k:k + "|max"}});
 function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe, bremse){
   if(!nativ || !scheibe) return;
   const posEn = pos === "vorn" ? "Front" : "Rear", wer = slot === "gabel" ? tx("Die Gabel", "The fork") : tx("Der Rahmen", "The frame");
@@ -6118,14 +6174,18 @@ function bremsAufnahme(out, pos, slot, teil, nativ, typ, scheibe, bremse){
       tx(`${wer} hat eine Post-Mount-Aufnahme für <code>${nativ}-mm</code>-Scheiben ohne Adapter. Eine <code>${scheibe}-mm</code>-Scheibe ist kleiner als die Aufnahme — der Bremssattel säße über dem Scheibenrand, die Beläge würden ins Leere greifen. Kleinste Scheibe hier: <code>${nativ} mm</code>.`,
          `${wer} has a post mount for <code>${nativ} mm</code> rotors without an adapter. A <code>${scheibe} mm</code> rotor is smaller than the mount — the caliper would sit beyond the rotor edge and the pads would miss. Smallest rotor here: <code>${nativ} mm</code>.`)));
   else if(art === "PM" && d > 0){
-    const shims = d === 3;
+    /* +3 mm: Distanzscheiben -- ausser der belegte Artikel ist ein eigener Adapter (Shimano F203P/PL2) */
+    const artikel = pmArtikel(nativ, scheibe, v ? "v" : "h", bremse && bremse.m);
+    const shims = d === 3 && !(artikel && !/QM1\.5/.test(artikel.n));
     out.push(A(tx(`Bremsscheibe ${pos} nur mit Adapter`, `${posEn} rotor needs an adapter`),"bremsen",[slot,"bremsen"],
       tx(`Rechnung: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${shims ? "Dafür reichen zwei 1,5-mm-Distanzscheiben (Shim-Kit, z. B. SRAM 200 → 203)." : `Dafür braucht es einen Post-Mount-Adapter <code>+${d} mm</code>, der den Bremssattel nach außen setzt.`} ${shims ? "Das Kit ist" : "Er ist"} schon in deinem Aufbau eingeplant.`,
          `Calculation: <code>PM${nativ} + ${d} mm = ${scheibe} mm</code>. ${shims ? "Two 1.5 mm shims do the job (shim kit, e.g. SRAM 200 → 203)." : `That takes a <code>+${d} mm</code> post-mount adapter that moves the caliper outwards.`} ${shims ? "The kit is" : "It's"} already included in your build.`),
       Object.assign(basis, {
-        n:shims ? tx("PM-Distanzscheiben +3 mm", "PM shims +3 mm") : tx(`Post-Mount-Adapter +${d} mm`, `Post-mount adapter +${d} mm`),
+        /* BEVEL-003: genauer Artikel, wo belegt -- sonst die Groesse, die man beim Haendler nennt */
+        artikel:artikel,
+        n:artikel ? `${artikel.n} · PM ${nativ} → ${scheibe}` : shims ? tx("PM-Distanzscheiben +3 mm", "PM shims +3 mm") : tx(`Post-Mount-Adapter +${d} mm`, `Post-mount adapter +${d} mm`),
         kurz:`PM ${nativ} → ${scheibe} mm`, rechnung:`PM ${nativ} + ${d} mm = ${scheibe} mm`,
-        p:adPreisPM(d), g:adGewPM(d), such:shims ? "Post Mount Spacer 3 mm" : `Post Mount Adapter ${nativ} ${scheibe}`,
+        p:shims || d > 5 ? adPreisPM(d) : adPreisPM(23), g:shims || d > 5 ? adGewPM(d) : adGewPM(23), such:shims ? "Post Mount Spacer 3 mm" : `Post Mount Adapter ${nativ} ${scheibe}`,
         grund:tx(`${deine} hat eine Post-Mount-Aufnahme für <b>${nativ}-mm</b>-Bremsscheiben. Du hast ${pos} aber eine <b>${scheibe}-mm</b>-Scheibe gewählt. Damit der Bremssattel trotzdem richtig sitzt, brauchst du ${shims ? "<b>zwei 1,5-mm-Distanzscheiben (PM +3 mm)</b>" : `einen <b>Adapter PM +${d} mm</b>`} — er gleicht die <b>${d} mm</b> Unterschied aus.`,
                  `${deine} has a post mount for <b>${nativ} mm</b> rotors. But you chose a <b>${scheibe} mm</b> rotor at the ${posTx}. To put the caliper in the right place you need ${shims ? "<b>two 1.5 mm shims (PM +3 mm)</b>" : `a <b>PM +${d} mm adapter</b>`} — it makes up the <b>${d} mm</b> difference.`),
         detail:tx(`Die ${d} mm sind der Unterschied im <b>Durchmesser</b>. Der Bremssattel rückt dabei um den halben Wert nach außen — <b>${halb(d)} mm</b>, genau so weit, wie der Scheibenrand jetzt weiter außen liegt (Radius).`,
@@ -6585,17 +6645,21 @@ function pruefe(b){
         tx(`<code>${laufraeder.n}</code> hat keine Bremsflanke. Trial-Felgenbremsen brauchen zusätzlich eine gezahnte oder gefräste Flanke, sonst fehlt der Biss.`,
            `<code>${laufraeder.n}</code> has no braking surface. Trials rim brakes also need a serrated or ground sidewall, otherwise there's no bite.`)));
     } else {
-      if(rahmen && bremsen.sH > rahmen.maxScheibeHR) out.push(F(tx("Bremsscheibe hinten zu groß", "Rear rotor too big"),"bremsen",["rahmen","bremsen"],
-        tx(`Der Rahmen ist bis <code>${rahmen.maxScheibeHR} mm</code> freigegeben, die Bremse hat eine <code>${mmBind(bremsen.sH + " mm")}</code>-Scheibe. Größere Scheiben hebeln am Hinterbau.`,
-           `The frame is rated up to <code>${rahmen.maxScheibeHR} mm</code>, the brake has a <code>${bremsen.sH} mm</code> rotor. Bigger rotors put extra leverage on the rear end.`)));
+      /* BEVEL-003: Hoechstscheibe nur, wo belegt (oder vom Nutzer angegeben); die native Groesse geht immer */
+      const maxH = rahmen ? maxScheibe(b, rahmen, "h") : null, maxV = gabel ? maxScheibe(b, gabel, "v") : null;
+      if(rahmen && maxH != null && bremsen.sH > maxH) out.push(F(tx("Bremsscheibe hinten zu groß", "Rear rotor too big"),"bremsen",["rahmen","bremsen"],
+        tx(`Der Rahmen ist bis <code>${maxH} mm</code> freigegeben, die Bremse hat eine <code>${mmBind(bremsen.sH + " mm")}</code>-Scheibe. Größere Scheiben hebeln am Hinterbau.`,
+           `The frame is rated up to <code>${maxH} mm</code>, the brake has a <code>${bremsen.sH} mm</code> rotor. Bigger rotors put extra leverage on the rear end.`)));
       else if(rahmen){ const ang = rahmen.pmHR ? null : angabeVon(b, rahmen);
-        if(rahmen.pmHR || ang) bremsAufnahme(out, "hinten", "rahmen", rahmen, rahmen.pmHR || ang.nativ, rahmen.pmHR ? rahmen.hrAufnahme : ang.typ, bremsen.sH, bremsen);
+        if(rahmen.pmHR || ang){ bremsAufnahme(out, "hinten", "rahmen", rahmen, rahmen.pmHR || ang.nativ, rahmen.pmHR ? rahmen.hrAufnahme : ang.typ, bremsen.sH, bremsen);
+          if(maxH == null && bremsen.sH > (rahmen.pmHR || ang.nativ)) out.push(maxFehlt("rahmen", rahmen, bremsen.sH)); }
         else out.push(angabeFehlt("rahmen", rahmen)); }
-      if(gabel && bremsen.sV > gabel.maxScheibeVR) out.push(F(tx("Bremsscheibe vorn zu groß für die Gabel", "Front rotor too big for the fork"),"bremsen",["gabel","bremsen"],
-        tx(`Die Gabel ist bis <code>${gabel.maxScheibeVR} mm</code> freigegeben, die Bremse hat eine <code>${mmBind(bremsen.sV + " mm")}</code>-Scheibe.`,
-           `The fork is rated up to <code>${gabel.maxScheibeVR} mm</code>, the brake has a <code>${bremsen.sV} mm</code> rotor.`)));
+      if(gabel && maxV != null && bremsen.sV > maxV) out.push(F(tx("Bremsscheibe vorn zu groß für die Gabel", "Front rotor too big for the fork"),"bremsen",["gabel","bremsen"],
+        tx(`Die Gabel ist bis <code>${maxV} mm</code> freigegeben, die Bremse hat eine <code>${mmBind(bremsen.sV + " mm")}</code>-Scheibe.`,
+           `The fork is rated up to <code>${maxV} mm</code>, the brake has a <code>${bremsen.sV} mm</code> rotor.`)));
       else if(gabel){ const ang = gabel.pmV ? null : angabeVon(b, gabel);
-        if(gabel.pmV || ang) bremsAufnahme(out, "vorn", "gabel", gabel, gabel.pmV || ang.nativ, gabel.pmV ? gabel.vrAufnahme : ang.typ, bremsen.sV, bremsen);
+        if(gabel.pmV || ang){ bremsAufnahme(out, "vorn", "gabel", gabel, gabel.pmV || ang.nativ, gabel.pmV ? gabel.vrAufnahme : ang.typ, bremsen.sV, bremsen);
+          if(maxV == null && bremsen.sV > (gabel.pmV || ang.nativ)) out.push(maxFehlt("gabel", gabel, bremsen.sV)); }
         else out.push(angabeFehlt("gabel", gabel)); }
       /* zub: im Paket eines Bremsenwechsels steht dafuer die Zeile "Scheiben" (BEVEL-003) */
       if(laufraeder && laufraeder.naben !== bremsen.mount) out.push(Object.assign(H(tx("Scheibenaufnahme abweichend", "Different rotor mount"),"bremsen",["laufraeder","bremsen"],
@@ -15604,6 +15668,7 @@ function oeffneAdapterInfo(id, knopf){
     ${adGrafik(a)}
     <p class="adp-txt">${a.grund}</p>
     ${a.detail ? `<p class="adp-det">${a.detail}</p>` : ""}
+    ${adArtikelHinweis(a) ? `<p class="adp-det">${adArtikelHinweis(a)}</p>` : ""}
     <div class="adp-fakt"><span><b>${eur(a.p)}</b>${tx("Richtpreis", "typical price")}</span><span><b>${gramm(a.g)}</b>${tx("Gewicht", "weight")}</span>
       <span class="adp-auto">${ic(`<path d="M20 6 9 17l-5-5"/>`, 14)}${modus === "traum" ? tx("automatisch in Preis, Gewicht und Einkaufsliste", "automatically in price, weight and shopping list")
         : tx("in Preis und Gewicht eingerechnet", "counted in price and weight")}</span></div>
@@ -16048,12 +16113,12 @@ const STATUS_RANG = {ok:0, ad:1, offen:2, w:3, no:4};
 function paketZeilen(pk, kurz){
   const z = [];
   for(const s of pk.scheibenNeu) z.push(`<li class="pz-neu"><b>${tx("Neu nötig", "Needed")}:</b> ${esc(scheibeName(s))} · ${tx("Preis nicht hinterlegt", "price not on file")}${kurz ? "" : `<span class="pz-grund">${scheibeGrund(s)}</span>`}</li>`);
-  for(const a of pk.neu) z.push(`<li class="pz-neu"><b>${tx("Neu nötig", "Needed")}:</b> ${esc(a.n)} · ${eur(a.p || 0)}${kurz ? "" : `<span class="pz-grund">${tx("Wird gebraucht, weil", "Needed because")} ${adGrundKurz(a)}</span>`}</li>`);
+  for(const a of pk.neu) z.push(`<li class="pz-neu"><b>${tx("Neu nötig", "Needed")}${a.pos ? " (" + esc(a.pos) + ")" : ""}:</b> ${esc(a.n)} · ${eur(a.p || 0)} <span class="kg-w">${tx("Richtpreis", "guide price")}</span>${kurz ? "" : `<span class="pz-grund">${tx("Wird gebraucht, weil", "Needed because")} ${adGrundKurz(a)} ${adArtikelHinweis(a)}</span>`}</li>`);
   for(const x of pk.folge) z.push(`<li class="pz-neu"><b>${tx("Umstellen", "Change")}:</b> ${esc(slotOf(x.slot).label)} — ${esc(x.aenderung.join(", ") || x.zu.n)} · ${x.kosten ? eur(x.kosten) : tx("Preis nicht hinterlegt", "price not on file")}</li>`);
-  for(const a of pk.weg) z.push(`<li class="pz-weg"><b>${tx("Entfällt", "No longer needed")}:</b> ${esc(a.n)}</li>`);
+  for(const a of pk.weg) z.push(`<li class="pz-weg"><b>${tx("Entfällt", "No longer needed")}${a.pos ? " (" + esc(a.pos) + ")" : ""}:</b> ${esc(a.n)}</li>`);
   if(!kurz){
     for(const s of pk.scheiben.filter(s => s.bleibt)) z.push(`<li class="pz-weiter"><b>${tx("Bleibt", "Kept")}:</b> ${esc(scheibeName(s))}<span class="pz-grund">${scheibeGrund(s)}</span></li>`);
-    for(const a of pk.weiter) z.push(`<li class="pz-weiter"><b>${tx("Bleibt", "Kept")}:</b> ${esc(a.n)}</li>`);
+    for(const a of pk.weiter) z.push(`<li class="pz-weiter"><b>${tx("Bleibt", "Kept")}${a.pos ? " (" + esc(a.pos) + ")" : ""}:</b> ${esc(a.n)}<span class="pz-grund">${tx("dein vorhandener Adapter passt weiter — nicht neu kaufen", "your existing adapter still fits — don't buy a new one")}</span></li>`);
   }
   return z.length ? `<ul class="pz">${z.join("")}</ul>` : "";
 }
@@ -16129,17 +16194,17 @@ function finderRechnen(k){
   if(!ziel) return e;
   const roh = e.roh;
   e.variante = jetzt ? varianteHinweis(k, jetzt, ziel) : null;
-  /* Mehr Bremskraft: groessere Scheiben gingen auch an deiner Bremse (Vorschlag "Gleiches Modell") --
-     ein anderes Modell muss deshalb diese Ausfuehrung schlagen, nicht dein heutiges Teil */
-  const latte = k === "bremsen" && ziel === "kraft" && e.variante ? e.variante.v : jetzt;
+  const latte = jetzt;
   if(ziel === "konflikt" && jetzt){
     const pa = passendeAusfuehrung(k, jetzt, build);
     if(pa){ const pk = paketFuer(k, pa, vor); if(!pk.neueFehler.length && pk.geloest.some(f => f.slots.indexOf(k) >= 0)) roh.push({t:pa, pk:pk, gleich:true, mind:[], rang:-1}); }
   }
   /* Ersatz: dasselbe Teil noch einmal steht vorn */
   if(ziel === "ersatz" && jetzt) roh.push({t:jetzt, pk:paketFuer(k, jetzt, vor), gleichNeu:true, vg:kgVergleich(k, jetzt, jetzt, ziel), mind:[], rang:-1e9});
+  /* Mehr Bremskraft ueber die Scheibe geht an jeder Bremse -- ein anderes Modell ist dafuer kein Beleg */
+  const nurVariante = k === "bremsen" && ziel === "kraft" && !!jetzt;
   for(const t0 of kandidaten(k, build)){
-    if((jb && basisVon(t0.id) === jb) || t0.eigen || !vorliebeOk(k, t0)) continue;
+    if(nurVariante || (jb && basisVon(t0.id) === jb) || t0.eigen || !vorliebeOk(k, t0)) continue;
     const t = gleicheBasis(k, t0, jetzt, ziel), pk = paketFuer(k, t, vor);
     if(pk.neueFehler.length) continue;
     const vg = jetzt ? kgVergleich(k, latte, t, ziel) : null;
@@ -16610,7 +16675,8 @@ function oeffneVergleich(k, id){
       ${pk.neueWarn.length ? `<p class="vt-satz w"><b>${tx("Neuer Kompromiss", "New compromise")}:</b> ${esc(pk.neueWarn.map(f => f.titel).join(", "))}</p>` : ""}
       ${pk.neueFehler.length ? `<p class="vt-satz no"><b>${tx("Passt nicht", "Doesn't fit")}:</b> ${esc(pk.neueFehler.map(f => f.titel).join(", "))}</p>` : ""}
       ${pk.neueHinw.length || pk.unerklaert ? `<p class="vt-satz offen"><b>${tx("Noch zu prüfen", "Still to check")}:</b> ${esc(pk.neueHinw.map(f => f.titel).join(", ") || tx("Die Kompatibilität sinkt, ohne dass ein Teil im Paket es erklärt.", "Compatibility drops without a part in the package explaining it."))}</p>` : ""}
-      ${(vg && vg.unbekannt.length) || pk.fehlt.length ? `<p class="vt-satz offen"><b>${tx("Fehlende Angaben", "Missing data")}:</b> ${esc((vg ? vg.unbekannt.map(e => kgName(e.k)) : []).concat(pk.fehlt.map(f => f.fehlt)).join(", "))} — ${tx("zählt weder als besser noch als schlechter.", "counts as neither better nor worse.")}</p>` : ""}
+      ${(vg && vg.unbekannt.length) || pk.fehlt.length ? `<p class="vt-satz offen"><b>${tx("Fehlende Angaben", "Missing data")}:</b> ${esc((vg ? vg.unbekannt.map(e => kgName(e.k)) : []).concat(pk.fehlt.map(f => f.fehlt)).join(", "))} — ${tx("zählt weder als besser noch als schlechter.", "counts as neither better nor worse.")}
+        ${pk.fehlt.some(f => f.frage) ? `<button class="btn ghost sm" data-frage="${pk.fehlt.find(f => f.frage).frage.k}">${tx("Angabe ergänzen", "Add the detail")}</button>` : ""}</p>` : ""}
       <section class="vt-paket" aria-label="${tx("Was der Wechsel umfasst", "What the switch includes")}">
         <h4>${tx("Was der Wechsel umfasst", "What the switch includes")}</h4>
         <ul class="pz">${pk.bleibt ? `<li class="pz-weiter"><b>${tx("Bleibt", "Kept")}:</b> ${esc(jetzt.nb || jetzt.n)}<span class="pz-grund">${tx("gleiches Modell — es ändern sich nur Scheiben und Adapter", "same model — only rotors and adapters change")}</span></li>`
@@ -16645,6 +16711,29 @@ function oeffneAngabe(k, pos){
       <button class="btn ghost wide" data-angabe="${k}||0" style="margin-top:12px">${tx("Weiß ich nicht", "I don't know")}</button>
       <p class="hint" style="margin:10px 0 0">${tx("Die Angabe gilt nur für dieses Rad. Ohne sie bleibt „Adapter“ ungeprüft — die App nimmt nichts an.", "This only applies to this bike. Without it, adapters stay unchecked — the app doesn't assume anything.")}</p>
     </div>`);
+}
+/* Hoechstscheibe erfragen (BEVEL-003): steht im Handbuch oder auf der Herstellerseite */
+const MAX_OPT = [160, 180, 200, 203, 220, 230];
+function oeffneMaxAngabe(k){
+  const teil = build[k] ? findeTeil(k, build[k]) : null;
+  if(!teil) return;
+  const a = build.angaben ? build.angaben[(teil.basisId || teil.id) + "|max"] : null;
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${esc(teil.nb || teil.n)}</span>${k === "gabel" ? tx("Bis zu welcher Scheibe ist deine Gabel freigegeben?", "What's the largest rotor your fork is rated for?") : tx("Bis zu welcher Scheibe ist dein Rahmen hinten freigegeben?", "What's the largest rear rotor your frame is rated for?")}</h3>${zuBtn}</div>
+    <div class="sheet-b">
+      <p class="hint" style="margin:0 0 10px">${tx("Steht im Handbuch oder auf der Herstellerseite unter „max. rotor size“. Größere Scheiben hebeln stärker an Gabel und Hinterbau — deshalb rät die App hier nicht.", "It's in the manual or on the maker's page under “max rotor size”. Bigger rotors put more leverage on fork and rear end — so the app doesn't guess here.")}</p>
+      <div class="fi-chips ag-wahl">${MAX_OPT.map(n => `<button data-angabemax="${k}|${n}" aria-pressed="${!!a && a.max === n}">${n} mm</button>`).join("")}</div>
+      <button class="btn ghost wide" data-angabemax="${k}|0" style="margin-top:12px">${tx("Weiß ich nicht", "I don't know")}</button>
+      <p class="hint" style="margin:10px 0 0">${tx("Die Angabe gilt nur für dieses Rad.", "This only applies to this bike.")}</p>
+    </div>`);
+}
+function angabeMaxSetzen(k, mm){
+  const teil = build[k] ? findeTeil(k, build[k]) : null;
+  if(!teil) return;
+  build.angaben = build.angaben && typeof build.angaben === "object" ? build.angaben : {};
+  const id = (teil.basisId || teil.id) + "|max";
+  if(mm > 0) build.angaben[id] = {max:mm}; else delete build.angaben[id];
+  sichern(); schliesse(); zeichne();
+  zeigeToast(mm > 0 ? tx(`Gemerkt: bis ${mm} mm. Die Prüfung rechnet jetzt damit.`, `Saved: up to ${mm} mm. The check now uses it.`) : tx("Bleibt offen — die App nimmt nichts an.", "Left open — the app doesn't assume anything."));
 }
 function angabeSetzen(k, typ, nativ){
   const teil = build[k] ? findeTeil(k, build[k]) : null;
@@ -16725,7 +16814,8 @@ function pruefKarte(r){
     : ung.length ? tx("Keine Konflikte — aber nicht alles geprüft", "No conflicts — but not everything checked")
     : tx("Keine Konflikte in den geprüften Angaben", "No conflicts in the checked data");
   const koerperFehlt = ung.some(x => x === tx("Systemgewicht", "system weight") || x === tx("Rahmengröße zu deinem Körper", "frame size for your body"));
-  const offenZeile = ung.length ? `<div class="pf-offen"><span><b>${tx("Nicht geprüft:", "Not checked:")}</b> ${esc(ung.join(", "))}.</span>${koerperFehlt ? `<button class="btn ghost sm" data-fahrerprofil="1">${tx("Angaben ergänzen", "Add your details")}</button>` : ""}</div>` : "";
+  const frageF = r.funde.find(f => f.frage);
+  const offenZeile = ung.length ? `<div class="pf-offen"><span><b>${tx("Nicht geprüft:", "Not checked:")}</b> ${esc(ung.join(", "))}.</span>${frageF ? `<button class="btn ghost sm" data-frage="${frageF.frage.k}">${esc(frageF.fehlt ? tx(`${frageF.fehlt[0].toUpperCase() + frageF.fehlt.slice(1)} angeben`, `Add ${frageF.fehlt}`) : tx("Angabe ergänzen", "Add the detail"))}</button>` : ""}${koerperFehlt ? `<button class="btn ghost sm" data-fahrerprofil="1">${tx("Körperdaten ergänzen", "Add your body data")}</button>` : ""}</div>` : "";
   const meta = [harte.length ? (harte.length === 1 ? tx("1 Konflikt", "1 conflict") : tx(`${harte.length} Konflikte`, `${harte.length} conflicts`)) : "",
     warn.length ? (warn.length === 1 ? tx("1 Kompromiss", "1 compromise") : tx(`${warn.length} Kompromisse`, `${warn.length} compromises`)) : "",
     ad.length ? (ad.length === 1 ? tx("1 Adapter eingeplant", "1 adapter included") : tx(`${ad.length} Adapter eingeplant`, `${ad.length} adapters included`)) : "",
@@ -18648,7 +18738,9 @@ document.addEventListener("click", e => {
   if(wf){ const w = wunschListe().find(x => x.id === wf.dataset.wfinder); if(!w) return;
     oeffneSlot(w.slot, {tab:"finden"}); if(w.ziel && ZIEL[w.ziel]){ finder.ziel = w.ziel; finder.schritt = "erg"; finder.fertig = true; } finder.budgetAn = w.budget > 0; finder.budget = w.budget || 0; oeffneSlot(w.slot); return; }
   const fr = T("[data-frage]");
-  if(fr){ oeffneAngabe(fr.dataset.frage); return; }
+  if(fr){ const q = fr.dataset.frage.split("|"); if(q[1] === "max") oeffneMaxAngabe(q[0]); else oeffneAngabe(q[0]); return; }
+  const am = T("[data-angabemax]");
+  if(am){ const q = am.dataset.angabemax.split("|"); angabeMaxSetzen(q[0], +q[1]); return; }
   const ag = T("[data-angabe]");
   if(ag){ const q = ag.dataset.angabe.split("|"); angabeSetzen(q[0], q[1], +q[2]); return; }
 
