@@ -50,13 +50,50 @@ const ev = (f, a) => seite.evaluate(f, a);
 const FINDE = `(k, ziel, marken, budget) => { finder = {slot:k, ziel:ziel || '', marken:marken || [], budget:budget || 0, budgetAn:budget > 0, mehr:false, tab:'finden'}; return finderRechnen(k); }`;
 
 const PRUEFUNGEN = [
-  ['Gute Bremse ohne Upgrade: kein Wechsel vorgeschlagen, klare Aussage', async () => {
+  /* BEVEL-003: XT M8120 (Mineraloel, 203/180) -- fuer Wartung, Kraft und Gewicht gibt es keinen belegbaren Wechsel */
+  ['Gute Bremse ohne Upgrade: "Behalten sinnvoll" mit Grund je Ziel, keine Kachel mit Scheinvorteil', async () => {
     await neu();
-    const r = await ev(F => { const finde = eval(F); build.bremsen = 'b-xt'; sichern(); zeichne();
-      const e = finde('bremsen', 'einsatz'); oeffneSlot('bremsen', {ziel:'einsatz'});
-      const txt = $('modal').textContent; schliesse();
-      return {treffer:e.treffer.length, satz:/Dein aktuelles Teil passt gut\. Für dein Ziel sehen wir derzeit keinen überzeugenden Wechsel\./.test(txt)}; }, FINDE);
-    return {ok:r.treffer === 0 && r.satz, info:r}; }],
+    const r = await ev(F => { const finde = eval(F); wechsle('real'); build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern(); zeichne();
+      const out = {};
+      for(const z of ['wartung', 'kraft', 'leicht']){ const e = finde('bremsen', z); oeffneSlot('bremsen', {ziel:z});
+        const txt = $('modal').textContent; out[z] = {treffer:e.treffer.length, behalten:/Behalten sinnvoll/.test(txt), kacheln:$('modal').querySelectorAll('#fi .fk3').length,
+          variante:!!e.variante, grund:/läuft schon mit Mineralöl|Kolbenzahl allein|nicht mit gleichem Lieferumfang/.test(txt)}; schliesse(); }
+      return out; }, FINDE);
+    /* Kraft darf nur "gleiches Modell, groessere Scheiben" zeigen -- keine fremde Bremse */
+    const ok = ['wartung', 'kraft', 'leicht'].every(z => r[z].treffer === 0 && r[z].behalten && r[z].grund) && r.kraft.kacheln === (r.kraft.variante ? 1 : 0) && r.wartung.kacheln === 0 && r.leicht.kacheln === 0;
+    return {ok, info:r}; }],
+  ['Kein Ziel vorbelegt: Auswahl startet bei Schritt 1, Marke und Budget bleiben bei null Ergebnissen erreichbar', async () => {
+    await neu();
+    const r = await ev(() => { build.bremsen = 'b-xt'; sichern(); zeichne(); $('aufbau').querySelector('.verb [data-slot="bremsen"]').click();
+      const start = {schritt:$('fi').dataset.schritt, ziel:finder.ziel, gewaehlt:$('fi').querySelectorAll('[data-fiziel][aria-pressed="true"]').length, kacheln:$('fi').querySelectorAll('.fk3').length};
+      $('fi').querySelector('[data-fiziel="sparen"]').click(); const s2 = $('fi').dataset.schritt;
+      $('fi').querySelector('[data-fimarke="Trickstuff"]').click(); $('fi').querySelector('.fi-weiter .btn').click(); const s3 = $('fi').dataset.schritt;
+      $('fi').querySelector('[data-fibudget="1"]').click(); const inp = $('fi-budget'); inp.value = '50'; inp.dispatchEvent(new Event('input', {bubbles:true}));
+      $('fi').querySelector('.fi-weiter .btn').click();
+      const null0 = {schritt:$('fi').dataset.schritt, kacheln:$('fi').querySelectorAll('.fk3').length, sum:$('fi').querySelectorAll('.fi-sum [data-fischritt]').length,
+        marke:/Trickstuff/.test($('fi').querySelector('.fi-sum').textContent), budget:/50/.test($('fi').querySelector('.fi-sum').textContent)};
+      $('fi').querySelector('.fi-sum [data-fischritt="marke"]').click(); const korr = {schritt:$('fi').dataset.schritt, chips:$('fi').querySelectorAll('[data-fimarke]').length};
+      schliesse(); return {start, s2, s3, null0, korr}; });
+    const ok = r.start.schritt === 'ziel' && r.start.ziel === '' && r.start.gewaehlt === 0 && r.start.kacheln === 0 && r.s2 === 'marke' && r.s3 === 'budget'
+      && r.null0.schritt === 'erg' && r.null0.kacheln === 0 && r.null0.sum === 3 && r.null0.marke && r.null0.budget && r.korr.schritt === 'marke' && r.korr.chips > 5;
+    return {ok, info:r}; }],
+  ['Kompromisse erst auf Wunsch: Leichter zeigt nichts unter der Mindestausstattung, "Kompromisse anzeigen" nennt die Abwaegung', async () => {
+    await neu();
+    const r = await ev(F => { const finde = eval(F); const j = findeTeil('gabel', build.gabel);
+      const e = finde('gabel', 'leicht'), unter = e.treffer.filter(x => (x.mind || []).length || x.pk.neueWarn.length).length;
+      finder.kompromisse = true; const k = finderRechnen('gabel'); const mitK = k.treffer.filter(x => x.kompro);
+      oeffneSlot('gabel', {ziel:'leicht'}); finder.kompromisse = true; finderNeu(); const txt = $('fi-erg').textContent; schliesse();
+      return {treffer:e.treffer.length, unter, kompro:e.kompro, mitK:mitK.length, satz:/statt/.test(txt) && /Kompromiss/.test(txt), federweg:j.travel}; }, FINDE);
+    return {ok:r.unter === 0 && r.kompro > 0 && r.mitK === r.kompro && r.satz, info:r}; }],
+  ['Zustaende ehrlich: "Geprueft passend" nur ohne Zubehoer, Unbekanntes und Kompatibilitaetsverlust; Cura 2 an Center-Lock-Naben braucht Scheiben', async () => {
+    await neu();
+    const r = await ev(() => { wechsle('real'); build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern();
+      const lr = findeTeil('laufraeder', build.laufraeder), vor = bewerte(build), fehl = [];
+      for(const t of kandidaten('bremsen', build)){ const pk = paketFuer('bremsen', t, vor), st = paketStatus(pk).k;
+        if(st === 'ok' && (pk.neu.length || pk.scheibenNeu.length || pk.fehlt.length || pk.nach.tech < pk.vor.tech)) fehl.push(t.id); }
+      const cura = paketFuer('bremsen', kandidaten('bremsen', build).find(t => basisVon(t.id) === 'b-cura2'), vor);
+      return {naben:lr && lr.naben, fehl, cura:{st:paketStatus(cura).t, scheiben:cura.scheibenNeu.map(s => s.aufn + ' ' + s.mm), techVor:cura.vor.tech, techNach:cura.nach.tech}}; });
+    return {ok:!r.fehl.length && r.cura.st !== 'Passt' && r.cura.st !== 'Geprüft passend' && r.cura.scheiben.length === 2, info:r}; }],
   ['Keine Rueckschritte: Recon statt Pike Ultimate und MT420 statt XT M8120 erscheinen in keinem Verbesserungsziel', async () => {
     await neu();
     const r = await ev(F => { const finde = eval(F); build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern();
@@ -198,10 +235,14 @@ const PRUEFUNGEN = [
     await neu();
     const r = await ev(() => { build.gabel = 'g-recon'; build.bremsen = 'b-deore2'; sichern(); finder.slot = 'bremsen'; finder.ziel = 'kraft';
       oeffneVergleich('bremsen', 'b-xt'); const m = $('modal');
-      const kopf = [...m.querySelectorAll('.vt thead th')].map(e => e.textContent.trim()), zeilen = [...m.querySelectorAll('.vt tbody th')].map(e => e.textContent.trim());
+      const kopf = [...m.querySelectorAll('.vt thead th')].map(e => e.textContent.trim()), zeilen = [...m.querySelectorAll('.vt tbody tr')].map(e => e.textContent.trim());
       const txt = m.textContent; schliesse();
-      return {kopf, zeilen, ziel:/Ziel: Mehr Bremskraft/.test(txt), kosten:/Kosten des Wechsels/.test(txt), fehlend:/Fehlende Angaben/.test(txt), besser:/besser/.test(txt)}; });
-    return {ok:r.kopf.length === 4 && r.zeilen.some(z => /^Kolben/.test(z)) && r.ziel && r.kosten && r.fehlend && r.besser, info:r}; }],
+      /* BEVEL-003: 2 gegen 4 Kolben in beide Richtungen nur "andere Bauart", nie besser oder schlechter */
+      build.bremsen = 'b-xt'; sichern(); oeffneVergleich('bremsen', 'b-deore2'); const rueck = [...$('modal').querySelectorAll('.vt tbody tr')].map(e => e.textContent.trim()); schliesse();
+      const bauart = l => (l.find(z => /^Bauart/.test(z)) || '');
+      return {kopf, hin:bauart(zeilen), rueck:bauart(rueck), ziel:/Ziel: Mehr Bremskraft/.test(txt), kosten:/Kosten des Wechsels/.test(txt), fehlend:/Fehlende Angaben/.test(txt), gewicht:/nicht vergleichbar/.test(txt)}; });
+    const neutral = z => /andere Bauart/.test(z) && !/besser|schlechter/.test(z);
+    return {ok:r.kopf.length === 4 && neutral(r.hin) && neutral(r.rueck) && r.ziel && r.kosten && r.fehlend && r.gewicht, info:r}; }],
   /* BEVEL-003: Reihenfolge Rad -> Score -> Pruefung -> "Verbessern" -> Teile (Rahmen zuerst) */
   ['Pruefung im Aufbau: unter Rad und Score, vor "Verbessern" und dem Rahmen, aufklappbar per Tastatur, Zustand bleibt', async () => {
     await neu();

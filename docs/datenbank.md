@@ -78,7 +78,27 @@ Standard-Auge, `205x60T` = Trunnion).
 
 ### Bremsen
 `kolben`, `sV`/`sH` (+ Ausführung Scheiben), `mount` (`Center Lock`, `6-Loch`,
-`Felge`).
+`Felge`), `oel` (BEVEL-003: `min` Mineralöl, `dot` DOT 5.1/4, `bionol`
+Trickstuff-eigene Flüssigkeit; leer, wo nicht belegt — Cura 2, Dominion T4,
+HS33). Quellen stehen im Kommentar über `bremsen:[` in `index.html`.
+
+**Gewicht bei Bremsen:** Der Lieferumfang hinter `g` ist nicht einheitlich
+belegt (Einzelbremse oder Paar, mit oder ohne Scheiben und Adapter);
+Händlerangaben zur XT M8120 reichen von 299 bis 410 g. Die Teilesuche nennt
+bei Bremsen deshalb keinen Gewichtsvorteil (`gewichtVergleichbar`).
+
+**Kolben:** Die Teilesuche nennt die Bauart, bewertet sie aber nicht — ob vier
+Kolben stärker bremsen, hängt von Übersetzung, Belag und Hebel ab. Weniger
+Kolben als bisher gilt als Kompromiss gegenüber der jetzigen Ausstattung
+(Mindestanforderung), nicht als „schlechter“.
+
+### Eignung (`e`) — was sie ist und was nicht
+`e` ist eine **redaktionelle Einordnung** der App (0–5 je Disziplin), keine
+Herstellerangabe und keine Messung. Grundlage ist die Bauklasse des Teils
+(Herstellerkategorie, Federweg, Scheiben, Bauart, Gewichtsklasse). Sie geht in
+den Einsatz-Wert des Scores ein und in die automatische Aufbau-Hilfe. Seit
+BEVEL-003 begründet sie **keine** Empfehlung in der Teilesuche und steht nicht
+mehr als „Trail 4/5“ in Kacheln oder im Vergleich.
 
 ### Cockpit, Sitz, Steuersatz
 Lenker/Vorbau `klemm` (31.8 / 35), Vorbau `dm` (Direct Mount), Stütze `d`,

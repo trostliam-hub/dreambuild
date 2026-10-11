@@ -3521,6 +3521,102 @@ details.legal[open] summary::after{transform:rotate(-135deg) translateY(-2px)}
 details.legal p{margin:0 0 var(--sp-2)}
 .recht-links{font-size:var(--fs-z);color:var(--ink-3);margin:var(--sp-2) 0 0}
 .recht-links button{min-height:var(--ziel);color:var(--ink-2);text-decoration:underline;text-underline-offset:3px}
+
+/* ── Teilewechsel als kurze Fuehrung (Abschnitt 2): dein Teil, Auswahl, ein Schritt ── */
+.fi3{display:flex;flex-direction:column;gap:var(--sp-4)}
+.fi-dein{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding:12px 14px;border-radius:16px;background:var(--surface-2)}
+.fi-dein-l{flex-basis:100%;font-size:var(--fs-h);font-weight:600;color:var(--ink-3)}
+.fi-dein b{font-size:var(--fs-t);line-height:1.3}
+.fi-dein span:not(.fi-dein-l):not(.fi-dein-k){font-size:var(--fs-z);color:var(--ink-2)}
+.fi-dein-k{flex-basis:100%;font-size:var(--fs-z);color:var(--bad);font-weight:600}
+.fi-dein.leer{margin:0;font-size:var(--fs-z);color:var(--ink-2)}
+.fi-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.fi-sum button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-height:52px;padding:8px 10px;border-radius:14px;border:1px solid var(--line-soft);
+  background:var(--surface);text-align:left;min-width:0;transition:border-color var(--t-kurz) var(--e-weich),background var(--t-kurz) var(--e-weich)}
+.fi-sum span{font-size:12px;font-weight:600;color:var(--ink-3)}
+.fi-sum b{font-size:var(--fs-z);line-height:1.25;color:var(--ink);max-width:100%;overflow-wrap:anywhere}
+.fi-sum button[aria-current="step"]{border-color:var(--anod);background:var(--anod-soft)}
+@media (hover:hover){.fi-sum button:hover{border-color:var(--line)}}
+.fi-nr{margin:0 0 2px;font-size:var(--fs-h);font-weight:600;color:var(--anod)}
+.fi-frage-t{margin:0 0 var(--sp-3);font-size:var(--fs-k);line-height:1.25;font-weight:700;letter-spacing:-.01em}
+.fi-frage-t:focus{outline:none}
+.fi-ziele{display:grid;gap:var(--sp-2)}
+.fi-zb{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-height:var(--ziel);padding:12px 14px;border-radius:16px;border:1px solid var(--line-soft);
+  background:var(--surface);text-align:left;transition:border-color var(--t-kurz) var(--e-weich),background var(--t-kurz) var(--e-weich)}
+.fi-zb b{font-size:var(--fs-t);line-height:1.3;color:var(--ink)}
+.fi-zb span{font-size:var(--fs-z);line-height:1.4;color:var(--ink-3)}
+.fi-zb[aria-pressed="true"]{border-color:var(--anod);background:var(--anod-soft)}
+@media (hover:hover){.fi-zb:hover{border-color:var(--line)}}
+.fi3 .fi-chips button{min-height:var(--ziel);padding:8px 14px;font-size:var(--fs-z)}
+.fi3 .fi-s{font-size:var(--fs-z);margin:0 0 var(--sp-3)}
+.fi-weiter{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);margin-top:var(--sp-4)}
+.fi-weiter .btn{min-height:var(--ziel);min-width:140px}
+.fi-weiter .linkbtn,.fi-fuss .linkbtn{min-height:var(--ziel);font-size:var(--fs-z);font-weight:600;color:var(--ink-2)}
+.fi-fuss{display:flex;flex-wrap:wrap;gap:4px 18px;padding-top:var(--sp-3);border-top:1px solid var(--line-soft)}
+.fi-ziel-s{margin:0!important}
+.fi3 .fi-erg{gap:var(--sp-3);margin:0}
+.fi3 .fi-budget input{min-height:var(--ziel)}
+/* Schrittwechsel: kurz einblenden, ohne Bewegung bei reduzierter Bewegung */
+@media (prefers-reduced-motion:no-preference){
+  .fi-schritt{animation:fi-ein .22s var(--e-aus) both}
+  .fi3 .fk3{animation:fi-ein .26s var(--e-aus) both}
+  .fi3 .fk3:nth-child(2){animation-delay:.04s}.fi3 .fk3:nth-child(3){animation-delay:.08s}
+}
+@keyframes fi-ein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Ergebniskachel: Bild, Modell und Ausfuehrung, Zustand, Grund, Preis, drei Aktionen */
+.fk.fk3{display:grid;grid-template-columns:76px minmax(0,1fr);grid-template-areas:"bild kern" "geld geld" "zub zub" "akt akt";gap:var(--sp-3);
+  padding:14px;border-radius:var(--r-karte);border:1px solid var(--line-soft);background:var(--surface)}
+.fk3 .fk-bild{grid-area:bild;position:relative;width:76px;height:76px;border-radius:14px;overflow:hidden;background:#fff;display:grid;place-items:center}
+.fk3 .fk-bild img{width:100%;height:100%;object-fit:contain}
+.fk3 .fk-bild .fk-ohne{display:none}
+.fk3 .fk-bild.ohne{background:var(--surface-2)}
+.fk3 .fk-bild.ohne .fk-ohne{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink-3);text-align:center}
+.fk3 .fk-ohne small{font-size:10.5px;line-height:1.15;padding:0 4px}
+.fk3 .fk-kern{grid-area:kern;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.fk3 .fk-st{margin:0;font-size:12px}
+.fk-name{margin:2px 0 0;font-size:var(--fs-t);line-height:1.3;font-weight:700;overflow-wrap:anywhere}
+.fk-var{font-size:var(--fs-h);color:var(--ink-3)}
+.fk-grund{margin:4px 0 0;font-size:var(--fs-z);line-height:1.45;color:var(--ink)}
+.fk-nachteil{margin:2px 0 0;font-size:var(--fs-h);line-height:1.45;color:var(--warn)}
+.fk3 .fk-offen{margin:2px 0 0;font-size:var(--fs-h);color:var(--ink-2)}
+.fk-geld{grid-area:geld;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;padding-top:var(--sp-3);border-top:1px solid var(--line-soft)}
+.fk-geld b{font-family:var(--f-zahl);font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.fk-geld span{font-size:var(--fs-z);color:var(--ink-2)}
+.fk-geld small{flex-basis:100%;font-size:var(--fs-h);color:var(--ink-3);line-height:1.4}
+.fk-zub{grid-area:zub;margin:0;font-size:var(--fs-h);line-height:1.45;color:var(--ink-2)}
+.fk3 .fk-akt{grid-area:akt;margin:0;display:flex;flex-wrap:wrap;gap:var(--sp-2);align-items:center}
+.fk3 .fk-akt .btn{min-height:var(--ziel)}
+.fk3 .fk-shop{margin-left:auto}
+.fk3 .kein-angebot{max-width:none;font-size:var(--fs-h)}
+@media (max-width:420px){.fk3 .fk-shop{margin-left:0;flex-basis:100%}.fk3 .kein-angebot{text-align:left}}
+.fi-behalten{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:16px;border-radius:var(--r-karte);background:var(--surface-2)}
+.fi-behalten p{margin:0;font-size:var(--fs-z);line-height:1.5;color:var(--ink-2)}
+.fi-behalten p b{font-size:var(--fs-t);color:var(--ink)}
+.fi3 .fi-weg{display:flex;flex-direction:column;align-items:flex-start;gap:var(--sp-2);font-size:var(--fs-z);color:var(--ink-2)}
+.fi-weg-k{display:flex;flex-wrap:wrap;gap:var(--sp-2)}
+.fi-weg-k:empty{display:none}
+.fi-kompro{min-height:var(--ziel)}
+.fi-kompro[aria-pressed="true"]{border-color:var(--warn);color:var(--warn)}
+
+/* Vergleich: Rueckweg, Zustand, Paket mit Summe */
+.vt-zurueck{display:inline-flex;align-items:center;gap:6px;min-height:var(--ziel);margin:0 0 var(--sp-2);font-size:var(--fs-z);font-weight:650;color:var(--anod)}
+.vt-st{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0 0 var(--sp-3)}
+.vt-st b{font-size:var(--fs-t)}
+.vt-st span:not(.fk-st){font-size:var(--fs-z);color:var(--ink-3)}
+.vt-paket{margin-top:var(--sp-4);padding:14px 16px;border-radius:var(--r-karte);background:var(--surface-2)}
+.vt-paket h4{margin:0 0 var(--sp-2);font-size:var(--fs-t)}
+.vt-paket .pz{font-size:var(--fs-z)}
+.vt-paket .pz + .pz{margin-top:3px}
+.vt-summe{display:flex;justify-content:space-between;align-items:baseline;margin:var(--sp-3) 0 0;padding-top:var(--sp-2);border-top:1px solid var(--line-soft);font-weight:650}
+.vt-summe b{font-family:var(--f-zahl);font-size:20px}
+.vt-paket .hint{margin:6px 0 0;font-size:var(--fs-h)}
+.vt-akt .btn{min-height:var(--ziel)}
+/* Das Blatt ist eine Flex-Spalte: ohne flex:none schrumpfte die Tabelle mit overflow auf 0 px */
+.vt-wrap{flex:none}
+.vt .vu{white-space:normal}
+.vt tbody th{min-width:0;width:30%;hyphens:auto;overflow-wrap:anywhere}
+.vt th,.vt td{padding:8px 4px}
 </style>
 </head>
 <body>
@@ -4663,55 +4759,60 @@ kurbel:[
  {id:"k-epraxis", n:"Praxis eCrank Type 3 · Levo 4", m:"Praxis", iface:"E-MTB", motorWelle:"ISIS", motor:["Specialized"], kl:null, kb:34, laenge:160, gaenge:12, e:E(1,5,4,2,0,0,0), g:560, p:249, v:[KL([155, 160, 165],160)]}
 ],
 bremsen:[
- {id:"b-deore", n:"Shimano Deore M6120 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:180, mount:"Center Lock", fb:"#8a9096", e:E(1,5,4,2,3,3,0), g:1210, p:149, v:[SCH("Shimano",180,180)]},
- {id:"b-level", n:"SRAM Level Silver · 2 Kolben", m:"SRAM", kolben:2, sV:180, sH:160, mount:"6-Loch", fb:"#16181c", e:E(5,3,0,0,1,1,0), g:700, p:199, v:[SCH("SRAM",180,160)]},
- {id:"b-mt5", n:"Magura MT5 · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c8102e", e:E(1,5,5,4,2,2,1), g:1150, p:199, v:[SCH("Magura",203,180)]},
- {id:"b-zee", n:"Shimano Zee BR-M640 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:160, mount:"Center Lock", fb:"#8a9096", e:E(0,2,4,4,5,5,1), g:1020, p:239, v:[SCH("Shimano",180,160)]},
+ /* oel (BEVEL-003): Bremsfluessigkeit laut Hersteller bzw. Handel -- "min" Mineraloel, "dot" DOT 5.1/4,
+    "bionol" eigene Fluessigkeit (Trickstuff). Quellen: Shimano SM-DBOIL "alle hydraulischen Shimano-
+    Scheibenbremsen"; Magura Royal Blood; SRAM-Support (Code/G2/Level DOT, Maven/Motive/DB8 Mineraloel);
+    Formula Cura 4 (Pinkbike); TRP Trail/DH-R/Slate EVO (mtb-mag, evo, bike24); Hayes Dominion A4 und
+    Hope Tech 4 DOT 5.1 (Datenblaetter im Handel). Nicht belegt und deshalb leer: Cura 2, Dominion T4, HS33. */
+ {id:"b-deore", n:"Shimano Deore M6120 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:180, mount:"Center Lock", oel:"min", fb:"#8a9096", e:E(1,5,4,2,3,3,0), g:1210, p:149, v:[SCH("Shimano",180,180)]},
+ {id:"b-level", n:"SRAM Level Silver · 2 Kolben", m:"SRAM", kolben:2, sV:180, sH:160, mount:"6-Loch", oel:"dot", fb:"#16181c", e:E(5,3,0,0,1,1,0), g:700, p:199, v:[SCH("SRAM",180,160)]},
+ {id:"b-mt5", n:"Magura MT5 · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", oel:"min", fb:"#c8102e", e:E(1,5,5,4,2,2,1), g:1150, p:199, v:[SCH("Magura",203,180)]},
+ {id:"b-zee", n:"Shimano Zee BR-M640 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:160, mount:"Center Lock", oel:"min", fb:"#8a9096", e:E(0,2,4,4,5,5,1), g:1020, p:239, v:[SCH("Shimano",180,160)]},
  {id:"b-hs33", n:"Magura HS33 Raceline · Felgenbremse", m:"Magura", kolben:2, sV:0, sH:0, mount:"Felge", fb:"#c8102e", e:E(0,0,0,0,1,0,5), g:620, p:229},
- {id:"b-slx", n:"Shimano SLX M7120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", fb:"#8a9096", e:E(2,5,5,3,2,2,0), g:1140, p:279, v:[SCH("Shimano",203,180)]},
- {id:"b-mt7", n:"Magura MT7 Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c8102e", e:E(1,4,5,5,2,2,1), g:1090, p:349, v:[SCH("Magura",203,180)]},
- {id:"b-xt", n:"Shimano XT M8120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", fb:"#7f868d", e:E(2,5,5,4,2,2,0), g:1060, p:379, v:[SCH("Shimano",203,180)]},
- {id:"b-maven", n:"SRAM Maven Silver · 4 Kolben", m:"SRAM", kolben:4, sV:220, sH:200, mount:"6-Loch", fb:"#16181c", e:E(0,2,5,5,1,1,0), g:1280, p:399, v:[SCH("SRAM",220,200)]},
- {id:"b-trp", n:"TRP DH-R Evo · 4 Kolben", m:"TRP", kolben:4, sV:203, sH:203, mount:"6-Loch", fb:"#1a1c1f", e:E(0,2,5,5,1,1,0), g:1180, p:419, v:[SCH("TRP",203,203)]},
- {id:"b-code", n:"SRAM Code RSC · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1150, p:439, v:[SCH("SRAM",200,180)]},
- {id:"b-saint", n:"Shimano Saint M820 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:203, mount:"Center Lock", fb:"#7f868d", e:E(0,1,4,5,4,4,0), g:1220, p:499, v:[SCH("Shimano",203,203)]},
- {id:"b-hopeE4", n:"Hope Tech 4 E4 · 4 Kolben", m:"Hope", kolben:4, sV:180, sH:180, mount:"6-Loch", fb:"#6b4fa8", e:E(2,5,5,3,3,3,2), g:1040, p:549, v:[SCH("Hope",180,180)]},
- {id:"b-hopetrial", n:"Hope Tech 4 Trial Zone · Scheibe", m:"Hope", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#6b4fa8", e:E(0,0,0,0,2,1,4), g:840, p:549},
- {id:"b-hopeV4", n:"Hope Tech 4 V4 · 4 Kolben", m:"Hope", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#6b4fa8", e:E(0,3,5,5,2,2,1), g:1120, p:599, v:[SCH("Hope",203,180)]},
- {id:"b-xtr2", n:"Shimano XTR M9100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", fb:"#b9bec4", e:E(5,3,0,0,1,1,0), g:780, p:599, v:[SCH("Shimano",180,160)]},
- {id:"b-deore2", n:"Shimano Deore M6100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", fb:"#8a9096", e:E(5,3,0,0,1,1,0), g:720, p:99, v:[SCH("Shimano",180,160)]},
- {id:"b-g2", n:"SRAM G2 RS · 4 Kolben", m:"SRAM", kolben:4, sV:180, sH:180, mount:"6-Loch", fb:"#16181c", e:E(2,5,4,1,2,2,0), g:1090, p:219, v:[SCH("SRAM",180,180)]},
- {id:"b-db8", n:"SRAM DB8 · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,4,2,2,0), g:1180, p:179, v:[SCH("SRAM",200,180)]},
- {id:"b-codebronze", n:"SRAM Code Bronze Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1160, p:279, v:[SCH("SRAM",200,180)]},
- {id:"b-levelult", n:"SRAM Level Ultimate · 4 Kolben", m:"SRAM", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#c9a227", e:E(4,5,3,0,1,1,0), g:860, p:449, v:[SCH("SRAM",180,160)]},
- {id:"b-mttrail", n:"Magura MT Trail Sport", m:"Magura", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#c8102e", e:E(2,5,4,1,2,2,0), g:1120, p:229, v:[SCH("Magura",180,160)]},
- {id:"b-mt8", n:"Magura MT8 Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c8102e", e:E(2,5,5,3,2,2,1), g:980, p:449, v:[SCH("Magura",203,180)]},
- {id:"b-hopex2", n:"Hope Tech 4 X2 · 2 Kolben", m:"Hope", kolben:2, sV:180, sH:160, mount:"6-Loch", fb:"#6b4fa8", e:E(5,4,1,0,2,2,2), g:820, p:479, v:[SCH("Hope",180,160)]},
- {id:"b-trailevo", n:"TRP Trail EVO · 4 Kolben", m:"TRP", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#1a1c1f", e:E(1,5,5,3,2,2,0), g:1130, p:239, v:[SCH("TRP",203,180)]},
- {id:"b-slate", n:"TRP Slate EVO · 4 Kolben", m:"TRP", kolben:4, sV:180, sH:160, mount:"6-Loch", fb:"#1a1c1f", e:E(3,5,4,1,2,2,0), g:1020, p:199, v:[SCH("TRP",180,160)]},
- {id:"b-cura4", n:"Formula Cura 4 · 4 Kolben", m:"Formula", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#16181c", e:E(1,5,5,3,2,2,0), g:1080, p:329, v:[SCH("Formula",203,180)]},
- {id:"b-dominion", n:"Hayes Dominion A4 · 4 Kolben", m:"Hayes", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1150, p:499, v:[SCH("Hayes",203,180)]},
- {id:"b-maxima", n:"Trickstuff Maxima · 4 Kolben", m:"Trickstuff", kolben:4, sV:203, sH:180, mount:"6-Loch", fb:"#c9a227", e:E(0,3,5,5,1,1,0), g:980, p:1490, v:[SCH("Trickstuff",203,180)]},
- {id:"b-xtr4", n:"Shimano XTR M9120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", fb:"#b9bec4", e:E(2,5,5,4,2,2,0), g:980, p:749, v:[SCH("Shimano",203,180)]},
- {id:"b-mt4", n:"Magura MT4 · 4 Kolben", m:"Magura", kolben:4, sV:180, sH:180, mount:"6-Loch", e:E(1,5,4,1,2,2,0), g:1180, p:159, v:[SCH("Magura",180,180)]},
- {id:"b-mtsport", n:"Magura MT Sport · 2 Kolben", m:"Magura", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(4,3,0,0,1,1,0), g:800, p:99, v:[SCH("Magura",180,160)]},
- {id:"b-mt8sl", n:"Magura MT8 SL · 2 Kolben", m:"Magura", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(5,2,0,0,0,0,0), g:540, p:399, v:[SCH("Magura",180,160)]},
- {id:"b-gustav", n:"Magura Gustav Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:203, mount:"6-Loch", e:E(0,2,4,5,1,1,0), g:1250, p:499, v:[SCH("Magura",203,203)]},
- {id:"b-mavenult", n:"SRAM Maven Ultimate · 4 Kolben", m:"SRAM", kolben:4, sV:220, sH:200, mount:"6-Loch", e:E(0,2,5,5,0,0,0), g:1220, p:599, v:[SCH("SRAM",220,200)]},
- {id:"b-mavenbronze", n:"SRAM Maven Bronze · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:200, mount:"6-Loch", e:E(0,3,5,5,1,1,0), g:1300, p:299, v:[SCH("SRAM",200,200)]},
- {id:"b-motive", n:"SRAM Motive Silver · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", e:E(1,5,5,3,2,2,0), g:1150, p:249, v:[SCH("SRAM",200,180)]},
- {id:"b-motivebronze", n:"SRAM Motive Bronze · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", e:E(1,5,4,2,2,2,0), g:1180, p:189, v:[SCH("SRAM",200,180)]},
- {id:"b-codeult", n:"SRAM Code Ultimate Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:200, mount:"6-Loch", e:E(0,4,5,5,2,2,0), g:1100, p:549, v:[SCH("SRAM",200,200)]},
- {id:"b-codesilver", n:"SRAM Code Silver Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", e:E(0,4,5,5,2,2,0), g:1130, p:349, v:[SCH("SRAM",200,180)]},
- {id:"b-levelbronze", n:"SRAM Level Bronze · 2 Kolben", m:"SRAM", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(4,3,0,0,1,1,0), g:720, p:139, v:[SCH("SRAM",180,160)]},
- {id:"b-xt2", n:"Shimano XT M8100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", e:E(5,4,1,0,1,1,0), g:740, p:229, v:[SCH("Shimano",180,160)]},
- {id:"b-slx2", n:"Shimano SLX M7100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", e:E(5,4,1,0,1,1,0), g:760, p:159, v:[SCH("Shimano",180,160)]},
- {id:"b-mt420", n:"Shimano MT420 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:180, mount:"Center Lock", e:E(1,4,3,1,2,2,0), g:1200, p:99, v:[SCH("Shimano",180,180)]},
- {id:"b-mt200", n:"Shimano MT200 · 2 Kolben", m:"Shimano", kolben:2, sV:160, sH:160, mount:"Center Lock", e:E(3,2,0,0,2,2,0), g:880, p:59, v:[SCH("Shimano",160,160)]},
+ {id:"b-slx", n:"Shimano SLX M7120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", oel:"min", fb:"#8a9096", e:E(2,5,5,3,2,2,0), g:1140, p:279, v:[SCH("Shimano",203,180)]},
+ {id:"b-mt7", n:"Magura MT7 Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", oel:"min", fb:"#c8102e", e:E(1,4,5,5,2,2,1), g:1090, p:349, v:[SCH("Magura",203,180)]},
+ {id:"b-xt", n:"Shimano XT M8120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", oel:"min", fb:"#7f868d", e:E(2,5,5,4,2,2,0), g:1060, p:379, v:[SCH("Shimano",203,180)]},
+ {id:"b-maven", n:"SRAM Maven Silver · 4 Kolben", m:"SRAM", kolben:4, sV:220, sH:200, mount:"6-Loch", oel:"min", fb:"#16181c", e:E(0,2,5,5,1,1,0), g:1280, p:399, v:[SCH("SRAM",220,200)]},
+ {id:"b-trp", n:"TRP DH-R Evo · 4 Kolben", m:"TRP", kolben:4, sV:203, sH:203, mount:"6-Loch", oel:"min", fb:"#1a1c1f", e:E(0,2,5,5,1,1,0), g:1180, p:419, v:[SCH("TRP",203,203)]},
+ {id:"b-code", n:"SRAM Code RSC · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", oel:"dot", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1150, p:439, v:[SCH("SRAM",200,180)]},
+ {id:"b-saint", n:"Shimano Saint M820 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:203, mount:"Center Lock", oel:"min", fb:"#7f868d", e:E(0,1,4,5,4,4,0), g:1220, p:499, v:[SCH("Shimano",203,203)]},
+ {id:"b-hopeE4", n:"Hope Tech 4 E4 · 4 Kolben", m:"Hope", kolben:4, sV:180, sH:180, mount:"6-Loch", oel:"dot", fb:"#6b4fa8", e:E(2,5,5,3,3,3,2), g:1040, p:549, v:[SCH("Hope",180,180)]},
+ {id:"b-hopetrial", n:"Hope Tech 4 Trial Zone · Scheibe", m:"Hope", kolben:4, sV:180, sH:160, mount:"6-Loch", oel:"dot", fb:"#6b4fa8", e:E(0,0,0,0,2,1,4), g:840, p:549},
+ {id:"b-hopeV4", n:"Hope Tech 4 V4 · 4 Kolben", m:"Hope", kolben:4, sV:203, sH:180, mount:"6-Loch", oel:"dot", fb:"#6b4fa8", e:E(0,3,5,5,2,2,1), g:1120, p:599, v:[SCH("Hope",203,180)]},
+ {id:"b-xtr2", n:"Shimano XTR M9100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", oel:"min", fb:"#b9bec4", e:E(5,3,0,0,1,1,0), g:780, p:599, v:[SCH("Shimano",180,160)]},
+ {id:"b-deore2", n:"Shimano Deore M6100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", oel:"min", fb:"#8a9096", e:E(5,3,0,0,1,1,0), g:720, p:99, v:[SCH("Shimano",180,160)]},
+ {id:"b-g2", n:"SRAM G2 RS · 4 Kolben", m:"SRAM", kolben:4, sV:180, sH:180, mount:"6-Loch", oel:"dot", fb:"#16181c", e:E(2,5,4,1,2,2,0), g:1090, p:219, v:[SCH("SRAM",180,180)]},
+ {id:"b-db8", n:"SRAM DB8 · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", oel:"min", fb:"#16181c", e:E(0,4,5,4,2,2,0), g:1180, p:179, v:[SCH("SRAM",200,180)]},
+ {id:"b-codebronze", n:"SRAM Code Bronze Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", oel:"dot", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1160, p:279, v:[SCH("SRAM",200,180)]},
+ {id:"b-levelult", n:"SRAM Level Ultimate · 4 Kolben", m:"SRAM", kolben:4, sV:180, sH:160, mount:"6-Loch", oel:"dot", fb:"#c9a227", e:E(4,5,3,0,1,1,0), g:860, p:449, v:[SCH("SRAM",180,160)]},
+ {id:"b-mttrail", n:"Magura MT Trail Sport", m:"Magura", kolben:4, sV:180, sH:160, mount:"6-Loch", oel:"min", fb:"#c8102e", e:E(2,5,4,1,2,2,0), g:1120, p:229, v:[SCH("Magura",180,160)]},
+ {id:"b-mt8", n:"Magura MT8 Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:180, mount:"6-Loch", oel:"min", fb:"#c8102e", e:E(2,5,5,3,2,2,1), g:980, p:449, v:[SCH("Magura",203,180)]},
+ {id:"b-hopex2", n:"Hope Tech 4 X2 · 2 Kolben", m:"Hope", kolben:2, sV:180, sH:160, mount:"6-Loch", oel:"dot", fb:"#6b4fa8", e:E(5,4,1,0,2,2,2), g:820, p:479, v:[SCH("Hope",180,160)]},
+ {id:"b-trailevo", n:"TRP Trail EVO · 4 Kolben", m:"TRP", kolben:4, sV:203, sH:180, mount:"6-Loch", oel:"min", fb:"#1a1c1f", e:E(1,5,5,3,2,2,0), g:1130, p:239, v:[SCH("TRP",203,180)]},
+ {id:"b-slate", n:"TRP Slate EVO · 4 Kolben", m:"TRP", kolben:4, sV:180, sH:160, mount:"6-Loch", oel:"min", fb:"#1a1c1f", e:E(3,5,4,1,2,2,0), g:1020, p:199, v:[SCH("TRP",180,160)]},
+ {id:"b-cura4", n:"Formula Cura 4 · 4 Kolben", m:"Formula", kolben:4, sV:203, sH:180, mount:"6-Loch", oel:"min", fb:"#16181c", e:E(1,5,5,3,2,2,0), g:1080, p:329, v:[SCH("Formula",203,180)]},
+ {id:"b-dominion", n:"Hayes Dominion A4 · 4 Kolben", m:"Hayes", kolben:4, sV:203, sH:180, mount:"6-Loch", oel:"dot", fb:"#16181c", e:E(0,4,5,5,2,2,0), g:1150, p:499, v:[SCH("Hayes",203,180)]},
+ {id:"b-maxima", n:"Trickstuff Maxima · 4 Kolben", m:"Trickstuff", kolben:4, sV:203, sH:180, mount:"6-Loch", oel:"bionol", fb:"#c9a227", e:E(0,3,5,5,1,1,0), g:980, p:1490, v:[SCH("Trickstuff",203,180)]},
+ {id:"b-xtr4", n:"Shimano XTR M9120 · 4 Kolben", m:"Shimano", kolben:4, sV:203, sH:180, mount:"Center Lock", oel:"min", fb:"#b9bec4", e:E(2,5,5,4,2,2,0), g:980, p:749, v:[SCH("Shimano",203,180)]},
+ {id:"b-mt4", n:"Magura MT4 · 4 Kolben", m:"Magura", kolben:4, sV:180, sH:180, mount:"6-Loch", oel:"min", e:E(1,5,4,1,2,2,0), g:1180, p:159, v:[SCH("Magura",180,180)]},
+ {id:"b-mtsport", n:"Magura MT Sport · 2 Kolben", m:"Magura", kolben:2, sV:180, sH:160, mount:"6-Loch", oel:"min", e:E(4,3,0,0,1,1,0), g:800, p:99, v:[SCH("Magura",180,160)]},
+ {id:"b-mt8sl", n:"Magura MT8 SL · 2 Kolben", m:"Magura", kolben:2, sV:180, sH:160, mount:"6-Loch", oel:"min", e:E(5,2,0,0,0,0,0), g:540, p:399, v:[SCH("Magura",180,160)]},
+ {id:"b-gustav", n:"Magura Gustav Pro · 4 Kolben", m:"Magura", kolben:4, sV:203, sH:203, mount:"6-Loch", oel:"min", e:E(0,2,4,5,1,1,0), g:1250, p:499, v:[SCH("Magura",203,203)]},
+ {id:"b-mavenult", n:"SRAM Maven Ultimate · 4 Kolben", m:"SRAM", kolben:4, sV:220, sH:200, mount:"6-Loch", oel:"min", e:E(0,2,5,5,0,0,0), g:1220, p:599, v:[SCH("SRAM",220,200)]},
+ {id:"b-mavenbronze", n:"SRAM Maven Bronze · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:200, mount:"6-Loch", oel:"min", e:E(0,3,5,5,1,1,0), g:1300, p:299, v:[SCH("SRAM",200,200)]},
+ {id:"b-motive", n:"SRAM Motive Silver · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", oel:"min", e:E(1,5,5,3,2,2,0), g:1150, p:249, v:[SCH("SRAM",200,180)]},
+ {id:"b-motivebronze", n:"SRAM Motive Bronze · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", oel:"min", e:E(1,5,4,2,2,2,0), g:1180, p:189, v:[SCH("SRAM",200,180)]},
+ {id:"b-codeult", n:"SRAM Code Ultimate Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:200, mount:"6-Loch", oel:"dot", e:E(0,4,5,5,2,2,0), g:1100, p:549, v:[SCH("SRAM",200,200)]},
+ {id:"b-codesilver", n:"SRAM Code Silver Stealth · 4 Kolben", m:"SRAM", kolben:4, sV:200, sH:180, mount:"6-Loch", oel:"dot", e:E(0,4,5,5,2,2,0), g:1130, p:349, v:[SCH("SRAM",200,180)]},
+ {id:"b-levelbronze", n:"SRAM Level Bronze · 2 Kolben", m:"SRAM", kolben:2, sV:180, sH:160, mount:"6-Loch", oel:"dot", e:E(4,3,0,0,1,1,0), g:720, p:139, v:[SCH("SRAM",180,160)]},
+ {id:"b-xt2", n:"Shimano XT M8100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", oel:"min", e:E(5,4,1,0,1,1,0), g:740, p:229, v:[SCH("Shimano",180,160)]},
+ {id:"b-slx2", n:"Shimano SLX M7100 · 2 Kolben", m:"Shimano", kolben:2, sV:180, sH:160, mount:"Center Lock", oel:"min", e:E(5,4,1,0,1,1,0), g:760, p:159, v:[SCH("Shimano",180,160)]},
+ {id:"b-mt420", n:"Shimano MT420 · 4 Kolben", m:"Shimano", kolben:4, sV:180, sH:180, mount:"Center Lock", oel:"min", e:E(1,4,3,1,2,2,0), g:1200, p:99, v:[SCH("Shimano",180,180)]},
+ {id:"b-mt200", n:"Shimano MT200 · 2 Kolben", m:"Shimano", kolben:2, sV:160, sH:160, mount:"Center Lock", oel:"min", e:E(3,2,0,0,2,2,0), g:880, p:59, v:[SCH("Shimano",160,160)]},
  {id:"b-cura2", n:"Formula Cura 2 · 2 Kolben", m:"Formula", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(5,4,1,0,2,2,0), g:700, p:189, v:[SCH("Formula",180,160)]},
  {id:"b-dominiont4", n:"Hayes Dominion T4 · 4 Kolben", m:"Hayes", kolben:4, sV:203, sH:180, mount:"6-Loch", e:E(1,5,5,3,2,2,0), g:1080, p:399, v:[SCH("Hayes",203,180)]},
- {id:"b-direttissima", n:"Trickstuff Direttissima · 4 Kolben", m:"Trickstuff", kolben:4, sV:203, sH:180, mount:"6-Loch", e:E(1,5,5,4,1,1,0), g:940, p:1190, v:[SCH("Trickstuff",203,180)]},
- {id:"b-piccola", n:"Trickstuff Piccola · 2 Kolben", m:"Trickstuff", kolben:2, sV:180, sH:160, mount:"6-Loch", e:E(5,4,1,0,0,0,0), g:640, p:849, v:[SCH("Trickstuff",180,160)]}
+ {id:"b-direttissima", n:"Trickstuff Direttissima · 4 Kolben", m:"Trickstuff", kolben:4, sV:203, sH:180, mount:"6-Loch", oel:"bionol", e:E(1,5,5,4,1,1,0), g:940, p:1190, v:[SCH("Trickstuff",203,180)]},
+ {id:"b-piccola", n:"Trickstuff Piccola · 2 Kolben", m:"Trickstuff", kolben:2, sV:180, sH:160, mount:"6-Loch", oel:"bionol", e:E(5,4,1,0,0,0,0), g:640, p:849, v:[SCH("Trickstuff",180,160)]}
 ],
 lenker:[
  /* Breite = volle Ausgangsbreite; kürzen geht immer, verlängern nie. */
@@ -6496,9 +6597,10 @@ function pruefe(b){
       else if(gabel){ const ang = gabel.pmV ? null : angabeVon(b, gabel);
         if(gabel.pmV || ang) bremsAufnahme(out, "vorn", "gabel", gabel, gabel.pmV || ang.nativ, gabel.pmV ? gabel.vrAufnahme : ang.typ, bremsen.sV, bremsen);
         else out.push(angabeFehlt("gabel", gabel)); }
-      if(laufraeder && laufraeder.naben !== bremsen.mount) out.push(H(tx("Scheibenaufnahme abweichend", "Different rotor mount"),"bremsen",["laufraeder","bremsen"],
+      /* zub: im Paket eines Bremsenwechsels steht dafuer die Zeile "Scheiben" (BEVEL-003) */
+      if(laufraeder && laufraeder.naben !== bremsen.mount) out.push(Object.assign(H(tx("Scheibenaufnahme abweichend", "Different rotor mount"),"bremsen",["laufraeder","bremsen"],
         tx(`Die Naben haben <code>${laufraeder.naben}</code>, zur Bremse gehören üblicherweise <code>${bremsen.mount}</code>-Scheiben. Kein Problem — du brauchst nur Scheiben in der passenden Aufnahme (25–60 € je Scheibe).`,
-           `Hubs are <code>${stdName(laufraeder.naben)}</code>, the brake usually comes with <code>${stdName(bremsen.mount)}</code> rotors. No problem — you just need rotors with the matching mount (€25–60 each).`)));
+           `Hubs are <code>${stdName(laufraeder.naben)}</code>, the brake usually comes with <code>${stdName(bremsen.mount)}</code> rotors. No problem — you just need rotors with the matching mount (€25–60 each).`)), {zub:"scheiben"}));
     }
     if(rahmen && rahmen.ebike === "full" && bremsen.mount !== "Felge" && bremsen.kolben === 2 && !(hat("enduro") || hat("dh")))
       out.push(W(tx("Zwei Kolben am E-MTB", "Two pistons on an e-MTB"),"bremsen",["rahmen","bremsen"],
@@ -6642,7 +6744,7 @@ function scoreStatus(r){
   if(fehler) out.push(st("bad", fehler === 1 ? tx("1 Konflikt", "1 conflict") : tx(`${fehler} Konflikte`, `${fehler} conflicts`), `data-view="befunde"`));
   if(warn) out.push(st("warn", warn === 1 ? tx("1 Kompromiss", "1 compromise") : tx(`${warn} Kompromisse`, `${warn} compromises`), `data-view="befunde"`));
   if(plan.budget > 0 && r.preis > plan.budget) out.push(st("warn", tx(`${eur(r.preis - plan.budget)} über Budget`, `${eur(r.preis - plan.budget)} over budget`), `data-finder="1"`));
-  if(r.chara < 55) out.push(st("warn", tx(`Kaum für ${selNamen()} ausgelegt`, `Hardly built for ${selNamen()}`), r.schwach ? `data-slot="${r.schwach.slot.k}" data-ziel="einsatz"` : `data-finder="1"`));
+  if(r.chara < 55) out.push(st("warn", tx(`Kaum für ${selNamen()} ausgelegt`, `Hardly built for ${selNamen()}`), r.schwach ? `data-slot="${r.schwach.slot.k}" data-tab="finden"` : `data-finder="1"`));
   if(offen.length) out.push(st("offen", offen.length === 1 ? tx("1 Teil offen", "1 part missing") : tx(`${offen.length} Teile offen`, `${offen.length} parts missing`), `data-slot="${offen[0].k}"`));
   if(!out.length) out.push(st("gut", tx("Alle Maße passen", "All dimensions fit")));
   return out.join("");
@@ -15727,24 +15829,36 @@ function zaehle(el, ziel){
     if(p < 1) el.raf = requestAnimationFrame(schritt); };
   el.raf = requestAnimationFrame(schritt);
 }
-/* ═══════════ BEVEL-002: Teile finden, Paket, Wunschliste, Vergleich ═══════════
-   Ein Blatt je Bauteil: oben dein Teil, darunter "Passendes finden" (Ziel,
-   Marke, Budget, drei Vorschlaege) und "Alle Teile" (die ganze Liste).
-   Empfohlen wird nur, was fuer das gewaehlte Ziel wirklich besser ist --
-   gemessen an Katalogangaben (Kolben, Scheiben, Gewicht, Federweg, Hub,
-   Bandbreite, Freigabe) oder, als Einschaetzung gekennzeichnet, an der
-   Eignung, die die App einem Teil fuer deine Disziplin gibt. Billiger ist kein
-   Upgrade: dafuer gibt es den eigenen Modus "Guenstiger ersetzen" mit seinen
-   Einschraenkungen. Fehlt eine Angabe, zaehlt sie nicht als besser. */
+/* ═══════════ BEVEL-002/003: Teile finden, Paket, Wunschliste, Vergleich ═══════════
+   Ein Blatt je Bauteil. "Passendes finden" ist eine kurze Fuehrung in drei
+   Schritten (BEVEL-003): Ziel, Marke, Budget -- nichts vorbelegt --, danach
+   etwa drei Kacheln. Empfohlen wird nur, was fuer das gewaehlte Ziel belegbar
+   besser ist, gemessen an Katalogangaben (Scheiben, Bremsfluessigkeit,
+   Gewicht, Federweg, Hub, Bandbreite, Freigabe) -- nie an der Kolbenzahl
+   allein und nicht an der Eignungs-Einschaetzung. Faellt ein Teil unter das,
+   was dein Rad heute kann (Mindestanforderungen), ist es ein Kompromiss und
+   steht erst nach "Kompromisse anzeigen" da. Billiger ist kein Upgrade: dafuer
+   gibt es den eigenen Modus "Guenstiger ersetzen". Fehlt eine Angabe, zaehlt
+   sie nicht als besser. */
 
 /* Kenngroessen. w: Wert am Teil (null = unbekannt). mehr: 1 groesser ist
    besser, -1 kleiner ist besser, 0 nur anders. schwelle: ab welchem
-   Unterschied es zaehlt. art: "kat" Katalogangabe, "ein" Einschaetzung. */
+   Unterschied es zaehlt. art: "kat" Katalogangabe, "ein" Einschaetzung.
+   fT: Anzeige aus dem Teil, wenn der Rechenwert eine Kennzahl ist. */
+/* Bremsgewichte haben im Katalog keinen einheitlich belegten Lieferumfang
+   (Einzelbremse oder Paar, mit oder ohne Scheiben und Adapter); Haendler-
+   angaben zur XT M8120 reichen von 299 bis 410 g. Deshalb rechnet die App bei
+   Bremsen mit keinem Gewichtsvorteil (BEVEL-003, Abschnitt 3). */
+const gewichtVergleichbar = t => !!t && !t.ersatz && t.g > 0 && !(t.mount && t.kolben != null);
+const OEL_NAME = {min:["Mineralöl", "mineral oil"], dot:["DOT", "DOT"], bionol:["Bionol (eigene Flüssigkeit)", "Bionol (own fluid)"]};
+const oelName = o => OEL_NAME[o] ? tx(OEL_NAME[o][0], OEL_NAME[o][1]) : null;
 const KG = {
-  kolben:{n:["Kolben", "Pistons"], w:t => t.mount && t.mount !== "Felge" && t.kolben > 0 ? t.kolben : null, mehr:1, schwelle:() => 1, art:"kat", f:v => v + tx(" Kolben", " pistons"), skala:2},
+  /* Bauart: nur genannt, nie besser oder schlechter -- ob 4 Kolben staerker bremsen, haengt von Uebersetzung und Belag ab */
+  kolben:{n:["Bauart", "Design"], w:t => t.mount && t.mount !== "Felge" && t.kolben > 0 ? t.kolben : null, mehr:0, schwelle:() => 1, art:"kat", f:v => v + tx(" Kolben", " pistons")},
   sV:{n:["Scheibe vorn", "Front rotor"], w:t => t.mount && t.mount !== "Felge" && t.sV > 0 ? t.sV : null, mehr:1, schwelle:() => 3, art:"kat", f:v => v + " mm", skala:20},
   sH:{n:["Scheibe hinten", "Rear rotor"], w:t => t.mount && t.mount !== "Felge" && t.sH > 0 ? t.sH : null, mehr:1, schwelle:() => 3, art:"kat", f:v => v + " mm", skala:20},
-  g:{n:["Gewicht", "Weight"], w:t => !t.ersatz && t.g > 0 ? t.g : null, mehr:-1, schwelle:a => Math.max(15, a * .03), art:"kat", f:v => gramm(v), skala:a => Math.max(50, a * .1)},
+  oel:{n:["Bremsflüssigkeit", "Brake fluid"], w:t => t.oel === "min" ? 1 : t.oel === "dot" ? 0 : null, mehr:1, schwelle:() => .5, art:"kat", f:v => v ? tx("Mineralöl", "mineral oil") : "DOT", fT:t => oelName(t.oel), skala:1},
+  g:{n:["Gewicht", "Weight"], w:t => gewichtVergleichbar(t) ? t.g : null, mehr:-1, schwelle:a => Math.max(15, a * .03), art:"kat", f:v => "≈ " + gramm(Math.round(v / 10) * 10), skala:a => Math.max(50, a * .1)},
   travel:{n:["Federweg", "Travel"], w:t => t.travel > 0 ? t.travel : null, mehr:0, schwelle:() => 5, art:"kat", f:v => v + " mm", skala:10},
   hub:{n:["Hub", "Drop"], w:t => t.d ? (t.hub || 0) : null, mehr:1, schwelle:() => 10, art:"kat", f:v => v ? v + " mm" : tx("starr", "rigid"), skala:25},
   maxSys:{n:["Freigabe", "Weight limit"], w:t => t.maxSys > 0 ? t.maxSys : null, mehr:1, schwelle:() => 5, art:"kat", f:v => v + " kg", skala:10},
@@ -15752,39 +15866,68 @@ const KG = {
   spanne:{n:["Bandbreite", "Range"], w:t => Array.isArray(t.spanne) && t.spanne[0] > 0 && t.gaenge > 1 ? Math.round(t.spanne[1] / t.spanne[0] * 100) : null, mehr:1, schwelle:() => 15, art:"kat", f:v => v + " %", skala:50},
   gaenge:{n:["Gänge", "Gears"], w:t => t.gaenge > 0 ? t.gaenge : null, mehr:0, schwelle:() => 1, art:"kat", f:v => v === 1 ? "Singlespeed" : v + tx("-fach", "-speed")},
   breite:{n:["Breite", "Width"], w:t => t.breite > 0 && t.groessen ? t.breite : null, mehr:0, schwelle:() => 2, art:"kat", f:v => v + " mm"},
-  grip:{n:["Grip", "Grip"], w:t => t.grip > 0 ? t.grip : null, mehr:1, schwelle:() => .5, art:"ein", f:v => zahlDe(v) + "/5", skala:1},
-  eig:{n:["Eignung", "Suitability"], w:t => t.e ? eignung(t) : null, mehr:1, schwelle:() => .5, art:"ein", f:v => zahlDe(Math.round(v * 10) / 10) + "/5", skala:1}
+  grip:{n:["Grip", "Grip"], w:t => t.grip > 0 ? t.grip : null, mehr:1, schwelle:() => .5, art:"ein", f:v => zahlDe(v) + "/5", skala:1}
 };
-const KG_JE = {bremsen:["kolben", "sV", "sH", "g", "eig"], gabel:["travel", "g", "eig"], daempfer:["g", "eig"],
-  laufraeder:["maxSys", "iw", "g", "eig"], reifenVR:["grip", "breite", "g", "eig"], reifenHR:["grip", "breite", "g", "eig"],
-  kassette:["spanne", "gaenge", "g", "eig"], stuetze:["hub", "g", "eig"], _:["g", "eig"]};
+const KG_JE = {bremsen:["sV", "sH", "kolben", "oel", "g"], gabel:["travel", "g"], daempfer:["g"],
+  laufraeder:["maxSys", "iw", "g"], reifenVR:["grip", "breite", "g"], reifenHR:["grip", "breite", "g"],
+  kassette:["spanne", "gaenge", "g"], stuetze:["hub", "g"], _:["g"]};
 const kgDes = k => KG_JE[k] || KG_JE._;
-const kgName = k => k === "eig" ? tx(`Eignung für ${selNamen()}`, `Suitability for ${selNamen()}`) : tx(KG[k].n[0], KG[k].n[1]);
+const kgName = k => tx(KG[k].n[0], KG[k].n[1]);
+/* Mindestanforderungen des aktiven Rads: was dein Teil heute kann, soll ein
+   Vorschlag nicht unterschreiten -- sonst ist er ein Kompromiss */
+const MINDEST_JE = {bremsen:["sV", "sH", "kolben"], gabel:["travel"], stuetze:["hub"], laufraeder:["maxSys"], kassette:["spanne"], reifenVR:["grip"], reifenHR:["grip"]};
+function mindestLuecken(k, a, c, ziel){
+  const prim = ZIEL[ziel] ? ZIEL[ziel].kg : [], out = [];
+  for(const key of MINDEST_JE[k] || []){
+    if(prim.indexOf(key) >= 0) continue;
+    const m = KG[key], va = m.w(a), vc = m.w(c);
+    if(va != null && vc != null && va - vc >= m.schwelle(va)) out.push({k:key, a:va, c:vc});
+  }
+  return out;
+}
+/* Die konkrete Abwaegung zu einer unterschrittenen Mindestanforderung */
+function mindestSatz(e){
+  const m = KG[e.k], was = `${esc(kgName(e.k))}: ${esc(m.f(e.c))} ${tx("statt", "instead of")} ${esc(m.f(e.a))}`;
+  const folge = {
+    kolben:tx("ob die Bremskraft für deinen Einsatz reicht, lässt sich ohne Herstellerwerte nicht belegen", "whether it brakes hard enough for your riding can't be shown without manufacturer figures"),
+    sV:tx("weniger Hebel und weniger Wärmereserve auf langen Abfahrten", "less leverage and less heat capacity on long descents"),
+    sH:tx("weniger Hebel und weniger Wärmereserve auf langen Abfahrten", "less leverage and less heat capacity on long descents"),
+    travel:tx("weniger Reserve, und die Geometrie ändert sich", "less reserve, and the geometry changes"),
+    hub:tx("weniger Bewegungsfreiheit bergab", "less room to move on descents"),
+    maxSys:tx("niedrigere Freigabe für Fahrer, Rad und Gepäck", "lower rating for rider, bike and gear"),
+    spanne:tx("weniger Spielraum zwischen leichtestem und schwerstem Gang", "less spread between easiest and hardest gear"),
+    grip:tx("weniger Grip nach der Einschätzung der App", "less grip by the app's assessment")}[e.k];
+  return folge ? `${was} — ${folge}` : was;
+}
 /* Ziele: kg sind die Hauptgroessen. Federweg ist sonst "nur anders" -- als
    Ziel zaehlt mehr. */
 const ZIEL = {
-  kraft:{n:["Mehr Bremskraft", "More braking power"], s:["Mehr Kolben oder größere Scheiben — größere Scheiben nehmen auf langen Abfahrten auch mehr Wärme auf", "More pistons or bigger rotors — bigger rotors also absorb more heat on long descents"], kg:["kolben", "sV", "sH"]},
+  kraft:{n:["Mehr Bremskraft und Standfestigkeit", "More stopping power and fade resistance"], s:["Größere Scheiben: weniger Handkraft und mehr Masse für die Wärme langer Abfahrten — so weit Gabel und Rahmen sie freigeben", "Bigger rotors: less lever force and more mass for the heat of long descents — as far as fork and frame allow"], kg:["sV", "sH"]},
+  wartung:{n:["Einfachere Wartung", "Easier maintenance"], s:["Mineralöl statt DOT: zieht kein Wasser und greift Lack und Haut nicht an", "Mineral oil instead of DOT: doesn't absorb water or attack paint and skin"], kg:["oel"]},
   ersatz:{n:["Defektes Teil ersetzen", "Replace a broken part"], s:["Gleiche Maße, ähnliche Klasse — dein Modell zuerst", "Same dimensions, similar class — your model first"], kg:[]},
   federweg:{n:["Mehr Federweg", "More travel"], s:["Innerhalb der Freigabe deines Rahmens", "Within your frame's rating"], kg:["travel"]},
   hub:{n:["Mehr Hub", "More drop"], s:["So weit das Sitzrohr es zulässt", "As far as the seat tube allows"], kg:["hub"]},
   spanne:{n:["Größere Bandbreite", "Wider range"], s:["Mehr Abstand zwischen leichtestem und schwerstem Gang", "More spread between the easiest and hardest gear"], kg:["spanne"]},
-  grip:{n:["Mehr Grip", "More grip"], s:["Nach der Einschätzung der App", "Based on the app's assessment"], kg:["grip"]},
+  grip:{n:["Mehr Grip", "More grip"], s:["Nach der Einschätzung der App aus Profil und Gummimischung", "Based on the app's assessment of tread and compound"], kg:["grip"]},
   freigabe:{n:["Höhere Belastbarkeit", "Higher load rating"], s:["Freigabe für Fahrer, Rad und Gepäck", "Rated weight for rider, bike and gear"], kg:["maxSys"]},
-  leicht:{n:["Leichter", "Lighter"], s:["Mindestens 3 % oder 15 g leichter", "At least 3% or 15 g lighter"], kg:["g"]},
-  einsatz:{n:null, s:["Nach der Einschätzung der App", "Based on the app's assessment"], kg:["eig"]},
+  leicht:{n:["Weniger Gewicht", "Less weight"], s:["Mindestens 3 % oder 15 g leichter — ohne unter das zu fallen, was dein Teil heute kann", "At least 3% or 15 g lighter — without dropping below what your part does today"], kg:["g"]},
   konflikt:{n:["Konflikt lösen", "Resolve conflict"], s:["Teile, mit denen es passt", "Parts that make it fit"], kg:[]},
-  sparen:{n:["Günstiger ersetzen", "Cheaper replacement"], s:["Spart Geld, mit Einschränkungen", "Saves money, with trade-offs"], kg:[]},
-  passend:{n:null, s:["Nach der Einschätzung der App", "Based on the app's assessment"], kg:[]},
+  sparen:{n:["Günstiger ersetzen", "Cheaper replacement"], s:["Spart Geld — was du dafür aufgibst, steht an jedem Vorschlag", "Saves money — what you give up is shown on each suggestion"], kg:[]},
+  passend:{n:["Passt ohne Umbau", "Fits without changes"], s:["Erst was ohne Zubehör passt, dann nach Preis", "What fits without accessories first, then by price"], kg:[]},
   leichtest:{n:["Möglichst leicht", "As light as possible"], s:["Unter den passenden Teilen", "Among the parts that fit"], kg:[]},
   guenstig:{n:["Möglichst günstig", "As cheap as possible"], s:["Unter den passenden Teilen", "Among the parts that fit"], kg:[]}
 };
-const ZIELE_JE = {bremsen:["kraft"], gabel:["federweg"], stuetze:["hub"], kassette:["spanne"], reifenVR:["grip"], reifenHR:["grip"], laufraeder:["freigabe"]};
-const zielName = z => z === "einsatz" ? tx(`Besser für ${selNamen()}`, `Better for ${selNamen()}`)
-  : z === "passend" ? tx(`Am besten für ${selNamen()}`, `Best for ${selNamen()}`) : ZIEL[z] ? tx(ZIEL[z].n[0], ZIEL[z].n[1]) : "";
+const ZIELE_JE = {bremsen:["kraft", "wartung"], gabel:["federweg"], stuetze:["hub"], kassette:["spanne"], reifenVR:["grip"], reifenHR:["grip"], laufraeder:["freigabe"]};
+const zielName = z => ZIEL[z] ? tx(ZIEL[z].n[0], ZIEL[z].n[1]) : "";
+/* Kurzform fuer die Zusammenfassung oben in der Auswahl */
+const ZIEL_KURZ = {kraft:["Bremskraft", "Stopping power"], wartung:["Wartung", "Maintenance"], leicht:["Gewicht", "Weight"], ersatz:["Ersatz", "Replacement"], sparen:["Günstiger", "Cheaper"],
+  konflikt:["Konflikt lösen", "Fix conflict"], federweg:["Federweg", "Travel"], hub:["Hub", "Drop"], spanne:["Bandbreite", "Range"], grip:["Grip", "Grip"], freigabe:["Belastbarkeit", "Load rating"],
+  passend:["Passt ohne Umbau", "Fits as is"], leichtest:["Möglichst leicht", "Lightest"], guenstig:["Möglichst günstig", "Cheapest"]};
+const zielKurz = z => ZIEL_KURZ[z] ? tx(ZIEL_KURZ[z][0], ZIEL_KURZ[z][1]) : zielName(z);
 const zielSub = z => ZIEL[z] ? tx(ZIEL[z].s[0], ZIEL[z].s[1]) : "";
 function zieleFuer(k, jetzt, konflikt){
-  if(!jetzt) return ["passend", "leichtest", "guenstig"];
-  return (konflikt ? ["konflikt"] : []).concat(ZIELE_JE[k] || [], ["leicht", "einsatz", "ersatz", "sparen"]);
+  if(!jetzt) return ["passend", "guenstig"].concat(k === "bremsen" ? [] : ["leichtest"]);
+  return (konflikt ? ["konflikt"] : []).concat(ZIELE_JE[k] || [], ["leicht", "ersatz", "sparen"]);
 }
 /* Vergleich zweier Teile Kenngroesse fuer Kenngroesse (a = deins, c = Kandidat) */
 function kgVergleich(k, a, c, ziel){
@@ -15808,7 +15951,8 @@ function kgVergleich(k, a, c, ziel){
 /* Ein Unterschied als kurzer Satz, Einschaetzungen gekennzeichnet */
 function kgSatz(e){
   const m = KG[e.k], ein = m.art === "ein" ? ` <i class="kg-ein">${tx("Einschätzung", "assessment")}</i>` : "";
-  if(e.k === "g"){ const d = e.c - e.a; return (d < 0 ? tx(`${gramm(-d)} leichter`, `${gramm(-d)} lighter`) : tx(`${gramm(d)} schwerer`, `${gramm(d)} heavier`)) + ` <span class="kg-w">${gramm(e.c)} ${tx("statt", "vs")} ${gramm(e.a)}</span>`; }
+  if(e.k === "g"){ const d = Math.round((e.c - e.a) / 10) * 10; return (d < 0 ? tx(`≈ ${gramm(-d)} leichter`, `≈ ${gramm(-d)} lighter`) : tx(`≈ ${gramm(d)} schwerer`, `≈ ${gramm(d)} heavier`)) + ` <span class="kg-w">${tx("Richtwerte", "guide values")}</span>`; }
+  if(e.k === "oel") return e.c ? tx("Mineralöl statt DOT", "Mineral oil instead of DOT") : tx("DOT statt Mineralöl", "DOT instead of mineral oil");
   if(e.a == null || e.c == null) return esc(kgName(e.k));
   return `${esc(kgName(e.k))}: ${esc(m.f(e.c))} <span class="kg-w">${tx("statt", "vs")} ${esc(m.f(e.a))}</span>${ein}`;
 }
@@ -15818,8 +15962,31 @@ function kgSatz(e){
    verglichen: neu noetig, weiter genutzt, entfaellt. Dazu, was der Wechsel
    loest oder neu aufmacht, und Folgeaenderungen: passt danach ein anderes
    Teil nur in einer anderen Ausfuehrung (Freilauf, Scheibe, Klemmung),
-   gehoert die Umstellung ins Paket. */
+   gehoert die Umstellung ins Paket. Bei Bremsen gehoeren die Scheiben dazu
+   (BEVEL-003): ob die verbauten bleiben koennen, steht als eigene Zeile. */
 const adSchl = a => a.id + "|" + (a.kurz || a.n);
+/* Scheiben beim Bremsenwechsel: gleiche Marke und Groesse bleiben; sonst neu,
+   weil Scheibendicke und Belag nur mit Scheiben des Herstellers freigegeben
+   sind. Aufnahme wie die Naben (Center Lock oder 6-Loch). Preis steht nicht
+   im Katalog -- er wird nie geschaetzt. */
+function scheibenPaket(b, jetzt, t){
+  if(!t || t.mount === "Felge" || !(t.sV > 0)) return [];
+  const lr = b.laufraeder && !entfaellt(b, "laufraeder") ? findeTeil("laufraeder", b.laufraeder) : null;
+  const aufn = lr && lr.naben ? lr.naben : t.mount;
+  const altOk = jetzt && jetzt.mount !== "Felge" && jetzt.sV > 0;
+  return [["vorn", "sV"], ["hinten", "sH"]].map(([pos, key]) => {
+    const mm = t[key], alt = altOk ? jetzt[key] : 0;
+    const grund = !alt ? "neu" : alt !== mm ? "groesse" : jetzt.m !== t.m ? "marke" : "";
+    return {pos:pos, mm:mm, alt:alt, aufn:aufn, bleibt:!grund, grund:grund};
+  });
+}
+const scheibeName = s => tx(`Scheibe ${s.pos} ${s.mm} mm · ${stdName(s.aufn)}`, `${s.pos === "vorn" ? "Front" : "Rear"} rotor ${s.mm} mm · ${stdName(s.aufn)}`);
+function scheibeGrund(s){
+  if(s.bleibt) return tx("gleiche Marke und Größe — deine kann bleiben", "same brand and size — yours can stay");
+  if(s.grund === "groesse") return tx(`${s.mm} statt ${s.alt} mm`, `${s.mm} instead of ${s.alt} mm`);
+  if(s.grund === "marke") return tx("andere Marke: Scheibendicke und Belag gibt der Hersteller nur für eigene Scheiben frei", "different brand: the maker only approves thickness and pads with its own rotors");
+  return tx("bisher keine Scheibenbremse", "no disc brake so far");
+}
 function paketFuer(k, t, vor, b){
   b = b || build; vor = vor || bewerte(b);
   if(typeof t === "string") t = findeTeil(k, t);
@@ -15846,33 +16013,48 @@ function paketFuer(k, t, vor, b){
   const aV = vor.adapter || [], aN = nach.adapter || [];
   const sV = new Set(aV.map(adSchl)), sN = new Set(aN.map(adSchl));
   const titel = (r, lv) => new Set(r.funde.filter(f => f.level === lv && !f.ad && !f.offen).map(f => f.titel));
-  const fN = titel(nach, "fehler"), wV = titel(vor, "warnung");
+  const fN = titel(nach, "fehler"), wV = titel(vor, "warnung"), hV = titel(vor, "hinweis");
   const neu = aN.filter(a => !sV.has(adSchl(a))), weg = aV.filter(a => !sN.has(adSchl(a)));
-  const teilPreis = preisVon(t), adPreis = neu.reduce((s, a) => s + (a.p || 0), 0), fPreis = folge.reduce((s, x) => s + x.kosten, 0);
-  return {k:k, t:t, jetzt:jetzt, probe:probe, vor:vor, nach:nach, folge:folge,
-    neu:neu, weiter:aN.filter(a => sV.has(adSchl(a))), weg:weg,
+  const scheiben = k === "bremsen" ? scheibenPaket(probe, jetzt, t) : [];
+  const betrifft = f => f.slots.indexOf(k) >= 0 || folge.some(x => f.slots.indexOf(x.slot) >= 0);
+  /* Gleiche Bremse, nur andere Scheiben: die Bremse bleibt -- gekauft werden Scheiben und Adapter */
+  const bleibt = k === "bremsen" && jetzt && t.id !== jetzt.id && basisVon(t.id) === basisVon(jetzt.id);
+  const teilPreis = bleibt ? 0 : preisVon(t), adPreis = neu.reduce((s, a) => s + (a.p || 0), 0), fPreis = folge.reduce((s, x) => s + x.kosten, 0);
+  const pk = {k:k, t:t, jetzt:jetzt, probe:probe, vor:vor, nach:nach, folge:folge, bleibt:bleibt,
+    neu:neu, weiter:aN.filter(a => sV.has(adSchl(a))), weg:weg, scheiben:scheiben, scheibenNeu:scheiben.filter(s => !s.bleibt),
     neueFehler:nach.funde.filter(f => f.level === "fehler" && !fV.has(f.titel)),
     geloest:vor.funde.filter(f => f.level === "fehler" && !fN.has(f.titel)),
     neueWarn:nach.funde.filter(f => f.level === "warnung" && !f.ad && !f.offen && !wV.has(f.titel)),
-    fehlt:nach.funde.filter(f => f.fehlt && (f.slots.indexOf(k) >= 0 || folge.some(x => f.slots.indexOf(x.slot) >= 0))),
+    /* neue Hinweise am Teil, die kein Zubehoer im Paket erklaert -- dann ist es "noch zu pruefen" */
+    neueHinw:nach.funde.filter(f => f.level === "hinweis" && !f.fehlt && !f.zub && !hV.has(f.titel) && betrifft(f)),
+    fehlt:nach.funde.filter(f => f.fehlt && betrifft(f)),
     teilPreis:teilPreis, adPreis:adPreis, folgePreis:fPreis, gesamt:teilPreis + adPreis + fPreis,
     dGewicht:(t.ersatz ? 0 : t.g || 0) - (jetzt && !jetzt.ersatz ? jetzt.g || 0 : 0) + neu.reduce((s, a) => s + (a.g || 0), 0) - weg.reduce((s, a) => s + (a.g || 0), 0)};
+  /* Sinkt die Kompatibilitaet, ohne dass Adapter, Scheiben, Umstellung oder ein Kompromiss es erklaeren */
+  pk.unerklaert = vor.teile && nach.teile && nach.tech < vor.tech && !neu.length && !folge.length && !pk.scheibenNeu.length && !pk.neueWarn.length;
+  return pk;
 }
-function paketStatus(pk){
+/* Zustand eines Vorschlags (BEVEL-003): vorsichtigster zuerst. x (optional)
+   bringt den Kenngroessen-Vergleich und unterschrittene Mindestanforderungen mit. */
+function paketStatus(pk, x){
   if(pk.neueFehler.length) return {k:"no", t:tx("Passt nicht", "Doesn't fit")};
-  if(pk.neueWarn.length) return {k:"w", t:tx("Kompromiss", "Compromise")};
-  if(pk.folge.length) return {k:"ad", t:tx("Passt mit Umstellung", "Fits with a change")};
-  if(pk.neu.length) return {k:"ad", t:tx("Passt mit Adapter", "Fits with adapter")};
-  if(pk.fehlt.length) return {k:"offen", t:tx("Angabe fehlt", "Data missing")};
-  return {k:"ok", t:tx("Passt", "Fits")};
+  if(pk.neueWarn.length || (x && x.mind && x.mind.length)) return {k:"w", t:tx("Kompromiss", "Compromise")};
+  if(pk.fehlt.length || pk.neueHinw.length || pk.unerklaert || (x && x.vg && x.vg.pU)) return {k:"offen", t:tx("Noch zu prüfen", "Still to check")};
+  if(pk.neu.length || pk.folge.length || pk.scheibenNeu.length) return {k:"ad", t:tx("Passend mit Zubehör", "Fits with accessories")};
+  return {k:"ok", t:tx("Geprüft passend", "Checked: fits")};
 }
-/* Zubehoer im Paket als Zeilen: neu, entfaellt, Umstellung */
+const STATUS_RANG = {ok:0, ad:1, offen:2, w:3, no:4};
+/* Zubehoer im Paket als Zeilen: Scheiben, neu, entfaellt, Umstellung */
 function paketZeilen(pk, kurz){
   const z = [];
+  for(const s of pk.scheibenNeu) z.push(`<li class="pz-neu"><b>${tx("Neu nötig", "Needed")}:</b> ${esc(scheibeName(s))} · ${tx("Preis nicht hinterlegt", "price not on file")}${kurz ? "" : `<span class="pz-grund">${scheibeGrund(s)}</span>`}</li>`);
   for(const a of pk.neu) z.push(`<li class="pz-neu"><b>${tx("Neu nötig", "Needed")}:</b> ${esc(a.n)} · ${eur(a.p || 0)}${kurz ? "" : `<span class="pz-grund">${tx("Wird gebraucht, weil", "Needed because")} ${adGrundKurz(a)}</span>`}</li>`);
   for(const x of pk.folge) z.push(`<li class="pz-neu"><b>${tx("Umstellen", "Change")}:</b> ${esc(slotOf(x.slot).label)} — ${esc(x.aenderung.join(", ") || x.zu.n)} · ${x.kosten ? eur(x.kosten) : tx("Preis nicht hinterlegt", "price not on file")}</li>`);
   for(const a of pk.weg) z.push(`<li class="pz-weg"><b>${tx("Entfällt", "No longer needed")}:</b> ${esc(a.n)}</li>`);
-  if(!kurz) for(const a of pk.weiter) z.push(`<li class="pz-weiter"><b>${tx("Bleibt", "Kept")}:</b> ${esc(a.n)}</li>`);
+  if(!kurz){
+    for(const s of pk.scheiben.filter(s => s.bleibt)) z.push(`<li class="pz-weiter"><b>${tx("Bleibt", "Kept")}:</b> ${esc(scheibeName(s))}<span class="pz-grund">${scheibeGrund(s)}</span></li>`);
+    for(const a of pk.weiter) z.push(`<li class="pz-weiter"><b>${tx("Bleibt", "Kept")}:</b> ${esc(a.n)}</li>`);
+  }
   return z.length ? `<ul class="pz">${z.join("")}</ul>` : "";
 }
 /* Der Grund eines Adapters in einem Halbsatz -- aus seiner Rechnung, nicht erfunden */
@@ -15927,68 +16109,83 @@ function zumProduktHtml(t, klein){
   return `<a class="btn ghost ${klein ? "sm " : ""}zum-produkt" href="${esc(pl.l)}" target="_blank" rel="sponsored nofollow noopener">${tx("Zum Produkt", "View product")}<span class="zp-shop">${esc(pl.s)}</span></a>${ad ? `<span class="werbung" title="${tx("Provisions-Link — die Reihenfolge der Angebote hängt nicht davon ab", "Affiliate link — the order of offers doesn't depend on it")}">${tx("Anzeige", "Ad")}</span>` : ""}`;
 }
 
-/* ── Finder ── */
-let finder = {slot:null, ziel:"", marken:[], budget:0, budgetAn:false, mehr:false, tab:"finden"};
+/* ── Finder (BEVEL-003): drei Schritte, dann Kacheln ──
+   schritt: "ziel" | "marke" | "budget" | "erg". Kein Ziel ist vorbelegt; wer
+   einmal bei den Ergebnissen war (fertig), springt nach jeder Korrektur direkt
+   dorthin zurueck. Marke und Budget bleiben auch bei null Ergebnissen
+   erreichbar -- oben in der Zusammenfassung und im Hinweis. */
+let finder = {slot:null, ziel:"", marken:[], budget:0, budgetAn:false, mehr:false, tab:"finden", schritt:"ziel", fertig:false, kompromisse:false};
 const FINDER_START = 3;
+/* Rueckweg aus dem Vergleich: Platz und Scrollstand der Ergebnisse */
+let vglZurueck = null;
 function finderRechnen(k){
   const jetzt = build[k] && !entfaellt(build, k) ? findeTeil(k, build[k]) : null;
   const vor = bewerte(build);
   const konflikt = vor.funde.filter(f => f.level === "fehler" && !f.offen && f.slots.indexOf(k) >= 0);
   const ziele = zieleFuer(k, jetzt, konflikt.length);
-  if(ziele.indexOf(finder.ziel) < 0) finder.ziel = ziele[0];
-  const ziel = finder.ziel, jb = jetzt ? basisVon(jetzt.id) : null, eigJ = jetzt ? eignung(jetzt) : 0;
-  const roh = [];
-  /* Gleiches Modell, andere Ausfuehrung: loest den Konflikt ohne neues Teil */
+  if(finder.ziel && ziele.indexOf(finder.ziel) < 0) finder.ziel = "";
+  const ziel = finder.ziel, jb = jetzt ? basisVon(jetzt.id) : null;
+  const e = {jetzt:jetzt, vor:vor, konflikt:konflikt, ziele:ziele, ziel:ziel, roh:[], treffer:[], marken:{}, ausMarke:0, ausBudget:0, ausKompro:0, kompro:0, variante:null};
+  if(!ziel) return e;
+  const roh = e.roh;
+  e.variante = jetzt ? varianteHinweis(k, jetzt, ziel) : null;
+  /* Mehr Bremskraft: groessere Scheiben gingen auch an deiner Bremse (Vorschlag "Gleiches Modell") --
+     ein anderes Modell muss deshalb diese Ausfuehrung schlagen, nicht dein heutiges Teil */
+  const latte = k === "bremsen" && ziel === "kraft" && e.variante ? e.variante.v : jetzt;
   if(ziel === "konflikt" && jetzt){
     const pa = passendeAusfuehrung(k, jetzt, build);
-    if(pa){ const pk = paketFuer(k, pa, vor); if(!pk.neueFehler.length && pk.geloest.some(f => f.slots.indexOf(k) >= 0)) roh.push({t:pa, pk:pk, gleich:true, rang:-1}); }
+    if(pa){ const pk = paketFuer(k, pa, vor); if(!pk.neueFehler.length && pk.geloest.some(f => f.slots.indexOf(k) >= 0)) roh.push({t:pa, pk:pk, gleich:true, mind:[], rang:-1}); }
   }
   /* Ersatz: dasselbe Teil noch einmal steht vorn */
-  if(ziel === "ersatz" && jetzt) roh.push({t:jetzt, pk:paketFuer(k, jetzt, vor), gleichNeu:true, vg:kgVergleich(k, jetzt, jetzt, ziel), rang:-1e9});
+  if(ziel === "ersatz" && jetzt) roh.push({t:jetzt, pk:paketFuer(k, jetzt, vor), gleichNeu:true, vg:kgVergleich(k, jetzt, jetzt, ziel), mind:[], rang:-1e9});
   for(const t0 of kandidaten(k, build)){
     if((jb && basisVon(t0.id) === jb) || t0.eigen || !vorliebeOk(k, t0)) continue;
     const t = gleicheBasis(k, t0, jetzt, ziel), pk = paketFuer(k, t, vor);
     if(pk.neueFehler.length) continue;
-    const eig = eignung(t), vg = jetzt ? kgVergleich(k, jetzt, t, ziel) : null;
-    const ungeeignet = t.e && eig < 2.5 && eig < eigJ - .9;
+    const vg = jetzt ? kgVergleich(k, latte, t, ziel) : null;
+    const mind = jetzt ? mindestLuecken(k, jetzt, t, ziel) : [];
+    const kompro = mind.length > 0 || pk.neueWarn.length > 0;
+    const sr = STATUS_RANG[paketStatus(pk, {vg:vg, mind:mind}).k];
     let rang = 0;
     if(ziel === "konflikt"){
       if(!pk.geloest.some(f => f.slots.indexOf(k) >= 0)) continue;
-      rang = Math.abs(Math.log((grundpreis(t) || 1) / (grundpreis(jetzt) || 1))) - eig * .05;
+      rang = sr + Math.abs(Math.log((grundpreis(t) || 1) / (grundpreis(jetzt) || 1)));
     } else if(ziel === "sparen"){
       const spart = preisVon(jetzt) - pk.gesamt;
-      if(spart < Math.max(8, preisVon(jetzt) * .05) || ungeeignet) continue;
+      if(spart < Math.max(8, preisVon(jetzt) * .05)) continue;
       rang = vg.schlechter.length * 1000 - spart;
     } else if(ziel === "ersatz"){
-      /* gleiche harte Masse, Klasse und Eignung nah am bisherigen Teil */
-      if(!massGleich(k, jetzt, t) || ungeeignet) continue;
-      rang = Math.abs(Math.log((grundpreis(t) || 1) / (grundpreis(jetzt) || 1))) + Math.abs(eig - eigJ) * .3 + vg.schlechter.length * .2;
-    } else if(ziel === "passend"){ rang = -eig * 100 + pk.gesamt / 1000; }
-    else if(ziel === "leichtest"){ if(!(t.g > 0) || (t.e && eig < 3)) continue; rang = t.g; }
-    else if(ziel === "guenstig"){ if(t.e && eig < 3) continue; rang = pk.gesamt; }
+      /* gleiche harte Masse, Preis nah am bisherigen Teil */
+      if(!massGleich(k, jetzt, t)) continue;
+      rang = sr + Math.abs(Math.log((grundpreis(t) || 1) / (grundpreis(jetzt) || 1))) + vg.schlechter.length * .2;
+    } else if(ziel === "passend"){ rang = sr * 1e6 + pk.gesamt; }
+    else if(ziel === "leichtest"){ if(!gewichtVergleichbar(t)) continue; rang = sr * 1e6 + t.g; }
+    else if(ziel === "guenstig"){ rang = pk.gesamt; }
     else {
       /* Echte Verbesserung: in den Hauptgroessen mindestens einmal besser,
-         nirgends schlechter, nichts unbekannt -- und weiter fuer die Disziplin tauglich */
-      if(!vg || vg.pB === 0 || vg.pS || vg.pU || ungeeignet) continue;
-      rang = -(vg.gewinn + .25 * (eig - eigJ) - .2 * vg.schlechter.length);
+         nirgends schlechter, nichts unbekannt */
+      if(!vg || vg.pB === 0 || vg.pS || vg.pU) continue;
+      rang = sr - (vg.gewinn - .2 * vg.schlechter.length);
     }
-    roh.push({t:t, pk:pk, vg:vg, eig:eig, rang:rang});
+    roh.push({t:t, pk:pk, vg:vg, mind:mind, kompro:kompro, rang:rang});
   }
   roh.sort((a, b) => a.rang - b.rang || a.pk.gesamt - b.pk.gesamt);
-  /* Marken und Budget filtern erst danach -- so laesst sich sagen, was sie ausblenden */
-  const marken = {};
-  for(const x of roh) if(x.t.m) marken[x.t.m] = (marken[x.t.m] || 0) + 1;
+  /* Kompromisse erst auf Wunsch; Marken und Budget filtern danach -- so laesst sich sagen, was sie ausblenden */
+  const sicht = x => !x.kompro || finder.kompromisse;
   const mOk = x => !finder.marken.length || finder.marken.indexOf(x.t.m) >= 0;
   const bOk = x => !finder.budgetAn || !(finder.budget > 0) || x.pk.gesamt <= finder.budget;
-  const treffer = roh.filter(x => mOk(x) && bOk(x));
-  return {jetzt:jetzt, vor:vor, konflikt:konflikt, ziele:ziele, ziel:ziel, roh:roh, treffer:treffer, marken:marken,
-    ausMarke:roh.filter(x => !mOk(x)).length, ausBudget:roh.filter(x => mOk(x) && !bOk(x)).length,
-    variante:jetzt ? varianteHinweis(k, jetzt, ziel) : null};
+  for(const x of roh) if(x.t.m && sicht(x)) e.marken[x.t.m] = (e.marken[x.t.m] || 0) + 1;
+  e.treffer = roh.filter(x => sicht(x) && mOk(x) && bOk(x));
+  e.ausMarke = roh.filter(x => sicht(x) && !mOk(x)).length;
+  e.ausBudget = roh.filter(x => sicht(x) && mOk(x) && !bOk(x)).length;
+  e.kompro = roh.filter(x => x.kompro && mOk(x) && bOk(x)).length;
+  e.ausKompro = roh.filter(x => !sicht(x) && mOk(x) && bOk(x)).length;
+  return e;
 }
 /* Gleiche Grundlage (BEVEL-002): ein anderes Teil wird mit derselben
    Scheibengroesse verglichen wie deins -- sonst wirkte jede Bremse mit
    groesserer Scheibe staerker, obwohl die groessere Scheibe auch an deiner
-   Bremse ginge (dafuer steht der Hinweis "Gleiches Teil"). Federweg und Hub
+   Bremse ginge (dafuer steht der Vorschlag "Gleiches Modell"). Federweg und Hub
    ebenso, ausser sie sind selbst das Ziel. */
 const DIM_KG = {Scheiben:["sV", "sH"], Federweg:["travel"], Hub:["hub"]};
 function gleicheBasis(k, t, jetzt, ziel){
@@ -16017,96 +16214,159 @@ function varianteHinweis(k, jetzt, ziel){
     if(j === jetzt.wahl[i] || optionPasst(k, d, o, build) === false) return;
     const w = jetzt.wahl.slice(); w[i] = j;
     const v = varianteNachIndex(basis, w), vg = kgVergleich(k, jetzt, v, ziel);
-    if(vg.pB && !vg.pS && !vg.pU){ const pk = paketFuer(k, v); if(!pk.neueFehler.length && (!best || vg.gewinn > best.gewinn)) best = {i:i, j:j, o:o, v:v, gewinn:vg.gewinn, pk:pk}; }
+    if(vg.pB && !vg.pS && !vg.pU){ const pk = paketFuer(k, v); if(!pk.neueFehler.length && (!best || vg.gewinn > best.gewinn)) best = {i:i, j:j, o:o, v:v, gewinn:vg.gewinn, pk:pk, vg:vg}; }
   });
   return best;
 }
+/* Alle Marken der Kategorie -- auch die, die fuer dein Ziel gerade nichts liefern */
+function markenKat(k){
+  const m = {};
+  for(const t of kandidaten(k, build)) if(t.m && !t.eigen) m[t.m] = (m[t.m] || 0) + 1;
+  return Object.keys(m).sort((a, b) => m[b] - m[a] || a.localeCompare(b, ortsform()));
+}
+/* Angebot in einer Zeile: geprueft mit Haendler und Stand, sonst ehrlich Richtpreis */
+function angebotKurz(t){
+  const g = gepruefteAngebote(t);
+  if(g.length) return tx(`Günstigstes geprüftes Angebot: ${esc(g[0].s)} · Stand ${liveStand()}`, `Cheapest verified offer: ${esc(g[0].s)} · as of ${liveStand()}`);
+  return jahrFaktor(t) !== 1 ? tx("Schätzwert für das Modelljahr", "Estimate for the model year") : tx("Richtpreis — kein geprüftes Angebot", "Guide price — no verified offer");
+}
+/* Ergebniskachel: Bild, genaues Modell und Ausfuehrung, Angebot, kurzer Grund,
+   Zustand. Uebernommen wird erst im Vergleich -- dort steht das ganze Paket. */
 function finderKarte(k, x, jetzt){
-  const t = x.t, pk = x.pk, st = paketStatus(pk);
+  const t = x.t, pk = x.pk, st = paketStatus(pk, x), z = finder.ziel;
   const bild = (angebote(t).find(a => a.b) || {}).b || "";
-  const merk = istGemerkt(k, t.id);
-  let pro = [], contra = [], anders = [];
-  if(x.gleich){ pro.push(tx("Dasselbe Teil in einer anderen Ausführung — kein neues Modell.", "The same part in a different version — no new model.")); pro.push(esc((x.t.aenderung || []).join(", "))); }
-  else if(x.gleichNeu){ pro.push(tx("Dein Modell noch einmal — passt sicher wie bisher.", "Your model again — fits exactly as before.")); }
-  else if(x.vg){
-    pro = x.vg.besser.map(kgSatz); contra = x.vg.schlechter.map(kgSatz); anders = x.vg.anders.map(kgSatz);
-    if(finder.ziel === "sparen") pro.unshift(`<b>${tx(`${eur(preisVon(jetzt) - pk.gesamt)} günstiger`, `${eur(preisVon(jetzt) - pk.gesamt)} cheaper`)}</b> <span class="kg-w">${tx("inkl. Zubehör", "incl. accessories")}</span>`);
-    const ab = jetzt ? massGleich(k, jetzt, t) : null;
-    if(finder.ziel === "sparen" && ab) for(const a of ab) if(contra.indexOf(a) < 0) anders.push(esc(a));
-  } else {
-    pro = specsVon(k, t).slice(0, 3).map(esc);
-    if(t.e) pro.push(`${esc(kgName("eig"))}: ${zahlDe(Math.round(eignung(t) * 10) / 10)}/5 <i class="kg-ein">${tx("Einschätzung", "assessment")}</i>`);
-    if(t.e && eignung(t) < 3.5) contra.push(tx(`Nur bedingt für ${selNamen()} ausgelegt`, `Only partly made for ${selNamen()}`) + ` <i class="kg-ein">${tx("Einschätzung", "assessment")}</i>`);
+  const merk = istGemerkt(k, t.id), aw = ausfWerte(t);
+  let grund = [], nachteil = [];
+  if(x.variante) grund.push(tx(`Gleiches Modell, ${esc(dimName(x.variante.v.v[x.variante.i].k))} ${esc(x.variante.o.n)} — kein neues Teil.`, `Same model, ${esc(imSatz(dimName(x.variante.v.v[x.variante.i].k)))} ${esc(x.variante.o.n)} — no new part.`));
+  else if(x.gleich) grund.push(tx("Dasselbe Teil in einer anderen Ausführung: ", "The same part in a different version: ") + esc((t.aenderung || []).join(", ")));
+  else if(x.gleichNeu) grund.push(tx("Dein Modell noch einmal — passt wie bisher.", "Your model again — fits as before."));
+  if(x.vg && !x.gleichNeu){
+    const prim = ZIEL[z] ? ZIEL[z].kg : [];
+    const b = x.vg.besser.slice().sort((a, c) => (prim.indexOf(c.k) >= 0) - (prim.indexOf(a.k) >= 0));
+    if(!x.variante) grund = grund.concat(b.slice(0, 2).map(kgSatz));
+    nachteil = x.vg.schlechter.map(kgSatz);
   }
-  for(const f of pk.geloest.filter(f => f.slots.indexOf(k) >= 0)) pro.unshift(`<b>${tx("Löst", "Fixes")}:</b> ${esc(f.titel)}`);
-  for(const f of pk.neueWarn) contra.push(`<b>${tx("Kompromiss", "Compromise")}:</b> ${esc(f.titel)}`);
-  const offen = (x.vg ? x.vg.unbekannt.map(e => kgName(e.k)) : []).concat(pk.fehlt.map(f => f.fehlt),
-    k === "bremsen" && !x.gleichNeu ? [tx("Scheibendicke und Belagtyp (Bremse mit eigenen Scheiben kaufen)", "rotor thickness and pad type (buy the brake with its own rotors)")] : []);
-  const li = l => l.map(s => `<li>${s}</li>`).join("");
-  return `<article class="fk" data-fk="${esc(t.id)}">
-    <div class="fk-kopf">
-      <span class="fk-bild" aria-hidden="true">${bild ? `<img src="${esc(bild)}" alt="" loading="lazy" onerror="this.remove()">` : gruppenIc(slotOf(k).grp)}</span>
-      <div class="fk-titel"><b>${esc(t.n)}</b><span class="fk-st ${st.k}">${st.t}</span></div>
-      <div class="fk-preis"><b>${eur(pk.gesamt)}</b><span>${pk.adPreis || pk.folgePreis ? tx("mit Zubehör", "incl. accessories") : t.m ? esc(markeTxt(t.m)) : ""}</span></div>
+  if(z === "sparen" && jetzt) grund.unshift(`<b>${tx(`${eur(preisVon(jetzt) - pk.gesamt)} günstiger`, `${eur(preisVon(jetzt) - pk.gesamt)} cheaper`)}</b> <span class="kg-w">${tx("inkl. Zubehör", "incl. accessories")}</span>`);
+  for(const f of pk.geloest.filter(f => f.slots.indexOf(k) >= 0)) grund.unshift(`<b>${tx("Löst", "Fixes")}:</b> ${esc(f.titel)}`);
+  if(!grund.length) grund = specsVon(k, t).slice(0, 2).map(esc);
+  nachteil = (x.mind || []).map(mindestSatz).concat(pk.neueWarn.map(f => `<b>${tx("Kompromiss", "Compromise")}:</b> ${esc(f.titel)}`), nachteil);
+  const offen = (x.vg ? x.vg.unbekannt.filter(e => (ZIEL[z] ? ZIEL[z].kg : []).indexOf(e.k) >= 0).map(e => kgName(e.k)) : [])
+    .concat(pk.fehlt.map(f => f.fehlt), pk.neueHinw.map(f => f.titel), pk.unerklaert ? [tx("Kompatibilität sinkt — Details im Vergleich", "compatibility drops — details in the comparison")] : []);
+  const zub = pk.scheibenNeu.map(s => tx(`Scheibe ${s.pos} ${s.mm} mm`, `${s.pos === "vorn" ? "front" : "rear"} rotor ${s.mm} mm`)).concat(pk.neu.map(a => a.n), pk.folge.map(f => slotOf(f.slot).label));
+  const vglAttr = `${k}|${esc(t.id)}`;
+  return `<article class="fk fk3" data-fk="${esc(t.id)}">
+    <div class="fk-bild${bild ? "" : " ohne"}">${bild ? `<img src="${esc(bild)}" alt="${esc(t.nb || t.n)}" loading="lazy" onerror="this.parentNode.classList.add('ohne');this.remove()">` : ""}<span class="fk-ohne" aria-hidden="true">${gruppenIc(slotOf(k).grp)}<small>${tx("Kein Produktfoto", "No product photo")}</small></span></div>
+    <div class="fk-kern">
+      <span class="fk-st ${st.k}">${st.t}</span>
+      <h4 class="fk-name">${esc(t.nb || t.n)}</h4>
+      ${aw ? `<span class="fk-var">${tx("Ausführung", "Version")}: ${esc(aw)}</span>` : ""}
+      <p class="fk-grund">${grund.slice(0, 2).join(" · ")}</p>
+      ${nachteil.length ? `<p class="fk-nachteil">${nachteil.slice(0, 2).join(" · ")}</p>` : ""}
+      ${offen.length ? `<p class="fk-offen"><b>${tx("Noch offen", "Still open")}:</b> ${esc(offen.slice(0, 3).join(", "))}</p>` : ""}
     </div>
-    <p class="fk-herkunft">${preisHerkunft(t)}${pk.adPreis || pk.folgePreis ? ` · ${tx("Teil", "part")} ${eur(pk.teilPreis)}` : ""}</p>
-    ${paketZeilen(pk, true)}
-    ${pro.length ? `<ul class="fk-pro" aria-label="${tx("Vorteile", "Advantages")}">${li(pro)}</ul>` : ""}
-    ${contra.length ? `<ul class="fk-contra" aria-label="${tx("Nachteile", "Drawbacks")}">${li(contra)}</ul>` : ""}
-    ${anders.length ? `<p class="fk-anders"><b>${tx("Anders", "Different")}:</b> ${anders.join(" · ")}</p>` : ""}
-    ${offen.length ? `<p class="fk-offen"><b>${tx("Nicht bekannt", "Not known")}:</b> ${esc(offen.join(", "))}</p>` : ""}
+    <div class="fk-geld"><b>${eur(pk.gesamt)}</b><span>${pk.bleibt ? tx("Bremse bleibt — nur Zubehör", "brake stays — accessories only") : zub.length ? tx("mit Zubehör", "with accessories") : tx("gesamt", "total")}${pk.scheibenNeu.length ? tx(" · ohne Scheiben", " · excl. rotors") : ""}</span><small>${angebotKurz(t)}</small></div>
+    ${zub.length ? `<p class="fk-zub"><b>${tx("Dazu", "Plus")}:</b> ${esc(zub.join(" · "))}</p>` : ""}
     <div class="fk-akt">
-      ${x.gleichNeu ? "" : `<button class="btn sm" data-ersetzen="${k}|${esc(t.id)}">${jetzt ? tx("Im Aufbau ersetzen", "Replace in build") : tx("In den Aufbau", "Add to build")}</button>`}
-      ${jetzt && !x.gleichNeu ? `<button class="btn ghost sm" data-vergleich="${k}|${esc(t.id)}">${tx("Vergleichen", "Compare")}</button>` : ""}
-      <button class="btn ghost sm merk" data-merken="${k}|${esc(t.id)}" aria-pressed="${merk}">${merk ? tx("Gemerkt", "Saved") : tx("Merken", "Save")}</button>
-      <span class="fk-shop">${zumProduktHtml(t, true)}</span>
+      ${x.gleichNeu ? "" : `<button class="btn sm" data-vergleich="${vglAttr}">${tx("Vergleichen", "Compare")}</button>`}
+      <button class="btn ghost sm merk" data-merken="${vglAttr}" aria-pressed="${merk}">${merk ? tx("Gemerkt", "Saved") : tx("Merken", "Save")}</button>
+      ${produktLink(t) ? `<span class="fk-shop">${zumProduktHtml(t, true)}</span>` : ""}
     </div>
   </article>`;
 }
+/* Warum nichts kommt -- je Ziel ein ehrlicher Satz, kein Fuelltext */
+function keinWechselGrund(k, e){
+  const j = e.jetzt, z = e.ziel;
+  if(k === "bremsen" && z === "kraft") return tx("Ob ein anderes Modell bei gleicher Scheibe stärker bremst, hängt von Übersetzung, Belag und Hebel ab — dafür hat die App keine geprüften Herstellerwerte, und die Kolbenzahl allein sagt es nicht. Belegbar ist der Hebel über die Scheibengröße.",
+    "Whether another model brakes harder with the same rotor depends on hydraulic ratio, pads and lever — the app has no verified manufacturer figures for that, and the number of pistons alone doesn't tell you. What can be shown is the leverage of rotor size.") + (e.variante ? "" : " " + tx("Größere Scheiben geben Gabel und Rahmen nicht frei, oder du fährst sie schon.", "Fork and frame don't allow bigger rotors, or you already run them."));
+  if(k === "bremsen" && z === "wartung") return j.oel === "min" ? tx("Deine Bremse läuft schon mit Mineralöl.", "Your brake already runs on mineral oil.")
+    : !oelName(j.oel) ? tx("Für deine Bremse ist die Bremsflüssigkeit nicht hinterlegt — ein Vergleich wäre geraten.", "The brake fluid of your brake isn't on file — a comparison would be a guess.")
+    : tx("Keine Bremse mit Mineralöl passt ohne Kompromiss zu deinem Rad und deiner Auswahl.", "No mineral-oil brake fits your bike and selection without a compromise.");
+  if(k === "bremsen" && z === "leicht") return tx("Bremsgewichte sind im Katalog nicht mit gleichem Lieferumfang belegt (Einzelbremse oder Paar, mit oder ohne Scheiben und Adapter), und Händlerangaben widersprechen sich teils um über 100 g. Einen Gewichtsvorteil nennt die App deshalb nicht.",
+    "Brake weights in the catalogue aren't recorded with the same scope (single or pair, with or without rotors and adapters), and retailer figures differ by more than 100 g in places. So the app doesn't claim a weight advantage.");
+  if(z === "leicht") return tx("Kein passendes Teil ist mindestens 3 % leichter, ohne unter das zu fallen, was dein Teil heute kann.", "No part that fits is at least 3% lighter without dropping below what your part does today.");
+  if(z === "ersatz") return tx("Kein anderes Teil hat dieselben Maße.", "No other part has the same dimensions.");
+  return tx("Kein Teil ist in deinem Ziel belegbar besser und kann zugleich alles, was dein Teil heute kann.", "No part is provably better for your goal while also doing everything your part does today.");
+}
 function finderErgebnisHtml(k, e){
   const jetzt = e.jetzt;
+  const filterHinweis = () => {
+    if(!e.ausBudget && !e.ausMarke && !e.ausKompro) return "";
+    const t = [e.ausBudget ? tx(`${e.ausBudget} über deinem Budget`, `${e.ausBudget} over your budget`) : "", e.ausMarke ? tx(`${e.ausMarke} von anderen Marken`, `${e.ausMarke} from other brands`) : "",
+      e.ausKompro ? tx(`${e.ausKompro} mit Kompromissen`, `${e.ausKompro} with compromises`) : ""].filter(Boolean).join(" · ");
+    return `<div class="fi-weg"><span>${tx("Ausgeblendet", "Hidden")}: ${t}</span><span class="fi-weg-k">
+      ${e.ausMarke ? `<button class="btn ghost sm" data-fimarke="">${tx("Marke egal", "Any brand")}</button>` : ""}${e.ausBudget ? `<button class="btn ghost sm" data-fibudget="0">${tx("Preis offen", "No price limit")}</button>` : ""}</span></div>`;
+  };
+  const komproKnopf = e.kompro
+    ? `<button class="btn ghost wide fi-kompro" data-fikompro="1" aria-pressed="${!!finder.kompromisse}">${finder.kompromisse ? tx("Kompromisse ausblenden", "Hide compromises") : tx(`Kompromisse anzeigen (${e.kompro})`, `Show compromises (${e.kompro})`)}</button>
+      ${finder.kompromisse ? "" : `<p class="fi-s">${tx("Teile, die unter das fallen, was dein Rad heute kann — mit der konkreten Abwägung.", "Parts that fall below what your bike does today — with the specific trade-off.")}</p>`}` : "";
+  const varianteKarte = e.variante ? finderKarte(k, {t:e.variante.v, pk:e.variante.pk, vg:e.variante.vg, mind:[], variante:e.variante}, jetzt) : "";
   if(!e.treffer.length){
-    const weg = e.ausBudget + e.ausMarke;
     let txt;
-    if(jetzt && ["sparen", "konflikt"].indexOf(e.ziel) < 0 && !e.roh.length)
-      txt = `<p class="kein-wechsel"><b>${tx("Dein aktuelles Teil passt gut.", "Your current part is a good fit.")}</b> ${tx("Für dein Ziel sehen wir derzeit keinen überzeugenden Wechsel.", "For your goal we don't see a convincing switch right now.")}</p>`;
-    else if(e.ziel === "sparen" && !e.roh.length) txt = `<p class="kein-wechsel">${tx("Kein passendes Teil ist spürbar günstiger, ohne für deinen Einsatz ungeeignet zu sein.", "No part that fits is noticeably cheaper without being unsuitable for your riding.")}</p>`;
+    const verbessern = jetzt && ["sparen", "konflikt", "ersatz", "passend", "leichtest", "guenstig"].indexOf(e.ziel) < 0;
+    if(verbessern && !e.ausMarke && !e.ausBudget)
+      txt = `<div class="fi-behalten"><span class="fk-st ok">${tx("Behalten sinnvoll", "Worth keeping")}</span>
+        <p><b>${tx(`Dein ${esc(jetzt.nb || jetzt.n)} bleibt die richtige Wahl für „${esc(zielName(e.ziel))}“.`, `Your ${esc(jetzt.nb || jetzt.n)} stays the right choice for “${esc(zielName(e.ziel))}”.`)}</b></p>
+        <p>${keinWechselGrund(k, e)}</p></div>`;
+    else if(e.ziel === "sparen" && !e.ausMarke && !e.ausBudget) txt = `<div class="fi-behalten"><span class="fk-st ok">${tx("Behalten sinnvoll", "Worth keeping")}</span><p>${tx("Kein passendes Teil ist spürbar günstiger, ohne unter das zu fallen, was dein Teil heute kann.", "No part that fits is noticeably cheaper without dropping below what your part does today.")}</p></div>`;
     else if(e.ziel === "konflikt" && !e.roh.length) txt = `<p class="kein-wechsel">${tx("Im Katalog löst kein einzelnes Teil diesen Konflikt. Die Prüfung im Aufbau sagt, welches andere Teil beteiligt ist.", "No single part in the catalogue fixes this conflict. The check in your build shows which other part is involved.")}</p>`;
-    else txt = `<p class="kein-wechsel">${tx("Nichts passt zu deiner Auswahl.", "Nothing matches your selection.")}</p>`;
-    return txt + (weg ? `<p class="fi-weg">${e.ausBudget ? tx(`${e.ausBudget} ${e.ausBudget === 1 ? "Vorschlag liegt" : "Vorschläge liegen"} über deinem Budget.`, `${e.ausBudget} ${e.ausBudget === 1 ? "suggestion is" : "suggestions are"} over your budget.`) : ""}
-      ${e.ausMarke ? tx(`${e.ausMarke} von anderen Marken.`, `${e.ausMarke} from other brands.`) : ""}
-      ${e.ausMarke ? `<button class="linkbtn" data-fimarke="">${tx("Marke egal", "Any brand")}</button>` : ""}${e.ausBudget ? `<button class="linkbtn" data-fibudget="0">${tx("Preis offen", "No price limit")}</button>` : ""}</p>` : "")
-      + varianteHtml(k, e);
+    else txt = `<p class="kein-wechsel"><b>${tx("Nichts passt zu deiner Auswahl.", "Nothing matches your selection.")}</b> ${tx("Ändere Marke oder Budget — oben oder direkt hier.", "Change brand or budget — above or right here.")}</p>`;
+    return txt + filterHinweis() + varianteKarte + komproKnopf;
   }
   const zeige = finder.mehr ? e.treffer : e.treffer.slice(0, FINDER_START);
-  return varianteHtml(k, e) + zeige.map(x => finderKarte(k, x, jetzt)).join("")
+  return varianteKarte + zeige.map(x => finderKarte(k, x, jetzt)).join("")
     + (e.treffer.length > FINDER_START ? `<button class="btn ghost wide fi-mehr" data-fimehr="1" aria-expanded="${finder.mehr}">${finder.mehr ? tx("Weniger zeigen", "Show fewer") : tx(`${e.treffer.length - FINDER_START} weitere zeigen`, `Show ${e.treffer.length - FINDER_START} more`)}</button>` : "")
-    + (e.ausBudget || e.ausMarke ? `<p class="fi-weg">${[e.ausBudget ? tx(`${e.ausBudget} über Budget ausgeblendet`, `${e.ausBudget} over budget hidden`) : "", e.ausMarke ? tx(`${e.ausMarke} anderer Marken ausgeblendet`, `${e.ausMarke} from other brands hidden`) : ""].filter(Boolean).join(" · ")}</p>` : "");
+    + filterHinweis() + komproKnopf;
 }
-function varianteHtml(k, e){
-  const v = e.variante;
-  if(!v) return "";
-  return `<div class="fi-variante"><span>${tx(`<b>Gleiches Teil, ${esc(dimName(v.v.v[v.i].k))} ${esc(v.o.n)}:</b> mehr für dein Ziel, ohne das Modell zu wechseln.`, `<b>Same part, ${esc(imSatz(dimName(v.v.v[v.i].k)))} ${esc(v.o.n)}:</b> more for your goal without changing model.`)}
-    ${v.pk.neu.length ? tx(` Dafür nötig: ${esc(v.pk.neu.map(a => a.n).join(", "))}.`, ` Needs: ${esc(v.pk.neu.map(a => a.n).join(", "))}.`) : ""}</span>
-    <button class="btn ghost sm" data-ersetzen="${k}|${esc(v.v.id)}">${tx("Ausführung übernehmen", "Use this version")}</button></div>`;
+/* Kurz: dein Teil im Kopf der Auswahl -- alles Weitere unter "Alle …" */
+function finderDein(k, e){
+  const t = e.jetzt, s = slotOf(k);
+  if(!t) return `<p class="fi-dein leer">${tx(`Noch kein Teil eingetragen — die App sucht, was zu deinem Rad passt.`, `No part entered yet — the app looks for what fits your bike.`)}</p>`;
+  const aw = ausfWerte(t);
+  return `<div class="fi-dein"><span class="fi-dein-l">${modus === "traum" ? tx("Im Aufbau", "In your build") : tx("Verbaut", "Fitted")}</span><b>${esc(t.nb || t.n)}</b>${aw ? `<span>${esc(aw)}</span>` : ""}
+    ${e.konflikt.length ? `<span class="fi-dein-k">${esc(e.konflikt[0].titel)}</span>` : ""}</div>`;
 }
-/* Die vier Fragen: Kategorie (steht im Kopf), Ziel, Marke, Budget */
+/* Die Fuehrung: Zusammenfassung (immer korrigierbar), dann genau ein Schritt */
 function finderHtml(k){
-  const e = finderRechnen(k);
-  const chips = (liste, akt, attr) => liste.map(z => `<button data-${attr}="${z}" aria-pressed="${akt(z)}">${z === "" ? tx("Marke egal", "Any brand") : esc(attr === "fiziel" ? zielName(z) : markeTxt(z))}</button>`).join("");
-  const mListe = Object.keys(e.marken).sort((a, b) => e.marken[b] - e.marken[a] || a.localeCompare(b, ortsform()));
-  return `<div class="fi" id="fi">
-    <div class="fi-frage"><span class="fi-l" id="fi-l-ziel">${tx("Was soll besser werden?", "What should improve?")}</span>
-      <div class="fi-chips" role="group" aria-labelledby="fi-l-ziel">${chips(e.ziele, z => z === e.ziel, "fiziel")}</div>
-      <span class="fi-s">${esc(zielSub(e.ziel))}${e.jetzt && e.ziel !== "konflikt" ? tx(` · verglichen mit deinem ${slotOf(k).label}`, ` · compared with your ${slotOf(k).label.toLowerCase()}`) : ""}</span></div>
-    ${mListe.length > 1 || finder.marken.length ? `<div class="fi-frage"><span class="fi-l" id="fi-l-marke">${tx("Marke", "Brand")}</span>
-      <div class="fi-chips" role="group" aria-labelledby="fi-l-marke"><button data-fimarke="" aria-pressed="${!finder.marken.length}">${tx("Marke egal", "Any brand")}</button>${mListe.slice(0, 8).map(m => `<button data-fimarke="${esc(m)}" aria-pressed="${finder.marken.indexOf(m) >= 0}">${esc(markeTxt(m))}</button>`).join("")}</div></div>` : ""}
-    <div class="fi-frage"><span class="fi-l" id="fi-l-preis">${tx("Preis", "Price")}</span>
+  const e = finderRechnen(k), s = slotOf(k);
+  const schritt = e.ziel ? finder.schritt : "ziel";
+  const markeTxtListe = finder.marken.length ? finder.marken.map(markeTxt).join(", ") : tx("egal", "any");
+  const budgetTxt = finder.budgetAn && finder.budget > 0 ? eur(finder.budget) : tx("offen", "open");
+  const sum = e.ziel && (schritt !== "ziel" || finder.fertig) ? `<div class="fi-sum" role="group" aria-label="${tx("Deine Auswahl", "Your selection")}">
+      <button data-fischritt="ziel" aria-current="${schritt === "ziel" ? "step" : "false"}"><span>${tx("Ziel", "Goal")}</span><b>${esc(zielKurz(e.ziel))}</b></button>
+      <button data-fischritt="marke" aria-current="${schritt === "marke" ? "step" : "false"}"><span>${tx("Marke", "Brand")}</span><b>${esc(markeTxtListe)}</b></button>
+      <button data-fischritt="budget" aria-current="${schritt === "budget" ? "step" : "false"}"><span>${tx("Budget", "Budget")}</span><b>${budgetTxt}</b></button></div>` : "";
+  const nr = n => `<p class="fi-nr">${tx(`Schritt ${n} von 3`, `Step ${n} of 3`)}</p>`;
+  const weiterTxt = finder.fertig ? tx("Vorschläge zeigen", "Show suggestions") : tx("Weiter", "Next");
+  let body = "";
+  if(schritt === "ziel"){
+    body = `${nr(1)}<h4 class="fi-frage-t" id="fi-l-ziel">${e.jetzt ? tx("Was soll sich verbessern?", "What should improve?") : tx("Worauf kommt es dir an?", "What matters to you?")}</h4>
+      <div class="fi-ziele" role="group" aria-labelledby="fi-l-ziel">${e.ziele.map(z => `<button class="fi-zb" data-fiziel="${z}" aria-pressed="${z === e.ziel}"><b>${esc(zielName(z))}</b><span>${esc(zielSub(z))}</span></button>`).join("")}</div>`;
+  } else if(schritt === "marke"){
+    const alle = markenKat(k);
+    body = `${nr(2)}<h4 class="fi-frage-t" id="fi-l-marke">${tx("Welche Marke?", "Which brand?")}</h4>
+      <p class="fi-s">${tx("Eine oder mehrere — oder Marke egal.", "One or more — or any brand.")}</p>
+      <div class="fi-chips" role="group" aria-labelledby="fi-l-marke"><button data-fimarke="" aria-pressed="${!finder.marken.length}">${tx("Marke egal", "Any brand")}</button>${alle.map(m => `<button data-fimarke="${esc(m)}" aria-pressed="${finder.marken.indexOf(m) >= 0}">${esc(markeTxt(m))}</button>`).join("")}</div>
+      <div class="fi-weiter"><button class="linkbtn" data-fischritt="ziel">${tx("Zurück", "Back")}</button><button class="btn" data-fischritt="${finder.fertig ? "erg" : "budget"}">${weiterTxt}</button></div>`;
+  } else if(schritt === "budget"){
+    body = `${nr(3)}<h4 class="fi-frage-t" id="fi-l-preis">${tx("Preis offen oder ein Gesamtbudget?", "Open price or a total budget?")}</h4>
       <div class="fi-chips" role="group" aria-labelledby="fi-l-preis"><button data-fibudget="0" aria-pressed="${!finder.budgetAn}">${tx("Preis offen", "No price limit")}</button><button data-fibudget="1" aria-pressed="${finder.budgetAn}">${tx("Budget festlegen", "Set a budget")}</button></div>
       ${finder.budgetAn ? `<label class="fi-budget"><span>${tx("Höchstens", "At most")}</span><input id="fi-budget" type="text" inputmode="numeric" autocomplete="off" data-fibudgetin="1" value="${finder.budget > 0 ? finder.budget : ""}" placeholder="${tx("z. B. 400", "e.g. 400")}" aria-describedby="fi-budget-h"><span>€</span></label>
-        <span class="fi-s" id="fi-budget-h">${tx("Für Teil und nötiges Zubehör zusammen.", "For the part and any accessories it needs, together.")}</span>` : ""}</div>
-    <div class="fi-erg" id="fi-erg" aria-live="polite">${finderErgebnisHtml(k, e)}</div>
+        <span class="fi-s" id="fi-budget-h">${tx("Für Teil und nötiges Zubehör zusammen.", "For the part and any accessories it needs, together.")}</span>` : ""}
+      <div class="fi-weiter"><button class="linkbtn" data-fischritt="marke">${tx("Zurück", "Back")}</button><button class="btn" data-fischritt="erg">${tx("Vorschläge zeigen", "Show suggestions")}</button></div>`;
+  } else {
+    body = `<p class="fi-s fi-ziel-s">${esc(zielSub(e.ziel))}${e.jetzt && e.ziel !== "konflikt" ? tx(` · verglichen mit deinem Teil`, ` · compared with your part`) : ""}</p>
+      <div class="fi-erg" id="fi-erg" aria-live="polite">${finderErgebnisHtml(k, e)}</div>`;
+  }
+  return `<div class="fi fi3" id="fi" data-schritt="${schritt}">
+    ${finderDein(k, e)}${sum}<div class="fi-schritt">${body}</div>
+    <div class="fi-fuss"><button class="linkbtn" data-ts="alle">${tx(`Alle ${katalog(quelleOf(s)).length} ansehen`, `See all ${katalog(quelleOf(s)).length}`)}</button><button class="linkbtn" data-finder="1">${tx("Andere Kategorie", "Other category")}</button></div>
   </div>`;
+}
+/* Nach einem Schritt: Blatt nach oben, Tastaturfokus auf die neue Frage */
+function finderOben(){
+  const b = $("modal").querySelector(".sheet-b"); if(b) b.scrollTop = 0;
+  const f = $("modal").querySelector(".fi-frage-t, .fi-sum [aria-current=\"step\"], .fi-erg .btn");
+  if(f && tastaturNav){ if(!f.matches("button")) f.setAttribute("tabindex", "-1"); try{ f.focus({preventScroll:true}); }catch(e){} }
 }
 function finderNeu(){
   const box = $("fi-erg");
@@ -16144,12 +16404,13 @@ function uebernehmen(k, id, quelle){
   const p = aktivesProfil();
   if(p && p.test && p.test.slot === k) delete p.test;
   verlaufListe().unshift({zeit:Date.now(), slot:k, von:pk.jetzt ? pk.jetzt.n : "", zu:t.n, quelle:quelle || "",
-    neu:pk.neu.map(a => a.n), weg:pk.weg.map(a => a.n), folge:pk.folge.map(x => slotOf(x.slot).label + ": " + (x.aenderung.join(", ") || x.zu.n)),
+    neu:pk.neu.map(a => a.n).concat(pk.scheibenNeu.map(scheibeName)), weg:pk.weg.map(a => a.n), folge:pk.folge.map(x => slotOf(x.slot).label + ": " + (x.aenderung.join(", ") || x.zu.n)),
     kosten:pk.gesamt, vorher:vorher});
   verlaufListe().splice(40);
   frischSlot = k;
   sichern(); schliesse(); zeichne();
   const zus = [pk.neu.length ? tx(`${pk.neu.length} Adapter neu`, `${pk.neu.length} new adapter${pk.neu.length === 1 ? "" : "s"}`) : "",
+    pk.scheibenNeu.length ? tx(`${pk.scheibenNeu.length === 1 ? "1 Scheibe" : pk.scheibenNeu.length + " Scheiben"} neu`, `${pk.scheibenNeu.length} new rotor${pk.scheibenNeu.length === 1 ? "" : "s"}`) : "",
     pk.weg.length ? tx(`${pk.weg.length} entfällt`, `${pk.weg.length} no longer needed`) : "", pk.folge.length ? tx(`${pk.folge.length} Umstellung`, `${pk.folge.length} change`) : ""].filter(Boolean).join(", ");
   zeigeRueckgaengig(tx(`${slotOf(k).label}: ${t.nb || t.n}.`, `${slotOf(k).label}: ${t.nb || t.n}.`) + (zus ? " " + zus + "." : "") + hinweis, () => {
     if(modus !== m || aktivId[modus] !== rad) return;
@@ -16205,7 +16466,7 @@ function wunschHtml(){
       <div class="wl-t"><span class="wl-k">${esc(s.label)}</span><b>${esc(t ? t.n : (w.frei && w.frei.n) || "")}</b>
         <span class="wl-stufe ${w.stufe}">${w.stufe === "einkauf" ? tx("Auf der Einkaufsliste", "On the shopping list") : imTest ? tx("Im Test", "Testing") : verbaut ? tx("Verbaut", "Fitted") : tx("Gemerkt", "Saved")}</span></div>
       <dl class="wl-daten">
-        ${w.ziel ? d(tx("Ziel", "Goal"), esc(zielName(w.ziel))) : ""}
+        ${zielName(w.ziel) ? d(tx("Ziel", "Goal"), esc(zielName(w.ziel))) : ""}
         ${d(tx("Budget", "Budget"), w.budget > 0 ? eur(w.budget) : tx("offen", "open"))}
         ${t ? d(tx("Preis", "Price"), `${eur(pk.gesamt)} <small>${preisHerkunft(t)}</small>`) : d(tx("Preis", "Price"), tx("nicht im Katalog", "not in the catalogue"))}
         ${pk ? d(tx("Passt", "Fit"), `<span class="fk-st ${st.k}">${st.t}</span>${pk.neueFehler.length ? " " + esc(pk.neueFehler[0].titel) : ""}`) : d(tx("Passt", "Fit"), tx("nicht prüfbar — Teil ist nicht im Katalog", "can't be checked — part isn't in the catalogue"))}
@@ -16305,41 +16566,62 @@ function wunschKaufHtml(){
 
 /* ── Vergleich vorher/nachher fuer jeden Wechsel ──
    Gleiche Grundlage: derselbe Aufbau, nur dieses Teil anders. Je Kenngroesse
-   besser, schlechter, gleich oder unbekannt -- fuer das gewaehlte Ziel --,
-   dazu Gesamtkosten mit Zubehoer und was am ganzen Rad passiert. */
+   besser, schlechter, gleich oder unbekannt -- fuer das gewaehlte Ziel. Die
+   Bauart (Kolben) wird nur genannt, nie bewertet. Darunter das vollstaendige
+   Paket (Teil, Scheiben, Adapter, Umstellung) mit Gesamtkosten; uebernommen
+   wird es als Ganzes, mit Rueckgaengig. Kam man aus den Ergebnissen, fuehrt
+   "Zurueck zu Ergebnissen" mit Ziel, Marke, Budget und Scrollstand zurueck. */
 function oeffneVergleich(k, id){
   const t = findeTeil(k, id), jetzt = build[k] ? findeTeil(k, build[k]) : null;
   if(!t) return;
-  const pk = paketFuer(k, t), ziel = finder.slot === k && finder.ziel ? finder.ziel : (ZIELE_JE[k] || ["einsatz"])[0];
+  const pk = paketFuer(k, t), ziel = finder.slot === k && finder.ziel ? finder.ziel : "";
   const vg = jetzt ? kgVergleich(k, jetzt, t, ziel) : null, prim = ZIEL[ziel] ? ZIEL[ziel].kg : [];
+  const mind = jetzt ? mindestLuecken(k, jetzt, t, ziel) : [], st = paketStatus(pk, {vg:vg, mind:mind});
+  const zurueck = vglZurueck && vglZurueck.slot === k && offenerSlot === k;
   const urteil = key => { if(!vg) return ["", ""]; const f = l => l.some(e => e.k === key);
     return f(vg.besser) ? ["gut", tx("besser", "better")] : f(vg.schlechter) ? ["schlecht", tx("schlechter", "worse")] : f(vg.gleich) ? ["gleich", tx("gleich", "same")]
-      : f(vg.anders) ? ["anders", tx("anders", "different")] : ["offen", tx("unbekannt", "unknown")]; };
+      : f(vg.anders) ? ["anders", key === "kolben" ? tx("andere Bauart", "different design") : tx("anders", "different")] : ["offen", tx("unbekannt", "unknown")]; };
   const z = (l, a, b, u, extra) => `<tr${extra || ""}><th scope="row">${l}</th><td>${a}</td><td>${b}</td><td>${u ? `<span class="vu ${u[0]}">${u[1]}</span>` : ""}</td></tr>`;
+  const unb = `<span class="vu offen">${tx("unbekannt", "unknown")}</span>`, nv = `<span class="vu offen">${tx("nicht vergleichbar", "not comparable")}</span>`;
+  const bremsG = k === "bremsen";
   const zeilen = kgDes(k).map(key => { const m = KG[key], a = jetzt ? m.w(jetzt) : null, c = m.w(t);
+    if(key === "g" && bremsG) return z(esc(kgName(key)), nv, nv, null);
+    const zeig = (x, w) => m.fT && x && m.fT(x) ? esc(m.fT(x)) : w == null ? unb : esc(m.f(w));
+    if(a == null && c == null && prim.indexOf(key) < 0 && !(m.fT && (jetzt && m.fT(jetzt) || m.fT(t)))) return "";
     return z(esc(kgName(key)) + (m.art === "ein" ? ` <i class="kg-ein">${tx("Einschätzung", "assessment")}</i>` : "") + (prim.indexOf(key) >= 0 ? ` <b class="vu-ziel">${tx("Ziel", "goal")}</b>` : ""),
-      a == null ? `<span class="vu offen">${tx("unbekannt", "unknown")}</span>` : esc(m.f(a)), c == null ? `<span class="vu offen">${tx("unbekannt", "unknown")}</span>` : esc(m.f(c)), urteil(key)); }).join("");
+      jetzt ? zeig(jetzt, a) : "–", zeig(t, c), urteil(key)); }).join("");
   const pa = jetzt ? preisVon(jetzt) : 0;
   const nachB = pk.nach, vorB = pk.vor;
-  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${esc(slotOf(k).label)} · ${tx("Ziel", "Goal")}: ${esc(zielName(ziel))}</span>${tx("Vorher und nachher", "Before and after")}</h3>${zuBtn}</div>
+  const grip = kgDes(k).some(x => KG[x].art === "ein");
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${esc(slotOf(k).label)}${ziel ? ` · ${tx("Ziel", "Goal")}: ${esc(zielName(ziel))}` : ""}</span>${tx("Vorher und nachher", "Before and after")}</h3>${zuBtn}</div>
     <div class="sheet-b">
+      ${zurueck ? `<button class="linkbtn vt-zurueck" data-fizurueck="1"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>${tx("Zurück zu Ergebnissen", "Back to results")}</button>` : ""}
+      <div class="vt-st"><span class="fk-st ${st.k}">${st.t}</span><b>${esc(t.nb || t.n)}</b>${ausfWerte(t) ? `<span>${esc(ausfWerte(t))}</span>` : ""}</div>
       <div class="vt-wrap"><table class="vt">
-        <thead><tr><th></th><th scope="col">${tx("Dein Teil", "Your part")}<b>${esc(jetzt ? jetzt.n : tx("leer", "empty"))}</b></th><th scope="col">${tx("Neu", "New")}<b>${esc(t.n)}</b></th><th scope="col">${tx("Für dein Ziel", "For your goal")}</th></tr></thead>
+        <thead><tr><th></th><th scope="col">${tx("Dein Teil", "Your part")}<b>${esc(jetzt ? jetzt.nb || jetzt.n : tx("leer", "empty"))}</b></th><th scope="col">${tx("Neu", "New")}<b>${esc(t.nb || t.n)}</b></th><th scope="col">${ziel ? tx("Für dein Ziel", "For your goal") : tx("Unterschied", "Difference")}</th></tr></thead>
         <tbody>${zeilen}
-          ${z(tx("Teilpreis", "Part price"), jetzt ? eur(pa) : "–", eur(pk.teilPreis), null)}
-          ${z(tx("Zubehör und Umstellung", "Accessories and changes"), "–", pk.adPreis + pk.folgePreis ? eur(pk.adPreis + pk.folgePreis) : tx("keins", "none"), null)}
-          ${z(`<b>${tx("Kosten des Wechsels", "Cost of the switch")}</b>`, "", `<b>${eur(pk.gesamt)}</b>`, null)}
-          ${vorB.teile ? z(tx("Gewicht ganzes Rad", "Whole bike weight"), kg(vorB.gewicht), kg(nachB.gewicht), null) : ""}
-          ${vorB.teile ? z(tx("Kompatibilität", "Compatibility"), vorB.tech, nachB.tech, nachB.tech > vorB.tech ? ["gut", tx("besser", "better")] : nachB.tech < vorB.tech ? ["schlecht", tx("schlechter", "worse")] : ["gleich", tx("gleich", "same")]) : ""}
+          ${vorB.teile ? z(tx("Kompatibilität", "Compatibility"), vorB.tech, nachB.tech, nachB.tech > vorB.tech ? ["gut", tx("besser", "better")] : nachB.tech < vorB.tech ? ["schlecht", tx("niedriger", "lower")] : ["gleich", tx("gleich", "same")]) : ""}
+          ${vorB.teile && !bremsG ? z(tx("Gewicht ganzes Rad (Richtwerte)", "Whole bike weight (guide values)"), kg(vorB.gewicht), kg(nachB.gewicht), null) : ""}
         </tbody></table></div>
-      ${paketZeilen(pk, false)}
+      ${bremsG ? `<p class="hint">${tx("Bauart wird nur genannt: Ob mehr Kolben stärker bremsen, hängt von Übersetzung, Belag und Hebel ab. Gewicht: Bremsen sind im Katalog nicht mit gleichem Lieferumfang belegt (Paar oder Einzelbremse, mit oder ohne Scheiben) — darum kein Gewichtsvergleich.",
+        "Design is only named: whether more pistons brake harder depends on ratio, pads and lever. Weight: brakes aren't recorded with the same scope in the catalogue (pair or single, with or without rotors) — so no weight comparison.")}</p>` : ""}
+      ${mind.length ? `<p class="vt-satz w"><b>${tx("Kompromiss", "Compromise")}:</b> ${mind.map(mindestSatz).join("; ")}.</p>` : ""}
       ${pk.geloest.length ? `<p class="vt-satz gut"><b>${tx("Löst", "Fixes")}:</b> ${esc(pk.geloest.map(f => f.titel).join(", "))}</p>` : ""}
       ${pk.neueWarn.length ? `<p class="vt-satz w"><b>${tx("Neuer Kompromiss", "New compromise")}:</b> ${esc(pk.neueWarn.map(f => f.titel).join(", "))}</p>` : ""}
       ${pk.neueFehler.length ? `<p class="vt-satz no"><b>${tx("Passt nicht", "Doesn't fit")}:</b> ${esc(pk.neueFehler.map(f => f.titel).join(", "))}</p>` : ""}
+      ${pk.neueHinw.length || pk.unerklaert ? `<p class="vt-satz offen"><b>${tx("Noch zu prüfen", "Still to check")}:</b> ${esc(pk.neueHinw.map(f => f.titel).join(", ") || tx("Die Kompatibilität sinkt, ohne dass ein Teil im Paket es erklärt.", "Compatibility drops without a part in the package explaining it."))}</p>` : ""}
       ${(vg && vg.unbekannt.length) || pk.fehlt.length ? `<p class="vt-satz offen"><b>${tx("Fehlende Angaben", "Missing data")}:</b> ${esc((vg ? vg.unbekannt.map(e => kgName(e.k)) : []).concat(pk.fehlt.map(f => f.fehlt)).join(", "))} — ${tx("zählt weder als besser noch als schlechter.", "counts as neither better nor worse.")}</p>` : ""}
-      <p class="hint">${tx("„Einschätzung“ ist die Bewertung der App für deine Disziplin, keine Herstellerangabe. Preise:", "“Assessment” is the app's rating for your discipline, not a manufacturer figure. Prices:")} ${preisHerkunft(t)}.</p>
+      <section class="vt-paket" aria-label="${tx("Was der Wechsel umfasst", "What the switch includes")}">
+        <h4>${tx("Was der Wechsel umfasst", "What the switch includes")}</h4>
+        <ul class="pz">${pk.bleibt ? `<li class="pz-weiter"><b>${tx("Bleibt", "Kept")}:</b> ${esc(jetzt.nb || jetzt.n)}<span class="pz-grund">${tx("gleiches Modell — es ändern sich nur Scheiben und Adapter", "same model — only rotors and adapters change")}</span></li>`
+          : `<li class="pz-neu"><b>${esc(slotOf(k).label)}:</b> ${esc(t.n)} · ${eur(pk.teilPreis)}${jetzt && build[k] !== t.id ? `<span class="pz-grund">${tx("ersetzt", "replaces")} ${esc(jetzt.n)} · ${eur(pa)}</span>` : ""}</li>`}</ul>
+        ${paketZeilen(pk, false)}
+        <p class="vt-summe"><span>${tx("Kosten des Wechsels", "Cost of the switch")}</span><b>${eur(pk.gesamt)}</b></p>
+        ${pk.scheibenNeu.length ? `<p class="hint">${tx("Ohne Scheiben — der Scheibenpreis steht nicht im Katalog, und ob sie beiliegen, hängt vom Angebot ab.", "Excluding rotors — their price isn't on file, and whether they're included depends on the offer.")}</p>` : ""}
+        <p class="hint">${tx("Preise:", "Prices:")} ${preisHerkunft(t)}.${grip ? " " + tx("„Einschätzung“ ist eine Bewertung der App, keine Herstellerangabe.", "“Assessment” is the app's rating, not a manufacturer figure.") : ""}</p>
+      </section>
       <div class="vt-akt">
-        ${jetzt && build[k] === t.id ? "" : `<button class="btn" data-ersetzen="${k}|${esc(t.id)}">${jetzt ? tx("Im Aufbau ersetzen", "Replace in build") : tx("In den Aufbau", "Add to build")}</button>`}
+        ${jetzt && build[k] === t.id ? "" : `<button class="btn" data-ersetzen="${k}|${esc(t.id)}"${pk.neueFehler.length ? " disabled" : ""}>${jetzt ? (pk.neu.length || pk.folge.length ? tx("Paket übernehmen", "Apply package") : tx("Im Aufbau ersetzen", "Replace in build")) : tx("In den Aufbau", "Add to build")}</button>`}
         <button class="btn ghost merk" data-merken="${k}|${esc(t.id)}" aria-pressed="${istGemerkt(k, t.id)}">${istGemerkt(k, t.id) ? tx("Gemerkt", "Saved") : tx("Merken", "Save")}</button>
         ${zumProduktHtml(t)}
       </div>
@@ -17369,9 +17651,15 @@ function oeffneSlot(slotKey, opt){
      die jetzige Gabel zufaellig passt. */
   /* BEVEL-002: am eigenen Rad und beim Angebot traegt man bei einem leeren
      Platz ein, was verbaut ist -- dort startet die ganze Liste, sonst der Finder */
-  if(offenerSlot !== slotKey){ suchText = ""; markeWahl = ""; filterAlle = slotKey === "rahmen" || !nurPassende;
-    finder = {slot:slotKey, ziel:"", marken:[], budget:0, budgetAn:false, mehr:false, tab:!build[slotKey] && modus !== "traum" ? "alle" : "finden"}; }
-  if(opt.ziel){ finder.ziel = opt.ziel; finder.tab = "finden"; finder.mehr = false; }
+  const frisch = offenerSlot !== slotKey;
+  if(frisch){ suchText = ""; markeWahl = ""; filterAlle = slotKey === "rahmen" || !nurPassende;
+    finder = {slot:slotKey, ziel:"", marken:[], budget:0, budgetAn:false, mehr:false, tab:!build[slotKey] && modus !== "traum" ? "alle" : "finden", schritt:"ziel", fertig:false, kompromisse:false};
+    vglZurueck = null; }
+  /* Tipp auf eine rot markierte Teilezeile: der Konflikt ist der Anlass -- dann direkt "Konflikt loesen"
+     (keine Kaufempfehlung, oben korrigierbar). Sonst beginnt die Auswahl ohne Vorbelegung. */
+  if(frisch && !opt.ziel && !opt.tab && build[slotKey] && bewerte(build).funde.some(f => f.level === "fehler" && !f.offen && f.slots.indexOf(slotKey) >= 0)) opt.ziel = "konflikt";
+  /* Mit Ziel (z. B. "Loesung finden" aus der Pruefung) direkt zu den Vorschlaegen -- korrigierbar oben */
+  if(opt.ziel){ finder.ziel = opt.ziel; finder.tab = "finden"; finder.mehr = false; finder.schritt = "erg"; finder.fertig = true; }
   if(opt.tab === "finden" || opt.tab === "alle") finder.tab = opt.tab;
   offenerSlot = slotKey;
   const kopf = `<div class="sheet-h"><h3><span class="sub">${esc(profilName(aktivesProfil(), modus))} · ${esc(selNamen())}</span>${s.label}</h3>${zuBtn}</div>`;
@@ -17379,8 +17667,10 @@ function oeffneSlot(slotKey, opt){
       <button role="tab" data-ts="finden" aria-selected="${finder.tab === "finden"}">${tx("Passendes finden", "Find a match")}</button>
       <button role="tab" data-ts="alle" aria-selected="${finder.tab === "alle"}">${tx("Alle", "All")} <span>${katalog(quelleOf(s)).length}</span></button></div>
     <button class="ts-kat" data-finder="1">${tx("Andere Kategorie", "Other category")}</button></div>`;
+  /* BEVEL-003: die Auswahl ist eine kurze Fuehrung ohne Reiter, Glossar und Datenblatt --
+     "Alle …" und "Andere Kategorie" stehen unten, dein Teil im Detail unter "Alle" */
   if(finder.tab === "finden"){
-    zeigeSheet(kopf + `<div class="sheet-b">${deinTeilHtml(slotKey)}${reiter}<details class="was-das"><summary>${tx("Was ist das?", "What is it?")}</summary><p>${esc(s.was)}</p></details>${finderHtml(slotKey)}</div>`);
+    zeigeSheet(kopf + `<div class="sheet-b">${finderHtml(slotKey)}</div>`);
     return;
   }
   const basis = bewerte(build);
@@ -18306,7 +18596,16 @@ document.addEventListener("click", e => {
   const tsr = T("[data-ts]");
   if(tsr){ if(offenerSlot) oeffneSlot(offenerSlot, {tab:tsr.dataset.ts}); return; }
   const fz = T("[data-fiziel]");
-  if(fz){ finder.ziel = fz.dataset.fiziel; finder.mehr = false; if(offenerSlot) oeffneSlot(offenerSlot); return; }
+  if(fz){ finder.ziel = fz.dataset.fiziel; finder.mehr = false; finder.kompromisse = false; finder.schritt = finder.fertig ? "erg" : "marke";
+    if(offenerSlot){ oeffneSlot(offenerSlot); finderOben(); } return; }
+  const fsr = T("[data-fischritt]");
+  if(fsr){ finder.schritt = fsr.dataset.fischritt; if(finder.schritt === "erg") finder.fertig = true; finder.mehr = false;
+    if(offenerSlot){ oeffneSlot(offenerSlot); finderOben(); } return; }
+  if(T("[data-fikompro]")){ finder.kompromisse = !finder.kompromisse; finder.mehr = false; finderNeu(); return; }
+  if(T("[data-fizurueck]")){ const z = vglZurueck;
+    if(z && offenerSlot === z.slot){ oeffneSlot(z.slot); const b = $("modal").querySelector(".sheet-b"); if(b) b.scrollTop = z.y;
+      const k = $("modal").querySelector(`[data-fk="${CSS.escape(z.id || "")}"] [data-vergleich]`); if(k && tastaturNav) try{ k.focus({preventScroll:true}); }catch(e){} }
+    return; }
   const fm = T("[data-fimarke]");
   if(fm){ const m = fm.dataset.fimarke, i = finder.marken.indexOf(m);
     if(!m) finder.marken = []; else if(i >= 0) finder.marken.splice(i, 1); else finder.marken.push(m);
@@ -18318,7 +18617,10 @@ document.addEventListener("click", e => {
   const ers1 = T("[data-ersetzen]");
   if(ers1){ const q = slotUndTeil(ers1.dataset.ersetzen); uebernehmen(q[0], q[1], "finder"); return; }
   const vgl1 = T("[data-vergleich]");
-  if(vgl1){ const q = slotUndTeil(vgl1.dataset.vergleich); oeffneVergleich(q[0], q[1]); return; }
+  if(vgl1){ const q = slotUndTeil(vgl1.dataset.vergleich), b = $("modal").querySelector(".sheet-b");
+    /* Aus den Ergebnissen: Rueckweg mit Scrollstand merken (Ziel, Marke, Budget bleiben in finder) */
+    vglZurueck = vgl1.closest("#fi") && offenerSlot === q[0] ? {slot:q[0], id:q[1], y:b ? b.scrollTop : 0} : null;
+    oeffneVergleich(q[0], q[1]); return; }
   const mk1 = T("[data-merken]");
   if(mk1){ const q = slotUndTeil(mk1.dataset.merken); merken(q[0], q[1], mk1); return; }
   if(T("[data-wunschneu]")){ oeffneWunschNeu(); return; }
@@ -18344,7 +18646,7 @@ document.addEventListener("click", e => {
   if(T("[data-vlzurueck]")){ rueckgaengigLetzte(); return; }
   const wf = T("[data-wfinder]");
   if(wf){ const w = wunschListe().find(x => x.id === wf.dataset.wfinder); if(!w) return;
-    oeffneSlot(w.slot, {tab:"finden"}); if(w.ziel) finder.ziel = w.ziel; finder.budgetAn = w.budget > 0; finder.budget = w.budget || 0; oeffneSlot(w.slot); return; }
+    oeffneSlot(w.slot, {tab:"finden"}); if(w.ziel && ZIEL[w.ziel]){ finder.ziel = w.ziel; finder.schritt = "erg"; finder.fertig = true; } finder.budgetAn = w.budget > 0; finder.budget = w.budget || 0; oeffneSlot(w.slot); return; }
   const fr = T("[data-frage]");
   if(fr){ oeffneAngabe(fr.dataset.frage); return; }
   const ag = T("[data-angabe]");

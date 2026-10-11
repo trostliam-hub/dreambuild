@@ -93,6 +93,12 @@ const SZENEN = [
   ...['koerper', 'masse', 'fit'].map(s => ['fahrerprofil-' + s, `koerper.groesse = 182; plan.fahrer = 80; oeffneEinstieg('fahrer'); ei.schritt = eiSchritte().indexOf('${s}'); eiZeigen()`, 'traum']),
   ...['rahmen', 'gabel', 'daempfer', 'laufraeder', 'reifenVR', 'reifenHR', 'bremsen', 'kurbel', 'kettenblatt', 'kassette', 'schaltwerk', 'schalthebel', 'kette', 'lenker', 'vorbau', 'stuetze', 'sattel', 'pedale', 'griffe', 'steuersatz', 'innenlager', 'rahmenlager'].map(s => ['teile-' + s, `oeffneSlot('${s}')`, 'alle']),
   ...['rahmen', 'gabel', 'bremsen', 'laufraeder'].map(s => ['detail-' + s, `oeffneDetail('${s}', build['${s}'] || katalog(quelleOf(slotOf('${s}')))[0].id)`, 'traum']),
+  /* BEVEL-003: Teilewechsel in drei Schritten, Ergebnisse je Ziel (mit Kompromissen), Vergleich mit Rueckweg */
+  ...['ziel', 'marke', 'budget'].map(st => ['finder-' + st, `oeffneSlot('bremsen', {tab:'finden'}); finder.ziel = 'kraft'; finder.schritt = '${st}'; finder.budgetAn = true; oeffneSlot('bremsen')`, 'traum']),
+  ...['kraft', 'wartung', 'leicht', 'ersatz', 'sparen'].map(z => ['finder-bremsen-' + z, `oeffneSlot('bremsen', {ziel:'${z}'}); finder.kompromisse = true; finderNeu()`, 'alle']),
+  ...['federweg', 'leicht', 'sparen'].map(z => ['finder-gabel-' + z, `oeffneSlot('gabel', {ziel:'${z}'}); finder.kompromisse = true; finderNeu()`, 'traum']),
+  ['finder-vergleich', "oeffneSlot('gabel', {ziel:'leicht'}); const k = document.querySelector('#fi [data-vergleich]'); if(k) k.click()", 'traum'],
+  ['finder-vergleich-bremse', "build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern(); oeffneSlot('bremsen', {ziel:'kraft'}); const k = document.querySelector('#fi [data-vergleich]'); if(k) k.click()", 'traum'],
   ['detail-kaufen', "oeffneDetail('gabel', build.gabel, true)", 'traum'],
   ['eigenes-teil', "oeffneEigen('gabel')", 'traum'],
   ['adapter-guide-bremse', "oeffneAdapterGuide('bremse')", 'traum'],

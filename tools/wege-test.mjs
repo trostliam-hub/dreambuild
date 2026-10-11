@@ -97,15 +97,19 @@ const PRUEFUNGEN = [
     const r = await ev(() => { const k = $('coach-platz'); return {karten:k.querySelectorAll('.leit').length, schrittKnoepfe:k.querySelectorAll('.leit-s button, button.leit-s').length,
       knoepfe:k.querySelectorAll('.leit button:not(.leit-weg)').length, bauzielKnopf:k.querySelectorAll('[data-wiz]').length, einbau:k.querySelectorAll('[data-einbau],[data-upnein]').length, coach:!!$('coach'), aufbauLeit:[...$('aufbau').querySelectorAll('.leit, .wiz-cta, [data-wiz]')].filter(e => !e.closest('#coach-platz')).length}; });
     return {ok:r.karten === 1 && !r.schrittKnoepfe && r.knoepfe <= 1 && !r.bauzielKnopf && !r.einbau && !r.coach && !r.aufbauLeit, info:r}; }],
-  ['15/BEVEL-002 Finder: Im Aufbau ersetzen baut genau dieses Teil ein, mit Verlauf und Rueckgaengig', async () => {
+  /* BEVEL-003: uebernommen wird im Vergleich, wo das ganze Paket steht -- die Kachel fuehrt dorthin */
+  ['15/BEVEL-002 Finder: Vergleichen -> Im Aufbau ersetzen baut genau dieses Teil ein, mit Verlauf und Rueckgaengig', async () => {
     await neu();
     const r = await ev(() => { modus === 'traum' || wechsle('traum'); const vorher = build.gabel;
-      oeffneSlot('gabel', {ziel:'leicht'}); const m = $('modal'), w = [...m.querySelectorAll('[data-ersetzen]')].map(b => b.dataset.ersetzen);
-      if(!w.length) return {n:0};
+      oeffneSlot('gabel', {ziel:'leicht'}); const v = [...$('modal').querySelectorAll('#fi [data-vergleich]')].map(b => b.dataset.vergleich);
+      if(!v.length) return {n:0};
+      $('modal').querySelector(`#fi [data-vergleich="${v[0]}"]`).click();
+      const m = $('modal'), w = [...m.querySelectorAll('[data-ersetzen]')].map(b => b.dataset.ersetzen);
+      if(w.length !== 1 || w[0] !== v[0]) return {n:w.length, w, v:v[0]};
       const t0 = w[0].indexOf('|'), slot = w[0].slice(0, t0), id = w[0].slice(t0 + 1); m.querySelector(`[data-ersetzen="${w[0]}"]`).click();
       const eingebaut = build[slot] === id, verlauf = verlaufListe().length, toast = !!$('toast').querySelector('[data-toastrueck]'), zu = !$('modal').querySelector('.sheet');
       $('toast').querySelector('[data-toastrueck]').click();
-      return {n:w.length, eindeutig:new Set(w).size === w.length, eingebaut, verlauf, toast, zu, zurueck:build.gabel === vorher, verlaufDanach:verlaufListe().length}; });
+      return {n:v.length, eindeutig:new Set(v).size === v.length, eingebaut, verlauf, toast, zu, zurueck:build.gabel === vorher, verlaufDanach:verlaufListe().length}; });
     return {ok:r.n > 0 && r.eindeutig && r.eingebaut && r.verlauf === 1 && r.toast && r.zu && r.zurueck && r.verlaufDanach === 0, info:r}; }],
   ['16/BEVEL-002 Konflikt: Pruefung im Aufbau zeigt ihn auch zugeklappt, Loesung fuehrt zu passenden Teilen', async () => {
     await neu();
@@ -118,7 +122,7 @@ const PRUEFUNGEN = [
       const sichtbar = p.querySelectorAll('.pf-wichtig .pf-k').length, knopf = p.querySelector('.pf-wichtig [data-ziel="konflikt"]');
       const vorRahmen = !!(p.compareDocumentPosition(document.querySelector('#aufbau .grp')) & Node.DOCUMENT_POSITION_FOLLOWING);
       const unterBild = !!(document.querySelector('#aufbau .radbild').compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING);
-      knopf.click(); const ziel = finder.ziel, vorschlaege = $('modal').querySelectorAll('[data-ersetzen]').length; schliesse();
+      knopf.click(); const ziel = finder.ziel, vorschlaege = $('modal').querySelectorAll('#fi .fk3 [data-vergleich]').length; schliesse();
       p.querySelector('.pf-kopf').click(); vorschlaegeZeichnen();
       return {konflikt:!!d, zu, sichtbar, vorRahmen, unterBild, ziel, vorschlaege, offen:pruefOffen, loesungen:!!$('loesungen'), findKnoepfe:$('findings').querySelectorAll('[data-slot]').length,
         karteEinbau:$('coach-platz').querySelectorAll('[data-einbau],[data-ersetzen]').length}; });
@@ -281,14 +285,16 @@ const PRUEFUNGEN = [
     return {ok, info:{klein, blatt, nach1, nach2}}; }],
   ['UX/BEVEL-002 Vergleich: vorher und nachher je Kenngroesse fuer das Ziel, Gesamtkosten mit Zubehoer, ein Ersetzen-Knopf', async () => {
     await neu();
-    const r = await ev(() => { oeffneSlot('gabel', {ziel:'leicht'}); const k = $('modal').querySelector('[data-vergleich]'); if(!k) return {knopf:false};
+    const r = await ev(() => { oeffneSlot('gabel', {ziel:'leicht'}); const k = $('modal').querySelector('#fi [data-vergleich]'); if(!k) return {knopf:false};
       const t0 = k.dataset.vergleich.indexOf('|'), slot = k.dataset.vergleich.slice(0, t0), id = k.dataset.vergleich.slice(t0 + 1); k.click(); const m = $('modal');
       const zeilen = [...m.querySelectorAll('.vt tbody th')].map(z => z.textContent.trim());
       const urteile = [...m.querySelectorAll('.vt tbody .vu')].map(z => z.textContent.trim());
       const ersetzen = [...m.querySelectorAll('[data-ersetzen]')].map(b => b.dataset.ersetzen);
+      const paket = (m.querySelector('.vt-paket') || {textContent:''}).textContent, zurueck = !!m.querySelector('[data-fizurueck]');
       m.querySelector('[data-ersetzen]').click();
-      return {knopf:true, zeilen, urteile, ersetzen, eingebaut:build[slot] === id, zu:!$('modal').querySelector('.sheet')}; });
-    const ok = r.knopf && ['Gewicht', 'Kosten des Wechsels', 'Teilpreis', 'Kompatibilität'].every(t => r.zeilen.some(z => z.indexOf(t) === 0)) && r.urteile.includes('besser')
+      return {knopf:true, zeilen, urteile, ersetzen, paket:/Was der Wechsel umfasst/.test(paket) && /Kosten des Wechsels/.test(paket), zurueck, eingebaut:build[slot] === id, zu:!$('modal').querySelector('.sheet')}; });
+    /* BEVEL-003: Kosten stehen im Paket unter der Tabelle (Teil, Zubehoer, Summe) */
+    const ok = r.knopf && ['Gewicht', 'Kompatibilität'].every(t => r.zeilen.some(z => z.indexOf(t) === 0)) && r.urteile.includes('besser') && r.paket
       && r.ersetzen.length === 1 && r.eingebaut && r.zu;
     return {ok, info:r}; }],
   ['UX Teileblatt: Ansehen -> Zurueck behaelt Suche, Filter und Scrollstand; Vergleich mit dem verbauten Teil', async () => {
@@ -314,9 +320,9 @@ const PRUEFUNGEN = [
       const zeile = document.querySelector('#aufbau [data-slot="daempfer"] .slot-fund.fehler');
       const sprung = document.querySelector('.sprung [data-zugruppe="Fahrwerk"]');
       document.querySelector('#aufbau [data-slot="daempfer"]').click();
-      const m = $('modal'), grund = !!m.querySelector('.fund-hier'), ziel = finder.ziel;
+      const m = $('modal'), grund = !!m.querySelector('.fi-dein-k, .fund-hier'), ziel = finder.ziel;
       oeffneSlot('daempfer', {tab:'alle'}); const alle = $('modal').querySelector('[data-filt="0"]').getAttribute('aria-pressed');
-      oeffneSlot('daempfer', {tab:'finden'}); const k = $('modal').querySelector('[data-ersetzen]'); k.click();
+      oeffneSlot('daempfer', {tab:'finden'}); $('modal').querySelector('#fi [data-vergleich]').click(); const k = $('modal').querySelector('[data-ersetzen]'); k.click();
       const rest = pruefe(build).filter(b => b.level === 'fehler' && (b.slots || []).indexOf('daempfer') >= 0).length;
       return {zeile:!!zeile, sprungRot:!!sprung && sprung.classList.contains('stoerung'), grund, ziel, alle, rest}; });
     return {ok:r.zeile && r.sprungRot && r.grund && r.ziel === 'konflikt' && r.alle === 'false' && r.rest === 0, info:r}; }],
@@ -334,7 +340,7 @@ const PRUEFUNGEN = [
   ['UX Rueckweg statt Rueckfrage: Teil entfernen und Rad zuruecksetzen lassen sich 7 s lang rueckgaengig machen; Rad loeschen fragt weiter nach', async () => {
     await neu();
     const r = await ev(PRO => { eval('(' + PRO + ')()');
-      const vorher = build.gabel; oeffneSlot('gabel'); $('modal').querySelector('[data-leeren]').click();
+      const vorher = build.gabel; oeffneSlot('gabel', {tab:'alle'}); $('modal').querySelector('[data-leeren]').click();
       const weg = build.gabel === null, knopf = !!$('toast').querySelector('[data-toastrueck]');
       $('toast').querySelector('[data-toastrueck]').click(); const zurueck = build.gabel === vorher;
       build.griffe = null; plan.budget = 4321; sichern(); zeichne();
