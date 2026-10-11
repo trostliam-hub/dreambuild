@@ -54,7 +54,8 @@ const PRO = () => { pro = {key:'x', inst:'i', status:'aktiv', geprueft:Date.now(
 const sichtbar = (sel) => ev(q => [...document.querySelectorAll(q)].filter(e => e.offsetParent !== null || e.getClientRects().length).length, sel);
 
 const PRUEFUNGEN = [
-  ['01/04/17 Neuer Nutzer: Einstieg nur Ziel und Fahrer, danach Bauziel, kein automatischer Rundgang', async () => {
+  /* BEVEL-003: ein Einstieg -- nach den Szenen nur noch die Wahl des Rads, kein zweites Willkommen oder Ueberspringen */
+  ['01/04/17 Neuer Nutzer: Einstieg nur die Wahl des Rads, danach Bauziel, kein automatischer Rundgang', async () => {
     await seite.goto(URL0); await ev(() => { localStorage.clear(); localStorage.setItem('mtb.sprache', 'de'); }); await seite.reload();
     /* Erster Start: Startseite, "Starten" fuehrt in den Einstieg */
     await seite.waitForFunction(() => !!document.querySelector('[data-lsstart]') || !!document.querySelector('.ei'));
@@ -63,11 +64,11 @@ const PRUEFUNGEN = [
     await seite.waitForFunction(() => !!document.querySelector('#szenen .sz') || !!document.querySelector('.ei'));
     await ev(() => { const w = document.querySelector('[data-szweg]'); if(w) w.click(); });
     await seite.waitForFunction(() => !!document.querySelector('.ei'));
-    const r1 = await ev(() => ({schritte:eiSchritte(), modal:!!$('modal').querySelector('.ei')}));
+    const r1 = await ev(() => ({schritte:eiSchritte(), modal:!!$('modal').querySelector('.ei'), skip:!!$('modal').querySelector('.ei-skip:not(.weg)'), willkommen:/Willkommen/.test($('modal').textContent)}));
     await ev(() => { ei.ziel = 'traum'; eiFertig(); });
     await warte(1600);
     const r2 = await ev(() => ({wiz:wizOffen(), schritt:wizStep, tour:!!tour, tourEl:!!document.querySelector('.tour, .tk')}));
-    return {ok:JSON.stringify(r1.schritte) === JSON.stringify(['hallo', 'ziel', 'erfahrung', 'charakter', 'koerper', 'masse', 'fit', 'fertig']) && r1.modal
+    return {ok:JSON.stringify(r1.schritte) === JSON.stringify(['ziel']) && r1.modal && !r1.skip && !r1.willkommen
       && r2.wiz && r2.schritt === 0 && !r2.tour && !r2.tourEl, info:{r1, r2}}; }],
   ['01/02 Fahrerprofil: ein Editor unter Einstellungen, keine zweite Gewichts- oder Masseingabe', async () => {
     await neu();
@@ -422,8 +423,8 @@ const PRUEFUNGEN = [
   ['APP-002/6/7 Hilfe: Guide nur im Kopf; Einstieg nennt Aufgabenkarte, Guide und freiwilligen Rundgang', async () => {
     await neu();
     const r = await ev(() => { zeichne(); const kopf = document.querySelectorAll('header [data-guide]').length; oeffneMenu(); const menu = $('modal').querySelectorAll('[data-guide]').length, tour = $('modal').querySelectorAll('[data-hilfe="tour"]').length; schliesse();
-      oeffneEinstieg('voll'); ei.schritt = eiSchritte().indexOf('fertig'); ei.ziel = 'real'; eiZeigen(); const txt = $('modal').textContent; schliesse();
-      return {kopf, menu, tour, hinweis:/Nächster Schritt/.test(txt) && /Rundgang/.test(txt) && /Guide/.test(txt)}; });
+      oeffneEinstieg('voll'); const txt = $('modal').textContent; schliesse();
+      return {kopf, menu, tour, hinweis:/Aufgabenkarte/.test(txt) && /Rundgang/.test(txt) && /Guide/.test(txt)}; });
     return {ok:r.kopf === 1 && r.menu === 0 && r.tour === 1 && r.hinweis, info:r}; }],
   ['APP-003/1 Migration einmalig: erstmalig uebernommen, bewusst geleert bleibt leer (2x Neuladen, Radwechsel), vorhandene Nichtangabe bleibt', async () => {
     const lese = () => ev(() => ({g:koerper.groesse, mig:koerper.cmMig, cm:fprofil.cm, ls:JSON.parse(localStorage.getItem('mtb.koerper') || '{}').groesse || 0}));
@@ -448,10 +449,9 @@ const PRUEFUNGEN = [
   ...['de', 'en'].map(spr => [`APP-003/2 Ohne Koerpergroesse keine persoenlichen Empfehlungen im ganzen Einstieg (${spr})`, async () => {
     await seite.goto(URL0); await ev(s => { localStorage.clear(); localStorage.setItem('mtb.sprache', s); localStorage.setItem('mtb.einstieg2', '1'); localStorage.setItem('mtb.tour', '1'); }, spr);
     await seite.reload(); await bereit();
-    await ev(() => { oeffneEinstieg('voll'); });
+    /* BEVEL-003: die Fahrerfragen sind ein eigener Editor (nicht mehr im ersten Einstieg) */
+    await ev(() => { oeffneEinstieg('fahrer'); });
     const klick = async q => { await ev(q => $('modal').querySelector(q).click(), q); await warte(450); };
-    await klick('[data-eiweiter]');                 /* hallo */
-    await klick('[data-eiwahl="ziel|traum"]');      /* ziel, springt selbst weiter */
     const schritt = () => ev(() => eiSchritte()[ei.schritt]);
     const s1 = await schritt(); await klick('[data-eiweiter]');  /* erfahrung: Ohne Angabe weiter */
     const s2 = await schritt(); await klick('[data-eiweiter]');  /* charakter: Ohne Angabe weiter */

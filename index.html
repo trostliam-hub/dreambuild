@@ -3612,6 +3612,36 @@ details.legal p{margin:0 0 var(--sp-2)}
 .vt-summe b{font-family:var(--f-zahl);font-size:20px}
 .vt-paket .hint{margin:6px 0 0;font-size:var(--fs-h)}
 .vt-akt .btn{min-height:var(--ziel)}
+/* Einfuehrung (Abschnitt 7): Bremse mit fehlendem Adapter, Loesung animiert */
+.szb{display:block;width:100%;max-width:360px;height:auto;margin:0 auto;overflow:hidden;border-radius:18px;background:var(--surface)}
+.szb-bein{fill:var(--surface-2);stroke:var(--line);stroke-width:1.5}
+.szb-scheibe{fill:none;stroke:color-mix(in srgb,var(--ink-3) 55%,transparent);stroke-width:24}
+.szb-loecher circle{fill:var(--surface)}
+.szb-spur{fill:none;stroke:var(--anod);stroke-width:2;stroke-dasharray:4 5;opacity:.85}
+.szb-aufn{fill:var(--ink-3)}
+.szb-bolz{fill:var(--surface);stroke:var(--ink-2);stroke-width:1.5}
+.szb-adapter rect{fill:var(--anod)}
+.szb-adapter text{fill:#fff;font:700 12px var(--f-zahl);text-anchor:middle}
+.szb-koerper{fill:var(--ink-2)}
+.szb-belag{fill:var(--bad)}
+.szb.loesung .szb-belag{fill:var(--gut)}
+.szb-x circle{fill:var(--bad)} .szb-x path,.szb-ok path{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.szb-ok circle{fill:var(--gut)}
+.szb-l{fill:var(--ink-2);font:600 13px var(--f-sans)}
+.szb.problem .szb-sattel{transform:translateY(17px)}
+.szb.problem .szb-ok,.szb.loesung .szb-x{display:none}
+/* Loesung: Adapter gleitet ein, dann hebt sich der Sattel um 11,5 mm (17 px), dann der Haken */
+@media (prefers-reduced-motion:no-preference){
+  .szb.loesung .szb-adapter{animation:szb-ad .5s var(--e-aus) .35s both}
+  .szb.loesung .szb-sattel{animation:szb-hoch .55s var(--e-aus) .9s both}
+  .szb.loesung .szb-belag{animation:szb-farbe .3s linear 1.3s both}
+  .szb.loesung .szb-ok{animation:szb-ok .35s var(--e-aus) 1.45s both}
+  .szb.problem .szb-x{animation:szb-ok .35s var(--e-aus) .3s both}
+}
+@keyframes szb-ad{from{transform:translateX(70px);opacity:0}to{transform:none;opacity:1}}
+@keyframes szb-hoch{from{transform:translateY(17px)}to{transform:none}}
+@keyframes szb-farbe{from{fill:var(--bad)}to{fill:var(--gut)}}
+@keyframes szb-ok{from{opacity:0;transform:translate(40px,150px) scale(.6)}to{opacity:1;transform:translate(40px,150px) scale(1)}}
 /* Wunschliste (Abschnitt 6): vier Stufen sichtbar, eine Hauptaktion, Nebenaktionen als Links */
 .wl.wl3{padding:16px;border-radius:var(--r-karte);background:var(--surface);margin:0 0 var(--sp-3)}
 .wl3 .wl-t{grid-template-columns:minmax(0,1fr) auto}
@@ -8179,25 +8209,45 @@ function szBsp(){
   const t = findeTeil("bremsen", "b-xt"), teil = t ? preisVon(t) : 0, ad = adPreisPM(23);
   return {teil:teil, ad:ad, gesamt:teil + ad};
 }
+/* BEVEL-003: die Szenen zeigen das Problem als Bild statt als Textzettel --
+   eine Gabel mit PM-180-Aufnahme, eine 203-mm-Scheibe: der Sattel sitzt 11,5 mm
+   zu tief, die Belaege greifen neben die Bremsspur. In Szene 2 schiebt sich der
+   Adapter dazwischen und hebt den Sattel auf die Spur (Masse 1,5 px je mm). */
+function szBremse(art){
+  const loesung = art === "loesung", r = 140;
+  const loecher = Array.from({length:24}, (_, i) => { const w = (-160 + i * 6.2) * Math.PI / 180; return `<circle cx="${(150 + r * Math.cos(w)).toFixed(1)}" cy="${(330 + r * Math.sin(w)).toFixed(1)}" r="2.6"/>`; }).join("");
+  return `<svg class="szb ${art}" viewBox="0 108 320 132" role="img" aria-label="${loesung ? tx("Mit Adapter sitzt der Bremssattel 11,5 mm höher, die Beläge greifen auf die Bremsspur der 203-mm-Scheibe.", "With the adapter the caliper sits 11.5 mm higher and the pads bite on the braking track of the 203 mm rotor.") : tx("Ohne Adapter sitzt der Bremssattel für eine 180-mm-Scheibe — an der 203-mm-Scheibe greifen die Beläge neben die Bremsspur.", "Without an adapter the caliper sits for a 180 mm rotor — on the 203 mm rotor the pads miss the braking track.")}">
+    <rect class="szb-bein" x="248" y="-30" width="44" height="290" rx="20"/>
+    <circle class="szb-scheibe" cx="150" cy="330" r="${r}"/>
+    <g class="szb-loecher">${loecher}</g>
+    <path class="szb-spur" d="M ${150 - 152} 330 A 152 152 0 0 1 ${150 + 152} 330" />
+    <rect class="szb-aufn" x="218" y="196" width="40" height="24" rx="6"/>
+    <circle class="szb-bolz" cx="230" cy="208" r="3.6"/><circle class="szb-bolz" cx="246" cy="208" r="3.6"/>
+    ${loesung ? `<g class="szb-adapter"><rect x="200" y="176" width="58" height="44" rx="8"/><text x="229" y="192">+23</text></g>` : ""}
+    <g class="szb-sattel">
+      <rect class="szb-koerper" x="98" y="160" width="128" height="40" rx="12"/>
+      <rect class="szb-belag" x="118" y="186" width="80" height="8" rx="3"/>
+      <circle class="szb-bolz" cx="212" cy="172" r="3.6"/><circle class="szb-bolz" cx="212" cy="190" r="3.6"/>
+    </g>
+    <g class="szb-x" transform="translate(40 150)"><circle r="16"/><path d="M-6 -6 6 6M6 -6-6 6"/></g>
+    <g class="szb-ok" transform="translate(40 150)"><circle r="16"/><path d="m-7 0 5 5 9-10"/></g>
+    <text class="szb-l szb-l1" x="14" y="126">${loesung ? tx("PM 180 + 23 mm = 203 mm", "PM 180 + 23 mm = 203 mm") : tx("Gabel: PM 180 · Scheibe: 203 mm", "Fork: PM 180 · rotor: 203 mm")}</text>
+  </svg>`;
+}
 function szenenHtml(){
   const S = [
     {k:"ohne", ue:tx("Ohne Überblick", "Without an overview"), h:tx("Neue Bremse da — und sie passt nicht", "New brake arrives — and it doesn't fit"),
-     t:tx(`Beispiel: Die Gabel hat eine Aufnahme für 180-mm-Scheiben, die neue Bremse kommt mit 203 mm. Ohne Adapter sitzt der Sattel falsch. Solche Fragen gibt es an jedem Teil.`, `Example: the fork is made for 180 mm rotors, the new brake comes with 203 mm. Without an adapter the caliper sits in the wrong place. Questions like this come up with every part.`),
-     bild:`<div class="sz-chaos" aria-hidden="true">${[[tx("Gabel: Aufnahme PM 180", "Fork: PM 180 mount"), ""], [tx("Bremse: Scheibe 203 mm", "Brake: 203 mm rotor"), "?"], [tx("Adapter?", "Adapter?"), "?"], [tx("Freilauf XD oder MS?", "XD or MS freehub?"), "?"], [tx("Ø 31,6 oder 34,9?", "Ø 31.6 or 34.9?"), "?"]]
-       .map(([t, z], i) => { const [l, o, w] = [[0, 0, -4], [40, 19, 3], [4, 41, -2], [40, 60, 4], [8, 80, -3]][i];
-         return `<span class="sz-zettel" style="left:${l}%;top:${o}%;transform:rotate(${w}deg)">${esc(t)}<b>${z}</b></span>`; }).join("")}</div>`},
-    {k:"mit", ue:tx("Mit CrankScore", "With CrankScore"), h:tx("Geprüft statt geraten", "Checked, not guessed"),
-     t:tx(`Die App erkennt es vorher: <b>Post-Mount-Adapter +23 mm</b> wird eingeplant. Ganze Lösung: ${eur(szBsp().gesamt)} statt ${eur(szBsp().teil)} — Richtpreise aus dem Katalog. Fehlende Angaben stehen offen da.`,
-       `The app spots it in advance: a <b>+23 mm post-mount adapter</b> is included. Complete solution: ${eur(szBsp().gesamt)} instead of ${eur(szBsp().teil)} — catalogue guide prices. Missing details are shown openly.`),
-     bild:`<div class="sz-pruef" aria-hidden="true"><span class="sz-ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" class="sz-bahn"/><circle cx="50" cy="50" r="42" class="sz-wert" transform="rotate(-90 50 50)"/></svg><svg class="sz-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg></span>
-       <span class="sz-zeilen"><span class="sz-z ok">${ST_IC.gut}${tx("Keine Konflikte in den geprüften Angaben", "No conflicts in the checked data")}</span>
-       <span class="sz-z ad">${ST_IC.offen}${tx(`1 Adapter eingeplant · ${eur(szBsp().ad)}`, `1 adapter included · ${eur(szBsp().ad)}`)}</span>
-       <span class="sz-z">${ST_IC.offen}${tx("1 Angabe fehlt — die App fragt nach", "1 detail missing — the app asks")}</span></span></div>`},
+     t:tx(`Die Gabel ist für 180-mm-Scheiben gebaut, die neue Bremse kommt mit 203 mm. Ohne Adapter sitzt der Sattel 11,5 mm zu tief — die Beläge greifen neben die Bremsspur. Solche Fragen gibt es an jedem Teil.`, `The fork is made for 180 mm rotors, the new brake comes with 203 mm. Without an adapter the caliper sits 11.5 mm too low — the pads miss the braking track. Questions like this come up with every part.`),
+     bild:szBremse("problem")},
+    {k:"mit", ue:tx("Mit CrankScore", "With CrankScore"), h:tx("Die App plant den Adapter mit ein", "The app plans the adapter in"),
+     t:tx(`Vor dem Kauf erkennt die App: vorn fehlt ein Post-Mount-Adapter +23 mm — konkret z. B. <b>Shimano SM-MA-F203P/PM</b>. Er hebt den Sattel auf die Spur. Ganze Lösung: ${eur(szBsp().gesamt)} statt ${eur(szBsp().teil)} (Richtpreise, ohne Scheiben). Fehlt eine Angabe, fragt die App nach.`,
+       `Before you buy, the app sees that the front needs a +23 mm post-mount adapter — e.g. <b>Shimano SM-MA-F203P/PM</b>. It lifts the caliper onto the track. Complete solution: ${eur(szBsp().gesamt)} instead of ${eur(szBsp().teil)} (guide prices, excluding rotors). If a detail is missing, the app asks.`),
+     bild:szBremse("loesung")},
     {k:"plan", ue:tx("Dein Plan", "Your plan"), h:tx("Dein Rad. Passende Teile. Klarer Plan.", "Your bike. Matching parts. A clear plan."),
-     t:tx("Ziel wählen, Marke und Budget festlegen — die App zeigt nur, was wirklich besser ist. Merken, vergleichen, einbauen, mit Rückgängig.", "Pick a goal, brand and budget — the app only shows what's really better. Save, compare, fit — with undo."),
-     bild:`<div class="sz-plan" aria-hidden="true"><span class="sz-karte"><span class="sz-kk">${tx("Bremsen · Mehr Bremskraft", "Brakes · More braking power")}</span><b>${tx("4 statt 2 Kolben", "4 instead of 2 pistons")}</b>
-       <span class="sz-kz"><i class="sz-p">+</i>${tx("Scheibe vorn 203 statt 180 mm", "Front rotor 203 vs 180 mm")}</span><span class="sz-kz"><i class="sz-m">−</i>${tx("140 g schwerer", "140 g heavier")}</span>
-       <span class="sz-kn"><i>${tx("Vergleichen", "Compare")}</i><i>${tx("Merken", "Save")}</i><i class="an">${tx("Ersetzen", "Replace")}</i></span></span></div>`}];
+     t:tx("Ziel, Marke und Budget wählen — die App zeigt nur, was belegbar besser ist, und sagt auch, wenn dein Teil die richtige Wahl bleibt. Vergleichen, merken, mit Rückgängig übernehmen.", "Choose goal, brand and budget — the app only shows what's provably better, and tells you when your part stays the right choice. Compare, save, apply with undo."),
+     bild:`<div class="sz-plan" aria-hidden="true"><span class="sz-karte"><span class="sz-kk">${tx("Bremsen · Ziel: Bremskraft · Marke egal · Preis offen", "Brakes · goal: stopping power · any brand · open price")}</span><b>${tx("Gleiches Modell, Scheiben 220/203", "Same model, rotors 220/203")}</b>
+       <span class="sz-kz"><i class="sz-p">+</i>${tx("Scheibe vorn 220 statt 203 mm", "Front rotor 220 vs 203 mm")}</span><span class="sz-kz"><i class="sz-m">!</i>${tx("Dazu: 2 Adapter, 2 Scheiben", "Plus: 2 adapters, 2 rotors")}</span>
+       <span class="sz-kn"><i class="an">${tx("Vergleichen", "Compare")}</i><i>${tx("Merken", "Save")}</i><i>${tx("Zum Produkt", "View product")}</i></span></span></div>`}];
   const s = S[szene.i], letzte = szene.i === S.length - 1;
   return `<div class="sz" role="dialog" aria-modal="true" aria-labelledby="sz-h" data-szene="${s.k}">
     <div class="sz-kopf"><span class="sz-punkte" aria-label="${tx(`Szene ${szene.i + 1} von ${S.length}`, `Scene ${szene.i + 1} of ${S.length}`)}">${S.map((x, i) => `<i class="${i === szene.i ? "an" : i < szene.i ? "war" : ""}"></i>`).join("")}</span>
@@ -10495,9 +10545,12 @@ const VORLIEBEN = () => [
 ].filter(Boolean);
 
 const FAHRER_SCHRITTE = ["erfahrung", "charakter", "koerper", "masse", "fit"];
+/* BEVEL-003: ein Einstieg -- nach der kurzen Einfuehrung direkt die Wahl des Rads,
+   kein zweites Willkommen und kein zweites Ueberspringen. Die Fahrerfragen sind ein
+   eigener Editor (Einstellungen, Pruefung "Koerperdaten ergaenzen"). */
 function eiSchritte(){
   if(ei.modus === "fahrer") return FAHRER_SCHRITTE;
-  return ["hallo", "ziel"].concat(FAHRER_SCHRITTE, ["fertig"]);
+  return ["ziel"];
 }
 const eiOpt = (art, w, icon, t, s, an, tag, j) => `<button class="ei-opt" data-eiwahl="${art}|${w}" aria-pressed="${!!an}" style="--j:${j || 0}">
   <span class="eo-ic">${ic(icon, 24)}</span><span class="eo-t"><b>${t}</b><span>${s}</span>${tag ? `<i class="eo-tag">${tag}</i>` : ""}</span></button>`;
@@ -10554,14 +10607,16 @@ const EI_SCHRITT = {
     f:`<button class="btn wide gross" data-eiweiter="1">${tx("Los geht's", "Let's go")}</button>
       <p class="ei-klein">${tx(`Dauert rund zwei Minuten und ist kostenlos. Pro gibt es ab ${euro(PRO_JAHR_MONAT)} im Monat.`, `Takes about two minutes and is free. Pro starts at ${euro(PRO_JAHR_MONAT)} a month.`)}</p>`}),
   ziel: () => ({h:`
-    <p class="ei-sub" style="--i:0">${tx("Los geht's", "Let's go")}</p>
-    <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Was hast du vor?", "What are you planning?")}</h2>
-    <p class="ei-qs" style="--i:2">${tx("Wechseln kannst du später jederzeit — oben im Umschalter.", "You can switch any time later — in the switcher at the top.")}</p>
+    ${ei.modus === "voll" ? spracheKnoepfe("ei-sprache") : ""}
+    <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Mit welchem Rad fängst du an?", "Which bike do you want to start with?")}</h2>
+    <p class="ei-qs" style="--i:2">${tx("Wechseln kannst du später jederzeit — oben über den Namen deines Rads.", "You can switch any time later — via your bike's name at the top.")}</p>
     <div class="ei-opts" style="--i:3">${[
       ["traum", IC.traum, tx("Neues Rad zusammenstellen", "Build a new bike"), tx("Aus Einzelteilen, genau für dich — der Assistent macht den ersten Entwurf.", "From individual parts, made for you — the assistant does the first draft.")],
       ["real", IC.real, tx("Mein Rad eintragen", "Enter my bike"), tx("Was ist verbaut, was passt nicht, welches Upgrade lohnt sich?", "What's fitted, what doesn't fit, which upgrade is worth it?")],
       ["markt", IC.markt, tx("Gebrauchtrad prüfen", "Check a used bike"), tx("Angebot gefunden? Die App sagt, ob der Preis fair ist.", "Found a bike for sale? The app tells you whether the price is fair.")]
-    ].map(([w, i, t, s], j) => eiOpt("ziel", w, i, t, s, ei.ziel === w, "", j)).join("")}</div>`,
+    ].map(([w, i, t, s], j) => eiOpt("ziel", w, i, t, s, ei.ziel === w, "", j)).join("")}</div>
+    <p class="ei-klein" style="--i:4">${tx("Danach zeigt die Aufgabenkarte den nächsten Schritt. Fragen beantwortet der Guide oben; einen Rundgang gibt es unter Einstellungen › Hilfe. Deine Körpermaße kannst du später ergänzen — die Prüfung sagt, wann sie fehlen.",
+      "After that, the task card shows the next step. The guide at the top answers questions; there's a tour under Settings › Help. You can add your body measurements later — the check tells you when they're missing.")}</p>`,
     f: ei.ziel ? eiWeiterBtn() : ""}),
   erfahrung: () => ({h:`
     <p class="ei-sub" style="--i:0">${tx("Über dich", "About you")}</p>
@@ -10661,12 +10716,13 @@ function eiZeigen(still){
     root = $("modal").querySelector(".ei");
   }
   const pct = Math.round(ei.schritt / Math.max(1, st.length - 1) * 100), bahn = root.querySelector(".ei-bahn");
+  bahn.style.visibility = st.length < 2 ? "hidden" : "";                 /* ein Schritt braucht keinen Fortschritt */
   bahn.setAttribute("aria-valuenow", String(pct));
   requestAnimationFrame(() => { bahn.firstElementChild.style.width = Math.max(4, pct) + "%"; });
   root.querySelector(".ei-zur").classList.toggle("weg", ei.schritt === 0 || id === "fertig");
   root.setAttribute("aria-label", ei.modus === "fahrer" ? tx("Fahrerprofil", "Rider profile") : tx("Einrichtung", "Getting started"));
   const skip = root.querySelector(".ei-skip");
-  skip.classList.toggle("weg", id === "fertig");
+  skip.classList.toggle("weg", id === "fertig" || ei.modus === "voll");
   skip.textContent = ei.modus === "fahrer" ? tx("Schließen", "Close") : tx("Überspringen", "Skip");
   /* nach einem Sprachwechsel auch den Kopf nachziehen */
   root.querySelector(".ei-zur").setAttribute("aria-label", tx("Zurück", "Back"));
@@ -16853,7 +16909,7 @@ function radbildKarte(){
         sizes="(min-width:820px) 600px, 94vw" width="${RAD_BILD.b}" height="${RAD_BILD.h}" decoding="async" alt="${tx("Propain Spindrift 5 AL, 3D-Modell von der Seite", "Propain Spindrift 5 AL, 3D model, side view")}"></span>`;
     unter = tx("3D-Modell deines Rahmens. Anbauteile sind im Modell allgemein dargestellt — nicht deine Teile.", "3D model of your frame. Components in the model are generic — not your parts."); }
   else if(r){ const gx = radGeo(build);
-    if(gx){ art = "geo"; bild = radSvg({geo:gx}); unter = tx("Seitenansicht aus der Katalog-Geometrie deines Rahmens, vereinfacht. Anbauteile sind allgemein gezeichnet.", "Side view from your frame's catalogue geometry, simplified. Components are drawn generically."); } }
+    if(gx){ art = "geo"; bild = radSvg({geo:gx}); unter = tx("Schema aus Richtwerten der Katalog-Geometrie (Größe L) — nicht maßgetreu. Anbauteile sind allgemein gezeichnet; nachgebaut ist nur der Propain Spindrift.", "Schematic from catalogue geometry guide values (size L) — not to scale. Components are drawn generically; only the Propain Spindrift is modelled."); } }
   if(!bild){ bild = `<span class="rb-platz">${gruppenIc("Rahmen")}<span>${r ? tx("Für diesen Rahmen ist keine Geometrie hinterlegt.", "No geometry on file for this frame.") : tx("Wähle einen Rahmen — dann steht hier dein Rad.", "Choose a frame — then your bike appears here.")}</span></span>`; }
   const fotoKn = modus !== "traum" ? (foto ? `<button class="btn ghost sm" data-fotowahl="1">${tx("Foto ersetzen", "Replace photo")}</button><button class="btn ghost sm" data-fotoweg="1">${tx("Foto entfernen", "Remove photo")}</button>`
     : `<label class="btn ghost sm" for="foto-in">${modus === "markt" ? tx("Bild aus dem Inserat", "Listing image") : tx("Foto aufnehmen", "Add a photo")}</label>`) : "";
