@@ -2703,3 +2703,197 @@ Alle in `tools/bevel-test.mjs` (20 von 20 bestanden):
   - Aus meiner Arbeitsumgebung ist `trostliam-hub.github.io` gesperrt; selbst abrufen konnte ich die Seite nicht.
 - Geöffnete Apps zeigen „Neue Version laden“.
 - crankscore.de bleibt die Teaser-Seite ohne Link zur App; eine `CNAME`-Datei gibt es weiterhin nicht.
+
+
+## APP-BEVEL-003 — Nachbesserung nach Live-Prüfung (Liams Auftrag vom 11.10.2026)
+- **Bezug:** `CLAUDE-APP-BEVEL-003-NACHBESSERUNG.md` (Kopie: `belege/APP-BEVEL-003/auftrag-CLAUDE-APP-BEVEL-003.md`)
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 11.10.2026, 14:20 Uhr
+- **Status:** PRÜFBEREIT (Branch), nicht veröffentlicht
+- **Repository / Branch:** `trostliam-hub/dreambuild`, `claude/crankscore-app-changes-nz88ir`
+- **Commits:**
+  - `6c1ae9f` Seitenaufbau
+  - `53d3938` Teilewechsel
+  - `336d217` Adapter
+  - `a5bd1b2` Angebote
+  - `926338f` Wunschliste
+  - `49a81b4` Einstieg
+  - `8b8b32e` Feinschliff
+  - `17ed4eb` Kernweg-Test und Belege
+- **Live:** unverändert Version **20261011-1156** (`main` = `6183038`). Die öffentliche Seite zeigt also noch den alten Stand und ist kein Nachweis des neuen Designs (siehe Versionsabgleich).
+- **Belege:** `belege/APP-BEVEL-003/`
+  - `vorher/` (live 20261011-1156) und `nachher/` (Branch), gleiche Szenen, gleiches Skript
+  - `tafeln/T1–T10`
+  - `animation/` (Messwerte)
+  - `skripte/`
+  - `bevel-analyse.md`
+
+### Abschnitt 1 — Orientierung an Bevel, neuer Seitenaufbau
+- **Anforderung:** Bevel analysieren und Prinzipien zuerst aufschreiben. Daraus einen sichtbar neuen Aufbau bauen: ruhiger Kopf, großer Radbereich, kompakter Score, Prüfung unter dem Rad, Einstieg „Was möchtest du verbessern?“, kurze Teilezeilen, Wunschliste/Fahrwerk/Einkauf direkt erreichbar. Schrift- und Abstandsskala, Stahlblau, warme helle und anthrazitfarbene Flächen, DE/EN, keine doppelten Angaben.
+- **Umsetzung:**
+  - `bevel-analyse.md` beschreibt die übernommenen Prinzipien und was bewusst nicht übernommen wird.
+  - Kopf mit aktivem Rad und Profil.
+  - Am Desktop die Navigation im Kopf, am Handy unten.
+  - Übersicht: großes Radbild, daneben (Desktop) bzw. darunter kompakter Score. Großer Ring mit Logo über der Zahl, zwei kleine Ringe, ein Satz Deutung, keine Score-Säule mehr.
+  - Prüfung direkt darunter; fehlende Angaben stehen schon zugeklappt da, mit Knopf zum Ergänzen.
+  - Dann „Was möchtest du an deinem Rad verbessern?“ und die Teile in Gruppen.
+  - Modusleiste, Sprungleiste und alte Anleitungskarte über dem Rad sind weg.
+  - Doppelte Angaben entfernt: „180/180 mm“, „Federweg 140 mm“, „Durchmesser 34,9 mm“.
+  - Skala: 13/14/16/20/24–28 px, Touch-Ziele mindestens 44 px.
+- **Prüfung:**
+  - Tafeln T1–T3 (390 px dunkel/hell, Desktop hell/dunkel, Englisch).
+  - Sprachprüfung: 0 Funde in 8.754 Texten.
+  - Bei 320 px nichts abgeschnitten; gemessen am Kopf (Name endet 24 px vor der Navigation bei 820–1920 px) und an der Reiterleiste.
+- **Ergebnis:** erledigt.
+  - Grenze: Die offiziellen Bevel-Screenshots konnte ich nicht selbst ansehen. bevel.health und apps.apple.com sind aus der Arbeitsumgebung gesperrt.
+  - Die Analyse beruht auf Suchergebnissen und Testberichten; das steht offen in `bevel-analyse.md`.
+
+### Abschnitt 2 — Teilewechsel als kurze Führung
+- **Anforderung:** Rad und aktuelle Bremse sind bekannt. Drei Fragen (Ziel, Marke, Budget), nichts vorbelegt, keine lange Fläche. Marke und Budget bleiben bei null Ergebnissen erreichbar. Etwa drei Kacheln mit Bild, genauem Modell und Ausführung, Angebot, Grund und Zustand; Aktionen Vergleichen, Merken, Zum Produkt. „Zurück zu Ergebnissen“ behält die Auswahl und den Scrollstand.
+- **Umsetzung:**
+  - Ablauf: „Schritt 1 von 3 · Was soll sich verbessern?“, dann „Welche Marke?“ (alle Marken der Kategorie, mehrfach wählbar, „Marke egal“), dann „Preis offen oder Gesamtbudget?“.
+  - Oben eine Zusammenfassung Ziel · Marke · Budget, jederzeit antippbar.
+  - Ziele bei Bremsen: Mehr Bremskraft und Standfestigkeit, Einfachere Wartung, Weniger Gewicht, Defektes Teil ersetzen, Günstiger ersetzen.
+  - Katalog, Glossar und Datenblatt stehen nicht mehr im Ablauf, sondern unter „Alle … ansehen“.
+  - Kacheln:
+    - Bildplatz (Bild aus dem Partner-Feed, sonst „Kein Produktfoto“).
+    - Modell und Ausführung, Zustand, ein bis zwei Gründe, Abwägungen.
+    - Gesamtpreis mit Zubehör und Angebotszeile.
+    - Vergleichen, Merken, Zum Produkt (nur mit geprüftem Link).
+  - Übernommen wird im Vergleich: Dort steht das ganze Paket, mit „Zurück zu Ergebnissen“.
+- **Prüfung:** Tests „Kein Ziel vorbelegt … null Ergebnisse“ und „Vergleich und Rückkehr“ (Ziel, Marke, Budget, Kompromiss-Schalter und Scrollstand bleiben gleich), Tafeln T4 und T7.
+- **Ergebnis:** erledigt. Ausnahme: echte Produktbilder (siehe Abschnitt 4).
+
+### Abschnitt 3 — Keine vereinfachten oder widersprüchlichen Bewertungen
+- **Kolbenzahl:** Sie heißt jetzt „Bauart“ und wird nur genannt, nie als besser oder schlechter gewertet. Test: XT ↔ Deore in beiden Richtungen zeigt „andere Bauart“.
+- **Mehr Bremskraft:** Belegt wird nur über die Scheibengröße. Andere Bremsmodelle schlägt die App dafür nicht vor; die App sagt warum: Übersetzung, Belag und Hebel sind nicht belegt.
+- **Eignungsnoten („Trail 4/5“):** Sie stehen nicht mehr im Ablauf und nicht im Vergleich. Die Grundlage (redaktionelle Einordnung, keine Messung) ist in `docs/datenbank.md` beschrieben.
+- **Gewicht:**
+  - Bei Bremsen ist der Lieferumfang im Katalog nicht einheitlich belegt; Händlerangaben zur XT M8120 reichen von 299 bis 410 g. Die App nennt deshalb keinen Gewichtsvorteil und sagt das.
+  - Bei anderen Teilen stehen Gewichte als „≈ … (Richtwerte)“.
+- **Mindestanforderungen:** Was dein Teil heute kann (Scheiben, Bauart, Federweg, Hub, Freigabe, Bandbreite, Grip), unterschreitet kein Vorschlag stillschweigend. Solche Teile erscheinen erst nach „Kompromisse anzeigen“, mit der konkreten Abwägung.
+- **Günstiger ersetzen** bleibt ein eigener, ausdrücklich gewählter Modus.
+- **Zustände:** Geprüft passend, Passend mit Zubehör, Noch zu prüfen, Kompromiss, Passt nicht, Behalten sinnvoll.
+  - „Geprüft passend“ gibt es nur ohne Zubehör, ohne unbekannte Angaben und ohne sinkende Kompatibilität.
+  - Cura 2 an Center-Lock-Naben ist jetzt „Passend mit Zubehör“ (zwei Scheiben), nicht mehr „Passt“.
+- **Neues Ziel „Einfachere Wartung“:** Bremsflüssigkeit je Bremse aus Herstellerangaben und Handel. Wo nicht belegt, bleibt das Feld leer (Cura 2, Dominion T4, HS33).
+- **Prüfung:** Tests „Gute Bremse ohne Upgrade“, „Zustände ehrlich“, „Kompromisse erst auf Wunsch“, „Keine Rückschritte“, „Alle Plätze, alle Verbesserungsziele“.
+- **Ergebnis:** erledigt.
+
+### Abschnitt 4 — Produktseiten und echte Gesamtkosten
+- **Umsetzung:**
+  - Keine Shop-Suchlinks mehr, auch nicht im Detail- und Einkaufsblatt (Einkauf XT: T5).
+  - Preise nur aus geprüften Angeboten: frisch (höchstens 48 h), lieferbar, gleicher Umfang.
+  - Ein Bremssatz entsteht auch aus Vorder- und Hinterradbremse desselben Shops: zusammengerechnet, Versand einmal, mit zwei Produktlinks.
+  - Versand gehört zu den Kosten des Wechsels.
+  - Herkunftszeile: Händler, Umfang, „N Partnershops mit dieser Ausführung verglichen — kein vollständiger Marktvergleich“, „ohne Scheiben“, Stand.
+  - **Hinterlegte Produktseiten (`produktseiten.json`):**
+    - `tools/preise.py` prüft sie auch ohne Feeds, höchstens alle 7 Tage: erreichbar, keine Suchseite, Modellname auf der Seite.
+    - Das Ergebnis landet ohne Preis in `preise.json`.
+    - Die App zeigt solche Seiten als „Zum Produkt · Seite geprüft am … · Preis nicht live“; der Preis bleibt als Richtpreis gekennzeichnet.
+    - Startdaten: XT M8120 bei Rose, vorn und hinten.
+  - Am Workflow ist nichts geändert.
+- **Prüfung:**
+  - Test „Produktseite und Gesamtkosten“: Satz 169 + 175 € plus 3,95 € Versand, Einzelbremse allein zählt nicht, durchgefallene Seite zählt nicht.
+  - `tools/preise-test.py` mit Seitenprüfung: 0 Fehler.
+- **Ergebnis: teilweise.**
+  - Echte Angebote und Produktbilder brauchen den Zugang `PREIS_FEEDS`: Awin-Publisher-Feed-Adressen der Partnershops (z. B. bike-components, Bike24) als Repository-Secret.
+  - Ohne ihn gibt es keine Live-Angebote; die App sagt dann ehrlich „Richtpreis — kein geprüftes Angebot“.
+  - Die hinterlegten Produktseiten werden erst geprüft, wenn die Action auf `main` läuft, also nach einer Veröffentlichung.
+  - Aus meiner Umgebung sind die Shops gesperrt.
+
+### Abschnitt 5 — Adapter automatisch und konkret
+- **Umsetzung:**
+  - Je Schritt ein genauer Artikel; die Marke der Bremse kommt zuerst. Sonst ein genormter Post-Mount-Adapter einer anderen Marke, gekennzeichnet.
+    - Shimano: SM-MA-F180P/P2, F203P/P, F203P/PM, F203P/PL2, F220P/PM, F220P/PL2, F220P/PL
+    - Magura: QM40, QM42, QM44, QM45, QM46 und QM1.5 (Distanzscheiben)
+    - SRAM: Post Bracket 20P-1, 20P-2, 40P (00.5318.007.006), 17P
+  - Je Adapter: vorn oder hinten, Grund (Rechnung PM nativ + Differenz), ob Schrauben beiliegen, Richtpreis.
+  - Ein vorhandener Adapter erscheint als „Bleibt — nicht neu kaufen“, ein unnötiger als „Entfällt“.
+  - **Paket vor der Übernahme:** Teil, Scheiben je Rad (bleibt oder neu, mit Grund), Adapter, Umstellungen, Versand, Summe. Übernommen wird es gemeinsam, mit Rückgängig.
+  - **Freigaben:**
+    - 31 Gabeln hatten stillschweigend 203 mm als Höchstscheibe. Jetzt gilt nur noch, was belegt ist; die Pike-Familie hat 220 mm ab Modelljahr 2023.
+    - Fehlt die Freigabe und ist die Scheibe größer als die native Aufnahme, gilt „Noch zu prüfen“, und die App fragt gezielt nach (Prüfung, Teil, Vergleich).
+  - **Ausdrückliche Prüfung 220/203** (Stumpjumper Alloy mit Pike):
+    - Vorn 220 mm ist belegt (Pike 2023: 180–220 mm).
+    - Hinten 203 mm war nicht belegt: Specialized nennt für 2019–2020 höchstens 200 mm. Jetzt „Noch zu prüfen“ mit Frage.
+    - Mit der Angabe 203 mm wird daraus „Passend mit Zubehör“, mit 200 mm „Passt nicht“.
+- **Prüfung:**
+  - Kompatibilitätstest 200 von 200 (neu: Magura an PM 200 → QM1.5).
+  - Test „Adapter konkret und Freigabe 220/203“.
+  - Tests „Nötiger Adapter“, „Unnötiger Adapter entfällt“, „Fehlende Angabe“.
+- **Ergebnis:** erledigt.
+  - Grenze: Adapterpreise sind Richtpreise.
+  - Für drei Artikel ist die Position (vorn/hinten) nicht belegt; die App sagt „beim Kauf bestätigen“.
+
+### Abschnitt 6 — Wunschliste
+- **Umsetzung:**
+  - Vier sichtbare Stufen je Eintrag: Gemerkt, Im Aufbau testen, Kaufen, Montiert. Je Stufe eine Hauptaktion; Vergleichen, Ziel ändern und Entfernen als Links.
+  - **Test ist Vorschau:** Gespeichert wird immer das echte Teil. Nach dem Neuladen liegt der Test wieder sichtbar darüber. Der Kopf zeigt „Test läuft“; im Banner stehen „Übernehmen“ und „Zurück“.
+  - „Als montiert übernehmen“ zeigt zuerst das Paket.
+  - Einkaufsliste bei „Mein Rad“: nur Wünsche mit Scheiben, Adaptern, Umstellung und Summe, mit dem Hinweis, dass Verbautes nicht erscheint. Beim Traumrad bleibt die ganze Liste.
+- **Prüfung:** Tests „Test nie als verbaut“ (Speicher, Neuladen, zweites Rad unberührt, Einkauf nur Wünsche), „Mehrere Räder“, „Wunschliste … mit Verlauf“.
+- **Ergebnis:** erledigt.
+
+### Abschnitt 7 — Rad und Einstieg
+- **Umsetzung:**
+  - **Ein Einstieg:** drei überspringbare Szenen, dann direkt „Mit welchem Rad fängst du an?“. Kein zweites Willkommen, kein zweites Überspringen. Die Fahrerfragen sind ein eigener Editor, erreichbar über die Prüfung („Körperdaten ergänzen“) und die Einstellungen.
+  - **Szenen:** gezeichnete Bremse (PM 180, 203-mm-Scheibe, Beläge neben der Spur). In Szene 2 gleitet der Adapter animiert ein und hebt den Sattel 11,5 mm auf die Spur. Keine Textzettel mehr; die Plan-Szene enthält keine Kolben-Wertung.
+  - **Radbild:** Das Spindrift-Modell (Blender: .blend, GLB, Renderings, 3D-Betrachter) stammt aus APP-BEVEL-002 Abschnitt 10. Alle anderen Räder heißen jetzt ausdrücklich „Schema aus Richtwerten der Katalog-Geometrie (Größe L) — nicht maßgetreu“.
+- **Prüfung:** Tafeln T9 und T10 (Bildfolge 0–2.200 ms). Test „01/04/17“: Einstieg nur die Wahl des Rads, kein Überspringen, kein „Willkommen“.
+- **Ergebnis: teilweise.**
+  - Erledigt: Einstieg und animierte Lösung.
+  - Offen: Für Räder außer dem Spindrift bleibt es beim Schema.
+    - Der Standard-Traumrad-Rahmen ist der Stumpjumper Alloy.
+    - Ein Umstellen auf den Spindrift (Enduro, anderer Aufbau) hätte Disziplin, Teile und alle Testgrundlagen verändert. Das habe ich nicht ohne Liams Entscheidung getan.
+
+### Abschnitt 8 — Nachweise
+- **Vorher/nachher:** 390 px und Desktop, hell und dunkel, Englisch; Tafeln T1–T7 und T9, gleiche Szenen mit demselben Skript.
+- **Reduzierte Bewegung:** Einstiegs- und Animationsmessung.
+- **Kernwege als automatische Tests (`tools/bevel-test.mjs`, 27 Prüfungen):**
+  - gute Bremse ohne Wechsel
+  - Ziel mit Budget und Marke
+  - Produktseite und Gesamtkosten
+  - Adapter nötig, unnötig und nicht bestimmbar
+  - Vergleich und Rückkehr
+  - Merken, Vorschau, Rückgängig, Neuladen, Radwechsel
+- **Animationen gemessen** (`animation/messung-*.json`, Bildfolgen T8):
+  - Themewechsel: View Transition, Zwischenbilder (mittlere Helligkeit 46 → 183 → 220 → 225).
+  - Dialog: Blatt 24 px → 0 und Abdunklung 0 → 1 in 260 ms.
+  - Teilewechsel: 220 ms.
+  - Kacheln: gestaffelt 260 ms (+40/+80).
+  - Merken: Puls bis 1,069.
+  - Prüfung: 260 ms.
+  - Mit „Bewegung reduzieren“: kein Zwischenzustand. Beim Dialog bleibt nur eine Einblendung von 150 ms ohne Bewegung.
+- **Gesamtprüfung:** `npm test` alle Teile grün — Kompatibilität 200/200, Setup 16/16, Wege 36/36, Sprache 0 Funde, BEVEL 27/27, Preis-Skript 0 Fehler. GitHub-Tests auf dem Branch sind grün bis `8b8b32e`; `17ed4eb` lief beim Schreiben noch.
+- **Grenze:** nicht auf echten Geräten geprüft (kein iPhone oder Android hier), nur Chromium.
+
+### Zusammenfassung
+- **Vollständig erledigt:**
+  - Abschnitt 1 (Aufbau, Skala, Prüfung, Verbessern-Einstieg, keine Doppelungen)
+  - Abschnitt 2 (Führung, Kacheln, Rückweg)
+  - Abschnitt 3 (Bewertungen, Zustände, Kompromisse)
+  - Abschnitt 5 (Adapter, Freigaben, 220/203)
+  - Abschnitt 6 (Wunschliste)
+  - Abschnitt 7 Einstieg und Animation
+  - Abschnitt 8 Nachweise
+- **Teilweise erledigt:**
+  - Abschnitt 4: Struktur, Suchlinks, Kosten und Prüfung der Produktseiten fertig; echte Angebote und Bilder fehlen.
+  - Abschnitt 7 Radbild: Schema für Nicht-Spindrift-Räder.
+  - Abschnitt 1 Bevel-Analyse ohne eigene Sicht auf die Screenshots.
+- **Blockiert:**
+  - Live-Angebote und Produktbilder ohne `PREIS_FEEDS` (Awin-Feeds der Partnershops).
+  - Prüfung der Produktseiten vor einer Veröffentlichung (die Action läuft nur auf `main`).
+  - Shops und bevel.health sind aus meiner Umgebung gesperrt.
+
+### Versionsabgleich
+- **Geprüfter Build:** Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `8b8b32e` (Tests und Belege bis `17ed4eb`), lokal in Chromium.
+- **`APP_VERSION` im Branch:** steht noch auf `20261011-1156`; gestempelt wird erst beim Veröffentlichen.
+- **Öffentlich sichtbar:** https://trostliam-hub.github.io/dreambuild/ zeigt Version 20261011-1156 (`main` `6183038`), also den Stand **vor** BEVEL-003.
+- **Erreichbare Vorschau:** keine öffentliche; die neuen Bilder stehen in `belege/APP-BEVEL-003/`. Sichtbar wird der Stand erst nach Liams Freigabe zum Veröffentlichen.
+
+### Stand
+- **Fertig programmiert:** ja (Commits oben).
+- **Getestet:** ja, lokal (`npm test` grün) und auf GitHub (grün bis `8b8b32e`).
+- **Live:** nein. Live bleibt Version 20261011-1156.
+- **Veröffentlichung:** NEIN, erst nach Liams ausdrücklicher Freigabe.

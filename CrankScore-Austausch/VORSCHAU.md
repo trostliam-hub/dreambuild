@@ -1,3 +1,63 @@
+# Vorschau: CrankScore nachgebessert (APP-BEVEL-003)
+
+Liams Nachbesserungsauftrag vom 11.10.2026 nach der Live-Prüfung: sichtbar neuer Aufbau, Teilewechsel als kurze Führung, keine widersprüchlichen Bewertungen, Produktseiten und Gesamtkosten, konkrete Adapter, Wunschliste mit Stufen, ein Einstieg.
+
+- **Stand:** 11.10.2026, 14:20 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `8b8b32e` (Tests und Belege `17ed4eb`).
+- **Veröffentlicht:** NEIN. Live bleibt Version 20261011-1156. Die öffentliche Seite zeigt den alten Stand. Die Bilder unten stammen vom Branch; die Vorher-Bilder zeigen die Live-Version.
+- **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-BEVEL-003): je Abschnitt Anforderung, Umsetzung, Prüfung und Ergebnis, getrennt nach erledigt, teilweise und blockiert.
+
+## Was sich ändert
+- **Aufbau:**
+  - Ruhiger Kopf mit deinem Rad und dem Profil.
+  - Großes Radbild, kompakter Score ohne Säule.
+  - Prüfung direkt darunter; fehlende Angaben stehen schon zugeklappt da.
+  - Dann „Was möchtest du an deinem Rad verbessern?“ und die Teile.
+  - Keine Modus- und Sprungleiste mehr, keine doppelten Angaben.
+- **Teilewechsel:**
+  - Drei kurze Fragen (Ziel, Marke, Budget), nichts vorbelegt, oben jederzeit korrigierbar.
+  - Etwa drei Kacheln mit Zustand, Grund, Gesamtpreis, Vergleichen, Merken und Zum Produkt.
+  - Im Vergleich steht das ganze Paket, mit „Zurück zu Ergebnissen“.
+- **Ehrliche Bewertung:**
+  - Kolbenzahl nur als Bauart, keine „Trail 4/5“-Noten.
+  - Kein Bremsgewichtsvergleich bei ungleichem Lieferumfang.
+  - Kompromisse erst auf Wunsch; „Behalten sinnvoll“, wenn kein Wechsel belegbar besser ist.
+- **Adapter konkret:**
+  - Artikel je Schritt, z. B. Shimano SM-MA-F203P/PM oder Magura QM44, vorn bzw. hinten, mit Grund.
+  - Vorhandene Adapter: „nicht neu kaufen“.
+  - Freigaben nur, wo belegt. Die im Audit angebotene 220/203 ist jetzt „Noch zu prüfen“, mit Rückfrage.
+- **Angebote:**
+  - Keine Shop-Suchlinks mehr.
+  - Bremssatz auch aus Vorder- und Hinterradbremse, Versand in den Kosten.
+  - Geprüfte Produktseiten ohne Preisbehauptung.
+  - Echte Angebote brauchen weiter das Secret `PREIS_FEEDS`.
+- **Wunschliste:**
+  - Stufen Gemerkt → Im Aufbau testen → Kaufen → Montiert.
+  - Ein Test wird nie als verbaut gespeichert.
+  - Die Einkaufsliste bei „Mein Rad“ enthält nur Wünsche mit Zubehör.
+- **Einstieg:** drei Szenen mit einer gezeichneten Bremse und animiertem Adapter, dann direkt die Wahl des Rads. Kein zweites Willkommen, kein zweites Überspringen.
+
+![Aufbau 390 px](belege/APP-BEVEL-003/tafeln/T1-aufbau-390-dunkel-hell.jpg)
+
+![Desktop](belege/APP-BEVEL-003/tafeln/T2-aufbau-desktop.jpg)
+
+![Englisch](belege/APP-BEVEL-003/tafeln/T3-englisch-390.jpg)
+
+![Teilewechsel](belege/APP-BEVEL-003/tafeln/T4-teilewechsel.jpg)
+
+![Vergleich und Einkauf](belege/APP-BEVEL-003/tafeln/T5-vergleich-einkauf.jpg)
+
+![Prüfung und Einkauf](belege/APP-BEVEL-003/tafeln/T6-pruefung-einkauf.jpg)
+
+![Neu im Teilewechsel](belege/APP-BEVEL-003/tafeln/T7-neu-teilewechsel.jpg)
+
+![Animationen gemessen](belege/APP-BEVEL-003/tafeln/T8-animationen.jpg)
+
+![Einstieg](belege/APP-BEVEL-003/tafeln/T9-einstieg.jpg)
+
+![Szene mit Adapter](belege/APP-BEVEL-003/tafeln/T10-szene-adapter.jpg)
+
+---
+
 # Vorschau: CrankScore überarbeitet (APP-BEVEL-002)
 
 Liams Auftrag `CLAUDE-APP-BEVEL-002` vom 10.10.2026: Aufbau als Arbeitsfläche, Prüfung unter dem Rad, Teile finden ohne Rückschritte, Adapter als Paket, geprüfte Produktlinks, Wunschliste, Vergleich, 3D und eine kurze Einführung.
