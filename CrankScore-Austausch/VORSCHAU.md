@@ -1,3 +1,26 @@
+# Vorschau: Adapter automatisch dabei (APP-ADAPTER-001)
+
+Liams Wunsch vom 11.10.2026: Adapter automatisch nehmen, es sagen, und unter dem eingebauten Teil soll weiter stehen, dass er gebraucht wird.
+
+- **Stand:** 11.10.2026, 21:58 Uhr, Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `60e3b7c`.
+- **Veröffentlicht:** NEIN. Live bleibt Version 20261011-1532; die Bilder „nachher“ stammen vom Branch.
+- **Bericht:** `CLAUDE-ANTWORTEN.md` (APP-ADAPTER-001).
+
+## Was sich ändert
+- **Beim Einbauen:** Die Meldung nennt den Adapter, z. B. „Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P/PM (17 €)“. Fällt er weg, steht dort „Adapter vorn entfällt: …“.
+- **Unter dem Teil:** Unter der Bremse steht „Braucht Adapter vorn: Shimano SM-MA-F203P/PM — automatisch dabei“.
+- **Kein Orange mehr:** Der Adapter ist kein Kompromiss. An der Gabel steht er in Blau als „Adapter · automatisch dabei“. Die Gabel hat keinen gelben Rand mehr.
+- **Prüfung:** „1 Adapter automatisch dabei“. In der Liste steht er ruhig als „Automatisch dabei“, mit dem Grund in einem Satz.
+- **Offene Frage:** Ein Adapter zieht weiter 4 Punkte Kompatibilität ab. Soll das wegfallen?
+
+![Mein Rad, 390 px hell](belege/APP-ADAPTER-001/tafeln/T1-real-390-hell.jpg)
+
+![Mein Rad, 390 px dunkel](belege/APP-ADAPTER-001/tafeln/T2-real-390-dunkel.jpg)
+
+Weitere Tafeln: `belege/APP-ADAPTER-001/tafeln/` (Traumrad, Englisch, Desktop).
+
+---
+
 # Vorschau: CrankScore nachgebessert (APP-BEVEL-003)
 
 Liams Nachbesserungsauftrag vom 11.10.2026 nach der Live-Prüfung: sichtbar neuer Aufbau, Teilewechsel als kurze Führung, keine widersprüchlichen Bewertungen, Produktseiten und Gesamtkosten, konkrete Adapter, Wunschliste mit Stufen, ein Einstieg.

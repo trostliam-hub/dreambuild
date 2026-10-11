@@ -2947,3 +2947,87 @@ Alle in `tools/bevel-test.mjs` (20 von 20 bestanden):
   - Die Prüfung der Produktseiten (`produktseiten.json`) läuft erst mit dem nächsten planmäßigen Lauf „Live-Preise“ auf `main`, etwa alle sechs Stunden. Der letzte Lauf um 14:53 Uhr lag noch vor der Veröffentlichung.
   - Echte Angebote brauchen weiter das Secret `PREIS_FEEDS`.
 - crankscore.de bleibt die Teaser-Seite ohne Link zur App; eine `CNAME`-Datei gibt es weiterhin nicht.
+
+
+## APP-ADAPTER-001 — Adapter automatisch dabei (Liams Wunsch vom 11.10.2026)
+- **Bezug:** Liam im Chat: „Das mit den Adaptern nervt komplett mach das die Automatisch genommen werden aber dir das gesagt wird und wenn du das ausgerüstet ist das trotzdem darunter steht das du den Adapter brauchst“.
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 11.10.2026, 21:58 Uhr (Europe/Berlin)
+- **Status:** FERTIG PROGRAMMIERT und GETESTET (Chromium). **Nicht veröffentlicht.**
+- **Stand:** Branch `claude/crankscore-app-changes-nz88ir`, Code-Stand `60e3b7c`, ein Commit ab dem Live-Stand (`main` `333e2c9`, Version 20261011-1532).
+- **Keine Änderung** an Kompatibilitätsregeln, Adapterrechnung, Artikeln, Preisen, Pro-Regeln, Herstellerwerten oder gespeicherten Daten. Auch der Score-Abzug je Adapter bleibt, siehe „Offene Frage“.
+
+### Was vorher nervte (nachgestellt am Live-Stand, XT M8120 mit 203 mm vorn an der Pike, PM 180)
+- Der Adapter war schon automatisch eingeplant, wurde aber wie ein Problem gezeigt:
+  - In der Prüfung stand er orange als „Passt mit Adapter: Bremsscheibe vorn nur mit Adapter … Dafür braucht es …“, mit Knopf „Bremsen ansehen“.
+  - An der Gabel hieß es orange „Adapter · am Rad nötig“, die Gabel hatte einen gelben Rand und die Gruppe einen gelben Punkt.
+- Unter der Bremse, dem Teil, das man gerade eingebaut hatte, stand nichts.
+- Die Meldung nach dem Einbau sagte nur „1 Adapter neu“, ohne zu sagen, welcher.
+
+### Was geändert ist
+- **Gesagt wird es beim Einbauen, mit Namen:**
+  - Die Meldung lautet jetzt „Bremsen: Shimano XT M8120 · 4 Kolben. Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P/PM (17 €). 2 Scheiben neu.“, weiter mit Rückgängig.
+  - Dieselbe Meldung kommt beim Wechsel der Ausführung, etwa einer anderen Scheibengröße, und beim „Im Aufbau testen“.
+  - Fällt ein Adapter weg, steht dort „Adapter vorn entfällt: …“.
+- **Unter dem eingebauten Teil steht weiter, dass es den Adapter braucht:**
+  - An der Bremse steht „Braucht Adapter vorn: Shimano SM-MA-F203P/PM — automatisch dabei“.
+  - Das gilt für alle Adapterarten, immer unter dem Teil, das den Adapter verlangt: Bremse (vorn/hinten), Steckachse, Innenlager und Steuersatz.
+- **Kein Warnton mehr:**
+  - Ein eingeplanter Adapter färbt weder Teil noch Gruppe noch Sprungleiste gelb.
+  - Die Adapterzeile am tragenden Teil heißt jetzt „Adapter · automatisch dabei“ und steht in der Akzentfarbe statt in Orange. Orange bleibt Kompromissen vorbehalten.
+- **Prüfung:**
+  - Im Kopf steht „1 Adapter automatisch dabei“.
+  - In der Liste steht der Adapter zuletzt, als „Automatisch dabei · Adapter vorn: PM 180 → 203 mm“, mit dem Grund in einem Satz und „du musst nichts tun“.
+  - Rechnung, Skizze und Artikel stehen weiter hinter dem (i).
+- **Urteil am Score:** „Passt. Der nötige Adapter ist automatisch dabei (17 €).“
+- **Vergleich/Paket:** „Kommt automatisch dazu (vorn)“ statt „Neu nötig“.
+- **Hilfe und README:** „Farben an den Teilen“ ist angepasst; in der README ist das Adapter-Verhalten beschrieben.
+- **Unverändert:**
+  - Rechnung, Artikelwahl, Preis und Gewicht des Adapters.
+  - Einkaufsliste (Traumrad).
+  - „Ohne Adapter: …“-Tausch im Traumrad (Liams Wunsch vom 03.10.).
+  - Das Info-Fenster.
+
+### Geprüft (am Code-Stand `60e3b7c`, Chromium/Playwright)
+- **npm test:** alle bestanden.
+  - Kompatibilität 200/200
+  - Setup 16/16
+  - Wege 36/36
+  - Sprache 0 Funde in 8.752 Texten
+  - BEVEL 28/28
+  - Preis-Skript
+- **Neuer Kernweg-Test** in `tools/bevel-test.mjs` („Adapter automatisch …“):
+  - Die Meldung nennt den Artikel.
+  - Die Gabel ist nicht gelb.
+  - Die Adapterzeile ist nicht in Warnfarbe.
+  - Unter der Bremse steht „Braucht Adapter vorn: … — automatisch dabei“.
+  - Die Prüfung zeigt „Automatisch dabei“ und keine Adapter-Warnung.
+  - Der echte Klickweg zurück auf 180 mm meldet „Adapter vorn entfällt“.
+  - Englisch zeigt „Needs an adapter (front): … — included automatically“.
+  - Gegenprobe: Am alten Stand scheitert der Test (alte Meldung „1 Adapter neu“, Gabel „warnung“, Orange).
+- **Überstand und Kontrast:** 24 Fälle (320, 390 und 1280 px; hell und dunkel; DE und EN; Mein Rad und Traumrad), je mit zwei Adaptern (203 vorn und hinten).
+  - Keine waagerechte Scroll-Leiste.
+  - Kein Adapter-Element ragt über den Rand. Die 4–6 gemeldeten Knöpfe gibt es am alten Stand genauso, sie gehören nicht zum Adapterbereich.
+  - Kontrast der neuen Texte mindestens 5,21 (hell) bzw. 6,14 (dunkel).
+  - 0 JS-Fehler.
+- **Nicht geprüft:** echtes iPhone und Safari.
+
+### Belege (`belege/APP-ADAPTER-001/`)
+- `tafeln/`:
+  - `T1-real-390-hell.jpg`, `T1-traum-390-hell.jpg`: Meldung, Gabel, Bremse, Prüfung, vorher und nachher
+  - `T2-real-390-dunkel.jpg`
+  - `T3-englisch-390.jpg`
+  - `T4-desktop-1280.jpg`
+- `vorher/`, `nachher/`: Einzelbilder (vorher = Live-Stand `333e2c9`)
+- `ueberstand-kontrast.json`: Rohergebnis
+- `skripte/`: `adapter-bilder.js`, `ueberstand-kontrast.js`, `tafeln.py`
+
+### Offene Frage an Liam
+- Ein automatisch eingeplanter Adapter kostet weiter **4 Punkte Kompatibilität**. Die Score-Erklärung nennt das als „1 × Adapter (je −4)“. Das ist eine Score-Regel, darum habe ich sie nicht nebenbei geändert.
+- Soll ein Adapter gar nichts mehr abziehen, ist das eine Zeile (`ABZUG.adapter`). Die Kompatibilitäts-Tests müsste ich dann anpassen.
+
+### Stand
+- **Code fertig:** ja (`60e3b7c`).
+- **Tests bestanden:** ja (Chromium lokal).
+- **Live:** nein. Live bleibt Version 20261011-1532.
+- **Veröffentlichung:** NEIN. Erst nach Liams ausdrücklicher Freigabe (Push auf `main`, die Action stempelt).
