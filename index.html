@@ -3417,9 +3417,12 @@ body.klein .brand,.brand{opacity:1;visibility:visible;transform:none;pointer-eve
   .tabs button{height:var(--ziel);padding:0 14px;border-radius:999px;font-size:15px;font-weight:600;color:var(--ink-2);gap:8px}
   .tabs button::after{display:none}
   .tabs button[aria-selected="true"]{background:var(--surface-2);color:var(--ink)}
-  .mini{max-width:calc(50vw - 360px)}
+  /* Name endet vor der mittigen Navigation: halbe Navigationsbreite (270 px mit Beschriftung),
+     Logo und Rand (78 px) und der Seitenrand des 1120-px-Kopfes */
+  .mini{max-width:calc(50vw - 270px - 78px - max(0px, (100vw - 1120px) / 2))}
 }
-@media (min-width:820px) and (max-width:1023px){.tabs .tl{display:none}.tabs button{padding:0 12px}}
+@media (min-width:820px) and (max-width:1023px){.tabs .tl{display:none}.tabs button{padding:0 12px}.mini{max-width:calc(50vw - 114px - 78px)}}
+@media (max-width:350px){.tabs button{font-size:11px;letter-spacing:-.01em}.tabs .tl{overflow:visible;text-overflow:clip}}
 
 /* ── Seite: eine Spalte; im Aufbau die Uebersicht, sonst schmaler Inhalt ── */
 .wrap,body .wrap{display:block;max-width:1120px;padding:16px 16px calc(var(--tabs-h) + 44px + var(--tabs-unten))}
@@ -3467,6 +3470,14 @@ body.klein .brand,.brand{opacity:1;visibility:visible;transform:none;pointer-eve
 #seite .kz-z{padding:10px 12px;border-radius:14px}
 #seite .kz-z b{font-size:20px}
 #seite .wie{align-self:flex-start;font-size:var(--fs-z);min-height:var(--ziel);padding:0}
+/* Schmale Handys (bis 380 px): kleine Ringe unter den grossen, nebeneinander, Text darunter */
+@media (max-width:380px){
+  #seite .ringe{flex-direction:column;align-items:center;gap:var(--sp-3)}
+  #seite .rg-paar{flex-direction:row;width:100%;gap:var(--sp-2)}
+  #seite .rg-paar .rg{flex:1 1 0;min-width:0;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:6px 4px}
+  #seite .rg-txt{align-items:center;text-align:center}
+  #seite .rg-paar .rg-l{font-size:13px;overflow-wrap:normal;hyphens:auto}
+}
 
 /* Pruefung: kompakt, fehlende Angaben stehen schon im zugeklappten Zustand da */
 .ueb .pruef{margin:0;border-radius:var(--r-karte)}
