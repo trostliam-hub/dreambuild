@@ -1,0 +1,26 @@
+const { chromium } = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright');
+const fs = require('fs');
+const [,, port, W, ordner, design = 'oled', ruhig = '0', spr = 'de'] = process.argv;
+fs.mkdirSync(ordner, {recursive:true});
+(async () => { const b = await chromium.launch();
+  const ctx = await b.newContext({viewport:{width:+W, height:844}, deviceScaleFactor:2, reducedMotion:ruhig === '1' ? 'reduce' : 'no-preference'});
+  const p = await ctx.newPage(); const fehler = []; p.on('pageerror', e => fehler.push(e.message));
+  await p.goto(`http://127.0.0.1:${port}/index.html`);
+  await p.evaluate(([d, s]) => { localStorage.clear(); localStorage.setItem('mtb.sprache', s); localStorage.setItem('mtb.design', d); }, [design, spr]);
+  await p.reload(); await p.waitForSelector('[data-lsstart]'); await p.click('[data-lsstart]');
+  await p.waitForSelector('#szenen .sz'); await p.waitForTimeout(900);
+  const pre = `${ordner}/${ruhig === '1' ? 'ruhig' : 'bew'}-${design}-${spr}`;
+  await p.screenshot({path:`${pre}-1.png`});
+  await p.click('[data-szweiter]');
+  const t0 = Date.now(), zeiten = [0, 250, 500, 750, 1000, 1250, 1500, 2200];
+  const lage = [];
+  for(const z of zeiten){ const w = z - (Date.now() - t0); if(w > 0) await p.waitForTimeout(w);
+    await p.locator('#szenen .szb').screenshot({path:`${pre}-2-${String(z).padStart(4, '0')}.png`});
+    lage.push(await p.evaluate(() => { const s = document.querySelector('.szb-sattel'), a = document.querySelector('.szb-adapter'), ok = document.querySelector('.szb-ok');
+      return {t:getComputedStyle(s).transform, a:a ? getComputedStyle(a).opacity : null, ok:getComputedStyle(ok).opacity}; })); }
+  await p.screenshot({path:`${pre}-2.png`});
+  await p.click('[data-szweiter]'); await p.waitForTimeout(500); await p.screenshot({path:`${pre}-3.png`});
+  await p.click('[data-szweiter]'); await p.waitForTimeout(700); await p.screenshot({path:`${pre}-4-einstieg.png`});
+  const ein = await p.evaluate(() => ({schritte:eiSchritte(), skip:!!document.querySelector('.ei-skip:not(.weg)'), willkommen:/Willkommen/.test(document.body.textContent), h:(document.querySelector('.ei-q') || {}).textContent}));
+  console.log(JSON.stringify({lage, ein, fehler}));
+  await b.close(); })();

@@ -77,6 +77,18 @@ const PRUEFUNGEN = [
     const ok = r.start.schritt === 'ziel' && r.start.ziel === '' && r.start.gewaehlt === 0 && r.start.kacheln === 0 && r.s2 === 'marke' && r.s3 === 'budget'
       && r.null0.schritt === 'erg' && r.null0.kacheln === 0 && r.null0.sum === 3 && r.null0.marke && r.null0.budget && r.korr.schritt === 'marke' && r.korr.chips > 5;
     return {ok, info:r}; }],
+  ['Vergleich und Rueckkehr: "Zurueck zu Ergebnissen" behaelt Ziel, Marke, Budget, Kompromiss-Schalter und Scrollstand', async () => {
+    await neu();
+    const r = await ev(() => { wechsle('real'); build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern();
+      oeffneSlot('bremsen', {ziel:'sparen'}); finder.marken = ['Shimano']; finder.budgetAn = true; finder.budget = 300; finder.kompromisse = true; oeffneSlot('bremsen');
+      const b = $('modal').querySelector('.sheet-b'); b.scrollTop = 300; const y0 = b.scrollTop, vorher = [...$('fi').querySelectorAll('.fk3')].map(k => k.dataset.fk);
+      $('fi').querySelector('.fk3 [data-vergleich]').click();
+      const im = {zurueck:!!$('modal').querySelector('[data-fizurueck]'), tabelle:!!$('modal').querySelector('.vt')};
+      $('modal').querySelector('[data-fizurueck]').click();
+      const nach = [...$('fi').querySelectorAll('.fk3')].map(k => k.dataset.fk);
+      return {y0, y:$('modal').querySelector('.sheet-b').scrollTop, im, ziel:finder.ziel, marken:finder.marken.join(), budget:finder.budget, an:finder.budgetAn, kompro:finder.kompromisse,
+        schritt:$('fi').dataset.schritt, gleich:JSON.stringify(vorher) === JSON.stringify(nach), n:nach.length}; });
+    return {ok:r.im.zurueck && r.im.tabelle && Math.abs(r.y - r.y0) < 2 && r.y0 > 0 && r.ziel === 'sparen' && r.marken === 'Shimano' && r.budget === 300 && r.an && r.kompro && r.schritt === 'erg' && r.gleich && r.n > 0, info:r}; }],
   ['Kompromisse erst auf Wunsch: Leichter zeigt nichts unter der Mindestausstattung, "Kompromisse anzeigen" nennt die Abwaegung', async () => {
     await neu();
     const r = await ev(F => { const finde = eval(F); const j = findeTeil('gabel', build.gabel);

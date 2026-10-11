@@ -1,0 +1,10 @@
+const { chromium } = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright');
+const [,, port, W, ziel, design = 'oled', rahmen = 'f-stumpy'] = process.argv;
+(async () => { const b = await chromium.launch(); const p = await b.newPage({viewport:{width:+W, height:900}, deviceScaleFactor:2});
+  const fehler = []; p.on('pageerror', e => fehler.push(e.message));
+  await p.goto(`http://127.0.0.1:${port}/index.html`);
+  await p.evaluate(d => { localStorage.clear(); localStorage.setItem('mtb.einstieg2','1'); localStorage.setItem('mtb.tour','1'); localStorage.setItem('mtb.szenen','1'); localStorage.setItem('mtb.sprache','de'); localStorage.setItem('mtb.design', d); }, design);
+  await p.reload(); await p.waitForFunction(() => typeof zeichne === 'function' && !!document.querySelector('#aufbau .grp'));
+  await p.evaluate(r => { build.rahmen = r; sichern(); zeichne(); }, rahmen); await p.waitForTimeout(400);
+  await p.locator('#aufbau .radbild').screenshot({path:ziel});
+  console.log(JSON.stringify(fehler)); await b.close(); })();

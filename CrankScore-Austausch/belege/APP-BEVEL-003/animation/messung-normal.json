@@ -1,0 +1,353 @@
+{
+ "out": [
+  {
+   "name": "theme",
+   "laufend": [
+    {
+     "name": "ei-einblenden",
+     "dauer": 450,
+     "verz": 100,
+     "ziel": "r-ganz blende"
+    }
+   ],
+   "werte": [
+    {
+     "t": 10,
+     "w": "rgb(22, 24, 27) vt:true"
+    },
+    {
+     "t": 158,
+     "w": "rgb(242, 240, 236) vt:true"
+    },
+    {
+     "t": 268,
+     "w": "rgb(242, 240, 236) vt:true"
+    },
+    {
+     "t": 348,
+     "w": "rgb(242, 240, 236) vt:true"
+    },
+    {
+     "t": 430,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 491,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 538,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 588,
+     "w": "rgb(242, 240, 236) vt:false"
+    }
+   ]
+  },
+  {
+   "name": "dialog",
+   "laufend": [
+    {
+     "name": "einblenden",
+     "dauer": 260,
+     "verz": 0,
+     "ziel": "scrim"
+    },
+    {
+     "name": "hoch",
+     "dauer": 260,
+     "verz": 0,
+     "ziel": "sheet frisch"
+    },
+    {
+     "name": "fi-ein",
+     "dauer": 220,
+     "verz": 0,
+     "ziel": "fi-schritt"
+    }
+   ],
+   "werte": [
+    {
+     "t": 16,
+     "w": "matrix(1, 0, 0, 1, 0, 24) scrim:0"
+    },
+    {
+     "t": 138,
+     "w": "matrix(1, 0, 0, 1, 0, 1.75088) scrim:0.702197"
+    },
+    {
+     "t": 263,
+     "w": "matrix(1, 0, 0, 1, 0, 0.00383634) scrim:0.999211"
+    },
+    {
+     "t": 361,
+     "w": "none scrim:1"
+    },
+    {
+     "t": 421,
+     "w": "none scrim:1"
+    },
+    {
+     "t": 484,
+     "w": "none scrim:1"
+    },
+    {
+     "t": 535,
+     "w": "none scrim:1"
+    },
+    {
+     "t": 605,
+     "w": "none scrim:1"
+    }
+   ]
+  },
+  {
+   "name": "teilewechsel",
+   "laufend": [
+    {
+     "name": "fi-ein",
+     "dauer": 220,
+     "verz": 0,
+     "ziel": "fi-schritt"
+    }
+   ],
+   "werte": [
+    {
+     "t": 24,
+     "w": "0 matrix(1, 0, 0, 1, 0, 6)"
+    },
+    {
+     "t": 100,
+     "w": "0.890984 matrix(1, 0, 0, 1, 0, 0.654095)"
+    },
+    {
+     "t": 170,
+     "w": "0.984051 matrix(1, 0, 0, 1, 0, 0.0956952)"
+    },
+    {
+     "t": 262,
+     "w": "1 matrix(1, 0, 0, 1, 0, 0)"
+    },
+    {
+     "t": 339,
+     "w": "1 matrix(1, 0, 0, 1, 0, 0)"
+    },
+    {
+     "t": 393,
+     "w": "1 matrix(1, 0, 0, 1, 0, 0)"
+    },
+    {
+     "t": 459,
+     "w": "1 matrix(1, 0, 0, 1, 0, 0)"
+    },
+    {
+     "t": 514,
+     "w": "1 matrix(1, 0, 0, 1, 0, 0)"
+    }
+   ]
+  },
+  {
+   "name": "ergebnisse",
+   "laufend": [
+    {
+     "name": "fi-ein",
+     "dauer": 220,
+     "verz": 0,
+     "ziel": "fi-schritt"
+    },
+    {
+     "name": "fi-ein",
+     "dauer": 260,
+     "verz": 0,
+     "ziel": "fk fk3"
+    },
+    {
+     "name": "fi-ein",
+     "dauer": 260,
+     "verz": 40,
+     "ziel": "fk fk3"
+    },
+    {
+     "name": "fi-ein",
+     "dauer": 260,
+     "verz": 80,
+     "ziel": "fk fk3"
+    }
+   ],
+   "werte": [
+    {
+     "t": 37,
+     "w": "0.00/0.00/0.00"
+    },
+    {
+     "t": 175,
+     "w": "0.95/0.88/0.69"
+    },
+    {
+     "t": 270,
+     "w": "1.00/0.98/0.95"
+    },
+    {
+     "t": 337,
+     "w": "1.00/1.00/0.99"
+    },
+    {
+     "t": 415,
+     "w": "1.00/1.00/1.00"
+    },
+    {
+     "t": 494,
+     "w": "1.00/1.00/1.00"
+    },
+    {
+     "t": 550,
+     "w": "1.00/1.00/1.00"
+    },
+    {
+     "t": 605,
+     "w": "1.00/1.00/1.00"
+    }
+   ]
+  },
+  {
+   "name": "merken",
+   "laufend": [
+    {
+     "name": "border-bottom-color",
+     "dauer": 180,
+     "verz": 0,
+     "ziel": "btn ghost sm merk merk-puls"
+    },
+    {
+     "name": "border-left-color",
+     "dauer": 180,
+     "verz": 0,
+     "ziel": "btn ghost sm merk merk-puls"
+    },
+    {
+     "name": "border-right-color",
+     "dauer": 180,
+     "verz": 0,
+     "ziel": "btn ghost sm merk merk-puls"
+    },
+    {
+     "name": "border-top-color",
+     "dauer": 180,
+     "verz": 0,
+     "ziel": "btn ghost sm merk merk-puls"
+    },
+    {
+     "name": "color",
+     "dauer": 180,
+     "verz": 0,
+     "ziel": "btn ghost sm merk merk-puls"
+    },
+    {
+     "name": "plopp",
+     "dauer": 260,
+     "verz": 0,
+     "ziel": "toast"
+    },
+    {
+     "name": "merk-puls",
+     "dauer": 320,
+     "verz": 0,
+     "ziel": "btn ghost sm merk merk-puls"
+    }
+   ],
+   "werte": [
+    {
+     "t": 12,
+     "w": "matrix(1, 0, 0, 1, 0, 0)"
+    },
+    {
+     "t": 86,
+     "w": "matrix(1.0686, 0, 0, 1.0686, 0, 0)"
+    },
+    {
+     "t": 143,
+     "w": "matrix(1.06215, 0, 0, 1.06215, 0, 0)"
+    },
+    {
+     "t": 245,
+     "w": "matrix(1.00157, 0, 0, 1.00157, 0, 0)"
+    },
+    {
+     "t": 341,
+     "w": "none"
+    },
+    {
+     "t": 432,
+     "w": "none"
+    },
+    {
+     "t": 502,
+     "w": "none"
+    },
+    {
+     "t": 558,
+     "w": "none"
+    }
+   ]
+  },
+  {
+   "name": "pruefung",
+   "laufend": [
+    {
+     "name": "transform",
+     "dauer": 260,
+     "verz": 0,
+     "ziel": "pf-pfeil"
+    },
+    {
+     "name": "ei-einblenden",
+     "dauer": 450,
+     "verz": 100,
+     "ziel": "r-ganz blende"
+    },
+    {
+     "name": "pf-auf",
+     "dauer": 260,
+     "verz": 0,
+     "ziel": "pf-inhalt auf"
+    }
+   ],
+   "werte": [
+    {
+     "t": 23,
+     "w": "0 matrix(1, 0, 0, 1, 0, -6) h652"
+    },
+    {
+     "t": 71,
+     "w": "0.665314 matrix(1, 0, 0, 1, 0, -2.00811) h652"
+    },
+    {
+     "t": 130,
+     "w": "0.927076 matrix(1, 0, 0, 1, 0, -0.437545) h652"
+    },
+    {
+     "t": 195,
+     "w": "0.978389 matrix(1, 0, 0, 1, 0, -0.129668) h652"
+    },
+    {
+     "t": 259,
+     "w": "0.998767 matrix(1, 0, 0, 1, 0, -0.00739556) h652"
+    },
+    {
+     "t": 323,
+     "w": "1 none h652"
+    },
+    {
+     "t": 394,
+     "w": "1 none h652"
+    },
+    {
+     "t": 450,
+     "w": "1 none h652"
+    }
+   ]
+  }
+ ],
+ "fehler": []
+}

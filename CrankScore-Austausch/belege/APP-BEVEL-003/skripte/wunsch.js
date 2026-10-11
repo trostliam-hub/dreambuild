@@ -1,0 +1,12 @@
+const { chromium } = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright');
+const [,, port, W, ziel, design='oled'] = process.argv;
+(async () => { const b = await chromium.launch(); const p = await b.newPage({viewport:{width:+W, height:900}, deviceScaleFactor:2});
+  const fehler = []; p.on('pageerror', e => fehler.push(e.message));
+  await p.goto(`http://127.0.0.1:${port}/index.html`);
+  await p.evaluate(d => { localStorage.clear(); localStorage.setItem('mtb.einstieg2','1'); localStorage.setItem('mtb.tour','1'); localStorage.setItem('mtb.szenen','1'); localStorage.setItem('mtb.sprache','de'); localStorage.setItem('mtb.design', d); }, design);
+  await p.reload(); await p.waitForFunction(() => typeof zeichne === 'function' && !!document.querySelector('#aufbau .grp'));
+  await p.evaluate(() => { wechsle('real'); build.rahmen='f-stumpy'; build.gabel='g-pike'; build.bremsen='b-xt'; sichern();
+    merken('stuetze', 'st-oneup'); merken('gabel', 'g-lyrik'); merken('bremsen', 'b-mt4');
+    const l = wunschListe(); l.find(w => w.slot === 'gabel').stufe = 'einkauf'; wunschTesten(l.find(w => w.slot === 'bremsen').id); view = 'wunsch'; zeichne(); window.scrollTo(0,0); });
+  await p.waitForTimeout(500); await p.screenshot({path:ziel, fullPage:true});
+  console.log(JSON.stringify(fehler)); await b.close(); })();

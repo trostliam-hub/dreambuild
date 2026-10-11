@@ -1,0 +1,302 @@
+{
+ "out": [
+  {
+   "name": "theme",
+   "laufend": [],
+   "werte": [
+    {
+     "t": 235,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 321,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 372,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 437,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 485,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 552,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 606,
+     "w": "rgb(242, 240, 236) vt:false"
+    },
+    {
+     "t": 650,
+     "w": "rgb(242, 240, 236) vt:false"
+    }
+   ]
+  },
+  {
+   "name": "dialog",
+   "laufend": [
+    {
+     "name": "einblenden",
+     "dauer": 150,
+     "verz": 0,
+     "ziel": "scrim"
+    },
+    {
+     "name": "hoch",
+     "dauer": 150,
+     "verz": 0,
+     "ziel": "sheet frisch"
+    }
+   ],
+   "werte": [
+    {
+     "t": 18,
+     "w": "matrix(1, 0, 0, 1, 0, 0) scrim:0"
+    },
+    {
+     "t": 138,
+     "w": "matrix(1, 0, 0, 1, 0, 0) scrim:0.968904"
+    },
+    {
+     "t": 223,
+     "w": "none scrim:1"
+    },
+    {
+     "t": 291,
+     "w": "none scrim:1"
+    },
+    {
+     "t": 355,
+     "w": "none scrim:1"
+    },
+    {
+     "t": 416,
+     "w": "none scrim:1"
+    },
+    {
+     "t": 498,
+     "w": "none scrim:1"
+    },
+    {
+     "t": 581,
+     "w": "none scrim:1"
+    }
+   ]
+  },
+  {
+   "name": "teilewechsel",
+   "laufend": [],
+   "werte": [
+    {
+     "t": 23,
+     "w": "1 none"
+    },
+    {
+     "t": 117,
+     "w": "1 none"
+    },
+    {
+     "t": 176,
+     "w": "1 none"
+    },
+    {
+     "t": 249,
+     "w": "1 none"
+    },
+    {
+     "t": 315,
+     "w": "1 none"
+    },
+    {
+     "t": 383,
+     "w": "1 none"
+    },
+    {
+     "t": 461,
+     "w": "1 none"
+    },
+    {
+     "t": 528,
+     "w": "1 none"
+    }
+   ]
+  },
+  {
+   "name": "ergebnisse",
+   "laufend": [
+    {
+     "name": "ei-hoch",
+     "dauer": 1,
+     "verz": 0,
+     "ziel": "fk fk3"
+    },
+    {
+     "name": "ei-hoch",
+     "dauer": 1,
+     "verz": 0,
+     "ziel": "fk fk3"
+    },
+    {
+     "name": "ei-hoch",
+     "dauer": 1,
+     "verz": 0,
+     "ziel": "fk fk3"
+    }
+   ],
+   "werte": [
+    {
+     "t": 35,
+     "w": "0.00/0.00/0.00"
+    },
+    {
+     "t": 154,
+     "w": "1.00/1.00/1.00"
+    },
+    {
+     "t": 231,
+     "w": "1.00/1.00/1.00"
+    },
+    {
+     "t": 296,
+     "w": "1.00/1.00/1.00"
+    },
+    {
+     "t": 366,
+     "w": "1.00/1.00/1.00"
+    },
+    {
+     "t": 434,
+     "w": "1.00/1.00/1.00"
+    },
+    {
+     "t": 504,
+     "w": "1.00/1.00/1.00"
+    },
+    {
+     "t": 553,
+     "w": "1.00/1.00/1.00"
+    }
+   ]
+  },
+  {
+   "name": "merken",
+   "laufend": [
+    {
+     "name": "border-bottom-color",
+     "dauer": 1,
+     "verz": 0,
+     "ziel": "btn ghost sm merk"
+    },
+    {
+     "name": "border-left-color",
+     "dauer": 1,
+     "verz": 0,
+     "ziel": "btn ghost sm merk"
+    },
+    {
+     "name": "border-right-color",
+     "dauer": 1,
+     "verz": 0,
+     "ziel": "btn ghost sm merk"
+    },
+    {
+     "name": "border-top-color",
+     "dauer": 1,
+     "verz": 0,
+     "ziel": "btn ghost sm merk"
+    },
+    {
+     "name": "color",
+     "dauer": 1,
+     "verz": 0,
+     "ziel": "btn ghost sm merk"
+    },
+    {
+     "name": "plopp",
+     "dauer": 150,
+     "verz": 0,
+     "ziel": "toast"
+    }
+   ],
+   "werte": [
+    {
+     "t": 9,
+     "w": "none"
+    },
+    {
+     "t": 93,
+     "w": "none"
+    },
+    {
+     "t": 178,
+     "w": "none"
+    },
+    {
+     "t": 251,
+     "w": "none"
+    },
+    {
+     "t": 317,
+     "w": "none"
+    },
+    {
+     "t": 387,
+     "w": "none"
+    },
+    {
+     "t": 465,
+     "w": "none"
+    },
+    {
+     "t": 529,
+     "w": "none"
+    }
+   ]
+  },
+  {
+   "name": "pruefung",
+   "laufend": [],
+   "werte": [
+    {
+     "t": 20,
+     "w": "1 none h652"
+    },
+    {
+     "t": 75,
+     "w": "1 none h652"
+    },
+    {
+     "t": 130,
+     "w": "1 none h652"
+    },
+    {
+     "t": 210,
+     "w": "1 none h652"
+    },
+    {
+     "t": 254,
+     "w": "1 none h652"
+    },
+    {
+     "t": 314,
+     "w": "1 none h652"
+    },
+    {
+     "t": 354,
+     "w": "1 none h652"
+    },
+    {
+     "t": 421,
+     "w": "1 none h652"
+    }
+   ]
+  }
+ ],
+ "fehler": []
+}
