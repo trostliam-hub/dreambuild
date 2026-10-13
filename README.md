@@ -1170,3 +1170,11 @@ Flächen. Gesamtring und Logo leuchten dezent weiß. Kleine Score-Ringe
 sind neutral silberfarben. Die Startansicht folgt jetzt ebenfalls dem
 App-Design. Hellmodus und semantische Warn-/Fehler-/Erfolgsfarben bleiben
 erhalten; sonst setzen Weiß und Silber wenige Akzente.
+
+
+**203-mm-Adapterhinweis (APP-ADAPTER-203-001, 13.10.2026).** Erforderliche
+Bremsadapter bleiben automatisch im Aufbau, Preis und Gewicht enthalten.
+Die Einbaumeldung und der dauerhafte Hinweis unter der Bremse nennen
+jetzt auch Scheibengröße, Position und Montageort, etwa für 203 mm vorn
+zwischen Gabel und Bremssattel. Die Prüfung zeigt denselben Montagehinweis.
+Eine native PM203-Aufnahme bekommt bei 203 mm keinen unnötigen Adapter.

@@ -202,3 +202,19 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - Eigene Live-Chromium-Prüfung: Hell/Dunkel × 390/1280 px, Hauptansicht/Fahrwerk/Startansicht. Grund-, Karten- und Innenflächen tatsächlich #000000 dunkel; helles Weiß, silberne Akzente und statischer weißer Schein an Ring/Logo bestätigt. Startansicht ebenfalls schwarz. Keine JS-Fehler oder Überläufe, Daten nach Designwechsel erhalten. Live-Screenshot visuell geprüft.
 - Live-Kontrast: 0 Unterschreitungen in 1.056 App-Texten und 882 Startseiten-Texten.
 - Belege: `belege/APP-FULLBLACK-001/live-palette.json`, `live-kontrast.txt`, `live-start-kontrast.txt`, `live-*.png`, `veroeffentlichung.txt`. Grenzen: Chromium, kein echtes Safari/iPhone. Keine offenen Schritte.
+
+
+---
+
+## APP-ADAPTER-203-001 — Automatischer 203-mm-Adapter mit Montagehinweis
+- Autor: Codex · Empfänger: Liam · Datum: 13.10.2026, 14:15 Uhr (Europe/Berlin).
+- Status: PRÜFBEREIT. Nach dem veröffentlichten Design-Update durchgeführt; Veröffentlichung im fortgeführten Auftrag freigegeben.
+- Basis: aktueller main `13a28d0`, Full-Black-Live-Version `20261013-1403`.
+- Vorhandene automatische Adapterberechnung überprüft und erhalten. Sie berücksichtigt für PM180/203 den passenden Adapter (etwa Shimano SM-MA-F203P/PM), inklusive Preis und Gewicht.
+- Änderung: Einbaumeldung, dauerhafte Zeile unter der Bremse und Prüfung zeigen jetzt einen ausdrücklichen Montagehinweis mit Scheibengröße, Position und Montageort: „Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel.“ Englisch gleichwertig. Distanzscheiben erhalten passende Bezeichnung. Keine Behauptung, die App habe am echten Rad bereits montiert.
+- Bedarfsregel erhalten: native PM203 mit 203-mm-Scheibe bekommt keinen zusätzlichen Frontadapter und keinen irreführenden Montagehinweis. Bei Rückwechsel auf 180 mm entfällt der Adapter weiterhin. Keine Änderung an Preis-, Gewicht-, Score- oder Kompatibilitätsregeln, Speicherformat oder Full-Black-Design.
+- Vorhandenen BEVEL-Regressionstest erweitert: Montagehinweis bei Einbau/unter Bremse/in Prüfung/Englisch, automatisch berücksichtigter Artikel mit Preis/Gewicht, kein unnötiger Adapter bei nativer PM203-Aufnahme; vorhandene Wegfall-/Warnfarbenprüfungen erhalten.
+- `npm test`: alle bestanden — Syntax 2 Skripte, Kompatibilität 200/200, Setup/Speicher 16/16, Wege 36/36, Sprache 0 Funde in 8.752 Texten, BEVEL 28/28, Preis-Skript 0 Fehler.
+- Zusätzliche Chromium-Prüfung: 12/12 Fälle (Hell/Dunkel × DE/EN × 320/390/1280 px). Einbaumeldung und Hinweis korrekt, nach Neuladen erhalten, automatischer Adapter genau einmal mit Preis/Gewicht, kein Textüberlauf oder JS-Fehler. Dunkler Screenshot visuell geprüft.
+- Belege: `belege/APP-ADAPTER-203-001/`. Grenzen: kein echtes Safari/iPhone.
+- Veröffentlichung: noch NEIN zum Zeitpunkt des Eintrags. Jetzt geprüften Stand auf main übertragen, bestehende Action automatisch stempeln lassen und öffentliche App nachprüfen. Abschlussnachtrag folgt.

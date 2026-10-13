@@ -206,11 +206,21 @@ const PRUEFUNGEN = [
       build.bremsen = v.id; sprache = 'en'; zeichne();
       const en = (document.querySelector('#aufbau .slot[data-slot="bremsen"] .slot-ad') || {textContent:''}).textContent.replace(/\s+/g, ' ');
       sprache = 'de'; zeichne();
-      return {meldung, gabelKlasse:gabel ? gabel.className : '', unter, farbe, warnFarbe, warnFund, adFund, kopf, wegMeldung, adNach, en}; });
+      const mitAdapter = bewerte(build).adapter.filter(a => a.art === 'bremse' && a.wo === 'gabel');
+      const preisGewicht = mitAdapter.length === 1 && mitAdapter[0].p > 0 && mitAdapter[0].g > 0;
+      /* Native PM203-Aufnahme braucht bei 203 mm keinen zusaetzlichen Adapter. */
+      build.gabel = 'g-fox40'; zeichne();
+      const ohneAdapter = bewerte(build).adapter.filter(a => a.art === 'bremse' && a.wo === 'gabel').length;
+      const ohneHinweis = !(document.querySelector('#aufbau .slot[data-slot="bremsen"] .slot-ad') || {textContent:''}).textContent.includes('Montagehinweis');
+      return {meldung, gabelKlasse:gabel ? gabel.className : '', unter, farbe, warnFarbe, warnFund, adFund, kopf, wegMeldung, adNach, en, preisGewicht, ohneAdapter, ohneHinweis}; });
     const ok = /Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P\/PM/.test(r.meldung) && !/warnung|fehler/.test(r.gabelKlasse) && !!r.farbe && r.farbe !== r.warnFarbe
       && /Braucht Adapter vorn: Shimano SM-MA-F203P\/PM — automatisch dabei/.test(r.unter) && !r.warnFund && /Automatisch dabei/.test(r.adFund) && /automatisch dabei/.test(r.kopf)
       && /Adapter vorn entfällt: Shimano SM-MA-F203P\/PM/.test(r.wegMeldung) && r.adNach === 0 && /Needs an adapter \(front\): Shimano SM-MA-F203P\/PM — included automatically/.test(r.en);
-    return {ok, info:r}; }],
+    const montageOk = /Montagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel/.test(r.meldung)
+      && /Montagehinweis: Für die 203-mm-Scheibe vorn/.test(r.unter) && /Montagehinweis/.test(r.adFund)
+      && /Fitting note: the 203 mm rotor \(front\) needs the adapter between the fork and brake caliper/.test(r.en)
+      && r.preisGewicht && r.ohneAdapter === 0 && r.ohneHinweis;
+    return {ok:ok && montageOk, info:r}; }],
   /* BEVEL-003 Abschnitt 5: die im Audit angebotene 220/203 ausdruecklich -- vorn belegt (Pike ab 2023: 220 mm),
      hinten am Stumpjumper Alloy nicht belegt: "Noch zu pruefen" mit Frage, keine bestaetigte Passform */
   ['Adapter konkret und Freigabe 220/203: Artikel je Position, unbelegte Freigabe wird erfragt statt bestaetigt', async () => {

@@ -15636,12 +15636,23 @@ const adGuideTitel = g => AD_GUIDE[g] ? tx(AD_GUIDE[g][0], AD_GUIDE[g][1]) : "";
    dazu oder faellt er weg, sagt die Meldung es mit Namen; unter dem Teil, das
    ihn verlangt (etwa der Bremse), steht er weiter -- als Hinweis, nicht als Warnung. */
 const adName = a => a.artikel ? a.artikel.n : a.n;
+/* APP-ADAPTER-203-001: automatisch eingeplant heisst nicht physisch montiert.
+   Die Scheibengroesse und der Montageort bleiben deshalb sichtbar. */
+function adMontageHinweis(a){
+  if(!a || a.art !== "bremse" || !a.grafik || !a.grafik.scheibe) return "";
+  const mm = a.grafik.scheibe, ort = a.wo === "gabel" ? tx("Gabel", "fork") : tx("Rahmen", "frame");
+  const shims = /Distanzscheiben|shims|QM1\.5/i.test(a.n || "");
+  const teil = shims ? tx("die Distanzscheiben", "the shims") : tx("der Adapter", "the adapter");
+  return tx(`Montagehinweis: Für die ${mm}-mm-Scheibe${a.pos ? " " + a.pos : ""} ${shims ? "gehören" : "gehört"} ${teil} zwischen ${ort} und Bremssattel.`,
+    `Fitting note: the ${mm} mm rotor${a.pos ? " (" + a.pos + ")" : ""} needs ${teil} between the ${ort} and brake caliper.`);
+}
+
 function adapterMeldung(vor, nach){
   const s = new Set((vor || []).map(adSchl)), n = new Set((nach || []).map(adSchl));
   const dazu = (nach || []).filter(a => !s.has(adSchl(a))), weg = (vor || []).filter(a => !n.has(adSchl(a)));
   const pos = a => a.pos ? " " + a.pos : "", posEn = a => a.pos ? ` (${a.pos})` : "";
   const t = [];
-  for(const a of dazu) t.push(tx(`Adapter${pos(a)} automatisch dazugenommen: ${adName(a)} (${eur(a.p || 0)}).`, `Adapter added automatically${posEn(a)}: ${adName(a)} (${eur(a.p || 0)}).`));
+  for(const a of dazu) t.push(tx(`Adapter${pos(a)} automatisch dazugenommen: ${adName(a)} (${eur(a.p || 0)}).`, `Adapter added automatically${posEn(a)}: ${adName(a)} (${eur(a.p || 0)}).`) + (adMontageHinweis(a) ? " " + adMontageHinweis(a) : ""));
   for(const a of weg) t.push(tx(`Adapter${pos(a)} entfällt: ${adName(a)}.`, `Adapter no longer needed${posEn(a)}: ${adName(a)}.`));
   return t.join(" ");
 }
@@ -15649,7 +15660,7 @@ function adapterMeldung(vor, nach){
 function adAmTeil(funde, slotKey){
   return funde.filter(f => f.ad && f.ad.wo !== slotKey && (f.slots || []).indexOf(slotKey) >= 0).map(f =>
     `<span class="slot-ad">${ic(AD_SVG, 13)}<span>${tx(`Braucht Adapter${f.ad.pos ? " " + esc(f.ad.pos) : ""}: <b>${esc(adName(f.ad))}</b> — automatisch dabei`,
-      `Needs an adapter${f.ad.pos ? " (" + esc(f.ad.pos) + ")" : ""}: <b>${esc(adName(f.ad))}</b> — included automatically`)}</span></span>`).join("");
+      `Needs an adapter${f.ad.pos ? " (" + esc(f.ad.pos) + ")" : ""}: <b>${esc(adName(f.ad))}</b> — included automatically`)}${adMontageHinweis(f.ad) ? `<br>${esc(adMontageHinweis(f.ad))}` : ""}</span></span>`).join("");
 }
 function adZeile(a){
   const art = tx("Adapter · automatisch dabei", "Adapter · included automatically");
@@ -17473,7 +17484,7 @@ function zeichne(){
   const sortiert = r.funde.slice().sort((a,b) => (a.ad ? 3 : rang[a.level]) - (b.ad ? 3 : rang[b.level]));
   const adFund = f => `<div class="find ad">
         <div class="find-t"><span class="pill">${tx("Automatisch dabei", "Included automatically")}</span>${esc(tx(`Adapter${f.ad.pos ? " " + f.ad.pos : ""}: ${f.ad.kurz || adName(f.ad)}`, `Adapter${f.ad.pos ? " (" + f.ad.pos + ")" : ""}: ${f.ad.kurz || adName(f.ad)}`))}</div>
-        <p>${tx("Nötig, weil", "Needed because")} ${adGrundKurz(f.ad)} ${tx("Er steckt schon in deinem Aufbau — du musst nichts tun.", "It's already in your build — nothing for you to do.")}</p>${adZeile(f.ad)}
+        <p>${tx("Nötig, weil", "Needed because")} ${adGrundKurz(f.ad)} ${adMontageHinweis(f.ad) ? esc(adMontageHinweis(f.ad)) : tx("Er steckt schon in deinem Aufbau — du musst nichts tun.", "It's already in your build — nothing for you to do.")}</p>${adZeile(f.ad)}
       </div>`;
   $("findings").innerHTML = !sortiert.length && !r.teile
     ? `<div class="fit-leer"><span>${tx("<b>Noch keine Teile im Aufbau.</b> Wähle zuerst einen Rahmen — danach prüft die App jedes Teil, das dazukommt.", "<b>No parts in the build yet.</b> Choose a frame first — after that the app checks every part you add.")}</span></div>`
