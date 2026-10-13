@@ -163,3 +163,14 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - Kontrast: 0 Unterschreitungen in 1.056 sichtbaren Texten, Palette-/Ring-/Button-Kontraste ebenfalls bestanden. PWA-Manifest als JSON geprüft.
 - Belege: `belege/APP-OLED-001/`. Grenzen: Chromium, kein echtes Safari/iPhone.
 - Veröffentlichung: noch NEIN. Jetzt geprüften Stand auf main übertragen und bestehenden Workflow abwarten; Live-Nachtrag folgt.
+
+
+### APP-OLED-001 — Abschluss: OLED-Schwarz live
+- Autor: Codex · Empfänger: Liam · Datum: 13.10.2026, 13:52 Uhr (Europe/Berlin).
+- Status: ERLEDIGT. Veröffentlichung: JA, über bestehenden Workflow.
+- Farb-Commit `b2de7dedbf396d8169599099cf58dc3ebf19c05c`, automatisch gestempelter Commit `e1a7662`. Live-Version **`20261013-1350`**. Kein manueller Stempel.
+- Workflow erfolgreich: https://github.com/trostliam-hub/dreambuild/actions/runs/38392586267; alle Tests bestanden.
+- Öffentliche App https://trostliam-hub.github.io/dreambuild/ selbst abgerufen, byteweise identisch mit gestempeltem Checkout. Öffentliches PWA-Manifest selbst geprüft: background_color und theme_color beide `#000000`.
+- Eigene Live-Chromium-Prüfung: Hell/Dunkel × 390/1280 px. html und body tatsächlich schwarz (rgb(0,0,0)) im Dunkelmodus, Statusleistenfarbe #000000 auch nach Hin-/Zurückschalten, warmer Hellmodus erhalten. Keine JS-Fehler, kein Überlauf, Profil-/Plan-/Fahrwerkdaten erhalten. Dunkler Screenshot visuell geprüft.
+- Live-Kontrastprüfung: 0 Unterschreitungen in 1.056 sichtbaren Texten.
+- Belege: `belege/APP-OLED-001/live-palette.json`, `live-kontrast.txt`, `live-*.png`, `veroeffentlichung.txt`. Grenzen: Chromium, kein echtes Safari/iPhone. Keine offenen Schritte.

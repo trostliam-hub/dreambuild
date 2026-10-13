@@ -1,0 +1,813 @@
+pruefen	Set up job	﻿2026-10-13T11:46:56.5143624Z Current runner version: '2.337.0'
+pruefen	Set up job	2026-10-13T11:46:56.5171148Z ##[group]Runner Image Provisioner
+pruefen	Set up job	2026-10-13T11:46:56.5172047Z Hosted Compute Agent
+pruefen	Set up job	2026-10-13T11:46:56.5172715Z Version: 20261002.596
+pruefen	Set up job	2026-10-13T11:46:56.5173428Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+pruefen	Set up job	2026-10-13T11:46:56.5174165Z Build Date: 2026-10-02T22:28:27Z
+pruefen	Set up job	2026-10-13T11:46:56.5174840Z Worker ID: {d4d99ca6-42b4-4f85-81a8-105511388d22}
+pruefen	Set up job	2026-10-13T11:46:56.5175627Z Region: eastus
+pruefen	Set up job	2026-10-13T11:46:56.5176296Z Cloud: Azure
+pruefen	Set up job	2026-10-13T11:46:56.5177092Z ##[endgroup]
+pruefen	Set up job	2026-10-13T11:46:56.5178662Z ##[group]Operating System
+pruefen	Set up job	2026-10-13T11:46:56.5179326Z Ubuntu
+pruefen	Set up job	2026-10-13T11:46:56.5179951Z 24.04.5
+pruefen	Set up job	2026-10-13T11:46:56.5180506Z LTS
+pruefen	Set up job	2026-10-13T11:46:56.5181060Z ##[endgroup]
+pruefen	Set up job	2026-10-13T11:46:56.5181637Z ##[group]Runner Image
+pruefen	Set up job	2026-10-13T11:46:56.5182247Z Image: ubuntu-24.04
+pruefen	Set up job	2026-10-13T11:46:56.5183328Z Version: 20261004.327.1
+pruefen	Set up job	2026-10-13T11:46:56.5184529Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+pruefen	Set up job	2026-10-13T11:46:56.5186365Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+pruefen	Set up job	2026-10-13T11:46:56.5187570Z ##[endgroup]
+pruefen	Set up job	2026-10-13T11:46:56.5188882Z ##[group]GITHUB_TOKEN Permissions
+pruefen	Set up job	2026-10-13T11:46:56.5191315Z Contents: write
+pruefen	Set up job	2026-10-13T11:46:56.5191992Z Metadata: read
+pruefen	Set up job	2026-10-13T11:46:56.5192563Z Pages: write
+pruefen	Set up job	2026-10-13T11:46:56.5193165Z ##[endgroup]
+pruefen	Set up job	2026-10-13T11:46:56.5195788Z Secret source: Actions
+pruefen	Set up job	2026-10-13T11:46:56.5197073Z Cache mode: write
+pruefen	Set up job	2026-10-13T11:46:56.5198331Z Prepare workflow directory
+pruefen	Set up job	2026-10-13T11:46:56.5536657Z Prepare all required actions
+pruefen	Set up job	2026-10-13T11:46:56.5585258Z Getting action download info
+pruefen	Set up job	2026-10-13T11:46:56.7904120Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+pruefen	Set up job	2026-10-13T11:46:56.8880546Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+pruefen	Set up job	2026-10-13T11:46:56.9763029Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+pruefen	Set up job	2026-10-13T11:46:57.1962579Z Complete job name: pruefen
+pruefen	Run actions/checkout@v4	﻿2026-10-13T11:46:57.2777360Z ##[group]Run actions/checkout@v4
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2778357Z with:
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2778838Z   repository: trostliam-hub/dreambuild
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2782599Z   token: ***
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2783041Z   ssh-strict: true
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2783479Z   ssh-user: git
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2783922Z   persist-credentials: true
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2784429Z   clean: true
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2784876Z   sparse-checkout-cone-mode: true
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2785407Z   fetch-depth: 1
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2785847Z   fetch-tags: false
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2786299Z   show-progress: true
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2786750Z   lfs: false
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2787357Z   submodules: false
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2787796Z   set-safe-directory: true
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2788300Z   allow-unsafe-pr-checkout: false
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.2789105Z ##[endgroup]
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.3865867Z Syncing repository: trostliam-hub/dreambuild
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.3869939Z ##[group]Getting Git version info
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.3871199Z Working directory is '/home/runner/work/dreambuild/dreambuild'
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.3872961Z [command]/usr/bin/git version
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.3966033Z git version 2.55.0
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.3998799Z ##[endgroup]
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4007419Z Temporarily overriding HOME='/home/runner/work/_temp/45736916-7e5f-4b6a-9f4f-ce195bed78f7' before making global git config changes
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4009710Z Adding repository directory to the temporary git global config as a safe directory
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4011654Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/dreambuild/dreambuild
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4072364Z Deleting the contents of '/home/runner/work/dreambuild/dreambuild'
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4077700Z ##[group]Initializing the repository
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4082279Z [command]/usr/bin/git init /home/runner/work/dreambuild/dreambuild
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4222527Z hint: Using 'master' as the name for the initial branch. This default branch name
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4227358Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4228966Z hint: to use in all of your new repositories, which will suppress this warning,
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4230281Z hint: call:
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4231371Z hint:
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4232188Z hint: 	git config --global init.defaultBranch <name>
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4233171Z hint:
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4234083Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4235785Z hint: 'development'. The just-created branch can be renamed via this command:
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4237218Z hint:
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4237883Z hint: 	git branch -m <name>
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4238636Z hint:
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4239635Z hint: Disable this message with "git config set advice.defaultBranchName false"
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4241627Z Initialized empty Git repository in /home/runner/work/dreambuild/dreambuild/.git/
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4245343Z [command]/usr/bin/git remote add origin https://github.com/trostliam-hub/dreambuild
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4296315Z ##[endgroup]
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4297823Z ##[group]Disabling automatic garbage collection
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4301508Z [command]/usr/bin/git config --local gc.auto 0
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4335415Z ##[endgroup]
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4336242Z ##[group]Setting up auth
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4345090Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4383095Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4820599Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.4872291Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.5115229Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.5157006Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.5416186Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.5463776Z ##[endgroup]
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.5465524Z ##[group]Fetching the repository
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:57.5477874Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b2de7dedbf396d8169599099cf58dc3ebf19c05c:refs/remotes/origin/main
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:59.8960089Z From https://github.com/trostliam-hub/dreambuild
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:59.8962842Z  * [new ref]         b2de7dedbf396d8169599099cf58dc3ebf19c05c -> origin/main
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:59.8968229Z ##[endgroup]
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:59.8971247Z ##[group]Determining the checkout info
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:59.8974062Z ##[endgroup]
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:59.8975688Z [command]/usr/bin/git sparse-checkout disable
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:59.9041115Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:59.9115123Z ##[group]Checking out the ref
+pruefen	Run actions/checkout@v4	2026-10-13T11:46:59.9128442Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+pruefen	Run actions/checkout@v4	2026-10-13T11:47:00.1667527Z Switched to a new branch 'main'
+pruefen	Run actions/checkout@v4	2026-10-13T11:47:00.1672648Z branch 'main' set up to track 'origin/main'.
+pruefen	Run actions/checkout@v4	2026-10-13T11:47:00.1688470Z ##[endgroup]
+pruefen	Run actions/checkout@v4	2026-10-13T11:47:00.1739002Z [command]/usr/bin/git log -1 --format=%H
+pruefen	Run actions/checkout@v4	2026-10-13T11:47:00.1767319Z b2de7dedbf396d8169599099cf58dc3ebf19c05c
+pruefen	Run actions/setup-node@v4	﻿2026-10-13T11:47:00.2157971Z ##[group]Run actions/setup-node@v4
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.2159294Z with:
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.2160235Z   node-version: 22
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.2161228Z   cache: npm
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.2162182Z   always-auth: false
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.2163470Z   check-latest: false
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.2172265Z   token: ***
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.2173250Z ##[endgroup]
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.3733787Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.3739644Z (node:2316) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.3744299Z (Use `node --trace-deprecation ...` to show where the warning was created)
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.3748622Z ##[group]Environment details
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.8000742Z node: v22.23.3
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.8001470Z npm: 10.9.9
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.8001954Z yarn: 1.22.22
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.8002971Z ##[endgroup]
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.8043344Z [command]/opt/hostedtoolcache/node/22.23.3/x64/bin/npm config get cache
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:00.9178798Z /home/runner/.npm
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:01.0127265Z Cache hit for: node-cache-Linux-x64-npm-a70038e58ad3b0a14b95dadfd9db8791efaae70f738465b230bc68beb3f818ad
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:01.0245561Z (node:2316) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:01.1510990Z Received 2838710 of 2838710 (100.0%), 26.5 MBs/sec
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:01.1512253Z Cache Size: ~3 MB (2838710 B)
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:01.1544880Z [command]/usr/bin/tar -xf /home/runner/work/_temp/0d164dd8-adea-45a0-b30d-a904be53049e/cache.tzst -P -C /home/runner/work/dreambuild/dreambuild --use-compress-program unzstd
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:01.1669108Z Cache restored successfully
+pruefen	Run actions/setup-node@v4	2026-10-13T11:47:01.1674668Z Cache restored from key: node-cache-Linux-x64-npm-a70038e58ad3b0a14b95dadfd9db8791efaae70f738465b230bc68beb3f818ad
+pruefen	Abhaengigkeiten (feste Versionen aus package-lock.json)	﻿2026-10-13T11:47:01.1833422Z ##[group]Run npm ci --no-audit --no-fund
+pruefen	Abhaengigkeiten (feste Versionen aus package-lock.json)	2026-10-13T11:47:01.1834000Z [36;1mnpm ci --no-audit --no-fund[0m
+pruefen	Abhaengigkeiten (feste Versionen aus package-lock.json)	2026-10-13T11:47:01.2133409Z shell: /usr/bin/bash -e {0}
+pruefen	Abhaengigkeiten (feste Versionen aus package-lock.json)	2026-10-13T11:47:01.2133957Z ##[endgroup]
+pruefen	Abhaengigkeiten (feste Versionen aus package-lock.json)	2026-10-13T11:47:02.1663296Z 
+pruefen	Abhaengigkeiten (feste Versionen aus package-lock.json)	2026-10-13T11:47:02.1672180Z added 2 packages in 888ms
+pruefen	Browser fuer die Tests	﻿2026-10-13T11:47:02.2112920Z ##[group]Run npx playwright install --with-deps chromium
+pruefen	Browser fuer die Tests	2026-10-13T11:47:02.2113433Z [36;1mnpx playwright install --with-deps chromium[0m
+pruefen	Browser fuer die Tests	2026-10-13T11:47:02.2181585Z shell: /usr/bin/bash -e {0}
+pruefen	Browser fuer die Tests	2026-10-13T11:47:02.2181935Z ##[endgroup]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.0701907Z Installing dependencies...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.0773724Z Switching to root user to install dependencies...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.1590804Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.1841265Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.1941431Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.1959128Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.2022600Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.2040224Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.2690343Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [513 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.2872507Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.3 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.2898168Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [640 B]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.2920192Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [571 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.3866458Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1397 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.3968126Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [308 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.3977279Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.4058485Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.4108616Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.4216257Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.4218667Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.4235128Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.0 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.4470790Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.4984694Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1144 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.5468320Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [230 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.5492983Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1221 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.5553977Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.5578238Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.5665618Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.5691003Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:03.5713215Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:06.7123919Z Fetched 12.5 MB in 1s (9617 kB/s)
+pruefen	Browser fuer die Tests	2026-10-13T11:47:07.6684095Z Reading package lists...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:07.6920024Z Reading package lists...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:07.9121318Z Building dependency tree...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:07.9129352Z Reading state information...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0790272Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0791505Z libasound2t64 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0792611Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0794531Z libatk-bridge2.0-0t64 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0795914Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0796625Z libatk1.0-0t64 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0797744Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0798786Z libatspi2.0-0t64 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0799849Z libcairo2 is already the newest version (1.18.0-3build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0800636Z libcairo2 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0801510Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0802367Z libcups2t64 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0803209Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0803751Z libdbus-1-3 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0804323Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0804869Z libdrm2 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0805416Z libgbm1 is already the newest version (25.2.8-0ubuntu0.24.04.4).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0805942Z libgbm1 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0806484Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.9).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0807197Z libglib2.0-0t64 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0807754Z libnspr4 is already the newest version (2:4.35-1.1build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0808293Z libnspr4 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0808810Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0809306Z libnss3 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0809856Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0810468Z libpango-1.0-0 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0810885Z libxcb1 is already the newest version (1.15-1ubuntu2).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0811262Z libxcb1 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0811910Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0812351Z libxcomposite1 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0812772Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0813167Z libxdamage1 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0813559Z libxext6 is already the newest version (2:1.3.4-1build2).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0813935Z libxext6 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0814328Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0814719Z libxfixes3 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0815128Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0815526Z libxkbcommon0 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0815929Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0816304Z libxrandr2 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0816700Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0817416Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0818036Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0818462Z libfontconfig1 set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0818876Z fonts-liberation is already the newest version (1:2.1.5-3).
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0819279Z fonts-liberation set to manually installed.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0819684Z The following additional packages will be installed:
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0820108Z   libx11-data libx11-xcb1 xfonts-encodings xfonts-utils
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0820469Z Recommended packages:
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.0820749Z   fonts-ipafont-mincho fonts-tlwg-loma
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1067366Z The following NEW packages will be installed:
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1068384Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1079827Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1080456Z   xfonts-utils
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1087937Z The following packages will be upgraded:
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1095846Z   libfreetype6 libx11-6 libx11-data libx11-xcb1
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1269437Z 4 upgraded, 9 newly installed, 0 to remove and 25 not upgraded.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1270265Z Need to get 22.3 MB of archives.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1271082Z After this operation, 79.6 MB of additional disk space will be used.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.1271965Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.2270404Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.3996147Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 libx11-6 amd64 2:1.8.7-1ubuntu0.1 [653 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.4989721Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 libx11-xcb1 amd64 2:1.8.7-1ubuntu0.1 [7796 B]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.5901616Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 libx11-data all 2:1.8.7-1ubuntu0.1 [116 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.6844088Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:08.9378714Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:09.0311432Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:09.2068477Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:09.5043166Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libfreetype6 amd64 2.13.2+dfsg-1ubuntu0.2 [403 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:09.5991104Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:09.6958291Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:09.7801535Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:09.8714755Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.1577184Z Fetched 22.3 MB in 2s (12.6 MB/s)
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.1812387Z Selecting previously unselected package fonts-ipafont-gothic.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2115711Z (Reading database ... 
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2116544Z (Reading database ... 5%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2117645Z (Reading database ... 10%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2118309Z (Reading database ... 15%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2118758Z (Reading database ... 20%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2119219Z (Reading database ... 25%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2119685Z (Reading database ... 30%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2120046Z (Reading database ... 35%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2120325Z (Reading database ... 40%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2120591Z (Reading database ... 45%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2120882Z (Reading database ... 50%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.2162380Z (Reading database ... 55%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.3283425Z (Reading database ... 60%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.5338288Z (Reading database ... 65%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.7241265Z (Reading database ... 70%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:10.9255872Z (Reading database ... 75%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.0674524Z (Reading database ... 80%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.2744932Z (Reading database ... 85%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.4829528Z (Reading database ... 90%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.6341087Z (Reading database ... 95%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.6341880Z (Reading database ... 100%
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.6342901Z (Reading database ... 203191 files and directories currently installed.)
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.6387865Z Preparing to unpack .../00-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.6484561Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.9029445Z Preparing to unpack .../01-libx11-6_2%3a1.8.7-1ubuntu0.1_amd64.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.9062213Z Unpacking libx11-6:amd64 (2:1.8.7-1ubuntu0.1) over (2:1.8.7-1build1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.9525538Z Preparing to unpack .../02-libx11-xcb1_2%3a1.8.7-1ubuntu0.1_amd64.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.9548115Z Unpacking libx11-xcb1:amd64 (2:1.8.7-1ubuntu0.1) over (2:1.8.7-1build1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.9920339Z Preparing to unpack .../03-libx11-data_2%3a1.8.7-1ubuntu0.1_all.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:11.9941119Z Unpacking libx11-data (2:1.8.7-1ubuntu0.1) over (2:1.8.7-1build1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.0936314Z Selecting previously unselected package fonts-freefont-ttf.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.1073003Z Preparing to unpack .../04-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.1081279Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.1959743Z Selecting previously unselected package fonts-tlwg-loma-otf.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.2093266Z Preparing to unpack .../05-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.2101169Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.2325695Z Selecting previously unselected package fonts-unifont.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.2458468Z Preparing to unpack .../06-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.2466483Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.3570812Z Selecting previously unselected package fonts-wqy-zenhei.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.3703333Z Preparing to unpack .../07-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.3806254Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.8734533Z Preparing to unpack .../08-libfreetype6_2.13.2+dfsg-1ubuntu0.2_amd64.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.8757470Z Unpacking libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) over (2.13.2+dfsg-1ubuntu0.1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.9013516Z Selecting previously unselected package xfonts-encodings.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.9147559Z Preparing to unpack .../09-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.9162785Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.9457494Z Selecting previously unselected package xfonts-utils.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.9588546Z Preparing to unpack .../10-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.9595730Z Unpacking xfonts-utils (1:7.7+6build3) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:12.9962121Z Selecting previously unselected package xfonts-cyrillic.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.0091377Z Preparing to unpack .../11-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.0099444Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.0454930Z Selecting previously unselected package xfonts-scalable.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.0587190Z Preparing to unpack .../12-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.0595512Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1063165Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1185903Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1202683Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1221326Z Setting up libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.2) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1239989Z Setting up libx11-data (2:1.8.7-1ubuntu0.1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1258315Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1276126Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1345981Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1394124Z Setting up libx11-6:amd64 (2:1.8.7-1ubuntu0.1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1413955Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1432503Z Setting up libx11-xcb1:amd64 (2:1.8.7-1ubuntu0.1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1450511Z Setting up xfonts-utils (1:7.7+6build3) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1493615Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.1786622Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.2064833Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.2407748Z Processing triggers for man-db (2.12.0-4build2) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.2429407Z Not building database; man-db/auto-update is not 'true'.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.2443263Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.9799820Z 
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.9800692Z Running kernel seems to be up-to-date.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.9801172Z 
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.9801404Z Restarting services...
+pruefen	Browser fuer die Tests	2026-10-13T11:47:13.9880069Z  systemctl restart php8.3-fpm.service
+pruefen	Browser fuer die Tests	2026-10-13T11:47:14.0981298Z 
+pruefen	Browser fuer die Tests	2026-10-13T11:47:14.0982662Z No containers need to be restarted.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:14.0983069Z 
+pruefen	Browser fuer die Tests	2026-10-13T11:47:14.0983515Z No user sessions are running outdated binaries.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:14.0984035Z 
+pruefen	Browser fuer die Tests	2026-10-13T11:47:14.0984656Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.1373547Z Downloading Chromium 141.0.7390.37 (playwright build v1194) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.2859848Z |                                                                                |   0% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.4121568Z |■■■■■■■■                                                                        |  10% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.5031252Z |■■■■■■■■■■■■■■■■                                                                |  20% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.5803157Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.6495567Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.7225658Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.7910263Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.8586184Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.9214854Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:15.9888000Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:16.0548798Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 173.9 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.5876620Z Chromium 141.0.7390.37 (playwright build v1194) downloaded to /home/runner/.cache/ms-playwright/chromium-1194
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.5881153Z Downloading FFMPEG playwright build v1011 from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7245791Z |                                                                                |   0% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7291709Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7335330Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7362176Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7382489Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7403036Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7426210Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7445121Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7464487Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7482005Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.7497347Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.8093807Z FFMPEG playwright build v1011 downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+pruefen	Browser fuer die Tests	2026-10-13T11:47:19.8098490Z Downloading Chromium Headless Shell 141.0.7390.37 (playwright build v1194) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip
+pruefen	Browser fuer die Tests	2026-10-13T11:47:20.9511115Z |                                                                                |   0% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.0421103Z |■■■■■■■■                                                                        |  10% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.1079838Z |■■■■■■■■■■■■■■■■                                                                |  20% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.1573846Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.2161807Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.2642302Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.3139678Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.3542211Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.3904103Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.4338738Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:21.4725183Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 104.3 MiB
+pruefen	Browser fuer die Tests	2026-10-13T11:47:23.3280505Z Chromium Headless Shell 141.0.7390.37 (playwright build v1194) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1194
+pruefen	Tests	﻿2026-10-13T11:47:23.4235275Z ##[group]Run npm test
+pruefen	Tests	2026-10-13T11:47:23.4235580Z [36;1mnpm test[0m
+pruefen	Tests	2026-10-13T11:47:23.4299263Z shell: /usr/bin/bash -e {0}
+pruefen	Tests	2026-10-13T11:47:23.4299536Z env:
+pruefen	Tests	2026-10-13T11:47:23.4299740Z   CRANKSCORE_TEST_FEHLER: 
+pruefen	Tests	2026-10-13T11:47:23.4299980Z ##[endgroup]
+pruefen	Tests	2026-10-13T11:47:23.5416291Z 
+pruefen	Tests	2026-10-13T11:47:23.5416988Z > test
+pruefen	Tests	2026-10-13T11:47:23.5417513Z > node tools/test.mjs
+pruefen	Tests	2026-10-13T11:47:23.5417723Z 
+pruefen	Tests	2026-10-13T11:47:23.7287878Z OK   Syntax index.html — 2 Skripte
+pruefen	Tests	2026-10-13T11:47:25.5220058Z OK   Kompatibilität — 200 von 200 bestanden, erwartet 200, Exit 0
+pruefen	Tests	2026-10-13T11:47:28.3040019Z OK   Setup und Speicher — 16 von 16 bestanden, Exit 0
+pruefen	Tests	2026-10-13T11:48:03.0381389Z OK   Ein Weg je Aufgabe — 36 von 36 bestanden, Exit 0
+pruefen	Tests	2026-10-13T11:49:40.5460502Z OK   Sprache Deutsch/Englisch — 0 Funde in 8752 Texten, Exit 0
+pruefen	Tests	2026-10-13T11:49:58.0921405Z OK   Teile finden, Adapter, Wunschliste (BEVEL-002) — 28 von 28 bestanden, Exit 0
+pruefen	Tests	2026-10-13T11:49:58.2469336Z OK   Preis-Skript offline — 0 Fehler, Exit 0
+pruefen	Tests	2026-10-13T11:49:58.2474030Z 
+pruefen	Tests	2026-10-13T11:49:58.2474926Z ALLE TESTS BESTANDEN · Revision b2de7de · 155 s · Bericht: test-ergebnis.json
+pruefen	Testbericht aufheben	﻿2026-10-13T11:49:58.2643863Z ##[group]Run actions/upload-artifact@v4
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.2644287Z with:
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.2644486Z   name: test-ergebnis
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.2644719Z   path: test-ergebnis.json
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.2644962Z   if-no-files-found: warn
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.2645201Z   compression-level: 6
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.2645419Z   overwrite: false
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.2645640Z   include-hidden-files: false
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.2645878Z ##[endgroup]
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.4437863Z (node:3606) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.4438823Z (Use `node --trace-deprecation ...` to show where the warning was created)
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.4485996Z With the provided path, there will be 1 file uploaded
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.4502106Z Artifact name is valid!
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.4510853Z Root directory input is valid!
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.6541830Z Beginning upload of artifact content to blob storage
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.6754146Z (node:3606) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.7164548Z Uploaded bytes 5648
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.7346684Z Finished uploading artifact content to blob storage!
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.7348869Z SHA256 digest of uploaded artifact zip is c4be200f16aa4c3d698f49f61bc579d70f2005af2a61e2f998aa07198386a992
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.7350317Z Finalizing artifact upload
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.9748547Z Artifact test-ergebnis.zip successfully finalized. Artifact ID 11810606476
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.9750499Z Artifact test-ergebnis has been successfully uploaded! Final size is 5648 bytes. Artifact ID is 11810606476
+pruefen	Testbericht aufheben	2026-10-13T11:49:58.9752304Z Artifact download URL: https://github.com/trostliam-hub/dreambuild/actions/runs/38392586267/artifacts/11810606476
+pruefen	Post Run actions/setup-node@v4	﻿2026-10-13T11:49:58.9916594Z Post job cleanup.
+pruefen	Post Run actions/setup-node@v4	2026-10-13T11:49:59.1133567Z (node:3619) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+pruefen	Post Run actions/setup-node@v4	2026-10-13T11:49:59.1134815Z (Use `node --trace-deprecation ...` to show where the warning was created)
+pruefen	Post Run actions/setup-node@v4	2026-10-13T11:49:59.1138149Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-a70038e58ad3b0a14b95dadfd9db8791efaae70f738465b230bc68beb3f818ad, not saving cache.
+pruefen	Post Run actions/checkout@v4	﻿2026-10-13T11:49:59.1279245Z Post job cleanup.
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2235879Z [command]/usr/bin/git version
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2289184Z git version 2.55.0
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2350259Z Temporarily overriding HOME='/home/runner/work/_temp/fcba87d6-6c50-442a-8e26-5d3c419018a6' before making global git config changes
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2351977Z Adding repository directory to the temporary git global config as a safe directory
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2357932Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/dreambuild/dreambuild
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2421420Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2471905Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2791819Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2842794Z http.https://github.com/.extraheader
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2868325Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.2920978Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.3207980Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+pruefen	Post Run actions/checkout@v4	2026-10-13T11:49:59.3248062Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+pruefen	Complete job	﻿2026-10-13T11:49:59.3654035Z Cleaning up orphan processes
+pruefen	Complete job	2026-10-13T11:49:59.3930564Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+stempeln	Set up job	﻿2026-10-13T11:50:05.2962476Z Current runner version: '2.337.0'
+stempeln	Set up job	2026-10-13T11:50:05.2988423Z ##[group]Runner Image Provisioner
+stempeln	Set up job	2026-10-13T11:50:05.2989625Z Hosted Compute Agent
+stempeln	Set up job	2026-10-13T11:50:05.2990364Z Version: 20261002.596
+stempeln	Set up job	2026-10-13T11:50:05.2991018Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+stempeln	Set up job	2026-10-13T11:50:05.2991820Z Build Date: 2026-10-02T22:28:27Z
+stempeln	Set up job	2026-10-13T11:50:05.2992523Z Worker ID: {0c9b0700-e636-453d-9bab-9ad4120673e8}
+stempeln	Set up job	2026-10-13T11:50:05.2993265Z Region: westus
+stempeln	Set up job	2026-10-13T11:50:05.2993862Z Cloud: Azure
+stempeln	Set up job	2026-10-13T11:50:05.2994393Z ##[endgroup]
+stempeln	Set up job	2026-10-13T11:50:05.2996010Z ##[group]Operating System
+stempeln	Set up job	2026-10-13T11:50:05.2996779Z Ubuntu
+stempeln	Set up job	2026-10-13T11:50:05.2997351Z 24.04.5
+stempeln	Set up job	2026-10-13T11:50:05.2997890Z LTS
+stempeln	Set up job	2026-10-13T11:50:05.2998433Z ##[endgroup]
+stempeln	Set up job	2026-10-13T11:50:05.2999393Z ##[group]Runner Image
+stempeln	Set up job	2026-10-13T11:50:05.3000230Z Image: ubuntu-24.04
+stempeln	Set up job	2026-10-13T11:50:05.3000846Z Version: 20261004.327.1
+stempeln	Set up job	2026-10-13T11:50:05.3002311Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+stempeln	Set up job	2026-10-13T11:50:05.3004112Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+stempeln	Set up job	2026-10-13T11:50:05.3005146Z ##[endgroup]
+stempeln	Set up job	2026-10-13T11:50:05.3006353Z ##[group]GITHUB_TOKEN Permissions
+stempeln	Set up job	2026-10-13T11:50:05.3008577Z Contents: write
+stempeln	Set up job	2026-10-13T11:50:05.3009720Z Metadata: read
+stempeln	Set up job	2026-10-13T11:50:05.3010370Z Pages: write
+stempeln	Set up job	2026-10-13T11:50:05.3010996Z ##[endgroup]
+stempeln	Set up job	2026-10-13T11:50:05.3013096Z Secret source: Actions
+stempeln	Set up job	2026-10-13T11:50:05.3014190Z Cache mode: write
+stempeln	Set up job	2026-10-13T11:50:05.3014891Z Prepare workflow directory
+stempeln	Set up job	2026-10-13T11:50:05.3362894Z Prepare all required actions
+stempeln	Set up job	2026-10-13T11:50:05.3411807Z Getting action download info
+stempeln	Set up job	2026-10-13T11:50:05.6888252Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+stempeln	Set up job	2026-10-13T11:50:05.8643306Z Complete job name: stempeln
+stempeln	Run actions/checkout@v4	﻿2026-10-13T11:50:06.0656855Z ##[group]Run actions/checkout@v4
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0657914Z with:
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0658442Z   fetch-depth: 0
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0659158Z   repository: trostliam-hub/dreambuild
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0662993Z   token: ***
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0663441Z   ssh-strict: true
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0663894Z   ssh-user: git
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0664356Z   persist-credentials: true
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0664864Z   clean: true
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0665322Z   sparse-checkout-cone-mode: true
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0665844Z   fetch-tags: false
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0666293Z   show-progress: true
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0666747Z   lfs: false
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0667160Z   submodules: false
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0667611Z   set-safe-directory: true
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0668117Z   allow-unsafe-pr-checkout: false
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.0669155Z ##[endgroup]
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1720037Z Syncing repository: trostliam-hub/dreambuild
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1723074Z ##[group]Getting Git version info
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1724292Z Working directory is '/home/runner/work/dreambuild/dreambuild'
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1726205Z [command]/usr/bin/git version
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1780862Z git version 2.55.0
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1805061Z ##[endgroup]
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1820500Z Temporarily overriding HOME='/home/runner/work/_temp/03a20a6f-08cf-455f-8768-43ba01a48774' before making global git config changes
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1822206Z Adding repository directory to the temporary git global config as a safe directory
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1825938Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/dreambuild/dreambuild
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1893168Z Deleting the contents of '/home/runner/work/dreambuild/dreambuild'
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1896676Z ##[group]Initializing the repository
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.1902697Z [command]/usr/bin/git init /home/runner/work/dreambuild/dreambuild
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2015660Z hint: Using 'master' as the name for the initial branch. This default branch name
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2017711Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2019896Z hint: to use in all of your new repositories, which will suppress this warning,
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2021812Z hint: call:
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2033219Z hint:
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2040858Z hint: 	git config --global init.defaultBranch <name>
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2041993Z hint:
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2043183Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2044889Z hint: 'development'. The just-created branch can be renamed via this command:
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2046295Z hint:
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2047282Z hint: 	git branch -m <name>
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2048441Z hint:
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2051766Z hint: Disable this message with "git config set advice.defaultBranchName false"
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2053764Z Initialized empty Git repository in /home/runner/work/dreambuild/dreambuild/.git/
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2057287Z [command]/usr/bin/git remote add origin https://github.com/trostliam-hub/dreambuild
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2085665Z ##[endgroup]
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2086778Z ##[group]Disabling automatic garbage collection
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2089218Z [command]/usr/bin/git config --local gc.auto 0
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2124301Z ##[endgroup]
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2125348Z ##[group]Setting up auth
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2132070Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2167145Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2556235Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2597782Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2854017Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.2893131Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.3123707Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.3165484Z ##[endgroup]
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.3166489Z ##[group]Fetching the repository
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:06.3176007Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.7915802Z From https://github.com/trostliam-hub/dreambuild
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.7917885Z  * [new branch]      claude/app-onboarding-improvements-3bdjoe -> origin/claude/app-onboarding-improvements-3bdjoe
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.7920422Z  * [new branch]      claude/crankscore-app-changes-nz88ir -> origin/claude/crankscore-app-changes-nz88ir
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.7921956Z  * [new branch]      main       -> origin/main
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.7930121Z [command]/usr/bin/git branch --list --remote origin/main
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.7958972Z   origin/main
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.7967809Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.8000885Z b2de7dedbf396d8169599099cf58dc3ebf19c05c
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.8008991Z ##[endgroup]
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.8011390Z ##[group]Determining the checkout info
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.8014885Z ##[endgroup]
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.8020166Z [command]/usr/bin/git sparse-checkout disable
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.8066236Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.8099248Z ##[group]Checking out the ref
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:09.8101417Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:10.0643935Z Switched to a new branch 'main'
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:10.0647302Z branch 'main' set up to track 'origin/main'.
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:10.0664872Z ##[endgroup]
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:10.0712047Z [command]/usr/bin/git log -1 --format=%H
+stempeln	Run actions/checkout@v4	2026-10-13T11:50:10.0740409Z b2de7dedbf396d8169599099cf58dc3ebf19c05c
+stempeln	Schon gestempelt?	﻿2026-10-13T11:50:10.0959364Z ##[group]Run if [ "$EREIGNIS" = "push" ] && git cat-file -e "$VORHER^{commit}" 2>/dev/null \
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.0960158Z [36;1mif [ "$EREIGNIS" = "push" ] && git cat-file -e "$VORHER^{commit}" 2>/dev/null \[0m
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.0960818Z [36;1m   && git diff "$VORHER" HEAD -- index.html | grep -q "^+const APP_VERSION = '"; then[0m
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.0961400Z [36;1m  echo "Dieser Push bringt schon einen neuen Stempel mit."[0m
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.0961834Z [36;1m  echo "noetig=nein" >> "$GITHUB_OUTPUT"[0m
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.0962176Z [36;1melse[0m
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.0962465Z [36;1m  echo "noetig=ja" >> "$GITHUB_OUTPUT"[0m
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.0962794Z [36;1mfi[0m
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.1207992Z shell: /usr/bin/bash -e {0}
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.1208397Z env:
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.1208971Z   EREIGNIS: push
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.1209308Z   VORHER: 529f232852bfd355f9b8955f71580dc1c392f29e
+stempeln	Schon gestempelt?	2026-10-13T11:50:10.1209692Z ##[endgroup]
+stempeln	Version stempeln und hochladen	﻿2026-10-13T11:50:10.1636140Z ##[group]Run STAMP=$(TZ=Europe/Berlin date +%Y%m%d-%H%M)
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1636708Z [36;1mSTAMP=$(TZ=Europe/Berlin date +%Y%m%d-%H%M)[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1637195Z [36;1msed -i "s/var CACHE = '[^']*'/var CACHE = 'dreambuild-$STAMP'/" mtb-sw.js[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1637758Z [36;1msed -i "s/const APP_VERSION = '[^']*'/const APP_VERSION = '$STAMP'/" index.html[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1638319Z [36;1mif [ -z "$(git status --porcelain -- mtb-sw.js index.html)" ]; then[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1638988Z [36;1m  echo "Stempel $STAMP steht schon drin."[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1639325Z [36;1m  exit 0[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1639564Z [36;1mfi[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1639844Z [36;1mgit config user.name "github-actions[bot]"[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1640333Z [36;1mgit config user.email "41898282+github-actions[bot]@users.noreply.github.com"[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1640807Z [36;1mgit add mtb-sw.js index.html[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1641194Z [36;1mgit commit -q -m "App aktualisiert (Version $STAMP)"[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1641790Z [36;1m# Die Live-Preise koennen gleichzeitig pushen -- dann nachziehen. Danach[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1642377Z [36;1m# darf sich gegenueber der geprueften Revision nur Stempel und Preise[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1642880Z [36;1m# unterscheiden, sonst wird nicht veroeffentlicht.[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1643249Z [36;1mfor i in 1 2 3; do[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1643570Z [36;1m  if git pull --rebase -q origin main; then[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1644477Z [36;1m    ANDERS=$(git diff --name-only "$GEPRUEFT" HEAD | grep -vE '^(index\.html|mtb-sw\.js|preise\.json|preisverlauf\.json|README\.md|CLAUDE\.md|\.gitignore|package(-lock)?\.json|tools/.*|\.github/.*)$' || true)[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1645601Z [36;1m    CODE=$(git diff "$GEPRUEFT" HEAD -- index.html mtb-sw.js | grep -E '^[+-][^+-]' | grep -vE "APP_VERSION = '|var CACHE = '" || true)[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1646225Z [36;1m    if [ -n "$ANDERS" ] || [ -n "$CODE" ]; then[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1646964Z [36;1m      echo "::error::Seit dem Test kamen weitere App-Aenderungen dazu ($ANDERS) -- dieser Lauf veroeffentlicht nicht; der neuere Push wird selbst geprueft."[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1647675Z [36;1m      exit 1[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1647923Z [36;1m    fi[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1648212Z [36;1m    if git push -q origin HEAD:main; then[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1648814Z [36;1m      echo "Veroeffentlicht: Version $STAMP"[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1649217Z [36;1m      exit 0[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1649462Z [36;1m    fi[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1649694Z [36;1m  fi[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1649928Z [36;1m  sleep 5[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1650173Z [36;1mdone[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1650431Z [36;1mecho "Hochladen fehlgeschlagen."[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1650748Z [36;1mexit 1[0m
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1716062Z shell: /usr/bin/bash -e {0}
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1716385Z env:
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1716680Z   GEPRUEFT: b2de7dedbf396d8169599099cf58dc3ebf19c05c
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:10.1717043Z ##[endgroup]
+stempeln	Version stempeln und hochladen	2026-10-13T11:50:12.4212455Z Veroeffentlicht: Version 20261013-1350
+stempeln	Revision fuer die Veroeffentlichung	﻿2026-10-13T11:50:12.4250561Z ##[group]Run # HEAD ist hier entweder der eigene Stempel-Commit (geprueft + Stempel,
+stempeln	Revision fuer die Veroeffentlichung	2026-10-13T11:50:12.4251215Z [36;1m# HEAD ist hier entweder der eigene Stempel-Commit (geprueft + Stempel,[0m
+stempeln	Revision fuer die Veroeffentlichung	2026-10-13T11:50:12.4251747Z [36;1m# evtl. + Preise) oder -- schon gestempelt -- die gepruefte Revision.[0m
+stempeln	Revision fuer die Veroeffentlichung	2026-10-13T11:50:12.4252206Z [36;1mecho "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"[0m
+stempeln	Revision fuer die Veroeffentlichung	2026-10-13T11:50:12.4252613Z [36;1mecho "Veroeffentlicht wird $(git rev-parse HEAD)"[0m
+stempeln	Revision fuer die Veroeffentlichung	2026-10-13T11:50:12.4318151Z shell: /usr/bin/bash -e {0}
+stempeln	Revision fuer die Veroeffentlichung	2026-10-13T11:50:12.4318418Z ##[endgroup]
+stempeln	Revision fuer die Veroeffentlichung	2026-10-13T11:50:12.4502036Z Veroeffentlicht wird e1a7662a58c977c8f1ecb2f44a015686141ce056
+stempeln	Post Run actions/checkout@v4	﻿2026-10-13T11:50:12.4623997Z Post job cleanup.
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5483068Z [command]/usr/bin/git version
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5528635Z git version 2.55.0
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5572764Z Temporarily overriding HOME='/home/runner/work/_temp/aa530051-0662-4fb1-afe6-2d859493a098' before making global git config changes
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5573980Z Adding repository directory to the temporary git global config as a safe directory
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5578886Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/dreambuild/dreambuild
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5620065Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5670206Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5921173Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5948449Z http.https://github.com/.extraheader
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.5961926Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.6001762Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.6261863Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+stempeln	Post Run actions/checkout@v4	2026-10-13T11:50:12.6309239Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+stempeln	Complete job	﻿2026-10-13T11:50:12.6734321Z Evaluate and set job outputs
+stempeln	Complete job	2026-10-13T11:50:12.6740290Z Set output 'sha'
+stempeln	Complete job	2026-10-13T11:50:12.6742187Z Cleaning up orphan processes
+stempeln	Complete job	2026-10-13T11:50:12.7036268Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+veroeffentlichen	Set up job	﻿2026-10-13T11:50:20.4965458Z Current runner version: '2.337.0'
+veroeffentlichen	Set up job	2026-10-13T11:50:20.4992495Z ##[group]Runner Image Provisioner
+veroeffentlichen	Set up job	2026-10-13T11:50:20.4993478Z Hosted Compute Agent
+veroeffentlichen	Set up job	2026-10-13T11:50:20.4994102Z Version: 20261002.596
+veroeffentlichen	Set up job	2026-10-13T11:50:20.4994703Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+veroeffentlichen	Set up job	2026-10-13T11:50:20.4995489Z Build Date: 2026-10-02T22:28:27Z
+veroeffentlichen	Set up job	2026-10-13T11:50:20.4996187Z Worker ID: {777fe609-8e44-4f98-94b6-c6eae3cbdf23}
+veroeffentlichen	Set up job	2026-10-13T11:50:20.4996916Z Region: eastus
+veroeffentlichen	Set up job	2026-10-13T11:50:20.4997505Z Cloud: Azure
+veroeffentlichen	Set up job	2026-10-13T11:50:20.4998039Z ##[endgroup]
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5000109Z ##[group]Operating System
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5000773Z Ubuntu
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5001372Z 24.04.5
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5001915Z LTS
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5002413Z ##[endgroup]
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5003067Z ##[group]Runner Image
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5003694Z Image: ubuntu-24.04
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5004317Z Version: 20261004.327.1
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5005434Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5007234Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5008197Z ##[endgroup]
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5009872Z ##[group]GITHUB_TOKEN Permissions
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5012156Z Contents: write
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5012882Z Metadata: read
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5013445Z Pages: write
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5014105Z ##[endgroup]
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5016211Z Secret source: Actions
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5017128Z Cache mode: write
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5018148Z Prepare workflow directory
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5346453Z Prepare all required actions
+veroeffentlichen	Set up job	2026-10-13T11:50:20.5393641Z Getting action download info
+veroeffentlichen	Set up job	2026-10-13T11:50:20.7512308Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+veroeffentlichen	Set up job	2026-10-13T11:50:20.8449313Z Download action repository 'actions/configure-pages@v5' (SHA:983d7736d9b0ae728b81ab479565c72886d7745b)
+veroeffentlichen	Set up job	2026-10-13T11:50:21.0020793Z Download action repository 'actions/upload-pages-artifact@v3' (SHA:56afc609e74202658d3ffba0e8f6dda462b719fa)
+veroeffentlichen	Set up job	2026-10-13T11:50:21.0979497Z Download action repository 'actions/deploy-pages@v4' (SHA:d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e)
+veroeffentlichen	Set up job	2026-10-13T11:50:21.3914310Z Getting action download info
+veroeffentlichen	Set up job	2026-10-13T11:50:21.4621301Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+veroeffentlichen	Set up job	2026-10-13T11:50:21.5989813Z Complete job name: veroeffentlichen
+veroeffentlichen	Run actions/checkout@v4	﻿2026-10-13T11:50:21.6822292Z ##[group]Run actions/checkout@v4
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6823360Z with:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6824063Z   ref: e1a7662a58c977c8f1ecb2f44a015686141ce056
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6824826Z   fetch-depth: 0
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6825444Z   repository: trostliam-hub/dreambuild
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6830560Z   token: ***
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6831121Z   ssh-strict: true
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6831740Z   ssh-user: git
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6832302Z   persist-credentials: true
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6832939Z   clean: true
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6833569Z   sparse-checkout-cone-mode: true
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6834319Z   fetch-tags: false
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6834952Z   show-progress: true
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6835528Z   lfs: false
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6836070Z   submodules: false
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6836706Z   set-safe-directory: true
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6837347Z   allow-unsafe-pr-checkout: false
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.6838389Z ##[endgroup]
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.7883881Z Syncing repository: trostliam-hub/dreambuild
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.7887364Z ##[group]Getting Git version info
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.7889675Z Working directory is '/home/runner/work/dreambuild/dreambuild'
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.7892149Z [command]/usr/bin/git version
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.7962737Z git version 2.55.0
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.7990026Z ##[endgroup]
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8014861Z Temporarily overriding HOME='/home/runner/work/_temp/6ddda60a-bb8a-440e-9fbe-300e5f0e5cbf' before making global git config changes
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8018130Z Adding repository directory to the temporary git global config as a safe directory
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8021810Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/dreambuild/dreambuild
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8075670Z Deleting the contents of '/home/runner/work/dreambuild/dreambuild'
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8079960Z ##[group]Initializing the repository
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8083685Z [command]/usr/bin/git init /home/runner/work/dreambuild/dreambuild
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8199569Z hint: Using 'master' as the name for the initial branch. This default branch name
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8201564Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8203020Z hint: to use in all of your new repositories, which will suppress this warning,
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8204044Z hint: call:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8204536Z hint:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8205257Z hint: 	git config --global init.defaultBranch <name>
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8206099Z hint:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8206877Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8208170Z hint: 'development'. The just-created branch can be renamed via this command:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8209401Z hint:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8210096Z hint: 	git branch -m <name>
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8210714Z hint:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8211556Z hint: Disable this message with "git config set advice.defaultBranchName false"
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8222969Z Initialized empty Git repository in /home/runner/work/dreambuild/dreambuild/.git/
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8236381Z [command]/usr/bin/git remote add origin https://github.com/trostliam-hub/dreambuild
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8287264Z ##[endgroup]
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8289586Z ##[group]Disabling automatic garbage collection
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8291344Z [command]/usr/bin/git config --local gc.auto 0
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8327997Z ##[endgroup]
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8330429Z ##[group]Setting up auth
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8335736Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8375117Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8757544Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.8798313Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.9026129Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.9065665Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.9308743Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.9351762Z ##[endgroup]
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.9352810Z ##[group]Fetching the repository
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:21.9365574Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3648098Z From https://github.com/trostliam-hub/dreambuild
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3650169Z  * [new branch]      claude/app-onboarding-improvements-3bdjoe -> origin/claude/app-onboarding-improvements-3bdjoe
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3651741Z  * [new branch]      claude/crankscore-app-changes-nz88ir -> origin/claude/crankscore-app-changes-nz88ir
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3652898Z  * [new branch]      main       -> origin/main
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3663350Z [command]/usr/bin/git rev-parse --verify --quiet e1a7662a58c977c8f1ecb2f44a015686141ce056^{object}
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3692893Z e1a7662a58c977c8f1ecb2f44a015686141ce056
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3697847Z ##[endgroup]
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3698536Z ##[group]Determining the checkout info
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3699744Z ##[endgroup]
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3705218Z [command]/usr/bin/git sparse-checkout disable
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3765326Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3800588Z ##[group]Checking out the ref
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.3801354Z [command]/usr/bin/git checkout --progress --force e1a7662a58c977c8f1ecb2f44a015686141ce056
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6335685Z Note: switching to 'e1a7662a58c977c8f1ecb2f44a015686141ce056'.
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6339953Z 
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6340369Z You are in 'detached HEAD' state. You can look around, make experimental
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6341289Z changes and commit them, and you can discard any commits you make in this
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6342135Z state without impacting any branches by switching back to a branch.
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6342628Z 
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6342965Z If you want to create a new branch to retain commits you create, you may
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6343743Z do so (now or later) by using -c with the switch command. Example:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6344213Z 
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6344444Z   git switch -c <new-branch-name>
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6344779Z 
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6344959Z Or undo this operation with:
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6345245Z 
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6345390Z   git switch -
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6345624Z 
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6346005Z Turn off this advice by setting config variable advice.detachedHead to false
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6346597Z 
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6346905Z HEAD is now at e1a7662 App aktualisiert (Version 20261013-1350)
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6361388Z ##[endgroup]
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6409112Z [command]/usr/bin/git log -1 --format=%H
+veroeffentlichen	Run actions/checkout@v4	2026-10-13T11:50:24.6439602Z e1a7662a58c977c8f1ecb2f44a015686141ce056
+veroeffentlichen	Pages-Quelle	﻿2026-10-13T11:50:24.6684205Z ##[group]Run TYP=$(gh api "repos/trostliam-hub/dreambuild/pages" --jq .build_type 2>/dev/null || echo unbekannt)
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:24.6685086Z [36;1mTYP=$(gh api "repos/trostliam-hub/dreambuild/pages" --jq .build_type 2>/dev/null || echo unbekannt)[0m
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:24.6685632Z [36;1mecho "typ=$TYP" >> "$GITHUB_OUTPUT"[0m
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:24.6685977Z [36;1mif [ "$TYP" != "workflow" ]; then[0m
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:24.6686842Z [36;1m  echo "::warning::Pages veroeffentlicht direkt aus dem Branch main ($TYP) -- jeder Push geht live, auch wenn die Tests scheitern. Fuer ein echtes Test-Tor: Settings -> Pages -> Source: GitHub Actions."[0m
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:24.6687646Z [36;1mfi[0m
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:24.6957734Z shell: /usr/bin/bash -e {0}
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:24.6958087Z env:
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:24.6961896Z   GH_TOKEN: ***
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:24.6962173Z ##[endgroup]
+veroeffentlichen	Pages-Quelle	2026-10-13T11:50:25.0295043Z ##[warning]Pages veroeffentlicht direkt aus dem Branch main (legacy) -- jeder Push geht live, auch wenn die Tests scheitern. Fuer ein echtes Test-Tor: Settings -> Pages -> Source: GitHub Actions.
+veroeffentlichen	Pages neu bauen (Branch-Quelle)	﻿2026-10-13T11:50:25.0415871Z ##[group]Run if ! gh api -X POST "repos/trostliam-hub/dreambuild/pages/builds" > /dev/null 2> fehler.txt; then
+veroeffentlichen	Pages neu bauen (Branch-Quelle)	2026-10-13T11:50:25.0416675Z [36;1mif ! gh api -X POST "repos/trostliam-hub/dreambuild/pages/builds" > /dev/null 2> fehler.txt; then[0m
+veroeffentlichen	Pages neu bauen (Branch-Quelle)	2026-10-13T11:50:25.0417311Z [36;1m  echo "::warning::Pages-Bau liess sich nicht anstossen: $(cat fehler.txt)"[0m
+veroeffentlichen	Pages neu bauen (Branch-Quelle)	2026-10-13T11:50:25.0417718Z [36;1mfi[0m
+veroeffentlichen	Pages neu bauen (Branch-Quelle)	2026-10-13T11:50:25.0479652Z shell: /usr/bin/bash -e {0}
+veroeffentlichen	Pages neu bauen (Branch-Quelle)	2026-10-13T11:50:25.0479909Z env:
+veroeffentlichen	Pages neu bauen (Branch-Quelle)	2026-10-13T11:50:25.0482428Z   GH_TOKEN: ***
+veroeffentlichen	Pages neu bauen (Branch-Quelle)	2026-10-13T11:50:25.0482642Z ##[endgroup]
+veroeffentlichen	Live-Stand pruefen	﻿2026-10-13T11:50:27.1331018Z ##[group]Run STAMP=$(grep -oE "APP_VERSION = '[^']+'" index.html | head -1 | cut -d"'" -f2)
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1331651Z [36;1mSTAMP=$(grep -oE "APP_VERSION = '[^']+'" index.html | head -1 | cut -d"'" -f2)[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1332576Z [36;1mURL=$(gh api "repos/trostliam-hub/dreambuild/pages" --jq .html_url)[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1333007Z [36;1mecho "Erwarte Version $STAMP unter $URL"[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1333330Z [36;1mfor i in $(seq 1 45); do[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1333773Z [36;1m  if curl -fsSL "${URL%/}/index.html?pruef=$RANDOM$i" | grep -q "APP_VERSION = '$STAMP'"; then[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1334238Z [36;1m    echo "Live: Version $STAMP"[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1334708Z [36;1m    exit 0[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1334911Z [36;1m  fi[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1335106Z [36;1m  sleep 20[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1335310Z [36;1mdone[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1335696Z [36;1mecho "::error::Version $STAMP ist nach 15 Minuten nicht live unter $URL -- Pages-Bau pruefen."[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1336176Z [36;1mexit 1[0m
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1398010Z shell: /usr/bin/bash -e {0}
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1398257Z env:
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1403454Z   GH_TOKEN: ***
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.1403680Z ##[endgroup]
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:50:27.3399196Z Erwarte Version 20261013-1350 unter https://trostliam-hub.github.io/dreambuild/
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:51:47.7228513Z curl: (23) Failure writing output to destination
+veroeffentlichen	Live-Stand pruefen	2026-10-13T11:51:47.7246148Z Live: Version 20261013-1350
+veroeffentlichen	Post Run actions/checkout@v4	﻿2026-10-13T11:51:47.7384338Z Post job cleanup.
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8265433Z [command]/usr/bin/git version
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8309129Z git version 2.55.0
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8349676Z Temporarily overriding HOME='/home/runner/work/_temp/ca6ae2e3-01eb-48f5-8fcd-f6e5d7f21d1a' before making global git config changes
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8351312Z Adding repository directory to the temporary git global config as a safe directory
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8356446Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/dreambuild/dreambuild
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8396493Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8443364Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8693549Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8721712Z http.https://github.com/.extraheader
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8735709Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.8772668Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.9060342Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+veroeffentlichen	Post Run actions/checkout@v4	2026-10-13T11:51:47.9102010Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+veroeffentlichen	Complete job	﻿2026-10-13T11:51:47.9492804Z Cleaning up orphan processes
+veroeffentlichen	Complete job	2026-10-13T11:51:47.9905492Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
