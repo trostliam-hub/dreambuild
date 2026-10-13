@@ -54,12 +54,16 @@ const PRUEFUNGEN = [
       const x = {t:{id:'g-lyrik',n:'Lyrik Ultimate',m:'RockShox'},coil:false};
       const luft = suEinstellBild('gabel', x, {zeig:['luft'],nr:1});
       const zug = suEinstellBild('gabel', x, {zeig:['zug'],nr:3});
+      const zeb = ['luft','druck','lsc','hsc','zug','oring'].every(art => {
+        const html = suEinstellBild('gabel', {t:{id:'g-zeb',n:'ZEB Ultimate',m:'RockShox'}}, {zeig:[art],nr:1});
+        return html.includes('href="bilder/produkte/g-zeb.png"') && html.includes('<path d="M') && !html.includes('fw-ort-schema') && !html.includes('il-gabel');
+      });
       const eigen = suOrtsBild('gabel', {t:{...x.t,eigen:true}}, {zeig:['luft']});
       const fremd = suEinstellBild('gabel', {t:{id:'g-fox38',n:'FOX 38',m:'FOX'}}, {zeig:['zug']});
       const host = document.createElement('div'); host.innerHTML = luft; document.body.append(host);
       const schwarz = getComputedStyle(host.querySelector('.fw-ort-foto')).backgroundColor === 'rgb(0, 0, 0)'; host.remove();
       return {foto:luft.includes('href="bilder/produkte/g-lyrik.png"'),marker:luft.includes('cx="163"'),
-        ohneSchema:!luft.includes('il-gabel'),schwarz,verdeckt:zug.includes('verdeckt'),
+        ohneSchema:!luft.includes('il-gabel'),zeb,schwarz,verdeckt:zug.includes('verdeckt'),
         nummer:zug.includes('>3</text>'),eigen:eigen === '',fremd:fremd.includes('fw-ort-schema') && !fremd.includes('cx="244"')};
     });
     return {ok:Object.values(r).every(Boolean),info:r};
