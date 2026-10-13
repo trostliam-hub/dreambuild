@@ -13130,8 +13130,8 @@ function daempferDaten(d){
     if(au === "Select+") return R({typ:"hebel", hebel:RS_HEBEL, zug:zug,
       txt:tx("RockShox Select+ (RT): Threshold-Hebel und Zugstufe, keine weitere Druckstufen-Verstellung", "RockShox Select+ (RT): threshold lever and rebound, no other compression adjustment") + zugTxt});
     if(/Super Deluxe|Vivid/.test(n)) return R({typ:"hl", hebel:RS_HEBEL, zug:zug,
-      lsc:{n:4, base:2, skala:"mitte", wo:tx("Knopf mit blauem Ring, Striche von + bis −", "knob with blue ring, ticks from + to −")},
-      hsc:{n:4, base:2, skala:"mitte", wo:tx("mit 3-mm-Inbus, Skala − | +", "with a 3 mm hex key, scale − | +")},
+      lsc:{n:4, base:2, skala:"mitte", wo:tx("blaues LSC-Rädchen am Ende des Ausgleichsbehälters, Skala + bis −", "blue LSC dial at the end of the reservoir, scale + to −")},
+      hsc:{n:4, base:2, skala:"mitte", wo:tx("separater seitlicher HSC-Einsteller mit 3-mm-Inbus, Skala − | +", "separate side-mounted HSC adjuster with a 3 mm hex key, scale − | +")},
       hbo:coil ? {o:["1", "2", "3", "4", "5"], b:2, wo:/Vivid/.test(n) ? tx("mit dem 3-mm-Inbus aus dem Zugstufenknopf, Stufe ab ganz offen", "with the 3 mm hex key from the rebound knob, position from fully open")
         : tx("lila Rädchen, Stufe ab ganz offen", "purple dial, position from fully open")} : null,
       txt:tx("RockShox RC2T: HSC und LSC je 5 Stellungen, unabhängig voneinander, gezählt ab der Mitte. Grundeinstellung (0) laut RockShox: beide in der Mitte", "RockShox RC2T: HSC and LSC 5 positions each, independent of each other, counted from the middle. Base setting (0) per RockShox: both in the middle")
@@ -14267,7 +14267,7 @@ function suFotoDaten(slot, x){
   const au = wahlVon(t, "Ausführung");
   if(t.m === "RockShox" && /Super Deluxe/.test(n) && au === "Ultimate") return [
     f("rs-rc2t-druck.jpg", ["druck", "lsc", "hsc"], "Super Deluxe Ultimate RC2T · 2023",
-      "Links der Stahlfeder-, rechts der Luftdämpfer: LSC am blauen Ring; HSC mit Inbus in seiner Mitte. Der Hebel sitzt daneben.", "Coil shock on the left, air shock on the right: LSC on the blue ring; HSC with a hex key in its centre. The lever sits beside it.", "rc2t")];
+      "LSC: blaues Rädchen am Ende des Ausgleichsbehälters. HSC: separater seitlicher 3-mm-Inbus.", "LSC: blue dial at the end of the reservoir. HSC: separate side-mounted 3 mm hex adjuster.", "rc2t")];
   if(t.m !== "Fox") return [];
   let prefix, q;
   if(/DHX2/.test(n)){ prefix = "fox-dhx2"; q = "coil"; }
@@ -14339,9 +14339,9 @@ function suNahFotos(slot, x, o){
   const daten = Object.assign(suErgaenzendeNahDaten(slot,x),suNahDaten(slot,x)), zeig = o.zeig || [];
   const arten = zeig.filter(a => daten[a]); if(!arten.length) return "";
   return `<div class="fw-fotos fw-nah">${arten.map(a => {
-    const b = daten[a], nr = o.nr || zeig.indexOf(a)+1, [px,py] = b.p;
+    const b = daten[a], nr = o.nr || zeig.indexOf(a)+1, label = a === "hsc" ? "HSC" : a === "lsc" ? "LSC" : String(nr), [px,py] = b.p;
     const [vx,vy,vw,vh] = b.ausschnitt, mx = px < vx+vw/2 ? vx+35 : vx+vw-35, my = Math.max(vy+30,py-55);
-    return `<figure class="fw-foto"><a class="fw-nah-link" href="bilder/fahrwerk/${b.datei}" target="_blank" rel="noopener" aria-label="${esc(tx("Nahaufnahme vergrößern: ","Enlarge close-up: ")+b.text)}"><svg viewBox="${b.ausschnitt.join(" ")}" role="img" aria-label="${esc(b.text)}"><image href="bilder/fahrwerk/${b.datei}" width="${b.w || 960}" height="${b.h}"/><g fill="none" stroke="#fff" stroke-width="2" style="filter:drop-shadow(0 0 2px #000)"><path d="M${mx} ${my}L${px} ${py}"/><circle cx="${px}" cy="${py}" r="12"/><circle cx="${mx}" cy="${my}" r="18" fill="#000"/><text x="${mx}" y="${my+5}" text-anchor="middle" fill="#fff" stroke="none" font-size="15" font-weight="800">${nr}</text></g></svg></a><figcaption><b>${tx("Nahaufnahme", "Close-up")} · ${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstelleraufnahme · Referenzmodell; Baujahr und Ausstattung können abweichen.","Manufacturer photo · reference model; year and specification may differ.")}</small><a href="${b.quelle}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: ${esc(b.marke || "RockShox")} ↗</a></figcaption></figure>`;
+    return `<figure class="fw-foto"><a class="fw-nah-link" href="bilder/fahrwerk/${b.datei}" target="_blank" rel="noopener" aria-label="${esc(tx("Nahaufnahme vergrößern: ","Enlarge close-up: ")+b.text)}"><svg viewBox="${b.ausschnitt.join(" ")}" role="img" aria-label="${esc(b.text)}"><image href="bilder/fahrwerk/${b.datei}" width="${b.w || 960}" height="${b.h}"/><g fill="none" stroke="#fff" stroke-width="2" style="filter:drop-shadow(0 0 2px #000)"><path d="M${mx} ${my}L${px} ${py}"/><circle cx="${px}" cy="${py}" r="12"/><circle cx="${mx}" cy="${my}" r="18" fill="#000"/><text x="${mx}" y="${my+5}" text-anchor="middle" fill="#fff" stroke="none" font-size="15" font-weight="800">${label}</text></g></svg></a><figcaption><b>${tx("Nahaufnahme", "Close-up")} · ${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstelleraufnahme · Referenzmodell; Baujahr und Ausstattung können abweichen.","Manufacturer photo · reference model; year and specification may differ.")}</small><a href="${b.quelle}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: ${esc(b.marke || "RockShox")} ↗</a></figcaption></figure>`;
   }).join("")}</div>`;
 }
 
@@ -14361,12 +14361,12 @@ function suErgaenzendeNahDaten(slot,x){
     "fox-x2-druck.jpg":{w:839,h:464,p:{lsc:[280,152],druck:[280,152],hsc:[306,168]},a:[130,20,310,310]},
     "fox-x2-zug.jpg":{w:783,h:463,p:{zug:[239,239]},a:[85,85,330,330]},
     "fox-x2-hsr.jpg":{w:669,h:535,p:{hsr:[499,298]},a:[320,140,330,310]},
-    "rs-rc2t-druck.jpg":{w:1200,h:400,p:{lsc:[908,177],druck:[908,177],hsc:[908,177]},a:[760,55,310,300]}
+
   };
   const out = {};
   for(const b of suFotoDaten(slot,x)){
     let c = cfg[b.datei]; if(!c) continue;
-    if(x.coil && b.datei === "rs-rc2t-druck.jpg") c = {...c,p:{lsc:[368,120],druck:[368,120],hsc:[368,120]},a:[235,15,340,330]};
+
     for(const art of b.arten) if(c.p[art]) out[art] = {datei:b.datei,p:c.p[art],ausschnitt:c.a,w:c.w,h:c.h,text:b.text,modell:b.modell,marke:x.t.m,quelle:SU_FOTO_Q[b.q][1]};
   }
   const q = "https://www.sram.com/en/rockshox/learn/downhill-suspension-welcome-guide";
@@ -14382,6 +14382,22 @@ function suErgaenzendeNahDaten(slot,x){
     if(wahlVon(x.t,"Ausführung") === "Ultimate"){
       out.hsc = f("hsc",[432,262],[280,115,370,370],"HSC: blauer Inbus-Einsteller am Ausgleichsbehälter.","HSC: blue hex adjuster on the reservoir.");
       out.bo = f("zug",[457,252],[315,95,400,400],"HBO sitzt bei dieser Referenzversion hinter dem Zugstufenknopf. Die Markierung zeigt den Zugang; der HBO-Einsteller ist hier verdeckt. Anleitung des Modelljahrs beachten.","On this reference version, HBO sits behind the rebound knob. The marker shows the access point; the HBO adjuster is hidden here. Follow the model-year manual.");
+    }
+  }
+  if(x.t.m === "RockShox" && /Super Deluxe/.test(x.t.n) && wahlVon(x.t,"Ausführung") === "Ultimate"){
+    const r = (datei,p,a,w,h,de,en) => ({datei,p,ausschnitt:a,w,h,text:tx(de,en),modell:x.coil ? "Super Deluxe Coil Ultimate · B1" : "Super Deluxe Ultimate · RC2T",quelle:datei.endsWith(".png") ? "https://www.sram.com/en/rockshox/models/rs-sdlc-ult-b1" : SU_FOTO_Q.rc2t[1]});
+    out.lsc = x.coil
+      ? r("rs-sdcoil-side-detail.png",[697,137],[505,20,320,320],1007,1200,"LSC: blaues Rädchen am Ende des Ausgleichsbehälters. Die Markierung zeigt auf den gerändelten Außenrand des LSC-Rädchens.","LSC: blue dial at the end of the reservoir. The marker points to the knurled outer edge of the LSC dial.")
+      : r("rs-rc2t-lsc-detail.jpg",[795,150],[590,25,370,350],1200,675,"LSC: blaues Rädchen am Ende des Ausgleichsbehälters.","LSC: blue dial at the end of the reservoir.");
+    out.druck = out.lsc;
+    out.hsc = x.coil
+      ? r("rs-sdcoil-front-detail.png",[507,182],[340,55,340,340],1007,1200,"HSC: separater seitlicher 3-mm-Inbus unter der Aufschrift HSC. Er sitzt seitlich unter dem Ausgleichsbehälter.","HSC: separate side-mounted 3 mm hex adjuster below the HSC label, underneath the reservoir.")
+      : r("rs-rc2t-hsc-detail.jpg",[519,240],[235,60,470,430],1200,675,"HSC: separater seitlicher 3-mm-Inbus unter der Aufschrift HSC.","HSC: separate side-mounted 3 mm hex adjuster below the HSC label.");
+    if(x.coil){
+      out.zug = r("rs-sdcoil-front-detail.png",[530,1064],[350,890,320,310],1007,1200,"Zugstufe: rotes Rädchen unten am Dämpferauge.","Rebound: red dial at the lower shock eyelet.");
+      out.hebel = r("rs-sdcoil-3q-detail.png",[518,98],[325,20,385,320],1007,1200,"Kletterhebel: schwarzer Hebel oben neben dem Ausgleichsbehälter. Bergab offen lassen.","Climb switch: black lever at the top beside the reservoir. Leave open on descents.");
+      out.feder = {...r("rs-sdcoil-3q-detail.png",[588,662],[350,515,330,350],1007,1200,out.feder.text,out.feder.text),text:out.feder.text};
+      out.oring = r("rs-sdcoil-front-detail.png",[507,948],[350,750,320,330],1007,1200,"SAG-Messpunkt: Gummipuffer auf der Kolbenstange zwischen den Federwindungen.","Sag measurement point: rubber bumper on the shaft between the spring coils.");
     }
   }
   if(x.coil && x.t.m === "RockShox" && /Super Deluxe/.test(x.t.n) && wahlVon(x.t,"Ausführung") === "Ultimate"){

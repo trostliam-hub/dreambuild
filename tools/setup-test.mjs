@@ -49,6 +49,21 @@ const PRO = () => { pro = {key:'x', inst:'i', status:'aktiv', geprueft:Date.now(
 
 /* Jede Pruefung: [Name, async () => {ok, info}] */
 const PRUEFUNGEN = [
+  ['Super Deluxe Coil B1: HSC/LSC getrennt, Zugstufe und Hebel als markierte Fotos', async () => {
+    const r = await ev(() => {
+      const x = {t:{n:'RockShox Super Deluxe Coil',m:'RockShox',v:[{k:'Ausführung',o:[{n:'Ultimate'}]}],wahl:[0]},coil:true};
+      const daten = suErgaenzendeNahDaten('daempfer',x), html = a => suEinstellBild('daempfer',x,{zeig:[a]});
+      const d = daempferDaten(x.t);
+      return {lsc:html('lsc').includes('rs-sdcoil-side-detail.png') && html('lsc').includes('>LSC</text>'),
+        hsc:html('hsc').includes('rs-sdcoil-front-detail.png') && html('hsc').includes('>HSC</text>'),
+        getrennt:daten.lsc.datei !== daten.hsc.datei && daten.lsc.p.join() !== daten.hsc.p.join(),
+        keinBolzen:!html('hsc').includes('cx="368"') && !html('lsc').includes('rs-rc2t-druck.jpg'),
+        zug:html('zug').includes('rs-sdcoil-front-detail.png') && !html('zug').includes('il-daempfer'),
+        hebel:html('hebel').includes('rs-sdcoil-3q-detail.png') && !html('hebel').includes('il-daempfer'),
+        beschriftung:d.lsc.wo.includes('Ende des Ausgleichsbehälters') && d.hsc.wo.includes('seitlicher')};
+    });
+    return {ok:Object.values(r).every(Boolean),info:r};
+  }],
   ['Daempfer: Federhaerte und vorhandene Detailbilder zeigen auf das Bauteil', async () => {
     const r = await ev(() => {
       const x = (n,m,au,coil) => ({t:{n,m,v:[{k:'Ausführung',o:[{n:au}]}],wahl:[0]},coil});
