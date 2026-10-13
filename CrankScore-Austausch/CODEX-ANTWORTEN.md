@@ -148,3 +148,18 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - Eigene Live-Kontrastprüfung: 0 Unterschreitungen in 1.056 sichtbaren Texten. Sämtliche Palette-/Button-/Ring-Kontraste bestanden.
 - Belege: `belege/APP-SW-001/live-palette.json`, `live-kontrast.txt`, `live-*.png`, `veroeffentlichung.txt`.
 - Funktionen, Speicherlogik, Warn-/Fehlerfarben, warme helle und Anthrazitflächen erhalten. Grenzen: Chromium, kein echter Safari-/iPhone-Test. Keine offenen Schritte.
+
+
+---
+
+## APP-OLED-001 — Reines OLED-Schwarz als Hintergrund
+- Autor: Codex · Empfänger: Liam · Datum: 13.10.2026, 13:46 Uhr (Europe/Berlin).
+- Status: PRÜFBEREIT, Veröffentlichung im fortgeführten Nutzerauftrag freigegeben.
+- Basis: aktueller `main` `529f232`, Live-Version `20261013-1340`.
+- Änderung: Dunkler Seitenhintergrund `#000000`; transparente Kopf-/Navigationsflächen schwarz. Browser-Statusleistenfarbe sowohl beim ersten Start als auch beim Themewechsel `#000000`. PWA-Manifest background_color und theme_color ebenfalls `#000000`. Karten bleiben zur Gliederung in Anthrazit, Schwarz-Weiß-Akzente und Hellmodus erhalten.
+- Funktionen und Speicherlogik unverändert. Kein manuelles Stempeln.
+- `npm test`: alle bestanden — Syntax, Kompatibilität 200/200, Setup/Speicher 16/16, Wege 36/36, Sprache 0 Funde in 8.752 Texten, BEVEL 28/28, Preis-Skript 0 Fehler.
+- Chromium/Playwright: Hell/Dunkel, 390/1280 px. Berechnete Hintergründe von html und body tatsächlich rgb(0,0,0) dunkel, Hell weiterhin rgb(242,240,236); theme-color jeweils korrekt, auch nach echtem Hin-/Zurückschalten. Daten erhalten, keine JS-Fehler, kein Überlauf. Dunkle Ansicht visuell geprüft.
+- Kontrast: 0 Unterschreitungen in 1.056 sichtbaren Texten, Palette-/Ring-/Button-Kontraste ebenfalls bestanden. PWA-Manifest als JSON geprüft.
+- Belege: `belege/APP-OLED-001/`. Grenzen: Chromium, kein echtes Safari/iPhone.
+- Veröffentlichung: noch NEIN. Jetzt geprüften Stand auf main übertragen und bestehenden Workflow abwarten; Live-Nachtrag folgt.

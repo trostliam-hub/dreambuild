@@ -1154,3 +1154,10 @@ Weiche Akzentflächen sind neutralgrau. Gesamtring, Links, aktive Zustände,
 Logo-Akzente und Fahrwerk-Marker folgen dem gleichen System; kleine
 Score-Ringe bleiben neutralgrau. Warme helle Flächen, Anthrazit und
 Warn-/Fehler-/Erfolgsfarben bleiben erhalten, kein Ringschein.
+
+
+**OLED-Hintergrund (APP-OLED-001, 13.10.2026).** Der Dunkelmodus verwendet
+reines Schwarz (`#000000`) als Seitenhintergrund und Browser-Statusleistenfarbe.
+Transparente Kopf- und Navigationsflächen verwenden Schwarz statt Anthrazit.
+Karten bleiben zur Gliederung heller; Schwarz-Weiß-Akzente, Hellmodus und
+Statusfarben bleiben erhalten.

@@ -11,7 +11,7 @@
    Home-Bildschirm-Apps teils nur einmal und uebernimmt spaetere Aenderungen nicht. */
 (function(){var hell=false;try{hell=localStorage.getItem("mtb.design")==="hell";}catch(e){}
 if(hell)document.documentElement.dataset.theme="light";
-var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0ec":"#16181b";document.head.appendChild(m);})();</script>
+var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0ec":"#000000";document.head.appendChild(m);})();</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -151,9 +151,9 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0e
      mehr: --grad ist nur noch eine einfarbige Akzentflaeche (weisse Schrift
      darauf >= 4,5:1). Kontraste per WCAG-Formel geprueft: Grautexte >= 4,5:1,
      Ringe >= 3:1. */
-  /* BEVEL-002 (Liam 2026-10-10): weiches Anthrazit statt reinem Schwarz,
-     klar abgestufte Flaechen; Texte >= 4,5:1 auch auf --sunk. */
-  --ground:#16181b; --surface:#1f2226; --surface-2:#262a2f; --sunk:#30343a;
+  /* APP-OLED-001 (Liam 2026-10-13): reines Schwarz als Hintergrund,
+     Anthrazit-Karten zur Gliederung; Texte >= 4,5:1 auch auf --sunk. */
+  --ground:#000000; --surface:#1f2226; --surface-2:#262a2f; --sunk:#30343a;
   --ink:#f2f3f5; --ink-2:#bcc0c6; --ink-3:#9ca1a8;
   --line:#363a40; --line-soft:#2b2e33; --hair:rgba(255,255,255,.06);
   /* APP-SW-001: Schwarz und Weiss, getrennt fuer Akzenttexte und
@@ -167,7 +167,7 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0e
   --warn:#ff9f43; --warn-soft:rgba(255,159,67,.14);
   --bad:#ff7586; --bad-soft:rgba(255,117,134,.15); --on-bad:#16181b;   /* BEVEL-002: heller, damit Rot auf Anthrazit 4,5:1 schafft; Schrift darauf dunkel */
   --fester:#9a6bff; --weicher:#0fa0bd;      /* per dataviz-Validator gegen #0b0a12 geprueft */
-  --glass:rgba(22,24,27,.86);
+  --glass:rgba(0,0,0,.86);
   --shadow:none;
   --shadow-hoch:0 2px 10px rgba(0,0,0,.6),0 24px 60px -22px rgba(0,0,0,.9);
   --r:18px; --r-s:12px; --r-karte:24px;
@@ -17837,7 +17837,7 @@ function designAnwenden(){
     /* Statusleiste: neues Meta-Tag statt nur den Wert zu aendern -- ein frisch
        eingefuegtes Tag liest iOS eher neu als einen geaenderten Wert */
     const alt = document.querySelector('meta[name="theme-color"]'), m = document.createElement("meta");
-    m.name = "theme-color"; m.content = hell ? "#f2f0ec" : "#16181b";
+    m.name = "theme-color"; m.content = hell ? "#f2f0ec" : "#000000";
     if(alt) alt.replaceWith(m); else document.head.appendChild(m);
   };
   if(bewegungAus()){ setz(); return; }
