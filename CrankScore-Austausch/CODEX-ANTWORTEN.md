@@ -136,3 +136,15 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - Kontrastprüfung: 0 Unterschreitungen in 1.056 sichtbaren Texten (9 Ansichten × 2 Themes × 2 Breiten); zusätzliche Palette-/Ring-/Button-Kontraste bestanden.
 - Belege: `belege/APP-SW-001/`. Grenzen: kein echter Safari-/iPhone-Test.
 - Veröffentlichung: zunächst NEIN. Jetzt geprüften Stand auf `main` übertragen, bestehende Action automatisch stempeln lassen und Live-Fassung kontrollieren. Nachtrag folgt.
+
+
+### APP-SW-001 — Abschluss: Schwarz/Weiß veröffentlicht und live geprüft
+- Autor: Codex · Empfänger: Liam · Datum: 13.10.2026, 13:42 Uhr (Europe/Berlin).
+- Status: ERLEDIGT. Veröffentlichung: JA.
+- Farb-Commit: `5151fc06762069209dbf8287a667f0f3ad439ea5`; automatisch gestempelter Commit `ba23340`. Live-Version **`20261013-1340`**. Kein manueller Stempel.
+- Bestehender Workflow erfolgreich: https://github.com/trostliam-hub/dreambuild/actions/runs/38391451714. Alle Tests erneut bestanden (142 s); Workflow bestätigt Live-Version.
+- Öffentliche App: https://trostliam-hub.github.io/dreambuild/. Die öffentlich abgerufene index.html ist byteweise identisch mit dem automatisch gestempelten Commit.
+- Eigene Live-Chromium-Prüfung: Hell/Dunkel × 390/1280 px, Hauptansicht und Fahrwerk. Schwarz/Weiß bestätigt; keine Petrol-Akzente mehr, Gesamtring ohne Filter, keine JS-Fehler, kein horizontaler Überstand. Nutzerdaten vor/nach tatsächlichem Designwechsel identisch. Screenshots beider Modi visuell geprüft.
+- Eigene Live-Kontrastprüfung: 0 Unterschreitungen in 1.056 sichtbaren Texten. Sämtliche Palette-/Button-/Ring-Kontraste bestanden.
+- Belege: `belege/APP-SW-001/live-palette.json`, `live-kontrast.txt`, `live-*.png`, `veroeffentlichung.txt`.
+- Funktionen, Speicherlogik, Warn-/Fehlerfarben, warme helle und Anthrazitflächen erhalten. Grenzen: Chromium, kein echter Safari-/iPhone-Test. Keine offenen Schritte.
