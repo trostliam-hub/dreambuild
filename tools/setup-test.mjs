@@ -49,6 +49,27 @@ const PRO = () => { pro = {key:'x', inst:'i', status:'aktiv', geprueft:Date.now(
 
 /* Jede Pruefung: [Name, async () => {ok, info}] */
 const PRUEFUNGEN = [
+  ['Produktbilder: Ausstattung, eigene Teile und fehlende Modelle', async () => {
+    const r = await ev(() => {
+      const d = n => ({id:'d-sd', m:'RockShox', n:'Super Deluxe', v:[{k:'Ausführung', o:[{n}]}], wahl:[0]});
+      const ul = produktBildInfo(d('Ultimate')), sl = produktBildInfo(d('Select'));
+      return {ausstattung:!!ul && !!sl && ul.src !== sl.src,
+        eigen:produktBildInfo({...d('Ultimate'), eigen:true}), unbekannt:produktBildInfo({id:'x-unbekannt', n:'Eigenbau'}),
+        leer:teilFoto(null), reifen:produktBildUrl({id:'t-dhr2', n:'Maxxis Minion DHR II'})};
+    });
+    return {ok:r.ausstattung && !r.eigen && !r.unbekannt && r.leer === '' && r.reifen.startsWith('bilder/produkte/'), info:r};
+  }],
+  ['Produktbilder: gesamte Bibliothek dekodiert, Quellen und Katalog geprueft', async () => {
+    const r = await ev(async () => {
+      const fehler = [], bilder = Object.entries(PRODUKTBILDER);
+      for(const [id, b] of bilder){
+        if(!/^bilder\/produkte\/[\w-]+\.(png|jpg)$/.test(b.datei) || !/^https:\/\//.test(b.quelle) || !(K[b.kategorie] || []).some(t => t.id === id.split('@')[0])) fehler.push(id + ': Metadaten');
+        const img = new Image(); img.src = b.datei; try{ await img.decode(); if(!img.naturalWidth) fehler.push(id); }catch(e){ fehler.push(id + ': Bild'); }
+      }
+      return {anzahl:bilder.length, fehler};
+    });
+    return {ok:r.anzahl >= 100 && !r.fehler.length, info:r};
+  }],
   ['Fahrwerk-Bilder: richtige Kartusche und Referenzjahr', async () => {
     const r = await ev(() => {
       const t = (n, m, ka) => ({n, m, v:[{k:'Kartusche', o:[{n:ka}]}], wahl:[0]});

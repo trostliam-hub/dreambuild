@@ -71,3 +71,49 @@ Ein ausschließlich temporäres Node-Preload setzt den Browserpfad und ersetzt
 Browser installiert, keine Umgehung von Assertions. CI nutzt unverändert
 seine eigene Chromium-Installation. Live-Veröffentlichung erfolgt erst
 nach Übernahme des Pull Requests und erfolgreicher Veröffentlichungs-Action.
+
+## Erweiterung: Bilder in der ganzen App
+
+Auf ausdrücklichen Nutzerauftrag vom 13.10.2026 um weitere Produktbilder und
+Veröffentlichung erweitert. `bilder/produkte/katalog.js` enthält 128
+Zuordnungen (einschließlich Ausstattungsvarianten) zu 122 Bilddateien.
+Die offiziellen Original- und Produktseiten stehen je Eintrag direkt im Katalog.
+Quellen: FOX, SRAM/RockShox, Sixpack Racing und Maxxis. Erfasst sind
+Gabeln, Dämpfer, Stützen, Schaltwerke, Kassetten, Ketten, Griffe, Lenker,
+Pedale, Sättel, Vorbauten und Reifen. Herstellerbilder können andere Farben,
+Maße, Baujahre oder Ausführungen zeigen; darauf weisen die Detailansichten hin.
+
+Dieselben Modellbilder erscheinen im Aufbau, in Auswahl und Finder,
+Detailansichten, Wechselvergleich, Wunschliste, Einkaufsliste und bei
+Katalogtreffern im Guide. Im Fahrwerk ergänzen sie die Modellkarte und
+Modellangaben; die vorhandenen Einsteller-Nahaufnahmen sind außerdem in der
+Werteübersicht und bei der Druckeinstellung im SAG-Assistenten sichtbar.
+Eigene Teile bekommen kein Foto ihrer Maßvorlage. Nicht belegte Modelle
+bleiben ohne Produktfoto; die erklärenden Schemata bleiben verfügbar.
+
+Die Produktbibliothek wird mit der App geladen, die eigentlichen Produktbilder
+erst beim Anzeigen. Der Service Worker speichert sie dann für die Offline-
+Nutzung. Die 17 Einstellerbilder bleiben vorab gespeichert. Beim Anzeigen der
+lokalen Bilder gibt es keine Anfrage an die Hersteller. Herkunft bedeutet
+keine Gemeinfreiheit oder eigene Bildrechte; Urheber bleiben die Hersteller.
+
+Der Veröffentlichungsworkflow berücksichtigt Bildänderungen und kopiert die
+Bilder samt Bildkatalog in das Pages-Paket. Dabei werden auch die bereits
+referenzierten Laufzeitdateien des 3D-Betrachters mitgeliefert (GLB und vendor).
+Die Blender-Quelldatei wird nicht in das Laufzeitpaket aufgenommen.
+
+Zusätzliche Prüfung: alle 128 Zuordnungen gegen vorhandene Katalog-IDs und
+sichere Quellen geprüft, alle Bilder im Browser dekodiert; Variantenabgleich,
+eigene Teile und unbekannte Modelle geprüft. 21/21 Setup-Prüfungen bestanden.
+Aufbau, Auswahl, Detail, Vergleich, Wunschliste, Einkauf und Fahrwerk bei
+320/390/1280 px ohne horizontale Überbreite oder JS-Ausnahme. Alle
+Produktbilder in vier Kontaktbögen und Handyansichten visuell durchgesehen.
+
+Offline-Nachweis: frischer Browserkontext, Service Worker installiert,
+Pike-Produktbild einmal geladen und im Cache nachgewiesen. Danach Netzwerk
+abgeschaltet und App neu geladen: alle 128 Zuordnungen verfügbar, Pike-Bild
+weiterhin dekodierbar. Statische Paketprüfung: 33 Startdateien und sämtliche
+Bildpfade vorhanden. Endgültige Gesamtsuite bestanden:
+Syntax, Kompatibilität 200/200, Setup 21/21, Wege 36/36, Sprache 0 Funde
+in 8.780 Texten, BEVEL 28/28, Preisskript 0 Fehler. Der GitHub-Workflow
+prüft zusätzlich seinen eigenen Veröffentlichungsstand.

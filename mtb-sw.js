@@ -16,6 +16,7 @@ var CACHE = 'dreambuild-20261013-1418';
 var ASSETS = [
   './',
   './index.html',
+  './bilder/produkte/katalog.js',
   './manifest.webmanifest',
   './icon-180.png',
   './icon-192.png',
