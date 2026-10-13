@@ -156,19 +156,13 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0e
   --ground:#16181b; --surface:#1f2226; --surface-2:#262a2f; --sunk:#30343a;
   --ink:#f2f3f5; --ink-2:#bcc0c6; --ink-3:#9ca1a8;
   --line:#363a40; --line-soft:#2b2e33; --hair:rgba(255,255,255,.06);
-  /* Markenfarbe gedecktes Stahlblau (APP-DESIGN-002, Liam 2026-10-09): mit
-     Schwarz, Graphit und klaren hellen Flaechen. Es hebt gezielt hervor --
-     wichtige Aktionen, aktive Zustaende, den gewaehlten Bereich, den
-     Gesamtscore. Status bleibt eigene Farbe: Gruen passt, Orange Warnung
-     (Kompromiss), Rot Konflikt. Kontraste per WCAG-Formel: Text >= 4,5:1,
-     Ringe und Flaechen >= 3:1. Ringe: Gesamt Stahlblau, Kompatibilitaet
-     Schieferblau, Einsatz neutrales Grau. Seit APP-DESIGN-003 (Liam: "heller
-     und ein bisschen leuchtend") frischer und heller; der Gesamtring hat
-     einen weichen Schein (--ring-schein). */
-  --anod:#8ec2f7; --anod-2:#b5d8fb; --anod-3:#b5d8fb; --anod-soft:rgba(142,194,247,.15); --on-anod:#0b1520;
-  --akzent-flaeche:#2f6db0; --grad:linear-gradient(#2f6db0,#2f6db0);
-  --ring-gesamt:#6fb2f5; --ring-pass:#7a8ea5; --ring-eins:#7b8087; --ring-schein:rgba(111,178,245,.18);
-  --m-pass:#7a8ea5; --m-eins:#8ec2f7;
+  /* APP-PETROL-001: gedaempftes Petrol, getrennt fuer Akzenttexte und
+     gefuellte Aktionen. Gesamtring ohne Leuchten, kleine Ringe neutralgrau.
+     Warnungen, Fehler und warme/anthrazitfarbene Flaechen bleiben erhalten. */
+  --anod:#8CC9C1; --anod-2:#8CC9C1; --anod-3:#8CC9C1; --anod-soft:rgba(140,201,193,.15); --on-anod:#16181b;
+  --akzent-flaeche:#246C66; --grad:linear-gradient(#246C66,#246C66);
+  --ring-gesamt:#8CC9C1; --ring-pass:#8B9794; --ring-eins:#8B9794;
+  --m-pass:#8B9794; --m-eins:#8CC9C1;
   --gut:#3ddc84; --gut-soft:rgba(61,220,132,.13);
   --warn:#ff9f43; --warn-soft:rgba(255,159,67,.14);
   --bad:#ff7586; --bad-soft:rgba(255,117,134,.15); --on-bad:#16181b;   /* BEVEL-002: heller, damit Rot auf Anthrazit 4,5:1 schafft; Schrift darauf dunkel */
@@ -188,16 +182,16 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0e
   color-scheme:dark;
 }
 :root[data-theme="light"]{
-  /* Hell: klare, leicht kuehle Flaechen zu Stahlblau und Graphit. Alle
+  /* Hell: warme helle Flaechen mit gedaempftem Petrol. Alle
      Textfarben >= 4,5:1 auf Grund, Karte und Flaeche (WCAG-Formel). */
   /* BEVEL-002: warme helle Neutralflaechen statt kuehlem Grau */
   --ground:#f2f0ec; --surface:#ffffff; --surface-2:#f8f6f2; --sunk:#e9e6e0;
   --ink:#14171b; --ink-2:#43474d; --ink-3:#5b5f65;
   --line:#dfdbd4; --line-soft:#ebe8e2; --hair:rgba(40,30,20,.08);
-  --anod:#2563a8; --anod-2:#1d4f87; --anod-3:#1d4f87; --anod-soft:#e3eefa; --on-anod:#ffffff;
-  --akzent-flaeche:#2563a8; --grad:linear-gradient(#2563a8,#2563a8);
-  --ring-gesamt:#3a80cc; --ring-pass:#6a7f96; --ring-eins:#80858c; --ring-schein:rgba(58,128,204,.10);
-  --m-pass:#6a7f96; --m-eins:#2563a8;
+  --anod:#176B67; --anod-2:#176B67; --anod-3:#176B67; --anod-soft:#E3F0EC; --on-anod:#ffffff;
+  --akzent-flaeche:#176B67; --grad:linear-gradient(#176B67,#176B67);
+  --ring-gesamt:#176B67; --ring-pass:#6E7976; --ring-eins:#6E7976;
+  --m-pass:#6E7976; --m-eins:#176B67;
   --gut:#0f7653; --gut-soft:#ddf1e7;
   --warn:#a8520a; --warn-soft:#fbeadb;
   --bad:#c42a52; --bad-soft:#fbe2ea; --on-bad:#ffffff;
@@ -392,7 +386,7 @@ body.klein .mini{opacity:1;transform:none;pointer-events:auto}
    Farbe traegt der Ring, lesbar bleibt die Zahl immer. Hinter den Ringen
    liegt ein weicher Farbschein aus denselben drei Farben.
    (Aeltere Fassung -- seit APP-DESIGN-002 gilt der Block "Score-Karte:
-   technische Uebersicht" weiter unten: Gesamtring Stahlblau, kein Farbschein.) */
+   technische Uebersicht" weiter unten: Gesamtring Petrol, kein Farbschein.) */
 .bar{padding:0}
 .bar-in{padding:18px 16px 14px;display:flex;flex-direction:column;align-items:center;gap:12px;
   background:var(--surface);border-radius:var(--r-karte);position:relative;overflow:hidden;isolation:isolate;
@@ -494,7 +488,7 @@ body[data-view="aufbau"] #panel,body:not([data-view="aufbau"]) #aufbau{display:n
 .pro-tzeile{font-size:13px;color:var(--ink-2)}
 .pro-tspar{font-size:13px;font-weight:700;color:var(--anod);margin-bottom:6px}
 .pro-tarif .btn{margin-top:8px}
-.pro-tbadge{position:absolute;top:-10px;right:12px;padding:3px 9px;border-radius:999px;background:var(--anod);color:var(--on-anod);font-size:11.5px;font-weight:750}
+.pro-tbadge{position:absolute;top:-10px;right:12px;padding:3px 9px;border-radius:999px;background:var(--akzent-flaeche);color:#fff;font-size:11.5px;font-weight:750}
 .pro-preis b{font-family:var(--f-head);font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.03em}
 .pro-grund{margin:6px 0 0;padding:11px 13px;border-radius:14px;background:var(--anod-soft);font-size:13.5px;color:var(--ink);line-height:1.45}
 .pro-liste{list-style:none;margin:4px 0 0;padding:0;background:var(--surface-2);border-radius:20px;overflow:hidden;flex:none}
@@ -653,7 +647,7 @@ body[data-view="aufbau"] #panel,body:not([data-view="aufbau"]) #aufbau{display:n
 .kn-hebel{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;margin-top:4px}
 .kn-hebel b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);min-width:70px}
 .kn-pos{padding:4px 10px;border-radius:999px;border:1px solid var(--hair);color:var(--ink-3);font-weight:650}
-.kn-pos.an{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
+.kn-pos.an{background:var(--akzent-flaeche);border-color:var(--akzent-flaeche);color:#fff}
 .kn-hz{flex-basis:100%;font-size:12px;color:var(--ink-3);margin-top:2px}
 .fed-karte{border:1px solid var(--hair);background:var(--surface-2);border-radius:16px;padding:13px 14px;margin-bottom:10px}
 .fed-kopf{display:flex;flex-direction:column;gap:1px;margin-bottom:8px}
@@ -873,7 +867,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .g-m{display:flex;gap:8px;align-items:flex-end;min-width:0}
 .g-m.du{justify-content:flex-end}
 .g-bl{max-width:86%;min-width:0;padding:10px 13px;border-radius:18px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
-.g-m.du .g-bl{background:var(--anod);color:var(--on-anod);border-bottom-right-radius:6px}
+.g-m.du .g-bl{background:var(--akzent-flaeche);color:#fff;border-bottom-right-radius:6px}
 .g-m.bot .g-bl{background:var(--surface-2);color:var(--ink);border-bottom-left-radius:6px}
 .g-bl ul,.g-bl ol{margin:6px 0 8px;padding-left:20px}
 .g-bl li{margin:3px 0}
@@ -941,7 +935,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .dis[aria-pressed="true"]{border-color:var(--anod);background:var(--anod-soft)}
 .box{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);display:grid;place-items:center;
   margin-top:1px;color:transparent;transition:background-color .15s,border-color .15s}
-.dis[aria-pressed="true"] .box{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
+.dis[aria-pressed="true"] .box{background:var(--akzent-flaeche);border-color:var(--akzent-flaeche);color:#fff}
 .dis-n{font-weight:750;font-size:15px;font-family:var(--f-head);letter-spacing:-.015em;display:block}
 .dis-t{font-size:12.5px;color:var(--ink-2);line-height:1.4;margin-top:2px;display:block}
 .mixbox{font-size:13px;line-height:1.5;padding:11px 13px;border-radius:14px;margin-top:2px}
@@ -969,7 +963,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .mchips{display:flex;flex-wrap:wrap;gap:6px}
 .mchips button{background:var(--surface-2);border:1px solid var(--hair);border-radius:999px;padding:8px 14px;font-size:13px;
   font-weight:650;color:var(--ink-2);min-height:36px}
-.mchips button[aria-pressed="true"]{border-color:transparent;background:var(--anod);color:var(--on-anod)}
+.mchips button[aria-pressed="true"]{border-color:transparent;background:var(--akzent-flaeche);color:#fff}
 .erg{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;padding:9px 0;
   border-bottom:1px solid var(--line-soft);align-items:center}
 .erg .k{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700;grid-column:1}
@@ -1030,7 +1024,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .jl-reihe::-webkit-scrollbar{display:none}
 .jl-reihe button{flex:none;background:var(--surface-2);border:1px solid var(--hair);border-radius:999px;padding:7px 13px;font-size:12.5px;
   font-weight:650;color:var(--ink-2);white-space:nowrap;min-height:34px}
-.jl-reihe button[aria-pressed="true"]{border-color:transparent;background:var(--anod);color:var(--on-anod)}
+.jl-reihe button[aria-pressed="true"]{border-color:transparent;background:var(--akzent-flaeche);color:#fff}
 .jl-h{font-size:12px;color:var(--ink-3);line-height:1.4}
 .rad2{grid-column:1;display:flex;flex-direction:column;gap:4px;margin-top:6px}
 .rz{display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px;font-size:12.5px;line-height:1.4;color:var(--ink-2)}
@@ -1049,7 +1043,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .mk-reihe{display:flex;flex-wrap:wrap;gap:6px}
 .mk-reihe button{background:var(--surface-2);border:1px solid var(--hair);border-radius:999px;padding:8px 13px;font-size:13px;
   font-weight:650;color:var(--ink-2);min-height:36px}
-.mk-reihe button[aria-pressed="true"]{border-color:transparent;background:var(--anod);color:var(--on-anod)}
+.mk-reihe button[aria-pressed="true"]{border-color:transparent;background:var(--akzent-flaeche);color:#fff}
 .mk-vs{display:flex;flex-direction:column;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);
   border-radius:14px;overflow:hidden}
 .mk-vs button{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:10px;align-items:center;
@@ -1058,7 +1052,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .mk-vs button[aria-pressed="true"]{background:var(--anod-soft);color:var(--anod)}
 .mk-vs .kasten{width:19px;height:19px;border-radius:6px;border:1.5px solid var(--line);
   display:grid;place-items:center;color:transparent}
-.mk-vs button[aria-pressed="true"] .kasten{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
+.mk-vs button[aria-pressed="true"] .kasten{background:var(--akzent-flaeche);border-color:var(--akzent-flaeche);color:#fff}
 .mk-vs .kst{font-size:11.5px;color:var(--ink-3);font-weight:600}
 .mk-preis{font-family:var(--f-head);font-size:20px;font-weight:800;padding:11px 14px;
   border-radius:14px;border:1px solid transparent;background:var(--surface-2);color:var(--ink);width:100%}
@@ -1250,7 +1244,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .shopzeile input:focus{border-color:var(--anod);outline:none}
 .schalt{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);display:grid;
   place-items:center;color:transparent;flex:none}
-.shopzeile[aria-pressed="true"] .schalt{background:var(--anod);border-color:var(--anod);color:var(--on-anod)}
+.shopzeile[aria-pressed="true"] .schalt{background:var(--akzent-flaeche);border-color:var(--akzent-flaeche);color:#fff}
 
 /* ── Fotokarte ── */
 .fotokarte{background:var(--surface);border:none;border-radius:var(--r-karte);
@@ -1500,7 +1494,7 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .er-h0{font-size:12px;color:var(--ink-3)}
 .er-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .er-chips button{background:var(--surface-2);border:1px solid var(--hair);border-radius:999px;padding:8px 15px;font-size:13.5px;font-weight:700;min-height:38px}
-.er-chips button[aria-pressed="true"]{background:var(--anod);border-color:transparent;color:var(--on-anod)}
+.er-chips button[aria-pressed="true"]{background:var(--akzent-flaeche);border-color:transparent;color:#fff}
 .ei-sprache{justify-content:center;margin:0 0 4px}
 .ei-sprache button{min-height:34px;padding:6px 14px;font-size:12.5px}
 .menu-sprache{margin:0 0 4px}
@@ -1787,14 +1781,14 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
    und Pro darueber aufgehen. */
 .ls{position:fixed;inset:0;z-index:55;background:#fff;color:#1d1d1f;display:flex;flex-direction:column;
   --l-karte:#f2f2f5;--l-ink:#1d1d1f;--l-ink2:#6e6e73;--l-line:#e3e3e8;animation:einblenden .3s ease;
-  --gut:#2fb86b;--bad:#e0344f;--on-bad:#fff;--m-pass:#6a7f96;--m-eins:#858a91;--anod:#2563a8}
+  --gut:#2fb86b;--bad:#e0344f;--on-bad:#fff;--m-pass:#6E7976;--m-eins:#6E7976;--anod:#176B67;--anod-soft:#E3F0EC;--on-anod:#fff;--akzent-flaeche:#176B67;--grad:linear-gradient(#176B67,#176B67)}
 .ls-nav{flex:none;display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;
   background:rgba(255,255,255,.82);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid transparent;transition:border-color .2s;position:relative;z-index:2}
 .ls.gerollt .ls-nav{border-bottom-color:var(--l-line)}
 /* Startseite (immer hell): derselbe Schriftzug wie im Kopf der App */
 .ls-logo{font-family:Inter,var(--f-sans);font-weight:800;font-size:18px;letter-spacing:-.01em;text-transform:uppercase;color:var(--l-ink)}
-.ls-logo i{font-style:normal;color:#2563a8;font-weight:800}
+.ls-logo i{font-style:normal;color:#176B67;font-weight:800}
 @media (max-width:300px){.ls-logo{font-size:13.5px!important}}
 .ls-mini{background:var(--l-ink);color:#fff;border-radius:999px;padding:8px 16px;font-size:13.5px;font-weight:700;white-space:nowrap}
 .ls-nav-r{display:flex;align-items:center;gap:8px}
@@ -1894,7 +1888,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-klicks i{width:11px;height:11px;border-radius:50%;background:#e3e3e8}
 .ls-klicks i.an{background:var(--anod)}
 .ls-chat{background:#fff;border-radius:18px 18px 18px 6px;padding:10px 12px;font-size:12.5px;line-height:1.45;margin-bottom:8px;max-width:92%}
-.ls-chat.du{margin-left:auto;background:#2563a8;color:#fff;border-radius:18px 18px 6px 18px}
+.ls-chat.du{margin-left:auto;background:#176B67;color:#fff;border-radius:18px 18px 6px 18px}
 /* Dunkler Abschnitt fuer den Guide -- wie "Bevel Intelligence" */
 .ls-dunkel{background:#161618;color:#f5f5f7;padding:60px 0 20px;margin-top:50px;max-width:none;text-align:center;overflow:hidden}
 .ls-dunkel > h2{font-size:38px;line-height:1.04;letter-spacing:-.045em;font-weight:800;color:#f5f5f7;padding:0 20px}
@@ -1907,7 +1901,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-quer{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:0 14px 6px;scroll-snap-type:x mandatory;max-width:none}
 .ls-quer::-webkit-scrollbar{display:none}
 .ls-mehr{flex:none;width:250px;scroll-snap-align:start;background:var(--l-karte);border-radius:26px;padding:22px 20px;display:flex;flex-direction:column;gap:6px}
-.ls-mehr i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#fff;color:#2563a8;margin-bottom:6px}
+.ls-mehr i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#fff;color:#176B67;margin-bottom:6px}
 .ls-mehr b{font-family:var(--f-head);font-size:19px;letter-spacing:-.025em}
 .ls-mehr span{font-size:14.5px;line-height:1.4;color:var(--l-ink2)}
 @media (min-width:790px){.ls-quer{flex-wrap:wrap;justify-content:center;max-width:790px;margin:0 auto}.ls-mehr{width:245px}}
@@ -1922,7 +1916,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-preis li svg{flex:none;color:#12805a}
 .ls-preis > small{font-size:12.5px;color:var(--l-ink2);margin-top:6px}
 .ls-preis.pro{background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:2px solid transparent}
-.ls-preis.pro li svg{color:#2563a8}
+.ls-preis.pro li svg{color:#176B67}
 /* Privatsphaere: dunkle Karte mit Schloss, einfarbig (Graphit seit APP-DESIGN-002) */
 .ls-privat{position:relative;overflow:hidden;margin:64px max(14px,calc(50% - 380px)) 0;border-radius:30px;padding:120px 26px 110px;text-align:center;
   background:#18221f;color:#e8efe9}
@@ -2007,7 +2001,7 @@ a:active,label:active,[role="button"]:active{opacity:.6}
 .ad-info{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:999px;transition:transform .12s ease}
 .ad-info span{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;font:800 14px/1 var(--f-head);color:var(--anod);
   background:var(--anod-soft);border:1.5px solid color-mix(in srgb,var(--anod) 55%,transparent);box-shadow:0 0 14px -2px color-mix(in srgb,var(--anod) 55%,transparent)}
-@media (hover:hover){.ad-info:hover span{background:var(--anod);color:var(--on-anod)}}
+@media (hover:hover){.ad-info:hover span{background:var(--akzent-flaeche);color:#fff}}
 .ad-info:active span{transform:scale(.88)}
 .ad-info.klein{width:32px;height:32px;margin:-6px 0}
 .ad-info.klein span{width:22px;height:22px;font-size:12.5px}
@@ -2069,7 +2063,7 @@ body:not([data-view="aufbau"]) .coach-platz{display:none}
 .fx-i{width:32px;height:32px;margin:-8px -8px -8px 0;display:inline-grid;place-items:center;flex:none;border-radius:999px;vertical-align:middle}
 .fx-i span{width:19px;height:19px;border-radius:999px;display:grid;place-items:center;font:800 11px/1 var(--f-head);text-transform:none;
   color:var(--anod);background:var(--anod-soft);box-shadow:0 0 10px -2px color-mix(in srgb,var(--anod) 65%,transparent)}
-.fx-i[aria-expanded="true"] span{background:var(--anod);color:var(--on-anod)}
+.fx-i[aria-expanded="true"] span{background:var(--akzent-flaeche);color:#fff}
 .fx-tipp{margin:0;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.45;color:var(--ink);
   background:var(--anod-soft);border:1px solid color-mix(in srgb,var(--anod) 30%,transparent);box-shadow:0 0 24px -12px var(--anod);animation:plopp var(--t-mittel) var(--e-aus)}
 .fx-sag{background:var(--surface);border-radius:16px;padding:12px}
@@ -2252,8 +2246,8 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .il-pfeil{fill:none;stroke:var(--ink-3);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .il-t{font:800 13px var(--f-sans);fill:var(--anod)}
 .il-t-k{font-size:10.5px;font-weight:650;fill:var(--ink-3)}
-.il-m .il-m-r{fill:var(--anod);stroke:var(--surface);stroke-width:2}
-.il-m text{font:800 11px var(--f-head);fill:var(--on-anod);text-anchor:middle}
+.il-m .il-m-r{fill:var(--akzent-flaeche);stroke:var(--surface);stroke-width:2}
+.il-m text{font:800 11px var(--f-head);fill:#fff;text-anchor:middle}
 .il-m .il-m-puls{fill:none;stroke:var(--il-ring);stroke-width:2.5;opacity:0;transform-box:fill-box;transform-origin:center}
 .il-m.an .il-m-r{fill:var(--il-ring)}
 .il-m.an text{fill:#fff}
@@ -2261,11 +2255,11 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 @keyframes ilPuls{0%{opacity:.9;transform:scale(.75)}100%{opacity:0;transform:scale(1.55)}}
 .fw-leg{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .fw-leg li{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.4;color:var(--ink-2)}
-.fw-leg-n{flex:none;width:20px;height:20px;border-radius:999px;display:grid;place-items:center;font:800 11px/1 var(--f-head);background:var(--anod);color:var(--on-anod);margin-top:-1px}
+.fw-leg-n{flex:none;width:20px;height:20px;border-radius:999px;display:grid;place-items:center;font:800 11px/1 var(--f-head);background:var(--akzent-flaeche);color:#fff;margin-top:-1px}
 /* Begriffe und Quellen */
 .fw-b{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:3px 6px 3px 10px;border-radius:999px;font-size:12px;font-weight:700;color:var(--anod);
   background:var(--anod-soft);vertical-align:middle;letter-spacing:0;text-transform:none;line-height:1.2}
-.fw-b span{width:16px;height:16px;border-radius:999px;display:grid;place-items:center;font-size:10.5px;font-weight:800;background:var(--anod);color:var(--on-anod)}
+.fw-b span{width:16px;height:16px;border-radius:999px;display:grid;place-items:center;font-size:10.5px;font-weight:800;background:var(--akzent-flaeche);color:#fff}
 .fw-q{display:inline-flex;align-items:center;gap:6px;max-width:100%;min-height:36px;margin:6px 6px 0 0;padding:6px 11px;border-radius:12px;font-size:12px;font-weight:650;line-height:1.3;
   color:var(--ink-2);background:var(--surface);border:1px solid var(--line-soft);text-decoration:none;overflow-wrap:anywhere}
 .fw-q svg{flex:none;color:var(--anod)}
@@ -2309,7 +2303,7 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 /* Naechster Schritt */
 .fw-weiter{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 12px;align-items:center;padding:14px;border-radius:var(--r-karte);background:var(--surface);box-shadow:var(--shadow);
   border:1.5px solid color-mix(in srgb,var(--anod) 40%,transparent)}
-.fw-weiter-n{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;align-content:center;background:var(--anod);color:var(--on-anod);font:800 20px/1 var(--f-head)}
+.fw-weiter-n{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;align-content:center;background:var(--akzent-flaeche);color:#fff;font:800 20px/1 var(--f-head)}
 .fw-weiter-n small{font-size:10px;font-weight:700;opacity:.8;margin-top:1px}
 .fw-weiter-t{display:flex;flex-direction:column;gap:2px;min-width:0}
 .fw-weiter-t small{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
@@ -2479,7 +2473,7 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-vs-o{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--anod)}
 .fw-vs-w{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--ink-3)}
 .fw-vs-w span{padding:8px 12px;border-radius:12px;background:var(--surface);font:800 16px/1.2 var(--f-head);color:var(--ink-2)}
-.fw-vs-w span.neu{background:var(--anod);color:var(--on-anod)}
+.fw-vs-w span.neu{background:var(--akzent-flaeche);color:#fff}
 /* Vergleich */
 .fw-vgl{display:flex;flex-direction:column;gap:12px}
 .fw-vgl > *{margin:0}
@@ -2506,7 +2500,7 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-ow b{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:750;line-height:1.25}
 .fw-ow small{font-size:12px;color:var(--ink-3);line-height:1.3}
 .fw-ow[aria-pressed="true"]{border-color:var(--anod);background:var(--anod-soft)}
-.fw-ow[aria-pressed="true"] b::after{content:"";width:16px;height:16px;flex:none;margin-left:auto;border-radius:999px;background:var(--anod) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/11px no-repeat}
+.fw-ow[aria-pressed="true"] b::after{content:"";width:16px;height:16px;flex:none;margin-left:auto;border-radius:999px;background:var(--akzent-flaeche) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/11px no-repeat}
 .fw-ow b{width:100%}
 .fw-ow.klein{min-height:46px;align-items:center;text-align:center;padding:8px 6px}
 .fw-ow.klein b{justify-content:center;font-size:13.5px}
@@ -2572,12 +2566,12 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-hero-t p{margin:0 0 12px;font-size:14.5px;line-height:1.5;color:var(--ink-2)}
 .fw-hero-l{margin:0 0 16px;padding:0;list-style:none;counter-reset:fwh;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
 .fw-hero-l li{counter-increment:fwh;display:flex;align-items:center;gap:8px;padding:10px;border-radius:14px;background:var(--surface-2);font-size:13px;font-weight:700;line-height:1.3}
-.fw-hero-l li::before{content:counter(fwh);flex:none;width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font:800 12px/1 var(--f-head);background:var(--anod);color:var(--on-anod)}
+.fw-hero-l li::before{content:counter(fwh);flex:none;width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font:800 12px/1 var(--f-head);background:var(--akzent-flaeche);color:#fff}
 @media (max-width:319px){.fw-hero-l{grid-template-columns:minmax(0,1fr)}}
 .fw-hero .btn.wide{min-height:52px;font-size:15px}
 .fw-hero-leg{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 12px;margin:12px 0 0;font-size:12px;font-weight:700;color:var(--ink-3)}
 .fw-hero-leg span{display:inline-flex;align-items:center;gap:5px}
-.fw-hero-leg i{width:18px;height:18px;border-radius:999px;display:grid;place-items:center;font:800 10.5px/1 var(--f-head);font-style:normal;background:var(--anod);color:var(--on-anod)}
+.fw-hero-leg i{width:18px;height:18px;border-radius:999px;display:grid;place-items:center;font:800 10.5px/1 var(--f-head);font-style:normal;background:var(--akzent-flaeche);color:#fff}
 @media (min-width:760px){.fw-hero{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;padding:28px}}
 /* Setup-Karte (eigene Klassen: tk-* gehoert der Tour) */
 .trk{max-width:460px}
@@ -2868,8 +2862,8 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 }
 </style>
 <style>
-/* ══ APP-DESIGN-002: Stahlblau, Graphit, klare Flaechen (Liam 2026-10-09) ══
-   Stahlblau hebt gezielt hervor: wichtige Aktionen (gefuellte Knoepfe), aktive
+/* ══ APP-DESIGN-002: Petrol, Graphit, klare Flaechen (Liam 2026-10-09) ══
+   Petrol hebt gezielt hervor: wichtige Aktionen (gefuellte Knoepfe), aktive
    Zustaende (Bereich, Auswahl, aktueller Schritt), den Gesamtscore. Orange nur
    fuer Warnungen, Rot fuer Konflikte, Gruen fuer "passt". Kein Leuchten, keine
    Verlaeufe; Spannung kommt aus Typografie, Kontrast und dem Rad selbst. */
@@ -2879,7 +2873,7 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 .brand{display:inline-flex;align-items:center}
 .brand-logo{width:28px;height:21px;flex:none;color:var(--anod);margin-right:7px}
 .ls-logo{display:inline-flex;align-items:center}
-.ls-logo .brand-logo{color:#2563a8}
+.ls-logo .brand-logo{color:#176B67}
 /* Im App-Kopf erst ab 400 px: darunter braucht der Disziplin-Knopf den Platz,
    und das Logo steht ohnehin gross im Gesamtring direkt darunter. */
 @media (max-width:399px){.brand .brand-logo{display:none}}
@@ -2887,7 +2881,7 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 @media (max-width:340px){.ls-logo .brand-logo{width:18px;height:14px;margin-right:5px}}
 @media (max-width:300px){.ls-logo .brand-logo{display:none}}
 
-/* Wichtige Aktionen: gefuellt in Stahlblau, Nebenaktionen bleiben neutral */
+/* Wichtige Aktionen: gefuellt in Petrol, Nebenaktionen bleiben neutral */
 .btn{background:var(--akzent-flaeche);color:#fff}
 @media (hover:hover){.btn:not(.ghost):not(.rot):hover{opacity:1;background:color-mix(in srgb,var(--akzent-flaeche) 84%,#000)}}
 .btn.ghost{background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--ink)}
@@ -2897,7 +2891,7 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 .leit-s.jetzt .leit-n{background:var(--akzent-flaeche);border-color:var(--akzent-flaeche);color:#fff}
 .fw-weiter-n{background:var(--akzent-flaeche);color:#fff}
 .fm-seg button[aria-pressed="true"]{background:var(--akzent-flaeche);color:#fff}
-/* Guide: eigene Fragen in Stahlblau, Antworten neutral */
+/* Guide: eigene Fragen in Petrol, Antworten neutral */
 .g-knopf{color:var(--anod)}
 .g-m.du .g-bl{background:var(--akzent-flaeche);color:#fff}
 .g-send{background:var(--akzent-flaeche);color:#fff}
@@ -2918,9 +2912,8 @@ body[data-view="befunde"] .konflikte,body[data-view="setup"] .konflikte{display:
 .rg-innen{position:absolute;inset:15%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center}
 .bar .rg-gesamt .v{position:static;display:block;max-width:none;margin:0;font-family:var(--f-zahl);font-size:clamp(52px,15vw,64px);font-weight:700;
   line-height:.92;letter-spacing:-.01em;color:var(--ink)}
-/* Leichtes Leuchten am Gesamtring (Liam, APP-DESIGN-003): ein weicher Schein
-   in der Ringfarbe, dunkel etwas kraeftiger als hell -- keine Farbwolke */
-.bar .rg-gesamt svg.rg-kreis{filter:drop-shadow(0 0 7px var(--ring-schein))}
+/* APP-PETROL-001: Gesamtring ohne Leuchten. */
+.bar .rg-gesamt svg.rg-kreis{filter:none}
 /* Die Beschriftung steht als Unterzeile unter dem Ring -- im Ring steht nur
    die Zahl, so passt auch "Overall score" bei 280 px, ohne den Ring zu beruehren. */
 .bar .rg-gesamt{margin-bottom:22px}
@@ -2954,14 +2947,14 @@ button.st::after{content:"›";margin-left:1px;font-weight:800;opacity:.75}
 @media (min-width:820px){.bar .rg-gesamt{width:180px}}
 
 /* Startseite: dieselbe Hierarchie wie in der App -- Gesamtscore gross,
-   Kompatibilitaet und Einsatz klein darunter. Hauptknopf in Stahlblau. */
-.ls-cta{background:#2563a8}
-@media (hover:hover){.ls-cta:hover{opacity:1;background:#1d4f87}}
+   Kompatibilitaet und Einsatz klein darunter. Hauptknopf in Petrol. */
+.ls-cta{background:#176B67}
+@media (hover:hover){.ls-cta:hover{opacity:1;background:#125651}}
 .ls-ringe{display:flex;flex-direction:column;align-items:center;gap:12px;padding:0}
 .ls-ring.gross{width:142px}
 .ls-ring.gross .b,.ls-ring.gross .w{stroke-width:6}
 .ls-ring.gross b{font-family:var(--f-zahl);font-size:44px;font-weight:700;line-height:1;letter-spacing:-.01em}
-.ls-ring.gross svg{filter:drop-shadow(0 0 6px rgba(58,128,204,.32))}
+.ls-ring.gross svg{filter:none}
 .ls-paar{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
 .ls-paar > span{display:flex;align-items:center;gap:8px;min-width:0;background:#fff;border-radius:14px;padding:8px 9px}
 .ls-paar .ls-ring{width:38px;flex:none}
@@ -2971,14 +2964,14 @@ button.st::after{content:"›";margin-left:1px;font-weight:800;opacity:.75}
 .ls-privat h2{color:#f3f5f7}
 .ls-privat p{color:#aeb8c2}
 
-/* Fahrwerk-Illustrationen: Marker wie die Nummern der Legende in Stahlblau,
+/* Fahrwerk-Illustrationen: Marker wie die Nummern der Legende in Petrol,
    der gerade erklaerte gefuellt und mit Puls. Der O-Ring (SAG) war orange --
    Orange steht jetzt nur noch fuer Warnungen. */
-:root{--il-ring:#6fb2f5}
-:root[data-theme="light"]{--il-ring:#2563a8}
+:root{--il-ring:var(--anod)}
+:root[data-theme="light"]{--il-ring:var(--anod)}
 .il-m.an .il-m-r{fill:var(--akzent-flaeche)}
 .fw-ki.ring{background:var(--akzent-flaeche)}
-.ls-coach em{background:#2563a8}
+.ls-coach em{background:#176B67}
 
 @media (min-width:820px){.seite{max-height:calc(100dvh - var(--kopf-h) - var(--nav-h) - 32px);overflow-y:auto;scrollbar-width:thin}
   body[data-view="aufbau"] .seite{max-height:calc(100dvh - var(--kopf-h) - var(--nav-h) - 82px)}}
@@ -2987,7 +2980,7 @@ button.st::after{content:"›";margin-left:1px;font-weight:800;opacity:.75}
 <style>
 /* ══ APP-REDESIGN-001: Designsystem "Datenblatt" (Liam 2026-10-09) ══
    Charakter aus der Welt des Rads, nicht aus einer Vorlage: Zahlen und Masse
-   wie auf einem Datenblatt (schmal, gleich breit, Einheit klein), Stahlblau
+   wie auf einem Datenblatt (schmal, gleich breit, Einheit klein), Petrol
    als einziger Akzent wie ein eloxiertes Anbauteil, Graphit und klare helle
    Flaechen. Eine Kartenebene je Ansicht; innen gliedern Linie und Abstand.
    Beschriftungen in normaler Schreibung -- gesperrte Versalien nur noch im
@@ -3772,7 +3765,7 @@ details.legal p{margin:0 0 var(--sp-2)}
   <div class="bar">
     <div class="bar-in">
       <!-- Score-Karte (APP-DESIGN-002/003, APP-REDESIGN-001): oben der Gesamtscore
-           in Stahlblau, im Ring das CrankScore-Logo und darunter die Zahl, darunter Kompatibilitaet (Schieferblau) und
+           in Petrol, im Ring das CrankScore-Logo und darunter die Zahl, darunter Kompatibilitaet (Neutralgrau) und
            Einsatz (Grau) mit Beschriftung, dann Statushinweise in Worten -->
       <button class="dchip" id="btn-disz" aria-label="Disziplin wählen" data-ta="Disziplin wählen|Choose discipline">
         <span class="dc-l" data-t="Bewertet für|Rated for">Bewertet für</span><span class="dn" id="disz-n">Trail</span>
@@ -8139,8 +8132,8 @@ function startseiteHtml(){
       <section class="ls-titel ls-rein"><h2>${tx("Vor dem Kauf wissen,<br>ob alles passt.", "Be sure it all fits<br>before you buy.")}</h2>
         <p>${tx("Drei Zahlen zeigen dir, wo dein Rad steht — und was es besser macht.", "Three numbers show you where your bike stands — and what makes it better.")}</p></section>
       ${karte("var(--gut)", "Score", tx("Eine Zahl von 0 bis 100: Passen die Teile zusammen — und zu dem, was du fährst?", "One number from 0 to 100: do the parts fit together — and suit what you ride?"),
-        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.gesamt, "#3a80cc", true)}
-          <div class="ls-paar"><span>${lsRing(r.tech, "#6a7f96")}<em>${tx("Kompa\u00adtibilität", "Compat\u00adibility")}</em></span><span>${lsRing(r.chara, "#858a91")}<em>${wort("einsatz")}</em></span></div></div>
+        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.gesamt, "#176B67", true)}
+          <div class="ls-paar"><span>${lsRing(r.tech, "#6E7976")}<em>${tx("Kompa\u00adtibilität", "Compat\u00adibility")}</em></span><span>${lsRing(r.chara, "#6E7976")}<em>${wort("einsatz")}</em></span></div></div>
           <div class="ls-app-z"><b>${tx("Stimmig.", "Spot on.")}</b> ${tx("Alles zieht in Richtung Trail.", "The whole build is geared towards Trail.")}</div><div class="ls-platz"></div>`)
         + `<div class="ls-schwebe"><span>${tx("Preis", "Price")}</span><b>${eur(r.preis)}</b><span>${kg(r.gewicht)}</span></div>`)}
       ${karte("var(--bad)", tx("Prüfung", "Check"), tx("Achsen, Freilauf, Dämpfermaß, Steuersatz, Bremsscheiben: Die App gleicht jedes Teil mit jedem anderen ab — und sagt dir, wie du Konflikte löst.",
@@ -17242,7 +17235,7 @@ function zeichne(){
      Kompatibilitaet und Einsatz behalten ihre eigene Farbe. */
   const ringSetzen = (id, v) => { $(id).style.strokeDashoffset = String(263.9 * (leer ? 1 : 1 - v / 100)); };
   ringSetzen("ring", r.gesamt); ringSetzen("ring-tech", r.tech); ringSetzen("ring-char", r.chara);
-  /* Gesamtscore in Stahlblau (APP-DESIGN-002); Probleme stehen als Statushinweis darunter, nicht als Ringfarbe */
+  /* Gesamtscore in Petrol (APP-DESIGN-002); Probleme stehen als Statushinweis darunter, nicht als Ringfarbe */
   document.querySelector(".bar-in").style.setProperty("--wert-farbe", leer ? "var(--ink-3)" : "var(--ring-gesamt)");
   /* Leeres Rad: kein Logo-plus-Strich, sondern eine klare Aussage unter dem Ring (APP-REDESIGN-001) */
   const rgL = document.querySelector(".rg-gesamt > .rg-l");
