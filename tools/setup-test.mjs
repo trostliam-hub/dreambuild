@@ -49,6 +49,21 @@ const PRO = () => { pro = {key:'x', inst:'i', status:'aktiv', geprueft:Date.now(
 
 /* Jede Pruefung: [Name, async () => {ok, info}] */
 const PRUEFUNGEN = [
+  ['Daempfer: Federhaerte und vorhandene Detailbilder zeigen auf das Bauteil', async () => {
+    const r = await ev(() => {
+      const x = (n,m,au,coil) => ({t:{n,m,v:[{k:'Ausführung',o:[{n:au}]}],wahl:[0]},coil});
+      const vivid = x('RockShox Vivid Coil','RockShox','Ultimate',true);
+      const feder = suEinstellBild('daempfer',vivid,{zeig:['feder'],nr:1});
+      const arten = ['zug','lsc','hsc','bo','oring'].every(a => suEinstellBild('daempfer',vivid,{zeig:[a]}).includes('<path d="M'));
+      const fox = ['Fox DHX','Fox DHX2','Fox Float X2','Fox Float X'].every(n => {
+        const html = suEinstellBild('daempfer',x(n,'Fox','Factory',n.includes('DHX')),{zeig:['lsc']});
+        return html.includes('<path d="M') && html.includes('Bildquelle');
+      });
+      const eigen = suNahFotos('daempfer',{...vivid,t:{...vivid.t,eigen:true}},{zeig:['feder']});
+      return {feder:feder.includes('rs-nah-coil-sag.jpg') && feder.includes('cx="420"') && feder.includes('Aufdruck'),arten,fox,eigen:eigen === ''};
+    });
+    return {ok:Object.values(r).every(Boolean),info:r};
+  }],
   ['Einstellbilder: echtes Foto, schwarze Flaeche und modellsichere Marker', async () => {
     const r = await ev(() => {
       const x = {t:{id:'g-lyrik',n:'Lyrik Ultimate',m:'RockShox',v:[{k:'Kartusche',o:[{n:'Charger 3.2 RC2'}]}],wahl:[0]},coil:false};

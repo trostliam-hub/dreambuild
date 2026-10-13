@@ -14275,7 +14275,7 @@ function suFotoDaten(slot, x){
   if(prefix){
     const modell = /DHX2/.test(n) ? "DHX2 · 2025" : "FLOAT X2 · 2025";
     return [f(prefix + "-zug.jpg", ["zug"], modell, "LSR: Zugstufe am roten Einsteller, innen mit 3-mm-Inbus.", "LSR: rebound at the red adjuster, inside with a 3 mm hex key.", q),
-      ...(au === "Factory" ? [f(prefix + "-hsr.jpg", ["hsr"], modell, "HSR: äußerer Zugstufen-Einsteller mit 6-mm-Inbus.", "HSR: outer rebound adjuster with a 6 mm hex key.", q)] : []),
+      ...(au === "Factory" ? [f(prefix + "-hsr.jpg", ["hsr"], modell, "HSR: separater High-Speed-Zugstufen-Einsteller mit 2-mm-Inbus.", "HSR: separate high-speed rebound adjuster with a 2 mm hex key.", q)] : []),
       ...(au === "Factory" ? [f(prefix + "-druck.jpg", ["druck", "lsc", "hsc"], modell,
         "Am Ausgleichsbehälter: LSC innen mit 3-mm-Inbus, HSC außen mit 6-mm-Inbus (Factory).", "On the reservoir: LSC inside with a 3 mm hex key, HSC outside with a 6 mm hex key (Factory).", q)] : [])];
   }
@@ -14289,6 +14289,9 @@ function suFotoDaten(slot, x){
   return [];
 }
 function suFotos(slot, x, arten){
+  if(slot === "daempfer"){
+    const nah = suNahFotos(slot,x,{zeig:arten}); if(nah) return nah;
+  }
   const bilder = suFotoDaten(slot, x).filter(b => b.arten.some(a => arten.includes(a)));
   if(!bilder.length) return "";
   return `<div class="fw-fotos">${bilder.map(b => {
@@ -14333,13 +14336,58 @@ function suNahDaten(slot, x){
   return {};
 }
 function suNahFotos(slot, x, o){
-  const daten = suNahDaten(slot,x), zeig = o.zeig || [];
+  const daten = Object.assign(suErgaenzendeNahDaten(slot,x),suNahDaten(slot,x)), zeig = o.zeig || [];
   const arten = zeig.filter(a => daten[a]); if(!arten.length) return "";
   return `<div class="fw-fotos fw-nah">${arten.map(a => {
     const b = daten[a], nr = o.nr || zeig.indexOf(a)+1, [px,py] = b.p;
     const [vx,vy,vw,vh] = b.ausschnitt, mx = px < vx+vw/2 ? vx+35 : vx+vw-35, my = Math.max(vy+30,py-55);
-    return `<figure class="fw-foto"><a class="fw-nah-link" href="bilder/fahrwerk/${b.datei}" target="_blank" rel="noopener" aria-label="${esc(tx("Nahaufnahme vergrößern: ","Enlarge close-up: ")+b.text)}"><svg viewBox="${b.ausschnitt.join(" ")}" role="img" aria-label="${esc(b.text)}"><image href="bilder/fahrwerk/${b.datei}" width="960" height="${b.h}"/><g fill="none" stroke="#fff" stroke-width="2"><path d="M${mx} ${my}L${px} ${py}"/><circle cx="${px}" cy="${py}" r="12"/><circle cx="${mx}" cy="${my}" r="18" fill="#000"/><text x="${mx}" y="${my+5}" text-anchor="middle" fill="#fff" stroke="none" font-size="15" font-weight="800">${nr}</text></g></svg></a><figcaption><b>${tx("Nahaufnahme", "Close-up")} · ${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstelleraufnahme · Referenzmodell; Baujahr und Ausstattung können abweichen.","Manufacturer photo · reference model; year and specification may differ.")}</small><a href="${b.quelle}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: RockShox ↗</a></figcaption></figure>`;
+    return `<figure class="fw-foto"><a class="fw-nah-link" href="bilder/fahrwerk/${b.datei}" target="_blank" rel="noopener" aria-label="${esc(tx("Nahaufnahme vergrößern: ","Enlarge close-up: ")+b.text)}"><svg viewBox="${b.ausschnitt.join(" ")}" role="img" aria-label="${esc(b.text)}"><image href="bilder/fahrwerk/${b.datei}" width="${b.w || 960}" height="${b.h}"/><g fill="none" stroke="#fff" stroke-width="2" style="filter:drop-shadow(0 0 2px #000)"><path d="M${mx} ${my}L${px} ${py}"/><circle cx="${px}" cy="${py}" r="12"/><circle cx="${mx}" cy="${my}" r="18" fill="#000"/><text x="${mx}" y="${my+5}" text-anchor="middle" fill="#fff" stroke="none" font-size="15" font-weight="800">${nr}</text></g></svg></a><figcaption><b>${tx("Nahaufnahme", "Close-up")} · ${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstelleraufnahme · Referenzmodell; Baujahr und Ausstattung können abweichen.","Manufacturer photo · reference model; year and specification may differ.")}</small><a href="${b.quelle}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: ${esc(b.marke || "RockShox")} ↗</a></figcaption></figure>`;
   }).join("")}</div>`;
+}
+
+/* Auch aeltere Dämpferbilder bekommen eine Markierung auf dem Bauteil.
+   Koordinaten und Ausschnitt beziehen sich jeweils auf das konkrete Original. */
+function suErgaenzendeNahDaten(slot,x){
+  if(slot !== "daempfer" || !x || !x.t || x.t.eigen) return {};
+  const cfg = {
+    "fox-dhx-zug.jpg":{w:480,h:501,p:{zug:[330,283]},a:[155,160,300,325]},
+    "fox-dhx-lsc.jpg":{w:291,h:582,p:{lsc:[58,122],druck:[58,122]},a:[0,0,291,320]},
+    "fox-dhx-hebel.jpg":{w:488,h:474,p:{hebel:[115,196]},a:[0,60,300,300]},
+    "fox-floatx-lsc.jpg":{w:619,h:567,p:{lsc:[464,205],druck:[464,205]},a:[190,100,420,360]},
+    "fox-floatx-hebel.jpg":{w:599,h:583,p:{hebel:[154,261]},a:[0,70,360,360]},
+    "fox-dhx2-druck.jpg":{w:838,h:463,p:{lsc:[298,150],druck:[298,150],hsc:[327,168]},a:[155,20,300,310]},
+    "fox-dhx2-zug.jpg":{w:775,h:458,p:{zug:[220,245]},a:[70,95,330,330]},
+    "fox-dhx2-hsr.jpg":{w:695,h:539,p:{hsr:[512,285]},a:[335,130,340,320]},
+    "fox-x2-druck.jpg":{w:839,h:464,p:{lsc:[280,152],druck:[280,152],hsc:[306,168]},a:[130,20,310,310]},
+    "fox-x2-zug.jpg":{w:783,h:463,p:{zug:[239,239]},a:[85,85,330,330]},
+    "fox-x2-hsr.jpg":{w:669,h:535,p:{hsr:[499,298]},a:[320,140,330,310]},
+    "rs-rc2t-druck.jpg":{w:1200,h:400,p:{lsc:[908,177],druck:[908,177],hsc:[908,177]},a:[760,55,310,300]}
+  };
+  const out = {};
+  for(const b of suFotoDaten(slot,x)){
+    let c = cfg[b.datei]; if(!c) continue;
+    if(x.coil && b.datei === "rs-rc2t-druck.jpg") c = {...c,p:{lsc:[368,120],druck:[368,120],hsc:[368,120]},a:[235,15,340,330]};
+    for(const art of b.arten) if(c.p[art]) out[art] = {datei:b.datei,p:c.p[art],ausschnitt:c.a,w:c.w,h:c.h,text:b.text,modell:b.modell,marke:x.t.m,quelle:SU_FOTO_Q[b.q][1]};
+  }
+  const q = "https://www.sram.com/en/rockshox/learn/downhill-suspension-welcome-guide";
+  const f = (name,p,a,de,en,h) => ({datei:"rs-nah-coil-"+name+".jpg",p,ausschnitt:a,w:960,h:h || 636,text:tx(de,en),modell:"RockShox Vivid Coil · " + tx("Beispiel", "example"),quelle:q});
+  if(x.coil){
+    out.feder = f("sag",[420,184],[250,80,340,350],"Die Härte steht auf der Stahlfeder. Die Markierung zeigt den Aufdruck; deine empfohlene Härte steht oben in der Karte. Vorspannen ändert die Federhärte nicht.","Spring rate is printed on the coil. The marker points to the label; your recommended rate is above in the card. Preload does not change spring rate.");
+    out.oring = f("sag",[356,397],[220,230,340,340],"SAG-Messpunkt im Beispiel: Gummipuffer auf der Kolbenstange zwischen den Federwindungen.","Example sag measurement point: rubber bumper on the shaft between the spring coils.");
+  }
+  if(x.t.m === "RockShox" && /Vivid Coil/.test(x.t.n)){
+    const lsc = f("druck",[600,318],[395,145,370,370],"LSC: blaues Rädchen am Ausgleichsbehälter.","LSC: blue dial on the reservoir.");
+    out.zug = f("zug",[457,252],[315,95,400,400],"Zugstufe: Rädchen mit rotem Rand am unteren Dämpferende.","Rebound: red-edged dial at the lower shock end.");
+    if(wahlVon(x.t,"Ausführung") !== "Select"){out.lsc=lsc;out.druck=lsc;}
+    if(wahlVon(x.t,"Ausführung") === "Ultimate"){
+      out.hsc = f("hsc",[432,262],[280,115,370,370],"HSC: blauer Inbus-Einsteller am Ausgleichsbehälter.","HSC: blue hex adjuster on the reservoir.");
+      out.bo = f("zug",[457,252],[315,95,400,400],"HBO sitzt bei dieser Referenzversion hinter dem Zugstufenknopf. Die Markierung zeigt den Zugang; der HBO-Einsteller ist hier verdeckt. Anleitung des Modelljahrs beachten.","On this reference version, HBO sits behind the rebound knob. The marker shows the access point; the HBO adjuster is hidden here. Follow the model-year manual.");
+    }
+  }
+  if(x.coil && x.t.m === "RockShox" && /Super Deluxe/.test(x.t.n) && wahlVon(x.t,"Ausführung") === "Ultimate"){
+    out.bo = {...f("bo",[490,274],[315,125,360,350],"HBO: lila Inbus-Einsteller am Dämpferkörper.","HBO: purple hex adjuster on the shock body.",529),modell:"Super Deluxe Coil · " + tx("Referenz", "reference"),quelle:"https://www.sram.com/en/rockshox/learn/suspension-fine-tuning"};
+  }
+  return out;
 }
 
 function ilRad(o){
