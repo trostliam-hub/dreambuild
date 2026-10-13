@@ -2350,6 +2350,37 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-el-t b{font-family:var(--f-head);font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.2;overflow-wrap:anywhere}
 .fw-el-t small{font-size:12px;color:var(--ink-3)}
 .fw-link{min-height:40px;padding:0 4px;font-size:13px;font-weight:750;color:var(--anod);background:none}
+/* Echte Einstellerbilder: vollstaendig zeigen, antippen vergroessert. */
+.fw-fotos{display:grid;gap:14px;min-width:0;grid-column:1 / -1;width:100%}
+.fw-foto{margin:0;min-width:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.fw-foto-link{display:block;background:#fff}
+.fw-foto img{display:block;width:100%;height:auto;max-height:320px;object-fit:contain}
+.fw-foto figcaption{display:grid;gap:6px;padding:12px;font-size:13px;line-height:1.5;color:var(--ink-2)}
+.fw-foto figcaption b{color:var(--ink)}
+.fw-foto figcaption small{font-size:11.5px;color:var(--ink-3)}
+.fw-foto figcaption a{color:var(--anod);text-decoration:underline;min-height:32px;display:flex;align-items:center;overflow-wrap:anywhere}
+.fw-schema-h{font-size:12px;color:var(--ink-3);margin:14px 0 8px}
+.fw-wie:has(.fw-fotos){grid-template-columns:minmax(0,1fr)}
+.fw-wie-b:has(.fw-fotos){width:100%;order:-1}
+.fw-ein-w > .fw-wo-b:has(.fw-fotos){grid-template-columns:minmax(0,1fr)}
+
+/* Einheitliche Modellbilder in Aufbau, Auswahl, Wunschliste und Einkauf. */
+.teilfoto{display:inline-flex;flex:none;width:64px;height:64px;background:#fff;border:1px solid var(--line-soft);border-radius:12px;overflow:hidden;vertical-align:middle}
+.teilfoto[hidden]{display:none}
+.teilfoto img{display:block;width:100%;height:100%;object-fit:contain}
+.slot.mit-foto{position:relative;padding-left:90px}
+.slot-foto{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:62px;height:62px}
+.dt-foto,.wl-foto,.ek-foto{float:left;margin:0 12px 8px 0}
+.wl-t:has(.wl-foto){display:block;min-height:72px}
+.wl-t:has(.wl-foto)>b,.wl-t:has(.wl-foto)>.wl-k{display:block}
+.vg-foto{display:flex;margin:8px 0;width:70px;height:70px;max-width:100%}
+.fw-teil-foto{width:72px;height:90px}
+.fw-teil:has(.fw-teil-foto)>.fw-el-ic{display:none}
+.teilfoto-gross{margin:0 0 14px}
+.teilfoto-gross img{max-height:260px}
+.fw-wz .fw-fotos{margin-bottom:12px}
+@media(max-width:340px){.slot.mit-foto{padding-left:66px}.slot-foto{left:8px;width:48px;height:48px}.ek-foto{width:44px;height:44px;margin-right:8px}}
+
 .fw-bild{margin:0 0 10px}
 .fw-bild-in{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:14px;align-items:center}
 .fw-bild-in .il-daempfer{grid-column:1 / -1;max-width:340px}
@@ -3899,6 +3930,7 @@ details.legal p{margin:0 0 var(--sp-2)}
 <div id="startseite"></div>
 <div id="modal"></div>
 
+<script src="bilder/produkte/katalog.js"></script>
 <script>
 "use strict";
 
@@ -5592,6 +5624,27 @@ let fotoZiel = null;   /* worauf sich die naechste Dateiauswahl bezieht */
    von einer Shopseite zieht. Gespeichert wird nur, was zu unseren Teilen passt:
    rund neunzig Zeilen statt hunderttausend. */
 let feed = {treffer:{}, stand:0, quelle:"", zeilen:0};
+/* Lokale Herstellerbilder an allen Teile-Einstiegen. Eigene Teile bekommen
+   kein Foto ihrer Mass-Vorlage. Dämpferbilder werden nach Ausstattung gewählt. */
+function produktBildInfo(t){
+  if(!t || t.eigen) return null;
+  const id = t.basisId || basisVon(t.id), au = wahlVon(t, "Ausführung");
+  const daten = typeof PRODUKTBILDER === "undefined" ? {} : PRODUKTBILDER;
+  const lokal = daten[id + "@" + au] || daten[id];
+  if(lokal) return {src:lokal.datei, quelle:lokal.quelle, marke:lokal.marke, lokal:true};
+  const angebot = angebote(t).find(a => /^https:\/\//i.test(a.b || ""));
+  return angebot ? {src:angebot.b, quelle:angebot.l || "", marke:angebot.s || "", lokal:false} : null;
+}
+const produktBildUrl = t => { const b = produktBildInfo(t); return b ? b.src : ""; };
+function teilFoto(t, klasse){
+  const b = produktBildInfo(t); if(!b) return "";
+  return `<span class="teilfoto ${klasse || ""}" title="${esc(tx("Modellansicht; Farbe und Ausführung können abweichen", "Model view; colour and specification may differ"))}"><img src="${esc(b.src)}" alt="${esc(t.nb || t.n)}" loading="lazy" decoding="async" onerror="this.parentNode.hidden=true"></span>`;
+}
+function teilFotoGross(t){
+  const b = produktBildInfo(t); if(!b) return "";
+  return `<figure class="fw-foto teilfoto-gross"><a class="fw-foto-link" href="${esc(b.src)}" target="_blank" rel="noopener" aria-label="${esc(tx("Bild vergrößern: ", "Enlarge image: ") + (t.nb || t.n))}"><img src="${esc(b.src)}" alt="${esc(t.nb || t.n)}" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true"></a><figcaption><b>${esc(t.nb || t.n)}</b><small>${tx("Modellansicht · Farbe, Maße, Ausführung und Baujahr können abweichen. Gleiche sie vor dem Kauf mit der Produktseite ab.", "Model view · colour, dimensions, specification and year may differ. Check against the product page before buying.")}</small>${b.quelle ? `<a href="${esc(b.quelle)}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: ${esc(b.marke || tx("Shop", "Shop"))} ↗</a>` : ""}</figcaption></figure>`;
+}
+
 let fotos = {traum:null, real:null, markt:null};
 let build = builds[modus];
 /* Radtyp, Radgewicht und die Fahrwerksangaben (Setup) gehoeren zum Rad, nicht
@@ -5649,7 +5702,7 @@ function datenschutzHtml(){
     <p>Schriftarten und Preisdaten werden vom selben Server geladen wie die App. Es gibt keine Verbindung zu Google Fonts
       oder anderen Schriftdiensten.</p>
     <h4>5. Produktbilder</h4>
-    <p>Zeigt die App zu einem Teil ein Produktbild eines Shops, lädt dein Browser dieses Bild direkt vom Server des Shops
+    <p>Die eingebauten Herstellerbilder werden vom selben Server wie die App geladen. Zeigt die App zu einem Teil ein zusätzliches Produktbild eines Shops, lädt dein Browser dieses Bild direkt vom Server des Shops
       oder seines Partnernetzwerks. Dabei wird deine IP-Adresse an diesen Server übertragen. Rechtsgrundlage ist
       Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist, dir das Produkt so zu zeigen, wie der Shop es anbietet.</p>
     <h4>6. Affiliate-Links</h4>
@@ -5729,7 +5782,7 @@ function datenschutzHtmlEn(){
     <p>Fonts and price data are loaded from the same server as the app. There is no connection to Google Fonts
       or any other font service.</p>
     <h4>5. Product images</h4>
-    <p>If the app shows a shop's product image for a part, your browser loads that image directly from the server of the shop
+    <p>Built-in manufacturer images are loaded from the same server as the app. If the app shows an additional product image supplied by a shop, your browser loads that image directly from the server of the shop
       or its partner network. In doing so, your IP address is transmitted to that server. The legal basis is
       Art. 6(1)(f) GDPR; our legitimate interest is to show you the product the way the shop offers it.</p>
     <h4>6. Affiliate links</h4>
@@ -8755,10 +8808,8 @@ function eigenLoeschen(slotKey, id){
 }
 
 /* ═══════════ Bauteil-Detailansicht ═══════════
-   Gezeigt wird ein echtes Produktbild aus dem Partner-Feed -- oder keins.
-   Selbst gezeichnete Ersatzgrafiken gibt es hier bewusst nicht: sie sehen
-   nach etwas aus, das sie nicht sind, und beantworten die Frage "wie sieht
-   das Teil aus" gerade nicht. */
+   Lokales Herstellerbild zum Modell, alternativ das Bild aus dem Partner-Feed.
+   Eigene und unbekannte Teile erhalten kein fremdes Ersatzmodell. */
 /* nurAnsehen: aus Kaufen geoeffnet -- dort wird nichts eingebaut, das geht nur im Aufbau */
 /* Aus der Teileliste geoeffnet: zurueck fuehrt in dieselbe Liste, mit Suche,
    Filter und Scrollstand (APP-UX-001; vorher nur Schliessen, alles weg) */
@@ -8777,7 +8828,7 @@ function vergleichHtml(slotKey, t){
   const sa = specsVon(slotKey, jetzt), sb = specsVon(slotKey, t);
   const chips = (liste, andere) => liste.map(c => `<span class="chip${andere.indexOf(c) < 0 ? " anders" : ""}">${esc(c)}</span>`).join("");
   return `<section class="vg" aria-label="${tx("Vergleich mit deinem Teil", "Compared with your part")}">
-    <div class="vg-z vg-kopf"><span class="vg-l"></span><span class="vg-a">${tx("Verbaut", "Fitted")}<b>${esc(jetzt.n)}</b></span><span class="vg-b">${tx("Dieses Teil", "This part")}<b>${esc(t.n)}</b></span></div>
+    <div class="vg-z vg-kopf"><span class="vg-l"></span><span class="vg-a">${tx("Verbaut", "Fitted")}${teilFoto(jetzt, "vg-foto")}<b>${esc(jetzt.n)}</b></span><span class="vg-b">${tx("Dieses Teil", "This part")}${teilFoto(t, "vg-foto")}<b>${esc(t.n)}</b></span></div>
     ${zeile(tx("Preis", "Price"), eur(pa), eur(pb), d(pa, pb, true, eur))}
     ${ga && gb && !t.ersatz ? zeile(tx("Gewicht", "Weight"), gramm(ga), gramm(gb), d(ga, gb, true, gramm)) : ""}
     ${a.teile ? zeile(tx("Score (ganzes Rad)", "Score (whole bike)"), a.gesamt, b.gesamt, d(a.gesamt, b.gesamt, false, x => x)) : ""}
@@ -8799,7 +8850,7 @@ function oeffneDetail(slotKey, teilId, nurAnsehen){
   const specs = specsVon(slotKey, t);
   /* BEVEL-003: bei Bremsen nur Saetze (auch vorn + hinten zusammengerechnet) -- eine Einzelbremse ist nicht dieses Teil */
   const lst = istBremse(t) ? gepruefteAngebote(t) : angebote(t), a = (istBremse(t) ? lst[0] : bestesAngebot(t)) || lst[0] || null, lieferbar = istBremse(t) ? !!lst[0] : !!bestesAngebot(t);
-  const bild = (lst.find(x => x.b) || {}).b || "";
+  const bild = produktBildUrl(t);
   const jf = jahrFaktor(t) !== 1;
   const r = lieferbar ? rabatt(a) : 0;
   const zurueck = detailVon && detailVon.slot === slotKey ? `<button class="iconbtn zurueck" data-detailzurueck="1" aria-label="${tx("Zurück zur Auswahl", "Back to the list")}">
@@ -8810,8 +8861,7 @@ function oeffneDetail(slotKey, teilId, nurAnsehen){
     <div class="sheet-h">${zurueck}<h3><span class="sub">${slotOf(slotKey).label}</span>${esc(t.n)}</h3>${zuBtn}</div>
     <div class="sheet-b">
       ${vgl ? vgl + einbauKnopf : ""}
-      ${bild ? `<img class="feed-gross" src="${esc(bild)}" alt="${esc(t.n)}" loading="lazy" onerror="this.remove()">
-           <p class="hint" style="margin:8px 0 12px">${tx("Produktbild aus dem Shop-Feed.", "Product image from the shop feed.")}</p>` : ""}
+      ${teilFotoGross(t)}
       ${a ? `<div class="pv">
         <div class="pv-kopf">
           <span class="pv-p${lieferbar ? "" : " aus"}">${lieferbar && lst.filter(x => x.a !== 0).length > 1 ? `<small>${tx("ab", "from")}</small> ` : ""}${eurG(a.p)}</span>
@@ -12450,7 +12500,7 @@ function gPasstZuRad(x){
 }
 function gTeilAntwort(treffer, worte){
   const x = treffer[0].x, t = x.t, s = slotOf(x.slot);
-  let h = `<b>${esc(t.n)}</b> · ${esc(s.label)} · ${eur(preisVon(t))}${t.g ? " · " + gKg(t.g) : ""}`;
+  let h = `${teilFotoGross(t)}<b>${esc(t.n)}</b> · ${esc(s.label)} · ${eur(preisVon(t))}${t.g ? " · " + gKg(t.g) : ""}`;
   const fuer = gFuer(t); if(fuer) h += "<br>" + tx("Gebaut für ", "Built for ") + esc(fuer) + ".";
   h += "<br>" + esc(s.was);
   const mehr = treffer.length - 1;
@@ -13696,7 +13746,8 @@ function schemaBlock(x, slot){
 }
 /* ═══ Wo sind die Knoepfe? (Liams Wahl 2026-09-26: beides) ═══
    1. Link zur offiziellen Anleitung des Herstellers -- dort sind die echten
-      Raedchen abgebildet. Fremde Produktfotos kommen nicht ins Repo.
+      Raedchen abgebildet. Seit 13.10.2026 ergaenzen auf Nutzerauftrag
+      lokal gespeicherte Herstellerbilder die Anleitung.
    2. Eigenes Foto vom Top Cap: einmal auf jeden Knopf tippen, dann steht die
       Einstellung direkt im Bild. Bleibt nur auf dem Geraet. */
 const HANDBUCH = {
@@ -13745,7 +13796,7 @@ function topCapBlock(slot, x){
   const link = hb ? `<a class="tc-link" href="${esc(hb[1])}" target="_blank" rel="noopener">${tx("So sehen die Einsteller wirklich aus", "What the dials really look like")}: ${esc(hbName(hb[0]))} ↗</a>`
                   : `<span class="tc-link aus">${tx(`Welcher Knopf wo sitzt, zeigt die Anleitung ${teilName}.`, `The manual of ${teilName} shows which knob sits where.`)}</span>`;
   if(!knoepfe.length) return hb ? `<div class="tc-block">${link}</div>` : "";
-  if(!tc) return `<div class="tc-block"><b class="tc-t">${tx("Wo sind die Knöpfe?", "Where are the knobs?")}</b>${link}
+  if(!tc) return `<div class="tc-block">${suFotos(slot, x, ["druck", "lsc", "hsc", "hebel"])}<b class="tc-t">${tx("Wo sind die Knöpfe?", "Where are the knobs?")}</b>${link}
     <button class="btn ghost sm" data-tcfoto="${slot}">${tx("Eigenes Foto markieren", "Mark up your own photo")}</button>
     <span class="tc-h">${tx(`Fotografier die Oberseite ${teilName} mit den Einstellrädchen — die App schreibt die Einstellung direkt ins Bild. Das Foto bleibt auf deinem Handy.`,
       `Take a photo of the top of ${teilName} with the adjuster dials — the app writes the setting straight into the picture. The photo stays on your phone.`)}</span></div>`;
@@ -14173,6 +14224,76 @@ function ilDaempfer(o){
     <circle class="il-rot il-k" cx="34" cy="80" r="6"/>
     ${ilMarker(IL_DAEMPFER_M, zeig, o.an)}</svg>`;
 }
+/* Herstellerbilder nach Kartusche/Modell, nie nach der Farbe des Bauteils.
+   Die Referenzversion steht am Bild. Keine Einstellwerte aus Bildern ablesen:
+   berechnet wird weiterhin ausschliesslich mit den vorhandenen Setup-Daten. */
+const SU_FOTO_Q = {
+  grip:["FOX GRIP", "https://ridefox.com/pages/grip-dampers"],
+  charger:["RockShox Charger 3", "https://www.sram.com/de/rockshox/learn/charger-3-setup"],
+  rc2t:["RockShox RC2T", "https://www.sram.com/en/rockshox/learn/shock-deep-dives/rc2t"],
+  floatx:["FOX FLOAT X · 2025", "https://tech.ridefox.com/bike/owners-manuals/2983/shock--2025-float-sl-and-float-x"],
+  x2:["FOX FLOAT X2 · 2025", "https://tech.ridefox.com/bike/owners-manuals/2984/shock--2025-float-x2"],
+  coil:["FOX DHX/DHX2 · 2025", "https://tech.ridefox.com/bike/owners-manuals/2981/shock--2025-all-coil-shocks-(dhx2-and-dhx-models)"]
+};
+function suFotoDaten(slot, x){
+  if(!x || !x.t) return [];
+  const t = x.t, n = t.n || "", ka = wahlVon(t, "Kartusche") || "", s = ka + " " + n;
+  const f = (datei, arten, modell, de, en, q) => ({datei, arten, modell, text:tx(de, en), q});
+  if(slot === "gabel"){
+    if(t.m === "Fox"){
+      if(/GRIP ?X2/.test(s)) return [f("fox-gripx2-top.jpg", ["druck", "lsc", "hsc"], "GRIP X2",
+        "Oben am rechten Holm: LSC ist der schwarze Knopf innen, HSC der blaue Ring außen.", "Top of the right leg: LSC is the inner black knob, HSC the outer blue ring.", "grip")];
+      /* Das Foto zeigt GRIP X ohne Firm-Hebel (2026), nicht die 2024/25-Version. */
+      if(/GRIP X\b/.test(s) && Number((build.fw || {}).gj) >= 2026) return [f("fox-gripx-top.jpg", ["druck", "lsc", "hsc"], "GRIP X · 2026",
+        "Oben am rechten Holm: LSC innen, HSC am blauen Außenring. Diese Version hat keinen Firm-Hebel.", "Top of the right leg: LSC inside, HSC on the outer blue ring. This version has no firm lever.", "grip")];
+      if(/GRIP SL/.test(s)) return [f("fox-gripsl-top.jpg", ["druck", "hebel"], "GRIP SL",
+        "Der blaue Hebel oben am rechten Holm wählt Open, Medium oder Firm.", "The blue lever on top of the right leg selects Open, Medium or Firm.", "grip")];
+    }
+    if(t.m === "RockShox" && /Lyrik|Pike|ZEB/.test(n) && /Charger 3(?:\.1)? RC2\b/.test(ka)) return [
+      f("rs-charger3-druck.jpg", ["druck", "lsc", "hsc"], "Charger 3 RC2",
+        "Oben am rechten Holm: kleiner Knopf mit blauem Ring = LSC; großer Außenring = HSC.", "Top of the right leg: small knob with blue ring = LSC; large outer ring = HSC.", "charger"),
+      f("rs-charger3-luft-zug.jpg", ["luft", "zug"], "Charger 3 RC2",
+        "Bildmitte: Luftventil oben am linken Holm. Rechts: Zugstufe unten am rechten Holm. Links ist die Trailhead-App zu sehen.", "Centre: air valve on top of the left leg. Right: rebound at the bottom of the right leg. Left: the Trailhead app.", "charger")];
+    return [];
+  }
+  if(slot !== "daempfer") return [];
+  const au = wahlVon(t, "Ausführung");
+  if(t.m === "RockShox" && /Super Deluxe/.test(n) && au === "Ultimate") return [
+    f("rs-rc2t-druck.jpg", ["druck", "lsc", "hsc"], "Super Deluxe Ultimate RC2T · 2023",
+      "Links der Stahlfeder-, rechts der Luftdämpfer: LSC am blauen Ring; HSC mit Inbus in seiner Mitte. Der Hebel sitzt daneben.", "Coil shock on the left, air shock on the right: LSC on the blue ring; HSC with a hex key in its centre. The lever sits beside it.", "rc2t")];
+  if(t.m !== "Fox") return [];
+  let prefix, q;
+  if(/DHX2/.test(n)){ prefix = "fox-dhx2"; q = "coil"; }
+  else if(/Float X2/.test(n)){ prefix = "fox-x2"; q = "x2"; }
+  if(prefix){
+    const modell = /DHX2/.test(n) ? "DHX2 · 2025" : "FLOAT X2 · 2025";
+    return [f(prefix + "-zug.jpg", ["zug"], modell, "LSR: Zugstufe am roten Einsteller, innen mit 3-mm-Inbus.", "LSR: rebound at the red adjuster, inside with a 3 mm hex key.", q),
+      ...(au === "Factory" ? [f(prefix + "-hsr.jpg", ["hsr"], modell, "HSR: äußerer Zugstufen-Einsteller mit 6-mm-Inbus.", "HSR: outer rebound adjuster with a 6 mm hex key.", q)] : []),
+      ...(au === "Factory" ? [f(prefix + "-druck.jpg", ["druck", "lsc", "hsc"], modell,
+        "Am Ausgleichsbehälter: LSC innen mit 3-mm-Inbus, HSC außen mit 6-mm-Inbus (Factory).", "On the reservoir: LSC inside with a 3 mm hex key, HSC outside with a 6 mm hex key (Factory).", q)] : [])];
+  }
+  if(/Float X\b/.test(n)) return [
+    ...(au === "Factory" || au === "Performance Elite" ? [f("fox-floatx-lsc.jpg", ["druck", "lsc"], "FLOAT X · 2025", "LSC: blaues Rädchen oben am Ausgleichsbehälter.", "LSC: blue dial on top of the reservoir.", "floatx")] : []),
+    f("fox-floatx-hebel.jpg", ["hebel"], "FLOAT X · 2025", "Kletterhebel neben dem Druckstufenknopf. Bergab offen lassen.", "Climb switch beside the compression dial. Leave open on descents.", "floatx")];
+  if(/\bDHX\b/.test(n)) return [
+    f("fox-dhx-zug.jpg", ["zug"], "DHX · 2025", "Zugstufe: rotes Rädchen unten am Dämpfer.", "Rebound: red dial at the bottom of the shock.", "coil"),
+    ...(au === "Factory" || au === "Performance Elite" ? [f("fox-dhx-lsc.jpg", ["druck", "lsc"], "DHX · 2025", "LSC: blaues Rädchen am Ausgleichsbehälter.", "LSC: blue dial on the reservoir.", "coil")] : []),
+    f("fox-dhx-hebel.jpg", ["hebel"], "DHX · 2025", "Kletterhebel am Ausgleichsbehälter. Bergab offen lassen.", "Climb switch on the reservoir. Leave open on descents.", "coil")];
+  return [];
+}
+function suFotos(slot, x, arten){
+  const bilder = suFotoDaten(slot, x).filter(b => b.arten.some(a => arten.includes(a)));
+  if(!bilder.length) return "";
+  return `<div class="fw-fotos">${bilder.map(b => {
+    const q = SU_FOTO_Q[b.q];
+    return `<figure class="fw-foto"><a class="fw-foto-link" href="bilder/fahrwerk/${b.datei}" target="_blank" rel="noopener" aria-label="${esc(tx("Bild vergrößern: ", "Enlarge image: ") + b.modell)}"><img src="bilder/fahrwerk/${b.datei}" alt="${esc(b.modell + ": " + b.text)}" loading="lazy" decoding="async"></a>
+      <figcaption><b>${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstellerbild · Referenzversion; Baujahr und Ausstattung können abweichen.", "Manufacturer image · reference version; year and specification may differ.")}</small><a href="${esc(q[1])}" target="_blank" rel="noopener">${tx("Quelle", "Source")}: ${esc(q[0])} ↗</a></figcaption></figure>`;
+  }).join("")}</div>`;
+}
+function suEinstellBild(slot, x, o){
+  return suFotos(slot, x, o.zeig || []) || (slot === "gabel" ? ilGabel(o) : ilDaempfer(o));
+}
+
 function ilRad(o){
   o = o || {}; const zeig = o.zeig || [];
   return `<svg class="il il-rad" viewBox="0 0 260 160" role="img" aria-label="${tx("Mountainbike von der Seite", "Mountain bike from the side")}">
@@ -14432,7 +14553,7 @@ function suKarte(f, slot, x, d, it, nr){
     }
   }
   const marker = it.art === "tokens" ? "luft" : it.art === "sag" ? "oring" : it.art;
-  const bild = slot === "gabel" ? ilGabel({zeig:[marker], an:marker, coil:x.coil}) : ilDaempfer({zeig:[marker], an:marker, coil:x.coil});
+  const bild = suEinstellBild(slot, x, {zeig:[marker], an:marker, coil:x.coil});
   const wo = (it.k && it.k.k.wo) || sp2((SU_WO[slot] || {})[it.art] || ["", ""]);
   const wie = it.art === "luft" ? `<p>${tx(`Dämpferpumpe aufs Ventil (${esc(wo)}) und pumpen, dann ${slot === "gabel" ? "5×" : "10×"} ein Viertel des Federwegs einfedern — so gleichen sich die Luftkammern aus (FOX, RockShox). Danach nochmal ablesen.`, `Attach the shock pump to the valve (${esc(wo)}) and pump up, then push the ${slot === "gabel" ? "fork" : "shock"} a quarter of the way into its travel ${slot === "gabel" ? "5" : "10"} times — this equalises the air chambers (FOX, RockShox). Then check the reading again.`)}</p>`
     : it.art === "feder" ? `<p>${tx("Andere Härte = andere Feder (Fachhändler). Vorspannung nur so weit, dass die Feder ohne Spiel sitzt.", "Different rate = different spring (shop). Preload only enough that the spring sits without play.")}</p>`
@@ -14462,7 +14583,8 @@ function suElementHtml(f, slot, x, d){
   return `<section class="fw-el" aria-label="${slot === "gabel" ? tx("Federgabel", "Fork") : tx("Dämpfer", "Shock")}">
     <div class="fw-el-kopf"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot], 20)}</span><span class="fw-el-t"><span class="fw-el-o">${slot === "gabel" ? tx("Vorn, Federgabel", "Front fork") : tx("Hinten, Dämpfer", "Rear shock")}</span>
       <b>${esc(x.t.nb || x.t.n)}</b><small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "", x.coil ? tx("Stahlfeder", "Coil") : tx("Luftfeder", "Air"), jahr > 1990 ? tx(`Baujahr ${jahr}`, `${jahr}`) : jahr === "alt" ? tx("älter", "older") : ""].filter(Boolean).join(" · ")}</small></span></div>
-    ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), `<div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
+    ${teilFotoGross(x.t)}
+    ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), `${suFotos(slot, x, zeigM)}<p class="fw-schema-h">${tx("Schema zur Orientierung", "Orientation diagram")}</p><div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
     <ol class="fw-kl">${basis.map(it => suKarte(f, slot, x, d, it, ++nr)).join("")}</ol>
     ${profi.length ? `<p class="fw-profi-h">${tx("Profi-Einsteller", "Advanced adjusters")} <span>${tx("aufklappen für Details", "expand for details")}</span></p><ol class="fw-kl profi">${profi.map(it => suKarte(f, slot, x, d, it, 0)).join("")}</ol>` : ""}
   </section>`;
@@ -14662,7 +14784,7 @@ function sagWizardHtml(){
   else if(sch === "pumpen"){
     titel = tx("Startdruck einstellen", "Set the starting pressure");
     inhalt = el.map(([s, x]) => { const p = suPsi(s, x, d);
-      return `<div class="fw-wz-el"><span class="fw-el-ic ${s}">${ic(SU_IC[s], 18)}</span><span><b>${s === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")}</b>${x.coil
+      return `${suFotos(s, x, [x.coil ? "feder" : "luft"])}<div class="fw-wz-el"><span class="fw-el-ic ${s}">${ic(SU_IC[s], 18)}</span><span><b>${s === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")}</b>${x.coil
         ? tx("Stahlfeder: Vorspannung so weit, dass die Feder ohne Spiel sitzt — höchstens 1–2 Umdrehungen.", "Coil: preload only until the spring sits without play — no more than 1–2 turns.")
         : p ? tx(`Auf <b>${p} psi</b> pumpen (${barVon(p)} bar).`, `Pump to <b>${p} psi</b> (${barVon(p)} bar).`) : suOhneDruckTxt(s, x)}</span></div>`; }).join("")
       + `<p class="fw-tip">${ic(`<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h0"/>`, 16)}<span>${tx("Mit aufgesetzter Pumpe 5× (Gabel) bzw. 10× (Dämpfer) ein Viertel des Federwegs einfedern — so gleichen sich die Luftkammern aus. Danach den Druck nochmal einstellen. Nie über den Maximaldruck.", "With the pump attached, push the suspension a quarter of the way into its travel 5 times (fork) or 10 times (shock) — this equalises the air chambers. Then set the pressure again. Never exceed the maximum.")}</span></p>`;
@@ -15061,7 +15183,7 @@ function obJahre(feld, wert, wn){
   return j.join("") + obWn(feld, wn);
 }
 const obWnAn = k => !!((build.fw || {}).wn || {})[k];
-const obTeilKarte = (slot, t, x) => `<div class="fw-teil"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot] || SU_IC.gabel, 20)}</span><span><b>${t ? esc(t.nb || t.n) : tx("Noch nicht gewählt", "Not chosen yet")}</b>${x ? `<small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "",
+const obTeilKarte = (slot, t, x) => `<div class="fw-teil">${teilFoto(t, "fw-teil-foto")}<span class="fw-el-ic ${slot}">${ic(SU_IC[slot] || SU_IC.gabel, 20)}</span><span><b>${t ? esc(t.nb || t.n) : tx("Noch nicht gewählt", "Not chosen yet")}</b>${x ? `<small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "",
   x.coil ? tx("Stahlfeder", "coil") : tx("Luftfeder", "air")].filter(Boolean).join(" · ")}</small>` : `<small>${tx("Teile wählst du im Aufbau", "You choose parts in the build")}</small>`}</span></div>`;
 /* Bezugspunkt fuer "was ist gerade eingestellt" -- so wie der Hersteller zaehlt */
 function obBezug(v){
@@ -15143,7 +15265,7 @@ function obInhalt(n, f, fw){
     const zeig = slot === "gabel" ? ["aufkleber", "serie"] : ["aufkleber"];
     if(x && x.coil){ zeig.push("feder"); leg.push(tx("Feder: Härte steht auf der Feder (z. B. 450 × 2.25 = lbs × Hub in Zoll)", "Spring: rate printed on it (e.g. 450 × 2.25 = lbs × stroke in inches)")); }
     if(slot === "daempfer") leg.splice(1, 1);
-    r.html = `${obTeilKarte(slot, t2, x)}
+    r.html = `${obTeilKarte(slot, t2, x)}${teilFotoGross(t2)}
       ${obGruppe(tx("Modelljahr", "Model year"), obJahre(jk, fw[jk], wn[jk]), slot === "gabel"
         ? tx("Drucktabellen, Klickbereiche und Einsteller ändern sich mit dem Modelljahr — RockShox z. B. hat 2023 den Charger 3 eingeführt, bei dem die Druckstufen-Klicks ab der Mitte gezählt werden. Passt die Tabelle nicht zu deinem Modelljahr, zeigt die App keinen Druck, sondern erklärt, wie du den richtigen Wert findest.", "Pressure charts, click ranges and adjusters change with the model year — RockShox, for example, introduced Charger 3 in 2023, where compression clicks are counted from the middle. If the chart doesn't match your year, the app won't show a pressure — it tells you how to find the right one.")
         : tx("Einsteller und Klickbereiche von Dämpfern ändern sich mit dem Modelljahr. Den Luftdruck hinten gibt es ohnehin nicht pauschal — er hängt vom Rahmen ab; den Ausschlag gibt der SAG.", "Adjusters and click ranges on shocks change with the model year. There's no blanket rear air pressure anyway — it depends on the frame; the sag decides."), jk, "jahre")}
@@ -15166,7 +15288,7 @@ function obInhalt(n, f, fw){
       + suElemente(f).map(([slot, x]) => {
         const e = obEinAn(slot, x), an = SU_ARTEN.filter(a => e.an[a]);
         const chips = SU_ARTEN.map(a => { const o = OB_ARTEN[a]; return `<button class="fw-ow fw-ein" data-fwwk="ein:${slot}:${a}|1" aria-pressed="${e.an[a]}"><b><span class="fw-dot ${SU_FARBE[a] || "grau"}"></span>${sp2([o[0], o[1]])}</b><small>${e.da.has(a) ? tx("laut Hersteller", "per manufacturer") : tx("keine Herstellerdaten", "no manufacturer data")}${o[2] ? " · " + sp2([o[2], o[3]]) : ""}</small></button>`; }).join("");
-        const bild = slot === "gabel" ? ilGabel({zeig:an, coil:x.coil}) : ilDaempfer({zeig:an, coil:x.coil});
+        const bild = `${suFotos(slot, x, an)}<div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:an, coil:x.coil}) : ilDaempfer({zeig:an, coil:x.coil})}</div>`;
         return `<fieldset class="fw-og"><legend>${slot === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")} · ${esc(x.t.nb || x.t.n)}</legend>
           <div class="fw-ein-w"><div class="fw-wo-b">${bild}${fwLegende(an.map(a => esc(sp2((SU_WO[slot] || {})[a] || SU_INFO[a].n))))}</div><div class="fw-ows">${chips}${obWn("ein:" + slot, !((build.fw || {}).ein || {})[slot])}</div></div></fieldset>`;
       }).join("")
@@ -15562,7 +15684,7 @@ function einkaufHtml(r){
       ${fehl === 1 ? "Ein Teil passt" : fehl + " Teile passen"} nicht zum Rest. Was genau, steht in der Prüfung im Aufbau.`, `<b>Sort it out first, then order.</b> ${fehl === 1 ? "One part doesn't" : fehl + " parts don't"} fit the rest. The check in your build shows exactly what.`)}</div>` : ""}
     <div class="ek-summe"><span>${teile.length} ${teile.length === 1 ? tx("Teil", "part") : tx("Teile", "parts")}${(r.adapter || []).length ? ` + ${r.adapter.length} ${tx("Adapter", r.adapter.length === 1 ? "adapter" : "adapters")}` : ""}${offen ? tx(` · ${offen} noch offen`, ` · ${offen} still open`) : ""}</span><b>${eur(r.preis)}</b></div>
     ${teile.map(x => `<div class="ek">
-      <div><span class="ek-k">${x.s.label}</span><button class="ek-n" data-detail="${x.s.k}|${x.t.id}" data-detailkauf="1">${esc(x.t.n)}</button>${ekFit(x.s.k)}</div>
+      <div>${teilFoto(x.t, "ek-foto")}<span class="ek-k">${x.s.label}</span><button class="ek-n" data-detail="${x.s.k}|${x.t.id}" data-detailkauf="1">${esc(x.t.n)}</button>${ekFit(x.s.k)}</div>
       <div class="ek-r"><span>${kachelPreis(x.t)}</span>${affHtml(x.t, true)}</div></div>`).join("")}
     ${(r.adapter || []).map(a => `<div class="ek ek-ad">
       <div><span class="ek-k">${tx("Adapter", "Adapter")}${a.pos ? " · " + esc(a.pos) : ""} · ${tx("Pflicht", "required")}</span>
@@ -16518,7 +16640,7 @@ function angebotKurz(t){
    Zustand. Uebernommen wird erst im Vergleich -- dort steht das ganze Paket. */
 function finderKarte(k, x, jetzt){
   const t = x.t, pk = x.pk, st = paketStatus(pk, x), z = finder.ziel;
-  const bild = (angebote(t).find(a => a.b) || {}).b || "";
+  const bild = produktBildUrl(t);
   const merk = istGemerkt(k, t.id), aw = ausfWerte(t);
   let grund = [], nachteil = [];
   if(x.variante) grund.push(tx(`Gleiches Modell, ${esc(dimName(x.variante.v.v[x.variante.i].k))} ${esc(x.variante.o.n)} — kein neues Teil.`, `Same model, ${esc(imSatz(dimName(x.variante.v.v[x.variante.i].k)))} ${esc(x.variante.o.n)} — no new part.`));
@@ -16765,7 +16887,7 @@ function wunschHtml(){
            <button class="btn ghost sm" data-wkauf="${w.id}">${tx("Auf die Einkaufsliste", "To shopping list")}</button>
            ${t ? `<button class="btn ghost sm" data-wverbaut="${w.id}"${pk && pk.neueFehler.length ? " disabled" : ""}>${modus === "traum" ? tx("In den Aufbau übernehmen", "Add to build") : tx("Als montiert übernehmen", "Mark as fitted")}</button>` : ""}`;
     return `<article class="wl wl3${imTest ? " test" : ""}" data-wl="${w.id}">
-      <div class="wl-t"><span class="wl-k">${esc(s.label)}</span><b>${esc(t ? t.nb || t.n : (w.frei && w.frei.n) || "")}</b>
+      <div class="wl-t">${teilFoto(t, "wl-foto")}<span class="wl-k">${esc(s.label)}</span><b>${esc(t ? t.nb || t.n : (w.frei && w.frei.n) || "")}</b>
         ${t ? `<span class="wl-p">${eur(pk.gesamt)}</span>` : ""}</div>
       <ol class="wl-weg" aria-label="${tx("Stand", "Status")}">${STUFEN.map((x, i) => `<li class="${i < si ? "fertig" : i === si ? "jetzt" : ""}"${i === si ? ' aria-current="step"' : ""}><span>${x[1]}</span></li>`).join("")}</ol>
       ${imTest ? `<p class="wl-hin">${tx("Vorschau im Aufbau: Score und Prüfung zeigen das Teil, gespeichert bleibt dein verbautes Teil.", "Preview in your build: score and check show the part; your fitted part stays saved.")}</p>` : ""}
@@ -16863,7 +16985,7 @@ function wunschKaufHtml(){
     if(pk){ summe += pk.gesamt; if(pk.scheibenNeu.length || pk.versandOffen) offen = true; }
     /* BEVEL-003: was dazu gekauft werden muss -- Scheiben, Adapter, Umstellung; vorhandene Teile nicht */
     const dazu = pk ? pk.scheibenNeu.map(scheibeName).concat(pk.neu.map(a => a.n), pk.folge.map(x => slotOf(x.slot).label + ": " + (x.aenderung.join(", ") || x.zu.n))) : [];
-    return `<div class="ek"><div><span class="ek-k">${esc(slotOf(w.slot).label)}</span><span class="ek-n">${esc(t ? t.nb || t.n : w.frei.n)}</span>
+    return `<div class="ek"><div>${teilFoto(t, "ek-foto")}<span class="ek-k">${esc(slotOf(w.slot).label)}</span><span class="ek-n">${esc(t ? t.nb || t.n : w.frei.n)}</span>
         ${dazu.length ? `<span class="ek-fit">${tx("dazu", "plus")} ${esc(dazu.join(", "))}</span>` : ""}
         ${pk && pk.weiter.length ? `<span class="ek-fit">${tx("vorhanden, nicht neu kaufen", "already there, don't rebuy")}: ${esc(pk.weiter.map(a => a.n).join(", "))}</span>` : ""}</div>
         <div class="ek-r">${t ? `<span class="p">${eur(pk.gesamt)}</span>${zumProduktHtml(t, true)}` : w.frei.l ? `<a class="shop bez" href="${esc(w.frei.l)}" target="_blank" rel="noopener nofollow">${esc(kurzUrl(w.frei.l))}</a>` : ""}</div></div>`; });
@@ -16908,7 +17030,7 @@ function oeffneVergleich(k, id){
       ${zurueck ? `<button class="linkbtn vt-zurueck" data-fizurueck="1"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>${tx("Zurück zu Ergebnissen", "Back to results")}</button>` : ""}
       <div class="vt-st"><span class="fk-st ${st.k}">${st.t}</span><b>${esc(t.nb || t.n)}</b>${ausfWerte(t) ? `<span>${esc(ausfWerte(t))}</span>` : ""}</div>
       <div class="vt-wrap"><table class="vt">
-        <thead><tr><th></th><th scope="col">${tx("Dein Teil", "Your part")}<b>${esc(jetzt ? jetzt.nb || jetzt.n : tx("leer", "empty"))}</b></th><th scope="col">${tx("Neu", "New")}<b>${esc(t.nb || t.n)}</b></th><th scope="col">${ziel ? tx("Für dein Ziel", "For your goal") : tx("Unterschied", "Difference")}</th></tr></thead>
+        <thead><tr><th></th><th scope="col">${tx("Dein Teil", "Your part")}${teilFoto(jetzt, "vg-foto")}<b>${esc(jetzt ? jetzt.nb || jetzt.n : tx("leer", "empty"))}</b></th><th scope="col">${tx("Neu", "New")}${teilFoto(t, "vg-foto")}<b>${esc(t.nb || t.n)}</b></th><th scope="col">${ziel ? tx("Für dein Ziel", "For your goal") : tx("Unterschied", "Difference")}</th></tr></thead>
         <tbody>${zeilen}
           ${vorB.teile ? z(tx("Kompatibilität", "Compatibility"), vorB.tech, nachB.tech, nachB.tech > vorB.tech ? ["gut", tx("besser", "better")] : nachB.tech < vorB.tech ? ["schlecht", tx("niedriger", "lower")] : ["gleich", tx("gleich", "same")]) : ""}
           ${vorB.teile && !bremsG ? z(tx("Gewicht ganzes Rad (Richtwerte)", "Whole bike weight (guide values)"), kg(vorB.gewicht), kg(nachB.gewicht), null) : ""}
@@ -17116,8 +17238,8 @@ function slotZeile(s, r){
   const kern = t ? ohneDoppel(specsVon(s.k, t), titel).filter(c => { const z = zahlen(c); return !(z.length && z.every(x => awZ.indexOf(x) >= 0)) && !(awKl && awKl.indexOf(String(c).toLowerCase()) >= 0); })
     .slice(0, aw ? 1 : 2).concat(aw ? [aw] : []).join(" · ") : "";
   const p = aktivesProfil(), test = p && p.test && p.test.slot === s.k;
-  return `<button class="slot ${lvl || ""}${frischSlot === s.k ? " frisch" : ""}${s.opt && !t ? " optional" : ""}${test ? " im-test" : ""}" data-slot="${s.k}">
-      <span class="slot-k">${label}${test ? ` <span class="slot-test">${tx("Test", "Trial")}</span>` : ""}</span>
+  return `<button class="slot ${produktBildUrl(t) ? "mit-foto " : ""}${lvl || ""}${frischSlot === s.k ? " frisch" : ""}${s.opt && !t ? " optional" : ""}${test ? " im-test" : ""}" data-slot="${s.k}">
+      ${teilFoto(t, "slot-foto")}<span class="slot-k">${label}${test ? ` <span class="slot-test">${tx("Test", "Trial")}</span>` : ""}</span>
       <span class="slot-n ${t ? "" : "empty"}">${t ? esc(titel) : s.opt ? tx("Optional — hinzufügen …", "Optional — add …") : modus === "traum" ? tx("Teil wählen …", "Choose part …") : tx("Teil eintragen …", "Enter part …")}</span>
       ${t && kern ? `<span class="slot-kern">${esc(kern)}</span>` : !t ? `<span class="slot-was">${esc(s.was)}</span>` : ""}
       ${t ? fundAmTeil(r.funde, s.k) + adAmTeil(r.funde, s.k) : ""}
@@ -17135,7 +17257,7 @@ function deinTeilHtml(k){
   const frage = r.funde.filter(x => x.frage && x.slots.indexOf(k) >= 0)[0];
   const ads = (r.adapter || []).filter(a => a.wo === k || (k === "bremsen" && a.art === "bremse"));
   return `<section class="dt" aria-label="${tx("Dein Teil", "Your part")}">
-    <div class="dt-kopf"><span class="dt-l">${modus === "traum" ? tx("Im Aufbau", "In your build") : tx("Verbaut", "Fitted")}</span><b>${esc(t.n)}</b>
+    ${teilFoto(t, "dt-foto")}<div class="dt-kopf"><span class="dt-l">${modus === "traum" ? tx("Im Aufbau", "In your build") : tx("Verbaut", "Fitted")}</span><b>${esc(t.n)}</b>
       <span class="dt-p">${kachelPreis(t)}</span></div>
     <div class="specs">${specsVon(k, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div>
     ${kachelZusatz(k, t) ? `<div class="dt-zus">${kachelZusatz(k, t)}</div>` : ""}
@@ -18059,7 +18181,7 @@ function oeffneSlot(slotKey, opt){
     const mtag = ((wunsch && t.m === wunsch) ? `<span class="tag m">${esc(wunsch)}</span>` : "")
       + (slotKey === "lenker" && fitRechnen() && t.breite < fitRechnen().lenker - 20 ? ` <span class="tag w">${tx("schmal für dich", "narrow for you")}</span>` : "");
     const lst = angebote(t), a = bestesAngebot(t), jf = jahrFaktor(t) !== 1;
-    const bild = (lst.find(x => x.b) || {}).b || "";
+    const bild = produktBildUrl(t);
     const pNeu = grundpreis(t), pJetzt = preisVon(t);
     const stark = t.e ? DID.filter(dd => (t.e[dd] || 0) >= 4).map(dLang) : [];
     const such = suchIndex([t.n, t.m || "", specsVon(slotKey, t).join(" "), t.seit || "", stark.join(" "), suchExtras(t), wahlText(t), t.eigen ? "eigen eigenes own custom" : ""]);
