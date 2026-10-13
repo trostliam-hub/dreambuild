@@ -1,0 +1,281 @@
+{
+  "ok": true,
+  "cases": [
+    {
+      "theme": "hell",
+      "width": 320,
+      "lang": "de",
+      "toast": "Bremsen: Shimano XT M8120 · 4 Kolben. Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P/PM (17 €). Montagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel. 2 Scheiben neu. Rückgängig",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Braucht Adapter vorn: Shimano SM-MA-F203P/PM — automatisch dabeiMontagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "hell",
+      "width": 320,
+      "lang": "en",
+      "toast": "Brakes: Shimano XT M8120 · 4-piston. Adapter added automatically (front): Shimano SM-MA-F203P/PM (€17). Fitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper. 2 new rotors. Undo",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Needs an adapter (front): Shimano SM-MA-F203P/PM — included automaticallyFitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "hell",
+      "width": 390,
+      "lang": "de",
+      "toast": "Bremsen: Shimano XT M8120 · 4 Kolben. Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P/PM (17 €). Montagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel. 2 Scheiben neu. Rückgängig",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Braucht Adapter vorn: Shimano SM-MA-F203P/PM — automatisch dabeiMontagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "hell",
+      "width": 390,
+      "lang": "en",
+      "toast": "Brakes: Shimano XT M8120 · 4-piston. Adapter added automatically (front): Shimano SM-MA-F203P/PM (€17). Fitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper. 2 new rotors. Undo",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Needs an adapter (front): Shimano SM-MA-F203P/PM — included automaticallyFitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "hell",
+      "width": 1280,
+      "lang": "de",
+      "toast": "Bremsen: Shimano XT M8120 · 4 Kolben. Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P/PM (17 €). Montagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel. 2 Scheiben neu. Rückgängig",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Braucht Adapter vorn: Shimano SM-MA-F203P/PM — automatisch dabeiMontagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "hell",
+      "width": 1280,
+      "lang": "en",
+      "toast": "Brakes: Shimano XT M8120 · 4-piston. Adapter added automatically (front): Shimano SM-MA-F203P/PM (€17). Fitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper. 2 new rotors. Undo",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Needs an adapter (front): Shimano SM-MA-F203P/PM — included automaticallyFitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "oled",
+      "width": 320,
+      "lang": "de",
+      "toast": "Bremsen: Shimano XT M8120 · 4 Kolben. Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P/PM (17 €). Montagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel. 2 Scheiben neu. Rückgängig",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Braucht Adapter vorn: Shimano SM-MA-F203P/PM — automatisch dabeiMontagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "oled",
+      "width": 320,
+      "lang": "en",
+      "toast": "Brakes: Shimano XT M8120 · 4-piston. Adapter added automatically (front): Shimano SM-MA-F203P/PM (€17). Fitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper. 2 new rotors. Undo",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Needs an adapter (front): Shimano SM-MA-F203P/PM — included automaticallyFitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "oled",
+      "width": 390,
+      "lang": "de",
+      "toast": "Bremsen: Shimano XT M8120 · 4 Kolben. Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P/PM (17 €). Montagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel. 2 Scheiben neu. Rückgängig",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Braucht Adapter vorn: Shimano SM-MA-F203P/PM — automatisch dabeiMontagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "oled",
+      "width": 390,
+      "lang": "en",
+      "toast": "Brakes: Shimano XT M8120 · 4-piston. Adapter added automatically (front): Shimano SM-MA-F203P/PM (€17). Fitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper. 2 new rotors. Undo",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Needs an adapter (front): Shimano SM-MA-F203P/PM — included automaticallyFitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "oled",
+      "width": 1280,
+      "lang": "de",
+      "toast": "Bremsen: Shimano XT M8120 · 4 Kolben. Adapter vorn automatisch dazugenommen: Shimano SM-MA-F203P/PM (17 €). Montagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel. 2 Scheiben neu. Rückgängig",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Braucht Adapter vorn: Shimano SM-MA-F203P/PM — automatisch dabeiMontagehinweis: Für die 203-mm-Scheibe vorn gehört der Adapter zwischen Gabel und Bremssattel.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    },
+    {
+      "theme": "oled",
+      "width": 1280,
+      "lang": "en",
+      "toast": "Brakes: Shimano XT M8120 · 4-piston. Adapter added automatically (front): Shimano SM-MA-F203P/PM (€17). Fitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper. 2 new rotors. Undo",
+      "adapter": [
+        {
+          "name": "Shimano SM-MA-F203P/PM",
+          "size": 203,
+          "price": 17,
+          "weight": 42
+        }
+      ],
+      "version": "20261013-1418",
+      "persist": {
+        "hint": "Needs an adapter (front): Shimano SM-MA-F203P/PM — included automaticallyFitting note: the 203 mm rotor (front) needs the adapter between the fork and brake caliper.",
+        "overflow": false,
+        "clip": false,
+        "ad": 1
+      },
+      "ok": true,
+      "errors": []
+    }
+  ]
+}

@@ -218,3 +218,14 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - Zusätzliche Chromium-Prüfung: 12/12 Fälle (Hell/Dunkel × DE/EN × 320/390/1280 px). Einbaumeldung und Hinweis korrekt, nach Neuladen erhalten, automatischer Adapter genau einmal mit Preis/Gewicht, kein Textüberlauf oder JS-Fehler. Dunkler Screenshot visuell geprüft.
 - Belege: `belege/APP-ADAPTER-203-001/`. Grenzen: kein echtes Safari/iPhone.
 - Veröffentlichung: noch NEIN zum Zeitpunkt des Eintrags. Jetzt geprüften Stand auf main übertragen, bestehende Action automatisch stempeln lassen und öffentliche App nachprüfen. Abschlussnachtrag folgt.
+
+
+### APP-ADAPTER-203-001 — Abschluss: Montagehinweis live
+- Autor: Codex · Empfänger: Liam · Datum: 13.10.2026, 14:21 Uhr (Europe/Berlin).
+- Status: ERLEDIGT. Veröffentlichung: JA, nach dem Design-Update.
+- Code-Commit `94627297d14c228df0eb80ae1309ccc8e1d062b0`, automatisch gestempelter Commit `8b0526e`. Live-Version **`20261013-1418`**. Kein manueller Versionsstempel.
+- Bestehender Workflow erfolgreich: https://github.com/trostliam-hub/dreambuild/actions/runs/38395938238. Alle Tests bestanden, 158 s. Korrektur zum vorigen Eintrag: Sprachprüfung tatsächlich 0 Funde in **8.754** Texten (auch lokal), nicht 8.752.
+- Öffentliche App https://trostliam-hub.github.io/dreambuild/index.html selbst abgerufen: identisch mit automatisch gestempeltem Checkout.
+- Eigene Live-Chromium-Prüfung: 12/12 Fälle (Hell/Dunkel × DE/EN × 320/390/1280 px). Passender Frontadapter für 203 mm genau einmal automatisch berücksichtigt; Artikel, Preis und Gewicht vorhanden. Einbaumeldung und dauerhafter Montagehinweis korrekt, nach Neuladen erhalten. Kein Überlauf oder JS-Fehler. Dunkle Live-Ansicht visuell geprüft, Full-Black-Design erhalten.
+- Testskript für Live-Prüfung gegen verspätete PWA-Neuladungen/DOM-Neuzeichnung stabilisiert; keine Änderung am App-Code nötig.
+- Belege: `belege/APP-ADAPTER-203-001/live-pruefung.json`, `live-pruefung.txt`, `live-*.png`, `veroeffentlichung.txt`. Grenzen: Chromium, kein echtes Safari/iPhone. Keine offenen Schritte.
