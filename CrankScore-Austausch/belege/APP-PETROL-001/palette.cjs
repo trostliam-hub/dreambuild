@@ -5,7 +5,7 @@ const url = process.argv[2] || 'http://127.0.0.1:8765/index.html';
 const lum = hex => {const v=hex.replace('#','').match(/../g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4); return .2126*v[0]+.7152*v[1]+.0722*v[2];};
 const contrast = (a,b) => (Math.max(lum(a),lum(b))+.05)/(Math.min(lum(a),lum(b))+.05);
 (async()=>{
- const browser=await chromium.launch(); const report={url,zeit:new Date().toISOString(),faelle:[],kontraste:[]};
+ const browser=await chromium.launch(url.startsWith('http://127') || !process.env.HTTPS_PROXY ? {} : {proxy:{server:process.env.HTTPS_PROXY}}); const report={url,zeit:new Date().toISOString(),faelle:[],kontraste:[]};
  for(const [d,fg,button,ring] of [['hell','#176B67','#176B67','#6E7976'],['oled','#8CC9C1','#246C66','#8B9794']]){
   const surfaces=d==='hell'?['#f2f0ec','#fdfcfa','#f6f4f0','#e9e6e0','#E3F0EC']:['#16181b','#1f2226','#262a2f','#30343a'];
   for(const bg of surfaces) report.kontraste.push({d,art:'Akzenttext',fg,bg,ratio:contrast(fg,bg),min:4.5});
@@ -28,9 +28,10 @@ const contrast = (a,b) => (Math.max(lum(a),lum(b))+.05)/(Math.min(lum(a),lum(b))
    await p.screenshot({path:out+`/${url.startsWith('http://127')?'lokal':'live'}-${d}-${width}.png`});
    await p.evaluate(()=>{pro={key:'test',inst:'test',status:'aktiv',geprueft:Date.now()};view='setup';zeichne();});
    await p.screenshot({path:out+`/${url.startsWith('http://127')?'lokal':'live'}-fahrwerk-${d}-${width}.png`});
-   report.faelle.push({d,width,...state,errors,datenErhalten:before===after});await ctx.close();
+   const paletteOk=state.akzent.toUpperCase()===fg.toUpperCase()&&state.button.toUpperCase()===button.toUpperCase()&&state.ring.toUpperCase()===fg.toUpperCase()&&state.klein.every(x=>x.toUpperCase()===ring.toUpperCase());
+   report.faelle.push({d,width,...state,errors,datenErhalten:before===after,paletteOk});await ctx.close();
   }
  }
- report.ok=report.kontraste.every(x=>x.ratio>=x.min)&&report.faelle.every(x=>!x.errors.length&&!x.overflow&&x.glow==='none'&&x.datenErhalten);
+ report.ok=report.kontraste.every(x=>x.ratio>=x.min)&&report.faelle.every(x=>!x.errors.length&&!x.overflow&&x.glow==='none'&&x.datenErhalten&&x.paletteOk);
  fs.writeFileSync(out+`/${url.startsWith('http://127')?'lokal':'live'}-palette.json`,JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));await browser.close();process.exit(report.ok?0:1);
 })().catch(e=>{console.error(e);process.exit(1);});

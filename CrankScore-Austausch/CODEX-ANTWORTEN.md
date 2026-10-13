@@ -99,3 +99,23 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - Erneuter authentifizierter Push: HTTP 403. Veröffentlichung weiterhin NEIN.
 - Passender Installationsweg: https://github.com/apps/chatgpt-codex-connector — Install, Konto trostliam-hub, Repository dreambuild auswählen.
 - Nach erfolgter Installation Zugriff und aktuellen main erneut prüfen, Veröffentlichung mit bestehender Nutzerfreigabe fortsetzen.
+
+
+### APP-PETROL-001 — Abschluss: veröffentlicht und öffentlich geprüft
+- Autor: Codex · Empfänger: Liam · Datum: 13.10.2026, 11:44 Uhr Europe/Berlin.
+- Status: ERLEDIGT. Code fertig, Tests bestanden, tatsächlich live.
+- GitHub-App nun auch auf trostliam-hub installiert; authentifizierter Push erfolgreich.
+- Basis unverändert 4a3310b; veröffentlichter Prüfstand d5c969cb9ac460bcbecadc159dd41fc18d1461e1, Palette-Code ff3742e.
+- Automatisch gestempelter App-Commit: cb8585a54fcb8c10b7b92170953cb6b388bd19d9.
+- Live-Version: **20261013-1138**. Keine manuelle Stempeländerung.
+- Veröffentlichung: **JA**, über den bestehenden Workflow Veroeffentlichen. Lauf erfolgreich: https://github.com/trostliam-hub/dreambuild/actions/runs/38377352380.
+- Tests des Workflows: alle bestanden, 154 s; Syntax 2 Skripte, Kompatibilität 200/200, Setup/Speicher 16/16, Bedienwege 36/36, Sprache 0 Funde in 8.752 Texten, BEVEL 28/28, Preis-Skript 0 Fehler.
+- Workflow bestätigt „Live: Version 20261013-1138“. Öffentliche index.html zusätzlich selbst abgerufen: identisch mit dem automatisch gestempelten Commit. Gegenüber dem geprüften Stand ändert sich im App-Code ausschließlich APP_VERSION.
+- Öffentliche App: https://trostliam-hub.github.io/dreambuild/index.html.
+- Eigene Live-Browserprüfung in Chromium/Playwright: 390 und 1280 px, Hell und Dunkel. Alle vier Fälle zeigen Version 20261013-1138 und die korrekten Farbvariablen/Score-Striche; Gesamtring ohne Filter, kein horizontaler Überstand und keine JS-Fehler. Profil-, Plan- und Fahrwerkdaten vor/nach tatsächlichen Themewechseln identisch.
+- Live-Kontrastprüfung: 0 Unterschreitungen in 1.056 sichtbaren Texten. Die zuvor dokumentierten WCAG-Kontraste sind weiterhin erfüllt.
+- Hauptansicht und Fahrwerk der öffentlichen App aufgenommen; Hauptansichten visuell betrachtet. Warmes Hell und Anthrazit erhalten, Akzente Petrol, kleine Ringe Grau. Warn-/Fehlerfarben und Funktionen unverändert.
+- Belege: belege/APP-PETROL-001/live-palette.json, live-kontrast.txt, live-*.png und veroeffentlichung.txt. Prüfscripte unterstützen nun auch die öffentliche URL über den vorhandenen Proxy; Palette wird ausdrücklich gegen Sollwerte geprüft.
+- Grenzen: Chromium-Prüfung, kein echter iPhone-/Safari-Test. Artefakt-Download wurde vom Azure-Endpunkt verweigert; vollständiges GitHub-Workflow-Log mit allen Testergebnissen erfolgreich gesichert.
+- Bestehende Pages-Quelle ist legacy (Deploy from branch). Der vorhandene Workflow warnt, dass dies kein allgemeines Test-Tor vor jedem Pages-Build ist; die Quelle wurde im Rahmen dieses Farbauftrags nicht geändert. Diese Änderung war bereits vor dem Push lokal vollständig getestet, danach ebenfalls im Veröffentlichungsworkflow.
+- Frühere BLOCKIERT-Einträge dokumentieren den damaligen Stand; diese Abschlussprüfung löst die Blockade auf. Keine offenen Schritte für diesen Auftrag.

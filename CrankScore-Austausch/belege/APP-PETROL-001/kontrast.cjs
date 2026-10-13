@@ -3,13 +3,14 @@
  * WCAG: 4,5:1, grosse Schrift (>= 24 px oder >= 18,66 px fett) 3:1. */
 const { chromium } = require('../../../node_modules/playwright');
 const [,, port] = process.argv;
+const URL0 = port.startsWith('https://') ? port : `http://127.0.0.1:${port}/index.html`;
 (async () => {
-  const b = await chromium.launch(); let alle = 0, schlecht = [];
+  const b = await chromium.launch(URL0.startsWith('http://127') || !process.env.HTTPS_PROXY ? {} : {proxy:{server:process.env.HTTPS_PROXY}}); let alle = 0, schlecht = [];
   for(const des of ['hell', 'oled']) for(const W of [390, 1280]){
     const ctx = await b.newContext({viewport:{width:W, height:900}, reducedMotion:'reduce'});
-    await ctx.route('**/*', r => r.request().url().startsWith('http://127.0.0.1') ? r.continue() : r.abort());
+    await ctx.route('**/*', r => r.request().url().startsWith(new URL(URL0).origin) ? r.continue() : r.abort());
     const p = await ctx.newPage();
-    await p.goto(`http://127.0.0.1:${port}/index.html`);
+    await p.goto(URL0);
     await p.evaluate(d => { localStorage.clear(); localStorage.setItem('mtb.design', d); localStorage.setItem('mtb.sprache', 'de'); localStorage.setItem('mtb.einstieg2', '1'); localStorage.setItem('mtb.tour', '1'); }, des);
     await p.reload(); await p.waitForFunction(() => typeof zeichne === 'function' && !!document.querySelector('#aufbau .grp'));
     await p.evaluate(() => { pro = {key:'x', inst:'i', status:'aktiv', geprueft:Date.now()}; plan.fahrer = 80; sichern(); zeichne(); });

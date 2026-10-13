@@ -1,0 +1,255 @@
+{
+  "url": "https://trostliam-hub.github.io/dreambuild/index.html?palette=20261013-1138",
+  "zeit": "2026-10-13T09:43:03.290Z",
+  "faelle": [
+    {
+      "d": "hell",
+      "width": 390,
+      "theme": "light",
+      "akzent": "#176B67",
+      "button": "#176B67",
+      "weich": "#E3F0EC",
+      "ring": "#176B67",
+      "klein": [
+        "#6E7976",
+        "#6E7976"
+      ],
+      "glow": "none",
+      "stroke": "rgb(23, 107, 103)",
+      "kleineStrokes": [
+        "rgb(110, 121, 118)",
+        "rgb(110, 121, 118)"
+      ],
+      "overflow": false,
+      "version": "20261013-1138",
+      "errors": [],
+      "datenErhalten": true,
+      "paletteOk": true
+    },
+    {
+      "d": "hell",
+      "width": 1280,
+      "theme": "light",
+      "akzent": "#176B67",
+      "button": "#176B67",
+      "weich": "#E3F0EC",
+      "ring": "#176B67",
+      "klein": [
+        "#6E7976",
+        "#6E7976"
+      ],
+      "glow": "none",
+      "stroke": "rgb(23, 107, 103)",
+      "kleineStrokes": [
+        "rgb(110, 121, 118)",
+        "rgb(110, 121, 118)"
+      ],
+      "overflow": false,
+      "version": "20261013-1138",
+      "errors": [],
+      "datenErhalten": true,
+      "paletteOk": true
+    },
+    {
+      "d": "oled",
+      "width": 390,
+      "akzent": "#8CC9C1",
+      "button": "#246C66",
+      "weich": "rgba(140,201,193,.15)",
+      "ring": "#8CC9C1",
+      "klein": [
+        "#8B9794",
+        "#8B9794"
+      ],
+      "glow": "none",
+      "stroke": "rgb(140, 201, 193)",
+      "kleineStrokes": [
+        "rgb(139, 151, 148)",
+        "rgb(139, 151, 148)"
+      ],
+      "overflow": false,
+      "version": "20261013-1138",
+      "errors": [],
+      "datenErhalten": true,
+      "paletteOk": true
+    },
+    {
+      "d": "oled",
+      "width": 1280,
+      "akzent": "#8CC9C1",
+      "button": "#246C66",
+      "weich": "rgba(140,201,193,.15)",
+      "ring": "#8CC9C1",
+      "klein": [
+        "#8B9794",
+        "#8B9794"
+      ],
+      "glow": "none",
+      "stroke": "rgb(140, 201, 193)",
+      "kleineStrokes": [
+        "rgb(139, 151, 148)",
+        "rgb(139, 151, 148)"
+      ],
+      "overflow": false,
+      "version": "20261013-1138",
+      "errors": [],
+      "datenErhalten": true,
+      "paletteOk": true
+    }
+  ],
+  "kontraste": [
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#176B67",
+      "bg": "#f2f0ec",
+      "ratio": 5.531842682398934,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#176B67",
+      "bg": "#fdfcfa",
+      "ratio": 6.140593637308811,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#176B67",
+      "bg": "#f6f4f0",
+      "ratio": 5.73163599572741,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#176B67",
+      "bg": "#e9e6e0",
+      "ratio": 5.054865357883133,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#176B67",
+      "bg": "#E3F0EC",
+      "ratio": 5.3791545842388535,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Buttontext",
+      "fg": "#ffffff",
+      "bg": "#176B67",
+      "ratio": 6.296163964894615,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Kleiner Ring",
+      "fg": "#6E7976",
+      "bg": "#f2f0ec",
+      "ratio": 3.9597627814534233,
+      "min": 3
+    },
+    {
+      "d": "hell",
+      "art": "Kleiner Ring",
+      "fg": "#6E7976",
+      "bg": "#fdfcfa",
+      "ratio": 4.395514394943093,
+      "min": 3
+    },
+    {
+      "d": "hell",
+      "art": "Kleiner Ring",
+      "fg": "#6E7976",
+      "bg": "#f6f4f0",
+      "ratio": 4.102777355714287,
+      "min": 3
+    },
+    {
+      "d": "hell",
+      "art": "Kleiner Ring",
+      "fg": "#6E7976",
+      "bg": "#e9e6e0",
+      "ratio": 3.6183363950479728,
+      "min": 3
+    },
+    {
+      "d": "oled",
+      "art": "Akzenttext",
+      "fg": "#8CC9C1",
+      "bg": "#16181b",
+      "ratio": 9.520455978214114,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Akzenttext",
+      "fg": "#8CC9C1",
+      "bg": "#1f2226",
+      "ratio": 8.546983011470306,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Akzenttext",
+      "fg": "#8CC9C1",
+      "bg": "#262a2f",
+      "ratio": 7.726823447318696,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Akzenttext",
+      "fg": "#8CC9C1",
+      "bg": "#30343a",
+      "ratio": 6.698450543087841,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Buttontext",
+      "fg": "#ffffff",
+      "bg": "#246C66",
+      "ratio": 6.154927833472388,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Kleiner Ring",
+      "fg": "#8B9794",
+      "bg": "#16181b",
+      "ratio": 5.888609700651969,
+      "min": 3
+    },
+    {
+      "d": "oled",
+      "art": "Kleiner Ring",
+      "fg": "#8B9794",
+      "bg": "#1f2226",
+      "ratio": 5.28649543549412,
+      "min": 3
+    },
+    {
+      "d": "oled",
+      "art": "Kleiner Ring",
+      "fg": "#8B9794",
+      "bg": "#262a2f",
+      "ratio": 4.779208854200394,
+      "min": 3
+    },
+    {
+      "d": "oled",
+      "art": "Kleiner Ring",
+      "fg": "#8B9794",
+      "bg": "#30343a",
+      "ratio": 4.1431377801259135,
+      "min": 3
+    }
+  ],
+  "ok": true
+}
