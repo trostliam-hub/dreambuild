@@ -88,3 +88,14 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - GitHub CLI: gh auth status bestätigt Anmeldung als trostliam-hub; Repository-Metadaten melden push/admin-Rechte des Kontos. Trotzdem verweigert der authentifizierte git push origin HEAD:main HTTP 403: „Permission to trostliam-hub/dreambuild.git denied to trostliam-hub.“
 - Die Kontorechte sind somit kein Nachweis für ausreichende Schreibberechtigung der verbundenen Zugangsdaten. Keine Zugangsdaten ausgelesen oder verändert.
 - Nächster Schritt: GitHub-Verbindung/Zugang für dieses Repository mit Contents-Schreibrecht bereitstellen. Danach main erneut abgleichen, geprüften Patch pushen, bestehenden Workflow Veroeffentlichen beobachten, automatisch gestempelte Live-Version und öffentliche App erneut prüfen und diesen Bericht ergänzen.
+
+
+### APP-PETROL-001 — Nachtrag: Ursache des fehlenden Schreibzugriffs
+- Datum: 13.10.2026, 11:31 Uhr Europe/Berlin; Autor: Codex; Status: BLOCKIERT.
+- Erneut mit aktueller Verbindung geprüft. main ist unverändert auf 4a3310b, lokaler Stand enthält die geprüfte Palette.
+- Authentifizierter Benutzer: trostliam-hub (Connector und GitHub CLI).
+- GitHub-App-Installation: ausschließlich Finnthefirst06, ID 160626373, App chatgpt-codex-connector, Repository-Auswahl all.
+- Die App hat bereits contents:write und workflows:write. Es fehlt keine allgemein anzufordernde Schreibberechtigung; die Installation fehlt konkret auf dem Repository-Eigentümerkonto trostliam-hub.
+- Erneuter authentifizierter Push: HTTP 403. Veröffentlichung weiterhin NEIN.
+- Passender Installationsweg: https://github.com/apps/chatgpt-codex-connector — Install, Konto trostliam-hub, Repository dreambuild auswählen.
+- Nach erfolgter Installation Zugriff und aktuellen main erneut prüfen, Veröffentlichung mit bestehender Nutzerfreigabe fortsetzen.
