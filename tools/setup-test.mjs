@@ -49,6 +49,42 @@ const PRO = () => { pro = {key:'x', inst:'i', status:'aktiv', geprueft:Date.now(
 
 /* Jede Pruefung: [Name, async () => {ok, info}] */
 const PRUEFUNGEN = [
+  ['Fahrwerk-Bilder: richtige Kartusche und Referenzjahr', async () => {
+    const r = await ev(() => {
+      const t = (n, m, ka) => ({n, m, v:[{k:'Kartusche', o:[{n:ka}]}], wahl:[0]});
+      const fotos = (n, m, ka) => suFotoDaten('gabel', {t:t(n, m, ka)}).map(b => b.datei);
+      const alt = build.fw; build.fw = {gj:2025};
+      const xAlt = fotos('Fox 36 Factory', 'Fox', 'GRIP X'); build.fw.gj = 2026;
+      const xNeu = fotos('Fox 36 Factory', 'Fox', 'GRIP X');
+      const out = {xAlt, xNeu, x2:fotos('Fox 38 Factory', 'Fox', 'GRIP X2'),
+        grip2:fotos('Fox 36 Factory', 'Fox', 'GRIP2'), fit4:fotos('Fox 34', 'Fox', 'FIT4'),
+        charger:fotos('RockShox Lyrik Ultimate', 'RockShox', 'Charger 3.1 RC2'),
+        neuer:fotos('RockShox ZEB Ultimate', 'RockShox', 'Charger 3.2 RC2'),
+        boxxer:fotos('RockShox BoXXer Ultimate', 'RockShox', 'Charger 3 RC2')};
+      build.fw = alt; return out;
+    });
+    return {ok:!r.xAlt.length && r.xNeu.length === 1 && r.x2.length === 1 && !r.grip2.length && !r.fit4.length && r.charger.length === 2 && !r.neuer.length && !r.boxxer.length, info:r};
+  }],
+  ['Fahrwerk-Bilder: Select bekommt keine Ultimate-Einsteller', async () => {
+    const r = await ev(() => {
+      const bilder = au => suFotoDaten('daempfer', {t:{n:'RockShox Super Deluxe Coil', m:'RockShox', v:[{k:'Ausführung', o:[{n:au}]}], wahl:[0]}});
+      return {ultimate:bilder('Ultimate').length, select:bilder('Select').length, plus:bilder('Select+').length,
+        unbekannt:suFotoDaten('daempfer', {t:{n:'DVO Topaz', m:'DVO'}}).length,
+        fallback:suEinstellBild('gabel', {t:{n:'DVO Onyx', m:'DVO'}}, {zeig:['zug']}).includes('il-gabel')};
+    });
+    return {ok:r.ultimate === 1 && !r.select && !r.plus && !r.unbekannt && r.fallback, info:r};
+  }],
+  ['Fahrwerk-Bilder: lokal dekodierbar und im Offline-Cache', async () => {
+    const dir = path.join(wurzel, 'bilder', 'fahrwerk'), sw = fs.readFileSync(path.join(wurzel, 'mtb-sw.js'), 'utf8');
+    const dateien = fs.readdirSync(dir).filter(n => /\.(jpg|png)$/.test(n));
+    const r = await ev(async dateien => {
+      const fehler = [];
+      for(const n of dateien){ const img = new Image(); img.src = 'bilder/fahrwerk/' + n;
+        try{ await img.decode(); if(!img.naturalWidth) fehler.push(n); }catch(e){ fehler.push(n); } }
+      return fehler;
+    }, dateien);
+    return {ok:dateien.length >= 10 && !r.length && dateien.every(n => sw.includes("'./bilder/fahrwerk/" + n + "'")), info:{anzahl:dateien.length, fehler:r}};
+  }],
   ['09 Pro: Zukunftsdatum und fehlende Instanz gelten nicht', async () => {
     const r = await ev(() => { const t = (g, inst) => { pro = {key:'x', inst, status:'aktiv', geprueft:g}; return istPro(); };
       return {jetzt:t(Date.now(), 'i'), morgen:t(Date.now() + 864e5, 'i'), ohneInst:t(Date.now(), undefined), vor15:t(Date.now() - 15 * 864e5, 'i'), kaputt:t('abc', 'i')}; });

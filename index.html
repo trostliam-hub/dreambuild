@@ -2350,6 +2350,20 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-el-t b{font-family:var(--f-head);font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.2;overflow-wrap:anywhere}
 .fw-el-t small{font-size:12px;color:var(--ink-3)}
 .fw-link{min-height:40px;padding:0 4px;font-size:13px;font-weight:750;color:var(--anod);background:none}
+/* Echte Einstellerbilder: vollstaendig zeigen, antippen vergroessert. */
+.fw-fotos{display:grid;gap:14px;min-width:0;grid-column:1 / -1;width:100%}
+.fw-foto{margin:0;min-width:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.fw-foto-link{display:block;background:#fff}
+.fw-foto img{display:block;width:100%;height:auto;max-height:320px;object-fit:contain}
+.fw-foto figcaption{display:grid;gap:6px;padding:12px;font-size:13px;line-height:1.5;color:var(--ink-2)}
+.fw-foto figcaption b{color:var(--ink)}
+.fw-foto figcaption small{font-size:11.5px;color:var(--ink-3)}
+.fw-foto figcaption a{color:var(--anod);text-decoration:underline;min-height:32px;display:flex;align-items:center;overflow-wrap:anywhere}
+.fw-schema-h{font-size:12px;color:var(--ink-3);margin:14px 0 8px}
+.fw-wie:has(.fw-fotos){grid-template-columns:minmax(0,1fr)}
+.fw-wie-b:has(.fw-fotos){width:100%;order:-1}
+.fw-ein-w > .fw-wo-b:has(.fw-fotos){grid-template-columns:minmax(0,1fr)}
+
 .fw-bild{margin:0 0 10px}
 .fw-bild-in{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:14px;align-items:center}
 .fw-bild-in .il-daempfer{grid-column:1 / -1;max-width:340px}
@@ -14173,6 +14187,76 @@ function ilDaempfer(o){
     <circle class="il-rot il-k" cx="34" cy="80" r="6"/>
     ${ilMarker(IL_DAEMPFER_M, zeig, o.an)}</svg>`;
 }
+/* Herstellerbilder nach Kartusche/Modell, nie nach der Farbe des Bauteils.
+   Die Referenzversion steht am Bild. Keine Einstellwerte aus Bildern ablesen:
+   berechnet wird weiterhin ausschliesslich mit den vorhandenen Setup-Daten. */
+const SU_FOTO_Q = {
+  grip:["FOX GRIP", "https://ridefox.com/pages/grip-dampers"],
+  charger:["RockShox Charger 3", "https://www.sram.com/de/rockshox/learn/charger-3-setup"],
+  rc2t:["RockShox RC2T", "https://www.sram.com/en/rockshox/learn/shock-deep-dives/rc2t"],
+  floatx:["FOX FLOAT X · 2025", "https://tech.ridefox.com/bike/owners-manuals/2983/shock--2025-float-sl-and-float-x"],
+  x2:["FOX FLOAT X2 · 2025", "https://tech.ridefox.com/bike/owners-manuals/2984/shock--2025-float-x2"],
+  coil:["FOX DHX/DHX2 · 2025", "https://tech.ridefox.com/bike/owners-manuals/2981/shock--2025-all-coil-shocks-(dhx2-and-dhx-models)"]
+};
+function suFotoDaten(slot, x){
+  if(!x || !x.t) return [];
+  const t = x.t, n = t.n || "", ka = wahlVon(t, "Kartusche") || "", s = ka + " " + n;
+  const f = (datei, arten, modell, de, en, q) => ({datei, arten, modell, text:tx(de, en), q});
+  if(slot === "gabel"){
+    if(t.m === "Fox"){
+      if(/GRIP ?X2/.test(s)) return [f("fox-gripx2-top.jpg", ["druck", "lsc", "hsc"], "GRIP X2",
+        "Oben am rechten Holm: LSC ist der schwarze Knopf innen, HSC der blaue Ring außen.", "Top of the right leg: LSC is the inner black knob, HSC the outer blue ring.", "grip")];
+      /* Das Foto zeigt GRIP X ohne Firm-Hebel (2026), nicht die 2024/25-Version. */
+      if(/GRIP X\b/.test(s) && Number((build.fw || {}).gj) >= 2026) return [f("fox-gripx-top.jpg", ["druck", "lsc", "hsc"], "GRIP X · 2026",
+        "Oben am rechten Holm: LSC innen, HSC am blauen Außenring. Diese Version hat keinen Firm-Hebel.", "Top of the right leg: LSC inside, HSC on the outer blue ring. This version has no firm lever.", "grip")];
+      if(/GRIP SL/.test(s)) return [f("fox-gripsl-top.jpg", ["druck", "hebel"], "GRIP SL",
+        "Der blaue Hebel oben am rechten Holm wählt Open, Medium oder Firm.", "The blue lever on top of the right leg selects Open, Medium or Firm.", "grip")];
+    }
+    if(t.m === "RockShox" && /Lyrik|Pike|ZEB/.test(n) && /Charger 3(?:\.1)? RC2\b/.test(ka)) return [
+      f("rs-charger3-druck.jpg", ["druck", "lsc", "hsc"], "Charger 3 RC2",
+        "Oben am rechten Holm: kleiner Knopf mit blauem Ring = LSC; großer Außenring = HSC.", "Top of the right leg: small knob with blue ring = LSC; large outer ring = HSC.", "charger"),
+      f("rs-charger3-luft-zug.jpg", ["luft", "zug"], "Charger 3 RC2",
+        "Bildmitte: Luftventil oben am linken Holm. Rechts: Zugstufe unten am rechten Holm. Links ist die Trailhead-App zu sehen.", "Centre: air valve on top of the left leg. Right: rebound at the bottom of the right leg. Left: the Trailhead app.", "charger")];
+    return [];
+  }
+  if(slot !== "daempfer") return [];
+  const au = wahlVon(t, "Ausführung");
+  if(t.m === "RockShox" && /Super Deluxe/.test(n) && au === "Ultimate") return [
+    f("rs-rc2t-druck.jpg", ["druck", "lsc", "hsc"], "Super Deluxe Ultimate RC2T · 2023",
+      "Links der Stahlfeder-, rechts der Luftdämpfer: LSC am blauen Ring; HSC mit Inbus in seiner Mitte. Der Hebel sitzt daneben.", "Coil shock on the left, air shock on the right: LSC on the blue ring; HSC with a hex key in its centre. The lever sits beside it.", "rc2t")];
+  if(t.m !== "Fox") return [];
+  let prefix, q;
+  if(/DHX2/.test(n)){ prefix = "fox-dhx2"; q = "coil"; }
+  else if(/Float X2/.test(n)){ prefix = "fox-x2"; q = "x2"; }
+  if(prefix){
+    const modell = /DHX2/.test(n) ? "DHX2 · 2025" : "FLOAT X2 · 2025";
+    return [f(prefix + "-zug.jpg", ["zug"], modell, "LSR: Zugstufe am roten Einsteller, innen mit 3-mm-Inbus.", "LSR: rebound at the red adjuster, inside with a 3 mm hex key.", q),
+      ...(au === "Factory" ? [f(prefix + "-hsr.jpg", ["hsr"], modell, "HSR: äußerer Zugstufen-Einsteller mit 6-mm-Inbus.", "HSR: outer rebound adjuster with a 6 mm hex key.", q)] : []),
+      ...(au === "Factory" ? [f(prefix + "-druck.jpg", ["druck", "lsc", "hsc"], modell,
+        "Am Ausgleichsbehälter: LSC innen mit 3-mm-Inbus, HSC außen mit 6-mm-Inbus (Factory).", "On the reservoir: LSC inside with a 3 mm hex key, HSC outside with a 6 mm hex key (Factory).", q)] : [])];
+  }
+  if(/Float X\b/.test(n)) return [
+    ...(au === "Factory" || au === "Performance Elite" ? [f("fox-floatx-lsc.jpg", ["druck", "lsc"], "FLOAT X · 2025", "LSC: blaues Rädchen oben am Ausgleichsbehälter.", "LSC: blue dial on top of the reservoir.", "floatx")] : []),
+    f("fox-floatx-hebel.jpg", ["hebel"], "FLOAT X · 2025", "Kletterhebel neben dem Druckstufenknopf. Bergab offen lassen.", "Climb switch beside the compression dial. Leave open on descents.", "floatx")];
+  if(/\bDHX\b/.test(n)) return [
+    f("fox-dhx-zug.jpg", ["zug"], "DHX · 2025", "Zugstufe: rotes Rädchen unten am Dämpfer.", "Rebound: red dial at the bottom of the shock.", "coil"),
+    ...(au === "Factory" || au === "Performance Elite" ? [f("fox-dhx-lsc.jpg", ["druck", "lsc"], "DHX · 2025", "LSC: blaues Rädchen am Ausgleichsbehälter.", "LSC: blue dial on the reservoir.", "coil")] : []),
+    f("fox-dhx-hebel.jpg", ["hebel"], "DHX · 2025", "Kletterhebel am Ausgleichsbehälter. Bergab offen lassen.", "Climb switch on the reservoir. Leave open on descents.", "coil")];
+  return [];
+}
+function suFotos(slot, x, arten){
+  const bilder = suFotoDaten(slot, x).filter(b => b.arten.some(a => arten.includes(a)));
+  if(!bilder.length) return "";
+  return `<div class="fw-fotos">${bilder.map(b => {
+    const q = SU_FOTO_Q[b.q];
+    return `<figure class="fw-foto"><a class="fw-foto-link" href="bilder/fahrwerk/${b.datei}" target="_blank" rel="noopener" aria-label="${esc(tx("Bild vergrößern: ", "Enlarge image: ") + b.modell)}"><img src="bilder/fahrwerk/${b.datei}" alt="${esc(b.modell + ": " + b.text)}" loading="lazy" decoding="async"></a>
+      <figcaption><b>${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstellerbild · Referenzversion; Baujahr und Ausstattung können abweichen.", "Manufacturer image · reference version; year and specification may differ.")}</small><a href="${esc(q[1])}" target="_blank" rel="noopener">${tx("Quelle", "Source")}: ${esc(q[0])} ↗</a></figcaption></figure>`;
+  }).join("")}</div>`;
+}
+function suEinstellBild(slot, x, o){
+  return suFotos(slot, x, o.zeig || []) || (slot === "gabel" ? ilGabel(o) : ilDaempfer(o));
+}
+
 function ilRad(o){
   o = o || {}; const zeig = o.zeig || [];
   return `<svg class="il il-rad" viewBox="0 0 260 160" role="img" aria-label="${tx("Mountainbike von der Seite", "Mountain bike from the side")}">
@@ -14432,7 +14516,7 @@ function suKarte(f, slot, x, d, it, nr){
     }
   }
   const marker = it.art === "tokens" ? "luft" : it.art === "sag" ? "oring" : it.art;
-  const bild = slot === "gabel" ? ilGabel({zeig:[marker], an:marker, coil:x.coil}) : ilDaempfer({zeig:[marker], an:marker, coil:x.coil});
+  const bild = suEinstellBild(slot, x, {zeig:[marker], an:marker, coil:x.coil});
   const wo = (it.k && it.k.k.wo) || sp2((SU_WO[slot] || {})[it.art] || ["", ""]);
   const wie = it.art === "luft" ? `<p>${tx(`Dämpferpumpe aufs Ventil (${esc(wo)}) und pumpen, dann ${slot === "gabel" ? "5×" : "10×"} ein Viertel des Federwegs einfedern — so gleichen sich die Luftkammern aus (FOX, RockShox). Danach nochmal ablesen.`, `Attach the shock pump to the valve (${esc(wo)}) and pump up, then push the ${slot === "gabel" ? "fork" : "shock"} a quarter of the way into its travel ${slot === "gabel" ? "5" : "10"} times — this equalises the air chambers (FOX, RockShox). Then check the reading again.`)}</p>`
     : it.art === "feder" ? `<p>${tx("Andere Härte = andere Feder (Fachhändler). Vorspannung nur so weit, dass die Feder ohne Spiel sitzt.", "Different rate = different spring (shop). Preload only enough that the spring sits without play.")}</p>`
@@ -14462,7 +14546,7 @@ function suElementHtml(f, slot, x, d){
   return `<section class="fw-el" aria-label="${slot === "gabel" ? tx("Federgabel", "Fork") : tx("Dämpfer", "Shock")}">
     <div class="fw-el-kopf"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot], 20)}</span><span class="fw-el-t"><span class="fw-el-o">${slot === "gabel" ? tx("Vorn, Federgabel", "Front fork") : tx("Hinten, Dämpfer", "Rear shock")}</span>
       <b>${esc(x.t.nb || x.t.n)}</b><small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "", x.coil ? tx("Stahlfeder", "Coil") : tx("Luftfeder", "Air"), jahr > 1990 ? tx(`Baujahr ${jahr}`, `${jahr}`) : jahr === "alt" ? tx("älter", "older") : ""].filter(Boolean).join(" · ")}</small></span></div>
-    ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), `<div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
+    ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), `${suFotos(slot, x, zeigM)}<p class="fw-schema-h">${tx("Schema zur Orientierung", "Orientation diagram")}</p><div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
     <ol class="fw-kl">${basis.map(it => suKarte(f, slot, x, d, it, ++nr)).join("")}</ol>
     ${profi.length ? `<p class="fw-profi-h">${tx("Profi-Einsteller", "Advanced adjusters")} <span>${tx("aufklappen für Details", "expand for details")}</span></p><ol class="fw-kl profi">${profi.map(it => suKarte(f, slot, x, d, it, 0)).join("")}</ol>` : ""}
   </section>`;
@@ -15166,7 +15250,7 @@ function obInhalt(n, f, fw){
       + suElemente(f).map(([slot, x]) => {
         const e = obEinAn(slot, x), an = SU_ARTEN.filter(a => e.an[a]);
         const chips = SU_ARTEN.map(a => { const o = OB_ARTEN[a]; return `<button class="fw-ow fw-ein" data-fwwk="ein:${slot}:${a}|1" aria-pressed="${e.an[a]}"><b><span class="fw-dot ${SU_FARBE[a] || "grau"}"></span>${sp2([o[0], o[1]])}</b><small>${e.da.has(a) ? tx("laut Hersteller", "per manufacturer") : tx("keine Herstellerdaten", "no manufacturer data")}${o[2] ? " · " + sp2([o[2], o[3]]) : ""}</small></button>`; }).join("");
-        const bild = slot === "gabel" ? ilGabel({zeig:an, coil:x.coil}) : ilDaempfer({zeig:an, coil:x.coil});
+        const bild = `${suFotos(slot, x, an)}<div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:an, coil:x.coil}) : ilDaempfer({zeig:an, coil:x.coil})}</div>`;
         return `<fieldset class="fw-og"><legend>${slot === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")} · ${esc(x.t.nb || x.t.n)}</legend>
           <div class="fw-ein-w"><div class="fw-wo-b">${bild}${fwLegende(an.map(a => esc(sp2((SU_WO[slot] || {})[a] || SU_INFO[a].n))))}</div><div class="fw-ows">${chips}${obWn("ein:" + slot, !((build.fw || {}).ein || {})[slot])}</div></div></fieldset>`;
       }).join("")
