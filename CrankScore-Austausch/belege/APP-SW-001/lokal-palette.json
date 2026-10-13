@@ -1,0 +1,255 @@
+{
+  "url": "http://127.0.0.1:8766/index.html",
+  "zeit": "2026-10-13T11:34:52.476Z",
+  "faelle": [
+    {
+      "d": "hell",
+      "width": 390,
+      "theme": "light",
+      "akzent": "#14171B",
+      "button": "#14171B",
+      "weich": "#E9E6E0",
+      "ring": "#14171B",
+      "klein": [
+        "#6E7976",
+        "#6E7976"
+      ],
+      "glow": "none",
+      "stroke": "rgb(20, 23, 27)",
+      "kleineStrokes": [
+        "rgb(110, 121, 118)",
+        "rgb(110, 121, 118)"
+      ],
+      "overflow": false,
+      "version": "20261013-1138",
+      "errors": [],
+      "datenErhalten": true,
+      "paletteOk": true
+    },
+    {
+      "d": "hell",
+      "width": 1280,
+      "theme": "light",
+      "akzent": "#14171B",
+      "button": "#14171B",
+      "weich": "#E9E6E0",
+      "ring": "#14171B",
+      "klein": [
+        "#6E7976",
+        "#6E7976"
+      ],
+      "glow": "none",
+      "stroke": "rgb(20, 23, 27)",
+      "kleineStrokes": [
+        "rgb(110, 121, 118)",
+        "rgb(110, 121, 118)"
+      ],
+      "overflow": false,
+      "version": "20261013-1138",
+      "errors": [],
+      "datenErhalten": true,
+      "paletteOk": true
+    },
+    {
+      "d": "oled",
+      "width": 390,
+      "akzent": "#FFFFFF",
+      "button": "#FFFFFF",
+      "weich": "rgba(255,255,255,.10)",
+      "ring": "#FFFFFF",
+      "klein": [
+        "#8B9794",
+        "#8B9794"
+      ],
+      "glow": "none",
+      "stroke": "rgb(255, 255, 255)",
+      "kleineStrokes": [
+        "rgb(139, 151, 148)",
+        "rgb(139, 151, 148)"
+      ],
+      "overflow": false,
+      "version": "20261013-1138",
+      "errors": [],
+      "datenErhalten": true,
+      "paletteOk": true
+    },
+    {
+      "d": "oled",
+      "width": 1280,
+      "akzent": "#FFFFFF",
+      "button": "#FFFFFF",
+      "weich": "rgba(255,255,255,.10)",
+      "ring": "#FFFFFF",
+      "klein": [
+        "#8B9794",
+        "#8B9794"
+      ],
+      "glow": "none",
+      "stroke": "rgb(255, 255, 255)",
+      "kleineStrokes": [
+        "rgb(139, 151, 148)",
+        "rgb(139, 151, 148)"
+      ],
+      "overflow": false,
+      "version": "20261013-1138",
+      "errors": [],
+      "datenErhalten": true,
+      "paletteOk": true
+    }
+  ],
+  "kontraste": [
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#14171B",
+      "bg": "#f2f0ec",
+      "ratio": 15.79509193875109,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#14171B",
+      "bg": "#fdfcfa",
+      "ratio": 17.533260909318102,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#14171B",
+      "bg": "#f6f4f0",
+      "ratio": 16.365562563812766,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#14171B",
+      "bg": "#e9e6e0",
+      "ratio": 14.433176727858028,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Akzenttext",
+      "fg": "#14171B",
+      "bg": "#E9E6E0",
+      "ratio": 14.433176727858028,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Buttontext",
+      "fg": "#ffffff",
+      "bg": "#14171B",
+      "ratio": 17.97746147109073,
+      "min": 4.5
+    },
+    {
+      "d": "hell",
+      "art": "Kleiner Ring",
+      "fg": "#6E7976",
+      "bg": "#f2f0ec",
+      "ratio": 3.9597627814534233,
+      "min": 3
+    },
+    {
+      "d": "hell",
+      "art": "Kleiner Ring",
+      "fg": "#6E7976",
+      "bg": "#fdfcfa",
+      "ratio": 4.395514394943093,
+      "min": 3
+    },
+    {
+      "d": "hell",
+      "art": "Kleiner Ring",
+      "fg": "#6E7976",
+      "bg": "#f6f4f0",
+      "ratio": 4.102777355714287,
+      "min": 3
+    },
+    {
+      "d": "hell",
+      "art": "Kleiner Ring",
+      "fg": "#6E7976",
+      "bg": "#e9e6e0",
+      "ratio": 3.6183363950479728,
+      "min": 3
+    },
+    {
+      "d": "oled",
+      "art": "Akzenttext",
+      "fg": "#FFFFFF",
+      "bg": "#16181b",
+      "ratio": 17.78764748651194,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Akzenttext",
+      "fg": "#FFFFFF",
+      "bg": "#1f2226",
+      "ratio": 15.968848680056455,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Akzenttext",
+      "fg": "#FFFFFF",
+      "bg": "#262a2f",
+      "ratio": 14.43649463701442,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Akzenttext",
+      "fg": "#FFFFFF",
+      "bg": "#30343a",
+      "ratio": 12.515122935176004,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Buttontext",
+      "fg": "#14171b",
+      "bg": "#FFFFFF",
+      "ratio": 17.97746147109073,
+      "min": 4.5
+    },
+    {
+      "d": "oled",
+      "art": "Kleiner Ring",
+      "fg": "#8B9794",
+      "bg": "#16181b",
+      "ratio": 5.888609700651969,
+      "min": 3
+    },
+    {
+      "d": "oled",
+      "art": "Kleiner Ring",
+      "fg": "#8B9794",
+      "bg": "#1f2226",
+      "ratio": 5.28649543549412,
+      "min": 3
+    },
+    {
+      "d": "oled",
+      "art": "Kleiner Ring",
+      "fg": "#8B9794",
+      "bg": "#262a2f",
+      "ratio": 4.779208854200394,
+      "min": 3
+    },
+    {
+      "d": "oled",
+      "art": "Kleiner Ring",
+      "fg": "#8B9794",
+      "bg": "#30343a",
+      "ratio": 4.1431377801259135,
+      "min": 3
+    }
+  ],
+  "ok": true
+}

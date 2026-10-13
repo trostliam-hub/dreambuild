@@ -1145,3 +1145,12 @@ lieber kein Preis als der Preis eines anderen Teils. Die Engine kennt
 Normmaße, nicht jede Sonderlocke eines einzelnen Rahmenjahrgangs — vor dem Kauf
 gegen das Datenblatt des eigenen Rahmens prüfen. Trial-Maße sind auf Mod 20/19″
 und Stock 26″ vereinfacht.
+
+
+**Aktuelle Palette (APP-SW-001, 13.10.2026).** Auf Liams Korrektur ersetzt
+Schwarz/Weiß den Petrol-Akzent: hell `#14171B` mit weißer Schrift auf
+gefüllten Aktionen, dunkel `#FFFFFF` mit dunkler Schrift (`#14171B`).
+Weiche Akzentflächen sind neutralgrau. Gesamtring, Links, aktive Zustände,
+Logo-Akzente und Fahrwerk-Marker folgen dem gleichen System; kleine
+Score-Ringe bleiben neutralgrau. Warme helle Flächen, Anthrazit und
+Warn-/Fehler-/Erfolgsfarben bleiben erhalten, kein Ringschein.

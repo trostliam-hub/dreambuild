@@ -119,3 +119,20 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - Grenzen: Chromium-Prüfung, kein echter iPhone-/Safari-Test. Artefakt-Download wurde vom Azure-Endpunkt verweigert; vollständiges GitHub-Workflow-Log mit allen Testergebnissen erfolgreich gesichert.
 - Bestehende Pages-Quelle ist legacy (Deploy from branch). Der vorhandene Workflow warnt, dass dies kein allgemeines Test-Tor vor jedem Pages-Build ist; die Quelle wurde im Rahmen dieses Farbauftrags nicht geändert. Diese Änderung war bereits vor dem Push lokal vollständig getestet, danach ebenfalls im Veröffentlichungsworkflow.
 - Frühere BLOCKIERT-Einträge dokumentieren den damaligen Stand; diese Abschlussprüfung löst die Blockade auf. Keine offenen Schritte für diesen Auftrag.
+
+
+---
+
+## APP-SW-001 — Nutzerkorrektur: Schwarz/Weiß statt Petrol
+- Autor: Codex · Empfänger: Liam
+- Datum: 13.10.2026, 13:36 Uhr (Europe/Berlin).
+- Status: PRÜFBEREIT, Veröffentlichung im fortgeführten Nutzerauftrag freigegeben.
+- Basis: aktueller `main` `48772969096d8f378def8c28e59331fe21c9db14`, Version `20261013-1138`. Isolierter Checkout; frühere lokale Commits nicht erneut übertragen.
+- Änderung: Petrol vollständig aus den Markenakzenten entfernt. Hell schwarze Akzenttexte/Gesamtring/Buttons `#14171B`, weiße Schrift auf gefüllten Aktionen; dunkel weiße Akzenttexte/Gesamtring/Buttons `#FFFFFF`, dunkle Schrift `#14171B`. Weiche Flächen neutralgrau. Links, aktive Auswahlen, Guide, Logo, Fahrwerk-Markierungen und Startseiten-Akzente konsistent angepasst. Kleiner Score neutralgrau, warme Hellflächen und Anthrazit erhalten. Keine Änderung der Statusfarben, kein Leuchten.
+- Kontrast auf gefüllten Buttons, Nummern und SVG-Adapterbeschriftungen an das neue Farbsystem angepasst.
+- Keine Daten- oder Funktionsänderung. Alle eingebetteten Skripte gegenüber Basis identisch bis auf Startseiten-Ringfarbe und Farbkommentar.
+- `npm test`: alle bestanden, 144 s — Syntax 2 Skripte, Kompatibilität 200/200, Setup/Speicher 16/16, Wege 36/36, Sprache 0 Funde in 8.752 Texten, BEVEL 28/28, Preis-Skript 0 Fehler.
+- Chromium: Hell/Dunkel, 390/1280 px, Hauptansicht und Fahrwerk; Palette korrekt, kein Überlauf, keine JS-Fehler, Daten vor/nach tatsächlichen Themewechseln identisch. Screenshots visuell geprüft.
+- Kontrastprüfung: 0 Unterschreitungen in 1.056 sichtbaren Texten (9 Ansichten × 2 Themes × 2 Breiten); zusätzliche Palette-/Ring-/Button-Kontraste bestanden.
+- Belege: `belege/APP-SW-001/`. Grenzen: kein echter Safari-/iPhone-Test.
+- Veröffentlichung: zunächst NEIN. Jetzt geprüften Stand auf `main` übertragen, bestehende Action automatisch stempeln lassen und Live-Fassung kontrollieren. Nachtrag folgt.
