@@ -174,3 +174,20 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - Eigene Live-Chromium-Prüfung: Hell/Dunkel × 390/1280 px. html und body tatsächlich schwarz (rgb(0,0,0)) im Dunkelmodus, Statusleistenfarbe #000000 auch nach Hin-/Zurückschalten, warmer Hellmodus erhalten. Keine JS-Fehler, kein Überlauf, Profil-/Plan-/Fahrwerkdaten erhalten. Dunkler Screenshot visuell geprüft.
 - Live-Kontrastprüfung: 0 Unterschreitungen in 1.056 sichtbaren Texten.
 - Belege: `belege/APP-OLED-001/live-palette.json`, `live-kontrast.txt`, `live-*.png`, `veroeffentlichung.txt`. Grenzen: Chromium, kein echtes Safari/iPhone. Keine offenen Schritte.
+
+
+---
+
+## APP-FULLBLACK-001 — Vollständig schwarze Flächen, leuchtendes Weiß
+- Autor: Codex · Empfänger: Liam · Datum: 13.10.2026, 14:00 Uhr (Europe/Berlin).
+- Status: PRÜFBEREIT; fortgesetzter Designauftrag, bestehende Veröffentlichungserlaubnis.
+- Basis: aktueller main `8b799ec`, Version `20261013-1350`.
+- Nutzerwunsch: Full Black, vollständig OLED-schwarz, helles/leuchtendes Weiß und wenige Akzente. Optionale Nachfrage zur Akzentfarbe ohne Antwort; angekündigte Annahme Weiß/Silber verwendet.
+- Umsetzung: ground, surface, surface-2 und sunk durchgehend #000000 dunkel. Primärtext #FFFFFF, Sekundärtexte #E6E6E6/#B8B8B8. Neutrale Silberringe #A3A3A3, feine Linien zur Gliederung. Dezent statischer weißer Schein ausschließlich an Gesamtring und Logo. Navigation und neutrale Buttons/Controls auf Schwarz, Hauptbuttons Weiß mit dunkler Schrift.
+- Auch die bisher stets helle Startansicht folgt jetzt dem App-Theme: schwarze Flächen, weißer Ring und Schrift, monochrome Aktionen. Vorhandene Marken-/Erfolgsbeschriftungen auf der Startseite für ausreichenden Kontrast korrigiert.
+- Hellmodus und semantische Warn-/Fehler-/Erfolgsfarben erhalten. Funktionen und Nutzerdaten unverändert; einziger funktionaler Skript-Diff ist Startseiten-Ringfarbe als CSS-Variable statt fester Hellfarbe. Kein manueller Stempel.
+- `npm test`: alle bestanden, 148 s — Syntax 2 Skripte, Kompatibilität 200/200, Setup/Speicher 16/16, Wege 36/36, Sprache 0 Funde in 8.752 Texten, BEVEL 28/28, Preis-Skript 0 Fehler.
+- Chromium/Playwright: Hell/Dunkel × 390/1280 px, Hauptansicht/Fahrwerk/Startansicht, schwarze Flächen und weißer Schein tatsächlich gerendert. Daten nach Themewechsel unverändert, keine JS-Fehler/Überläufe. App und Startansicht visuell geprüft.
+- Kontraste: 0 Unterschreitungen in 1.056 App-Texten plus 882 Texten der scrollenden Startansicht.
+- Belege: `belege/APP-FULLBLACK-001/`. Grenzen: kein echtes Safari/iPhone.
+- Veröffentlichung: noch NEIN zum Zeitpunkt dieses Eintrags. Jetzt Push, bestehende Action prüfen und automatische Live-Version nachweisen; Abschlussnachtrag folgt.

@@ -1161,3 +1161,12 @@ reines Schwarz (`#000000`) als Seitenhintergrund und Browser-Statusleistenfarbe.
 Transparente Kopf- und Navigationsflächen verwenden Schwarz statt Anthrazit.
 Karten bleiben zur Gliederung heller; Schwarz-Weiß-Akzente, Hellmodus und
 Statusfarben bleiben erhalten.
+
+
+**Full Black (APP-FULLBLACK-001, 13.10.2026).** Dunkle Grund-, Karten-,
+Dialog- und Innenflächen sind durchgehend `#000000`. Primärtexte strahlend
+weiß, Sekundärtexte heller neutralgrau; silberne Konturen trennen die
+Flächen. Gesamtring und Logo leuchten dezent weiß. Kleine Score-Ringe
+sind neutral silberfarben. Die Startansicht folgt jetzt ebenfalls dem
+App-Design. Hellmodus und semantische Warn-/Fehler-/Erfolgsfarben bleiben
+erhalten; sonst setzen Weiß und Silber wenige Akzente.

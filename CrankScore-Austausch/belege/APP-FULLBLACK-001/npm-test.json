@@ -1,0 +1,80 @@
+{
+  "revision": "8b799ec08adcb661536f338840d2d2e146cd9d26",
+  "aenderungen": true,
+  "node": "v24.19.0",
+  "teile": [
+    {
+      "name": "Syntax index.html",
+      "ok": true,
+      "zeile": "2 Skripte",
+      "erwartet": 2,
+      "gelaufen": 2
+    },
+    {
+      "name": "Kompatibilität",
+      "ok": true,
+      "zeile": "200 von 200 bestanden, erwartet 200, Exit 0",
+      "exit": 0,
+      "bestanden": 200,
+      "gelaufen": 200,
+      "erwartet": 200,
+      "fehl": [],
+      "ausgabe": "il+ (Bosch) + SRAM X0 E-MTB Bosch-Kurbel passt, kein Innenlager nötig\n  ok   E-MTB: Rail+ (Bosch) + normale GX-DUB-Kurbel ist rot\n  ok   E-MTB: normale Fuel EX + E-MTB-Kurbel ist rot\n  ok   E-MTB: Decoy (Shimano EP) + Bosch-ISIS-Kurbel ist rot\n  ok   E-MTB: Levo 4 (Specialized, ISIS) + Bosch-Kurbel ist gelb (anderer Versatz)\n  ok   E-MTB: Levo 4 + Praxis Type 3 passt\n  ok   E-MTB: Fuel EXe (TQ) + e*thirteen Helix e*spec passt\n  ok   E-MTB: Orbea Rise (kein UDH) + Transmission ist rot\n  ok   E-MTB: Trek Rail+ (UDH) + Transmission passt\n  ok   E-MTB: Innenlager-Slot entfällt am E-MTB\n  ok   E-MTB: Full-Power mit 2-Kolben-Bremse ist gelb\n  ok   E-MTB: Full-Power mit 180er Scheibe vorn gibt den Hinweis\n  ok   E-MTB: Light-E (Fuel EXe) mit 2 Kolben ist kein E-Bremsen-Fall\n  ok   E-MTB: Mullet-Rahmen (Rail+) + 29/29-Laufradsatz ist rot\n  ok   Gesamtrad: Startrad der App ist grün\n  ok   XC: Specialized Epic 8 Comp (2024)\n  ok   XC: Scott Spark RC Team (2023)\n  ok   XC: Canyon Lux Trail CF 8 (2024)\n  ok   XC: Orbea Oiz M-Pro (2023) · Flat Mount hinten\n  ok   XC: Trek Supercaliber SLR 9.8 Gen 2 (2024)\n  ok   XC: Specialized Chisel Comp (2022) · Hardtail\n  ok   Trail: Trek Fuel EX 9.8 XT Gen 6 (2023)\n  ok   Trail: Specialized Stumpjumper 15 Comp (2025)\n  ok   Trail: Santa Cruz Hightower 3 C S (2023)\n  ok   Trail: YT Izzo Core 3 (2022)\n  ok   Trail: Santa Cruz Tallboy 5 C R (2023)\n  ok   Trail: Santa Cruz 5010 5 C S · Mullet (2023)\n  ok   Trail: Canyon Spectral CF 8 (2021)\n  ok   Trail: Giant Trance X Advanced Pro 29 (2022)\n  ok   Trail: Rocky Mountain Instinct C70 (2023)\n  ok   Trail: Pivot Trail 429 Pro · Super Boost 157 (2023)\n  ok   Trail: Evil Following LS · Super Boost 157 (2023)\n  ok   Trail: Norco Optic C2 (2023)\n  ok   Trail: Transition Spur X0 AXS · Transmission (2025)\n  ok   Trail: Orbea Occam LT M10 (2024)\n  ok   Trail: Yeti SB120 T2 · Transmission (2023)\n  ok   Trail: Propain Hugene Performance (2022)\n  ok   Enduro: Specialized Enduro Expert (2025)\n  ok   Enduro: Santa Cruz Megatower 2 C GX AXS (2024)\n  ok   Enduro: Commencal Meta SX V5 Race · Mullet (2023)\n  ok   Enduro: YT Capra Core 4 · Mullet (2022)\n  ok   Enduro: Canyon Strive CFR Underdog (2022)\n  ok   Enduro: Trek Slash 9.8 GX AXS Gen 6 (2024)\n  ok   Enduro: Propain Tyee CF (2023)\n  ok   Enduro: Specialized Status 160 · Mullet (2022)\n  ok   Enduro: Transition Sentinel V3 X0 AXS (2024)\n  ok   Enduro: Nukeproof Giga 297 Carbon (2023)\n  ok   Enduro: Orbea Rallon M-LTD (2023)\n  ok   Enduro: Mondraker Foxy Carbon RR (2023)\n  ok   Enduro: Ibis HD6 · Mullet (2024)\n  ok   Enduro: Pivot Firebird Pro X0 · Super Boost 157 (2024)\n  ok   Enduro: Cube Stereo ONE55 C:62 TM (2023)\n  ok   Enduro: Canyon Torque CF 8 (2023)\n  ok   DH: Santa Cruz V10 8 CC X01 (2024)\n  ok   DH: Trek Session 9.9 X01 (2023)\n  ok   DH: Commencal Supreme DH V5 Race · Saint · Mullet (2023)\n  ok   DH: Canyon Sender CFR · 148/BSA83 (2025)\n  ok   DH: YT Tues Core 4 · 148/BSA83 (2024)\n  ok   DH: Propain Rage CF 29 · Saint (2022)\n  ok   DH: Cube Two15 Race 27.5 (2022)\n  ok   DH: Specialized Demo Race · Mullet (2023)\n  ok   Dirt: NS Bikes Movement 3 · Singlespeed (2022)\n  ok   Dirt: Dartmoor Two6Player · Singlespeed (2022)\n  ok   Slope: NS Bikes Soda Slope (2021)\n  ok   Trial: Echo Mark VI Mod 20″ · Felgenbremse (2021)\n  ok   Trial: Inspired Fourplay 24″ · 135×12 (2021)\n  ok   Hardtail: Commencal Meta HT AM Ride · IS-Aufnahme hinten (2022)\n  ok   Hardtail: Nukeproof Scout 290 Race (2024)\n  ok   Hardtail: Santa Cruz Chameleon 8 (2022)\n  ok   E-MTB: Trek Rail+ 9.8 GX AXS T-Type · Bosch CX Gen 5 (2025)\n  ok   E-MTB: Specialized Turbo Levo 4 Expert · Specialized 3.1 (2025)\n  ok   E-MTB: Orbea Wild M-Team · Bosch CX (2023)\n  ok   E-MTB: Cube Stereo Hybrid 160 HPC ActionTeam 27.5 · Bosch CX (2023)\n  ok   E-MTB: YT Decoy MX Core 4 · Shimano EP8 (2023)\n  ok   Light-E: Trek Fuel EXe 9.8 XT · TQ HPR50 (2023)\n  ok   Light-E: Orbea Rise M10 · Shimano EP801-RS (2023)\n\n200 von 200 Fällen bestanden (davon 61 komplette Testräder).\n"
+    },
+    {
+      "name": "Setup und Speicher",
+      "ok": true,
+      "zeile": "16 von 16 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 16,
+      "gelaufen": 16,
+      "erwartet": null,
+      "fehl": [],
+      "ausgabe": "  ok   09 Pro: Zukunftsdatum und fehlende Instanz gelten nicht\n  ok   05 Setup je Radprofil, Kopie und Loeschen\n  ok   06 SAG je Fahrprofil und Druck\n  ok   07 Speicher voll wird gemeldet, Foto bleibt\n  ok   08 Sicherung: Rundlauf ohne Verlust\n  ok   08 Sicherung: kaputte, fremde und zu neue Dateien abgelehnt\n  ok   08 Sicherung: Speicher voll beim Laden laesst alten Stand stehen\n  ok   11/13 Gabeldruck nur im Tabellenbereich und mit Baujahr\n  ok   12/16 kein erfundener Maximaldruck\n  ok   14/15 Daempfer: Feder nur mit Federweg, Startdruck nur FOX\n  ok   17 gespeicherter Druck zentral begrenzt\n  ok   20 Tokens ohne Bestueckung keine Stueckzahl\n  ok   21 harter Konflikt sperrt Einstellwerte\n  ok   22 Free-Vorschau ohne Zahlen\n  ok   Onboarding: jede Frage mit Warum und Weiss-ich-nicht\n  ok   Alle Gabeln und Daempfer: keine erfundenen Werte, kein undefined/NaN\n\nSETUP: 16 von 16 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Ein Weg je Aufgabe",
+      "ok": true,
+      "zeile": "36 von 36 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 36,
+      "gelaufen": 36,
+      "erwartet": null,
+      "fehl": [],
+      "ausgabe": "  ok   01/04/17 Neuer Nutzer: Einstieg nur die Wahl des Rads, danach Bauziel, kein automatischer Rundgang\n  ok   01/02 Fahrerprofil: ein Editor unter Einstellungen, keine zweite Gewichts- oder Masseingabe\n  ok   03 Budget nur im Bauziel, eine Regel, je Rad\n  ok   05/14/15/16 Eine Aufgabenkarte: Schritte nur Status, genau ein Knopf, kein Einbau/Ablehnen darin\n  ok   15/BEVEL-002 Finder: Vergleichen -> Im Aufbau ersetzen baut genau dieses Teil ein, mit Verlauf und Rueckgaengig\n  ok   16/BEVEL-002 Konflikt: Pruefung im Aufbau zeigt ihn auch zugeklappt, Loesung fuehrt zu passenden Teilen\n  ok   14 Ueber Budget: Aufgabenkarte nennt den Status, Sparen nur unter Upgrades\n  ok   07 Raeder: Anlegen nur in der Verwaltung, Traumrad weiter ins Bauziel, eigenes Rad zum Rahmen\n  ok   06/08 Bauziel je Modus: Traumrad mit Budget und Assistent, eigenes Rad und Angebot nur Disziplin und Budget\n  ok   04 Bauziel-Assistent: fuenf Schritte, Uebernehmen nur auf das offene Rad\n  ok   09 Fahrwerk nur ueber die Navigation (Handy und Desktop): kein Knopf im Kopf, im Aufbau, im Menue oder im Guide\n  ok   10-13 Setup (Pro-Testzustand): ein SAG-Start je Element, eine Testfahrt, ein Angaben-Editor, keine Teilewahl\n  ok   10 Testfahrt fragt nach SAG, misst dasselbe Element und kehrt zur Testfahrt zurueck\n  ok   12/02 Setup ohne Gewicht fuehrt ins Fahrerprofil, fragt kein Gewicht und keine Groesse selbst\n  ok   18b/02 Migration: Groesse aus dem Setup ins Fahrerprofil, nichts geloescht\n  ok   Daten bleiben nach Neuladen: Raeder, Budget, Gewicht, Setup-Werte, Pro-Status\n  ok   18c/UX Einkaufsliste nur im Bereich Einkauf; der Preis in der Uebersicht fuehrt mit einem Tipp hin (Handy und Desktop)\n  ok   UX/BEVEL-002 Navigation: vier beschriftete Bereiche auf Handy und Desktop, Wunschliste, Fahrwerk und Einkauf direkt erreichbar\n  ok   UX Score nur im Aufbau (Handy): Wunschliste und Einkauf beginnen mit ihrem Inhalt\n  ok   UX Scrollstand je Bereich: Aufbau -> Wunschliste -> Aufbau landet beim selben Teil; nochmal tippen geht nach oben\n  ok   UX Rad wechseln von ueberall: Kopf -> Blatt mit allen Raedern aller Arten, Bereich bleibt, Verwaltung nur am Stift\n  ok   UX/BEVEL-002 Vergleich: vorher und nachher je Kenngroesse fuer das Ziel, Gesamtkosten mit Zubehoer, ein Ersetzen-Knopf\n  ok   UX Teileblatt: Ansehen -> Zurueck behaelt Suche, Filter und Scrollstand; Vergleich mit dem verbauten Teil\n  ok   UX Konflikt am Teil: Grund steht an der Zeile, das Teileblatt erklaert ihn und zeigt nur passende Teile; ein Einbau loest ihn\n  ok   UX Verbessern und Gruppen: ein Tipp oeffnet die Auswahl fuer das Teil bzw. die eingeklappte Gruppe\n  ok   UX Rueckweg statt Rueckfrage: Teil entfernen und Rad zuruecksetzen lassen sich 7 s lang rueckgaengig machen; Rad loeschen fragt weiter nach\n  ok   17 Hilfe: eine Begriffsliste mit Fahrwerk, Englisch ohne deutsche Reste in den neuen Texten\n  ok   Alle Modi, Handy und Desktop: zeichnen ohne leere Knoepfe\n  ok   APP-002/2 Bauziel: im normalen Zustand genau ein dauerhafter Einstieg (Disziplin oben)\n  ok   APP-002/3 Fahrerprofil: leer bleibt leer, freiwillig eintragen, spaeter wieder entfernen\n  ok   APP-002/4 Ausfuehrungen an die Groesse anpassen nur im Aufbau, Groessen-Blatt nur lesend\n  ok   APP-002/5 Modelljahr: ein Feld, abweichendes Setup-Jahr wird im Aufbau entschieden\n  ok   APP-002/6/7 Hilfe: Guide nur im Kopf; Einstieg nennt Aufgabenkarte, Guide und freiwilligen Rundgang\n  ok   APP-003/1 Migration einmalig: erstmalig uebernommen, bewusst geleert bleibt leer (2x Neuladen, Radwechsel), vorhandene Nichtangabe bleibt\n  ok   APP-003/2 Ohne Koerpergroesse keine persoenlichen Empfehlungen im ganzen Einstieg (de)\n  ok   APP-003/2 Ohne Koerpergroesse keine persoenlichen Empfehlungen im ganzen Einstieg (en)\n\nWEGE: 36 von 36 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Sprache Deutsch/Englisch",
+      "ok": true,
+      "zeile": "0 Funde in 8752 Texten, Exit 0",
+      "exit": 0,
+      "funde": 0,
+      "texte": 8752,
+      "fehl": [],
+      "ausgabe": "\nSPRACHE: 0 Funde in 8752 Texten.\n"
+    },
+    {
+      "name": "Teile finden, Adapter, Wunschliste (BEVEL-002)",
+      "ok": true,
+      "zeile": "28 von 28 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 28,
+      "gelaufen": 28,
+      "erwartet": null,
+      "fehl": [],
+      "ausgabe": "  ok   Gute Bremse ohne Upgrade: \"Behalten sinnvoll\" mit Grund je Ziel, keine Kachel mit Scheinvorteil\n  ok   Kein Ziel vorbelegt: Auswahl startet bei Schritt 1, Marke und Budget bleiben bei null Ergebnissen erreichbar\n  ok   Vergleich und Rueckkehr: \"Zurueck zu Ergebnissen\" behaelt Ziel, Marke, Budget, Kompromiss-Schalter und Scrollstand\n  ok   Kompromisse erst auf Wunsch: Leichter zeigt nichts unter der Mindestausstattung, \"Kompromisse anzeigen\" nennt die Abwaegung\n  ok   Zustaende ehrlich: \"Geprueft passend\" nur ohne Zubehoer, Unbekanntes und Kompatibilitaetsverlust; Cura 2 an Center-Lock-Naben braucht Scheiben\n  ok   Keine Rueckschritte: Recon statt Pike Ultimate und MT420 statt XT M8120 erscheinen in keinem Verbesserungsziel\n  ok   Alle Plaetze, alle Verbesserungsziele: nie ein Teil, das in der Zielgroesse schlechter oder nur billiger ist\n  ok   Defektes Teil ersetzen: dein Modell zuerst, danach nur Teile mit gleichen Massen\n  ok   Begrenztes Budget: nur Loesungen bis zum Betrag (Teil plus Zubehoer), ausgeblendete werden genannt\n  ok   Marke egal gegen Wunschmarke: Auswahl aendert die Ergebnisse wirklich\n  ok   Ziel aendert die Ergebnisse: Leichter liefert nur leichtere Teile, Mehr Hub nur mehr Hub\n  ok   Noetiger Adapter: im Paket mit Grund, Preis im Gesamtpreis, beim Uebernehmen eingeplant\n  ok   Unnoetiger Adapter entfaellt: kein Doppel, Verlauf nennt ihn, Rueckgaengig holt ihn zurueck\n  ok   Adapter automatisch: Meldung nennt ihn, keine Warnfarbe, unter der Bremse \"braucht Adapter\", Ausfuehrungswechsel meldet Wegfall, Englisch\n  ok   Adapter konkret und Freigabe 220/203: Artikel je Position, unbelegte Freigabe wird erfragt statt bestaetigt\n  ok   Fehlende Angabe: Hinweis mit gezielter Frage, kein Abzug, Antwort rechnet den Adapter\n  ok   Fehlende Angabe zaehlt nicht als Abzug: Score gleich mit und ohne den Hinweis\n  ok   Angebote: ohne gepruefte Quelle kein \"Zum Produkt\"; nicht lieferbar, veraltet, Einzelbremse und kaputter Link zaehlen nicht\n  ok   Produktseite und Gesamtkosten: Satz aus vorn + hinten mit Versand, gepruefte Seite ohne Preisbehauptung, Einzelbremse allein zaehlt nicht\n  ok   Keine Suchlinks als Produktlink: Listen und Einkauf zeigen nur geprueftes Angebot oder nichts\n  ok   Mehrere Raeder: Wunschliste je Rad getrennt, bleibt nach Neuladen\n  ok   Wunschliste: im Aufbau testen und zurueck, auf die Einkaufsliste, als verbaut uebernehmen mit Verlauf\n  ok   Test nie als verbaut: Speicher haelt das echte Teil, Neuladen zeigt den Test wieder, anderes Rad unberuehrt, Einkauf nur Wuensche\n  ok   Vorher/nachher: Tabelle auf gleicher Grundlage mit Ziel, Gesamtkosten, Zubehoer und Unbekanntem\n  ok   Pruefung im Aufbau: unter Rad und Score, vor \"Verbessern\" und dem Rahmen, aufklappbar per Tastatur, Zustand bleibt\n  ok   Radbild: kein fremdes Rad -- eigenes Foto, Spindrift-Modell nur beim Spindrift, sonst Geometrie oder Platzhalter\n  ok   Englisch: Finder, Vergleich und Wunschliste ohne deutsche Reste\n  ok   Einfuehrung: drei Szenen vor der Einrichtung, ueberspringbar, nur einmal, per Tastatur, erneut ueber die Hilfe\n\nBEVEL: 28 von 28 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Preis-Skript offline",
+      "ok": true,
+      "zeile": "0 Fehler, Exit 0",
+      "exit": 0,
+      "fehl": [],
+      "ausgabe": "  ok   Umfang: Set\n  ok   Umfang: vorn\n  ok   Umfang: hinten\n  ok   Umfang: offen\n  ok   Feed gelesen\n  ok   Bremse: Set, vorn und hinten getrennt\n  ok   Set: Preis, UVP, Versand 0, Link, Bild\n  ok   Hinterrad: nicht lieferbar, Versand unbekannt\n  ok   Aufkleber nicht als Bremse\n  ok   http-Link wird verworfen\n  ok   Seiten: geprueft mit Datum, Umfang und Titel\n  ok   Seiten: Suchseite faellt durch\n  ok   Seiten: innerhalb 7 Tagen nicht neu geprueft\n  ok   Seiten: nach 7 Tagen neu geprueft\n  ok   Seite: nur https\n\nPREISE: 0 Fehler\n"
+    }
+  ],
+  "playwright": "1.56.1",
+  "ok": true,
+  "dauerSek": 148,
+  "zeit": "2026-10-13T11:56:37.977Z"
+}

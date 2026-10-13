@@ -1,0 +1,13 @@
+
+> test
+> node tools/test.mjs
+
+OK   Syntax index.html — 2 Skripte
+OK   Kompatibilität — 200 von 200 bestanden, erwartet 200, Exit 0
+OK   Setup und Speicher — 16 von 16 bestanden, Exit 0
+OK   Ein Weg je Aufgabe — 36 von 36 bestanden, Exit 0
+OK   Sprache Deutsch/Englisch — 0 Funde in 8752 Texten, Exit 0
+OK   Teile finden, Adapter, Wunschliste (BEVEL-002) — 28 von 28 bestanden, Exit 0
+OK   Preis-Skript offline — 0 Fehler, Exit 0
+
+ALLE TESTS BESTANDEN · Revision 8b799ec (mit lokalen Änderungen) · 148 s · Bericht: test-ergebnis.json

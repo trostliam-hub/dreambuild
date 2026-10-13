@@ -152,17 +152,17 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0e
      darauf >= 4,5:1). Kontraste per WCAG-Formel geprueft: Grautexte >= 4,5:1,
      Ringe >= 3:1. */
   /* APP-OLED-001 (Liam 2026-10-13): reines Schwarz als Hintergrund,
-     Anthrazit-Karten zur Gliederung; Texte >= 4,5:1 auch auf --sunk. */
-  --ground:#000000; --surface:#1f2226; --surface-2:#262a2f; --sunk:#30343a;
-  --ink:#f2f3f5; --ink-2:#bcc0c6; --ink-3:#9ca1a8;
-  --line:#363a40; --line-soft:#2b2e33; --hair:rgba(255,255,255,.06);
+     Durchgehend schwarze Flaechen, weisse Texte und silberne Trennlinien. */
+  --ground:#000000; --surface:#000000; --surface-2:#000000; --sunk:#000000;
+  --ink:#ffffff; --ink-2:#e6e6e6; --ink-3:#b8b8b8;
+  --line:#333333; --line-soft:#242424; --hair:rgba(255,255,255,.06);
   /* APP-SW-001: Schwarz und Weiss, getrennt fuer Akzenttexte und
      gefuellte Aktionen. Gesamtring ohne Leuchten, kleine Ringe neutralgrau.
      Warnungen, Fehler und warme/anthrazitfarbene Flaechen bleiben erhalten. */
   --anod:#FFFFFF; --anod-2:#FFFFFF; --anod-3:#FFFFFF; --anod-soft:rgba(255,255,255,.10); --on-anod:#16181b;
   --on-akzent:#14171b; --akzent-flaeche:#FFFFFF; --grad:linear-gradient(#FFFFFF,#FFFFFF);
-  --ring-gesamt:#FFFFFF; --ring-pass:#8B9794; --ring-eins:#8B9794;
-  --m-pass:#8B9794; --m-eins:#FFFFFF;
+  --ring-gesamt:#FFFFFF; --ring-pass:#a3a3a3; --ring-eins:#a3a3a3;
+  --m-pass:#a3a3a3; --m-eins:#FFFFFF;
   --gut:#3ddc84; --gut-soft:rgba(61,220,132,.13);
   --warn:#ff9f43; --warn-soft:rgba(255,159,67,.14);
   --bad:#ff7586; --bad-soft:rgba(255,117,134,.15); --on-bad:#16181b;   /* BEVEL-002: heller, damit Rot auf Anthrazit 4,5:1 schafft; Schrift darauf dunkel */
@@ -1820,7 +1820,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-marken h3{font-size:19px;font-weight:700;letter-spacing:-.02em}
 .ls-lauf{overflow:hidden;margin:16px 0 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .ls-lauf > div{display:flex;gap:34px;width:max-content;animation:lslauf 40s linear infinite}
-.ls-lauf span{font-family:var(--f-head);font-size:22px;font-weight:800;letter-spacing:-.03em;color:#9a9aa0;white-space:nowrap}
+.ls-lauf span{font-family:var(--f-head);font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--l-ink2);white-space:nowrap}
 @keyframes lslauf{to{transform:translateX(-50%)}}
 .ls-fakten{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:26px 16px 0}
 .ls-fakten div{display:flex;flex-direction:column;gap:3px}
@@ -1862,7 +1862,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-fund{background:#fff;border-radius:16px;padding:11px 12px;margin-bottom:8px;display:flex;flex-direction:column;gap:3px;box-shadow:inset 3px 0 0 #e0344f}
 .ls-fund.ok{box-shadow:inset 3px 0 0 #1f9d63}
 .ls-fund em{align-self:flex-start;font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#c42a52;background:#fbe2ea;padding:2px 7px;border-radius:999px}
-.ls-fund.ok em{color:#12805a;background:#dcf4e9}
+.ls-fund.ok em{color:#0f7653;background:#dcf4e9}
 .ls-fund b{font-size:13.5px}
 .ls-fund span{font-size:12px;color:var(--l-ink2);line-height:1.4}
 .ls-coach{background:#fff;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:6px}
@@ -1877,7 +1877,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
 .ls-fit div{background:#fff;border-radius:16px;padding:11px 12px;display:flex;flex-direction:column;gap:1px}
 .ls-fit b{font-family:var(--f-head);font-size:21px;font-weight:800;letter-spacing:-.03em}
 .ls-fit span{font-size:11.5px;color:var(--l-ink2)}
-.ls-urteil{background:#dcf4e9;border-radius:18px;padding:14px;color:#12805a;display:flex;flex-direction:column;gap:4px}
+.ls-urteil{background:#dcf4e9;border-radius:18px;padding:14px;color:#0f7653;display:flex;flex-direction:column;gap:4px}
 .ls-urteil b{font-family:var(--f-head);font-size:24px;letter-spacing:-.035em}
 .ls-urteil span{font-size:12.5px;line-height:1.4}
 .ls-skala{position:relative;height:9px;border-radius:999px;background:rgba(18,128,90,.18);margin:10px 0 2px}
@@ -3680,6 +3680,41 @@ details.legal p{margin:0 0 var(--sp-2)}
 .slot-ad svg{flex:none;margin-top:2px;color:var(--anod)}
 .slot-ad b{font-weight:700;color:var(--ink)}
 .pz-ad b:first-child{color:var(--anod)}
+</style>
+
+<style>
+/* APP-FULLBLACK-001: durchgehend OLED-Schwarz mit hellem Weiss.
+   Weiss/Silber setzt wenige Akzente; Statusfarben bleiben semantisch.
+   Nur Ring und Logo leuchten dezent, Fliesstext bleibt scharf. */
+:root:not([data-theme="light"]) .card,
+:root:not([data-theme="light"]) .bar-in,
+:root:not([data-theme="light"]) .fotokarte,
+:root:not([data-theme="light"]) .sheet,
+:root:not([data-theme="light"]) .prof,
+:root:not([data-theme="light"]) .fk3{box-shadow:inset 0 0 0 1px var(--line-soft)}
+:root:not([data-theme="light"]) #seite .rg-gesamt svg.rg-kreis{filter:drop-shadow(0 0 5px rgba(255,255,255,.35))}
+:root:not([data-theme="light"]) :is(.brand-logo,.rg-logo){filter:drop-shadow(0 0 4px rgba(255,255,255,.25))}
+:root:not([data-theme="light"]) .tabs{background:#000;border:1px solid var(--line)}
+:root:not([data-theme="light"]) .btn.ghost{background:#000;box-shadow:inset 0 0 0 1px var(--line)}
+:root:not([data-theme="light"]) :is(.pchip,.ibtn,.dchip,.modus-in button[aria-pressed="true"]){background:#000;border-color:var(--line)}
+:root:not([data-theme="light"]) :is(.fk3 .fk-bild,.fk-bild img){background:#000}
+/* Auch die bisher immer helle Startansicht folgt jetzt dem App-Design. */
+:root:not([data-theme="light"]) .ls{background:#000;color:#fff;
+  --l-karte:#000;--l-ink:#fff;--l-ink2:#d6d6d6;--l-line:#333;
+  --gut:#3ddc84;--bad:#ff7586;--on-bad:#000;
+  --anod:#fff;--anod-soft:rgba(255,255,255,.10);--on-anod:#000;
+  --on-akzent:#000;--akzent-flaeche:#fff;--grad:linear-gradient(#fff,#fff)}
+:root:not([data-theme="light"]) .ls-nav{background:#000}
+:root:not([data-theme="light"]) :is(.ls-logo i,.ls-logo .brand-logo,.ls-preis.pro li svg){color:#fff}
+:root:not([data-theme="light"]) :is(.ls-karte,.ls-preis,.ls-handy,.ls-schwebe,.ls-fund,.ls-coach,.ls-fit div,.ls-chat,.ls-paar > span,.ls-privat,.ls-dunkel,.ls-orb){background:#000;box-shadow:inset 0 0 0 1px #242424}
+:root:not([data-theme="light"]) .ls-handy{border-color:#333}
+:root:not([data-theme="light"]) :is(.ls-mini,.ls-cta,.ls-coach em:not(.g),.ls-chat.du){background:#fff;color:#000}
+:root:not([data-theme="light"]) .ls-coach em.g{background:#000;color:#fff;border:1px solid #333}
+:root:not([data-theme="light"]) .ls-mehr i{background:#000;color:#fff;border:1px solid #333}
+:root:not([data-theme="light"]) .ls-preis.pro{background:#000;border-color:#fff}
+:root:not([data-theme="light"]) .ls-fund.ok em{background:#000;color:#3ddc84}
+:root:not([data-theme="light"]) .ls-urteil{background:#000;color:#3ddc84;border:1px solid #242424}
+:root:not([data-theme="light"]) .ls-ring.gross svg{filter:drop-shadow(0 0 5px rgba(255,255,255,.35))}
 </style>
 </head>
 <body>
@@ -8132,7 +8167,7 @@ function startseiteHtml(){
       <section class="ls-titel ls-rein"><h2>${tx("Vor dem Kauf wissen,<br>ob alles passt.", "Be sure it all fits<br>before you buy.")}</h2>
         <p>${tx("Drei Zahlen zeigen dir, wo dein Rad steht — und was es besser macht.", "Three numbers show you where your bike stands — and what makes it better.")}</p></section>
       ${karte("var(--gut)", "Score", tx("Eine Zahl von 0 bis 100: Passen die Teile zusammen — und zu dem, was du fährst?", "One number from 0 to 100: do the parts fit together — and suit what you ride?"),
-        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.gesamt, "#14171B", true)}
+        handy(`<div class="ls-app-t">${tx("Dein Traumrad", "Your dream bike")}</div><div class="ls-ringe">${lsRing(r.gesamt, "var(--anod)", true)}
           <div class="ls-paar"><span>${lsRing(r.tech, "#6E7976")}<em>${tx("Kompa\u00adtibilität", "Compat\u00adibility")}</em></span><span>${lsRing(r.chara, "#6E7976")}<em>${wort("einsatz")}</em></span></div></div>
           <div class="ls-app-z"><b>${tx("Stimmig.", "Spot on.")}</b> ${tx("Alles zieht in Richtung Trail.", "The whole build is geared towards Trail.")}</div><div class="ls-platz"></div>`)
         + `<div class="ls-schwebe"><span>${tx("Preis", "Price")}</span><b>${eur(r.preis)}</b><span>${kg(r.gewicht)}</span></div>`)}
