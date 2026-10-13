@@ -2361,6 +2361,18 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-foto figcaption a{color:var(--anod);text-decoration:underline;min-height:32px;display:flex;align-items:center;overflow-wrap:anywhere}
 .fw-schema-h{font-size:12px;color:var(--ink-3);margin:14px 0 8px}
 .fw-wie:has(.fw-fotos){grid-template-columns:minmax(0,1fr)}
+.fw-wie:has(.fw-ort){grid-template-columns:minmax(0,1fr)}
+.fw-ort{margin:0;width:100%;overflow:hidden;border:1px solid var(--line-soft);border-radius:14px;background:#000;color:#fff}
+.fw-wie-b:has(.fw-ort){width:100%;order:-1}
+.fw-ein-w > .fw-wo-b:has(.fw-ort),.fw-wz-bilder:has(.fw-ort){grid-template-columns:minmax(0,1fr)}
+.fw-ort svg.fw-ort-foto{display:block;width:100%;height:320px;background:#000}
+.fw-ort figcaption{padding:12px 16px;font-size:13px;line-height:1.5;color:#ddd;overflow-wrap:anywhere;white-space:normal}
+.fw-ort figcaption b,.fw-ort figcaption small{display:block}
+.fw-ort figcaption a{color:#ddd}
+.fw-ort-leg{display:flex;gap:9px;align-items:flex-start;margin:7px 0}
+.fw-ort-nr{display:inline-grid;place-items:center;flex:0 0 22px;height:22px;border-radius:50%;background:#fff;color:#000;font-weight:800}
+.fw-ort-schema{padding:12px;text-align:center;border-top:1px solid #333}
+.fw-wie-b .fw-ort-schema .il{max-height:150px;width:100%;max-width:100%;margin:0}
 .fw-wie-b:has(.fw-fotos){width:100%;order:-1}
 .fw-ein-w > .fw-wo-b:has(.fw-fotos){grid-template-columns:minmax(0,1fr)}
 
@@ -14290,8 +14302,41 @@ function suFotos(slot, x, arten){
       <figcaption><b>${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstellerbild · Referenzversion; Baujahr und Ausstattung können abweichen.", "Manufacturer image · reference version; year and specification may differ.")}</small><a href="${esc(q[1])}" target="_blank" rel="noopener">${tx("Quelle", "Source")}: ${esc(q[0])} ↗</a></figcaption></figure>`;
   }).join("")}</div>`;
 }
+/* Koordinaten gelten ausschliesslich fuer diese konkreten Herstellerfotos.
+   Kein Uebertragen auf andere Blickwinkel, Ausstattungen oder eigene Teile.
+   Verdeckte Einsteller werden als Bereich, nicht als sichtbarer Knopf gezeigt. */
+const SU_ORT_FOTOS = {
+  "g-lyrik.png":{w:378,h:450,p:{luft:[163,84],druck:[236,58],lsc:[236,58],hsc:[236,58],zug:[244,383],oring:[236,104]},verdeckt:["zug"]},
+  "g-pike.png":{w:378,h:450,p:{luft:[163,84],druck:[236,58],lsc:[236,58],hsc:[236,58],zug:[244,383],oring:[236,104]},verdeckt:["zug"]},
+  "d-floatx--factory.png":{w:480,h:480,p:{luft:[266,96],zug:[269,66],druck:[305,65],lsc:[305,65],oring:[225,307]}}
+};
+function suOrtsBild(slot, x, o){
+  const b = produktBildInfo(x.t); if(!b || !b.lokal) return "";
+  const cfg = SU_ORT_FOTOS[b.src.split("/").pop()], zeig = o.zeig || [];
+  const w = cfg ? cfg.w : 450, h = cfg ? cfg.h : 450;
+  const gruppen = new Map();
+  zeig.forEach((art, i) => {
+    const p = cfg && cfg.p[art]; if(!p) return;
+    const key = p.join(",");
+    if(!gruppen.has(key)) gruppen.set(key, {p, n:[]});
+    gruppen.get(key).n.push(o.nr || i + 1);
+  });
+  const marker = [...gruppen.values()].map(({p,n}) => {
+    const mx = p[0] < w / 2 ? p[0] - 68 : p[0] + 68;
+    return `<g fill="none" stroke="#fff" stroke-width="2"><path d="M${mx} ${p[1]}H${p[0]}"/><circle cx="${p[0]}" cy="${p[1]}" r="9"/><circle cx="${mx}" cy="${p[1]}" r="18" fill="#000"/><text x="${mx}" y="${p[1]+5}" text-anchor="middle" stroke="none" fill="#fff" font-size="15" font-weight="800">${n.join("/")}</text></g>`;
+  }).join("");
+  const fehlt = zeig.some(art => !cfg || !cfg.p[art]);
+  const leg = zeig.map((art,i) => {
+    const text = art === "oring" ? tx("O-Ring am Standrohr / an der Kolbenstange", "O-ring on the stanchion / shock shaft") : sp2((SU_WO[slot] || {})[art] || (SU_INFO[art] || {}).n || [art,art]);
+    return `<div class="fw-ort-leg"><span class="fw-ort-nr">${o.nr || i+1}</span><span>${esc(text)}${cfg && (cfg.verdeckt || []).includes(art) ? `<br>${tx("Unterseite dieses Holms · Knopf in dieser Ansicht verdeckt.", "Underside of this leg · knob hidden in this view.")}` : ""}</span></div>`;
+  }).join("");
+  const name = x.t.nb || x.t.n;
+  return `<figure class="fw-ort"><svg class="fw-ort-foto" viewBox="-32 -16 ${w+64} ${h+32}" role="img" aria-label="${esc(name + (fehlt ? tx(": Modellfoto", ": model photo") : tx(": markierte Einstellpunkte", ": marked adjusters")))}"><image href="${esc(b.src)}" width="${w}" height="${h}"/>${marker}</svg>
+    ${fehlt ? `<div class="fw-ort-schema"><small>${tx("Positionen im Schema darunter", "Locations in the diagram below")}</small>${slot === "gabel" ? ilGabel(o) : ilDaempfer(o)}</div>` : ""}
+    <figcaption><b>${esc(name)}</b>${leg}<small>${tx("Herstellerfoto zur Orientierung · Baujahr und Ausstattung können abweichen.", "Manufacturer reference photo · year and specification may differ.")}</small><a href="${esc(b.quelle)}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: ${esc(b.marke)} ↗</a></figcaption></figure>`;
+}
 function suEinstellBild(slot, x, o){
-  return suFotos(slot, x, o.zeig || []) || (slot === "gabel" ? ilGabel(o) : ilDaempfer(o));
+  return suOrtsBild(slot, x, o) || suFotos(slot, x, o.zeig || []) || (slot === "gabel" ? ilGabel(o) : ilDaempfer(o));
 }
 
 function ilRad(o){
@@ -14553,7 +14598,7 @@ function suKarte(f, slot, x, d, it, nr){
     }
   }
   const marker = it.art === "tokens" ? "luft" : it.art === "sag" ? "oring" : it.art;
-  const bild = suEinstellBild(slot, x, {zeig:[marker], an:marker, coil:x.coil});
+  const bild = suEinstellBild(slot, x, {zeig:[marker], an:marker, coil:x.coil, nr:nr || 1});
   const wo = (it.k && it.k.k.wo) || sp2((SU_WO[slot] || {})[it.art] || ["", ""]);
   const wie = it.art === "luft" ? `<p>${tx(`Dämpferpumpe aufs Ventil (${esc(wo)}) und pumpen, dann ${slot === "gabel" ? "5×" : "10×"} ein Viertel des Federwegs einfedern — so gleichen sich die Luftkammern aus (FOX, RockShox). Danach nochmal ablesen.`, `Attach the shock pump to the valve (${esc(wo)}) and pump up, then push the ${slot === "gabel" ? "fork" : "shock"} a quarter of the way into its travel ${slot === "gabel" ? "5" : "10"} times — this equalises the air chambers (FOX, RockShox). Then check the reading again.`)}</p>`
     : it.art === "feder" ? `<p>${tx("Andere Härte = andere Feder (Fachhändler). Vorspannung nur so weit, dass die Feder ohne Spiel sitzt.", "Different rate = different spring (shop). Preload only enough that the spring sits without play.")}</p>`
@@ -14584,7 +14629,7 @@ function suElementHtml(f, slot, x, d){
     <div class="fw-el-kopf"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot], 20)}</span><span class="fw-el-t"><span class="fw-el-o">${slot === "gabel" ? tx("Vorn, Federgabel", "Front fork") : tx("Hinten, Dämpfer", "Rear shock")}</span>
       <b>${esc(x.t.nb || x.t.n)}</b><small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "", x.coil ? tx("Stahlfeder", "Coil") : tx("Luftfeder", "Air"), jahr > 1990 ? tx(`Baujahr ${jahr}`, `${jahr}`) : jahr === "alt" ? tx("älter", "older") : ""].filter(Boolean).join(" · ")}</small></span></div>
     ${teilFotoGross(x.t)}
-    ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), `${suFotos(slot, x, zeigM)}<p class="fw-schema-h">${tx("Schema zur Orientierung", "Orientation diagram")}</p><div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
+    ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), suOrtsBild(slot, x, {zeig:zeigM, coil:x.coil}) || `${suFotos(slot, x, zeigM)}<p class="fw-schema-h">${tx("Schema zur Orientierung", "Orientation diagram")}</p><div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
     <ol class="fw-kl">${basis.map(it => suKarte(f, slot, x, d, it, ++nr)).join("")}</ol>
     ${profi.length ? `<p class="fw-profi-h">${tx("Profi-Einsteller", "Advanced adjusters")} <span>${tx("aufklappen für Details", "expand for details")}</span></p><ol class="fw-kl profi">${profi.map(it => suKarte(f, slot, x, d, it, 0)).join("")}</ol>` : ""}
   </section>`;
@@ -14784,14 +14829,14 @@ function sagWizardHtml(){
   else if(sch === "pumpen"){
     titel = tx("Startdruck einstellen", "Set the starting pressure");
     inhalt = el.map(([s, x]) => { const p = suPsi(s, x, d);
-      return `${suFotos(s, x, [x.coil ? "feder" : "luft"])}<div class="fw-wz-el"><span class="fw-el-ic ${s}">${ic(SU_IC[s], 18)}</span><span><b>${s === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")}</b>${x.coil
+      return `${suEinstellBild(s, x, {zeig:[x.coil ? "feder" : "luft"], coil:x.coil})}<div class="fw-wz-el"><span class="fw-el-ic ${s}">${ic(SU_IC[s], 18)}</span><span><b>${s === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")}</b>${x.coil
         ? tx("Stahlfeder: Vorspannung so weit, dass die Feder ohne Spiel sitzt — höchstens 1–2 Umdrehungen.", "Coil: preload only until the spring sits without play — no more than 1–2 turns.")
         : p ? tx(`Auf <b>${p} psi</b> pumpen (${barVon(p)} bar).`, `Pump to <b>${p} psi</b> (${barVon(p)} bar).`) : suOhneDruckTxt(s, x)}</span></div>`; }).join("")
       + `<p class="fw-tip">${ic(`<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h0"/>`, 16)}<span>${tx("Mit aufgesetzter Pumpe 5× (Gabel) bzw. 10× (Dämpfer) ein Viertel des Federwegs einfedern — so gleichen sich die Luftkammern aus. Danach den Druck nochmal einstellen. Nie über den Maximaldruck.", "With the pump attached, push the suspension a quarter of the way into its travel 5 times (fork) or 10 times (shock) — this equalises the air chambers. Then set the pressure again. Never exceed the maximum.")}</span></p>`;
   }
   else if(sch === "ring"){
     titel = tx("O-Ring an die Dichtung", "O-ring to the seal");
-    inhalt = `<div class="fw-wz-bilder">${f.gabel && nurG ? ilGabel({zeig:["oring"], an:"oring", coil:f.gabel.coil}) : ""}${f.daempfer && nurD ? ilDaempfer({zeig:["oring"], an:"oring", coil:f.daempfer.coil}) : ""}</div>
+    inhalt = `<div class="fw-wz-bilder">${f.gabel && nurG ? suEinstellBild("gabel", f.gabel, {zeig:["oring"], an:"oring", coil:f.gabel.coil}) : ""}${f.daempfer && nurD ? suEinstellBild("daempfer", f.daempfer, {zeig:["oring"], an:"oring", coil:f.daempfer.coil}) : ""}</div>
       <p>${tx("Schieb den O-Ring (den Gummiring) ganz nach unten an die Dichtung — an der Gabel am Standrohr, am Dämpfer an der Luftkammer. Kein Ring? Ein lockerer Kabelbinder tut's.", "Push the O-ring right down to the seal — on the fork's stanchion, on the shock's air can. No ring? A loose cable tie works.")}</p>`;
   }
   else if(sch === "auf"){
@@ -15288,7 +15333,7 @@ function obInhalt(n, f, fw){
       + suElemente(f).map(([slot, x]) => {
         const e = obEinAn(slot, x), an = SU_ARTEN.filter(a => e.an[a]);
         const chips = SU_ARTEN.map(a => { const o = OB_ARTEN[a]; return `<button class="fw-ow fw-ein" data-fwwk="ein:${slot}:${a}|1" aria-pressed="${e.an[a]}"><b><span class="fw-dot ${SU_FARBE[a] || "grau"}"></span>${sp2([o[0], o[1]])}</b><small>${e.da.has(a) ? tx("laut Hersteller", "per manufacturer") : tx("keine Herstellerdaten", "no manufacturer data")}${o[2] ? " · " + sp2([o[2], o[3]]) : ""}</small></button>`; }).join("");
-        const bild = `${suFotos(slot, x, an)}<div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:an, coil:x.coil}) : ilDaempfer({zeig:an, coil:x.coil})}</div>`;
+        const bild = `${suEinstellBild(slot, x, {zeig:an, coil:x.coil})}`;
         return `<fieldset class="fw-og"><legend>${slot === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")} · ${esc(x.t.nb || x.t.n)}</legend>
           <div class="fw-ein-w"><div class="fw-wo-b">${bild}${fwLegende(an.map(a => esc(sp2((SU_WO[slot] || {})[a] || SU_INFO[a].n))))}</div><div class="fw-ows">${chips}${obWn("ein:" + slot, !((build.fw || {}).ein || {})[slot])}</div></div></fieldset>`;
       }).join("")
