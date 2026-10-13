@@ -2361,18 +2361,13 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-foto figcaption a{color:var(--anod);text-decoration:underline;min-height:32px;display:flex;align-items:center;overflow-wrap:anywhere}
 .fw-schema-h{font-size:12px;color:var(--ink-3);margin:14px 0 8px}
 .fw-wie:has(.fw-fotos){grid-template-columns:minmax(0,1fr)}
-.fw-wie:has(.fw-ort){grid-template-columns:minmax(0,1fr)}
-.fw-ort{margin:0;width:100%;overflow:hidden;border:1px solid var(--line-soft);border-radius:14px;background:#000;color:#fff}
-.fw-wie-b:has(.fw-ort){width:100%;order:-1}
-.fw-ein-w > .fw-wo-b:has(.fw-ort),.fw-wz-bilder:has(.fw-ort){grid-template-columns:minmax(0,1fr)}
-.fw-ort svg.fw-ort-foto{display:block;width:100%;height:320px;background:#000}
-.fw-ort figcaption{padding:12px 16px;font-size:13px;line-height:1.5;color:#ddd;overflow-wrap:anywhere;white-space:normal}
-.fw-ort figcaption b,.fw-ort figcaption small{display:block}
-.fw-ort figcaption a{color:#ddd}
-.fw-ort-leg{display:flex;gap:9px;align-items:flex-start;margin:7px 0}
-.fw-ort-nr{display:inline-grid;place-items:center;flex:0 0 22px;height:22px;border-radius:50%;background:#fff;color:#000;font-weight:800}
-.fw-ort-schema{padding:12px;text-align:center;border-top:1px solid #333}
-.fw-wie-b .fw-ort-schema .il{max-height:150px;width:100%;max-width:100%;margin:0}
+.fw-wz-bilder:has(.fw-fotos){grid-template-columns:minmax(0,1fr)}
+.fw-el .fw-foto,.fw-el .fw-foto-link,.fw-el .fw-foto figcaption,.fw-fotos .fw-foto,.fw-fotos .fw-foto-link,.fw-fotos .fw-foto figcaption{background:#000;color:#ddd}
+.fw-fotos .fw-foto figcaption a,.fw-el .fw-foto figcaption a{color:#ddd}
+.fw-fotos .fw-foto figcaption b,.fw-el .fw-foto figcaption b{color:#fff}
+.fw-fotos .fw-foto figcaption small,.fw-el .fw-foto figcaption small{color:#bbb}
+.fw-nah-link{display:block;background:#000}
+.fw-nah-link svg{display:block;width:100%;height:auto;max-height:360px;background:#000}
 .fw-wie-b:has(.fw-fotos){width:100%;order:-1}
 .fw-ein-w > .fw-wo-b:has(.fw-fotos){grid-template-columns:minmax(0,1fr)}
 
@@ -13072,7 +13067,7 @@ function gabelDaten(g){
     const zahl = /3\.2/.test(s), abo = zahl && /^g-(lyrik|zeb)/.test(id);
     return {typ:"hl", lsc:{n:14, base:7, skala:zahl ? "zahl" : "mitte"}, hsc:{n:4, base:2, skala:zahl ? "zahl" : "mitte"},
       zug:[{name:"Zugstufe", n:18, wo:rot}],
-      abo:abo ? {o:["1", "2", "3", "4", "5"], b:2, wo:tx("ABO-Rad oben auf der Luftseite, Stufe ab ganz offen gezählt", "ABO dial on top of the air side, position counted from fully open")} : null,
+      abo:abo ? {o:["1", "2", "3", "4", "5"], b:2, wo:tx("ABO-Rad unten am linken Holm auf der Luftseite, Stufe ab ganz offen gezählt", "ABO dial underneath the left, air-side leg, position counted from fully open")} : null,
       txt:(zahl ? tx("RockShox Charger 3.2: LSC −7 bis +7 (15 Stellungen), HSC −2 bis +2 (5 Stellungen) — die Zahlen stehen auf den Knöpfen", "RockShox Charger 3.2: LSC −7 to +7 (15 positions), HSC −2 to +2 (5 positions) — the numbers are printed on the knobs")
                : tx(`RockShox Charger ${/3\.1/.test(s) ? "3.1" : "3"}: LSC 15, HSC 5 Stellungen, gezählt ab der Mitte`, `RockShox Charger ${/3\.1/.test(s) ? "3.1" : "3"}: LSC 15, HSC 5 positions, counted from the middle`))
         + tx(". Zugstufe 18 Klicks ab ganz zu. Grundeinstellung (0) laut RockShox: beide Druckstufen in der Mitte", ". Rebound 18 clicks from fully closed. Base setting (0) per RockShox: both compression knobs in the middle")
@@ -14302,42 +14297,49 @@ function suFotos(slot, x, arten){
       <figcaption><b>${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstellerbild · Referenzversion; Baujahr und Ausstattung können abweichen.", "Manufacturer image · reference version; year and specification may differ.")}</small><a href="${esc(q[1])}" target="_blank" rel="noopener">${tx("Quelle", "Source")}: ${esc(q[0])} ↗</a></figcaption></figure>`;
   }).join("")}</div>`;
 }
-/* Koordinaten gelten ausschliesslich fuer diese konkreten Herstellerfotos.
-   Kein Uebertragen auf andere Blickwinkel, Ausstattungen oder eigene Teile.
-   Verdeckte Einsteller werden als Bereich, nicht als sichtbarer Knopf gezeigt. */
-const SU_ORT_FOTOS = {
-  "g-zeb.png":{w:378,h:450,p:{luft:[158,68],druck:[232,43],lsc:[232,43],hsc:[232,43],zug:[244,388],oring:[232,94]},verdeckt:["zug"]},
-  "g-lyrik.png":{w:378,h:450,p:{luft:[163,84],druck:[236,58],lsc:[236,58],hsc:[236,58],zug:[244,383],oring:[236,104]},verdeckt:["zug"]},
-  "g-pike.png":{w:378,h:450,p:{luft:[163,84],druck:[236,58],lsc:[236,58],hsc:[236,58],zug:[244,383],oring:[236,104]},verdeckt:["zug"]},
-  "d-floatx--factory.png":{w:480,h:480,p:{luft:[266,96],zug:[269,66],druck:[305,65],lsc:[305,65],oring:[225,307]}}
-};
-function suOrtsBild(slot, x, o){
-  const b = produktBildInfo(x.t); if(!b || !b.lokal) return "";
-  const cfg = SU_ORT_FOTOS[b.src.split("/").pop()], zeig = o.zeig || [];
-  const w = cfg ? cfg.w : 450, h = cfg ? cfg.h : 450;
-  const gruppen = new Map();
-  zeig.forEach((art, i) => {
-    const p = cfg && cfg.p[art]; if(!p) return;
-    const key = p.join(",");
-    if(!gruppen.has(key)) gruppen.set(key, {p, n:[]});
-    gruppen.get(key).n.push(o.nr || i + 1);
-  });
-  const marker = [...gruppen.values()].map(({p,n}) => {
-    const mx = p[0] < w / 2 ? p[0] - 68 : p[0] + 68;
-    return `<g fill="none" stroke="#fff" stroke-width="2"><path d="M${mx} ${p[1]}H${p[0]}"/><circle cx="${p[0]}" cy="${p[1]}" r="9"/><circle cx="${mx}" cy="${p[1]}" r="18" fill="#000"/><text x="${mx}" y="${p[1]+5}" text-anchor="middle" stroke="none" fill="#fff" font-size="15" font-weight="800">${n.join("/")}</text></g>`;
-  }).join("");
-  const fehlt = zeig.some(art => !cfg || !cfg.p[art]);
-  const leg = zeig.map((art,i) => {
-    const text = art === "oring" ? tx("O-Ring am Standrohr / an der Kolbenstange", "O-ring on the stanchion / shock shaft") : sp2((SU_WO[slot] || {})[art] || (SU_INFO[art] || {}).n || [art,art]);
-    return `<div class="fw-ort-leg"><span class="fw-ort-nr">${o.nr || i+1}</span><span>${esc(text)}${cfg && (cfg.verdeckt || []).includes(art) ? `<br>${tx("Unterseite dieses Holms · Knopf in dieser Ansicht verdeckt.", "Underside of this leg · knob hidden in this view.")}` : ""}</span></div>`;
-  }).join("");
-  const name = x.t.nb || x.t.n;
-  return `<figure class="fw-ort"><svg class="fw-ort-foto" viewBox="-32 -16 ${w+64} ${h+32}" role="img" aria-label="${esc(name + (fehlt ? tx(": Modellfoto", ": model photo") : tx(": markierte Einstellpunkte", ": marked adjusters")))}"><image href="${esc(b.src)}" width="${w}" height="${h}"/>${marker}</svg>
-    ${fehlt ? `<div class="fw-ort-schema"><small>${tx("Positionen im Schema darunter", "Locations in the diagram below")}</small>${slot === "gabel" ? ilGabel(o) : ilDaempfer(o)}</div>` : ""}
-    <figcaption><b>${esc(name)}</b>${leg}<small>${tx("Herstellerfoto zur Orientierung · Baujahr und Ausstattung können abweichen.", "Manufacturer reference photo · year and specification may differ.")}</small><a href="${esc(b.quelle)}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: ${esc(b.marke)} ↗</a></figcaption></figure>`;
-}
 function suEinstellBild(slot, x, o){
-  return suOrtsBild(slot, x, o) || suFotos(slot, x, o.zeig || []) || (slot === "gabel" ? ilGabel(o) : ilDaempfer(o));
+  return suNahFotos(slot, x, o) || suFotos(slot, x, o.zeig || []) || (slot === "gabel" ? ilGabel(o) : ilDaempfer(o));
+}
+/* Echte Nahaufnahmen aus den RockShox-Anleitungen. Der Bildausschnitt ist
+   nur eine SVG-Ansicht: das Originalfoto bleibt unveraendert verlinkt. */
+function suNahDaten(slot, x){
+  if(!x || !x.t || x.t.eigen || x.t.m !== "RockShox") return {};
+  const t = x.t, ka = wahlVon(t, "Kartusche") || "";
+  const f = (name, p, ausschnitt, de, en, fein, h) => ({datei:"rs-nah-" + name + ".jpg",p,ausschnitt,text:tx(de,en),h:h || 636,
+    modell:name.startsWith("daempfer-") ? "Super Deluxe Ultimate" : /gabel-(hsc|lsc)/.test(name) ? "Charger 3.2 RC2" : "LinearXL · 2027",
+    quelle:"https://www.sram.com/en/rockshox/learn/" + (fein ? "suspension-fine-tuning" : "suspension-welcome-guide")});
+  if(slot === "gabel" && /ZEB|Lyrik/.test(t.n) && /Charger 3\.2 RC2/.test(ka)){
+    const lsc = f("gabel-lsc",[475,320],[300,160,360,340],"LSC: kleiner Knopf innen, mit blauem Ring.","LSC: small inner knob with blue ring.",true);
+    return {
+      luft:f("gabel-luft",[573,327],[430,235,300,300],"Luftventil unter der Kappe oben am linken Holm; hier wird die Pumpe angeschlossen.","Air valve under the cap on top of the left leg; the pump attaches here."),
+      zug:f("gabel-zug",[537,330],[410,195,270,280],"Zugstufenknopf an der Unterseite des rechten Holms.","Rebound knob underneath the right leg."),
+      oring:f("gabel-oring",[474,289],[330,165,320,320],"Der rote O-Ring am Standrohr wird zur SAG-Messung an die Dichtung geschoben.","Push the red stanchion O-ring to the wiper seal to measure sag.",false,567),
+      lsc,druck:lsc,
+      hsc:f("gabel-hsc",[570,355],[300,160,360,340],"HSC: großer schwarzer Außenring um den LSC-Knopf.","HSC: large black outer ring around the LSC knob.",true),
+      bo:f("gabel-bo",[484,334],[350,165,350,340],"ABO: Einsteller unten am linken Holm auf der Luftseite (LinearXL).","ABO: adjuster underneath the left, air-side leg (LinearXL).",true)
+    };
+  }
+  if(slot === "daempfer" && /Super Deluxe/.test(t.n) && !x.coil && wahlVon(t,"Ausführung") === "Ultimate"){
+    const lsc = f("daempfer-druck",[483,110],[270,0,560,430],"LSC: blaues Rädchen am Ausgleichsbehälter.","LSC: blue dial on the reservoir.");
+    return {
+      luft:f("daempfer-luft",[657,253],[510,120,310,330],"Luftventil mit AIR-Kappe an der Luftkammer.","Air valve with AIR cap on the air can."),
+      zug:f("daempfer-zug",[378,309],[180,170,340,320],"Zugstufe: rotes Rädchen am oberen Dämpferauge.","Rebound: red dial by the upper shock eyelet."),
+      oring:f("daempfer-oring",[340,363],[190,180,370,340],"Roter O-Ring auf der Kolbenstange; zur Messung an die Dichtung schieben.","Red O-ring on the shock shaft; move to the seal for measurement.",false,567),
+      lsc,druck:lsc,
+      hsc:f("daempfer-druck",[604,295],[270,0,560,430],"HSC: blauer Inbus-Einsteller am Ausgleichsbehälter.","HSC: blue hex adjuster on the reservoir."),
+      hebel:f("daempfer-druck",[761,155],[270,0,560,430],"Kletterhebel seitlich am Ausgleichsbehälter; bergab offen lassen.","Climb switch on the side of the reservoir; leave open on descents.")
+    };
+  }
+  return {};
+}
+function suNahFotos(slot, x, o){
+  const daten = suNahDaten(slot,x), zeig = o.zeig || [];
+  const arten = zeig.filter(a => daten[a]); if(!arten.length) return "";
+  return `<div class="fw-fotos fw-nah">${arten.map(a => {
+    const b = daten[a], nr = o.nr || zeig.indexOf(a)+1, [px,py] = b.p;
+    const [vx,vy,vw,vh] = b.ausschnitt, mx = px < vx+vw/2 ? vx+35 : vx+vw-35, my = Math.max(vy+30,py-55);
+    return `<figure class="fw-foto"><a class="fw-nah-link" href="bilder/fahrwerk/${b.datei}" target="_blank" rel="noopener" aria-label="${esc(tx("Nahaufnahme vergrößern: ","Enlarge close-up: ")+b.text)}"><svg viewBox="${b.ausschnitt.join(" ")}" role="img" aria-label="${esc(b.text)}"><image href="bilder/fahrwerk/${b.datei}" width="960" height="${b.h}"/><g fill="none" stroke="#fff" stroke-width="2"><path d="M${mx} ${my}L${px} ${py}"/><circle cx="${px}" cy="${py}" r="12"/><circle cx="${mx}" cy="${my}" r="18" fill="#000"/><text x="${mx}" y="${my+5}" text-anchor="middle" fill="#fff" stroke="none" font-size="15" font-weight="800">${nr}</text></g></svg></a><figcaption><b>${tx("Nahaufnahme", "Close-up")} · ${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstelleraufnahme · Referenzmodell; Baujahr und Ausstattung können abweichen.","Manufacturer photo · reference model; year and specification may differ.")}</small><a href="${b.quelle}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: RockShox ↗</a></figcaption></figure>`;
+  }).join("")}</div>`;
 }
 
 function ilRad(o){
@@ -14629,8 +14631,8 @@ function suElementHtml(f, slot, x, d){
   return `<section class="fw-el" aria-label="${slot === "gabel" ? tx("Federgabel", "Fork") : tx("Dämpfer", "Shock")}">
     <div class="fw-el-kopf"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot], 20)}</span><span class="fw-el-t"><span class="fw-el-o">${slot === "gabel" ? tx("Vorn, Federgabel", "Front fork") : tx("Hinten, Dämpfer", "Rear shock")}</span>
       <b>${esc(x.t.nb || x.t.n)}</b><small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "", x.coil ? tx("Stahlfeder", "Coil") : tx("Luftfeder", "Air"), jahr > 1990 ? tx(`Baujahr ${jahr}`, `${jahr}`) : jahr === "alt" ? tx("älter", "older") : ""].filter(Boolean).join(" · ")}</small></span></div>
-    ${teilFotoGross(x.t)}
-    ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), suOrtsBild(slot, x, {zeig:zeigM, coil:x.coil}) || `${suFotos(slot, x, zeigM)}<p class="fw-schema-h">${tx("Schema zur Orientierung", "Orientation diagram")}</p><div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
+
+    ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), suNahFotos(slot, x, {zeig:zeigM, coil:x.coil}) || `${suFotos(slot, x, zeigM)}<p class="fw-schema-h">${tx("Schema zur Orientierung", "Orientation diagram")}</p><div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
     <ol class="fw-kl">${basis.map(it => suKarte(f, slot, x, d, it, ++nr)).join("")}</ol>
     ${profi.length ? `<p class="fw-profi-h">${tx("Profi-Einsteller", "Advanced adjusters")} <span>${tx("aufklappen für Details", "expand for details")}</span></p><ol class="fw-kl profi">${profi.map(it => suKarte(f, slot, x, d, it, 0)).join("")}</ol>` : ""}
   </section>`;
@@ -15229,7 +15231,7 @@ function obJahre(feld, wert, wn){
   return j.join("") + obWn(feld, wn);
 }
 const obWnAn = k => !!((build.fw || {}).wn || {})[k];
-const obTeilKarte = (slot, t, x) => `<div class="fw-teil">${teilFoto(t, "fw-teil-foto")}<span class="fw-el-ic ${slot}">${ic(SU_IC[slot] || SU_IC.gabel, 20)}</span><span><b>${t ? esc(t.nb || t.n) : tx("Noch nicht gewählt", "Not chosen yet")}</b>${x ? `<small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "",
+const obTeilKarte = (slot, t, x) => `<div class="fw-teil"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot] || SU_IC.gabel, 20)}</span><span><b>${t ? esc(t.nb || t.n) : tx("Noch nicht gewählt", "Not chosen yet")}</b>${x ? `<small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "",
   x.coil ? tx("Stahlfeder", "coil") : tx("Luftfeder", "air")].filter(Boolean).join(" · ")}</small>` : `<small>${tx("Teile wählst du im Aufbau", "You choose parts in the build")}</small>`}</span></div>`;
 /* Bezugspunkt fuer "was ist gerade eingestellt" -- so wie der Hersteller zaehlt */
 function obBezug(v){
@@ -15311,7 +15313,7 @@ function obInhalt(n, f, fw){
     const zeig = slot === "gabel" ? ["aufkleber", "serie"] : ["aufkleber"];
     if(x && x.coil){ zeig.push("feder"); leg.push(tx("Feder: Härte steht auf der Feder (z. B. 450 × 2.25 = lbs × Hub in Zoll)", "Spring: rate printed on it (e.g. 450 × 2.25 = lbs × stroke in inches)")); }
     if(slot === "daempfer") leg.splice(1, 1);
-    r.html = `${obTeilKarte(slot, t2, x)}${teilFotoGross(t2)}
+    r.html = `${obTeilKarte(slot, t2, x)}
       ${obGruppe(tx("Modelljahr", "Model year"), obJahre(jk, fw[jk], wn[jk]), slot === "gabel"
         ? tx("Drucktabellen, Klickbereiche und Einsteller ändern sich mit dem Modelljahr — RockShox z. B. hat 2023 den Charger 3 eingeführt, bei dem die Druckstufen-Klicks ab der Mitte gezählt werden. Passt die Tabelle nicht zu deinem Modelljahr, zeigt die App keinen Druck, sondern erklärt, wie du den richtigen Wert findest.", "Pressure charts, click ranges and adjusters change with the model year — RockShox, for example, introduced Charger 3 in 2023, where compression clicks are counted from the middle. If the chart doesn't match your year, the app won't show a pressure — it tells you how to find the right one.")
         : tx("Einsteller und Klickbereiche von Dämpfern ändern sich mit dem Modelljahr. Den Luftdruck hinten gibt es ohnehin nicht pauschal — er hängt vom Rahmen ab; den Ausschlag gibt der SAG.", "Adjusters and click ranges on shocks change with the model year. There's no blanket rear air pressure anyway — it depends on the frame; the sag decides."), jk, "jahre")}

@@ -51,20 +51,21 @@ const PRO = () => { pro = {key:'x', inst:'i', status:'aktiv', geprueft:Date.now(
 const PRUEFUNGEN = [
   ['Einstellbilder: echtes Foto, schwarze Flaeche und modellsichere Marker', async () => {
     const r = await ev(() => {
-      const x = {t:{id:'g-lyrik',n:'Lyrik Ultimate',m:'RockShox'},coil:false};
+      const x = {t:{id:'g-lyrik',n:'Lyrik Ultimate',m:'RockShox',v:[{k:'Kartusche',o:[{n:'Charger 3.2 RC2'}]}],wahl:[0]},coil:false};
       const luft = suEinstellBild('gabel', x, {zeig:['luft'],nr:1});
       const zug = suEinstellBild('gabel', x, {zeig:['zug'],nr:3});
-      const zeb = ['luft','druck','lsc','hsc','zug','oring'].every(art => {
-        const html = suEinstellBild('gabel', {t:{id:'g-zeb',n:'ZEB Ultimate',m:'RockShox'}}, {zeig:[art],nr:1});
-        return html.includes('href="bilder/produkte/g-zeb.png"') && html.includes('<path d="M') && !html.includes('fw-ort-schema') && !html.includes('il-gabel');
+      const zeb = ['luft','druck','lsc','hsc','zug','oring','bo'].every(art => {
+        const html = suEinstellBild('gabel', {t:{...x.t,id:'g-zeb',n:'ZEB Ultimate'}}, {zeig:[art],nr:1});
+        return html.includes('bilder/fahrwerk/rs-nah-gabel-') && html.includes('<path d="M') && !html.includes('bilder/produkte/') && !html.includes('il-gabel');
       });
-      const eigen = suOrtsBild('gabel', {t:{...x.t,eigen:true}}, {zeig:['luft']});
+      const eigen = suNahFotos('gabel', {t:{...x.t,eigen:true}}, {zeig:['luft']});
       const fremd = suEinstellBild('gabel', {t:{id:'g-fox38',n:'FOX 38',m:'FOX'}}, {zeig:['zug']});
       const host = document.createElement('div'); host.innerHTML = luft; document.body.append(host);
-      const schwarz = getComputedStyle(host.querySelector('.fw-ort-foto')).backgroundColor === 'rgb(0, 0, 0)'; host.remove();
-      return {foto:luft.includes('href="bilder/produkte/g-lyrik.png"'),marker:luft.includes('cx="163"'),
-        ohneSchema:!luft.includes('il-gabel'),zeb,schwarz,verdeckt:zug.includes('verdeckt'),
-        nummer:zug.includes('>3</text>'),eigen:eigen === '',fremd:fremd.includes('fw-ort-schema') && !fremd.includes('cx="244"')};
+      const schwarz = ['.fw-nah-link','.fw-foto','figcaption','figcaption a'].every(sel => getComputedStyle(host.querySelector(sel)).backgroundColor === 'rgb(0, 0, 0)' || sel === 'figcaption a' && getComputedStyle(host.querySelector(sel).parentNode).backgroundColor === 'rgb(0, 0, 0)'); host.remove();
+      const hsc = suEinstellBild('gabel',x,{zeig:['hsc']});
+      return {foto:luft.includes('href="bilder/fahrwerk/rs-nah-gabel-luft.jpg"'),marker:luft.includes('cx="573"'),
+        ohneSchema:!luft.includes('il-gabel'),zeb,schwarz,nah:zug.includes('rs-nah-gabel-zug.jpg'),ausschnitt:hsc.includes('viewBox="300 160 360 340"'),
+        nummer:zug.includes('>3</text>'),eigen:eigen === '',fremd:fremd.includes('il-gabel') && !fremd.includes('rs-nah-')};
     });
     return {ok:Object.values(r).every(Boolean),info:r};
   }],
