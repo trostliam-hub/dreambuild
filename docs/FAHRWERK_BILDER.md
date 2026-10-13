@@ -117,3 +117,13 @@ Bildpfade vorhanden. Endgültige Gesamtsuite bestanden:
 Syntax, Kompatibilität 200/200, Setup 21/21, Wege 36/36, Sprache 0 Funde
 in 8.780 Texten, BEVEL 28/28, Preisskript 0 Fehler. Der GitHub-Workflow
 prüft zusätzlich seinen eigenen Veröffentlichungsstand.
+
+Nach dem ersten Merge meldete der Linux-CI-Browser beim vollständigen
+Dekodieren der Bibliothek Bildfehler. Die erste unskalierte Bibliothek belegt
+über 500 MB als Bitmaps. Der Bildtest gibt deshalb jedes geprüfte Bitmap
+explizit frei und verwendet korrekte JPEG-MIME-Typen. Die vollständigen
+HTTP-/Dekodierprüfungen bleiben erhalten. Für Sixpack werden die offiziellen
+800-Pixel-Anzeigebilder derselben Produktseiten verwendet; deren URL ist
+zusätzlich als `anzeigequelle` dokumentiert. Dies reduziert auch den
+Speicherbedarf auf Handys. Lokal anschließend Setup 21/21 bestanden;
+maßgeblich für die Veröffentlichung ist der nachfolgende GitHub-Lauf.

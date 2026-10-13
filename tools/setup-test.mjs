@@ -23,7 +23,7 @@ try{ pw = require('playwright'); }
 catch(e){ pw = require(execSync('npm root -g').toString().trim() + '/playwright'); }
 
 const wurzel = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const TYP = {'.html':'text/html; charset=utf-8', '.js':'text/javascript', '.json':'application/json', '.png':'image/png', '.woff2':'font/woff2', '.webmanifest':'application/manifest+json'};
+const TYP = {'.html':'text/html; charset=utf-8', '.js':'text/javascript', '.json':'application/json', '.png':'image/png', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.woff2':'font/woff2', '.webmanifest':'application/manifest+json'};
 const server = http.createServer((q, a) => {
   const p = path.join(wurzel, decodeURIComponent(q.url.split('?')[0]).replace(/^\/+/, '') || 'index.html');
   if(!p.startsWith(wurzel) || !fs.existsSync(p) || fs.statSync(p).isDirectory()){ a.writeHead(404); a.end(); return; }
@@ -64,7 +64,15 @@ const PRUEFUNGEN = [
       const fehler = [], bilder = Object.entries(PRODUKTBILDER);
       for(const [id, b] of bilder){
         if(!/^bilder\/produkte\/[\w-]+\.(png|jpg)$/.test(b.datei) || !/^https:\/\//.test(b.quelle) || !(K[b.kategorie] || []).some(t => t.id === id.split('@')[0])) fehler.push(id + ': Metadaten');
-        const img = new Image(); img.src = b.datei; try{ await img.decode(); if(!img.naturalWidth) fehler.push(id); }catch(e){ fehler.push(id + ': Bild'); }
+        /* Jede Datei wirklich dekodieren, das Bitmap danach freigeben. Die
+           komplette Bibliothek belegt unskaliert ueber 500 MB; der Test soll
+           keine 128 Bitmaps im Bildcache des CI-Browsers festhalten. */
+        let bildUrl = '', img = new Image();
+        try{ const res = await fetch(b.datei); if(!res.ok) throw new Error('HTTP ' + res.status);
+          bildUrl = URL.createObjectURL(await res.blob()); img.src = bildUrl;
+          await img.decode(); if(!img.naturalWidth) throw new Error('leer');
+        }catch(e){ fehler.push(id + ': ' + e.message); }
+        finally{ img.src = ''; if(bildUrl) URL.revokeObjectURL(bildUrl); img = null; }
       }
       return {anzahl:bilder.length, fehler};
     });
@@ -100,8 +108,11 @@ const PRUEFUNGEN = [
     const dateien = fs.readdirSync(dir).filter(n => /\.(jpg|png)$/.test(n));
     const r = await ev(async dateien => {
       const fehler = [];
-      for(const n of dateien){ const img = new Image(); img.src = 'bilder/fahrwerk/' + n;
-        try{ await img.decode(); if(!img.naturalWidth) fehler.push(n); }catch(e){ fehler.push(n); } }
+      for(const n of dateien){ let url = '', img = new Image();
+        try{ const res = await fetch('bilder/fahrwerk/' + n); if(!res.ok) throw new Error('HTTP ' + res.status);
+          url = URL.createObjectURL(await res.blob()); img.src = url; await img.decode(); if(!img.naturalWidth) throw new Error('leer');
+        }catch(e){ fehler.push(n + ': ' + e.message); }
+        finally{ img.src = ''; if(url) URL.revokeObjectURL(url); img = null; } }
       return fehler;
     }, dateien);
     return {ok:dateien.length >= 10 && !r.length && dateien.every(n => sw.includes("'./bilder/fahrwerk/" + n + "'")), info:{anzahl:dateien.length, fehler:r}};

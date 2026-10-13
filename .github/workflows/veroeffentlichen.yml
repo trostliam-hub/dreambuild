@@ -33,6 +33,8 @@ on:
       - links.json
       - "fonts/**"
       - "bilder/**"
+      - "tools/**"
+      - ".github/workflows/veroeffentlichen.yml"
       - "icon-*.png"
   workflow_dispatch:
     inputs:

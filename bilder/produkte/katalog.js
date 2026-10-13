@@ -582,7 +582,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/66/d0/e6/sixpack-racing-D-trix-al-black-363000-article.png",
     "marke": "Sixpack",
     "kategorie": "griffe",
-    "datei": "bilder/produkte/gr-spdtrixal.png"
+    "datei": "bilder/produkte/gr-spdtrixal.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/b9/2a/0d/sixpack-racing-D-trix-al-black-363000-article_800x800.png"
   },
   "gr-spdtrixcf": {
     "modell": "Sixpack Racing D-Trix CF",
@@ -590,7 +591,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/6e/16/5a/sixpack-racing-D-trix-cf-dark-carbon-363250-article.png",
     "marke": "Sixpack",
     "kategorie": "griffe",
-    "datei": "bilder/produkte/gr-spdtrixcf.png"
+    "datei": "bilder/produkte/gr-spdtrixcf.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/8f/51/76/sixpack-racing-D-trix-cf-dark-carbon-363250-article_800x800.png"
   },
   "gr-spdtrixpa": {
     "modell": "Sixpack Racing D-Trix PA",
@@ -598,7 +600,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/85/1a/5c/sixpack-racing-D-trix-pa-infinity-black-363200-article.png",
     "marke": "Sixpack",
     "kategorie": "griffe",
-    "datei": "bilder/produkte/gr-spdtrixpa.png"
+    "datei": "bilder/produkte/gr-spdtrixpa.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/c0/ac/3f/sixpack-racing-D-trix-pa-infinity-black-363200-article_800x800.png"
   },
   "gr-spztrixal": {
     "modell": "Sixpack Racing Z-Trix AL",
@@ -606,7 +609,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/40/7b/cd/sixpack-racing-Z-trix-al-black-373000-article.png",
     "marke": "Sixpack",
     "kategorie": "griffe",
-    "datei": "bilder/produkte/gr-spztrixal.png"
+    "datei": "bilder/produkte/gr-spztrixal.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/e9/cd/6c/sixpack-racing-Z-trix-al-black-373000-article_800x800.png"
   },
   "gr-spztrixcf": {
     "modell": "Sixpack Racing Z-Trix CF",
@@ -614,7 +618,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/0f/e0/50/sixpack-racing-Z-trix-cf-dark-carbon-373050-article.png",
     "marke": "Sixpack",
     "kategorie": "griffe",
-    "datei": "bilder/produkte/gr-spztrixcf.png"
+    "datei": "bilder/produkte/gr-spztrixcf.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/88/dc/24/sixpack-racing-Z-trix-cf-dark-carbon-373050-article_800x800.png"
   },
   "gr-spztrixpa": {
     "modell": "Sixpack Racing Z-Trix PA",
@@ -622,7 +627,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/ee/3d/1b/sixpack-racing-Z-trix-pa-infinity-black-373200-article.png",
     "marke": "Sixpack",
     "kategorie": "griffe",
-    "datei": "bilder/produkte/gr-spztrixpa.png"
+    "datei": "bilder/produkte/gr-spztrixpa.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/5b/3a/be/sixpack-racing-Z-trix-pa-infinity-black-373200-article_800x800.png"
   },
   "l-sp785dj": {
     "modell": "Sixpack Racing Millenium785 Dirt Edition",
@@ -630,7 +636,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/cd/29/96/sixpack-racing-millenium785-318-black-handlebar-207000-article4rS4AqVFdrjW6.png",
     "marke": "Sixpack",
     "kategorie": "lenker",
-    "datei": "bilder/produkte/l-sp785dj.png"
+    "datei": "bilder/produkte/l-sp785dj.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/36/dc/d4/sixpack-racing-millenium785-318-black-handlebar-207000-article4rS4AqVFdrjW6_800x800.png"
   },
   "l-sp805": {
     "modell": "Sixpack Racing Millenium805",
@@ -638,7 +645,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/4f/b0/9b/sixpack-racing-millenium805-r30-31-8-stealth-black-handlebar-206001-articledfPkLx6ymOmnE.png",
     "marke": "Sixpack",
     "kategorie": "lenker",
-    "datei": "bilder/produkte/l-sp805.png"
+    "datei": "bilder/produkte/l-sp805.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/22/21/dd/sixpack-racing-millenium805-r30-31-8-stealth-black-handlebar-206001-articledfPkLx6ymOmnE_200x200.png"
   },
   "l-spkami": {
     "modell": "Sixpack Racing Kamikaze780",
@@ -646,7 +654,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/ec/29/1f/sixpack-racing-kamikaze780-stealth-black-handlebar-203001-articlewFLatQ6a8tecy.png",
     "marke": "Sixpack",
     "kategorie": "lenker",
-    "datei": "bilder/produkte/l-spkami.png"
+    "datei": "bilder/produkte/l-spkami.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/71/6c/21/sixpack-racing-kamikaze780-stealth-black-handlebar-203001-articlewFLatQ6a8tecy_200x200.png"
   },
   "l-spmenace": {
     "modell": "Sixpack Racing Menace725",
@@ -654,7 +663,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/f1/b1/25/sixpack-racing-menace725-stealth-black-handlebar-202001-articleKmput37ZwnzBJ.png",
     "marke": "Sixpack",
     "kategorie": "lenker",
-    "datei": "bilder/produkte/l-spmenace.png"
+    "datei": "bilder/produkte/l-spmenace.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/c9/5d/a6/sixpack-racing-menace725-stealth-black-handlebar-202001-articleKmput37ZwnzBJ_200x200.png"
   },
   "pe-spicon": {
     "modell": "Sixpack Racing Icon 2.0",
@@ -662,7 +672,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/fe/4f/6e/sixpack-racing-icon-2-0-flat-pedals-black-711890-article.png",
     "marke": "Sixpack",
     "kategorie": "pedale",
-    "datei": "bilder/produkte/pe-spicon.png"
+    "datei": "bilder/produkte/pe-spicon.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/89/ec/6c/sixpack-racing-icon-2-0-flat-pedals-black-711890-article_800x800.png"
   },
   "pe-spkamipa": {
     "modell": "Sixpack Racing Kamikaze PA",
@@ -670,7 +681,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/42/22/15/sixpack-racing-kamikaze-pa-pedals-716910-article.png",
     "marke": "Sixpack",
     "kategorie": "pedale",
-    "datei": "bilder/produkte/pe-spkamipa.png"
+    "datei": "bilder/produkte/pe-spkamipa.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/04/4e/53/sixpack-racing-kamikaze-pa-pedals-716910-article_800x800.png"
   },
   "pe-spmenace": {
     "modell": "Sixpack Racing Menace 3.0",
@@ -678,7 +690,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/2d/e1/c5/sixpack-racing-menace-3-0-stealth-black-pedals-712002-article.png",
     "marke": "Sixpack",
     "kategorie": "pedale",
-    "datei": "bilder/produkte/pe-spmenace.png"
+    "datei": "bilder/produkte/pe-spmenace.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/4f/bc/df/sixpack-racing-menace-3-0-stealth-black-pedals-712002-article_800x800.png"
   },
   "pe-spmill4": {
     "modell": "Sixpack Racing Millenium 4.0",
@@ -686,7 +699,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/7b/cd/da/sixpack-racing-millenium-4-0-pro-pedal-silver-XXXXX-article-1.png",
     "marke": "Sixpack",
     "kategorie": "pedale",
-    "datei": "bilder/produkte/pe-spmill4.png"
+    "datei": "bilder/produkte/pe-spmill4.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/01/71/38/sixpack-racing-millenium-4-0-pro-pedal-silver-XXXXX-article-1_800x800.png"
   },
   "pe-spmillcf": {
     "modell": "Sixpack Racing Millenium CF",
@@ -694,7 +708,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/71/9f/4b/sixpack-racing-millenium-cf-pedals-716900-article.png",
     "marke": "Sixpack",
     "kategorie": "pedale",
-    "datei": "bilder/produkte/pe-spmillcf.png"
+    "datei": "bilder/produkte/pe-spmillcf.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/2f/01/19/sixpack-racing-millenium-cf-pedals-716900-article_800x800.png"
   },
   "pe-spmillx": {
     "modell": "Sixpack Racing Millenium X",
@@ -702,7 +717,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/68/d2/10/sixpack-racing-millenium_X_pedal_Stealth-Black.png",
     "marke": "Sixpack",
     "kategorie": "pedale",
-    "datei": "bilder/produkte/pe-spmillx.png"
+    "datei": "bilder/produkte/pe-spmillx.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/e8/c8/f6/sixpack-racing-millenium_X_pedal_Stealth-Black_800x800.png"
   },
   "pe-spnet": {
     "modell": "Sixpack Racing Network 3.0",
@@ -710,7 +726,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/55/80/d6/sixpack-racing-network-30-black-pedals-715000-article.png",
     "marke": "Sixpack",
     "kategorie": "pedale",
-    "datei": "bilder/produkte/pe-spnet.png"
+    "datei": "bilder/produkte/pe-spnet.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/70/50/fc/sixpack-racing-network-30-black-pedals-715000-article_800x800.png"
   },
   "pe-spvertx": {
     "modell": "Sixpack Racing Vertic X",
@@ -718,7 +735,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/41/b7/82/sixpack-racing-vertic_X_pedal_StealthBlack_713501.png",
     "marke": "Sixpack",
     "kategorie": "pedale",
-    "datei": "bilder/produkte/pe-spvertx.png"
+    "datei": "bilder/produkte/pe-spvertx.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/e6/89/0c/sixpack-racing-vertic_X_pedal_StealthBlack_713501_800x800.png"
   },
   "pe-spvertxti": {
     "modell": "Sixpack Racing Vertic X Ti",
@@ -726,7 +744,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/13/ff/61/sixpack-racing-vertic_X_TI_713599_article.png",
     "marke": "Sixpack",
     "kategorie": "pedale",
-    "datei": "bilder/produkte/pe-spvertxti.png"
+    "datei": "bilder/produkte/pe-spvertxti.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/56/0b/a4/sixpack-racing-vertic_X_TI_713599_article_800x800.png"
   },
   "s-spmenace": {
     "modell": "Sixpack Racing Menace Sattelstütze",
@@ -734,7 +753,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/52/4a/63/sixpack-racing-menace-stealth-black-seatpost-212007-articlemRrwpoWZbRQrJ.png",
     "marke": "Sixpack",
     "kategorie": "stuetze",
-    "datei": "bilder/produkte/s-spmenace.png"
+    "datei": "bilder/produkte/s-spmenace.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/6d/44/12/sixpack-racing-menace-stealth-black-seatpost-212007-articlemRrwpoWZbRQrJ_200x200.png"
   },
   "sa-spdj": {
     "modell": "Sixpack Racing DJ Sattel",
@@ -742,7 +762,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/d3/4a/bc/sixpack-racing-dj-saddle-black-XXXXX-articleEoroFFTZN0m3B.png",
     "marke": "Sixpack",
     "kategorie": "sattel",
-    "datei": "bilder/produkte/sa-spdj.png"
+    "datei": "bilder/produkte/sa-spdj.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/61/1f/8c/sixpack-racing-dj-saddle-black-XXXXX-articleEoroFFTZN0m3B_200x200.png"
   },
   "sa-spmill": {
     "modell": "Sixpack Racing Millenium Sattel",
@@ -750,7 +771,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/g0/12/70/sixpack-racing-millenium-stealth-black-saddle-872004-article21zbbvWdzSYCk.png",
     "marke": "Sixpack",
     "kategorie": "sattel",
-    "datei": "bilder/produkte/sa-spmill.png"
+    "datei": "bilder/produkte/sa-spmill.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/f8/dc/c3/sixpack-racing-millenium-stealth-black-saddle-872004-article21zbbvWdzSYCk_200x200.png"
   },
   "v-spdj": {
     "modell": "Sixpack Racing DJ Vorbau",
@@ -758,7 +780,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/43/44/94/Sixpack-racing-DJ-Stem_Millenium_XXXXX.png",
     "marke": "Sixpack",
     "kategorie": "vorbau",
-    "datei": "bilder/produkte/v-spdj.png"
+    "datei": "bilder/produkte/v-spdj.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/f3/8c/b7/Sixpack-racing-DJ-Stem_Millenium_XXXXX_200x200.png"
   },
   "v-spdrm": {
     "modell": "Sixpack Racing Millenium DRM",
@@ -766,7 +789,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/76/c8/d0/sixpack-racing-millenium-dm-35-black-gray-stem-195001-article.png",
     "marke": "Sixpack",
     "kategorie": "vorbau",
-    "datei": "bilder/produkte/v-spdrm.png"
+    "datei": "bilder/produkte/v-spdrm.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/98/f3/94/sixpack-racing-millenium-dm-35-black-gray-stem-195001-article_800x800.png"
   },
   "v-spdrmyp": {
     "modell": "Sixpack Racing Millenium DRM Your Part",
@@ -774,7 +798,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/5b/de/a9/sixpack-racing-your-part-millenium-drm-31-8-197010-article.png",
     "marke": "Sixpack",
     "kategorie": "vorbau",
-    "datei": "bilder/produkte/v-spdrmyp.png"
+    "datei": "bilder/produkte/v-spdrmyp.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/00/f8/52/sixpack-racing-your-part-millenium-drm-31-8-197010-article_800x800.png"
   },
   "v-spicr": {
     "modell": "Sixpack Racing Millenium ICR Vorbau",
@@ -782,7 +807,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/cd/cf/e3/sixpack-racing-millenium-icr-35-article_01.png",
     "marke": "Sixpack",
     "kategorie": "vorbau",
-    "datei": "bilder/produkte/v-spicr.png"
+    "datei": "bilder/produkte/v-spicr.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/98/a3/4a/sixpack-racing-millenium-icr-35-article_01_800x800.png"
   },
   "v-spkamidrm": {
     "modell": "Sixpack Racing Kamikaze DRM",
@@ -790,7 +816,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/06/0a/78/sixpack-racing-kamikaze-dm-stealth-black-stem-193000-articleFkyfAubCrT0Op.png",
     "marke": "Sixpack",
     "kategorie": "vorbau",
-    "datei": "bilder/produkte/v-spkamidrm.png"
+    "datei": "bilder/produkte/v-spkamidrm.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/f2/42/fa/sixpack-racing-kamikaze-dm-stealth-black-stem-193000-articleFkyfAubCrT0Op_200x200.png"
   },
   "v-spmenace": {
     "modell": "Sixpack Racing Menace Vorbau",
@@ -798,7 +825,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/a3/40/0a/sixpack-racing-menace-70mm-black-stem-192700-articlekpAhaPO91z4Zw.png",
     "marke": "Sixpack",
     "kategorie": "vorbau",
-    "datei": "bilder/produkte/v-spmenace.png"
+    "datei": "bilder/produkte/v-spmenace.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/0e/c9/d4/sixpack-racing-menace-70mm-black-stem-192700-articlekpAhaPO91z4Zw_200x200.png"
   },
   "v-spmill": {
     "modell": "Sixpack Racing Millenium Vorbau Your Part",
@@ -806,7 +834,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/69/4d/8c/sixpack-racing-millenium-stem-yourpart-champagne-silver-197007.png",
     "marke": "Sixpack",
     "kategorie": "vorbau",
-    "datei": "bilder/produkte/v-spmill.png"
+    "datei": "bilder/produkte/v-spmill.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/08/2e/34/sixpack-racing-millenium-stem-yourpart-champagne-silver-197007_800x800.png"
   },
   "v-spvert318": {
     "modell": "Sixpack Racing Vertic Vorbau 31.8",
@@ -814,7 +843,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/68/d0/e6/sixpack-racing-vertic-45mm-31-8-stealth-black-stem-194001-articlewFZU1ra23uQOQ.png",
     "marke": "Sixpack",
     "kategorie": "vorbau",
-    "datei": "bilder/produkte/v-spvert318.png"
+    "datei": "bilder/produkte/v-spvert318.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/04/9b/8f/sixpack-racing-vertic-45mm-31-8-stealth-black-stem-194001-articlewFZU1ra23uQOQ_200x200.png"
   },
   "v-spvert35": {
     "modell": "Sixpack Racing Vertic Vorbau 35",
@@ -822,7 +852,8 @@ const PRODUKTBILDER = {
     "original": "https://www.sixpack-racing.com/media/image/20/e5/ed/sixpack-racing-vertic-40mm-35-stealth-black-stem-1945000-articleE1gKHqE8KIZHI.png",
     "marke": "Sixpack",
     "kategorie": "vorbau",
-    "datei": "bilder/produkte/v-spvert35.png"
+    "datei": "bilder/produkte/v-spvert35.png",
+    "anzeigequelle": "https://www.sixpack-racing.com/media/image/72/13/6b/sixpack-racing-vertic-40mm-35-stealth-black-stem-1945000-articleE1gKHqE8KIZHI_200x200.png"
   },
   "t-rekon": {
     "datei": "bilder/produkte/t-rekon.jpg",
