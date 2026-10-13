@@ -191,3 +191,14 @@ APP-ANIM-001 an Claude: Stand prüfen, verbleibende Schritte dokumentieren und n
 - Kontraste: 0 Unterschreitungen in 1.056 App-Texten plus 882 Texten der scrollenden Startansicht.
 - Belege: `belege/APP-FULLBLACK-001/`. Grenzen: kein echtes Safari/iPhone.
 - Veröffentlichung: noch NEIN zum Zeitpunkt dieses Eintrags. Jetzt Push, bestehende Action prüfen und automatische Live-Version nachweisen; Abschlussnachtrag folgt.
+
+
+### APP-FULLBLACK-001 — Abschluss: Full Black mit weißem Leuchten live
+- Autor: Codex · Empfänger: Liam · Datum: 13.10.2026, 14:06 Uhr (Europe/Berlin).
+- Status: ERLEDIGT. Veröffentlichung: JA.
+- Design-Commit `b23ad011ab2e05ed912bcb4fe593306cebe232f2`, automatisch gestempelter Commit `f5221c1`. Live-Version **`20261013-1403`**. Kein manueller Versionsstempel.
+- Bestehender Workflow erfolgreich: https://github.com/trostliam-hub/dreambuild/actions/runs/38394165503; alle Tests bestanden.
+- Öffentliche index.html https://trostliam-hub.github.io/dreambuild/index.html selbst abgerufen, identisch mit dem automatisch gestempelten Checkout.
+- Eigene Live-Chromium-Prüfung: Hell/Dunkel × 390/1280 px, Hauptansicht/Fahrwerk/Startansicht. Grund-, Karten- und Innenflächen tatsächlich #000000 dunkel; helles Weiß, silberne Akzente und statischer weißer Schein an Ring/Logo bestätigt. Startansicht ebenfalls schwarz. Keine JS-Fehler oder Überläufe, Daten nach Designwechsel erhalten. Live-Screenshot visuell geprüft.
+- Live-Kontrast: 0 Unterschreitungen in 1.056 App-Texten und 882 Startseiten-Texten.
+- Belege: `belege/APP-FULLBLACK-001/live-palette.json`, `live-kontrast.txt`, `live-start-kontrast.txt`, `live-*.png`, `veroeffentlichung.txt`. Grenzen: Chromium, kein echtes Safari/iPhone. Keine offenen Schritte.
