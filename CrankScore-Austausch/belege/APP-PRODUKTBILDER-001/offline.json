@@ -1,0 +1,54 @@
+[
+  {
+    "id": "g-selvav",
+    "art": "schwarz",
+    "alphaFraction": 0.8864275025921388,
+    "whiteFraction": 0.00019441040625883682,
+    "dimensions": [
+      824,
+      824
+    ]
+  },
+  {
+    "id": "g-durolux",
+    "art": "schwarz",
+    "alphaFraction": 0.6601128722382325,
+    "whiteFraction": 0.010117675312199807,
+    "dimensions": [
+      347,
+      1200
+    ]
+  },
+  {
+    "id": "g-domain",
+    "art": "transparent",
+    "alphaFraction": 0.8500801043219076,
+    "whiteFraction": 0.000029806259314456036,
+    "dimensions": [
+      671,
+      800
+    ]
+  },
+  {
+    "id": "g-selvav",
+    "offline": true,
+    "loaded": true,
+    "black": true
+  },
+  {
+    "id": "g-durolux",
+    "offline": true,
+    "loaded": true,
+    "black": true
+  },
+  {
+    "id": "g-domain",
+    "offline": true,
+    "loaded": true,
+    "black": true
+  },
+  {
+    "storageUnchanged": true,
+    "scriptErrors": []
+  }
+]

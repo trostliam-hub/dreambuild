@@ -1,0 +1,43 @@
+{
+  "results": [
+    {
+      "before": true,
+      "open": true,
+      "locked": true,
+      "imageCount": 1,
+      "statusbar": "#000000"
+    },
+    {
+      "afterQueuedCloseEvents": true,
+      "open": true,
+      "locked": true,
+      "imageCount": 1
+    },
+    {
+      "theme": "light",
+      "closed": true,
+      "unlocked": true,
+      "statusbar": "#f2f0ec"
+    },
+    {
+      "before": true,
+      "open": true,
+      "locked": true,
+      "imageCount": 1,
+      "statusbar": "#000000"
+    },
+    {
+      "afterQueuedCloseEvents": true,
+      "open": true,
+      "locked": true,
+      "imageCount": 1
+    },
+    {
+      "theme": "dark",
+      "closed": true,
+      "unlocked": true,
+      "statusbar": "#000000"
+    }
+  ],
+  "errors": []
+}

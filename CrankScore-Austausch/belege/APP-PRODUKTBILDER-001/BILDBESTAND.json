@@ -1,0 +1,92 @@
+{
+  "mappings": 688,
+  "files": 679,
+  "catalog_covered": 675,
+  "catalog_total": 766,
+  "unknown_ids": [],
+  "missing_metadata": [],
+  "bad_urls": [],
+  "bad_files": [],
+  "coverage": {
+    "rahmen": {
+      "covered": 90,
+      "total": 90
+    },
+    "gabel": {
+      "covered": 79,
+      "total": 86
+    },
+    "daempfer": {
+      "covered": 30,
+      "total": 32
+    },
+    "laufraeder": {
+      "covered": 52,
+      "total": 57
+    },
+    "reifen": {
+      "covered": 78,
+      "total": 78
+    },
+    "schalthebel": {
+      "covered": 25,
+      "total": 25
+    },
+    "schaltwerk": {
+      "covered": 25,
+      "total": 25
+    },
+    "kassette": {
+      "covered": 29,
+      "total": 33
+    },
+    "kette": {
+      "covered": 22,
+      "total": 25
+    },
+    "kurbel": {
+      "covered": 36,
+      "total": 42
+    },
+    "bremsen": {
+      "covered": 48,
+      "total": 49
+    },
+    "lenker": {
+      "covered": 28,
+      "total": 45
+    },
+    "vorbau": {
+      "covered": 22,
+      "total": 32
+    },
+    "stuetze": {
+      "covered": 13,
+      "total": 23
+    },
+    "sattel": {
+      "covered": 18,
+      "total": 33
+    },
+    "innenlager": {
+      "covered": 24,
+      "total": 27
+    },
+    "steuersatz": {
+      "covered": 7,
+      "total": 8
+    },
+    "rahmenlager": {
+      "covered": 3,
+      "total": 4
+    },
+    "pedale": {
+      "covered": 29,
+      "total": 30
+    },
+    "griffe": {
+      "covered": 17,
+      "total": 22
+    }
+  }
+}

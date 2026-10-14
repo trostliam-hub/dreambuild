@@ -1,0 +1,509 @@
+{
+  "base": "https://crankscore.de/",
+  "desiredCommit": "45101342c9d2c05b76ff08c56d7fc775ff0d47ea",
+  "rollbackCommit": "7446a82b8df62430526299baa8b61307ad282f80",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "expectedSha256": "9f9cf06886ceacf39ebf1a9a97d08d95a88284d8a7392bf102395a40cc2415b3",
+      "liveSha256": "9f9cf06886ceacf39ebf1a9a97d08d95a88284d8a7392bf102395a40cc2415b3",
+      "matches": true
+    },
+    {
+      "file": "impressum.html",
+      "status": 200,
+      "expectedSha256": "a8703990634b86428f02c2f7ed07b5b89ce5272eed5f45e510b37187c3d7a229",
+      "liveSha256": "a8703990634b86428f02c2f7ed07b5b89ce5272eed5f45e510b37187c3d7a229",
+      "matches": true
+    },
+    {
+      "file": "datenschutz.html",
+      "status": 200,
+      "expectedSha256": "16199c04bc3b00587a3bf39bb65e7e0996027e4d39fed05807ad66cc285c2cbb",
+      "liveSha256": "16199c04bc3b00587a3bf39bb65e7e0996027e4d39fed05807ad66cc285c2cbb",
+      "matches": true
+    },
+    {
+      "file": "design.css",
+      "status": 200,
+      "expectedSha256": "9045384818453ef6133226a63ce046cdba2740016d88b9c62b6130b943322e36",
+      "liveSha256": "9045384818453ef6133226a63ce046cdba2740016d88b9c62b6130b943322e36",
+      "matches": true
+    },
+    {
+      "file": "seite.js",
+      "status": 200,
+      "expectedSha256": "c6377c55a9edf5add9657c1c7a6320552c9e7ce57d175d42a304749e042f124a",
+      "liveSha256": "c6377c55a9edf5add9657c1c7a6320552c9e7ce57d175d42a304749e042f124a",
+      "matches": true
+    },
+    {
+      "file": "texte.js",
+      "status": 200,
+      "expectedSha256": "39b3a2b29bef861c28dc56c73708556fdbe7f5acba53018aa38e046f10d24a54",
+      "liveSha256": "39b3a2b29bef861c28dc56c73708556fdbe7f5acba53018aa38e046f10d24a54",
+      "matches": true
+    },
+    {
+      "file": "CNAME",
+      "status": 200,
+      "expectedSha256": "cddc33f7310a7640f6a505e74fb2478cd12706340436279f34c4f7b04314bed6",
+      "liveSha256": "cddc33f7310a7640f6a505e74fb2478cd12706340436279f34c4f7b04314bed6",
+      "matches": true
+    },
+    {
+      "file": "mtb-sw.js",
+      "status": 200,
+      "expectedSha256": "9078a96aee2d79e58625d697468c166c13b78809d951817aaae9687e2eed64b0",
+      "liveSha256": "9078a96aee2d79e58625d697468c166c13b78809d951817aaae9687e2eed64b0",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/auf.webp",
+      "status": 200,
+      "expectedSha256": "026c902b149e110bba61bc52fad3a6a2673f66fa0265719fdc192c7f7ced7816",
+      "liveSha256": "026c902b149e110bba61bc52fad3a6a2673f66fa0265719fdc192c7f7ced7816",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/bremsen.webp",
+      "status": 200,
+      "expectedSha256": "f55a45ef523ce5ab430700e81bcd77615ae9738d51925d039a2db095dbfcd3a0",
+      "liveSha256": "f55a45ef523ce5ab430700e81bcd77615ae9738d51925d039a2db095dbfcd3a0",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/guide.webp",
+      "status": 200,
+      "expectedSha256": "aa35661be69d02a24e88a8dfc29c28ab470cea7f33c459f0c9cde5212913afc3",
+      "liveSha256": "aa35661be69d02a24e88a8dfc29c28ab470cea7f33c459f0c9cde5212913afc3",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/k-antwort.webp",
+      "status": 200,
+      "expectedSha256": "ba9c924ca26b1cad961416101422f3208aab5fa2c85b43af3d3ee296ffc6e15a",
+      "liveSha256": "ba9c924ca26b1cad961416101422f3208aab5fa2c85b43af3d3ee296ffc6e15a",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/k-groesse.webp",
+      "status": 200,
+      "expectedSha256": "b2546b6f3cd45d5b25ff6dc8c2b8df621d658741de9447ca99a06ab5e402e7a4",
+      "liveSha256": "b2546b6f3cd45d5b25ff6dc8c2b8df621d658741de9447ca99a06ab5e402e7a4",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/k-lenker.webp",
+      "status": 200,
+      "expectedSha256": "026a9f17c85a90381f23fbdb349c1a00f24c342cf8c1b6445b760ab7a43c6524",
+      "liveSha256": "026a9f17c85a90381f23fbdb349c1a00f24c342cf8c1b6445b760ab7a43c6524",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/k-ok.webp",
+      "status": 200,
+      "expectedSha256": "ffdc6facb769a685f704715ec12b588d1143a1b61918251b26c1fbd8f6994d14",
+      "liveSha256": "ffdc6facb769a685f704715ec12b588d1143a1b61918251b26c1fbd8f6994d14",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/k-profil.webp",
+      "status": 200,
+      "expectedSha256": "63732db92d8fa6bd4b33cba56d24925501e6e75ce09a93c43f9f5e4ee23550d7",
+      "liveSha256": "63732db92d8fa6bd4b33cba56d24925501e6e75ce09a93c43f9f5e4ee23550d7",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/k-psi.webp",
+      "status": 200,
+      "expectedSha256": "cb8232bb771111161b2a338b4dd6a8a18bccf80b2e1e3d9326b4ff1ca979506d",
+      "liveSha256": "cb8232bb771111161b2a338b4dd6a8a18bccf80b2e1e3d9326b4ff1ca979506d",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/k-score.webp",
+      "status": 200,
+      "expectedSha256": "c2bbd2c609379123e5a551417bce26a506be49e70402411617f02797595529d6",
+      "liveSha256": "c2bbd2c609379123e5a551417bce26a506be49e70402411617f02797595529d6",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/k-vorbau.webp",
+      "status": 200,
+      "expectedSha256": "5e40b8747d053e517e86e562916572ff205084bccd57547b3543f3c8f3ee42a7",
+      "liveSha256": "5e40b8747d053e517e86e562916572ff205084bccd57547b3543f3c8f3ee42a7",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/kauf.webp",
+      "status": 200,
+      "expectedSha256": "773a988e46707eac5874851fb5c89e4ceac5eff4ab16eab4958065f9e2a17239",
+      "liveSha256": "773a988e46707eac5874851fb5c89e4ceac5eff4ab16eab4958065f9e2a17239",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/m-gebraucht.webp",
+      "status": 200,
+      "expectedSha256": "97966cdb6434ab425eaacab0558431329a1737c0a372b48d96eebc0a25b0191d",
+      "liveSha256": "97966cdb6434ab425eaacab0558431329a1737c0a372b48d96eebc0a25b0191d",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/pr.webp",
+      "status": 200,
+      "expectedSha256": "43ca5e3f1167f7f6dc9ed305269ff962ed5b422797b83240bb3f7bda40daa6dc",
+      "liveSha256": "43ca5e3f1167f7f6dc9ed305269ff962ed5b422797b83240bb3f7bda40daa6dc",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/t-bremsen.webp",
+      "status": 200,
+      "expectedSha256": "4cd3aa780fd571b930ee66bab503e6c4f761cd9c68f3001c02d7518c683ab9c0",
+      "liveSha256": "4cd3aa780fd571b930ee66bab503e6c4f761cd9c68f3001c02d7518c683ab9c0",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/t-gabel.webp",
+      "status": 200,
+      "expectedSha256": "2f118d4d565eb7c8e89af2de57b125f4ca422498836b5323a69aff06ece81283",
+      "liveSha256": "2f118d4d565eb7c8e89af2de57b125f4ca422498836b5323a69aff06ece81283",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/t-rahmen.webp",
+      "status": 200,
+      "expectedSha256": "ca50c51afa790455a975f8645141acb7364916a8c6a29dcf6e28bd49227c651b",
+      "liveSha256": "ca50c51afa790455a975f8645141acb7364916a8c6a29dcf6e28bd49227c651b",
+      "matches": true
+    },
+    {
+      "file": "img/s/de/up.webp",
+      "status": 200,
+      "expectedSha256": "4acf7182afac6a128dd3b8163f4ea9b618855d4a720f6e869c4bb082f2cde2ae",
+      "liveSha256": "4acf7182afac6a128dd3b8163f4ea9b618855d4a720f6e869c4bb082f2cde2ae",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/auf.webp",
+      "status": 200,
+      "expectedSha256": "5c3d12ff8fb426205daec672e7840bc6c6b1b80a92e3def59c81dfd91dd3c5a4",
+      "liveSha256": "5c3d12ff8fb426205daec672e7840bc6c6b1b80a92e3def59c81dfd91dd3c5a4",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/bremsen.webp",
+      "status": 200,
+      "expectedSha256": "aa6fa22465d93f18ed509658b12e8af2634f2975f8060a0b4f97845ee2f279ff",
+      "liveSha256": "aa6fa22465d93f18ed509658b12e8af2634f2975f8060a0b4f97845ee2f279ff",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/guide.webp",
+      "status": 200,
+      "expectedSha256": "5421e6d29ace47642db67dd1b5174d4325512d5d17fbacc3d86bf7f6e66fe2c5",
+      "liveSha256": "5421e6d29ace47642db67dd1b5174d4325512d5d17fbacc3d86bf7f6e66fe2c5",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/k-antwort.webp",
+      "status": 200,
+      "expectedSha256": "1700cc2d6ca429a3c6e948d26f6078c78c3a3e285f88fbf81d44cec6fd4710c4",
+      "liveSha256": "1700cc2d6ca429a3c6e948d26f6078c78c3a3e285f88fbf81d44cec6fd4710c4",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/k-groesse.webp",
+      "status": 200,
+      "expectedSha256": "2dc44f8b72dbb1cc9896688148f92484b175441739bab578ae8f48f70efabc9c",
+      "liveSha256": "2dc44f8b72dbb1cc9896688148f92484b175441739bab578ae8f48f70efabc9c",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/k-lenker.webp",
+      "status": 200,
+      "expectedSha256": "a661c059b2058f1cd8fbfba7d3ddfb989a84bc643bc8e1d89c2c56f3a34c4947",
+      "liveSha256": "a661c059b2058f1cd8fbfba7d3ddfb989a84bc643bc8e1d89c2c56f3a34c4947",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/k-ok.webp",
+      "status": 200,
+      "expectedSha256": "1de7153a9a27540c24795f0507bd70be76929753d2427c473f12ddc2d2421313",
+      "liveSha256": "1de7153a9a27540c24795f0507bd70be76929753d2427c473f12ddc2d2421313",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/k-profil.webp",
+      "status": 200,
+      "expectedSha256": "e58f2cae42076a05163120e6581a4ed377ca51d80fabb95582688d2c09db75e0",
+      "liveSha256": "e58f2cae42076a05163120e6581a4ed377ca51d80fabb95582688d2c09db75e0",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/k-psi.webp",
+      "status": 200,
+      "expectedSha256": "846ba7884e75f6dcb06b155d1b83f188f887ebce2d91c16fa0a67097bf4ab32c",
+      "liveSha256": "846ba7884e75f6dcb06b155d1b83f188f887ebce2d91c16fa0a67097bf4ab32c",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/k-score.webp",
+      "status": 200,
+      "expectedSha256": "c9eb6a77a3385dc1bb444d5d03cbc18fcae9e1ce240a91ad2eb6d52f42e7be95",
+      "liveSha256": "c9eb6a77a3385dc1bb444d5d03cbc18fcae9e1ce240a91ad2eb6d52f42e7be95",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/k-vorbau.webp",
+      "status": 200,
+      "expectedSha256": "2fde2d40f0c66953fca57eff7db1a4d91751e6a60a0b5537e5a1becc4c144bf4",
+      "liveSha256": "2fde2d40f0c66953fca57eff7db1a4d91751e6a60a0b5537e5a1becc4c144bf4",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/kauf.webp",
+      "status": 200,
+      "expectedSha256": "2e9ffd6fc69a6362e8bb858d9aafdcddd7e6c3d23910a8bb054c408e2c43b426",
+      "liveSha256": "2e9ffd6fc69a6362e8bb858d9aafdcddd7e6c3d23910a8bb054c408e2c43b426",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/m-gebraucht.webp",
+      "status": 200,
+      "expectedSha256": "83fd0ca8e064e009eec8459c806c3b1065898a291d366f9a4c34cd6d050c402d",
+      "liveSha256": "83fd0ca8e064e009eec8459c806c3b1065898a291d366f9a4c34cd6d050c402d",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/pr.webp",
+      "status": 200,
+      "expectedSha256": "04e08e1f3d55b23a4dadca95ac71a48fa712a2e5e4ca2c2bc93203ed9c4b6e96",
+      "liveSha256": "04e08e1f3d55b23a4dadca95ac71a48fa712a2e5e4ca2c2bc93203ed9c4b6e96",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/t-bremsen.webp",
+      "status": 200,
+      "expectedSha256": "56999ac4bf39001e9e178b264044f8afbcb78d01e1b1decc40a4feaa3f10f3f7",
+      "liveSha256": "56999ac4bf39001e9e178b264044f8afbcb78d01e1b1decc40a4feaa3f10f3f7",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/t-gabel.webp",
+      "status": 200,
+      "expectedSha256": "4cb6602a01b46cee079bbbb7920fc680e5c6c4477dee843700bd894c24cd8516",
+      "liveSha256": "4cb6602a01b46cee079bbbb7920fc680e5c6c4477dee843700bd894c24cd8516",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/t-rahmen.webp",
+      "status": 200,
+      "expectedSha256": "22754d2ca0edb8300b5fb05040b3dd4706153868d90d483067c762f6f69ad733",
+      "liveSha256": "22754d2ca0edb8300b5fb05040b3dd4706153868d90d483067c762f6f69ad733",
+      "matches": true
+    },
+    {
+      "file": "img/s/en/up.webp",
+      "status": 200,
+      "expectedSha256": "21c8b3ea90ccf204f422566d4b015b6173cb3124123edea68b9b317afc0250fd",
+      "liveSha256": "21c8b3ea90ccf204f422566d4b015b6173cb3124123edea68b9b317afc0250fd",
+      "matches": true
+    }
+  ],
+  "removed": [
+    {
+      "file": "galerie.css",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "galerie.js",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-assistent.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-daten.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-design.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-emtb.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-foto.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-guide-begriff.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-guide-rad.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-install.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-jahr.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-katalog.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-meinrad.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-modi.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-offline.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-pro.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-raeder.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-sag.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-sicherung.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/de/g-sprache.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-assistent.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-daten.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-design.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-emtb.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-foto.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-guide-begriff.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-guide-rad.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-install.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-jahr.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-katalog.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-meinrad.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-modi.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-offline.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-pro.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-raeder.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-sag.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-sicherung.webp",
+      "status": 404,
+      "removed": true
+    },
+    {
+      "file": "img/s/en/g-sprache.webp",
+      "status": 404,
+      "removed": true
+    }
+  ],
+  "matching": 44,
+  "total": 44
+}

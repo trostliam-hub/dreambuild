@@ -1,0 +1,202 @@
+[
+  {
+    "width": 320,
+    "lang": "de",
+    "theme": "hell",
+    "closedInitially": true,
+    "keyboardOpen": true,
+    "openLabel": "Menü öffnen",
+    "bounds": {
+      "left": 23,
+      "right": 295,
+      "top": 70,
+      "bottom": 468.75
+    },
+    "tabFirstLink": "#prinzip",
+    "escapeCloses": true,
+    "escapeFocusReturns": true,
+    "outsideCloses": true,
+    "jump": {
+      "hash": "#funktionen",
+      "closed": true,
+      "titleTop": 119.96875,
+      "headerBottom": 66
+    },
+    "comingSoonOpensFAQ": true
+  },
+  {
+    "width": 320,
+    "lang": "de",
+    "theme": "dunkel",
+    "closedInitially": true,
+    "keyboardOpen": true,
+    "openLabel": "Menü öffnen",
+    "bounds": {
+      "left": 23,
+      "right": 295,
+      "top": 70,
+      "bottom": 468.75
+    },
+    "tabFirstLink": "#prinzip",
+    "escapeCloses": true,
+    "escapeFocusReturns": true,
+    "outsideCloses": true,
+    "jump": {
+      "hash": "#funktionen",
+      "closed": true,
+      "titleTop": 119.96875,
+      "headerBottom": 66
+    },
+    "comingSoonOpensFAQ": true
+  },
+  {
+    "width": 320,
+    "lang": "en",
+    "theme": "hell",
+    "closedInitially": true,
+    "keyboardOpen": true,
+    "openLabel": "Open menu",
+    "bounds": {
+      "left": 23,
+      "right": 295,
+      "top": 70,
+      "bottom": 468.75
+    },
+    "tabFirstLink": "#prinzip",
+    "escapeCloses": true,
+    "escapeFocusReturns": true,
+    "outsideCloses": true,
+    "jump": {
+      "hash": "#funktionen",
+      "closed": true,
+      "titleTop": 119.4375,
+      "headerBottom": 66
+    },
+    "comingSoonOpensFAQ": true
+  },
+  {
+    "width": 320,
+    "lang": "en",
+    "theme": "dunkel",
+    "closedInitially": true,
+    "keyboardOpen": true,
+    "openLabel": "Open menu",
+    "bounds": {
+      "left": 23,
+      "right": 295,
+      "top": 70,
+      "bottom": 468.75
+    },
+    "tabFirstLink": "#prinzip",
+    "escapeCloses": true,
+    "escapeFocusReturns": true,
+    "outsideCloses": true,
+    "jump": {
+      "hash": "#funktionen",
+      "closed": true,
+      "titleTop": 119.4375,
+      "headerBottom": 66
+    },
+    "comingSoonOpensFAQ": true
+  },
+  {
+    "width": 390,
+    "lang": "de",
+    "theme": "hell",
+    "closedInitially": true,
+    "keyboardOpen": true,
+    "openLabel": "Menü öffnen",
+    "bounds": {
+      "left": 35,
+      "right": 365,
+      "top": 70,
+      "bottom": 468.75
+    },
+    "tabFirstLink": "#prinzip",
+    "escapeCloses": true,
+    "escapeFocusReturns": true,
+    "outsideCloses": true,
+    "jump": {
+      "hash": "#funktionen",
+      "closed": true,
+      "titleTop": 119.53125,
+      "headerBottom": 66
+    },
+    "comingSoonOpensFAQ": true
+  },
+  {
+    "width": 390,
+    "lang": "de",
+    "theme": "dunkel",
+    "closedInitially": true,
+    "keyboardOpen": true,
+    "openLabel": "Menü öffnen",
+    "bounds": {
+      "left": 35,
+      "right": 365,
+      "top": 70,
+      "bottom": 468.75
+    },
+    "tabFirstLink": "#prinzip",
+    "escapeCloses": true,
+    "escapeFocusReturns": true,
+    "outsideCloses": true,
+    "jump": {
+      "hash": "#funktionen",
+      "closed": true,
+      "titleTop": 119.53125,
+      "headerBottom": 66
+    },
+    "comingSoonOpensFAQ": true
+  },
+  {
+    "width": 390,
+    "lang": "en",
+    "theme": "hell",
+    "closedInitially": true,
+    "keyboardOpen": true,
+    "openLabel": "Open menu",
+    "bounds": {
+      "left": 35,
+      "right": 365,
+      "top": 70,
+      "bottom": 468.75
+    },
+    "tabFirstLink": "#prinzip",
+    "escapeCloses": true,
+    "escapeFocusReturns": true,
+    "outsideCloses": true,
+    "jump": {
+      "hash": "#funktionen",
+      "closed": true,
+      "titleTop": 120.078125,
+      "headerBottom": 66
+    },
+    "comingSoonOpensFAQ": true
+  },
+  {
+    "width": 390,
+    "lang": "en",
+    "theme": "dunkel",
+    "closedInitially": true,
+    "keyboardOpen": true,
+    "openLabel": "Open menu",
+    "bounds": {
+      "left": 35,
+      "right": 365,
+      "top": 70,
+      "bottom": 468.75
+    },
+    "tabFirstLink": "#prinzip",
+    "escapeCloses": true,
+    "escapeFocusReturns": true,
+    "outsideCloses": true,
+    "jump": {
+      "hash": "#funktionen",
+      "closed": true,
+      "titleTop": 120.078125,
+      "headerBottom": 66
+    },
+    "comingSoonOpensFAQ": true
+  }
+]

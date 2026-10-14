@@ -1,0 +1,91 @@
+{
+  "systemLight": {
+    "theme": "hell",
+    "stored": null,
+    "bg": "rgb(245, 243, 239)"
+  },
+  "systemDark": {
+    "theme": "dunkel",
+    "stored": null,
+    "bg": "rgb(0, 0, 0)"
+  },
+  "manualLight": {
+    "theme": "hell",
+    "stored": "hell",
+    "bg": "rgb(245, 243, 239)"
+  },
+  "manualPersists": {
+    "theme": "hell",
+    "stored": "hell",
+    "bg": "rgb(245, 243, 239)"
+  },
+  "returnToSystem": {
+    "theme": "dunkel",
+    "stored": null,
+    "bg": "rgb(0, 0, 0)"
+  },
+  "autoFollowsAgain": {
+    "theme": "hell",
+    "stored": null,
+    "bg": "rgb(245, 243, 239)"
+  },
+  "anchors": [
+    {
+      "href": "#prinzip",
+      "hash": "#prinzip",
+      "headingTop": 119.40625,
+      "headerBottom": 74
+    },
+    {
+      "href": "#modi",
+      "hash": "#modi",
+      "headingTop": 119.71875,
+      "headerBottom": 74
+    },
+    {
+      "href": "#funktionen",
+      "hash": "#funktionen",
+      "headingTop": 119.34375,
+      "headerBottom": 74
+    },
+    {
+      "href": "#guide",
+      "hash": "#guide",
+      "headingTop": 155.6875,
+      "headerBottom": 74
+    },
+    {
+      "href": "#mehr",
+      "hash": "#mehr",
+      "headingTop": 119.421875,
+      "headerBottom": 74
+    },
+    {
+      "href": "#fragen",
+      "hash": "#fragen",
+      "headingTop": 147.59375,
+      "headerBottom": 74
+    },
+    {
+      "href": "#prinzip",
+      "hash": "#prinzip",
+      "headingTop": 119.40625,
+      "headerBottom": 74
+    },
+    {
+      "href": "#federung",
+      "hash": "#federung",
+      "headingTop": 116,
+      "headerBottom": 74
+    }
+  ],
+  "secondTabStartsEnglish": "en",
+  "storageLanguage": "de",
+  "storageTheme": "dunkel",
+  "noJs": {
+    "title": "CrankScore – Dein Bike. Bis ins Detail.",
+    "heading": "Dein Bike.Bis ins Detail.",
+    "bodyVisible": true,
+    "mainVisible": true
+  }
+}

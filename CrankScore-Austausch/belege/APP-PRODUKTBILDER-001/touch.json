@@ -1,0 +1,23 @@
+{
+  "before": {
+    "left": 0,
+    "top": 0,
+    "width": 320,
+    "sw": 608,
+    "height": 660,
+    "sh": 660,
+    "underlying": 0
+  },
+  "after": {
+    "left": 165,
+    "top": 0,
+    "width": 320,
+    "sw": 608,
+    "height": 660,
+    "sh": 660,
+    "underlying": 0
+  },
+  "horizontalMoves": true,
+  "underlyingStationary": true,
+  "errors": []
+}

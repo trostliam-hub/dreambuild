@@ -1,0 +1,1056 @@
+{
+  "time": "2026-10-14T12:27:26.545Z",
+  "base": "https://crankscore.de/",
+  "hash": "e578a3e2",
+  "ready": true,
+  "checks": [
+    {
+      "time": "2026-10-14T12:26:34.499Z",
+      "url": "https://crankscore.de/?public-check=1791980794118",
+      "ready": false
+    },
+    {
+      "time": "2026-10-14T12:26:46.598Z",
+      "url": "https://crankscore.de/?public-check=1791980806500",
+      "ready": false
+    },
+    {
+      "time": "2026-10-14T12:26:58.683Z",
+      "url": "https://crankscore.de/?public-check=1791980818600",
+      "ready": false
+    },
+    {
+      "time": "2026-10-14T12:27:10.947Z",
+      "url": "https://crankscore.de/?public-check=1791980830683",
+      "ready": true
+    }
+  ],
+  "cases": 8,
+  "passed": 8,
+  "rows": [
+    {
+      "width": 390,
+      "lang": "de",
+      "theme": "hell",
+      "title": "CrankScore – Dein Bike. Bis ins Detail.",
+      "url": "https://crankscore.de/",
+      "language": "de",
+      "design": "hell",
+      "bodyBackground": "rgb(245, 243, 239)",
+      "scrollWidth": 390,
+      "styles": [
+        {
+          "href": "design.css?v=e578a3e2",
+          "loaded": true
+        }
+      ],
+      "scriptHash": [
+        "texte.js?v=e578a3e2",
+        "seite.js?v=e578a3e2"
+      ],
+      "allImages": [
+        {
+          "src": "img/s/de/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-rahmen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-gabel.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-bremsen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/bremsen.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-score.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-ok.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/m-gebraucht.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-groesse.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-lenker.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-vorbau.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-profil.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-psi.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/up.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/kauf.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/guide.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-antwort.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        }
+      ],
+      "headingWeight": "600",
+      "expectedHash": "e578a3e2",
+      "errors": [],
+      "issues": [],
+      "themeToggle": "dunkel",
+      "menuOpen": true,
+      "menuClosedAfterJump": true,
+      "faqOpens": true,
+      "faqCloses": true,
+      "languageToggle": "en",
+      "languageMediaToggle": true,
+      "legalState": {
+        "lang": "de",
+        "theme": "hell",
+        "body": "rgb(245, 243, 239)"
+      }
+    },
+    {
+      "width": 390,
+      "lang": "de",
+      "theme": "dunkel",
+      "title": "CrankScore – Dein Bike. Bis ins Detail.",
+      "url": "https://crankscore.de/",
+      "language": "de",
+      "design": "dunkel",
+      "bodyBackground": "rgb(0, 0, 0)",
+      "scrollWidth": 390,
+      "styles": [
+        {
+          "href": "design.css?v=e578a3e2",
+          "loaded": true
+        }
+      ],
+      "scriptHash": [
+        "texte.js?v=e578a3e2",
+        "seite.js?v=e578a3e2"
+      ],
+      "allImages": [
+        {
+          "src": "img/s/de/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-rahmen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-gabel.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-bremsen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/bremsen.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-score.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-ok.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/m-gebraucht.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-groesse.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-lenker.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-vorbau.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-profil.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-psi.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/up.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/kauf.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/guide.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-antwort.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        }
+      ],
+      "headingWeight": "600",
+      "expectedHash": "e578a3e2",
+      "errors": [],
+      "issues": [],
+      "themeToggle": "hell",
+      "menuOpen": true,
+      "menuClosedAfterJump": true,
+      "faqOpens": true,
+      "faqCloses": true,
+      "languageToggle": "en",
+      "languageMediaToggle": true,
+      "legalState": {
+        "lang": "de",
+        "theme": "dunkel",
+        "body": "rgb(0, 0, 0)"
+      }
+    },
+    {
+      "width": 390,
+      "lang": "en",
+      "theme": "hell",
+      "title": "CrankScore – Your bike. Every detail.",
+      "url": "https://crankscore.de/",
+      "language": "en",
+      "design": "hell",
+      "bodyBackground": "rgb(245, 243, 239)",
+      "scrollWidth": 390,
+      "styles": [
+        {
+          "href": "design.css?v=e578a3e2",
+          "loaded": true
+        }
+      ],
+      "scriptHash": [
+        "texte.js?v=e578a3e2",
+        "seite.js?v=e578a3e2"
+      ],
+      "allImages": [
+        {
+          "src": "img/s/en/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-rahmen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-gabel.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-bremsen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/bremsen.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-score.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-ok.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/m-gebraucht.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-groesse.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-lenker.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-vorbau.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-profil.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-psi.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/up.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/kauf.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/guide.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-antwort.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        }
+      ],
+      "headingWeight": "600",
+      "expectedHash": "e578a3e2",
+      "errors": [],
+      "issues": [],
+      "themeToggle": "dunkel",
+      "menuOpen": true,
+      "menuClosedAfterJump": true,
+      "faqOpens": true,
+      "faqCloses": true,
+      "languageToggle": "de",
+      "languageMediaToggle": true,
+      "legalState": {
+        "lang": "en",
+        "theme": "hell",
+        "body": "rgb(245, 243, 239)"
+      }
+    },
+    {
+      "width": 390,
+      "lang": "en",
+      "theme": "dunkel",
+      "title": "CrankScore – Your bike. Every detail.",
+      "url": "https://crankscore.de/",
+      "language": "en",
+      "design": "dunkel",
+      "bodyBackground": "rgb(0, 0, 0)",
+      "scrollWidth": 390,
+      "styles": [
+        {
+          "href": "design.css?v=e578a3e2",
+          "loaded": true
+        }
+      ],
+      "scriptHash": [
+        "texte.js?v=e578a3e2",
+        "seite.js?v=e578a3e2"
+      ],
+      "allImages": [
+        {
+          "src": "img/s/en/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-rahmen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-gabel.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-bremsen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/bremsen.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-score.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-ok.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/m-gebraucht.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-groesse.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-lenker.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-vorbau.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-profil.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-psi.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/up.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/kauf.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/guide.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-antwort.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        }
+      ],
+      "headingWeight": "600",
+      "expectedHash": "e578a3e2",
+      "errors": [],
+      "issues": [],
+      "themeToggle": "hell",
+      "menuOpen": true,
+      "menuClosedAfterJump": true,
+      "faqOpens": true,
+      "faqCloses": true,
+      "languageToggle": "de",
+      "languageMediaToggle": true,
+      "legalState": {
+        "lang": "en",
+        "theme": "dunkel",
+        "body": "rgb(0, 0, 0)"
+      }
+    },
+    {
+      "width": 1440,
+      "lang": "de",
+      "theme": "hell",
+      "title": "CrankScore – Dein Bike. Bis ins Detail.",
+      "url": "https://crankscore.de/",
+      "language": "de",
+      "design": "hell",
+      "bodyBackground": "rgb(245, 243, 239)",
+      "scrollWidth": 1440,
+      "styles": [
+        {
+          "href": "design.css?v=e578a3e2",
+          "loaded": true
+        }
+      ],
+      "scriptHash": [
+        "texte.js?v=e578a3e2",
+        "seite.js?v=e578a3e2"
+      ],
+      "allImages": [
+        {
+          "src": "img/s/de/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-rahmen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-gabel.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-bremsen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/bremsen.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-score.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-ok.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/m-gebraucht.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-groesse.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-lenker.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-vorbau.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-profil.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-psi.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/up.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/kauf.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/guide.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-antwort.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        }
+      ],
+      "headingWeight": "600",
+      "expectedHash": "e578a3e2",
+      "errors": [],
+      "issues": [],
+      "themeToggle": "dunkel",
+      "faqOpens": true,
+      "faqCloses": true,
+      "languageToggle": "en",
+      "languageMediaToggle": true,
+      "legalState": {
+        "lang": "de",
+        "theme": "hell",
+        "body": "rgb(245, 243, 239)"
+      }
+    },
+    {
+      "width": 1440,
+      "lang": "de",
+      "theme": "dunkel",
+      "title": "CrankScore – Dein Bike. Bis ins Detail.",
+      "url": "https://crankscore.de/",
+      "language": "de",
+      "design": "dunkel",
+      "bodyBackground": "rgb(0, 0, 0)",
+      "scrollWidth": 1440,
+      "styles": [
+        {
+          "href": "design.css?v=e578a3e2",
+          "loaded": true
+        }
+      ],
+      "scriptHash": [
+        "texte.js?v=e578a3e2",
+        "seite.js?v=e578a3e2"
+      ],
+      "allImages": [
+        {
+          "src": "img/s/de/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-rahmen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-gabel.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/t-bremsen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/bremsen.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-score.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-ok.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/m-gebraucht.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-groesse.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-lenker.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-vorbau.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-profil.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-psi.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/up.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/kauf.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/guide.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/de/k-antwort.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        }
+      ],
+      "headingWeight": "600",
+      "expectedHash": "e578a3e2",
+      "errors": [],
+      "issues": [],
+      "themeToggle": "hell",
+      "faqOpens": true,
+      "faqCloses": true,
+      "languageToggle": "en",
+      "languageMediaToggle": true,
+      "legalState": {
+        "lang": "de",
+        "theme": "dunkel",
+        "body": "rgb(0, 0, 0)"
+      }
+    },
+    {
+      "width": 1440,
+      "lang": "en",
+      "theme": "hell",
+      "title": "CrankScore – Your bike. Every detail.",
+      "url": "https://crankscore.de/",
+      "language": "en",
+      "design": "hell",
+      "bodyBackground": "rgb(245, 243, 239)",
+      "scrollWidth": 1440,
+      "styles": [
+        {
+          "href": "design.css?v=e578a3e2",
+          "loaded": true
+        }
+      ],
+      "scriptHash": [
+        "texte.js?v=e578a3e2",
+        "seite.js?v=e578a3e2"
+      ],
+      "allImages": [
+        {
+          "src": "img/s/en/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-rahmen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-gabel.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-bremsen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/bremsen.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-score.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-ok.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/m-gebraucht.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-groesse.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-lenker.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-vorbau.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-profil.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-psi.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/up.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/kauf.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/guide.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-antwort.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        }
+      ],
+      "headingWeight": "600",
+      "expectedHash": "e578a3e2",
+      "errors": [],
+      "issues": [],
+      "themeToggle": "dunkel",
+      "faqOpens": true,
+      "faqCloses": true,
+      "languageToggle": "de",
+      "languageMediaToggle": true,
+      "legalState": {
+        "lang": "en",
+        "theme": "hell",
+        "body": "rgb(245, 243, 239)"
+      }
+    },
+    {
+      "width": 1440,
+      "lang": "en",
+      "theme": "dunkel",
+      "title": "CrankScore – Your bike. Every detail.",
+      "url": "https://crankscore.de/",
+      "language": "en",
+      "design": "dunkel",
+      "bodyBackground": "rgb(0, 0, 0)",
+      "scrollWidth": 1440,
+      "styles": [
+        {
+          "href": "design.css?v=e578a3e2",
+          "loaded": true
+        }
+      ],
+      "scriptHash": [
+        "texte.js?v=e578a3e2",
+        "seite.js?v=e578a3e2"
+      ],
+      "allImages": [
+        {
+          "src": "img/s/en/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-rahmen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-gabel.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/t-bremsen.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/bremsen.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-score.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/pr.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-ok.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/m-gebraucht.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-groesse.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-lenker.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-vorbau.webp?v=e578a3e2",
+          "width": 528,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-profil.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-psi.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/up.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/kauf.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/guide.webp?v=e578a3e2",
+          "width": 720,
+          "complete": true
+        },
+        {
+          "src": "img/s/en/k-antwort.webp?v=e578a3e2",
+          "width": 900,
+          "complete": true
+        }
+      ],
+      "headingWeight": "600",
+      "expectedHash": "e578a3e2",
+      "errors": [],
+      "issues": [],
+      "themeToggle": "hell",
+      "faqOpens": true,
+      "faqCloses": true,
+      "languageToggle": "de",
+      "languageMediaToggle": true,
+      "legalState": {
+        "lang": "en",
+        "theme": "dunkel",
+        "body": "rgb(0, 0, 0)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1826 @@
+[
+  {
+    "width": 390,
+    "theme": "oled",
+    "lang": "de",
+    "checks": [
+      {
+        "name": "public-current-version",
+        "ok": true,
+        "data": {
+          "version": "20261014-1539",
+          "bilder": 688,
+          "theme": "oled"
+        }
+      },
+      {
+        "name": "public-image-catalog",
+        "ok": true,
+        "data": 688
+      },
+      {
+        "name": "g-selvav-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.rideformula.com/products/mountain-bike/selva-v/",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-selvav-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-selvav-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 660,
+            "top": 69,
+            "right": 390,
+            "bottom": 729,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-selvav-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv85zsnwjccm\\\",\\\"real\\\":\\\"pmv85zsnwec2s\\\",\\\"markt\\\":\\\"pmv85zsnwte0v\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv85zsnwjccm\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv85zsnwec2s\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv85zsnwte0v\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Selva V"
+        }
+      },
+      {
+        "name": "g-durolux-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.srsuntour.com/products/fork/DUROLUX38-Boost-EQ-7015.html",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-durolux-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-durolux-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 660,
+            "top": 69,
+            "right": 390,
+            "bottom": 729,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-durolux-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv85zsnwjccm\\\",\\\"real\\\":\\\"pmv85zsnwec2s\\\",\\\"markt\\\":\\\"pmv85zsnwte0v\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv85zsnwjccm\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv85zsnwec2s\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv85zsnwte0v\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Durolux"
+        }
+      },
+      {
+        "name": "g-domain-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "transparent",
+          "fit": true,
+          "source": "https://www.sram.com/de/service/models/fs-domn-rc-b1",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-domain-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-domain-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 660,
+            "top": 69,
+            "right": 390,
+            "bottom": 729,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-domain-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv85zsnwjccm\\\",\\\"real\\\":\\\"pmv85zsnwec2s\\\",\\\"markt\\\":\\\"pmv85zsnwte0v\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv85zsnwjccm\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv85zsnwec2s\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv85zsnwte0v\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Domain"
+        }
+      },
+      {
+        "name": "public-detail-photo-click",
+        "ok": true
+      },
+      {
+        "name": "public-203-adapter-preserved",
+        "ok": true,
+        "data": [
+          {
+            "name": "Shimano SM-MA-F203P/PM · PM 180 → 203",
+            "wo": "gabel"
+          }
+        ]
+      },
+      {
+        "name": "public-no-script-error",
+        "ok": true,
+        "data": []
+      }
+    ],
+    "errors": [],
+    "version": "20261014-1539"
+  },
+  {
+    "width": 390,
+    "theme": "oled",
+    "lang": "en",
+    "checks": [
+      {
+        "name": "public-current-version",
+        "ok": true,
+        "data": {
+          "version": "20261014-1539",
+          "bilder": 688,
+          "theme": "oled"
+        }
+      },
+      {
+        "name": "public-image-catalog",
+        "ok": true,
+        "data": 688
+      },
+      {
+        "name": "g-selvav-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.rideformula.com/products/mountain-bike/selva-v/",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-selvav-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-selvav-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 678,
+            "top": 69,
+            "right": 390,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-selvav-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv85zv7pr78k\\\",\\\"real\\\":\\\"pmv85zv7p5k6l\\\",\\\"markt\\\":\\\"pmv85zv7pumi1\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv85zv7pr78k\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv85zv7p5k6l\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv85zv7pumi1\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Selva V"
+        }
+      },
+      {
+        "name": "g-durolux-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.srsuntour.com/products/fork/DUROLUX38-Boost-EQ-7015.html",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-durolux-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-durolux-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 678,
+            "top": 69,
+            "right": 390,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-durolux-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv85zv7pr78k\\\",\\\"real\\\":\\\"pmv85zv7p5k6l\\\",\\\"markt\\\":\\\"pmv85zv7pumi1\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv85zv7pr78k\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv85zv7p5k6l\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv85zv7pumi1\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Durolux"
+        }
+      },
+      {
+        "name": "g-domain-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "transparent",
+          "fit": true,
+          "source": "https://www.sram.com/de/service/models/fs-domn-rc-b1",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-domain-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-domain-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 678,
+            "top": 69,
+            "right": 390,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-domain-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv85zv7pr78k\\\",\\\"real\\\":\\\"pmv85zv7p5k6l\\\",\\\"markt\\\":\\\"pmv85zv7pumi1\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv85zv7pr78k\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv85zv7p5k6l\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv85zv7pumi1\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Domain"
+        }
+      },
+      {
+        "name": "public-detail-photo-click",
+        "ok": true
+      },
+      {
+        "name": "public-203-adapter-preserved",
+        "ok": true,
+        "data": [
+          {
+            "name": "Shimano SM-MA-F203P/PM · PM 180 → 203",
+            "wo": "gabel"
+          }
+        ]
+      },
+      {
+        "name": "public-no-script-error",
+        "ok": true,
+        "data": []
+      }
+    ],
+    "errors": [],
+    "version": "20261014-1539"
+  },
+  {
+    "width": 390,
+    "theme": "hell",
+    "lang": "de",
+    "checks": [
+      {
+        "name": "public-current-version",
+        "ok": true,
+        "data": {
+          "version": "20261014-1539",
+          "bilder": 688,
+          "theme": "light"
+        }
+      },
+      {
+        "name": "public-image-catalog",
+        "ok": true,
+        "data": 688
+      },
+      {
+        "name": "g-selvav-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.rideformula.com/products/mountain-bike/selva-v/",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-selvav-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-selvav-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 660,
+            "top": 69,
+            "right": 390,
+            "bottom": 729,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-selvav-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv85zxsc7omb\\\",\\\"real\\\":\\\"pmv85zxsc6yr7\\\",\\\"markt\\\":\\\"pmv85zxsczgq9\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv85zxsc7omb\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv85zxsc6yr7\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv85zxsczgq9\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Selva V"
+        }
+      },
+      {
+        "name": "g-durolux-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.srsuntour.com/products/fork/DUROLUX38-Boost-EQ-7015.html",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-durolux-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-durolux-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 660,
+            "top": 69,
+            "right": 390,
+            "bottom": 729,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-durolux-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv85zxsc7omb\\\",\\\"real\\\":\\\"pmv85zxsc6yr7\\\",\\\"markt\\\":\\\"pmv85zxsczgq9\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv85zxsc7omb\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv85zxsc6yr7\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv85zxsczgq9\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Durolux"
+        }
+      },
+      {
+        "name": "g-domain-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "transparent",
+          "fit": true,
+          "source": "https://www.sram.com/de/service/models/fs-domn-rc-b1",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-domain-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-domain-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 660,
+            "top": 69,
+            "right": 390,
+            "bottom": 729,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 628,
+            "top": 85,
+            "right": 374,
+            "bottom": 713,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-domain-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv85zxsc7omb\\\",\\\"real\\\":\\\"pmv85zxsc6yr7\\\",\\\"markt\\\":\\\"pmv85zxsczgq9\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv85zxsc7omb\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv85zxsc6yr7\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv85zxsczgq9\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Domain"
+        }
+      },
+      {
+        "name": "public-detail-photo-click",
+        "ok": true
+      },
+      {
+        "name": "public-203-adapter-preserved",
+        "ok": true,
+        "data": [
+          {
+            "name": "Shimano SM-MA-F203P/PM · PM 180 → 203",
+            "wo": "gabel"
+          }
+        ]
+      },
+      {
+        "name": "public-no-script-error",
+        "ok": true,
+        "data": []
+      }
+    ],
+    "errors": [],
+    "version": "20261014-1539"
+  },
+  {
+    "width": 390,
+    "theme": "hell",
+    "lang": "en",
+    "checks": [
+      {
+        "name": "public-current-version",
+        "ok": true,
+        "data": {
+          "version": "20261014-1539",
+          "bilder": 688,
+          "theme": "light"
+        }
+      },
+      {
+        "name": "public-image-catalog",
+        "ok": true,
+        "data": 688
+      },
+      {
+        "name": "g-selvav-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.rideformula.com/products/mountain-bike/selva-v/",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-selvav-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-selvav-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 678,
+            "top": 69,
+            "right": 390,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-selvav-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv860076dm8q\\\",\\\"real\\\":\\\"pmv860076h9iy\\\",\\\"markt\\\":\\\"pmv860076hx1c\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv860076dm8q\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv860076h9iy\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv860076hx1c\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Selva V"
+        }
+      },
+      {
+        "name": "g-durolux-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.srsuntour.com/products/fork/DUROLUX38-Boost-EQ-7015.html",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-durolux-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-durolux-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 678,
+            "top": 69,
+            "right": 390,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-durolux-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv860076dm8q\\\",\\\"real\\\":\\\"pmv860076h9iy\\\",\\\"markt\\\":\\\"pmv860076hx1c\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv860076dm8q\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv860076h9iy\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv860076hx1c\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Durolux"
+        }
+      },
+      {
+        "name": "g-domain-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "transparent",
+          "fit": true,
+          "source": "https://www.sram.com/de/service/models/fs-domn-rc-b1",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-domain-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-domain-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 390,
+            "height": 678,
+            "top": 69,
+            "right": 390,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 358,
+            "height": 646,
+            "top": 85,
+            "right": 374,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-domain-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv860076dm8q\\\",\\\"real\\\":\\\"pmv860076h9iy\\\",\\\"markt\\\":\\\"pmv860076hx1c\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv860076dm8q\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv860076h9iy\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv860076hx1c\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 402,
+          "search": "Domain"
+        }
+      },
+      {
+        "name": "public-detail-photo-click",
+        "ok": true
+      },
+      {
+        "name": "public-203-adapter-preserved",
+        "ok": true,
+        "data": [
+          {
+            "name": "Shimano SM-MA-F203P/PM · PM 180 → 203",
+            "wo": "gabel"
+          }
+        ]
+      },
+      {
+        "name": "public-no-script-error",
+        "ok": true,
+        "data": []
+      }
+    ],
+    "errors": [],
+    "version": "20261014-1539"
+  },
+  {
+    "width": 1280,
+    "theme": "oled",
+    "lang": "de",
+    "checks": [
+      {
+        "name": "public-current-version",
+        "ok": true,
+        "data": {
+          "version": "20261014-1539",
+          "bilder": 688,
+          "theme": "oled"
+        }
+      },
+      {
+        "name": "public-image-catalog",
+        "ok": true,
+        "data": 688
+      },
+      {
+        "name": "g-selvav-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.rideformula.com/products/mountain-bike/selva-v/",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-selvav-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-selvav-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-selvav-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv8602m1wgfi\\\",\\\"real\\\":\\\"pmv8602m1i4p8\\\",\\\"markt\\\":\\\"pmv8602m1kc0g\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv8602m1wgfi\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv8602m1i4p8\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv8602m1kc0g\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 83,
+          "search": "Selva V"
+        }
+      },
+      {
+        "name": "g-durolux-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.srsuntour.com/products/fork/DUROLUX38-Boost-EQ-7015.html",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-durolux-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-durolux-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-durolux-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv8602m1wgfi\\\",\\\"real\\\":\\\"pmv8602m1i4p8\\\",\\\"markt\\\":\\\"pmv8602m1kc0g\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv8602m1wgfi\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv8602m1i4p8\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv8602m1kc0g\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 83,
+          "search": "Durolux"
+        }
+      },
+      {
+        "name": "g-domain-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "transparent",
+          "fit": true,
+          "source": "https://www.sram.com/de/service/models/fs-domn-rc-b1",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-domain-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-domain-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-domain-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv8602m1wgfi\\\",\\\"real\\\":\\\"pmv8602m1i4p8\\\",\\\"markt\\\":\\\"pmv8602m1kc0g\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv8602m1wgfi\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv8602m1i4p8\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv8602m1kc0g\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 83,
+          "search": "Domain"
+        }
+      },
+      {
+        "name": "public-detail-photo-click",
+        "ok": true
+      },
+      {
+        "name": "public-203-adapter-preserved",
+        "ok": true,
+        "data": [
+          {
+            "name": "Shimano SM-MA-F203P/PM · PM 180 → 203",
+            "wo": "gabel"
+          }
+        ]
+      },
+      {
+        "name": "public-no-script-error",
+        "ok": true,
+        "data": []
+      }
+    ],
+    "errors": [],
+    "version": "20261014-1539"
+  },
+  {
+    "width": 1280,
+    "theme": "oled",
+    "lang": "en",
+    "checks": [
+      {
+        "name": "public-current-version",
+        "ok": true,
+        "data": {
+          "version": "20261014-1539",
+          "bilder": 688,
+          "theme": "oled"
+        }
+      },
+      {
+        "name": "public-image-catalog",
+        "ok": true,
+        "data": 688
+      },
+      {
+        "name": "g-selvav-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.rideformula.com/products/mountain-bike/selva-v/",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-selvav-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-selvav-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-selvav-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv8605dq3dtf\\\",\\\"real\\\":\\\"pmv8605dr45be\\\",\\\"markt\\\":\\\"pmv8605druoc5\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv8605dq3dtf\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv8605dr45be\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv8605druoc5\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 64,
+          "search": "Selva V"
+        }
+      },
+      {
+        "name": "g-durolux-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.srsuntour.com/products/fork/DUROLUX38-Boost-EQ-7015.html",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-durolux-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-durolux-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-durolux-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv8605dq3dtf\\\",\\\"real\\\":\\\"pmv8605dr45be\\\",\\\"markt\\\":\\\"pmv8605druoc5\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv8605dq3dtf\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv8605dr45be\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv8605druoc5\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 64,
+          "search": "Durolux"
+        }
+      },
+      {
+        "name": "g-domain-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "transparent",
+          "fit": true,
+          "source": "https://www.sram.com/de/service/models/fs-domn-rc-b1",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-domain-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-domain-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-domain-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv8605dq3dtf\\\",\\\"real\\\":\\\"pmv8605dr45be\\\",\\\"markt\\\":\\\"pmv8605druoc5\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv8605dq3dtf\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv8605dr45be\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv8605druoc5\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"oled\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 64,
+          "search": "Domain"
+        }
+      },
+      {
+        "name": "public-detail-photo-click",
+        "ok": true
+      },
+      {
+        "name": "public-203-adapter-preserved",
+        "ok": true,
+        "data": [
+          {
+            "name": "Shimano SM-MA-F203P/PM · PM 180 → 203",
+            "wo": "gabel"
+          }
+        ]
+      },
+      {
+        "name": "public-no-script-error",
+        "ok": true,
+        "data": []
+      }
+    ],
+    "errors": [],
+    "version": "20261014-1539"
+  },
+  {
+    "width": 1280,
+    "theme": "hell",
+    "lang": "de",
+    "checks": [
+      {
+        "name": "public-current-version",
+        "ok": true,
+        "data": {
+          "version": "20261014-1539",
+          "bilder": 688,
+          "theme": "light"
+        }
+      },
+      {
+        "name": "public-image-catalog",
+        "ok": true,
+        "data": 688
+      },
+      {
+        "name": "g-selvav-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.rideformula.com/products/mountain-bike/selva-v/",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-selvav-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-selvav-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-selvav-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv8608101d11\\\",\\\"real\\\":\\\"pmv860810q2wt\\\",\\\"markt\\\":\\\"pmv8608101vtx\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv8608101d11\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv860810q2wt\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv8608101vtx\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 83,
+          "search": "Selva V"
+        }
+      },
+      {
+        "name": "g-durolux-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.srsuntour.com/products/fork/DUROLUX38-Boost-EQ-7015.html",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-durolux-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-durolux-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-durolux-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv8608101d11\\\",\\\"real\\\":\\\"pmv860810q2wt\\\",\\\"markt\\\":\\\"pmv8608101vtx\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv8608101d11\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv860810q2wt\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv8608101vtx\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 83,
+          "search": "Durolux"
+        }
+      },
+      {
+        "name": "g-domain-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "transparent",
+          "fit": true,
+          "source": "https://www.sram.com/de/service/models/fs-domn-rc-b1",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-domain-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-domain-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-domain-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv8608101d11\\\",\\\"real\\\":\\\"pmv860810q2wt\\\",\\\"markt\\\":\\\"pmv8608101vtx\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv8608101d11\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv860810q2wt\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv8608101vtx\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"de\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 83,
+          "search": "Domain"
+        }
+      },
+      {
+        "name": "public-detail-photo-click",
+        "ok": true
+      },
+      {
+        "name": "public-203-adapter-preserved",
+        "ok": true,
+        "data": [
+          {
+            "name": "Shimano SM-MA-F203P/PM · PM 180 → 203",
+            "wo": "gabel"
+          }
+        ]
+      },
+      {
+        "name": "public-no-script-error",
+        "ok": true,
+        "data": []
+      }
+    ],
+    "errors": [],
+    "version": "20261014-1539"
+  },
+  {
+    "width": 1280,
+    "theme": "hell",
+    "lang": "en",
+    "checks": [
+      {
+        "name": "public-current-version",
+        "ok": true,
+        "data": {
+          "version": "20261014-1539",
+          "bilder": 688,
+          "theme": "light"
+        }
+      },
+      {
+        "name": "public-image-catalog",
+        "ok": true,
+        "data": 688
+      },
+      {
+        "name": "g-selvav-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.rideformula.com/products/mountain-bike/selva-v/",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-selvav-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-selvav-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-selvav-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv860axjvsat\\\",\\\"real\\\":\\\"pmv860axjvogt\\\",\\\"markt\\\":\\\"pmv860axjw3zo\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv860axjvsat\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv860axjvogt\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv860axjw3zo\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 64,
+          "search": "Selva V"
+        }
+      },
+      {
+        "name": "g-durolux-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "schwarz",
+          "fit": true,
+          "source": "https://www.srsuntour.com/products/fork/DUROLUX38-Boost-EQ-7015.html",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-durolux-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-durolux-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-durolux-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv860axjvsat\\\",\\\"real\\\":\\\"pmv860axjvogt\\\",\\\"markt\\\":\\\"pmv860axjw3zo\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv860axjvsat\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv860axjvogt\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv860axjw3zo\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 64,
+          "search": "Durolux"
+        }
+      },
+      {
+        "name": "g-domain-real-image-black-view",
+        "ok": true,
+        "data": {
+          "black": "rgb(0, 0, 0)",
+          "art": "transparent",
+          "fit": true,
+          "source": "https://www.sram.com/de/service/models/fs-domn-rc-b1",
+          "meta": "#000000"
+        }
+      },
+      {
+        "name": "g-domain-zoom",
+        "ok": true
+      },
+      {
+        "name": "g-domain-fitted-after-zoom",
+        "ok": true,
+        "data": {
+          "zoom": false,
+          "image": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          },
+          "media": {
+            "x": 0,
+            "y": 69,
+            "width": 1280,
+            "height": 678,
+            "top": 69,
+            "right": 1280,
+            "bottom": 747,
+            "left": 0
+          },
+          "parent": {
+            "x": 16,
+            "y": 85,
+            "width": 1248,
+            "height": 646,
+            "top": 85,
+            "right": 1264,
+            "bottom": 731,
+            "left": 16
+          }
+        }
+      },
+      {
+        "name": "g-domain-selection-and-data-preserved",
+        "ok": true,
+        "data": {
+          "build": "{\"rahmen\":\"f-spindrift\",\"gabel\":\"g-domain\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null}",
+          "storage": "{\"mtb.jahr\":\"{\\\"traum\\\":2026,\\\"real\\\":2026,\\\"markt\\\":2023}\",\"mtb.linkadmin\":\"0\",\"mtb.profile\":\"{\\\"v\\\":1,\\\"modus\\\":\\\"traum\\\",\\\"aktiv\\\":{\\\"traum\\\":\\\"pmv860axjvsat\\\",\\\"real\\\":\\\"pmv860axjvogt\\\",\\\"markt\\\":\\\"pmv860axjw3zo\\\"},\\\"liste\\\":{\\\"traum\\\":[{\\\"id\\\":\\\"pmv860axjvsat\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null,\\\"wuensche\\\":[]}],\\\"real\\\":[{\\\"id\\\":\\\"pmv860axjvogt\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2026,\\\"markt\\\":null}],\\\"markt\\\":[{\\\"id\\\":\\\"pmv860axjw3zo\\\",\\\"name\\\":\\\"\\\",\\\"build\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"sel\\\":[\\\"trail\\\"],\\\"plan\\\":{\\\"budget\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"},\\\"jahr\\\":2023,\\\"markt\\\":{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}}]}}\",\"mtb.links\":\"{\\\"teile\\\":{}}\",\"mtb.aff\":\"{\\\"awinId\\\":\\\"\\\",\\\"amazonTag\\\":\\\"\\\",\\\"mid\\\":{},\\\"an\\\":{\\\"bc\\\":true,\\\"b24\\\":true,\\\"bd\\\":false,\\\"rose\\\":false,\\\"amz\\\":false}}\",\"mtb.fahrer\":\"0\",\"mtb.szenen\":\"1\",\"mtb.modus\":\"traum\",\"mtb.betreiber\":\"{}\",\"mtb.markt\":\"{\\\"alter\\\":3,\\\"zustand\\\":\\\"gepflegt\\\",\\\"verschleiss\\\":{},\\\"preis\\\":0}\",\"mtb.sprache\":\"en\",\"mtb.feed\":\"{\\\"treffer\\\":{},\\\"stand\\\":0,\\\"quelle\\\":\\\"\\\",\\\"zeilen\\\":0}\",\"mtb.plan\":\"{\\\"budget\\\":0,\\\"fahrer\\\":0,\\\"mSchalt\\\":\\\"\\\",\\\"mBrems\\\":\\\"\\\",\\\"mFed\\\":\\\"\\\",\\\"prio\\\":\\\"pl\\\",\\\"lr\\\":\\\"\\\",\\\"federung\\\":\\\"\\\",\\\"pedal\\\":\\\"\\\"}\",\"mtb.eigene\":\"{}\",\"mtb.design\":\"hell\",\"mtb.tour\":\"1\",\"mtb.zu\":\"{}\",\"mtb.sel\":\"[\\\"trail\\\"]\",\"mtb.slugv\":\"2\",\"mtb.builds\":\"{\\\"traum\\\":{\\\"rahmen\\\":\\\"f-spindrift\\\",\\\"gabel\\\":\\\"g-domain\\\",\\\"daempfer\\\":\\\"d-deluxe|ultimate~190x45m\\\",\\\"laufraeder\\\":\\\"w-newmen|microspline\\\",\\\"reifenVR\\\":\\\"t-kryptotal\\\",\\\"reifenHR\\\":\\\"t-dhr2\\\",\\\"schalthebel\\\":\\\"sh-xt\\\",\\\"schaltwerk\\\":\\\"sw-xt\\\",\\\"kassette\\\":\\\"ka-xt\\\",\\\"kette\\\":\\\"ke-m8100\\\",\\\"kurbel\\\":\\\"k-xt\\\",\\\"innenlager\\\":\\\"il-mt800\\\",\\\"bremsen\\\":\\\"b-xt|180180\\\",\\\"lenker\\\":\\\"l-race\\\",\\\"vorbau\\\":\\\"v-race\\\",\\\"stuetze\\\":\\\"s-fox349\\\",\\\"sattel\\\":\\\"sa-ergon\\\",\\\"pedale\\\":\\\"pe-oneupa\\\",\\\"griffe\\\":\\\"gr-ge1\\\",\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"real\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null},\\\"markt\\\":{\\\"rahmen\\\":null,\\\"gabel\\\":null,\\\"daempfer\\\":null,\\\"laufraeder\\\":null,\\\"reifenVR\\\":null,\\\"reifenHR\\\":null,\\\"schalthebel\\\":null,\\\"schaltwerk\\\":null,\\\"kassette\\\":null,\\\"kette\\\":null,\\\"kurbel\\\":null,\\\"innenlager\\\":null,\\\"bremsen\\\":null,\\\"lenker\\\":null,\\\"vorbau\\\":null,\\\"stuetze\\\":null,\\\"sattel\\\":null,\\\"pedale\\\":null,\\\"griffe\\\":null,\\\"steuersatz\\\":null,\\\"rahmenlager\\\":null}}\",\"mtb.koerper\":\"{\\\"groesse\\\":0,\\\"schritt\\\":0,\\\"schulter\\\":0,\\\"spann\\\":0,\\\"hand\\\":\\\"\\\",\\\"charakter\\\":\\\"\\\",\\\"erfahrung\\\":\\\"\\\",\\\"cmMig\\\":1}\",\"mtb.einstieg2\":\"1\"}",
+          "scroll": 64,
+          "search": "Domain"
+        }
+      },
+      {
+        "name": "public-detail-photo-click",
+        "ok": true
+      },
+      {
+        "name": "public-203-adapter-preserved",
+        "ok": true,
+        "data": [
+          {
+            "name": "Shimano SM-MA-F203P/PM · PM 180 → 203",
+            "wo": "gabel"
+          }
+        ]
+      },
+      {
+        "name": "public-no-script-error",
+        "ok": true,
+        "data": []
+      }
+    ],
+    "errors": [],
+    "version": "20261014-1539"
+  }
+]
