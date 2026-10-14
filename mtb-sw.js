@@ -17,6 +17,7 @@ var ASSETS = [
   './',
   './index.html',
   './bilder/produkte/katalog.js',
+  './bilder/produkte/ansicht.js',
   './manifest.webmanifest',
   './icon-180.png',
   './icon-192.png',

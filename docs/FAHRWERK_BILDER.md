@@ -127,3 +127,36 @@ HTTP-/Dekodierprüfungen bleiben erhalten. Für Sixpack werden die offiziellen
 zusätzlich als `anzeigequelle` dokumentiert. Dies reduziert auch den
 Speicherbedarf auf Handys. Lokal anschließend Setup 21/21 bestanden;
 maßgeblich für die Veröffentlichung ist der nachfolgende GitHub-Lauf.
+
+## Korrektur: Produktbilder gehören in die App
+
+Am 14.10.2026 wurde die Modellbibliothek für den ausdrücklich korrigierten
+App-Auftrag erweitert. Unter anderem sind die im Nutzerbild fehlenden
+Formula Selva V, SR Suntour Durolux38 und RockShox Domain RC nun durch echte
+Modellaufnahmen belegt. Weitere hinzugefügte Fahrwerkquellen umfassen
+Marzocchi, Manitou/Hayes, Öhlins, DVO, Cane Creek, EXT, PUSH, X-Fusion und
+DT Swiss. SIDLuxe Ultimate und Select+ haben getrennte Fotos.
+
+Die vollständige, maschinenlesbare Herkunft steht weiterhin je Modell in
+`bilder/produkte/katalog.js`: Produkt-/Quellseite, Originalaufnahme und,
+falls vorhanden, die kleinere offizielle Anzeigedatei. Ergänzende Fachshop-
+Quellen sind dort ausdrücklich genannt. Eine Aufnahme eines kompletten
+Fahrrads als Rahmenreferenz ist als solche gekennzeichnet; der dargestellte
+Aufbau ist keine Behauptung über die gewählten Komponenten. Die drei
+Enduro-Bearings-Abbildungen sind Lagertyp-Referenzen und zeigen keinen
+verbindlichen rahmenspezifischen Lieferumfang.
+
+Es wurden keine Produktfotos generiert oder nachgezeichnet. Die Dateien sind
+Originale der angegebenen Quellen beziehungsweise deren bereits angebotene
+kleinere Anzeigederivate. Bei DVO wurden die hochauflösenden Druckdateien
+durch offizielle höchstens 1024 Pixel große Bilder ersetzt, einschließlich
+transparenter Diamond-D1-, Sapphire-D1- und Jade-X-Aufnahmen. Alle lokalen
+Bildpfade und tatsächlichen Dateiformate werden vor Veröffentlichung geprüft.
+Quellenangaben erklären die Bilder nicht für gemeinfrei; Bildrechte bleiben
+bei den jeweiligen Rechteinhabern.
+
+Nicht eindeutig bezeichnete Eigen-/Generikateile bekommen weiterhin kein
+Foto eines fremden Modells. Größen, Farbe, Baujahr und Ausführung der
+Herstellerreferenz können abweichen; die Modell- und Quellenhinweise in
+der Bildansicht bleiben deshalb sichtbar. Die Bildzuordnungen verändern
+keine Kompatibilitätsregeln, Fahrwerkberechnungen oder gespeicherten Builds.

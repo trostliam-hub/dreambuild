@@ -113,16 +113,15 @@ const PRUEFUNGEN = [
     const r = await ev(async () => {
       const fehler = [], bilder = Object.entries(PRODUKTBILDER);
       for(const [id, b] of bilder){
-        if(!/^bilder\/produkte\/[\w-]+\.(png|jpg)$/.test(b.datei) || !/^https:\/\//.test(b.quelle) || !(K[b.kategorie] || []).some(t => t.id === id.split('@')[0])) fehler.push(id + ': Metadaten');
+        if(!/^bilder\/produkte\/[\w-]+\.(png|jpg|webp|avif)$/.test(b.datei) || !/^https:\/\//.test(b.quelle) || !(K[b.kategorie] || []).some(t => t.id === id.split('@')[0])) fehler.push(id + ': Metadaten');
         /* Jede Datei wirklich dekodieren, das Bitmap danach freigeben. Die
            komplette Bibliothek belegt unskaliert ueber 500 MB; der Test soll
            keine 128 Bitmaps im Bildcache des CI-Browsers festhalten. */
-        let bildUrl = '', img = new Image();
+        let bitmap = null;
         try{ const res = await fetch(b.datei); if(!res.ok) throw new Error('HTTP ' + res.status);
-          bildUrl = URL.createObjectURL(await res.blob()); img.src = bildUrl;
-          await img.decode(); if(!img.naturalWidth) throw new Error('leer');
+          bitmap = await createImageBitmap(await res.blob()); if(!bitmap.width) throw new Error('leer');
         }catch(e){ fehler.push(id + ': ' + e.message); }
-        finally{ img.src = ''; if(bildUrl) URL.revokeObjectURL(bildUrl); img = null; }
+        finally{ if(bitmap) bitmap.close(); }
       }
       return {anzahl:bilder.length, fehler};
     });
@@ -158,11 +157,11 @@ const PRUEFUNGEN = [
     const dateien = fs.readdirSync(dir).filter(n => /\.(jpg|png)$/.test(n));
     const r = await ev(async dateien => {
       const fehler = [];
-      for(const n of dateien){ let url = '', img = new Image();
+      for(const n of dateien){ let bitmap = null;
         try{ const res = await fetch('bilder/fahrwerk/' + n); if(!res.ok) throw new Error('HTTP ' + res.status);
-          url = URL.createObjectURL(await res.blob()); img.src = url; await img.decode(); if(!img.naturalWidth) throw new Error('leer');
+          bitmap = await createImageBitmap(await res.blob()); if(!bitmap.width) throw new Error('leer');
         }catch(e){ fehler.push(n + ': ' + e.message); }
-        finally{ img.src = ''; if(url) URL.revokeObjectURL(url); img = null; } }
+        finally{ if(bitmap) bitmap.close(); } }
       return fehler;
     }, dateien);
     return {ok:dateien.length >= 10 && !r.length && dateien.every(n => sw.includes("'./bilder/fahrwerk/" + n + "'")), info:{anzahl:dateien.length, fehler:r}};

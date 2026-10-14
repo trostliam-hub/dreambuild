@@ -84,6 +84,12 @@ const lauf = (datei, muster, erwartet) => {
 }
 if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:'absichtlich fehlgeschlagen (CRANKSCORE_TEST_FEHLER=1)'});
 
+/* 8. Produktbilder: echte Auswahlwege, OLED/Hellmodus, Zoom und Datenerhalt. */
+{
+  const r = lauf('foto-test.mjs', /FOTOS: (\d+) von (\d+) Prüfungen bestanden/, 14);
+  teil('Produktfotos und Großansicht', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
+
 bericht.ok = gesamtOk; bericht.dauerSek = Math.round((Date.now() - start) / 1000); bericht.zeit = new Date().toISOString();
 fs.writeFileSync(path.join(wurzel, 'test-ergebnis.json'), JSON.stringify(bericht, null, 2));
 for(const t of bericht.teile) if(!t.ok && t.fehl && t.fehl.length) console.log(`\n${t.name}:\n  ` + t.fehl.join('\n  '));

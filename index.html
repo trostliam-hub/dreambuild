@@ -2352,7 +2352,7 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-link{min-height:40px;padding:0 4px;font-size:13px;font-weight:750;color:var(--anod);background:none}
 /* Echte Einstellerbilder: vollstaendig zeigen, antippen vergroessert. */
 .fw-fotos{display:grid;gap:14px;min-width:0;grid-column:1 / -1;width:100%}
-.fw-foto{margin:0;min-width:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.fw-foto{margin:0;min-width:0;flex-shrink:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
 .fw-foto-link{display:block;background:#fff}
 .fw-foto img{display:block;width:100%;height:auto;max-height:320px;object-fit:contain}
 .fw-foto figcaption{display:grid;gap:6px;padding:12px;font-size:13px;line-height:1.5;color:var(--ink-2)}
@@ -2386,6 +2386,33 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .teilfoto-gross{margin:0 0 14px}
 .teilfoto-gross img{max-height:260px}
 .fw-wz .fw-fotos{margin-bottom:12px}
+/* Fotos behalten auch im Hellmodus eine schwarze Bildfläche. */
+.teilfoto,.feedbild,.fw-foto-link,.fk3 .fk-bild,.fk-bild img{background:#000;padding:0}
+.teilfoto:focus-visible,[data-produktfoto]:focus-visible,.pb-dialog button:focus-visible,.pb-dialog a:focus-visible{outline:2px solid #fff;outline-offset:-4px}
+.slot-bildzeile{position:relative;width:100%}
+.slot-bildzeile>.slot-foto{z-index:1}
+.opt-foto{float:left;width:86px;height:98px;margin:0 12px 8px 0}
+.opt:has(.opt-foto)>:first-child{min-height:100px}
+.pb-dialog{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:#000;color:#fff;overflow:hidden;color-scheme:dark}
+.pb-dialog::backdrop{background:#000}
+.pb-dialog[open]{display:flex;flex-direction:column}
+.pb-kopf{display:flex;align-items:center;gap:12px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;border-bottom:1px solid #282828;flex:none}
+.pb-kopf h2{font-size:17px;line-height:1.3;flex:1;margin:0;color:#fff;overflow-wrap:anywhere}
+.pb-dialog button{min-width:44px;min-height:44px;background:#111;border:1px solid #666;border-radius:24px;color:#fff;padding:8px 14px;cursor:pointer}
+.pb-dialog .pb-medien{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;display:flex;align-items:flex-start;padding:16px;background:#000;touch-action:pan-x pan-y}
+.pb-flaeche{width:100%;min-height:100%;flex:none;display:grid;place-items:center}
+.pb-medien:not(.pb-zoom) .pb-flaeche{height:100%;min-height:0;position:relative}
+.pb-flaeche img{display:block;object-fit:contain;width:100%;height:100%;background:#000}
+.pb-medien:not(.pb-zoom) .pb-flaeche img{position:absolute;inset:0;max-height:100%;min-height:0}
+.pb-photo-pending{visibility:hidden}
+.pb-medien.pb-zoom .pb-flaeche{width:200%;min-height:100%}
+.pb-medien.pb-zoom img{height:auto;max-height:none}
+.pb-dialog .pb-fehler{margin:auto;color:#ddd;text-align:center}
+.pb-fuss{flex:none;display:grid;gap:8px;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #282828;background:#000;font-size:12px;line-height:1.5;color:#bbb}
+.pb-fuss p{margin:0}
+.pb-werkzeuge{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pb-fuss a{display:inline-flex;align-items:center;min-height:44px;color:#fff;text-decoration:underline}
+@media(max-width:340px){.opt-foto{width:66px;height:82px;margin-right:9px}}
 @media(max-width:340px){.slot.mit-foto{padding-left:66px}.slot-foto{left:8px;width:48px;height:48px}.ek-foto{width:44px;height:44px;margin-right:8px}}
 
 .fw-bild{margin:0 0 10px}
@@ -3736,6 +3763,7 @@ details.legal p{margin:0 0 var(--sp-2)}
 :root:not([data-theme="light"]) .btn.ghost{background:#000;box-shadow:inset 0 0 0 1px var(--line)}
 :root:not([data-theme="light"]) :is(.pchip,.ibtn,.dchip,.modus-in button[aria-pressed="true"]){background:#000;border-color:var(--line)}
 :root:not([data-theme="light"]) :is(.fk3 .fk-bild,.fk-bild img){background:#000}
+.fk3 .fk-bild:not(.ohne),.fk-bild img{background:#000}
 /* Auch die bisher immer helle Startansicht folgt jetzt dem App-Design. */
 :root:not([data-theme="light"]) .ls{background:#000;color:#fff;
   --l-karte:#000;--l-ink:#fff;--l-ink2:#d6d6d6;--l-line:#333;
@@ -5638,18 +5666,24 @@ function produktBildInfo(t){
   const id = t.basisId || basisVon(t.id), au = wahlVon(t, "Ausführung");
   const daten = typeof PRODUKTBILDER === "undefined" ? {} : PRODUKTBILDER;
   const lokal = daten[id + "@" + au] || daten[id];
-  if(lokal) return {src:lokal.datei, quelle:lokal.quelle, marke:lokal.marke, lokal:true};
+  if(lokal) return {src:lokal.datei, quelle:lokal.quelle, marke:lokal.bildquelle || lokal.marke,
+    ansicht:tx(lokal.ansicht || "", lokal.ansicht_en || lokal.ansichtEN || (/Komplettrad/i.test(lokal.ansicht || "") ? "Complete bike · model reference" : "")),
+    hinweis:tx(lokal.hinweis || "", lokal.hinweis_en || lokal.hinweisEN || (lokal.hinweis ? (/Komplettrad/i.test(lokal.ansicht || "") ? "The frame model is shown as a complete bike; fitted components are for reference." : "Model reference; the shown specification and colour may differ from your build.") : "")), lokal:true};
   const angebot = angebote(t).find(a => /^https:\/\//i.test(a.b || ""));
   return angebot ? {src:angebot.b, quelle:angebot.l || "", marke:angebot.s || "", lokal:false} : null;
 }
 const produktBildUrl = t => { const b = produktBildInfo(t); return b ? b.src : ""; };
+function fotoAttribute(t){
+  const b = produktBildInfo(t); if(!b) return "";
+  return `data-produktfoto="${esc(b.src)}" data-bildname="${esc(t.nb || t.n)}" data-bildquelle="${esc(b.quelle)}" data-bildmarke="${esc(b.marke)}" data-bildhinweis="${esc(b.hinweis || b.ansicht || "")}" aria-label="${esc(tx("Bild vergrößern: ", "Enlarge image: ") + (t.nb || t.n))}"`;
+}
 function teilFoto(t, klasse){
   const b = produktBildInfo(t); if(!b) return "";
-  return `<span class="teilfoto ${klasse || ""}" title="${esc(tx("Modellansicht; Farbe und Ausführung können abweichen", "Model view; colour and specification may differ"))}"><img src="${esc(b.src)}" alt="${esc(t.nb || t.n)}" loading="lazy" decoding="async" onerror="this.parentNode.hidden=true"></span>`;
+  return `<button type="button" class="teilfoto ${klasse || ""}" ${fotoAttribute(t)}><img src="${esc(b.src)}" alt="${esc(t.nb || t.n)}" loading="lazy" decoding="async" onerror="this.parentNode.hidden=true"></button>`;
 }
 function teilFotoGross(t){
   const b = produktBildInfo(t); if(!b) return "";
-  return `<figure class="fw-foto teilfoto-gross"><a class="fw-foto-link" href="${esc(b.src)}" target="_blank" rel="noopener" aria-label="${esc(tx("Bild vergrößern: ", "Enlarge image: ") + (t.nb || t.n))}"><img src="${esc(b.src)}" alt="${esc(t.nb || t.n)}" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true"></a><figcaption><b>${esc(t.nb || t.n)}</b><small>${tx("Modellansicht · Farbe, Maße, Ausführung und Baujahr können abweichen. Gleiche sie vor dem Kauf mit der Produktseite ab.", "Model view · colour, dimensions, specification and year may differ. Check against the product page before buying.")}</small>${b.quelle ? `<a href="${esc(b.quelle)}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: ${esc(b.marke || tx("Shop", "Shop"))} ↗</a>` : ""}</figcaption></figure>`;
+  return `<figure class="fw-foto teilfoto-gross"><a class="fw-foto-link" href="${esc(b.src)}" ${fotoAttribute(t)}><img src="${esc(b.src)}" alt="${esc(t.nb || t.n)}" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true"></a><figcaption><b>${esc(t.nb || t.n)}</b>${b.hinweis || b.ansicht ? `<span>${esc(b.hinweis || b.ansicht)}</span>` : ""}<small>${tx("Modellansicht · Farbe, Maße, Ausführung und Baujahr können abweichen. Gleiche sie vor dem Kauf mit der Produktseite ab.", "Model view · colour, dimensions, specification and year may differ. Check against the product page before buying.")}</small>${b.quelle ? `<a href="${esc(b.quelle)}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: ${esc(b.marke || tx("Shop", "Shop"))} ↗</a>` : ""}</figcaption></figure>`;
 }
 
 let fotos = {traum:null, real:null, markt:null};
@@ -15295,7 +15329,7 @@ function obJahre(feld, wert, wn){
   return j.join("") + obWn(feld, wn);
 }
 const obWnAn = k => !!((build.fw || {}).wn || {})[k];
-const obTeilKarte = (slot, t, x) => `<div class="fw-teil"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot] || SU_IC.gabel, 20)}</span><span><b>${t ? esc(t.nb || t.n) : tx("Noch nicht gewählt", "Not chosen yet")}</b>${x ? `<small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "",
+const obTeilKarte = (slot, t, x) => `<div class="fw-teil">${produktBildUrl(t) ? teilFoto(t, "fw-teil-foto") : `<span class="fw-el-ic ${slot}">${ic(SU_IC[slot] || SU_IC.gabel, 20)}</span>`}<span><b>${t ? esc(t.nb || t.n) : tx("Noch nicht gewählt", "Not chosen yet")}</b>${x ? `<small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "",
   x.coil ? tx("Stahlfeder", "coil") : tx("Luftfeder", "air")].filter(Boolean).join(" · ")}</small>` : `<small>${tx("Teile wählst du im Aufbau", "You choose parts in the build")}</small>`}</span></div>`;
 /* Bezugspunkt fuer "was ist gerade eingestellt" -- so wie der Hersteller zaehlt */
 function obBezug(v){
@@ -15354,7 +15388,7 @@ function obInhalt(n, f, fw){
     const rh = build.rahmen ? findeTeil("rahmen", build.rahmen) : null, typ = radTyp(build);
     r.titel = tx("Dein Rad", "Your bike");
     r.q = tx("Welches Rad fährst du?", "Which bike do you ride?");
-    r.html = `<div class="fw-teil"><span class="fw-el-ic rad">${ic(`<circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l4-8h6l2 8M10 8l2 8"/>`, 20)}</span><span><b>${rh ? esc(rh.n) : tx("Noch kein Rahmen gewählt", "No frame chosen yet")}</b>${rh ? `<small>${esc(rh.m || "")} · ${tx("Modelljahr", "model year")} ${jahrWahl[modus]}</small>` : ""}</span></div>
+    r.html = `<div class="fw-teil">${produktBildUrl(rh) ? teilFoto(rh, "fw-teil-foto") : `<span class="fw-el-ic rad">${ic(`<circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l4-8h6l2 8M10 8l2 8"/>`, 20)}</span>`}<span><b>${rh ? esc(rh.n) : tx("Noch kein Rahmen gewählt", "No frame chosen yet")}</b>${rh ? `<small>${esc(rh.m || "")} · ${tx("Modelljahr", "model year")} ${jahrWahl[modus]}</small>` : ""}</span></div>
       <p class="su-hint">${tx("Rahmen und Modelljahr legst du im Aufbau fest — hier gelten dieselben Angaben.", "You set frame and model year in the build — the same details apply here.")}</p>
       ${fw.rj > 1990 && fw.rj !== jahrWahl[modus] ? obTipp(tx(`Früher hattest du hier Modelljahr ${fw.rj} angegeben, im Aufbau steht ${jahrWahl[modus]}. Entscheiden kannst du im Aufbau beim Modelljahr des Rahmens.`, `You previously entered model year ${fw.rj} here; the build says ${jahrWahl[modus]}. You can decide in the build at the frame's model year.`)) : ""}
       ${obGruppe(tx("Rahmengröße", "Frame size"), GROESSEN.map(g => obWahl(`data-fwwk="gr|${g.g}"`, fw.gr === g.g, g.g, g.sp, "klein")).join("") + obWn("gr", wn.gr),
@@ -16773,7 +16807,7 @@ function finderKarte(k, x, jetzt){
   const zub = pk.scheibenNeu.map(s => tx(`Scheibe ${s.pos} ${s.mm} mm`, `${s.pos === "vorn" ? "front" : "rear"} rotor ${s.mm} mm`)).concat(pk.neu.map(a => a.n), pk.folge.map(f => slotOf(f.slot).label));
   const vglAttr = `${k}|${esc(t.id)}`;
   return `<article class="fk fk3" data-fk="${esc(t.id)}">
-    <div class="fk-bild${bild ? "" : " ohne"}">${bild ? `<img src="${esc(bild)}" alt="${esc(t.nb || t.n)}" loading="lazy" onerror="this.parentNode.classList.add('ohne');this.remove()">` : ""}<span class="fk-ohne" aria-hidden="true">${gruppenIc(slotOf(k).grp)}<small>${tx("Kein Produktfoto", "No product photo")}</small></span></div>
+    ${bild ? `<button type="button" class="fk-bild" ${fotoAttribute(t)}><img src="${esc(bild)}" alt="${esc(t.nb || t.n)}" loading="lazy" decoding="async" onerror="this.parentNode.hidden=true"></button>` : `<div class="fk-bild ohne"><span class="fk-ohne" aria-hidden="true">${gruppenIc(slotOf(k).grp)}<small>${tx("Kein Produktfoto", "No product photo")}</small></span></div>`}
     <div class="fk-kern">
       <span class="fk-st ${st.k}">${st.t}</span>
       <h4 class="fk-name">${esc(t.nb || t.n)}</h4>
@@ -17350,13 +17384,13 @@ function slotZeile(s, r){
   const kern = t ? ohneDoppel(specsVon(s.k, t), titel).filter(c => { const z = zahlen(c); return !(z.length && z.every(x => awZ.indexOf(x) >= 0)) && !(awKl && awKl.indexOf(String(c).toLowerCase()) >= 0); })
     .slice(0, aw ? 1 : 2).concat(aw ? [aw] : []).join(" · ") : "";
   const p = aktivesProfil(), test = p && p.test && p.test.slot === s.k;
-  return `<button class="slot ${produktBildUrl(t) ? "mit-foto " : ""}${lvl || ""}${frischSlot === s.k ? " frisch" : ""}${s.opt && !t ? " optional" : ""}${test ? " im-test" : ""}" data-slot="${s.k}">
-      ${teilFoto(t, "slot-foto")}<span class="slot-k">${label}${test ? ` <span class="slot-test">${tx("Test", "Trial")}</span>` : ""}</span>
+  return `${produktBildUrl(t) ? '<div class="slot-bildzeile">' : ""}<button class="slot ${produktBildUrl(t) ? "mit-foto " : ""}${lvl || ""}${frischSlot === s.k ? " frisch" : ""}${s.opt && !t ? " optional" : ""}${test ? " im-test" : ""}" data-slot="${s.k}">
+      <span class="slot-k">${label}${test ? ` <span class="slot-test">${tx("Test", "Trial")}</span>` : ""}</span>
       <span class="slot-n ${t ? "" : "empty"}">${t ? esc(titel) : s.opt ? tx("Optional — hinzufügen …", "Optional — add …") : modus === "traum" ? tx("Teil wählen …", "Choose part …") : tx("Teil eintragen …", "Enter part …")}</span>
       ${t && kern ? `<span class="slot-kern">${esc(kern)}</span>` : !t ? `<span class="slot-was">${esc(s.was)}</span>` : ""}
       ${t ? fundAmTeil(r.funde, s.k) + adAmTeil(r.funde, s.k) : ""}
       <span class="slot-r">${t ? kachelPreis(t) : `<span class="g">${s.opt ? tx("optional", "optional") : tx("offen", "open")}</span>`}</span>
-    </button>${(r.adapter || []).filter(a => a.wo === s.k).map(adZeile).join("")}`;
+    </button>${produktBildUrl(t) ? teilFoto(t, "slot-foto") + "</div>" : ""}${(r.adapter || []).filter(a => a.wo === s.k).map(adZeile).join("")}`;
 }
 
 /* Kopf im Teileblatt: dein Teil mit allen Angaben, Ausfuehrung, Adaptern
@@ -18006,6 +18040,10 @@ document.addEventListener("touchmove", e => {
   const dx = e.touches[0].clientX - wischX, dy = e.touches[0].clientY - wischY;
   if(Math.abs(dx) > Math.abs(dy) && e.target.closest(".jl-reihe, .marken, .sortier, .deal-filt")) return;
   const liste = e.target.closest(".sheet-b, .ei-b");
+  if(liste && liste.matches(".pb-medien") && Math.abs(dx) > Math.abs(dy) && liste.scrollWidth > liste.clientWidth + 1){
+    if((dx > 0 && liste.scrollLeft <= 0) || (dx < 0 && liste.scrollLeft + liste.clientWidth >= liste.scrollWidth - 1)) e.preventDefault();
+    return;
+  }
   if(!liste || liste.scrollHeight <= liste.clientHeight + 1){ e.preventDefault(); return; }
   const oben = liste.scrollTop <= 0, unten = liste.scrollTop + liste.clientHeight >= liste.scrollHeight - 1;
   if((dy > 0 && oben) || (dy < 0 && unten)) e.preventDefault();
@@ -18300,7 +18338,7 @@ function oeffneSlot(slotKey, opt){
     return {gut:gut, sel:istSel, sort:[rang, -d], m:t.m || "", html:`
       <div class="opt ${istSel ? "sel" : ""}" data-passt="${gut ? 1 : 0}" data-such="${esc(such)}"
         data-m="${esc(t.m || "")}" data-p="${pJetzt}" data-g="${t.g || 0}" data-r="${a && !jf ? rabatt(a) : 0}">
-        <div><div class="opt-n">${bild ? `<img class="feedbild" src="${esc(bild)}" alt="" loading="lazy" onerror="this.remove()">` : ""}${esc(t.n)} ${tag} ${dtag} ${mtag}${t.eigen ? ` <span class="tag m">${tx("eigen", "custom")}</span>` : ""}</div>
+        <div>${bild ? teilFoto(t, "opt-foto") : ""}<div class="opt-n">${esc(t.n)} ${tag} ${dtag} ${mtag}${t.eigen ? ` <span class="tag m">${tx("eigen", "custom")}</span>` : ""}</div>
           <div class="specs">${specsVon(slotKey, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}${t.seit ? `<span class="chip">${tx("seit", "since")} ${t.seit}</span>` : ""}</div>${wahlZeile(t)}</div>
         <div class="opt-r"><span class="opt-p${a && !jf ? " livepreis" : ""}">${a && !jf ? (lst.filter(x => x.a !== 0).length > 1 ? `<small>${tx("ab", "from")}</small> ` : "") + eurG(a.p) : eur(pJetzt)}</span>
           ${preisZusatz(t)}
@@ -19864,5 +19902,6 @@ try{
   if(sessionStorage.getItem("mtb.geladen")){ sessionStorage.removeItem("mtb.geladen"); setTimeout(() => zeigeToast(tx("Sicherung geladen.", "Backup loaded.")), 400); }
 }catch(e){}
 </script>
+<script src="bilder/produkte/ansicht.js"></script>
 </body>
 </html>
