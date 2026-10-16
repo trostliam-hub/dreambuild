@@ -7,8 +7,9 @@ import {Miniflare, Response} from 'miniflare';
 const origin = 'https://trostliam-hub.github.io';
 const base = fileURLToPath(new URL('./.wrangler/tests/', import.meta.url));
 mkdirSync(base, {recursive:true});
-const valid = {question:'Was ist SAG?', parts:['RockShox ZEB Ultimate']};
-const complete = {status:'completed', output:[{type:'message', content:[{type:'output_text', text:'SAG ist der Negativfederweg.'}]}]};
+const valid = {question:'Was ist SAG?', parts:['RockShox ZEB Ultimate'], context:'Score: 92/100', resources:[{id:'r0',title:'Fahrwerk',description:'Fahrwerksrechner der App'}]};
+const completed = data => ({status:'completed', output:[{type:'message', content:[{type:'output_text', text:JSON.stringify(data)}]}]});
+const complete = completed({answer:'SAG ist der Negativfederweg.',linkIds:['r0']});
 
 async function fixture(t, overrides = {}){
   const calls = [], persisted = mkdtempSync(base + 'case-');
@@ -56,7 +57,9 @@ test('Origin, Methode, JSON und Byte-/Textgrenzen vor kostenpflichtigem Aufruf',
   assert.equal((await f.send(valid, {body:'{' })).status, 400);
   for(const data of [null, {...valid, question:' '}, {...valid, question:'x'.repeat(201)}, {...valid, parts:Array(25).fill('x')}, {...valid, parts:[123]}])
     assert.equal((await f.send(data)).status, 400);
-  assert.equal((await f.send({...valid, parts:Array(24).fill('界'.repeat(100))})).status, 413);
+  assert.equal((await f.send({...valid, parts:Array(24).fill('界'.repeat(100)), extra:'x'.repeat(5000)})).status, 413);
+  assert.equal((await f.send({...valid, context:'x'.repeat(2001)})).status, 400);
+  assert.equal((await f.send({...valid, resources:[...valid.resources,...valid.resources]})).status, 400);
   assert.equal(f.calls.length, 0);
 });
 
@@ -64,12 +67,13 @@ test('Fester OpenAI-Aufruf, keine Client-Werkzeuge oder Schlüssel in der Antwor
   const f = await fixture(t);
   const result = await f.send({...valid, model:'teuer', tools:[{type:'web_search'}], apiKey:'unerlaubt'});
   assert.equal(result.status, 200);
-  assert.deepEqual(await result.json(), {answer:'SAG ist der Negativfederweg.'});
+  assert.deepEqual(await result.json(), {answer:'SAG ist der Negativfederweg.',linkIds:['r0']});
   assert.equal(result.headers.get('Cache-Control'), 'no-store');
   const call = f.calls[0];
   assert.equal(call.url, 'https://api.openai.com/v1/responses'); assert.equal(call.method, 'POST');
   assert.equal(call.body.model, 'gpt-6-luna'); assert.equal(call.body.store, false);
   assert.equal(call.body.max_output_tokens, 800); assert.equal(call.body.tools, undefined);
+  assert.equal(call.body.reasoning.effort, 'none'); assert.equal(call.body.text.format.strict, true);
   assert.deepEqual(JSON.parse(call.body.input), valid);
   assert.equal(call.authorization, 'Bearer test-key-not-valid');
 });
@@ -119,4 +123,14 @@ test('Unvollständige oder leere Modellantworten werden nicht als Erfolg gezeigt
   assert.equal((await f.send()).status, 502);
   await f.unlock(); f.provider(200, {status:'completed', output:[]});
   assert.equal((await f.send()).status, 502); assert.equal(f.calls.length, 2);
+});
+
+test('Erfundene Links, doppelte IDs und fremde URLs werden nicht übernommen', async t => {
+  const f = await fixture(t);
+  f.provider(200, completed({answer:'Hier findest du die Einstellung.',linkIds:['r0','r0','https://fremd.example','r7']}));
+  const result = await f.send({...valid, resources:[{...valid.resources[0],url:'https://nicht-an-openai.example'}]});
+  assert.deepEqual(await result.json(), {answer:'Hier findest du die Einstellung.',linkIds:['r0']});
+  assert.deepEqual(JSON.parse(f.calls[0].body.input),valid);
+  await f.unlock(); f.provider(200, completed({answer:'x'.repeat(1801),linkIds:[]}));
+  assert.equal((await f.send()).status,502);
 });

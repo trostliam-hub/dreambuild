@@ -34,6 +34,7 @@ on:
       - "fonts/**"
       - "bilder/**"
       - "tools/**"
+      - "guide-api/cloudflare/**"
       - ".github/workflows/veroeffentlichen.yml"
       - "icon-*.png"
   workflow_dispatch:
@@ -77,6 +78,10 @@ jobs:
           name: test-ergebnis
           path: test-ergebnis.json
           if-no-files-found: warn
+      - name: KI-Server und Kostenbegrenzung pruefen (simulierte API)
+        run: |
+          npm ci --prefix guide-api/cloudflare --no-audit --no-fund
+          npm test --prefix guide-api/cloudflare
 
   stempeln:
     needs: pruefen

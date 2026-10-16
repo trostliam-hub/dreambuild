@@ -42,10 +42,14 @@ const foto = page.locator('#opt-liste [data-produktfoto="bilder/produkte/g-durol
 let vorher;
 await test('Foto öffnen erhält Rad, gespeicherte Daten, Filter und Listenposition', async () => {
   await foto.scrollIntoViewIfNeeded();
+  // Playwright bringt den Button vor dem Klick noch in eine stabile Position.
+  // Erst danach den Zustand erfassen, damit diese Vorbereitung nicht als
+  // Änderung durch das Öffnen des Fotos gewertet wird.
+  await foto.click({trial:true});
   vorher = await page.evaluate(() => ({bau:JSON.stringify(build),speicher:JSON.stringify({...localStorage}),y:document.querySelector('#modal .sheet-b').scrollTop,filter:[suchText,markeWahl,filterAlle,sortWahl].join('|')}));
   await foto.click(); await page.waitForSelector('#produktbild-dialog[open]');
   const r = await page.evaluate(() => ({bau:JSON.stringify(build),speicher:JSON.stringify({...localStorage}),y:document.querySelector('#modal .sheet-b').scrollTop,filter:[suchText,markeWahl,filterAlle,sortWahl].join('|')}));
-  check(JSON.stringify(r) === JSON.stringify(vorher), 'Teileauswahl oder Daten verändert: ' + JSON.stringify(r));
+  check(JSON.stringify(r) === JSON.stringify(vorher), 'Teileauswahl oder Daten verändert: ' + JSON.stringify(Object.fromEntries(Object.keys(r).filter(k => r[k] !== vorher[k]).map(k => [k,{vorher:vorher[k],nachher:r[k]}]))));
 });
 await test('Schwarze Großansicht zeigt das Foto vollständig und setzt Studiohintergrund auf Schwarz', async () => {
   await page.waitForFunction(() => { const i = document.querySelector('.pb-flaeche img'); return i?.naturalWidth > 0 && i.dataset.photoBackground && !i.classList.contains('pb-photo-pending'); });

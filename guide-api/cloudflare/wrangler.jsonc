@@ -9,7 +9,7 @@
   "observability": { "enabled": false },
   "vars": {
     "GUIDE_ORIGIN": "https://trostliam-hub.github.io",
-    "GUIDE_MONTHLY_REQUESTS": "0"
+    "GUIDE_MONTHLY_REQUESTS": "1000"
   },
   "durable_objects": {
     "bindings": [{ "name": "GUIDE_QUOTA", "class_name": "GuideQuota" }]

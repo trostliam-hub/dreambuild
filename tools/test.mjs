@@ -90,6 +90,14 @@ if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:
   teil('Produktfotos und Großansicht', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
 }
 
+/* 9. KI-Guide: freiwillige Nutzung, sicherer Kontext und echte App-Verweise. */
+{
+  const r = spawnSync(process.execPath, [path.join(wurzel, 'tools', 'guide-ui-test.mjs')], {cwd:wurzel, encoding:'utf8', env:process.env, maxBuffer:64e6});
+  const aus = (r.stdout || '') + (r.stderr || ''), m = aus.match(/GUIDE-UI: (\d+) Prüfungen bestanden/);
+  const ok = r.status === 0 && m && +m[1] === 16;
+  teil('KI-Guide Deutsch/Englisch', !!ok, {zeile:m ? `${m[1]} Prüfungen bestanden, Exit ${r.status}` : `keine Schlusszeile, Exit ${r.status}`, exit:r.status, fehl:ok ? [] : aus.split('\n').filter(Boolean).slice(-20), ausgabe:aus.slice(-4000)});
+}
+
 bericht.ok = gesamtOk; bericht.dauerSek = Math.round((Date.now() - start) / 1000); bericht.zeit = new Date().toISOString();
 fs.writeFileSync(path.join(wurzel, 'test-ergebnis.json'), JSON.stringify(bericht, null, 2));
 for(const t of bericht.teile) if(!t.ok && t.fehl && t.fehl.length) console.log(`\n${t.name}:\n  ` + t.fehl.join('\n  '));

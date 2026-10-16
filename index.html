@@ -5699,7 +5699,7 @@ const setzeBau = (o, frei) => {
    mehr und nicht weniger. Wer etwas an der App aendert, das Daten an Dritte
    schickt (Analyse, Schriften, Einbettungen), muss sie hier nachziehen.
    Entwurf, keine Rechtsberatung: vor dem Markteintritt pruefen lassen. */
-const RECHT_STAND = "30.09.2026";
+const RECHT_STAND = "17.10.2026";
 function impressumHtml(){
   const b = betreiber(), f = impressumFehlt();
   return `${f.length ? `<div class="fehlt">${linkVerwaltung
@@ -5722,8 +5722,9 @@ function datenschutzHtml(){
   const b = betreiber();
   const verantw = [b.name, b.zusatz, b.strasse, b.ort].filter(Boolean).map(esc).join(", ");
   return `<p><b>Kurz gesagt:</b> CrankScore braucht kein Konto, keine Anmeldung, keine Analyse- oder Tracking-Werkzeuge und
-      setzt keine Cookies. Was du eingibst, bleibt auf deinem Gerät. Nur wenn du Pro kaufst und freischaltest, prüft
-      die App deinen Lizenzcode bei Lemon Squeezy.</p>
+      setzt keine Cookies. Dein Aufbau wird auf deinem Gerät gespeichert. Bei der freiwilligen KI-Nutzung werden
+      deine Frage und Angaben zum Teileaufbau an Cloudflare und OpenAI gesendet (Abschnitt 10). Wenn du Pro kaufst
+      und freischaltest, prüft die App deinen Lizenzcode bei Lemon Squeezy.</p>
     <h4>1. Verantwortlicher</h4>
     <p>${verantw || "siehe Impressum"}${b.email ? `, E-Mail: <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ""}</p>
     <h4>2. Bereitstellung der App (Hosting)</h4>
@@ -5735,8 +5736,8 @@ function datenschutzHtml(){
       <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
     <h4>3. Speicherung auf deinem Gerät</h4>
     <p>Deine Profile, Aufbauten, Fotos und Einstellungen speichert die App im lokalen Speicher deines Browsers
-      (localStorage); für den Offline-Betrieb legt sie Programmdateien im Browser-Cache ab. Diese Daten verlassen dein
-      Gerät nicht, wir erhalten sie nicht. Das ist für die von dir gewünschte Funktion unbedingt erforderlich
+      (localStorage); für den Offline-Betrieb legt sie Programmdateien im Browser-Cache ab. Die optionale Übermittlung
+      ausgewählter Aufbauangaben an den KI-Guide ist in Abschnitt 10 beschrieben. Die lokale Speicherung ist für die von dir gewünschte Funktion unbedingt erforderlich
       (§ 25 Abs. 2 Nr. 2 TDDDG). Löschen kannst du sie jederzeit, indem du die Websitedaten in deinem Browser löschst.
       „Dieses Rad zurücksetzen“ leert nur das gerade geöffnete Rad.</p>
     <h4>4. Schriftarten und Preise</h4>
@@ -5774,12 +5775,28 @@ function datenschutzHtml(){
       Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf Grundlage
       berechtigter Interessen (Art. 21). Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren
       (Art. 77 DSGVO), etwa bei der Behörde deines Bundeslands.</p>
+    <h4>10. Freiwilliger KI-Guide</h4>
+    <p>Nur wenn du „KI verwenden“ einschaltest und eine Frage sendest, übermittelt die App den Fragetext, ausgewählte
+      Teilenamen, Einsatz, Score, fehlende Teile und begrenzte Ergebnisse der App-Prüfung über unseren Cloudflare Worker
+      an die OpenAI-API. Dazu kommen passende Wissenstexte und Linktitel aus der App. Fotos, Körperdaten aus dem
+      Fahrerprofil, Lizenzdaten und frühere Nachrichten werden nicht automatisch mitgesendet. Schreibe keine
+      persönlichen Angaben in deine Frage. Mit Ausschalten beendest du die Übermittlung für weitere Fragen.</p>
+    <p>Cloudflare verarbeitet dabei technisch notwendige Verbindungsdaten einschließlich deiner IP-Adresse. Unser
+      Worker speichert nur gemeinsame Nutzungszähler und Drosselzeiten, keine Fragen, Antworten oder IP-Adressen;
+      eigene Worker-Protokolle sind deaktiviert. OpenAI erhält die Frage und den genannten Kontext über den Server.
+      Wir fordern keine dauerhafte Speicherung abrufbarer Antworten an. OpenAI kann Inhalte dennoch zur
+      Missbrauchsüberwachung in der Regel bis zu 30 Tage speichern; Ausnahmen sind in den Anbieterhinweisen beschrieben.
+      Die Verarbeitung kann außerhalb der EU erfolgen. Details:
+      <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare-Datenschutzhinweise</a> und
+      <a href="https://developers.openai.com/api/docs/guides/your-data" target="_blank" rel="noopener">OpenAI-API-Datenverarbeitung</a>.</p>
+    <p>Der Gesprächsverlauf bleibt während der geöffneten App im Arbeitsspeicher und wird nicht als KI-Chat auf unserem
+      Server gespeichert. Die KI kann Fehler machen. Verlinkte Seiten öffnest du erst durch einen eigenen Klick.</p>
     <p style="color:var(--ink-3)">Stand: ${RECHT_STAND}</p>`;
 }
 /* Englische Fassung als Lesehilfe: gleiche Aussagen, uebersetzt. Massgeblich
    bleibt die deutsche Fassung -- sie steht darunter zum Aufklappen. Wer den
    deutschen Text aendert, zieht die englische Fassung gleich mit. */
-const RECHT_STAND_EN = "30 September 2026";
+const RECHT_STAND_EN = "17 October 2026";
 function impressumHtmlEn(){
   const b = betreiber(), f = impressumFehlt();
   return `${f.length ? `<div class="fehlt">${linkVerwaltung
@@ -5802,8 +5819,8 @@ function datenschutzHtmlEn(){
   const b = betreiber();
   const verantw = [b.name, b.zusatz, b.strasse, b.ort].filter(Boolean).map(esc).join(", ");
   return `<p><b>In short:</b> CrankScore needs no account, no sign-in, no analytics or tracking tools and
-      sets no cookies. What you enter stays on your device. Only if you buy and unlock Pro does the app
-      check your licence key with Lemon Squeezy.</p>
+      sets no cookies. Your build is stored on your device. Optional AI use sends your question and bike build
+      details to Cloudflare and OpenAI (section 10). If you buy and unlock Pro, the app checks your licence key with Lemon Squeezy.</p>
     <h4>1. Controller</h4>
     <p>${verantw || "see legal notice"}${b.email ? `, email: <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : ""}</p>
     <h4>2. Providing the app (hosting)</h4>
@@ -5815,8 +5832,8 @@ function datenschutzHtmlEn(){
       <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's privacy statement</a>.</p>
     <h4>3. Storage on your device</h4>
     <p>The app stores your profiles, builds, photos and settings in your browser's local storage
-      (localStorage); for offline use it keeps program files in the browser cache. This data doesn't leave your
-      device, and we don't receive it. This is strictly necessary for the function you have asked for
+      (localStorage); for offline use it keeps program files in the browser cache. Optional transmission of selected
+      build details to the AI guide is described in section 10. Local storage is strictly necessary for the function you have asked for
       (§ 25(2) no. 2 TDDDG). You can delete it at any time by clearing the site data in your browser.
       “Reset this bike” only clears the bike that's currently open.</p>
     <h4>4. Fonts and prices</h4>
@@ -5854,6 +5871,21 @@ function datenschutzHtmlEn(){
       processing (Art. 18), data portability (Art. 20) and the right to object to processing based on
       legitimate interests (Art. 21). You can also lodge a complaint with a data protection supervisory authority
       (Art. 77 GDPR), for example the authority of your federal state (Bundesland).</p>
+    <h4>10. Optional AI guide</h4>
+    <p>Only when you enable “Use AI” and send a question does the app send its text, selected part names, discipline,
+      score, missing parts and limited app check results through our Cloudflare Worker to the OpenAI API. Relevant
+      app knowledge and link titles are included. Photos, body measurements from your rider profile, licence data
+      and previous messages are not included automatically. Avoid personal details in your question. Switching off
+      stops transmission for further questions.</p>
+    <p>Cloudflare processes necessary connection data, including your IP address. Our Worker stores shared usage
+      counters and rate limit timestamps, not questions, answers or IP addresses; our Worker logs are disabled.
+      OpenAI receives the question and stated context through the server. We do not request persistent storage of
+      retrievable responses. OpenAI may still retain content for abuse monitoring, generally for up to 30 days;
+      exceptions are described in its documentation. Processing may occur outside the EU. Details:
+      <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare privacy policy</a> and
+      <a href="https://developers.openai.com/api/docs/guides/your-data" target="_blank" rel="noopener">OpenAI API data controls</a>.</p>
+    <p>The conversation stays in memory while the app is open and is not stored as an AI chat on our server.
+      AI can make mistakes. Linked pages open only when you click them.</p>
     <p style="color:var(--ink-3)">As of: ${RECHT_STAND_EN}</p>`;
 }
 function oeffneRecht(art){
@@ -12559,7 +12591,7 @@ function gTeilAntwort(treffer, worte){
 function gAktInfo(id){
   const i = id.indexOf(":"), art = i < 0 ? id : id.slice(0, i), arg = i < 0 ? "" : id.slice(i + 1);
   const ansicht = {befunde:tx("Zur Prüfung", "Go to Check"), upgrades:tx("Passendes Teil finden", "Find a matching part"), wunsch:tx("Zur Wunschliste", "Go to wishlist"),
-    deals:modus === "traum" ? tx("Zur Einkaufsliste", "Go to shopping list") : tx("Angebote ansehen", "View deals"), aufbau:tx("Zum Aufbau", "Go to Build")};
+    deals:modus === "traum" ? tx("Zur Einkaufsliste", "Go to shopping list") : tx("Angebote ansehen", "View deals"), aufbau:tx("Zum Aufbau", "Go to Build"), setup:tx("Zum Fahrwerk", "Go to suspension setup")};
   switch(art){
     case "pro": return [istPro() ? tx("Pro verwalten", "Manage Pro") : tx("Pro ansehen", "See Pro"), () => oeffnePro()];
     case "score": return [tx("Was bedeuten die Zahlen?", "What do the numbers mean?"), () => oeffneScoreHilfe()];
@@ -12584,11 +12616,69 @@ function guideAktion(id){ const a = gAktInfo(id); if(a) a[1](); }
 /* ── Gespraech ── */
 /* Erst nach Server-Einrichtung aktivieren. Hier steht ausschließlich eine öffentliche
    HTTPS-Adresse, niemals ein API-Schlüssel. Leer = bisheriger lokaler Guide. */
-const KI_GUIDE_URL = "";
+const KI_GUIDE_URL = "https://crankscore-guide.trostliam.workers.dev/guide";
 let gKi = false, gKiLaeuft = false;
+const gKiRestText = () => gKi ? tx(" · KI mit gemeinsamem Kontingent", " · AI with a shared allowance") : guideRestText();
 function gKiHinweis(){
   if(!KI_GUIDE_URL) return "";
-  return `<div style="padding:12px 18px;border-top:1px solid var(--line-soft)"><label><input type="checkbox" id="g-ki" ${gKi ? "checked" : ""}> ${tx("KI verwenden · online", "Use AI · online")}</label><p style="font-size:12px;margin:6px 0">${tx("Bei jeder KI-Frage werden dein Fragetext und die Namen der ausgewählten Teile an OpenAI gesendet. Keine Körperdaten und kein bisheriger Chatverlauf. Keine persönlichen Angaben eingeben. KI-Antworten können falsch sein; Fahrwerkswerte im Rechner und Modellhandbuch prüfen. Das KI-Kontingent ist begrenzt, auch mit Pro.", "Each AI question sends your question and the selected part names to OpenAI. No body measurements or earlier chat history. Avoid personal details. AI can be wrong; check suspension values in the calculator and model manual. AI usage is limited, including with Pro.")}</p></div>`;
+  return `<div style="padding:10px 18px;border-top:1px solid var(--line-soft);flex-shrink:0"><label><input type="checkbox" id="g-ki" ${gKi ? "checked" : ""}> ${tx("KI verwenden · online", "Use AI · online")}</label><p style="font-size:12px;margin:6px 0">${tx("Sendet deine Frage und deinen Teileaufbau über Cloudflare an OpenAI. KI kann sich irren. Begrenztes Kontingent, auch mit Pro.", "Sends your question and bike build through Cloudflare to OpenAI. AI can be wrong. Limited allowance, including with Pro.")}</p><details style="font-size:12px"><summary>${tx("Welche Daten werden gesendet?", "What data is sent?")}</summary><p>${tx("Teilenamen, Score, Einsatz, fehlende Teile und Hinweise der App-Prüfung sowie passende App-Wissenstexte und Linktitel. Keine Körperdaten aus dem Fahrerprofil, Fotos, Lizenzdaten oder früheren Nachrichten. Keine persönlichen Angaben in die Frage schreiben. Ausschalten beendet die Nutzung für weitere Fragen.", "Part names, score, discipline, missing parts and app check notes, plus relevant app knowledge and link titles. No body measurements from your rider profile, photos, licence data or previous messages. Avoid personal details in your question. Switching off stops AI use for further questions.")}</p><button type="button" class="btn ghost sm" data-recht="datenschutz">${tx("Datenschutz lesen", "Read privacy policy")}</button></details></div>`;
+}
+function gKiKontext(text){
+  const words = gWorte(text), normal = " " + gNorm(text) + " ", resources = [];
+  const short = (s,n) => gOhneTags(s).replace(/\s+/g," ").trim().slice(0,n);
+  const add = r => {
+    if(resources.length >= 8 || resources.some(x => r.url ? x.url === r.url : x.action === r.action)) return;
+    if(r.url){ try{ const u = new URL(r.url); if(u.protocol !== "https:" || u.username || u.password) return; }catch(e){ return; } }
+    else if(!r.action || !gAktInfo(r.action)) return;
+    resources.push({...r, id:"r" + resources.length, title:short(r.title,140), description:short(r.description || "",180)});
+  };
+  const action = (id,description) => { const a = gAktInfo(id); if(a) add({action:id,title:a[0],description}); };
+  const slot = gFinde(normal.trim().split(" "), G_SLOTWORT);
+  const parts = SLOTS.map(s => ({s,t:build[s.k] && findeTeil(s.k,build[s.k])})).filter(x => x.t);
+  const installed = x => parts.find(p => p.s.k === x.slot && (p.t.basisId || p.t.id) === (x.t.basisId || x.t.id));
+  const named = gTeilTreffer(words).filter(x => x.stark > 0)
+    .sort((a,b) => Number(!!installed(b.x)) - Number(!!installed(a.x))).slice(0,2).map(x => x.x);
+  const relevant = named.length ? named : parts.filter(x => x.s.k === slot).map(x => ({t:x.t,slot:x.s.k}));
+  for(const x of relevant.slice(0,2)){
+    const selected = installed(x);
+    const p = produktLink(selected ? selected.t : x.t);
+    if(p){
+      add({url:p.l, sponsored:true, title:x.t.n + " · " + p.s,
+        description:tx("Hinterlegte Produktseite; genaue Ausführung im Shop prüfen.", "Product page on file; check the exact version in the shop.")});
+      if(p.l2) add({url:p.l2,sponsored:true,title:x.t.n + " · " + p.s + " · " + tx("hinten","rear"),description:tx("Produktseite für hinten.","Rear product page.")});
+    }
+    const a = "such:" + x.slot + ":" + gNorm(x.t.n);
+    add({action:a,title:x.t.n + " · " + tx("Katalog","Catalogue"),description:slotOf(x.slot).was});
+  }
+  if(/ (fahrwerk|feder\w*|gabel|daempfer|sag|hsc|lsc|zugstufe|druckstufe|rebound|suspension|shock|fork|coil) /.test(normal)){
+    const names = normal + " " + parts.filter(x => /gabel|daempfer/.test(x.s.k)).map(x => x.t.m + " " + x.t.n).join(" ").toLowerCase();
+    const keys = /rockshox/.test(names) ? ["rsGuide","rsTrailhead"] : /fox/.test(names) ? ["foxSag","vFoxEasy"] : ["vGmbnDe"];
+    for(const key of keys){ const q = SU_QUELLEN[key]; if(q) add({url:q[2],title:sp2(q[1]),description:tx("Fahrwerksquelle aus der App; Modell und Baujahr beachten.", "Suspension source from the app; check model and year.")}); }
+    action("view:setup",tx("Fahrwerksrechner mit Einstellungen und Bildern; gehört zu Pro.","Suspension calculator with settings and images; part of Pro."));
+  }
+  if(slot) action("slot:" + slot, slotOf(slot).was);
+  action("view:befunde",tx("Vorhandene Teile auf Konflikte prüfen.","Check current parts for conflicts."));
+  action("view:aufbau",tx("Teile deines Fahrrads ansehen und auswählen.","View and select parts for your bike."));
+  action("begriffe",tx("MTB-Fachwörter einfach erklärt.","Simple explanations of MTB terms."));
+  const r = gR();
+  const notes = gIdx().map(x => ({e:x.e,p:gPunkte(words,x)})).filter(x => x.p >= 3 && typeof x.e.a !== "function")
+    .sort((a,b) => b.p - a.p).slice(0,2).map(x => short(sp2(x.e.t) + ": " + sp2(x.e.a),450));
+  const context = ["CrankScore: " + MODUS_NAME[modus] + "; " + tx("Einsatz", "Discipline") + ": " + selNamen(),
+    "Score: " + r.gesamt + "/100; " + tx("Teile", "Parts") + ": " + r.teile,
+    tx("Fehlend: ", "Missing: ") + gOffen().map(s => s.label).join(", "),
+    tx("App-Prüfung (keine Herstellerfreigabe): ", "App check (not manufacturer approval): ") + r.funde.filter(f => /fehler|warnung/.test(f.level)).slice(0,4).map(f => short(f.titel,150)).join("; "),
+    ...notes].join("\n").slice(0,2000);
+  const payload = {question:text, parts:parts.slice(0,24).map(x => short(x.s.label + ": " + (x.t.m || "") + " " + x.t.n,100)), context,
+    resources:resources.map(({id,title,description}) => ({id,title,description}))};
+  // Auch ungewöhnlich lange Unicode-Namen bleiben innerhalb der Servergrenze.
+  while(new TextEncoder().encode(JSON.stringify(payload)).length > 9500 && payload.parts.length) payload.parts.pop();
+  if(new TextEncoder().encode(JSON.stringify(payload)).length > 9500) payload.context = payload.context.slice(0,400);
+  return {payload,resources};
+}
+function gKiVerweise(ids, resources){
+  const selected = [...new Set(Array.isArray(ids) ? ids : [])].map(id => resources.find(r => r.id === id)).filter(Boolean).slice(0,3);
+  const links = selected.filter(r => r.url).map(r => `<a class="btn ghost sm" style="white-space:normal;text-align:left" href="${esc(r.url)}" target="_blank" rel="${r.sponsored ? "sponsored nofollow " : ""}noopener noreferrer">${r.sponsored ? tx("Anzeige · ", "Ad · ") : ""}${esc(r.title)} ↗</a>`).join("");
+  return {html:links ? `<div class="g-ak" aria-label="${tx("Links aus der App", "Links from the app")}">${links}</div>` : "", ak:selected.filter(r => r.action).map(r => r.action)};
 }
 async function gKiFrage(text){
   if(gKiLaeuft || !text) return;
@@ -12596,16 +12686,20 @@ async function gKiFrage(text){
   const pending = {wer:"bot", tippt:true};
   gVerlauf.push({wer:"du", text}, pending); gZeigen();
   try{
-    const parts = SLOTS.map(s => build[s.k] && findeTeil(s.k, build[s.k])).filter(Boolean)
-      .slice(0,24).map(t => ((t.m || "") + " " + t.n).trim().slice(0,100));
+    const {payload,resources} = gKiKontext(text);
     const r = await fetch(KI_GUIDE_URL, {method:"POST", credentials:"omit", cache:"no-store",
-      headers:{"Content-Type":"application/json"}, body:JSON.stringify({question:text, parts}),
+      headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload),
       signal:AbortSignal.timeout(35000)});
     const data = await r.json();
-    if(!r.ok || typeof data.answer !== "string" || !data.answer.trim() || data.answer.length > 12000){
+    if(r.status === 429 && data.error === "rate"){
+      const seconds = Math.max(1, Math.min(35, Number(r.headers.get("Retry-After")) || 35));
+      pending.html = tx(`Die KI beantwortet gerade eine andere Frage. Versuch es in ${seconds} Sekunden noch einmal.`, `AI is handling another question. Try again in ${seconds} seconds.`);
+    }else if(!r.ok || typeof data.answer !== "string" || !data.answer.trim() || data.answer.length > 1800){
       pending.html = tx("Die KI ist gerade nicht verfügbar oder das Kontingent ist ausgeschöpft. Du kannst „KI verwenden“ ausschalten und den lokalen Guide nutzen.", "AI is currently unavailable or its allowance is used up. Turn off “Use AI” to use the local guide.");
     }else{
-      pending.html = `<b>${tx("KI-Antwort", "AI answer")}</b><br>` + esc(data.answer).replace(/\n/g, "<br>");
+      const references = gKiVerweise(data.linkIds, resources);
+      pending.html = `<b>${tx("KI-Antwort", "AI answer")}</b><br>` + esc(data.answer).replace(/\n/g, "<br>") + references.html;
+      pending.ak = references.ak;
     }
   }catch(e){
     pending.html = tx("Keine KI-Antwort erhalten. Prüfe deine Internetverbindung oder verwende den lokalen Guide.", "No AI answer received. Check your internet connection or use the local guide.");
@@ -12700,13 +12794,13 @@ function gZeigen(){
 }
 function oeffneGuide(){
   if(!gVerlauf.length) gVerlauf.push({wer:"bot", html:gHalloText(), chips:gVorschlaege()});
-  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${tx("Frag den Guide", "Ask the guide")}<span id="g-rest">${guideRestText()}</span></span>${tx("Wie kann ich helfen?", "How can I help?")}</h3>${zuBtn}</div>
+  zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${tx("Frag den Guide", "Ask the guide")}<span id="g-rest">${gKiRestText()}</span></span>${tx("Wie kann ich helfen?", "How can I help?")}</h3>${zuBtn}</div>
     <div class="sheet-b g-b" id="g-liste" aria-live="polite">${gListeHtml()}</div>
     ${gKiHinweis()}
     <form class="sheet-f g-f" id="g-form" autocomplete="off">
       <input id="g-in" type="text" enterkeyhint="send" maxlength="200" placeholder="${tx("Frag etwas …", "Ask something …")}" aria-label="${tx("Deine Frage", "Your question")}">
       <button class="g-send" type="submit" aria-label="${tx("Senden", "Send")}">${ic(IC.senden, 18)}</button></form>`);
-  if($("g-ki")) $("g-ki").addEventListener("change", e => { gKi = e.target.checked; });
+  if($("g-ki")) $("g-ki").addEventListener("change", e => { gKi = e.target.checked; if($("g-rest")) $("g-rest").textContent = gKiRestText(); });
   const l = $("g-liste"); if(l) l.scrollTop = l.scrollHeight;
   /* Am Rechner gleich ins Feld; am Handy nicht -- sonst verdeckt die Tastatur die Antworten */
   try{ if(window.matchMedia("(pointer:fine)").matches) $("g-in").focus({preventScroll:true}); }catch(e){}
