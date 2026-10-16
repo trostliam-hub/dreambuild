@@ -55,3 +55,7 @@ Installation und Betrieb im Unterordner: `npm ci`, `npm test`, `npm run check` (
 - https://developers.cloudflare.com/workers/platform/pricing/
 - https://developers.cloudflare.com/durable-objects/get-started/
 - https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/
+
+## Veröffentlichung
+
+Online-Version **20261017-0049**, automatisch gestempelt als `23d77552a1359f61ca70c9ac08db2efea3bb9ed5`; geprüfter App-Code `c9be24e`. Workflow erfolgreich: https://github.com/trostliam-hub/dreambuild/actions/runs/38977561890 . Öffentliche HTML-Datei identisch mit dem gestempelten Checkout, PWA-Cache passend. Alle App-Prüfgruppen und 8/8 Workerprüfungen bestanden. Sechs echte API-Aufrufe einschließlich Browser-Nachtest der Setup-Link-Erkennung durchgeführt. Ein ausdrücklich erfragter Hersteller hat bei der Quellenwahl Vorrang vor anderen verbauten Marken. Ausführlicher Abschluss und Testgrenzen in CODEX-ANTWORTEN.md.
