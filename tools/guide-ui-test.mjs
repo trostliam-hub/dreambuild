@@ -77,7 +77,9 @@ try{
       koerper.notiz = 'PRIVATE-BODY-MARKER'; pro.key = 'PRIVATE-LICENCE-MARKER';
       gVerlauf.push({wer:'du',text:'PRIVATE-HISTORY-MARKER'});
       const ctx = gKiKontext('Zeig mir den Link zur Pike Gabel');
-      return {payload:ctx.payload,resources:ctx.resources,rendered:gKiVerweise(ctx.resources.map(r=>r.id),ctx.resources)};
+      return {payload:ctx.payload,resources:ctx.resources,rendered:gKiVerweise(ctx.resources.map(r=>r.id),ctx.resources),
+        setup:gKiKontext('Gib mir den RockShox-Setup-Link aus der App').resources,
+        fox:gKiKontext('Gib mir den Fox Setup Link').resources};
     });
     assert.ok(product.payload.parts.some(p => /Pike/.test(p)));
     assert.ok(product.resources.some(r => r.url === 'https://shop.example/pike'),JSON.stringify(product.resources));
@@ -85,6 +87,9 @@ try{
     assert.ok(product.resources.some(r => r.action?.startsWith('such:gabel:')));
     assert.ok(!JSON.stringify(product.payload).includes('PRIVATE-'));
     assert.ok(!JSON.stringify(product.payload).includes('https://shop.example'));
+    assert.ok(product.setup.some(r => r.url?.includes('trailhead.rockshox.com')));
+    assert.ok(product.fox.some(r => r.url?.includes('ridefox.com')));
+    assert.ok(!product.fox.some(r => /rockshox|sram\.com/.test(r.url || '')));
     checks++;
     await context.close();
   }

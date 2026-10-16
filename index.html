@@ -12650,9 +12650,13 @@ function gKiKontext(text){
     const a = "such:" + x.slot + ":" + gNorm(x.t.n);
     add({action:a,title:x.t.n + " · " + tx("Katalog","Catalogue"),description:slotOf(x.slot).was});
   }
-  if(/ (fahrwerk|feder\w*|gabel|daempfer|sag|hsc|lsc|zugstufe|druckstufe|rebound|suspension|shock|fork|coil) /.test(normal)){
-    const names = normal + " " + parts.filter(x => /gabel|daempfer/.test(x.s.k)).map(x => x.t.m + " " + x.t.n).join(" ").toLowerCase();
-    const keys = /rockshox/.test(names) ? ["rsGuide","rsTrailhead"] : /fox/.test(names) ? ["foxSag","vFoxEasy"] : ["vGmbnDe"];
+  if(/ (fahrwerk|setup|abstimmung|feder\w*|gabel|daempfer|sag|hsc|lsc|zugstufe|druckstufe|rebound|suspension|compression|shock|fork|coil) /.test(normal)
+    || relevant.some(x => /^(gabel|daempfer)$/.test(x.slot))){
+    const mentioned = relevant.filter(x => /^(gabel|daempfer)$/.test(x.slot)).map(x => x.t);
+    const names = / (rockshox|fox) /.test(normal) ? normal : (mentioned.length ? mentioned : parts.filter(x => /gabel|daempfer/.test(x.s.k)).map(x => x.t))
+      .map(t => (t.m || "") + " " + t.n).join(" ").toLowerCase();
+    const keys = [...(/rockshox/.test(names) ? ["rsGuide","rsTrailhead"] : []), ...(/fox/.test(names) ? ["foxSag","vFoxEasy"] : [])];
+    if(!keys.length) keys.push("vGmbnDe");
     for(const key of keys){ const q = SU_QUELLEN[key]; if(q) add({url:q[2],title:sp2(q[1]),description:tx("Fahrwerksquelle aus der App; Modell und Baujahr beachten.", "Suspension source from the app; check model and year.")}); }
     action("view:setup",tx("Fahrwerksrechner mit Einstellungen und Bildern; gehört zu Pro.","Suspension calculator with settings and images; part of Pro."));
   }
