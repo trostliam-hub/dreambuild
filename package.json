@@ -4,6 +4,8 @@
   "description": "CrankScore PWA — Tests (die App selbst braucht keine Pakete)",
   "scripts": {
     "test": "node tools/test.mjs",
+    "test:guide": "node --test tools/guide-api-test.mjs",
+    "test:guide-ui": "node tools/guide-ui-test.mjs",
     "test:kompat": "node tools/kompat-test.mjs",
     "test:setup": "node tools/setup-test.mjs",
     "test:wege": "node tools/wege-test.mjs",

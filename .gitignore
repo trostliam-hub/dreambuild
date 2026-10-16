@@ -12,6 +12,7 @@ desktop.ini
 *.env
 *credentials*
 *secret*
+guide-quota.json*
 
 # Python
 __pycache__/

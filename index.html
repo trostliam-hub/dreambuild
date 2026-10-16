@@ -12582,6 +12582,39 @@ function gAktInfo(id){
 }
 function guideAktion(id){ const a = gAktInfo(id); if(a) a[1](); }
 /* ── Gespraech ── */
+/* Erst nach Server-Einrichtung aktivieren. Hier steht ausschließlich eine öffentliche
+   HTTPS-Adresse, niemals ein API-Schlüssel. Leer = bisheriger lokaler Guide. */
+const KI_GUIDE_URL = "";
+let gKi = false, gKiLaeuft = false;
+function gKiHinweis(){
+  if(!KI_GUIDE_URL) return "";
+  return `<div style="padding:12px 18px;border-top:1px solid var(--line-soft)"><label><input type="checkbox" id="g-ki" ${gKi ? "checked" : ""}> ${tx("KI verwenden · online", "Use AI · online")}</label><p style="font-size:12px;margin:6px 0">${tx("Bei jeder KI-Frage werden dein Fragetext und die Namen der ausgewählten Teile an OpenAI gesendet. Keine Körperdaten und kein bisheriger Chatverlauf. Keine persönlichen Angaben eingeben. KI-Antworten können falsch sein; Fahrwerkswerte im Rechner und Modellhandbuch prüfen. Das KI-Kontingent ist begrenzt, auch mit Pro.", "Each AI question sends your question and the selected part names to OpenAI. No body measurements or earlier chat history. Avoid personal details. AI can be wrong; check suspension values in the calculator and model manual. AI usage is limited, including with Pro.")}</p></div>`;
+}
+async function gKiFrage(text){
+  if(gKiLaeuft || !text) return;
+  gKiLaeuft = true;
+  const pending = {wer:"bot", tippt:true};
+  gVerlauf.push({wer:"du", text}, pending); gZeigen();
+  try{
+    const parts = SLOTS.map(s => build[s.k] && findeTeil(s.k, build[s.k])).filter(Boolean)
+      .slice(0,24).map(t => ((t.m || "") + " " + t.n).trim().slice(0,100));
+    const r = await fetch(KI_GUIDE_URL, {method:"POST", credentials:"omit", cache:"no-store",
+      headers:{"Content-Type":"application/json"}, body:JSON.stringify({question:text, parts}),
+      signal:AbortSignal.timeout(35000)});
+    const data = await r.json();
+    if(!r.ok || typeof data.answer !== "string" || !data.answer.trim() || data.answer.length > 12000){
+      pending.html = tx("Die KI ist gerade nicht verfügbar oder das Kontingent ist ausgeschöpft. Du kannst „KI verwenden“ ausschalten und den lokalen Guide nutzen.", "AI is currently unavailable or its allowance is used up. Turn off “Use AI” to use the local guide.");
+    }else{
+      pending.html = `<b>${tx("KI-Antwort", "AI answer")}</b><br>` + esc(data.answer).replace(/\n/g, "<br>");
+    }
+  }catch(e){
+    pending.html = tx("Keine KI-Antwort erhalten. Prüfe deine Internetverbindung oder verwende den lokalen Guide.", "No AI answer received. Check your internet connection or use the local guide.");
+  }finally{
+    delete pending.tippt; gKiLaeuft = false;
+    if(gVerlauf.length > 40) gVerlauf = gVerlauf.slice(-40);
+    gZeigen();
+  }
+}
 let gVerlauf = [];
 function gHalloText(){
   const r = gR();
@@ -12669,9 +12702,11 @@ function oeffneGuide(){
   if(!gVerlauf.length) gVerlauf.push({wer:"bot", html:gHalloText(), chips:gVorschlaege()});
   zeigeSheet(`<div class="sheet-h"><h3><span class="sub">${tx("Frag den Guide", "Ask the guide")}<span id="g-rest">${guideRestText()}</span></span>${tx("Wie kann ich helfen?", "How can I help?")}</h3>${zuBtn}</div>
     <div class="sheet-b g-b" id="g-liste" aria-live="polite">${gListeHtml()}</div>
+    ${gKiHinweis()}
     <form class="sheet-f g-f" id="g-form" autocomplete="off">
       <input id="g-in" type="text" enterkeyhint="send" maxlength="200" placeholder="${tx("Frag etwas …", "Ask something …")}" aria-label="${tx("Deine Frage", "Your question")}">
       <button class="g-send" type="submit" aria-label="${tx("Senden", "Send")}">${ic(IC.senden, 18)}</button></form>`);
+  if($("g-ki")) $("g-ki").addEventListener("change", e => { gKi = e.target.checked; });
   const l = $("g-liste"); if(l) l.scrollTop = l.scrollHeight;
   /* Am Rechner gleich ins Feld; am Handy nicht -- sonst verdeckt die Tastatur die Antworten */
   try{ if(window.matchMedia("(pointer:fine)").matches) $("g-in").focus({preventScroll:true}); }catch(e){}
@@ -12680,6 +12715,11 @@ let gWarte = null;
 function guideFrage(text, id){
   text = String(text || "").trim().slice(0, 200);
   if(!text && !id) return;
+  if(gKiLaeuft) return;
+  if(gKi && KI_GUIDE_URL){
+    if(gWarte){ clearTimeout(gWarte); gWarte = null; gVerlauf = gVerlauf.filter(m => !m.tippt); }
+    gKiFrage(id ? gTitel(id) : text); return;
+  }
   if(gWarte){ clearTimeout(gWarte); gWarte = null; gVerlauf = gVerlauf.filter(m => !m.tippt); }
   const zeig = id ? gTitel(id) : text.indexOf("#teil ") === 0 ? (gKatalog().find(y => text.split(" ")[2] === y.t.id) || {t:{n:text}}).t.n : text;
   gVerlauf.push({wer:"du", text:zeig});
@@ -19722,6 +19762,7 @@ document.addEventListener("submit", e => {
   if(e.target && e.target.id === "bt-form-menu"){ e.preventDefault(); btEntsperren(($("bt-pin-menu") || {}).value, true); return; }
   if(!e.target || e.target.id !== "g-form") return;
   e.preventDefault();
+  if(gKiLaeuft) return;
   const i = $("g-in"); if(!i) return;
   guideFrage(i.value); i.value = "";
 });
