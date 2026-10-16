@@ -1,10 +1,18 @@
 import {createRequire} from 'node:module';
-import {readFileSync} from 'node:fs';
+import {readFileSync,existsSync,statSync} from 'node:fs';
 import {createServer} from 'node:http';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 const {chromium} = createRequire(import.meta.url)('playwright');
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const server = createServer((req,res) => { res.writeHead(200, {'Content-Type':'text/html'}); res.end(html); });
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const types = {'.html':'text/html','.js':'text/javascript','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.woff2':'font/woff2'};
+const server = createServer((req,res) => {
+  const file = path.resolve(root, '.' + new URL(req.url,'http://localhost').pathname);
+  if(!file.startsWith(root + path.sep) || !existsSync(file) || !statSync(file).isFile()){res.writeHead(404);res.end();return;}
+  res.writeHead(200, {'Content-Type':types[path.extname(file)] || 'application/octet-stream'}); res.end(readFileSync(file));
+});
 await new Promise(r => server.listen(0, '127.0.0.1', r));
 const url = `http://127.0.0.1:${server.address().port}/index.html`;
 const browser = await chromium.launch();
@@ -12,6 +20,7 @@ let checks = 0;
 try{
   for(const [language,width] of [['de',390], ['en',320]]){
     const context = await browser.newContext({viewport:{width,height:844}, serviceWorkers:'block'});
+    await context.route('**/*', r => r.request().url().startsWith(new URL(url).origin + '/') || r.request().url() === 'https://guide.example/guide' ? r.continue() : r.abort());
     const page = await context.newPage();
     const errors = []; page.on('pageerror', e => errors.push(e.message));
     let enabled = false, calls = 0, status = 200, payload, error = 'quota';
