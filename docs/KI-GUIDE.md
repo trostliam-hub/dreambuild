@@ -1,6 +1,6 @@
 # KI-Guide: vorbereitete Anbindung, noch nicht aktiviert
 
-Stand 16.10.2026. Auftrag: echter KI-Guide für CrankScore und Kosten vor dem Launch erklären.
+Stand 17.10.2026. Auftrag: echter KI-Guide für CrankScore und Kosten vor dem Launch erklären.
 Basis: main `91fa192`. Die Unreal-Spielentwicklung ist davon getrennt.
 
 ## Einrichtung mit Liam
@@ -15,15 +15,57 @@ Basis: main `91fa192`. Die Unreal-Spielentwicklung ist davon getrennt.
 - Hostingwahl: Cloudflare Workers Free mit SQLite Durable Object für ein
   dauerhaftes gemeinsames Kontingent. Offizielle Free-Verfügbarkeit und Preise
   am 16.10.2026 geprüft. Anmeldung im Cloudflare-Dashboard für Liam geöffnet.
-- Der bestehende Node-Entwurf braucht dafür noch eine Worker-Anpassung.
-  Erst nach Cloudflare-Zugang: kostenlosen Tarif prüfen, Worker samt Kontingent
-  bereitstellen, Schlüssel von Liam direkt als Server-Secret eintragen lassen,
-  echten API-Test durchführen und dann App-Anbindung veröffentlichen.
+- Cloudflare-Anmeldung erfolgreich; „Free / $0 / Current plan“ am 17.10.2026
+  im Konto selbst geprüft. Worker-Anpassung in `guide-api/cloudflare/` vorbereitet
+  und lokal getestet. Noch keine Cloudflare-Ressource angelegt.
+- Als Nächstes: Uploadzugriff freigeben, Worker samt Kontingent bereitstellen,
+  Schlüssel von Liam direkt als Server-Secret eintragen lassen, echten API-Test
+  durchführen, Datenhinweise ergänzen und dann App-Anbindung veröffentlichen.
 - Keine kostenpflichtige Cloudflare-Buchung und keine erneute Aufladung
   automatisch vornehmen. Bei Secret-Einrichtung neuen Wert nicht im Chat,
   Browser-Snapshot, Screenshot, Protokoll oder Quelltext ausgeben.
 
 Hostingquelle: https://developers.cloudflare.com/workers/platform/pricing/
+
+## Cloudflare-Version (für den geplanten Betrieb)
+
+`guide-api/cloudflare/worker.mjs` ist die eigenständige Worker-Version. Installation
+und Befehle im Unterordner: `npm ci`, `npm test`, `npm run check` (Trockenlauf),
+`npm run deploy`. Paketversionen und Lockfile sind festgeschrieben. Keine Änderung
+an den npm-Abhängigkeiten der eigentlichen PWA.
+
+- Workers Free, ein SQLite Durable Object `GuideQuota`, fester gemeinsamer Name
+  `global-budget-v1`. Namen, Namespace und gespeicherte Zähler bei Updates erhalten.
+- `GUIDE_MONTHLY_REQUESTS` startet bei **0**. Maximal 1.000 Versuche/UTC-Monat im
+  Code erlaubt, außerdem 100/UTC-Tag und ein Versuch alle 35 Sekunden gemeinsam.
+  Vorgesehen ist zunächst 1.000/Monat nach erfolgreichem Verbindungstest.
+- Die Reservierung wird vor dem OpenAI-Aufruf atomar auf dauerhaftem Speicher
+  bestätigt. Fehlgeschlagene und unvollständige Aufrufe zählen mit. Kein Retry.
+- Anfragen maximal 5.000 UTF-8-Bytes, 200 Zeichen Frage, 24 Teilenamen à 100 Zeichen.
+  Festes Modell gpt-6-luna, maximal 800 Ausgabetokens, keine Tools. Diese Grenzen
+  schaffen bei den dokumentierten Preisen deutlichen Abstand zum 5-Euro-Budget,
+  sind aber keine vom Anbieter garantierte Euro-Kostensperre.
+- Nur Monats-/Tageszähler und Drosselzeit werden in unserer Datenbank gespeichert.
+  Keine IP-Adressen, Fragen, Antworten oder Profile dort; Worker-Logs deaktiviert.
+  Cloudflare verarbeitet dennoch technisch notwendige Verbindungsdaten.
+- `OPENAI_API_KEY` ausschließlich als Cloudflare Secret. CORS bleibt ausdrücklich
+  keine Anmeldung: Ein direkter Client kann das gemeinsame Kontingent ausschöpfen,
+  aber die serverseitige Obergrenze damit nicht erhöhen.
+- Ohne Secret oder mit Kontingent 0/ungültig antwortet die KI-Route mit 503.
+  `GET /` zeigt nur Dienstname und Konfigurationsbereitschaft, prüft nicht OpenAI.
+- Drosselantworten tragen `Retry-After`. Vor Frontend-Aktivierung dort eine passende
+  Warte-Meldung ergänzen und den Datenschutzhinweis um Cloudflare/OpenAI erweitern.
+
+Prüfungen: 7/7 Tests in echter lokaler workerd/SQLite-Laufzeit mit vollständig
+simulierter OpenAI-API, einschließlich 12 paralleler Anfragen, Neustart,
+Tages-/Monatswechsel, ungültigem Zustand, Eingabegrenzen und Providerfehlern.
+Wrangler-Trockenlauf erfolgreich. Keine echten OpenAI-Aufrufe bisher.
+
+Cloudflare-Referenzen:
+- https://developers.cloudflare.com/durable-objects/get-started/
+- https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/
+
+## Bisheriger Node-Entwurf und App-Anbindung
 
 Der bisherige Guide bleibt lokal. `KI_GUIDE_URL` in index.html ist absichtlich leer.
 Nach Konfiguration erscheint im Guide eine freiwillige KI-Auswahl mit Datenhinweis.

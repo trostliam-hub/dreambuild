@@ -13,6 +13,8 @@ desktop.ini
 *credentials*
 *secret*
 guide-quota.json*
+.dev.vars*
+.wrangler/
 
 # Python
 __pycache__/
