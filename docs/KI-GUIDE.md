@@ -3,6 +3,28 @@
 Stand 16.10.2026. Auftrag: echter KI-Guide für CrankScore und Kosten vor dem Launch erklären.
 Basis: main `91fa192`. Die Unreal-Spielentwicklung ist davon getrennt.
 
+## Einrichtung mit Liam
+
+- Freigegeben: maximal 5 Euro pro Monat insgesamt für KI und Server.
+- OpenAI-Konto eingerichtet. Im Dashboard 5 USD Guthaben gesehen und
+  automatisches Nachladen auf OFF gestellt und danach geprüft. Das ist noch
+  keine garantierte monatliche Euro-Kostensperre.
+- Liam hat den vorbereiteten Schlüssel selbst erstellt und gespeichert.
+  Name: CrankScore Guide; Responses Write, eingeschränkt, 30 Tage Gültigkeit.
+  Schlüsselwert wurde weder ausgelesen noch im Repository gespeichert.
+- Hostingwahl: Cloudflare Workers Free mit SQLite Durable Object für ein
+  dauerhaftes gemeinsames Kontingent. Offizielle Free-Verfügbarkeit und Preise
+  am 16.10.2026 geprüft. Anmeldung im Cloudflare-Dashboard für Liam geöffnet.
+- Der bestehende Node-Entwurf braucht dafür noch eine Worker-Anpassung.
+  Erst nach Cloudflare-Zugang: kostenlosen Tarif prüfen, Worker samt Kontingent
+  bereitstellen, Schlüssel von Liam direkt als Server-Secret eintragen lassen,
+  echten API-Test durchführen und dann App-Anbindung veröffentlichen.
+- Keine kostenpflichtige Cloudflare-Buchung und keine erneute Aufladung
+  automatisch vornehmen. Bei Secret-Einrichtung neuen Wert nicht im Chat,
+  Browser-Snapshot, Screenshot, Protokoll oder Quelltext ausgeben.
+
+Hostingquelle: https://developers.cloudflare.com/workers/platform/pricing/
+
 Der bisherige Guide bleibt lokal. `KI_GUIDE_URL` in index.html ist absichtlich leer.
 Nach Konfiguration erscheint im Guide eine freiwillige KI-Auswahl mit Datenhinweis.
 Jede Frage sendet nur ihren Text und maximal 24 ausgewählte Teilenamen, keine
