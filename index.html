@@ -3745,6 +3745,13 @@ details.legal p{margin:0 0 var(--sp-2)}
 .slot-ad svg{flex:none;margin-top:2px;color:var(--anod)}
 .slot-ad b{font-weight:700;color:var(--ink)}
 .pz-ad b:first-child{color:var(--anod)}
+.brems-ad-auto{clear:both;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.brems-ad-auto h4{margin:0 0 5px;font-size:14px}
+.brems-ad-auto p{margin:0 0 10px;color:var(--ink-2);font-size:13px;line-height:1.5}
+.brems-ad-seite{margin-top:10px;min-width:0}
+.brems-ad-seite>strong{font-size:13px}
+.brems-ad-seite .ad-zeile{margin:6px 0 0}
+.brems-ad-seite>p{margin:4px 0 0}
 </style>
 
 <style>
@@ -16058,9 +16065,34 @@ function adapterMeldung(vor, nach){
   const dazu = (nach || []).filter(a => !s.has(adSchl(a))), weg = (vor || []).filter(a => !n.has(adSchl(a)));
   const pos = a => a.pos ? " " + a.pos : "", posEn = a => a.pos ? ` (${a.pos})` : "";
   const t = [];
-  for(const a of dazu) t.push(tx(`Adapter${pos(a)} automatisch dazugenommen: ${adName(a)} (${eur(a.p || 0)}).`, `Adapter added automatically${posEn(a)}: ${adName(a)} (${eur(a.p || 0)}).`) + (adMontageHinweis(a) ? " " + adMontageHinweis(a) : ""));
-  for(const a of weg) t.push(tx(`Adapter${pos(a)} entfällt: ${adName(a)}.`, `Adapter no longer needed${posEn(a)}: ${adName(a)}.`));
+  for(const a of dazu){
+    const alt = weg.find(x => x.id === a.id);
+    if(alt){
+      const groesse = a.art === "bremse" && a.grafik ? tx(` Für die ${a.grafik.scheibe}-mm-Scheibe nötig.`, ` Needed for the ${a.grafik.scheibe} mm rotor.`) : "";
+      t.push(tx(`Adapter${pos(a)} automatisch gewechselt: ${adName(alt)} → ${adName(a)} (${eur(a.p || 0)}).`, `Adapter changed automatically${posEn(a)}: ${adName(alt)} → ${adName(a)} (${eur(a.p || 0)}).`) + groesse);
+    }else t.push(tx(`Adapter${pos(a)} automatisch dazugenommen: ${adName(a)} (${eur(a.p || 0)}).`, `Adapter added automatically${posEn(a)}: ${adName(a)} (${eur(a.p || 0)}).`) + (adMontageHinweis(a) ? " " + adMontageHinweis(a) : ""));
+  }
+  for(const a of weg.filter(x => !dazu.some(y => y.id === x.id))) t.push(tx(`Adapter${pos(a)} entfällt: ${adName(a)}.`, `Adapter no longer needed${posEn(a)}: ${adName(a)}.`));
   return t.join(" ");
+}
+/* Immer aus dem aktuellen Aufbau ableiten: kein gespeicherter Adapter kann
+   nach einem Scheiben-, Bremsen-, Gabel- oder Rahmenwechsel veralten. */
+function bremsAdapterHtml(t, r){
+  if(t.mount === "Felge") return "";
+  const seiten = [["gabel", "sV", "pmV", "vrAufnahme", "v", tx("Vorn", "Front")], ["rahmen", "sH", "pmHR", "hrAufnahme", "h", tx("Hinten", "Rear")]];
+  const zeilen = seiten.map(([slot, mmKey, pmKey, typKey, pos, titel]) => {
+    const mm = t[mmKey], teil = build[slot] ? findeTeil(slot, build[slot]) : null;
+    const ad = (r.adapter || []).find(a => a.art === "bremse" && a.wo === slot);
+    const ang = teil && !teil[pmKey] ? angabeVon(build, teil) : null;
+    const nativ = teil && (teil[pmKey] || (ang && ang.nativ)), typ = teil && (teil[pmKey] ? teil[typKey] || "PM" : ang && ang.typ);
+    const max = teil ? maxScheibe(build, teil, pos) : null;
+    let text = tx("Adapterbedarf offen — Aufnahme angeben.", "Adapter requirement unknown — add the mount details.");
+    if(!teil) text = slot === "gabel" ? tx("Gabel wählen, damit die App den Adapter bestimmen kann.", "Choose a fork so the app can determine the adapter.") : tx("Rahmen wählen, damit die App den Adapter bestimmen kann.", "Choose a frame so the app can determine the adapter.");
+    else if((max != null && mm > max) || (typ === "PM" && mm < nativ)) text = tx("Diese Scheibengröße passt nicht zur Aufnahme oder Freigabe. Ein Adapter löst das nicht.", "This rotor size does not fit the mount or its rating. An adapter cannot fix that.");
+    else if(typ === "PM" && mm === nativ) text = tx("Kein Adapter nötig — die Scheibe passt direkt zur Aufnahme.", "No adapter needed — the rotor fits the mount directly.");
+    return `<div class="brems-ad-seite" data-bremsadapter="${slot}"><strong>${titel}${mm ? " · " + mm + " mm" : ""}</strong>${ad ? adZeile(ad) + `<p>${esc(adMontageHinweis(ad))}</p>` : `<p>${text}</p>`}</div>`;
+  }).join("");
+  return `<section class="brems-ad-auto" aria-label="${tx("Automatische Bremsadapter", "Automatic brake adapters")}"><h4>${tx("Adapter passen sich automatisch an", "Adapters update automatically")}</h4><p>${tx("Wechselst du Bremse, Scheiben, Gabel oder Rahmen, plant die App die nötigen Adapter neu ein. Hier siehst du, welche du montieren musst.", "When you change brakes, rotors, fork or frame, the app updates the required adapters. Here is what you need to fit.")}</p>${zeilen}</section>`;
 }
 /* Unter dem Teil, das den Adapter verlangt, aber nicht traegt (Bremse -> Adapter an der Gabel) */
 function adAmTeil(funde, slotKey){
@@ -16610,7 +16642,8 @@ function kgSatz(e){
    Teil nur in einer anderen Ausfuehrung (Freilauf, Scheibe, Klemmung),
    gehoert die Umstellung ins Paket. Bei Bremsen gehoeren die Scheiben dazu
    (BEVEL-003): ob die verbauten bleiben koennen, steht als eigene Zeile. */
-const adSchl = a => a.id + "|" + (a.kurz || a.n);
+/* Auch einen anderen Artikel bei gleicher Scheibengroesse als Wechsel melden. */
+const adSchl = a => a.id + "|" + (a.kurz || a.n) + "|" + (a.artikel ? a.artikel.n : "");
 /* Scheiben beim Bremsenwechsel: gleiche Marke und Groesse bleiben; sonst neu,
    weil Scheibendicke und Belag nur mit Scheiben des Herstellers freigegeben
    sind. Aufnahme wie die Naben (Center Lock oder 6-Loch). Preis steht nicht
@@ -17546,7 +17579,7 @@ function deinTeilHtml(k){
     <div class="specs">${specsVon(k, t).map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div>
     ${kachelZusatz(k, t) ? `<div class="dt-zus">${kachelZusatz(k, t)}</div>` : ""}
     ${t.v ? `<div class="dt-var">${varLeiste(k, t)}</div>` : ""}
-    ${ads.length ? `<div class="dt-ad">${ads.map(adZeile).join("")}</div>` : ""}
+    ${k === "bremsen" ? bremsAdapterHtml(t, r) : ads.length ? `<div class="dt-ad">${ads.map(adZeile).join("")}</div>` : ""}
     ${f ? `<div class="fund-hier${f.level === "warnung" ? " w" : ""}"><b>${f.level === "fehler" ? tx("Darum passt es gerade nicht", "Why it doesn't fit right now") : tx("Kompromiss", "Compromise")}: ${esc(f.titel)}.</b> ${f.text}</div>` : ""}
     ${frage ? `<div class="fund-hier offen"><b>${esc(frage.titel)}.</b> ${frage.text} <button class="btn ghost sm" data-frage="${frage.frage.k}">${tx("Angabe ergänzen", "Add the detail")}</button></div>` : ""}
     <div class="dt-akt"><button class="btn ghost sm" data-detail="${k}|${esc(t.id)}">${tx("Preise und Daten", "Prices and specs")}</button>
@@ -19432,7 +19465,7 @@ document.addEventListener("click", e => {
       if(offenerSlot === sk && $("modal").querySelector(".sheet")) oeffneSlot(sk);
       /* Andere Scheibe, anderer Freilauf: kommt dadurch ein Adapter dazu oder faellt weg, steht es da */
       const adTxt = adapterMeldung(adVor, bewerte(build).adapter);
-      if(adTxt) zeigeToast(adTxt, 5200);
+      if(adTxt) zeigeToast(adTxt, 8000);
     }
     return;
   }

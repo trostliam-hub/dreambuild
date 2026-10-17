@@ -221,6 +221,90 @@ const PRUEFUNGEN = [
       && /Fitting note: the 203 mm rotor \(front\) needs the adapter between the fork and brake caliper/.test(r.en)
       && r.preisGewicht && r.ohneAdapter === 0 && r.ohneHinweis;
     return {ok:ok && montageOk, info:r}; }],
+  ['Scheibenwechsel 203/203 → 220/203 → 180/180: Adapterwechsel je Seite, keine Doppel, Reload (DE/EN, Mein Rad/Traumrad)', async () => {
+    const resultate = [];
+    for(const [spr, modusTest, breite] of [['de', 'real', 390], ['en', 'traum', 320]]){
+      await neu(spr); await seite.setViewportSize({width:breite, height:844});
+      const selector = await ev(m => {
+        wechsle(m); build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.angaben = {'f-stumpy|max':{max:203}};
+        const b = rohTeil('bremsen', 'b-xt'), i = b.v.findIndex(d => d.k === 'Scheiben'), w = findeTeil('bremsen', 'b-xt').wahl.slice();
+        w[i] = b.v[i].o.findIndex(o => o.s.sV === 203 && o.s.sH === 203); build.bremsen = varianteNachIndex(b, w).id;
+        sichern(); zeichne(); oeffneSlot('bremsen', {tab:'alle'});
+        return {gross:`bremsen|${i}|${b.v[i].o.findIndex(o => o.s.sV === 220 && o.s.sH === 203)}`, klein:`bremsen|${i}|${b.v[i].o.findIndex(o => o.s.sV === 180 && o.s.sH === 180)}`};
+      }, modusTest);
+      await seite.locator('#modal [data-varauf="bremsen"]').click();
+      await seite.locator(`#modal [data-var="${selector.gross}"]`).click();
+      const gross = await ev(() => ({
+        ads:bewerte(build).adapter.filter(a => a.art === 'bremse').map(a => ({id:a.id, n:a.n, mm:a.grafik.scheibe})),
+        meldung:$('toast').textContent, html:$('modal').querySelector('.brems-ad-auto').textContent,
+        overflow:$('modal').querySelector('.sheet-b').scrollWidth > $('modal').querySelector('.sheet-b').clientWidth + 1,
+        bremsen:build.bremsen
+      }));
+      await seite.reload(); await bereit();
+      const geladen = await ev(() => ({id:build.bremsen, ads:bewerte(build).adapter.filter(a => a.art === 'bremse').map(a => a.n), einkauf:einkaufHtml(bewerte(build))}));
+      await ev(() => oeffneSlot('bremsen', {tab:'alle'}));
+      await seite.locator('#modal [data-varauf="bremsen"]').click();
+      await seite.locator(`#modal [data-var="${selector.klein}"]`).click();
+      const klein = await ev(() => ({ads:bewerte(build).adapter.filter(a => a.art === 'bremse').length, meldung:$('toast').textContent, html:$('modal').querySelector('.brems-ad-auto').textContent}));
+      const ok = gross.ads.length === 2 && gross.ads.find(a => a.id === 'brems-v').mm === 220 && gross.ads.find(a => a.id === 'brems-h').mm === 203
+        && /SM-MA-F203P\/PM → Shimano SM-MA-F220P\/PM/.test(gross.meldung)
+        && (spr === 'de' ? /Adapter vorn automatisch gewechselt/.test(gross.meldung) && !/Adapter hinten/.test(gross.meldung) : /Adapter changed automatically \(front\)/.test(gross.meldung) && !/\(rear\)/.test(gross.meldung))
+        && /220 mm/.test(gross.html) && /203 mm/.test(gross.html) && !gross.overflow
+        && geladen.id === gross.bremsen && geladen.ads.every(n => gross.ads.some(a => a.n === n))
+        && (modusTest !== 'traum' || geladen.ads.every(n => geladen.einkauf.includes(n)))
+        && klein.ads === 0 && (spr === 'de' ? (klein.html.match(/Kein Adapter nötig/g) || []).length === 2 && /Adapter vorn entfällt/.test(klein.meldung) && /Adapter hinten entfällt/.test(klein.meldung)
+          : (klein.html.match(/No adapter needed/g) || []).length === 2 && /no longer needed \(front\)/.test(klein.meldung) && /no longer needed \(rear\)/.test(klein.meldung));
+      resultate.push({ok, spr, gross, geladen, klein});
+    }
+    await seite.setViewportSize({width:390, height:844});
+    return {ok:resultate.every(r => r.ok), info:resultate}; }],
+  ['Bremsenmarke bei gleicher Scheibengroesse wechseln: neuer Artikel wird gemeldet, bezahlt und mit Rueckgaengig wiederhergestellt', async () => {
+    await neu();
+    const id = await ev(() => {
+      build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern(); zeichne();
+      oeffneSlot('bremsen', {tab:'alle'});
+      return kandidaten('bremsen', build).find(t => basisVon(t.id) === 'b-mt7').id;
+    });
+    const vorher = await ev(id => {
+      const pk = paketFuer('bremsen', id);
+      return {id:build.bremsen, ad:bewerte(build).adapter.find(a => a.id === 'brems-v').n, neu:pk.neu.map(a => a.n), weg:pk.weg.map(a => a.n), weiter:pk.weiter.map(a => a.n), preis:pk.adPreis};
+    }, id);
+    await seite.locator(`#modal [data-einbau="bremsen|${id}"]`).click();
+    const nach = await ev(() => ({ad:bewerte(build).adapter.find(a => a.id === 'brems-v').n, meldung:$('toast').textContent, verlauf:verlaufListe()[0]}));
+    await seite.locator('#toast .toast-zurueck').click();
+    const zurueck = await ev(() => ({id:build.bremsen, ad:bewerte(build).adapter.find(a => a.id === 'brems-v').n}));
+    return {ok:/Shimano/.test(vorher.ad) && vorher.neu.some(n => /Magura QM44/.test(n)) && vorher.weg.includes(vorher.ad) && !vorher.weiter.includes(vorher.ad) && vorher.preis > 0
+      && /Magura QM44/.test(nach.ad) && /Adapter vorn automatisch gewechselt/.test(nach.meldung) && nach.verlauf.neu.includes(nach.ad)
+      && zurueck.id === vorher.id && zurueck.ad === vorher.ad, info:{vorher, nach, zurueck}}; }],
+  ['Gabel und Rahmen wechseln: Adapter werden aus der neuen Aufnahme abgeleitet', async () => {
+    await neu();
+    const r = await ev(() => {
+      build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern(); zeichne();
+      uebernehmen('gabel', 'g-zeb', 'test');
+      const g = bewerte(build).adapter.find(a => a.id === 'brems-v'), meldung = $('toast').textContent;
+      rueckgaengigLetzte(); const zurueck = bewerte(build).adapter.find(a => a.id === 'brems-v');
+      uebernehmen('rahmen', 'f-oiz', 'test');
+      const h = bewerte(build).adapter.find(a => a.id === 'brems-h');
+      return {g:g && g.grafik, meldung, zurueck:zurueck && zurueck.grafik, h:h && h.grafik};
+    });
+    return {ok:r.g && r.g.nativ === 200 && r.g.scheibe === 203 && /Adapter vorn automatisch gewechselt/.test(r.meldung)
+      && r.zurueck.nativ === 180 && r.h && r.h.aufnahme === 'FM', info:r}; }],
+  ['Adapteruebersicht: unbekannte und unzulaessige Masse bleiben offen bzw. unpassend; native Aufnahme ohne Adapter; Felgenbremse ohne Disc-Hinweis', async () => {
+    await neu();
+    const r = await ev(() => {
+      build.rahmen = 'f-stumpy'; build.gabel = 'g-recon'; build.bremsen = 'b-xt'; build.angaben = {};
+      const lesen = () => { zeichne(); oeffneSlot('bremsen', {tab:'alle'}); return $('modal').querySelector('[data-bremsadapter="gabel"]').textContent; };
+      const offen = lesen();
+      build.gabel = 'g-pike'; const b = rohTeil('bremsen', 'b-xt'), w = findeTeil('bremsen', 'b-xt').wahl.slice(), i = b.v.findIndex(d => d.k === 'Scheiben');
+      w[i] = b.v[i].o.findIndex(o => o.s.sV === 220 && o.s.sH === 203); build.bremsen = varianteNachIndex(b, w).id;
+      build.angaben['g-pike|max'] = {max:200}; const zuGross = lesen();
+      build.gabel = 'g-fox40'; build.bremsen = 'b-xt'; const direkt = lesen();
+      w[i] = b.v[i].o.findIndex(o => o.s.sV === 180 && o.s.sH === 180); build.bremsen = varianteNachIndex(b, w).id; const zuKlein = lesen();
+      const felge = bremsAdapterHtml({mount:'Felge'}, bewerte(build));
+      return {offen, zuGross, direkt, zuKlein, felge};
+    });
+    return {ok:/Adapterbedarf offen/.test(r.offen) && /Ein Adapter löst das nicht/.test(r.zuGross) && /Kein Adapter nötig/.test(r.direkt)
+      && /Ein Adapter löst das nicht/.test(r.zuKlein) && r.felge === '', info:r}; }],
   /* BEVEL-003 Abschnitt 5: die im Audit angebotene 220/203 ausdruecklich -- vorn belegt (Pike ab 2023: 220 mm),
      hinten am Stumpjumper Alloy nicht belegt: "Noch zu pruefen" mit Frage, keine bestaetigte Passform */
   ['Adapter konkret und Freigabe 220/203: Artikel je Position, unbelegte Freigabe wird erfragt statt bestaetigt', async () => {
