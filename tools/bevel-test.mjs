@@ -62,9 +62,11 @@ const PRUEFUNGEN = [
     /* Kraft darf nur "gleiches Modell, groessere Scheiben" zeigen -- keine fremde Bremse */
     const ok = ['wartung', 'kraft', 'leicht'].every(z => r[z].treffer === 0 && r[z].behalten && r[z].grund) && r.kraft.kacheln === (r.kraft.variante ? 1 : 0) && r.wartung.kacheln === 0 && r.leicht.kacheln === 0;
     return {ok, info:r}; }],
-  ['Kein Ziel vorbelegt: Auswahl startet bei Schritt 1, Marke und Budget bleiben bei null Ergebnissen erreichbar', async () => {
+  ['Optionale Beratung: Kachel startet ohne vorbelegtes Ziel bei Schritt 1, Marke und Budget bleiben bei null Ergebnissen erreichbar', async () => {
     await neu();
     const r = await ev(() => { build.bremsen = 'b-xt'; sichern(); zeichne(); $('aufbau').querySelector('.verb [data-slot="bremsen"]').click();
+      const sucheZuerst = !!$('suche-in') && !$('fi');
+      $('modal').querySelector('.ts-beratung').click();
       const start = {schritt:$('fi').dataset.schritt, ziel:finder.ziel, gewaehlt:$('fi').querySelectorAll('[data-fiziel][aria-pressed="true"]').length, kacheln:$('fi').querySelectorAll('.fk3').length};
       $('fi').querySelector('[data-fiziel="sparen"]').click(); const s2 = $('fi').dataset.schritt;
       $('fi').querySelector('[data-fimarke="Trickstuff"]').click(); $('fi').querySelector('.fi-weiter .btn').click(); const s3 = $('fi').dataset.schritt;
@@ -73,10 +75,54 @@ const PRUEFUNGEN = [
       const null0 = {schritt:$('fi').dataset.schritt, kacheln:$('fi').querySelectorAll('.fk3').length, sum:$('fi').querySelectorAll('.fi-sum [data-fischritt]').length,
         marke:/Trickstuff/.test($('fi').querySelector('.fi-sum').textContent), budget:/50/.test($('fi').querySelector('.fi-sum').textContent)};
       $('fi').querySelector('.fi-sum [data-fischritt="marke"]').click(); const korr = {schritt:$('fi').dataset.schritt, chips:$('fi').querySelectorAll('[data-fimarke]').length};
-      schliesse(); return {start, s2, s3, null0, korr}; });
-    const ok = r.start.schritt === 'ziel' && r.start.ziel === '' && r.start.gewaehlt === 0 && r.start.kacheln === 0 && r.s2 === 'marke' && r.s3 === 'budget'
+      schliesse(); return {sucheZuerst, start, s2, s3, null0, korr}; });
+    const ok = r.sucheZuerst && r.start.schritt === 'ziel' && r.start.ziel === '' && r.start.gewaehlt === 0 && r.start.kacheln === 0 && r.s2 === 'marke' && r.s3 === 'budget'
       && r.null0.schritt === 'erg' && r.null0.kacheln === 0 && r.null0.sum === 3 && r.null0.marke && r.null0.budget && r.korr.schritt === 'marke' && r.korr.chips > 5;
     return {ok, info:r}; }],
+  ['Selbst suchen ohne Fragen: alle Modi, DE/EN, Kachel per Tastatur, Suchfilter erhalten, direkter Einbau und Rueckgaengig', async () => {
+    const resultate = [];
+    for(const [m, spr, breite] of [['real','de',390],['traum','en',320],['markt','de',1280]]){
+      await neu(spr); await seite.setViewportSize({width:breite,height:844});
+      const vorher = await ev(m => {
+        wechsle(m); build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-xt';
+        zuGeklappt.Bremsen = 0; view = 'aufbau'; sichern(); zeichne(); return JSON.stringify(build);
+      }, m);
+      await seite.locator('#aufbau .slot[data-slot="bremsen"]').click();
+      const start = await ev(() => ({suche:!!$('suche-in'), optional:!!$('modal').querySelector('.ts-beratung'), finder:!!$('fi'), details:$('modal').querySelector('.ts-dein').open,
+        sichtbar:$('suche-in').getBoundingClientRect().bottom < window.innerHeight, oben:$('suche-in').getBoundingClientRect().top < $('modal').querySelector('.ts-beratung').getBoundingClientRect().top}));
+      await seite.locator('#modal [data-filt="0"]').click();
+      await seite.locator('#modal [data-mfilt="Magura"]').click();
+      await seite.locator('#suche-in').fill('MT7');
+      const trefferVor = await seite.locator('#opt-liste .opt:visible').count();
+      await seite.locator('.ts-beratung').focus(); await seite.keyboard.press('Enter');
+      const beratung = await ev(() => ({schritt:$('fi').dataset.schritt,ziel:finder.ziel}));
+      await seite.locator('#fi .ts-selbst').click();
+      const zurueck = await ev(() => ({text:$('suche-in').value,marke:markeWahl,alle:filterAlle,
+        bau:JSON.stringify(build),finder:!!$('fi'),ueberstand:$('modal').querySelector('.sheet-b').scrollWidth > $('modal').querySelector('.sheet-b').clientWidth + 1}));
+      const trefferNach = await seite.locator('#opt-liste .opt:visible').count();
+      await seite.locator('#opt-liste .opt:visible [data-einbau^="bremsen|b-mt7"]').first().click();
+      const eingebaut = await ev(() => basisVon(build.bremsen) === 'b-mt7');
+      await seite.locator('#toast .toast-zurueck').click();
+      const undo = await ev(() => JSON.stringify(build));
+      resultate.push({m,start,beratung,trefferVor,trefferNach,zurueck, eingebaut,undo:undo === vorher,
+        ok:start.suche && start.optional && !start.finder && !start.details && start.sichtbar && start.oben && beratung.schritt === 'ziel' && beratung.ziel === ''
+          && trefferVor > 0 && trefferVor === trefferNach && zurueck.text === 'MT7' && zurueck.marke === 'Magura' && zurueck.alle && !zurueck.finder && !zurueck.ueberstand && zurueck.bau === vorher && eingebaut && undo === vorher});
+    }
+    await seite.setViewportSize({width:390,height:844});
+    return {ok:resultate.every(r => r.ok),info:resultate}; }],
+  ['Alle Teilekategorien starten bei der Suche; leere Plaetze und Konflikte erzwingen keine Beratung', async () => {
+    await neu();
+    const r = await ev(() => {
+      const fehler = [];
+      for(const s of SLOTS){
+        schliesse(); oeffneSlot(s.k);
+        if(!$('suche-in') || !$('opt-liste') || !$('modal').querySelector('.ts-beratung') || $('fi')) fehler.push(s.k);
+      }
+      schliesse(); build.bremsen = null; zeichne(); oeffneSlot('bremsen');
+      const leer = !$('fi') && !$('modal').querySelector('.ts-dein') && !!$('suche-in');
+      return {fehler,leer};
+    });
+    return {ok:r.fehler.length === 0 && r.leer,info:r}; }],
   ['Vergleich und Rueckkehr: "Zurueck zu Ergebnissen" behaelt Ziel, Marke, Budget, Kompromiss-Schalter und Scrollstand', async () => {
     await neu();
     const r = await ev(() => { wechsle('real'); build.rahmen = 'f-stumpy'; build.gabel = 'g-pike'; build.bremsen = 'b-xt'; sichern();
@@ -232,6 +278,7 @@ const PRUEFUNGEN = [
         sichern(); zeichne(); oeffneSlot('bremsen', {tab:'alle'});
         return {gross:`bremsen|${i}|${b.v[i].o.findIndex(o => o.s.sV === 220 && o.s.sH === 203)}`, klein:`bremsen|${i}|${b.v[i].o.findIndex(o => o.s.sV === 180 && o.s.sH === 180)}`};
       }, modusTest);
+      await seite.locator('#modal .ts-dein > summary').click();
       await seite.locator('#modal [data-varauf="bremsen"]').click();
       await seite.locator(`#modal [data-var="${selector.gross}"]`).click();
       const gross = await ev(() => ({
@@ -243,6 +290,7 @@ const PRUEFUNGEN = [
       await seite.reload(); await bereit();
       const geladen = await ev(() => ({id:build.bremsen, ads:bewerte(build).adapter.filter(a => a.art === 'bremse').map(a => a.n), einkauf:einkaufHtml(bewerte(build))}));
       await ev(() => oeffneSlot('bremsen', {tab:'alle'}));
+      await seite.locator('#modal .ts-dein > summary').click();
       await seite.locator('#modal [data-varauf="bremsen"]').click();
       await seite.locator(`#modal [data-var="${selector.klein}"]`).click();
       const klein = await ev(() => ({ads:bewerte(build).adapter.filter(a => a.art === 'bremse').length, meldung:$('toast').textContent, html:$('modal').querySelector('.brems-ad-auto').textContent}));

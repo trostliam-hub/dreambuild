@@ -3275,6 +3275,18 @@ details.sparkasten p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(-
 .ts-in button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
 .ts-in button span{font-family:var(--f-zahl);color:var(--ink-3);margin-left:2px}
 .ts-kat{margin-left:auto;font-size:13px;font-weight:650;color:var(--anod);min-height:38px;padding:0 4px}
+/* Selbst suchen ist der Einstieg; die Beratung ist eine freiwillige Kachel. */
+.ts-beratung{display:flex;width:100%;align-items:center;gap:12px;text-align:left;padding:14px 16px;margin:12px 0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);color:var(--ink)}
+.ts-beratung>span:first-child{flex:1;min-width:0}
+.ts-beratung small{display:block;color:var(--ink-3);font-size:12px;margin-bottom:3px}
+.ts-beratung b{display:block;font-size:15px;line-height:1.4}
+.ts-beratung .ts-beschreibung{display:block;margin-top:4px;color:var(--ink-2);font-size:13px;line-height:1.45}
+.ts-beratung .ts-pfeil{font-size:24px;color:var(--ink-2)}
+.ts-dein{margin:12px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.ts-dein>summary{cursor:pointer;padding:12px 0;font-size:13px;color:var(--ink-2);min-height:44px}
+.ts-dein>summary b{color:var(--ink);overflow-wrap:anywhere}
+.ts-dein .dt{margin:0;border:0}
+.ts-selbst{margin:0 0 12px;min-height:44px}
 /* Finder: vier Fragen, dann Ergebnisse */
 .fi-frage{margin:0 0 12px}
 .fi-l{display:block;font-size:12.5px;font-weight:650;color:var(--ink-3);margin:0 0 6px}
@@ -12279,8 +12291,8 @@ const GUIDE = [
    a:["Der Assistent steckt im <b>Bauziel</b> (beim Traumrad oben auf die Disziplin tippen): Disziplin, Budget, Wunschmarken, Schwerpunkt — dann stellt er ein komplettes Rad zusammen. Er hält dein Budget ein (höchstens 100 € darüber), nimmt nur Teile, die zusammenpassen, und wählt Kurbel, Stütze und Vorbau passend zu deinen Maßen. Erst „Aufbau übernehmen“ tauscht die Teile. Danach kannst du jedes Teil selbst tauschen.",
      "The assistant lives in the <b>build plan</b> (for a dream bike, tap the discipline at the top): discipline, budget, favourite brands, priority — then it puts a complete bike together. It keeps to your budget (at most €100 over), only takes parts that fit together and picks cranks, seatpost and stem to suit your measurements. Nothing changes until you tap “Use this build”. Afterwards you can swap any part yourself."]},
   {id:"tauschen", k:"tauschen teil teile wechseln aendern auswaehlen waehlen einbauen austauschen ersetzen hinzufuegen eintragen suchen swap change pick choose replace add part parts search", t:["Wie wähle oder tausche ich ein Teil?", "How do I choose or swap a part?"],
-   a:["Tippe im Reiter <b>Aufbau</b> auf ein Teil, zum Beispiel die Gabel. Oben steht dein Teil mit allen Angaben. Darunter wählst du: <b>Passendes finden</b> (Ziel, Marke, Budget — drei Vorschläge) oder <b>Alle</b>: die ganze Liste, suchbar nach Marke, Modell oder Maß, etwa „Fox 36“ oder „Boost“. „Im Aufbau ersetzen“ baut ein Teil ein, samt nötiger Adapter — und lässt sich rückgängig machen.",
-     "In the <b>Build</b> tab, tap a part, for example the fork. Your part is at the top with all its specs. Below you choose: <b>Find a match</b> (goal, brand, budget — three suggestions) or <b>All</b>: the full list, searchable by brand, model or size, e.g. “Fox 36” or “Boost”. “Replace in build” fits a part, including any adapters it needs — and can be undone."], ak:["slot:gabel"]},
+   a:["Tippe im Reiter <b>Aufbau</b> auf ein Teil, zum Beispiel die Gabel. Du kannst sofort nach Marke, Modell oder Maß suchen, etwa „Fox 36“ oder „Boost“. Wenn du Vorschläge möchtest, öffne die optionale Kachel <b>Was soll sich verbessern?</b> und wähle Ziel, Marke und Budget. Unter <b>Dein Teil</b> klappst du Angaben und Adapter auf. „Im Aufbau ersetzen“ baut ein Teil samt nötiger Adapter ein — und lässt sich rückgängig machen.",
+     "In the <b>Build</b> tab, tap a part, for example the fork. Search straight away by brand, model or size, e.g. “Fox 36” or “Boost”. For suggestions, open the optional <b>What should improve?</b> card and choose a goal, brand and budget. Expand <b>Your part</b> to see its specs and adapters. “Replace in build” fits a part with its required adapters — and can be undone."], ak:["slot:gabel"]},
   {id:"upgrades", k:"upgrade upgrades verbessern verbesserung besser lohnt lohnen aufruesten tuning tunen improve better worth", t:["Welche Upgrades lohnen sich?", "Which upgrades are worth it?"],
    a:["Tippe unter dem Radbild auf <b>Passendes Teil finden</b> oder direkt auf ein Teil und wähl ein <b>Ziel</b>, etwa „Mehr Bremskraft“ oder „Leichter“. Vorgeschlagen wird nur, was in den Angaben dafür <b>besser und nirgends schlechter</b> ist als dein Teil — mit Adaptern, Gesamtpreis, Vor- und Nachteilen. Unbekannte Angaben zählen nicht als besser. Gibt es nichts Überzeugendes, sagt die App das. Billiger ist kein Upgrade: dafür gibt es den eigenen Modus <b>Günstiger ersetzen</b>.",
      "Tap <b>Find a matching part</b> below the bike image, or tap a part directly, and pick a <b>goal</b> such as “More braking power” or “Lighter”. You only get parts that are <b>better on paper and worse nowhere</b> compared with yours — with adapters, total price, pros and cons. Unknown data never counts as better. If nothing convincing exists, the app says so. Cheaper isn't an upgrade: there's a separate <b>Cheaper replacement</b> mode for that."], ak:["view:upgrades"]},
@@ -17081,6 +17093,7 @@ function finderHtml(k){
       <div class="fi-erg" id="fi-erg" aria-live="polite">${finderErgebnisHtml(k, e)}</div>`;
   }
   return `<div class="fi fi3" id="fi" data-schritt="${schritt}">
+    <button class="linkbtn ts-selbst" data-ts="alle">${tx("← Selbst suchen", "← Search for yourself")}</button>
     ${finderDein(k, e)}${sum}<div class="fi-schritt">${body}</div>
     <div class="fi-fuss"><button class="linkbtn" data-ts="alle">${tx(`Alle ${katalog(quelleOf(s)).length} ansehen`, `See all ${katalog(quelleOf(s)).length}`)}</button><button class="linkbtn" data-finder="1">${tx("Andere Kategorie", "Other category")}</button></div>
   </div>`;
@@ -17104,7 +17117,7 @@ function oeffneFinderStart(){
       <p class="fi-l" style="margin:0 0 8px">${tx("Welches Teil?", "Which part?")}</p>
       ${leer ? `<p class="hint" style="margin:0 0 10px">${tx("Fang beim Rahmen an — er legt die meisten Maße fest.", "Start with the frame — it sets most of the dimensions.")}</p>` : ""}
       <div class="fs-liste">${SLOTS.filter(s => !entfaellt(build, s.k)).map(s => { const t = build[s.k] ? findeTeil(s.k, build[s.k]) : null;
-        return `<button class="fs" data-slot="${s.k}" data-tab="finden"><span class="fs-ic">${gruppenIc(s.grp)}</span><span class="fs-t"><b>${esc(s.label)}</b><span>${t ? esc(t.nb || t.n) : s.opt ? tx("optional", "optional") : tx("noch offen", "not chosen yet")}</span></span></button>`; }).join("")}</div>
+        return `<button class="fs" data-slot="${s.k}"><span class="fs-ic">${gruppenIc(s.grp)}</span><span class="fs-t"><b>${esc(s.label)}</b><span>${t ? esc(t.nb || t.n) : s.opt ? tx("optional", "optional") : tx("noch offen", "not chosen yet")}</span></span></button>`; }).join("")}</div>
     </div>`);
 }
 
@@ -17473,8 +17486,8 @@ function verbessernKarte(){
   const grp = k => (slotOf(k) || {}).grp;
   return `<section class="verb" aria-labelledby="verb-t">
     <h2 id="verb-t">${tx("Was möchtest du an deinem Rad verbessern?", "What would you like to improve on your bike?")}</h2>
-    <p class="verb-s">${tx("Wähle ein Teil — dann fragt die App kurz nach Ziel, Marke und Budget.", "Pick a part — the app then asks briefly about goal, brand and budget.")}</p>
-    <div class="verb-k">${ks.map(k => `<button class="verb-b" data-slot="${k}" data-tab="finden"><span class="verb-ic">${gruppenIc(grp(k))}</span><span>${esc(k === "reifenVR" ? tx("Reifen", "Tyres") : slotOf(k).label)}</span></button>`).join("")}
+    <p class="verb-s">${tx("Wähle ein Teil und suche selbst. Vorschläge gibt es auf Wunsch.", "Pick a part and search for yourself. Suggestions are optional.")}</p>
+    <div class="verb-k">${ks.map(k => `<button class="verb-b" data-slot="${k}"><span class="verb-ic">${gruppenIc(grp(k))}</span><span>${esc(k === "reifenVR" ? tx("Reifen", "Tyres") : slotOf(k).label)}</span></button>`).join("")}
       <button class="verb-b mehr" data-finder="1"><span class="verb-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/></svg></span><span>${tx("Andere Teile", "Other parts")}</span></button></div>
   </section>`;
 }
@@ -18433,26 +18446,19 @@ function oeffneSlot(slotKey, opt){
   /* Neues Blatt, frische Suche. Beim Rahmen startet der Filter auf "Alle":
      wer einen Rahmen sucht, will alle sehen und nicht nur die zwei, zu denen
      die jetzige Gabel zufaellig passt. */
-  /* BEVEL-002: am eigenen Rad und beim Angebot traegt man bei einem leeren
-     Platz ein, was verbaut ist -- dort startet die ganze Liste, sonst der Finder */
+  /* APP-AUSWAHL-OPTIONAL-001: Jeder normale Teileklick startet bei der Suche.
+     Der Finder oeffnet sich nur ueber seine Kachel oder einen gezielten Auftrag. */
   const frisch = offenerSlot !== slotKey;
+  const teilOffen = !frisch && !!$("modal").querySelector(".ts-dein[open]");
   if(frisch){ suchText = ""; markeWahl = ""; filterAlle = slotKey === "rahmen" || !nurPassende;
-    finder = {slot:slotKey, ziel:"", marken:[], budget:0, budgetAn:false, mehr:false, tab:!build[slotKey] && modus !== "traum" ? "alle" : "finden", schritt:"ziel", fertig:false, kompromisse:false};
+    finder = {slot:slotKey, ziel:"", marken:[], budget:0, budgetAn:false, mehr:false, tab:"alle", schritt:"ziel", fertig:false, kompromisse:false};
     vglZurueck = null; }
-  /* Tipp auf eine rot markierte Teilezeile: der Konflikt ist der Anlass -- dann direkt "Konflikt loesen"
-     (keine Kaufempfehlung, oben korrigierbar). Sonst beginnt die Auswahl ohne Vorbelegung. */
-  if(frisch && !opt.ziel && !opt.tab && build[slotKey] && bewerte(build).funde.some(f => f.level === "fehler" && !f.offen && f.slots.indexOf(slotKey) >= 0)) opt.ziel = "konflikt";
   /* Mit Ziel (z. B. "Loesung finden" aus der Pruefung) direkt zu den Vorschlaegen -- korrigierbar oben */
   if(opt.ziel){ finder.ziel = opt.ziel; finder.tab = "finden"; finder.mehr = false; finder.schritt = "erg"; finder.fertig = true; }
   if(opt.tab === "finden" || opt.tab === "alle") finder.tab = opt.tab;
   offenerSlot = slotKey;
   const kopf = `<div class="sheet-h"><h3><span class="sub">${esc(profilName(aktivesProfil(), modus))} · ${esc(selNamen())}</span>${s.label}</h3>${zuBtn}</div>`;
-  const reiter = `<div class="ts-reiter"><div class="ts-in" role="tablist" aria-label="${tx("Teil finden oder wählen", "Find or choose a part")}">
-      <button role="tab" data-ts="finden" aria-selected="${finder.tab === "finden"}">${tx("Passendes finden", "Find a match")}</button>
-      <button role="tab" data-ts="alle" aria-selected="${finder.tab === "alle"}">${tx("Alle", "All")} <span>${katalog(quelleOf(s)).length}</span></button></div>
-    <button class="ts-kat" data-finder="1">${tx("Andere Kategorie", "Other category")}</button></div>`;
-  /* BEVEL-003: die Auswahl ist eine kurze Fuehrung ohne Reiter, Glossar und Datenblatt --
-     "Alle …" und "Andere Kategorie" stehen unten, dein Teil im Detail unter "Alle" */
+  const beratung = `<button class="ts-beratung" data-ts="finden"><span><small>${tx("Optional · Hilfe bei der Auswahl", "Optional · Help choosing")}</small><b>${build[slotKey] ? tx("Was soll sich verbessern?", "What should improve?") : tx("Hilf mir, ein Teil zu finden", "Help me find a part")}</b><span class="ts-beschreibung">${tx("Ziel, Marke und Budget wählen — passende Vorschläge bekommen.", "Choose a goal, brand and budget to get matching suggestions.")}</span></span><span class="ts-pfeil" aria-hidden="true">›</span></button>`;
   if(finder.tab === "finden"){
     zeigeSheet(kopf + `<div class="sheet-b">${finderHtml(slotKey)}</div>`);
     return;
@@ -18530,7 +18536,10 @@ function oeffneSlot(slotKey, opt){
   const mitRabatt = karten.some(k => /data-r="[1-9]/.test(k.html));
   zeigeSheet(kopf + `
     <div class="sheet-b">
-      ${deinTeilHtml(slotKey)}${reiter}
+      <div class="suche"><input id="suche-in" type="search" data-suche="1" autocomplete="off"
+        placeholder="${tx("Marke oder Modell suchen …", "Search by brand or model …")}" value="${esc(suchText)}" aria-label="${esc(tx(s.label + " suchen", "Search " + s.label.toLowerCase()))}"></div>
+      ${beratung}
+      ${curT ? `<details class="ts-dein"${teilOffen ? " open" : ""}><summary>${tx("Dein Teil", "Your part")}: <b>${esc(curT.nb || curT.n)}</b> · ${tx("Details & Adapter", "Details & adapters")}</summary>${deinTeilHtml(slotKey)}</details>` : ""}
       <details class="was-das"><summary>${tx("Was ist das?", "What is it?")}</summary><p>${esc(s.was)}${filterAlle ? "" : tx(" Oben stehen die Teile, die zu deinem Aufbau passen — „passt“ heißt: Maße und Standards stimmen.", " The parts that fit your build come first — “fits” means dimensions and standards match.")}</p></details>
       ${slotKey === "rahmen" ? jahrLeiste() : ""}
       ${(() => {
@@ -18543,8 +18552,6 @@ function oeffneSlot(slotKey, opt){
             ab Werk schmaler sollte er nicht sein.`, `<b>For you: ${f.lenker} mm.</b> Any bar can be cut down — so don't start narrower than this.`)}</span></div>`;
         return "";
       })()}
-      ${karten.length > 8 ? `<div class="suche"><input id="suche-in" type="search" data-suche="1" autocomplete="off"
-          placeholder="${esc(tx(s.label + " suchen — Marke, Modell, 29, Boost …", "Search " + s.label.toLowerCase() + " — brand, model, 29, Boost …"))}" value="${esc(suchText)}" aria-label="${esc(tx(s.label + " suchen", "Search " + s.label.toLowerCase()))}"></div>` : ""}
       <div class="filterzeile"><div class="filt">
         <button data-filt="1" aria-pressed="${!filterAlle}">${slotKey === "rahmen" ? tx("Ohne Teiletausch", "No other swaps needed") : tx("Nur passende", "Only parts that fit")} <span>${passend.length}</span></button>
         <button data-filt="0" aria-pressed="${filterAlle}">${tx("Alle", "All")} <span>${karten.length}</span></button>
@@ -18563,6 +18570,7 @@ function oeffneSlot(slotKey, opt){
       <div class="eigen-box"><span>${tx(`<b>Nicht dabei?</b> Leg das Teil selbst an. Geprüft wird es mit den Maßen
         eines Teils, das genauso gebaut ist.`, "<b>Not listed?</b> Create the part yourself. It's checked with the dimensions of a part that's built the same way.")}</span>
         <button class="btn ghost sm" data-eigen="${slotKey}">${tx("Eigenes Teil anlegen", "Add your own part")}</button></div>
+      <button class="linkbtn ts-kat" data-finder="1">${tx("Andere Kategorie", "Other category")}</button>
     </div>`);
   sortieren();
   filterAnwenden();
@@ -19378,7 +19386,10 @@ document.addEventListener("click", e => {
   if(d3g){ d3Gruppe(d3g.dataset.d3gruppe); d3g.parentElement.querySelectorAll("[data-d3gruppe]").forEach(b => b.setAttribute("aria-pressed", String(b === d3g))); return; }
   if(T("[data-pruef]")){ pruefUmschalten(); if(pruefOffen) vorschlaegeZeichnen(); return; }
   const tsr = T("[data-ts]");
-  if(tsr){ if(offenerSlot) oeffneSlot(offenerSlot, {tab:tsr.dataset.ts}); return; }
+  if(tsr){ if(offenerSlot){ oeffneSlot(offenerSlot, {tab:tsr.dataset.ts});
+    if(tsr.dataset.ts === "finden") finderOben();
+    else if(tastaturNav && $("suche-in")) $("suche-in").focus();
+  } return; }
   const fz = T("[data-fiziel]");
   if(fz){ finder.ziel = fz.dataset.fiziel; finder.mehr = false; finder.kompromisse = false; finder.schritt = finder.fertig ? "erg" : "marke";
     if(offenerSlot){ oeffneSlot(offenerSlot); finderOben(); } return; }

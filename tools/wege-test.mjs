@@ -320,24 +320,26 @@ const PRUEFUNGEN = [
       sichern(); view = 'aufbau'; zeichne();
       const zeile = document.querySelector('#aufbau [data-slot="daempfer"] .slot-fund.fehler');
       const sprung = document.querySelector('.sprung [data-zugruppe="Fahrwerk"]');
-      document.querySelector('#aufbau [data-slot="daempfer"]').click();
-      const m = $('modal'), grund = !!m.querySelector('.fi-dein-k, .fund-hier'), ziel = finder.ziel;
+      /* Den Teil selbst oeffnen; der separate "Loesung finden"-Knopf mit
+         demselben data-slot darf weiterhin direkt den Konflikt-Finder starten. */
+      document.querySelector('#aufbau .slot[data-slot="daempfer"]').click();
+      const m = $('modal'), grund = !!m.querySelector('.fund-hier'), ziel = finder.ziel, suche = !!$('suche-in') && !$('fi');
       oeffneSlot('daempfer', {tab:'alle'}); const alle = $('modal').querySelector('[data-filt="0"]').getAttribute('aria-pressed');
-      oeffneSlot('daempfer', {tab:'finden'}); $('modal').querySelector('#fi [data-vergleich]').click(); const k = $('modal').querySelector('[data-ersetzen]'); k.click();
+      oeffneSlot('daempfer', {ziel:'konflikt'}); $('modal').querySelector('#fi [data-vergleich]').click(); const k = $('modal').querySelector('[data-ersetzen]'); k.click();
       const rest = pruefe(build).filter(b => b.level === 'fehler' && (b.slots || []).indexOf('daempfer') >= 0).length;
-      return {zeile:!!zeile, sprungRot:!!sprung && sprung.classList.contains('stoerung'), grund, ziel, alle, rest}; });
-    return {ok:r.zeile && r.sprungRot && r.grund && r.ziel === 'konflikt' && r.alle === 'false' && r.rest === 0, info:r}; }],
+      return {zeile:!!zeile, sprungRot:!!sprung && sprung.classList.contains('stoerung'), grund, ziel, suche, alle, rest}; });
+    return {ok:r.zeile && r.sprungRot && r.grund && r.ziel === '' && r.suche && r.alle === 'false' && r.rest === 0, info:r}; }],
   /* BEVEL-003: statt Sprungleiste -- "Was moechtest du verbessern?" fuehrt mit einem Tipp in die
      Auswahl fuer genau dieses Teil, eine eingeklappte Gruppe oeffnet sich mit einem Tipp auf ihren Kopf */
   ['UX Verbessern und Gruppen: ein Tipp oeffnet die Auswahl fuer das Teil bzw. die eingeklappte Gruppe', async () => {
     await neu();
     await ev(() => { zuGeklappt['Bremsen'] = 1; sichern(); view = 'aufbau'; zeichne(); window.scrollTo(0, 0); });
     await seite.click('#aufbau .verb [data-slot="bremsen"]'); await warte(500);
-    const blatt = await ev(() => { const m = $('modal'); const h = m.querySelector('.sheet-h'); return {offen:!!m.querySelector('.sheet'), titel:h ? h.textContent : '', finder:!!m.querySelector('#fi-erg, .fi-schritt, .fi-frage')}; });
+    const blatt = await ev(() => { const m = $('modal'); const h = m.querySelector('.sheet-h'); return {offen:!!m.querySelector('.sheet'), titel:h ? h.textContent : '', suche:!!$('suche-in'), optional:!!m.querySelector('.ts-beratung') && !$('fi')}; });
     await ev(() => schliesse()); await warte(400);
     await seite.click('#aufbau .grp-kopf[data-thema="Bremsen"]'); await warte(400);
     const r = await ev(() => { const k = document.querySelector('#aufbau .grp-kopf[data-thema="Bremsen"]'); return {offen:k.getAttribute('aria-expanded'), zeilen:k.closest('.grp').querySelectorAll('.slot').length}; });
-    return {ok:blatt.offen && /Bremse/.test(blatt.titel) && blatt.finder && r.offen === 'true', info:{blatt, r}}; }],
+    return {ok:blatt.offen && /Bremse/.test(blatt.titel) && blatt.suche && blatt.optional && r.offen === 'true', info:{blatt, r}}; }],
   ['UX Rueckweg statt Rueckfrage: Teil entfernen und Rad zuruecksetzen lassen sich 7 s lang rueckgaengig machen; Rad loeschen fragt weiter nach', async () => {
     await neu();
     const r = await ev(PRO => { eval('(' + PRO + ')()');
