@@ -55,7 +55,9 @@ const SZENEN = [
   ['setup-karten', PRO + FED + "for(const [s, x] of suElemente(federRechnen())) for(const it of suItems(s, x, suDaten(federRechnen()))) suAuf.add('fwk-' + it.key.replace(/\\W/g, '-')); suAuf.add('alle'); suAuf.add('prof-erkl'); suAuf.add('w-quellen'); view='setup'; zeichne()", 'traum'],
   ['setup-karten-daempfer', PRO + FED + "suElWahl='daempfer'; for(const [s, x] of suElemente(federRechnen())) for(const it of suItems(s, x, suDaten(federRechnen()))) suAuf.add('fwk-' + it.key.replace(/\\W/g, '-')); view='setup'; zeichne()", 'traum'],
   ...['downhill', 'spruenge'].map(m => ['setup-profil-' + m, PRO + FED + `fedModus='${m}'; suAuf.add('prof-erkl'); view='setup'; zeichne()`, 'traum']),
-  ...['start', 'gewicht', 'rad', 'gabel', 'daempfer', 'einsteller', 'fahrer', 'stil', 'gefuehl', 'profil', 'aktuell', 'probleme', 'ende'].map(n => ['setup-angaben-' + n, PRO + "plan.fahrer = 80; view='setup'; zeichne(); obOeffnen('" + n + "')", 'traum']),
+  ...['start', 'gewicht', 'rad', 'gabel', 'daempfer', 'einsteller', 'fahrer', 'stil', 'gefuehl', 'profil', 'abstimmung', 'aktuell', 'probleme', 'vorbereitung', 'ende'].map(n => ['setup-angaben-' + n, PRO + "plan.fahrer = 80; view='setup'; zeichne(); obOeffnen('" + n + "')", 'traum']),
+  ...[0,1,2,3,4,5].map(i => ['einfuehrung-' + i, `oeffneSzenen(null); szeneZeigen(${i})`, 'traum']),
+  ['einrichtung-wiederholen', "oeffneEinstieg('wiederholen'); ei.schritt=5; eiZeigen()", 'traum'],
   ...[0, 1, 2, 3, 4, 5].map(i => ['sag-' + i, PRO + FED + "view='setup'; zeichne(); oeffneSagWizard('gabel'); sagW.i=" + i + "; zeigeSheet(sagWizardHtml())", 'traum']),
   ['sag-aus-test', PRO + FED + "view='setup'; zeichne(); oeffneSagWizard(null, true); sagW.i=5; zeigeSheet(sagWizardHtml())", 'traum'],
   ['test-start', PRO + FED + "view='setup'; zeichne(); oeffneTest()", 'traum'],
@@ -164,7 +166,7 @@ for(const spr of ['de', 'en']){
   for(const modus of ['traum', 'real', 'markt']){
     for(const [name, code, modi, warte] of SZENEN){
       if(modi !== 'alle' && modi !== modus) continue;
-      await seite.evaluate(m => { try{ schliesse(); schliesseStartseite(); }catch(e){} try{ if(typeof tourEnde === 'function') tourEnde(); }catch(e){}
+      await seite.evaluate(m => { try{ schliesse(); schliesseStartseite(); if($('szenen')) szenenEnde(); }catch(e){} try{ if(typeof tourEnde === 'function') tourEnde(); }catch(e){}
         if(modus !== m){ wechsle(m); } view = 'aufbau'; zeichne(); }, modus).catch(e => jsFehler.push(spr + ' wechsel: ' + e.message));
       const ok = await seite.evaluate(c => { try{ (0, eval)(c); return true; }catch(e){ return 'Ausnahme: ' + e.message; } }, code);
       if(ok !== true){ jsFehler.push(`${spr}/${modus}/${name}: ${ok}`); continue; }

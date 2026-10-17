@@ -58,6 +58,10 @@ const lauf = (datei, muster, erwartet) => {
 }
 /* 4. Ein Weg je Aufgabe */
 {
+  const r = lauf('fahrwerk-fragen-test.mjs', /FAHRWERK-FRAGEN: (\d+) von (\d+) Prüfungen bestanden/, 11);
+  teil('Persönliche Fahrwerkfragen und Einrichtung', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
+{
   const r = lauf('wege-test.mjs', /WEGE: (\d+) von (\d+) Prüfungen bestanden/, null);
   teil('Ein Weg je Aufgabe', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
 }

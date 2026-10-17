@@ -174,7 +174,7 @@ const PRUEFUNGEN = [
     return {ok:!r.auf && !r.menu && !r.guide && !r.wiz && !r.fit && !r.einstieg && !r.disz && handy.tab === 1 && !handy.kopf && desk.tab === 1 && !desk.kopf, info:{r, handy, desk}}; }],
   ['10-13 Setup (Pro-Testzustand): ein SAG-Start je Element, eine Testfahrt, ein Angaben-Editor, keine Teilewahl', async () => {
     await neu();
-    const r = await ev(PRO => { eval('(' + PRO + ')()'); plan.fahrer = 80; sichern();
+    const r = await ev(PRO => { eval('(' + PRO + ')()'); plan.fahrer = 80; build.fw = {fertig:true, fragenVersion:FW_FRAGEN_VERSION}; sichern();
       const g = katalog(quelleOf(slotOf('gabel'))).find(t => t.travel > 0); if(g) build.gabel = build.gabel || g.id; sichern();
       view = 'setup'; zeichne(); const s = $('setup');
       const z = q => s.querySelectorAll(q).length;
@@ -193,15 +193,16 @@ const PRUEFUNGEN = [
       return {knopf:true, slot, zur, zurueckK, wiederTest:!!$('modal').querySelector('.fw-trwz')}; });
     await ev(() => schliesse());
     return {ok:r.knopf && r.slot === 'gabel' && r.zur && r.zurueckK && r.wiederTest, info:r}; }],
-  ['12/02 Setup ohne Gewicht fuehrt ins Fahrerprofil, fragt kein Gewicht und keine Groesse selbst', async () => {
+  ['12/02 Fahrwerkfragen ohne Gewicht mit Rueckweg zum gemeinsamen Fahrerprofil', async () => {
     const r = await ev(PRO => { eval('(' + PRO + ')()'); plan.fahrer = 0; sichern(); view = 'setup'; zeichne();
+      build.fw.fertig = false; build.fw.besucht = {}; zeichne();
       const s = $('setup'), hero = s.querySelectorAll('[data-fahrerprofil]').length, start = s.querySelectorAll('[data-fwob="start"]').length;
       plan.fahrer = 80; sichern(); obW = {i:obSchritte().indexOf('gewicht'), einzeln:true, vonEnde:false, tipp:null}; zeigeSheet(obHtml());
       const m = $('modal'), kg = m.querySelectorAll('[data-fwin="kg"]').length, cm = m.querySelectorAll('[data-fcm]').length, profil = /Fahrerprofil/.test(m.textContent);
       obW.i = obSchritte().indexOf('rad'); zeigeSheet(obHtml()); const rj = m.querySelectorAll('[data-fwwk^="rj|"]').length, rad = $('modal').querySelectorAll('[data-fwslot]').length;
       obW.i = obSchritte().indexOf('fahrer'); zeigeSheet(obHtml()); const erf = $('modal').querySelectorAll('[data-fwwk^="erf|"]').length;
       schliesse(); return {hero, start, kg, cm, profil, rj, rad, erf}; }, PRO.toString());
-    return {ok:r.hero === 1 && !r.start && !r.kg && !r.cm && r.profil && !r.rj && !r.rad && !r.erf, info:r}; }],
+    return {ok:!r.hero && r.start === 1 && !r.kg && !r.cm && r.profil && !r.rj && !r.rad && !r.erf, info:r}; }],
   ['18b/02 Migration: Groesse aus dem Setup ins Fahrerprofil, nichts geloescht', async () => {
     await seite.goto(URL0);
     await ev(() => { localStorage.clear(); localStorage.setItem('mtb.einstieg2', '1'); localStorage.setItem('mtb.tour', '1'); localStorage.setItem('mtb.fprofil', JSON.stringify({cm:183, tempo:'zuegig'})); });

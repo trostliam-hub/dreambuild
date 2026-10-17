@@ -8442,10 +8442,20 @@ function szenenHtml(){
        `Before you buy, the app sees that the front needs a +23 mm post-mount adapter — e.g. <b>Shimano SM-MA-F203P/PM</b>. It lifts the caliper onto the track. Complete solution: ${eur(szBsp().gesamt)} instead of ${eur(szBsp().teil)} (guide prices, excluding rotors). If a detail is missing, the app asks.`),
      bild:szBremse("loesung")},
     {k:"plan", ue:tx("Dein Plan", "Your plan"), h:tx("Dein Rad. Passende Teile. Klarer Plan.", "Your bike. Matching parts. A clear plan."),
-     t:tx("Ziel, Marke und Budget wählen — die App zeigt nur, was belegbar besser ist, und sagt auch, wenn dein Teil die richtige Wahl bleibt. Vergleichen, merken, mit Rückgängig übernehmen.", "Choose goal, brand and budget — the app only shows what's provably better, and tells you when your part stays the right choice. Compare, save, apply with undo."),
+     t:tx("Tippe im Aufbau auf ein Teil und suche direkt selbst. Die Kachel „Was soll sich verbessern?“ öffnet auf Wunsch die Beratung nach Ziel, Marke und Budget. Nötige Bremsadapter werden bei Änderungen automatisch neu eingeplant und angezeigt.", "Tap a part in Build and search yourself. The “What would you like to improve?” tile opens optional advice by goal, brand and budget. Required brake adapters are automatically recalculated and shown when parts change."),
      bild:`<div class="sz-plan" aria-hidden="true"><span class="sz-karte"><span class="sz-kk">${tx("Bremsen · Ziel: Bremskraft · Marke egal · Preis offen", "Brakes · goal: stopping power · any brand · open price")}</span><b>${tx("Gleiches Modell, Scheiben 220/203", "Same model, rotors 220/203")}</b>
        <span class="sz-kz"><i class="sz-p">+</i>${tx("Scheibe vorn 220 statt 203 mm", "Front rotor 220 vs 203 mm")}</span><span class="sz-kz"><i class="sz-m">!</i>${tx("Dazu: 2 Adapter, 2 Scheiben", "Plus: 2 adapters, 2 rotors")}</span>
-       <span class="sz-kn"><i class="an">${tx("Vergleichen", "Compare")}</i><i>${tx("Merken", "Save")}</i><i>${tx("Zum Produkt", "View product")}</i></span></span></div>`}];
+       <span class="sz-kn"><i class="an">${tx("Vergleichen", "Compare")}</i><i>${tx("Merken", "Save")}</i><i>${tx("Zum Produkt", "View product")}</i></span></span></div>`},
+    {k:"fahrwerk", ue:tx("Persönliches Fahrwerk", "Personal suspension"), h:tx("Erst dein Rad. Dann dein Setup.", "Your bike first. Then your setup."),
+     t:tx("Beim ersten Öffnen von Fahrwerk fragt dich die App nach Rad, Ausrüstung und Fahrstil. Daraus entstehen Startwerte mit Erklärungen und Bildern. Anschließend misst du den SAG und verfeinerst das Ergebnis mit einer Testfahrt. Fahrwerk-Setup gehört zu Pro.", "The first time you open Suspension setup, the app asks about your bike, gear and riding style. It creates starting values with explanations and pictures. Then measure sag and refine the result with a test ride. Suspension setup is part of Pro."),
+     bild:`<div class="sz-plan"><span class="sz-karte"><b>${tx("Auf dich abgestimmt", "Tailored to you")}</b><span>${tx("1 · Persönliche Fragen", "1 · Personal questions")}</span><span>${tx("2 · Startwerte und SAG", "2 · Starting values and sag")}</span><span>${tx("3 · Testfahrt und Feintuning", "3 · Test ride and fine-tuning")}</span></span></div>`},
+    {k:"guide", ue:tx("Kurz und verständlich", "Short and clear"), h:tx("Frag den Guide", "Ask the Guide"),
+     t:tx("Die Sprechblase oben hilft bei Aufbau, Teilen und Fahrwerk und verlinkt passende Stellen und Quellen aus der App. KI-Antworten schaltest du freiwillig ein. Prüfe genaue Modellfreigaben immer in der verlinkten Herstelleranleitung.", "The speech bubble at the top helps with builds, parts and suspension, linking to relevant app sections and sources. You can optionally enable AI answers. Always check exact model approvals in the linked manufacturer's manual."),
+     bild:`<div class="sz-plan"><span class="sz-karte"><b>${tx("Welchen Adapter brauche ich?", "Which adapter do I need?")}</b><span>${tx("Einfach erklärt · passend zu deinem Rad", "Simply explained · relevant to your bike")}</span><span class="sz-kn"><i class="an">${tx("Zur passenden Stelle", "Go to the relevant section")}</i></span></span></div>`},
+    {k:"merken", ue:tx("Alles an einem Ort", "Everything in one place"), h:tx("Vergleichen, merken, einkaufen", "Compare, save, shop"),
+     t:tx("Merke Teile in der Wunschliste und prüfe die vollständige Einkaufsliste samt Zubehör. Produktfotos und Detailbilder helfen bei der Orientierung. Unter Profil kannst du deine Angaben bearbeiten, Daten sichern und diese Einführung komplett neu starten.", "Save parts in your wishlist and check the complete shopping list including accessories. Product and detail photos help you find your way. Under Profile you can edit your details, back up data and restart this whole introduction."),
+     bild:`<div class="sz-plan"><span class="sz-karte"><b>${tx("Deine vier Bereiche", "Your four sections")}</b><span>${tx("Aufbau · Wunschliste", "Build · Wishlist")}</span><span>${tx("Fahrwerk · Einkauf", "Suspension · Shopping")}</span></span></div>`}];
+  szene.anzahl = S.length;
   const s = S[szene.i], letzte = szene.i === S.length - 1;
   return `<div class="sz" role="dialog" aria-modal="true" aria-labelledby="sz-h" data-szene="${s.k}">
     <div class="sz-kopf"><span class="sz-punkte" aria-label="${tx(`Szene ${szene.i + 1} von ${S.length}`, `Scene ${szene.i + 1} of ${S.length}`)}">${S.map((x, i) => `<i class="${i === szene.i ? "an" : i < szene.i ? "war" : ""}"></i>`).join("")}</span>
@@ -8498,7 +8508,7 @@ document.addEventListener("keydown", e => {
   /* Escape gehoert hier allein den Szenen -- sonst schloesse der allgemeine
      Escape-Handler die gerade geoeffnete Einrichtung gleich wieder */
   if(e.key === "Escape"){ e.preventDefault(); e.stopImmediatePropagation(); szenenEnde(); }
-  else if(e.key === "ArrowRight"){ e.preventDefault(); if(szene.i < 2) szeneZeigen(szene.i + 1); }
+  else if(e.key === "ArrowRight"){ e.preventDefault(); if(szene.i < szene.anzahl - 1) szeneZeigen(szene.i + 1); }
   else if(e.key === "ArrowLeft"){ e.preventDefault(); if(szene.i > 0) szeneZeigen(szene.i - 1); }
   else if(e.key === "Tab"){ const f = [...$("szenen").querySelectorAll("button")]; if(!f.length) return;
     const i = f.indexOf(document.activeElement), n = e.shiftKey ? (i <= 0 ? f.length - 1 : i - 1) : (i + 1) % f.length; e.preventDefault(); f[n].focus(); }
@@ -10758,6 +10768,7 @@ const FAHRER_SCHRITTE = ["erfahrung", "charakter", "koerper", "masse", "fit"];
    eigener Editor (Einstellungen, Pruefung "Koerperdaten ergaenzen"). */
 function eiSchritte(){
   if(ei.modus === "fahrer") return FAHRER_SCHRITTE;
+  if(ei.modus === "wiederholen") return [...FAHRER_SCHRITTE, "ziel"];
   return ["ziel"];
 }
 const eiOpt = (art, w, icon, t, s, an, tag, j) => `<button class="ei-opt" data-eiwahl="${art}|${w}" aria-pressed="${!!an}" style="--j:${j || 0}">
@@ -10818,11 +10829,11 @@ const EI_SCHRITT = {
     ${ei.modus === "voll" ? spracheKnoepfe("ei-sprache") : ""}
     <h2 class="ei-q" tabindex="-1" style="--i:1">${tx("Mit welchem Rad fängst du an?", "Which bike do you want to start with?")}</h2>
     <p class="ei-qs" style="--i:2">${tx("Wechseln kannst du später jederzeit — oben über den Namen deines Rads.", "You can switch any time later — via your bike's name at the top.")}</p>
-    <div class="ei-opts" style="--i:3">${[
+    <div class="ei-opts" style="--i:3">${(ei.modus === "wiederholen" ? [["behalten", IC.real, tx("Mit meinem Rad weitermachen", "Continue with my bike"), tx("Aufbau, Wunschliste und Fahrwerk bleiben gespeichert.", "Your build, wishlist and suspension stay saved.")]] : []).concat([
       ["traum", IC.traum, tx("Neues Rad zusammenstellen", "Build a new bike"), tx("Aus Einzelteilen, genau für dich — der Assistent macht den ersten Entwurf.", "From individual parts, made for you — the assistant does the first draft.")],
       ["real", IC.real, tx("Mein Rad eintragen", "Enter my bike"), tx("Was ist verbaut, was passt nicht, welches Upgrade lohnt sich?", "What's fitted, what doesn't fit, which upgrade is worth it?")],
       ["markt", IC.markt, tx("Gebrauchtrad prüfen", "Check a used bike"), tx("Angebot gefunden? Die App sagt, ob der Preis fair ist.", "Found a bike for sale? The app tells you whether the price is fair.")]
-    ].map(([w, i, t, s], j) => eiOpt("ziel", w, i, t, s, ei.ziel === w, "", j)).join("")}</div>
+    ]).map(([w, i, t, s], j) => eiOpt("ziel", w, i, t, s, ei.ziel === w, "", j)).join("")}</div>
     <p class="ei-klein" style="--i:4">${tx("Danach zeigt die Aufgabenkarte den nächsten Schritt. Fragen beantwortet der Guide oben; einen Rundgang gibt es unter Einstellungen › Hilfe. Deine Körpermaße kannst du später ergänzen — die Prüfung sagt, wann sie fehlen.",
       "After that, the task card shows the next step. The guide at the top answers questions; there's a tour under Settings › Help. You can add your body measurements later — the check tells you when they're missing.")}</p>`,
     f: ei.ziel ? eiWeiterBtn() : ""}),
@@ -10931,7 +10942,7 @@ function eiZeigen(still){
   root.setAttribute("aria-label", ei.modus === "fahrer" ? tx("Fahrerprofil", "Rider profile") : tx("Einrichtung", "Getting started"));
   const skip = root.querySelector(".ei-skip");
   skip.classList.toggle("weg", id === "fertig" || ei.modus === "voll");
-  skip.textContent = ei.modus === "fahrer" ? tx("Schließen", "Close") : tx("Überspringen", "Skip");
+  skip.textContent = ei.modus === "fahrer" || ei.modus === "wiederholen" ? tx("Schließen", "Close") : tx("Überspringen", "Skip");
   /* nach einem Sprachwechsel auch den Kopf nachziehen */
   root.querySelector(".ei-zur").setAttribute("aria-label", tx("Zurück", "Back"));
   bahn.setAttribute("aria-label", tx("Fortschritt", "Progress"));
@@ -10962,7 +10973,7 @@ function eiWahl(btn){
   if(ei.warte) return;
   const s = btn.dataset.eiwahl, i = s.indexOf("|"), art = s.slice(0, i), w = s.slice(i + 1);
   if(art === "ziel"){
-    ei.ziel = w; if(w !== modus) wechsle(w); view = "aufbau";
+    ei.ziel = w; if(w !== "behalten" && w !== modus) wechsle(w); view = "aufbau";
     sichern();
   }
   else if(art === "erfahrung"){
@@ -11043,6 +11054,10 @@ function eiEigenesProfil(){
   return true;
 }
 function eiFertig(){
+  if(ei.modus === "wiederholen" && ei.ziel === "behalten"){
+    view = "aufbau"; eiSchliessen();
+    zeigeToast(tx("Einführung abgeschlossen — deine Räder und Einstellungen sind erhalten.", "Introduction complete — your bikes and settings are kept.")); return;
+  }
   if(ei.modus === "fahrer"){
     const nach = eiSchliessen();
     if(nach) nach();
@@ -12995,8 +13010,10 @@ if(!koerper.cmMig){
   if(!(koerper.groesse > 0) && fprofil.cm >= 130 && fprofil.cm <= 215) koerper.groesse = Math.round(fprofil.cm);
   koerper.cmMig = 1; kSichern();
 }
-const fFertig = () => plan.fahrer > 0 && FFRAGEN.every(f => fprofil[f.k]);
-const fLv = k => { const f = FFRAGEN.find(x => x.k === k), o = f && f.o.find(x => x[0] === fprofil[k]); return o ? o[3] : 0; };
+/* Fahrstil je Rad; alte Fahrerangaben bleiben als vorausgefuellte Werte erhalten. */
+const fAngabe = k => Object.prototype.hasOwnProperty.call((build.fw || {}).stil || {}, k) ? build.fw.stil[k] : fprofil[k];
+const fFertig = () => plan.fahrer > 0 && FFRAGEN.every(f => fAngabe(f.k));
+const fLv = k => { const f = FFRAGEN.find(x => x.k === k), o = f && f.o.find(x => x[0] === fAngabe(k)); return o ? o[3] : 0; };
 const fKlemm = (v, a, b) => Math.max(a, Math.min(b, v));
 /* Zahl aus einem Eingabefeld: Ziffern mit Komma oder Punkt, auch negativ
    (das meldet dann das Feld selbst). "1e5", "+5", Buchstaben und
@@ -13128,7 +13145,7 @@ const STIL = {
 function stilVon(){
   const g = fLv("gelaende"), t = fLv("tempo"), sp = fLv("spruenge"), f = fLv("gefuehl"), b = fLv("bergauf");
   let L = 0, H = 0;
-  for(const k in STIL){ const w = STIL[k][fprofil[k]]; if(w){ L += w[0]; H += w[1]; } }
+  for(const k in STIL){ const w = STIL[k][fAngabe(k)]; if(w){ L += w[0]; H += w[1]; } }
   return {
     psiV: fKlemm(1 + 0.04 * t + 0.04 * sp + 0.05 * f + (g >= 2 ? 0.03 : g < 0 ? -0.02 : 0), 0.88, 1.15),
     psiH: fKlemm(1 + 0.04 * t + 0.04 * sp + 0.05 * f + 0.02 * b + (g >= 2 ? 0.03 : g < 0 ? -0.02 : 0), 0.88, 1.16),
@@ -13520,7 +13537,7 @@ function einsatzVon(k, klasse, hinten){
     if(klasse < 0){ e.h += 1; e.sag -= 1; e.luft += 0.02; }
     return e;
   }
-  const gross = fprofil.spruenge === "gross", neu = koerper.erfahrung === "neu" || !koerper.erfahrung, viel = koerper.erfahrung === "viel";
+  const gross = fAngabe("spruenge") === "gross", neu = koerper.erfahrung === "neu" || !koerper.erfahrung, viel = koerper.erfahrung === "viel";
   const e = gross ? {l:2, h:1, r:1, luft:0.03, sag:-2, bo:1, tok:1} : {l:1, h:0, r:neu ? 1 : 0, luft:0, sag:-1, bo:0, tok:0};
   if(!gross && viel) e.l = 1.5;
   if(klasse < 0) e.h += 0.5;
@@ -13644,7 +13661,7 @@ function federRechnen(){
     const jahrFehlt = !!(tab.eigen && abJahr && !jahr), zuAlt = !!(tab.eigen && jahr && abJahr && jahr < abJahr);
     const imBereich = !!(reihe && lb >= reihe[0][0] && lb <= reihe[reihe.length - 1][0]);
     const tabOk = tab.eigen && !zuAlt && !jahrFehlt && imBereich;
-    const sag = dh ? st.sagV + 5 : st.sagV, klasse = fwKlasse(g.travel, dh), max = tab.eigen ? (FED_MAX[tab.tab] || null) : null;
+    const sag = fwSagZiel("gabel") || (dh ? st.sagV + 5 : st.sagV), klasse = fwKlasse(g.travel, dh), max = tab.eigen ? (FED_MAX[tab.tab] || null) : null;
     let psi = null, grenze = false, feder = null;
     const vf = vorneFaktor(r);
     let tokens = null, fw = null;
@@ -13676,7 +13693,7 @@ function federRechnen(){
     const fwH = (r && r.fwH > 0 ? r.fwH : 0) || ((build.fw || {}).fwH > 0 ? build.fw.fwH : 0);
     const hinten = fwH || (r && r.maxGabel ? r.maxGabel - (r.schaft === "dc" ? 3 : 10) : 140);
     const lr = fwH && d.hub > 0 ? fwH / d.hub : null;
-    const sag = dh ? st.sagH + 3 : st.sagH;
+    const sag = fwSagZiel("daempfer") || (dh ? st.sagH + 3 : st.sagH);
     const fox = d.m === "Fox";
     let psi = null, rate = null, rateExakt = null, grenze = false;
     if(coil){
@@ -13701,6 +13718,17 @@ function federRechnen(){
     /* Maximaldruck: kein Pauschalwert -- er steht auf dem Daempfer (Befund 16) */
     out.daempfer = {hintenEl:true, sgTxt:sgText(sg, "h"), t:d, coil:coil, psi:psi, rate:rate, rateExakt:rateExakt, tokens:tokensH, grenze:grenze, lr:lr, fwH:fwH, hinten:hinten, sag:sag, sagMm:Math.round(d.hub * sag / 100 * 10) / 10,
       regler:regler, basis:{txt:daten.txt}, klasse:klasse, fox:fox, quellen:quellen, max:null, modi:luftModi(psi, sag, null, coil, klasse, d.hub, true), ds:druckstufen(daten, st, kgH, true, klasse, fox)};
+  }
+  for(const slot of ["gabel", "daempfer"]){
+    const x = out[slot]; if(!x) continue;
+    const ziel = fwSagZiel(slot), max = suMax(slot, x);
+    x.sagEigen = !!ziel;
+    for(const m of Object.values(x.modi)){
+      /* Eine ausdrueckliche Herstellervorgabe wird nicht vom Fahrprofil verschoben. */
+      if(ziel){ m.sag = ziel; m.sagMm = Math.round((slot === "gabel" ? x.t.travel : x.t.hub) * ziel / 10) / 10; }
+      if(max && m.psi > max){ m.psi = max; m.grenze = true; }
+    }
+    if(max && x.psi > max){ x.psi = max; x.grenze = true; }
   }
   return out;
 }
@@ -13743,7 +13771,7 @@ function modusWas(x){
   if(p === "allround") return tx("<b>Allround</b> — gemischte Trails: genau nach deinen Angaben zum Fahrstil, ausgewogen zwischen Grip und Halt. Die Basis, von der aus Downhill und Sprünge nur einzelne Einstellungen ändern.",
     "<b>All-round</b> — mixed trails: set exactly to your riding-style answers, balanced between grip and support. Downhill and Jumps start from here and only change individual settings.");
   const z = [], vz = v => v > 0 ? "+" : "−";
-  if(e.sag && !x.coil) z.push(tx(`SAG ${vz(e.sag)}${Math.abs(e.sag)} %`, `sag ${vz(e.sag)}${Math.abs(e.sag)}%`));
+  if(e.sag && !x.coil && !x.sagEigen) z.push(tx(`SAG ${vz(e.sag)}${Math.abs(e.sag)} %`, `sag ${vz(e.sag)}${Math.abs(e.sag)}%`));
   if(e.luft && !x.coil && m.psi) z.push(tx(`Luft ${vz(e.luft)}${Math.abs(Math.round(e.luft * 100))} %`, `air ${vz(e.luft)}${Math.abs(Math.round(e.luft * 100))}%`));
   if(m.grenze) z.push(tx("am Maximaldruck", "at maximum pressure"));
   if(m.tok) z.push(x.tokens && x.tokens.soll != null && x.tokens.max != null ? tx(`+${m.tok} Volumen-Spacer (höchstens ${x.tokens.max})`, `+${m.tok} volume spacer${m.tok === 1 ? "" : "s"} (max ${x.tokens.max})`) : tx("mehr Progression (Token, nur wenn laut Anleitung Platz ist)", "more progression (token, only if the manual allows)"));
@@ -14158,11 +14186,13 @@ const suP = (d, p) => d.prof[p || fedModus];
 const suLog = (d, e) => { e.t = Date.now(); e.p = fedModus; d.log.push(e); if(d.log.length > 200) d.log.splice(0, d.log.length - 200); };
 /* Gemessener SAG im aktiven Fahrprofil -- gilt nur, solange der Druck derselbe ist */
 const fxMess = (slot, x, d) => { d = d || suDaten(); const s = suP(d).sag[slot]; if(!s || !(s.mm > 0)) return null;
+  if(s.basis && s.basis !== fwMessBasis(slot, x)) return null;
   if(s.psi != null && !x.coil && suPsi(slot, x, d) !== s.psi) return null; return s.mm; };
 const fxMessAlt = (slot, x, d) => { const s = suP(d).sag[slot]; return s && s.mm > 0 && s.psi != null && !x.coil && suPsi(slot, x, d) !== s.psi ? s : null; };
 /* Angaben zum Rad (Onboarding), am Aufbau gespeichert */
 const fwInfo = () => { if(!build.fw) build.fw = {}; return build.fw; };
 const fwAkt = slot => ((build.fw || {}).akt || {})[slot] || {};
+const fwMessBasis = (slot, x) => JSON.stringify([systemKg(), build.rahmen, build.radKg, radTyp(build), x.t.id, x.t.travel, x.t.hub, (build.fw || {})[slot === "gabel" ? "gf" : "df"]]);
 
 /* Knopf um d Stufen verstellt (+ = zu: straffer bzw. langsamer), als Kopie.
    Ganz zu bleibt bei Knoepfen mit vielen Klicks gesperrt wie in knopfWert. */
@@ -14245,7 +14275,11 @@ function suKnoepfe(slot, x, d){
 /* Luftdruck: eigener Wert im Profil, sonst die Empfehlung (fehlt sie, der
    aktuelle Wert aus dem Onboarding) */
 /* Maximaldruck nur, wenn er fuer das Modell belegt ist (Befunde 12, 16) */
-const suMax = (slot, x) => x.max || null;
+const suMax = (slot, x) => {
+  const v = (((build.fw || {}).vorgaben || {})[slot] || {}).max;
+  const eigen = Number.isFinite(v) && v >= 20 && v <= 400 ? v : null;
+  return x.max && eigen ? Math.min(x.max, eigen) : x.max || eigen;
+};
 /* Jeder Druck, der angezeigt oder zum Pumpen genannt wird, laeuft hier durch
    (Befund 17): unter 10 psi, ueber dem belegten Maximum oder ueber 400 psi
    ist er ungueltig -- dann gilt er nicht, und die Karte sagt es. */
@@ -14741,8 +14775,8 @@ function suWarum(f, slot, x, it){
     }
   }
   else if(it.art === "sag"){
-    z.push(tx("FOX und RockShox: Gabel 15–20 %, Dämpfer 25–30 %, Downhill hinten 30–35 % des Federwegs.", "FOX and RockShox: fork 15–20%, shock 25–30%, downhill rear 30–35% of travel."));
-    z.push(tx(`Dein Ziel: <b>${m.sag} %</b> (${zahlDe(m.sagMm)} mm) — aus deinen Angaben zum Fahrstil${e.sag && !x.coil ? `; Profil ${pName} ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)} %: ${sp2(pg.sag)}` : ""}.`,
+    z.push(tx("SAG-Ziele hängen von Modell und Rahmen ab. Die Anleitung deines Herstellers hat Vorrang vor dem App-Richtwert; am Dämpfer wird der Hub gemessen, nicht der Hinterrad-Federweg.", "Sag targets depend on the model and frame. Your manufacturer's instructions take priority over the app estimate; measure shock stroke, not rear wheel travel."));
+    z.push(x.sagEigen ? tx(`Dein Ziel: <b>${zahlDe(m.sag)} %</b> (${zahlDe(m.sagMm)} mm) — von dir aus der Anleitung eingetragen. Gilt in allen Fahrprofilen.`, `Your target: <b>${m.sag}%</b> (${m.sagMm} mm) — entered by you from the manual. Applies to every riding profile.`) : tx(`Dein Ziel: <b>${m.sag} %</b> (${zahlDe(m.sagMm)} mm) — aus deinen Angaben zum Fahrstil${e.sag && !x.coil ? `; Profil ${pName} ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)} %: ${sp2(pg.sag)}` : ""}.`,
       `Your target: <b>${m.sag}%</b> (${m.sagMm} mm) — from your riding-style answers${e.sag && !x.coil ? `; ${pName} profile ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)}%: ${sp2(pg.sag)}` : ""}.`));
     q.push("foxSag", "rsWelcome", "rsDH");
   }
@@ -14935,7 +14969,7 @@ function suProfilHtml(f, d){
     const zeilen = [];
     for(const [slot, x] of suElemente(f)){
       const e = einsatzVon(p, x.klasse || 0, slot === "daempfer"), pg = SU_PGRUND[p], z = [];
-      if(e.sag && !x.coil) z.push([tx(`SAG ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)} %`, `Sag ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)}%`), pg.sag]);
+      if(e.sag && !x.coil && !x.sagEigen) z.push([tx(`SAG ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)} %`, `Sag ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)}%`), pg.sag]);
       if(e.luft && !x.coil && x.modi[p].psi) z.push([tx(`Luft ${e.luft > 0 ? "+" : "−"}${Math.abs(Math.round(e.luft * 100))} %`, `Air ${e.luft > 0 ? "+" : "−"}${Math.abs(Math.round(e.luft * 100))}%`), pg.luft]);
       if(x.modi[p].tok && x.tokens) z.push([tx(`+${x.modi[p].tok} Token`, `+${x.modi[p].tok} token`), pg.tok]);
       for(const k of suKnoepfe(slot, x, d)){
@@ -14946,7 +14980,7 @@ function suProfilHtml(f, d){
       }
       if(z.length) zeilen.push(`<div class="fw-pe"><b>${slot === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")}</b><ul>${z.map(([a, b]) => `<li><span>${a}</span>${b ? `<small>${sp2(b)}</small>` : ""}</li>`).join("")}</ul></div>`);
     }
-    const sprung = p === "spruenge" ? `<p class="fw-pk-wer">${tx(`Gerechnet für ${fprofil.spruenge === "gross" ? "große Sprünge und Drops" : "kleine bis mittlere Sprünge"} — ${koerper.erfahrung === "viel" ? "viel Erfahrung" : koerper.erfahrung === "etwas" ? "ein paar Saisons Erfahrung" : "Einsteiger-Niveau"}`, `Calculated for ${fprofil.spruenge === "gross" ? "big jumps and drops" : "small to medium jumps"} — ${koerper.erfahrung === "viel" ? "experienced rider" : koerper.erfahrung === "etwas" ? "a few seasons of experience" : "beginner level"}`)}</p>` : "";
+    const sprung = p === "spruenge" ? `<p class="fw-pk-wer">${tx(`Gerechnet für ${fAngabe("spruenge") === "gross" ? "große Sprünge und Drops" : "kleine bis mittlere Sprünge"} — ${koerper.erfahrung === "viel" ? "viel Erfahrung" : koerper.erfahrung === "etwas" ? "ein paar Saisons Erfahrung" : "Einsteiger-Niveau"}`, `Calculated for ${fAngabe("spruenge") === "gross" ? "big jumps and drops" : "small to medium jumps"} — ${koerper.erfahrung === "viel" ? "experienced rider" : koerper.erfahrung === "etwas" ? "a few seasons of experience" : "beginner level"}`)}</p>` : "";
     erkl = `${sprung}${zeilen.join("") || `<p>${tx("Für dein Fahrwerk ändert sich hier nichts.", "Nothing changes for your suspension here.")}</p>`}`;
   }
   return kopf + suDetails("prof-erkl", "su-mehr fw-perkl", tx(`Was ändert sich im Profil ${esc(modusKurz(p))}?`, `What changes in the ${esc(modusKurz(p))} profile?`), `${erkl}<p class="fw-preis">${sp2(P.preis)}</p><p class="su-hint">${tx("Fahrstil- und Profil-Anpassungen sind Erfahrungsregeln der App (nach FOX, RockShox, BikeRadar, GMBN) — keine Herstellerwerte. Die Karten zeigen jeweils, was vom Hersteller kommt und was die App ändert.", "Riding-style and profile adjustments are the app's rules of thumb (based on FOX, RockShox, BikeRadar and GMBN) — not manufacturer's values. Each card shows what comes from the manufacturer and what the app changes.")}</p>`);
@@ -15061,7 +15095,7 @@ function suSagSetzen(slot, v){
   if(!x) return;
   const d = suDaten(f), mm = slot === "gabel" ? x.t.travel : x.t.hub;
   const war = suSagGut(f, d);
-  suP(d).sag[slot] = {mm:Math.max(0, Math.min(mm * 0.6, Math.round(v * 2) / 2)), psi:x.coil ? null : suPsi(slot, x, d), t:Date.now()};
+  suP(d).sag[slot] = {mm:Math.max(0, Math.min(mm * 0.6, Math.round(v * 2) / 2)), psi:x.coil ? null : suPsi(slot, x, d), basis:fwMessBasis(slot, x), t:Date.now()};
   if(suSagGut(f, d) && !war) suLog(d, {typ:"sag"});
   suSichern();
 }
@@ -15441,6 +15475,44 @@ function oeffneBegriff(k, knopf){
    alles bleibt spaeter aenderbar. Angaben zum Rad liegen am Aufbau
    (build.fw), die zum Fahrer im Fahrprofil (fprofil, koerper). ── */
 let obW = {i:0, einzeln:false, vonEnde:false, tipp:null};
+const FW_FRAGEN_VERSION = 2;
+const obStilGruppen = () => ({fahrer:["gelaende"], stil:["tempo", "spruenge"], gefuehl:obHat().daempfer ? ["gefuehl", "bergauf"] : ["gefuehl"]});
+function fwSagZiel(slot){
+  const v = (((build.fw || {}).vorgaben || {})[slot] || {}).sag;
+  return Number.isFinite(v) && v >= (slot === "gabel" ? 10 : 15) && v <= (slot === "gabel" ? 30 : 35) ? v : null;
+}
+/* Nur beim Betreten des Tabs starten, niemals im allgemeinen Onboarding oder beim Neuzeichnen. */
+function fwErsterBesuch(){
+  if(!istPro() || view !== "setup" || (!obHat().gabel && !obHat().daempfer)) return;
+  const fw = fwInfo();
+  if(fw.fragenVersion === FW_FRAGEN_VERSION || $("modal").firstElementChild) return;
+  const altFertig = !!fw.fertig;
+  if(altFertig){
+    fw.besucht = fw.besucht || {};
+    for(const n of obSchritte()) if(!["abstimmung", "vorbereitung", "ende"].includes(n)) fw.besucht[n] = true;
+    /* Alte Versionen liessen Weiter ohne Antwort zu. Diese Angaben gezielt nachholen. */
+    for(const [n, felder] of Object.entries(obStilGruppen())) if(felder.some(k => !fAngabe(k) && !(fw.wn || {})["ff:" + k])) delete fw.besucht[n];
+  }
+  fw.fragenVersion = FW_FRAGEN_VERSION;
+  fw.fertig = false;
+  sichern(); obOeffnen(altFertig || Object.keys(fw.besucht || {}).length ? "weiter" : "start");
+}
+function fwVorbereitungHtml(){
+  const fw = build.fw || {}, z = [];
+  if(fw.zustand === "pruefen") z.push(tx("Du meldest Ölverlust, Luftverlust, Spiel oder Klemmen: erst Ursache prüfen lassen. Klicks und Luftdruck beheben keinen Defekt.", "You reported oil or air loss, play or binding: have the cause checked first. Clicks and air pressure cannot fix a fault."));
+  if(fw.werkzeug === "fehlt") z.push(tx("Zum Einstellen brauchst du eine passende Dämpferpumpe bei Luftfederung und ein Maßband für den SAG. Besorge sie oder lass dir in der Werkstatt helfen.", "For setup you need a suitable shock pump for air suspension and a tape measure for sag. Get them or ask a workshop to help."));
+  if(fw.zustand === "unbekannt") z.push(tx("Zustand noch ungeprüft: vor dem Einstellen auf Undichtigkeiten, Spiel und freie Bewegung achten; Serviceintervall in der Anleitung prüfen.", "Condition not checked yet: before setup, check for leaks, play and free movement; check the manual's service interval."));
+  return z.length ? `<div class="fw-tip" role="status"><span>${z.map(t => `<p>${t}</p>`).join("")}</span></div>` : "";
+}
+function fwFragenKarte(){
+  const offen = obOffen().length;
+  return `<section class="su-karte su-start fw-fragen"><span class="pro-orb">${ic(IC.fahrwerk, 24)}</span>
+    <h3>${tx("Dein Fahrwerk, auf dich abgestimmt", "Your suspension, tailored to you")}</h3>
+    <p>${tx("Wir gehen Gewicht und Ausrüstung, dein Rad, Einsteller, Gelände und Fahrstil durch. Dazu kommen Herstellervorgaben und dein bisheriges Setup. Unbekanntes kannst du später ergänzen.", "We go through weight and gear, your bike, adjusters, terrain and riding style, plus manufacturer limits and your current setup. You can fill in unknown details later.")}</p>
+    <p class="su-hint">${tx("Rechne mit etwa 5 Minuten. Deine Antworten werden laufend gespeichert. Die Fragen gehören zu diesem Rad; Gewicht und Körpermaße gelten für alle Räder.", "Allow about 5 minutes. Your answers save as you go. These questions belong to this bike; weight and body measurements apply to every bike.")}</p>
+    <button class="btn wide" data-fwob="${Object.keys((build.fw || {}).besucht || {}).length ? "weiter" : "start"}">${tx("Fahrwerkfragen öffnen", "Open suspension questions")}${offen ? ` · ${offen}` : ""}</button>
+    <p class="su-hint">${tx("Danach: Startwerte prüfen, SAG messen und auf deiner Teststrecke verfeinern. Gespeichertes Feintuning bleibt erhalten.", "Next: check starting values, measure sag and refine on your test trail. Saved fine-tuning is kept.")}</p></section>`;
+}
 function obHat(){
   const g = build.gabel ? findeTeil("gabel", build.gabel) : null, d = build.daempfer && !entfaellt(build, "daempfer") ? findeTeil("daempfer", build.daempfer) : null;
   return {gabel:!!(g && g.travel > 0), daempfer:!!d};
@@ -15453,7 +15525,10 @@ function fwPruef(){
     const neu = id || null;
     if(fw[k] !== undefined && fw[k] !== neu){
       felder.forEach(x => { delete fw[x]; if(fw.wn) delete fw.wn[x]; });
-      if(slot){ if(fw.ein) delete fw.ein[slot]; if(fw.akt) delete fw.akt[slot]; }
+      if(slot){ if(fw.ein) delete fw.ein[slot]; if(fw.akt) delete fw.akt[slot]; if(fw.vorgaben) delete fw.vorgaben[slot]; }
+      else if(fw.vorgaben && fw.vorgaben.daempfer) delete fw.vorgaben.daempfer.sag;
+      fw.fertig = false;
+      if(fw.besucht) delete fw.besucht.abstimmung;
       if(fw.besucht){ delete fw.besucht[slot || "rad"]; if(slot) delete fw.besucht.einsteller; }
     }
     fw[k] = neu;
@@ -15465,7 +15540,7 @@ function obSchritte(){
   if(h.daempfer) s.push("daempfer");
   if(fed) s.push("einsteller");
   s.push("fahrer", "stil", "gefuehl");
-  if(fed) s.push("profil", "aktuell", "probleme");
+  if(fed) s.push("profil", "abstimmung", "aktuell", "probleme", "vorbereitung");
   s.push("ende");
   return s;
 }
@@ -15521,7 +15596,8 @@ function obInhalt(n, f, fw){
   if(n === "start"){
     r.titel = tx("Dein Fahrwerk-Setup", "Your suspension setup");
     r.html = `<div class="fw-ob-hero">${ilRad({zeig:[]})}</div>
-      <p class="fw-wz-lead">${tx("Ein paar Fragen zu dir, deinem Rad und wie du fährst — rund drei Minuten. Daraus berechnet die App Luftdruck oder Federhärte, SAG, Zug- und Druckstufe: mit Herstellerdaten, wo es sie gibt, und ohne erfundene Werte, wo nicht.", "A few questions about you, your bike and how you ride — about three minutes. From that the app works out air pressure or spring rate, sag, rebound and compression: with manufacturer data where it exists, and no made-up values where it doesn't.")}</p>
+      <p class="fw-wz-lead">${tx("Nimm dir etwa 5 Minuten für Gewicht mit Ausrüstung, Rad, Fahrwerk und deinen Fahrstil. Wir fragen nur nach dem, was an deinem Rad vorhanden ist. Bekannte Angaben sind vorausgefüllt; deine Antworten werden laufend gespeichert.", "Allow about 5 minutes for weight with gear, your bike, suspension and riding style. We only ask about what is fitted to your bike. Known details are pre-filled; your answers save as you go.")}</p>
+      <p class="su-hint">${tx("Die App berechnet persönliche Startwerte. Herstellervorgaben haben Vorrang; SAG-Messung und Testfahrt machen daraus deine Abstimmung.", "The app calculates personal starting values. Manufacturer instructions take priority; sag measurement and a test ride turn them into your setup.")}</p>
       <ul class="fw-check">
         <li>${ic(OB_I, 18)}<span>${tx("Bei jeder Frage steht, <b>warum</b> sie wichtig ist.", "Every question explains <b>why</b> it matters.")}</span></li>
         <li>${ic(`<path d="M9 9a3 3 0 1 1 4 2.8c-.6.3-1 .9-1 1.6V15M12 18h0"/><circle cx="12" cy="12" r="9"/>`, 18)}<span>${tx("<b>„Weiß ich nicht“</b> geht immer — und zeigt dir, wo du es findest.", "<b>“Not sure”</b> is always an option — and shows you where to find it.")}</span></li>
@@ -15534,6 +15610,8 @@ function obInhalt(n, f, fw){
     r.q = tx("Was hast du beim Fahren dabei?", "What do you ride with?");
     /* Gewicht und Groesse kommen aus dem Fahrerprofil -- hier nur lesen */
     r.html = `<p class="fw-aus-profil">${tx(`Aus deinem Fahrerprofil: <b>${plan.fahrer > 0 ? plan.fahrer + " kg" : "Gewicht fehlt"}</b>${koerper.groesse > 0 ? ` · <b>${koerper.groesse} cm</b>` : ""} · ändern unter Einstellungen › Fahrerprofil`, `From your rider profile: <b>${plan.fahrer > 0 ? plan.fahrer + " kg" : "weight missing"}</b>${koerper.groesse > 0 ? ` · <b>${koerper.groesse} cm</b>` : ""} · change under Settings › Rider profile`)}</p>
+      <button class="btn ghost wide" data-fwfahrer="1">${tx("Gewicht, Größe und Erfahrung prüfen", "Check weight, height and experience")}</button>
+      ${!(plan.fahrer > 0) ? `<p class="su-hint">${tx("Ohne Gewicht gibt es noch keine persönlichen Pumpwerte. Du kannst die übrigen Fragen trotzdem beantworten.", "Without a weight there are no personal pressure values yet. You can still answer the other questions.")}</p>` : ""}
       ${obWarum("kg", tx("Luftdruck und Federhärte richten sich nach dem Gewicht, das auf dem Fahrwerk lastet. FOX und RockShox richten ihre Drucktabellen genau danach aus — dazu zählt alles, was du am Körper trägst.", "Air pressure and spring rate depend on the weight the suspension carries. FOX and RockShox base their pressure charts on exactly that — including everything you wear."))}
       ${obGruppe(tx("Was federt mit?", "What else does the suspension carry?"), MONTUR.map(([k, nm, w]) => `<button class="fw-ow klein" data-fmont="${k}" aria-pressed="${teile.indexOf(k) >= 0}"><b>${sp2(nm)}</b><small>${zahlDe(w)} kg</small></button>`).join("") + obWn("montur", !m),
         tx(`Ein gefüllter Trinkrucksack wiegt schnell 3 kg — das ändert den Druck spürbar. Schuhe, Kleidung und Handschuhe rechnet die App immer mit ${MONTUR_GRUND} kg; ohne Angabe nimmt sie 4 kg für alles.`, `A full hydration pack easily weighs 3 kg — that changes the pressure noticeably. Shoes, clothes and gloves always count as ${MONTUR_GRUND} kg; without any info the app uses 4 kg for everything.`), "montur", "zwei")}
@@ -15600,7 +15678,7 @@ function obInhalt(n, f, fw){
     return r;
   }
   const ffGruppe = k => { const q = FFRAGEN.find(y => y.k === k);
-    return obGruppe(q.q, q.o.map(o => obWahl(`data-fwwk="ff:${k}|${o[0]}"`, fprofil[k] === o[0], o[1], o[2])).join("") + obWn("ff:" + k, !fprofil[k]), q.h + " " + tx("Ohne Angabe rechnet die App mit der Mitte.", "Without an answer, the app assumes the middle option."), k); };
+    return obGruppe(q.q, q.o.map(o => obWahl(`data-fwwk="ff:${k}|${o[0]}"`, fAngabe(k) === o[0], o[1], o[2])).join("") + obWn("ff:" + k, !!wn["ff:" + k]), q.h + " " + tx("Ohne Angabe rechnet die App mit der Mitte.", "Without an answer, the app assumes the middle option."), k); };
   if(n === "fahrer"){
     r.titel = tx("Du als Fahrer", "You as a rider");
     r.q = tx("Wo fährst du?", "Where do you ride?");
@@ -15627,6 +15705,34 @@ function obInhalt(n, f, fw){
         <span><b>${esc(modusKurz(k))}</b><small>${sp2(SU_PROFIL[k].fokus)}</small><small class="fw-op-p">${sp2(SU_PROFIL[k].preis)}</small></span></button>`).join("")}${obWn("prof", false)}</div>
       ${t === "prof" ? obTipp(tx("Dann nimm Allround — die Basis. Downhill und Sprünge ändern von dort aus nur einzelne Einstellungen.", "Then take All-round — the base. Downhill and Jumps only change individual settings from there.")) : ""}
       ${obWarum("prof", tx("Jedes Profil speichert eigene Werte und eine eigene Grundeinstellung. Wechseln geht jederzeit oben im Setup — z. B. Allround für die Hausrunde, Sprünge für den Bikepark. „Für Sprünge alles härter“ gibt es nicht: Die App ändert nur, was dem Profil hilft, und sagt, was es kostet.", "Each profile stores its own values and its own baseline. Switch any time at the top of Setup — e.g. all-round for your local loop, jumps for the bike park. There's no “everything firmer for jumps”: the app only changes what helps the profile, and says what it costs."))}`;
+    return r;
+  }
+  if(n === "abstimmung"){
+    r.titel = tx("Vorgaben deiner Hersteller", "Your manufacturers' settings");
+    r.q = tx("Welche Vorgaben stehen in deiner Anleitung?", "What does your manual specify?");
+    r.html = `<p class="su-hint">${tx("Optional: Werte nur aus der Anleitung für dein genaues Modell übernehmen. Beim Dämpfer nennt oft der Rahmenhersteller das SAG-Ziel. Leer lassen, wenn unbekannt. Ein eingetragenes SAG-Ziel bleibt in allen Fahrprofilen gleich.", "Optional: only copy values from the manual for your exact model. The frame maker often specifies rear shock sag. Leave blank if unknown. An entered sag target stays the same in every riding profile.")}</p>`
+      + suElemente(f).map(([slot, x]) => { const v = (fw.vorgaben || {})[slot] || {};
+        return `<fieldset class="fw-og"><legend>${slot === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")} · ${esc(x.t.nb || x.t.n)}</legend><div class="fw-oz-gitter">
+          ${obZahl(`vorgabe:${slot}:sag`, v.sag, tx("SAG-Ziel laut Anleitung", "Sag target from manual"), "%", tx("unbekannt", "unknown"), true)}
+          ${x.coil ? "" : obZahl(`vorgabe:${slot}:max`, v.max, tx("Maximaldruck laut Aufkleber", "Maximum pressure on label"), "psi", x.max ? String(x.max) : tx("unbekannt", "unknown"))}
+        </div></fieldset>`; }).join("") + `<div class="fw-ows">${obWn("vorgaben", !Object.keys(fw.vorgaben || {}).some(s => Object.keys(fw.vorgaben[s]).length))}</div>`
+      + obWarum("vorgaben", tx("Dein Rahmen kann ein anderes SAG-Ziel brauchen als der allgemeine Richtwert. Ein niedrigerer Maximaldruck begrenzt auch gespeicherte Werte; ein höherer hebt bekannte Herstellergrenzen niemals an.", "Your frame may need a different sag target from the general estimate. A lower pressure limit also restricts saved values; a higher one never raises known manufacturer limits."))
+      + `<p class="fw-q-zeile">${fwQ("rsTrailhead")}${fwQ("foxManuals")}</p>`;
+    return r;
+  }
+  if(n === "vorbereitung"){
+    r.titel = tx("Bereit zum Messen?", "Ready to measure?");
+    r.q = tx("Was brauchst du vor der ersten Einstellung?", "What do you need before setting up?");
+    r.html = obGruppe(tx("Zustand von Gabel und Dämpfer", "Fork and shock condition"), [
+      ["ok", tx("Funktioniert unauffällig", "Works normally"), tx("Kein Verlust, Spiel oder Klemmen bemerkt", "No loss, play or binding noticed")],
+      ["pruefen", tx("Es gibt Auffälligkeiten", "Something seems wrong"), tx("Öl-/Luftverlust, Spiel oder Klemmen", "Oil/air loss, play or binding")],
+      ["unbekannt", tx("Noch nicht geprüft", "Not checked yet"), tx("Servicezustand unbekannt", "Service history unknown")]
+    ].map(([v, h, s]) => obWahl(`data-fwwk="zustand|${v}"`, fw.zustand === v, h, s)).join(""), tx("Fehler oder überfälliger Service können das Ergebnis verfälschen. Die App kann den technischen Zustand nicht prüfen.", "Faults or overdue service can distort the result. The app cannot inspect the mechanical condition."), "zustand")
+      + obGruppe(tx("Messwerkzeug", "Measuring tools"), [
+        ["da", tx("Alles vorhanden", "All ready"), tx("Maßband; bei Luftfederung eine Dämpferpumpe", "Tape measure; a shock pump for air suspension")],
+        ["fehlt", tx("Mir fehlt noch etwas", "I still need something"), tx("Erst vorbereiten, dann einstellen", "Prepare first, then adjust")]
+      ].map(([v, h, s]) => obWahl(`data-fwwk="werkzeug|${v}"`, fw.werkzeug === v, h, s)).join("") + obWn("werkzeug", fw.werkzeug === "unbekannt"), "", "werkzeug")
+      + `<p class="su-hint">${tx("Für vergleichbare Testfahrten: gleiche Ausrüstung, dieselbe kurze Strecke und gleichbleibender Reifendruck. Ändere jeweils nur eine Einstellung. Dein Wunschtext ist eine Notiz; er verstellt keine Werte automatisch.", "For comparable test rides: use the same gear, short trail and tyre pressure. Change one setting at a time. Your wish text is a note; it does not change values automatically.")}</p>${fwVorbereitungHtml()}`;
     return r;
   }
   if(n === "aktuell"){
@@ -15669,7 +15775,7 @@ function obInhalt(n, f, fw){
 /* Zeile der Zusammenfassung: [Bezeichnung, Wert, Klasse] */
 function obZeile(n, f, fw){
   const wnT = tx("weiß nicht", "not sure"), wn = fw.wn || {}, j = (v, k) => v > 1990 ? String(v) : v === "alt" ? tx(`vor ${AKTUELL - 6}`, `before ${AKTUELL - 6}`) : wn[k] ? wnT : "";
-  const opt = k => { const q = FFRAGEN.find(y => y.k === k), o = q && q.o.find(y => y[0] === fprofil[k]); return o ? o[1] : ""; };
+  const opt = k => { const q = FFRAGEN.find(y => y.k === k), o = q && q.o.find(y => y[0] === fAngabe(k)); return o ? o[1] : ""; };
   const z = l => l.filter(Boolean).map(esc).join(" · ");
   if(n === "gewicht") return [tx("Du", "You"), plan.fahrer > 0 ? z([plan.fahrer + " kg", tx(`+ ${zahlDe(monturKg())} kg Ausrüstung`, `+ ${monturKg()} kg gear`), koerper.groesse > 0 ? koerper.groesse + " cm" : ""]) : tx("Gewicht fehlt", "Weight missing"), plan.fahrer > 0 ? "" : "fehlt"];
   if(n === "rad"){ const rh = build.rahmen ? findeTeil("rahmen", build.rahmen) : null; return [tx("Rad", "Bike"), z([rh ? rh.n : tx("kein Rahmen", "no frame"), rh ? String(jahrWahl[modus]) : "", fw.gr || (wn.gr ? tx("Größe unbekannt", "size unknown") : ""), sp2(RADTYP[radTyp(build)].n).replace(/ \(.*\)$/, "")])]; }
@@ -15680,9 +15786,22 @@ function obZeile(n, f, fw){
   if(n === "stil") return [tx("Fahrstil", "Style"), z([opt("tempo"), opt("spruenge")]) || "—"];
   if(n === "gefuehl") return [tx("Gefühl", "Feel"), z([opt("gefuehl"), obHat().daempfer ? opt("bergauf") : ""]) || "—"];
   if(n === "profil") return [tx("Profil", "Profile"), esc(modusKurz(fedModus))];
+  if(n === "abstimmung") return [tx("Herstellervorgaben", "Manufacturer settings"), suElemente(f).map(([s]) => { const v = (fw.vorgaben || {})[s] || {}; return z([s === "gabel" ? tx("vorn", "front") : tx("hinten", "rear"), v.sag ? `SAG ${zahlDe(v.sag)} %` : tx("SAG geschätzt", "sag estimated"), v.max ? tx(`max. ${v.max} psi`, `max ${v.max} psi`) : ""]); }).join(" · ")];
+  if(n === "vorbereitung") return [tx("Vorbereitung", "Preparation"), fw.zustand === "pruefen" ? tx("Erst Ursache prüfen lassen", "Have the cause checked first") : fw.werkzeug === "fehlt" ? tx("Messwerkzeug fehlt", "Measuring tools missing") : tx("SAG messen und Testfahrt planen", "Measure sag and plan a test ride")];
   if(n === "aktuell"){ const a = fw.akt || {}, n2 = Object.keys(a).reduce((s, k) => s + Object.keys(a[k] || {}).length, 0); return [tx("Vorher", "Before"), n2 ? tx(`${n2} Werte eingetragen`, `${n2} values entered`) : "—"]; }
   if(n === "probleme"){ const p = fw.probleme || []; return [tx("Probleme", "Problems"), p.length ? esc(p.map(id => sp2((SU_GEFUEHL.find(g => g.id === id) || {t:["", ""]}).t)).join(", ")) : tx("keine", "none")]; }
   return null;
+}
+function obWeiterPruefen(n){
+  const falsch = $("modal").querySelector('[aria-invalid="true"]');
+  if(falsch){ falsch.focus(); return false; }
+  const felder = obStilGruppen();
+  const fw = fwInfo();
+  const fehlt = (felder[n] || []).some(k => !fAngabe(k) && !(fw.wn || {})["ff:" + k]);
+  obW.fehler = fehlt ? tx("Wähle bei jeder Frage eine Antwort oder „Weiß ich nicht“.", "Choose an answer or “Not sure” for each question.")
+    : n === "vorbereitung" && (!fw.zustand || !fw.werkzeug) ? tx("Wähle den Zustand und ob du das Messwerkzeug hast.", "Choose the condition and whether you have the measuring tools.") : null;
+  if(obW.fehler){ zeigeSheet(obHtml()); const hin = $("modal").querySelector(".fw-frage-fehler"); if(hin) hin.focus(); return false; }
+  return true;
 }
 function obHtml(){
   fwPruef();
@@ -15696,7 +15815,7 @@ function obHtml(){
   else if(obW.einzeln) fuss = `<button class="btn wide" data-fwobw="1">${obW.vonEnde ? tx("Änderung übernehmen", "Apply change") : tx("Fertig", "Done")}</button>`;
   else fuss = `<button class="btn ghost" data-fwobz="1">${tx("Zurück", "Back")}</button><button class="btn" data-fwobw="1">${tx("Weiter", "Next")}</button>`;
   return `<div class="sheet-h"><h3><span class="sub">Setup${n === "start" || n === "ende" ? "" : " · " + esc(r.titel)}</span>${n === "start" || n === "ende" ? esc(r.titel) : esc(r.q)}</h3>${zuBtn}</div>
-    <div class="sheet-b fw-wz fw-ob" data-obschritt="${n}">${kopf}${n === "ende" ? `<p class="fw-wz-lead">${r.q}</p>` : ""}${r.html}</div>
+    <div class="sheet-b fw-wz fw-ob" data-obschritt="${n}">${kopf}${n === "ende" ? `<p class="fw-wz-lead">${r.q}</p>` : ""}${r.html}<p class="fw-tip fw-frage-fehler" role="alert" tabindex="-1"${obW.fehler ? "" : " hidden"}>${obW.fehler || ""}</p></div>
     <div class="sheet-f fw-wz-f">${fuss}</div>`;
 }
 /* w: Schrittname, "start", "weiter" (erste offene Frage) oder "ende" */
@@ -15704,6 +15823,7 @@ function obOeffnen(w){
   if(!istPro()){ schliesse(); oeffneSetup(); return; }
   fwPruef();
   const s = obSchritte(), fw = fwInfo(), b = fw.besucht || {};
+  fw.fragenVersion = FW_FRAGEN_VERSION; sichern();
   let i = w === "start" ? 0 : w === "weiter" ? s.findIndex((n, j) => j > 0 && n !== "ende" && !b[n]) : s.indexOf(w);
   if(i < 0) i = w === "weiter" ? s.length - 1 : 0;
   obW = {i:i, einzeln:!!fw.fertig && w !== "start" && w !== "weiter" && w !== "ende", vonEnde:false, tipp:null};
@@ -15719,7 +15839,8 @@ function obSetzen(feld, wert){
   fw.wn = fw.wn || {};
   if(/^(gj|dj)$/.test(feld)){ fw[feld] = wert === "alt" ? "alt" : +wert; delete fw.wn[feld]; }
   else if(feld === "gr"){ fw.gr = wert; delete fw.wn.gr; }
-  else if(/^ff:/.test(feld)){ fprofil[feld.slice(3)] = wert; fSichern(); }
+  else if(/^ff:/.test(feld)){ (fw.stil = fw.stil || {})[feld.slice(3)] = wert; delete fw.wn[feld]; }
+  else if(feld === "zustand" || feld === "werkzeug") fw[feld] = wert;
   else if(feld === "prof"){ fedModus = wert; fprofil.profil = wert; fSichern(); try{ localStorage.setItem("mtb.fmodus", fedModus); }catch(e){} }
   else if(feld === "prob"){ const p = (fw.probleme || []).slice(), i = p.indexOf(wert); if(i >= 0) p.splice(i, 1); else p.push(wert); fw.probleme = p; }
   else if(/^ein:/.test(feld)){
@@ -15730,17 +15851,19 @@ function obSetzen(feld, wert){
     if(soll === e.da.has(a)) delete fw.ein[slot][a]; else fw.ein[slot][a] = soll;
     if(!Object.keys(fw.ein[slot]).length) delete fw.ein[slot];
   }
-  obW.tipp = null;
+  obW.tipp = null; obW.fehler = null;
   sichern();
 }
 /* "Weiss ich nicht": Angabe leeren, Hinweis zeigen, wo man sie findet */
 function obWeissNicht(feld){
   const fw = fwInfo();
   fw.wn = fw.wn || {};
-  obW.tipp = feld;
+  obW.tipp = feld; obW.fehler = null;
   if(feld === "montur"){ delete fprofil.montur; fSichern(); }
+  else if(feld === "vorgaben") delete fw.vorgaben;
+  else if(feld === "werkzeug") fw.werkzeug = "unbekannt";
   else if(/^(gr|gj|dj|gf|df|fwH)$/.test(feld)){ delete fw[feld]; fw.wn[feld] = true; }
-  else if(/^ff:/.test(feld)){ delete fprofil[feld.slice(3)]; fSichern(); }
+  else if(/^ff:/.test(feld)){ (fw.stil = fw.stil || {})[feld.slice(3)] = null; fw.wn[feld] = true; }
   else if(feld === "prof"){ fedModus = "allround"; delete fprofil.profil; fSichern(); try{ localStorage.setItem("mtb.fmodus", fedModus); }catch(e){} }
   else if(/^ein:/.test(feld)){ if(fw.ein) delete fw.ein[feld.slice(4)]; }
   else if(feld === "prob") fw.probleme = [];
@@ -15753,6 +15876,14 @@ function obZahlSetzen(el){
   if(feld === "wunsch"){ fw.wunsch = el.value.replace(/\s+/g, " ").trim().slice(0, 240); sichern(); return; }
   const z = feldZahl(el), v = z.v, leer = !el.value.trim();
   const fehler = (txt) => { feldHinweis(el, z.kaputt ? NUR_ZIFFERN() : txt); };
+  if(/^vorgabe:/.test(feld)){
+    const [, slot, art] = feld.split(":"), gr = art === "max" ? [20, 400] : slot === "gabel" ? [10, 30] : [15, 35];
+    const ok = Number.isFinite(v) && v >= gr[0] && v <= gr[1];
+    const ziel = ((fw.vorgaben = fw.vorgaben || {})[slot] = fw.vorgaben[slot] || {});
+    if(ok) ziel[art] = art === "max" ? Math.floor(v) : v; else delete ziel[art];
+    fehler(leer || ok ? null : tx(`Bitte ${gr[0]} bis ${gr[1]} ${art === "max" ? "psi" : "%"} eingeben oder leer lassen. Abweichende Vorgaben direkt mit dem Hersteller klären.`, `Enter ${gr[0]} to ${gr[1]} ${art === "max" ? "psi" : "%"} or leave blank. Check other values with the manufacturer directly.`));
+    sichern(); return;
+  }
   if(feld === "fwH"){
     const k = Math.round(v), ok = k >= 60 && k <= 260;
     if(ok){ fw.fwH = k; if(fw.wn) delete fw.wn.fwH; } else delete fw.fwH;
@@ -15766,7 +15897,9 @@ function obZahlSetzen(el){
     sichern(); return;
   }
   if(/^akt:/.test(feld)){
-    const [, slot, art] = feld.split(":"), gr = art === "psi" ? [10, 400] : art === "sag" ? [0, 150] : [-30, 60], ok = !isNaN(v) && v >= gr[0] && v <= gr[1];
+    const [, slot, art] = feld.split(":"), x = federRechnen()[slot];
+    if(!x) return;
+    const gr = art === "psi" ? [10, suMax(slot, x) || 400] : art === "sag" ? [0, (slot === "gabel" ? x.t.travel : x.t.hub) * 0.6] : [-30, 60], ok = !isNaN(v) && v >= gr[0] && v <= gr[1];
     fw.akt = fw.akt || {}; fw.akt[slot] = fw.akt[slot] || {};
     if(ok) fw.akt[slot][art] = art === "sag" ? Math.round(v * 2) / 2 : Math.round(v); else delete fw.akt[slot][art];
     if(!Object.keys(fw.akt[slot]).length) delete fw.akt[slot];
@@ -15809,6 +15942,7 @@ function setupHtml(){
   const kopf = (sub, rechts) => `<div class="su-kopf"><div class="su-titel"><h2>${tx("Fahrwerk", "Suspension setup")}</h2><span>${sub}</span></div>${rechts || ""}</div>`;
   if(!istPro()) return kopf(tx("Dein Fahrwerk, Schritt für Schritt", "Your suspension, step by step")) + suProHtml();
   fwPruef();
+  if((obHat().gabel || obHat().daempfer) && !fwInfo().fertig) return kopf(tx("Persönliche Fahrwerkfragen", "Personal suspension questions")) + fwFragenKarte();
   /* Start: der Assistent fragt alles Noetige -- nichts ist Pflicht ausser dem Gewicht */
   if(!(plan.fahrer > 0)) return kopf(tx("Dein Fahrwerk, Schritt für Schritt", "Your suspension, step by step")) + `
     <section class="su-karte fw-hero"><div><div class="fw-hero-b">${ilGabel({zeig:["luft", "druck", "zug"]})}${ilDaempfer({zeig:["luft", "druck", "zug"]})}</div>
@@ -15832,6 +15966,7 @@ function setupHtml(){
       <ul>${konf.map(b => `<li><b>${b.titel}</b></li>`).join("")}</ul>
       <button class="btn" data-view="befunde">${tx("Zur Prüfung", "Go to Check")}</button></section>`;
   const d = suDaten(f), el = suElemente(f), fw = build.fw || {};
+  if(fw.zustand === "pruefen") return kopf(el0Titel(f)) + fwVorbereitungHtml() + `<button class="btn wide" data-fwob="vorbereitung">${tx("Zustand erneut prüfen", "Review condition")}</button>`;
   if(!el.some(e => e[0] === suElWahl)) suElWahl = el[0][0];
   const x = f[suElWahl], offen = fw.fertig ? [] : obOffen();
   /* Nur Status -- bearbeitet wird ausschliesslich unter "Deine Angaben" */
@@ -15840,7 +15975,12 @@ function setupHtml(){
   const wahl = el.length > 1 ? `<div class="fw-elw" role="group" aria-label="${tx("Federelement", "Fork or shock")}">${el.map(([s, y]) => `<button data-fwel="${s}" aria-pressed="${s === suElWahl}"><span class="fw-el-ic ${s}">${ic(SU_IC[s], 18)}</span>
       <span><b>${s === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")}</b><small>${s === "gabel" ? tx("vorn", "front") : tx("hinten", "rear")} · ${esc(y.t.nb || y.t.n)}</small></span></button>`).join("")}</div>` : "";
   const teile = el.map(([, y]) => esc(y.t.nb || y.t.n)).join(" · ");
-  return kopf(teile) + banner + `
+  const basis = `<section class="su-karte su-start"><h3>${tx("Deine persönliche Ausgangsbasis", "Your personal starting point")}</h3>
+    <p>${tx(`Du ${zahlDe(plan.fahrer)} kg + Ausrüstung ${zahlDe(monturKg())} kg = <b>${zahlDe(systemKg())} kg</b>.`, `You ${plan.fahrer} kg + gear ${monturKg()} kg = <b>${systemKg()} kg</b>.`)} ${!fprofil.montur || !fprofil.montur.eigen ? tx("Ausrüstungsgewicht geschätzt.", "Gear weight estimated.") : tx("Ausrüstungsgewicht von dir gewogen.", "Gear weight measured by you.")}</p>
+    <p class="su-hint">${["fahrer", "stil", "gefuehl"].map(n => obZeile(n, f, fw)[1]).join(" · ")}</p>
+    <p class="su-hint">${tx("Herstellerdaten und App-Schätzungen stehen bei jedem Wert unter „Warum dieser Wert“. Dein gespeichertes Feintuning hat Vorrang vor neuen Rechenwerten. Nach Änderungen an Gewicht, Ausrüstung oder Rad erneut SAG messen.", "Manufacturer data and app estimates are under “Why this value” for each setting. Saved fine-tuning takes priority over new calculations. Measure sag again after changes to weight, gear or bike.")}</p>
+    ${fwVorbereitungHtml()}</section>`;
+  return kopf(teile) + banner + basis + `
     <div class="su-spalten"><div class="su-sp">
       <section class="su-karte fw-oben">${suProfilHtml(f, d)}</section>
       ${suNaechsterHtml(f, d)}
@@ -15877,6 +16017,7 @@ function fwNeu(){
 }
 function oeffneSetup(){
   view = "setup"; einflug(); zeichne();
+  fwErsterBesuch();
   window.scrollTo({top:0, behavior:bewegungAus() ? "auto" : "smooth"});
 }
 /* Einstellkarte oeffnen und hinscrollen */
@@ -18407,9 +18548,10 @@ function zeigeBereich(v){
   if(v === "befunde"){ if($("modal").querySelector(".sheet")) schliesse(); zuPruef(); return; }
   if(v === "upgrades"){ oeffneFinderStart(); return; }
   const vorher = view, y = window.scrollY;
-  if(v === vorher){ window.scrollTo({top:0, behavior:bewegungAus() ? "auto" : "smooth"}); return; }
+  if(v === vorher){ if(v === "setup") fwErsterBesuch(); window.scrollTo({top:0, behavior:bewegungAus() ? "auto" : "smooth"}); return; }
   scrollJe[vorher] = y;
   view = v; einflug(); zeichne();
+  if(v === "setup") fwErsterBesuch();
   /* War man im alten Bereich unter den Radknoepfen, startet der neue Bereich
      oben am Inhalt -- die Navigation bleibt, wo sie ist */
   const ziel = scrollJe[v] != null ? scrollJe[v] : Math.min(y, inhaltOben());
@@ -18437,6 +18579,7 @@ function radWechseln(m, id){
   if(m !== modus) wechsle(m);
   if(id !== aktivId[modus]){ profilZurueck(modus); aktivId[modus] = id; profilHolen(modus); }
   sichern(); schliesse(); einflug(); zeichne();
+  if(view === "setup") fwErsterBesuch();
 }
 
 function oeffneSlot(slotKey, opt){
@@ -19062,13 +19205,13 @@ function oeffneMenu(){
           ? (proBetreiber() ? tx("Betreiber-Modus: alles frei", "Operator mode: everything unlocked") : tx("Unbegrenzt viele Räder, Fahrwerk-Setup, Guide ohne Limit — danke!", "Unlimited bikes, suspension setup, unlimited Guide questions — thank you!"))
           : tx(`Unbegrenzt viele Räder, Fahrwerk-Setup, Guide ohne Limit · ab ${euro(PRO_JAHR_MONAT)} im Monat`, `Unlimited bikes, suspension setup, unlimited Guide questions · from ${euro(PRO_JAHR_MONAT)} a month`)}</span></span>${ic(IC.weiter, 16)}</button>
       <div class="grp-h" style="margin-top:16px"><h2>${tx("Fahrerprofil", "Rider profile")}</h2><div class="rule"></div></div>
-      <div class="hilfe-liste"><button class="hl-zeile" data-fahrerprofil="1"><span class="hl-ic">${ic(IC.groesse, 18)}</span>
+      <div class="hilfe-liste"><button class="hl-zeile" data-einstiegneu="1"><span class="hl-ic">${ic(IC.tour, 18)}</span><span><b>${tx("Einrichtung komplett neu durchgehen", "Go through setup again")}</b><span>${tx("Aktuelle Funktionen und alle Fahrerfragen · deine Räder bleiben erhalten", "Current features and all rider questions · your bikes are kept")}</span></span>${ic(IC.weiter, 16)}</button><button class="hl-zeile" data-fahrerprofil="1"><span class="hl-ic">${ic(IC.groesse, 18)}</span>
         <span><b>${tx("Fahrerprofil bearbeiten", "Edit rider profile")}</b><span>${fahrerKurz() || tx("Erfahrung, Körpermaße und Gewicht — gilt für alle Räder", "Experience, body measurements and weight — applies to every bike")}</span></span>${ic(IC.weiter, 16)}</button></div>
       <div class="grp-h" style="margin-top:16px"><h2>${tx("Hilfe", "Help")}</h2><div class="rule"></div></div>
       <div class="hilfe-liste">${[
         ['data-hilfe="begriffe"', IC.buch, tx("Begriffe erklärt", "Terms explained"), tx("Boost, Freilauf, Kettenlinie, SAG … einfach erklärt", "Boost, freehub, chainline, sag … explained simply")],
         ['data-startseite="1"', "logo", tx("Über CrankScore", "About CrankScore"), tx("Alles, was die App kann — auf einer Seite", "Everything the app does — on one page")],
-        ['data-szenen="1"', IC.auge, tx("Einführung ansehen", "Watch the intro"), tx("Drei kurze Szenen: was CrankScore für dich löst", "Three short scenes: what CrankScore does for you")],
+        ['data-szenen="1"', IC.auge, tx("Einführung ansehen", "Watch the intro"), tx("Aktuelle Funktionen: Teile, Adapter, Fahrwerk und Guide", "Current features: parts, adapters, suspension and Guide")],
         ['data-hilfe="tour"', IC.tour, tx("App-Rundgang", "App tour"), tx("In 30 Sekunden: wo was ist", "In 30 seconds: where everything is")]
       ].concat(leitAus ? [['data-hilfe="leit"', IC.auge, tx("Aufgabenkarte wieder zeigen", "Show the task card again"), tx("Die Karte „Nächster Schritt“ über dem Score", "The “Next step” card above the score")]] : [])
         .map(([a, i, t, u]) => `<button class="hl-zeile" ${a}><span class="hl-ic">${i === "logo" ? csLogo(20) : ic(i, 18)}</span><span><b>${t}</b><span>${u}</span></span>${ic(IC.weiter, 16)}</button>`).join("")}</div>
@@ -19148,12 +19291,17 @@ document.addEventListener("click", e => {
   const bgr = T("[data-begriff]");
   if(bgr){ oeffneBegriff(bgr.dataset.begriff, bgr); return; }
   /* Onboarding */
+  if(T("[data-fwfahrer]")){
+    const weiter = {...obW}; oeffneEinstieg("fahrer");
+    ei.nach = () => { obW = weiter; zeigeSheet(obHtml()); }; return;
+  }
   const fob = T("[data-fwob]");
   if(fob){ obOeffnen(fob.dataset.fwob); return; }
   const fobi = T("[data-fwobi]");
   if(fobi){ obW = {i:+fobi.dataset.fwobi, einzeln:true, vonEnde:true, tipp:null}; zeigeSheet(obHtml()); blattOben(); return; }
   if(T("[data-fwobw]")){
     const s = obSchritte(), fw = fwInfo();
+    if(!obWeiterPruefen(s[obW.i])) return;
     (fw.besucht = fw.besucht || {})[s[obW.i]] = true;
     if(obW.einzeln){
       sichern();
@@ -19161,7 +19309,6 @@ document.addEventListener("click", e => {
       return;
     }
     obW.i++; obW.tipp = null;
-    if(s[obW.i] === "ende") fw.fertig = true;
     sichern(); fwNeu(); blattOben(); return;
   }
   if(T("[data-fwobz]")){ obW.i = Math.max(0, obW.i - 1); obW.tipp = null; zeigeSheet(obHtml()); blattOben(); return; }
@@ -19352,6 +19499,7 @@ document.addEventListener("click", e => {
   if(T("[data-propruef]")){ proPruefen(true); return; }
 
   /* Einstieg und Fit */
+  if(T("[data-einstiegneu]")){ schliesse(); oeffneSzenen(() => oeffneEinstieg("wiederholen")); return; }
   const ew = T("[data-eiwahl]");
   if(ew){ eiWahl(ew); return; }
   if(T("[data-eiweiter]")){ eiWeiter(); return; }
@@ -19380,7 +19528,7 @@ document.addEventListener("click", e => {
   if(T("[data-d3]")){ oeffne3D(); return; }
   if(T("[data-szenen]")){ schliesse(); setTimeout(() => oeffneSzenen(null), 200); return; }
   if(T("[data-szweg]")){ szenenEnde(); return; }
-  if(T("[data-szweiter]")){ if(szene.i >= 2) szenenEnde(); else szeneZeigen(szene.i + 1); return; }
+  if(T("[data-szweiter]")){ if(szene.i >= szene.anzahl - 1) szenenEnde(); else szeneZeigen(szene.i + 1); return; }
   if(T("[data-szzurueck]")){ szeneZeigen(Math.max(0, szene.i - 1)); return; }
   const d3g = T("[data-d3gruppe]");
   if(d3g){ d3Gruppe(d3g.dataset.d3gruppe); d3g.parentElement.querySelectorAll("[data-d3gruppe]").forEach(b => b.setAttribute("aria-pressed", String(b === d3g))); return; }
