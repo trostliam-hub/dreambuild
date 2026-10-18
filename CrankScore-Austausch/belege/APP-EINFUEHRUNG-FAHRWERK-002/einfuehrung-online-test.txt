@@ -1,0 +1,11 @@
+  ok   Sechs Szenen erklaeren die Funktionen und schliessen mit genau einem Aufruf ab
+  ok   Vor, zurueck und direkte Fortschrittspunkte oeffnen die angewaehlte Szene
+  ok   Adapter-Demo wechselt 180/203 mm und +23 mm ohne Rad, Plan, Profile, Setup oder Wunschliste zu veraendern
+  ok   Ueberspringen und wiederholtes Schliessen rufen den Abschluss nur einmal auf
+  ok   Tastatur bleibt im Dialog; Pfeile navigieren, Escape schliesst genau einmal
+  ok   320/390/1280 px und kurze Hoehen: Weiter bleibt in allen Szenen sichtbar und anklickbar
+  ok   Deutsch/Englisch und OLED/Hell zeigen lesbare lokalisierte Szenen
+  ok   Bewegung reduzieren entfernt die Introanimationen in jeder Szene
+  ok   Szenen sind als Beispiele gekennzeichnet; echte Fotos haben Alttext und Herstellerquelle
+  ok   Erneut ansehen startet bei Szene 1 und behaelt gespeicherte Daten; keine JavaScript-Fehler
+EINFUEHRUNG: 10 von 10 Prüfungen bestanden.

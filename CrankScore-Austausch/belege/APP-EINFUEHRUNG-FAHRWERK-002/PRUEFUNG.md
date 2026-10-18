@@ -15,3 +15,5 @@ Chromium-Sichtprüfung: 18 Einführungsszenen bei 320×568, 390×844 und 1280×9
 Einsteigerreview ist simuliert. Keine echten fachfremden Teilnehmer und kein echtes iPhone/Safari geprüft. Die kleine SAG-Beschriftung innerhalb der Gesamtansicht ist zusätzlich im gut lesbaren Text erklärt. Herstellerwerte bleiben Ausgangswerte für Messung und Testfahrt.
 
 Ausgewählte Screenshots liegen in diesem Ordner. Online-Dateiabgleich und CI-Ergebnis werden nach Veröffentlichung ergänzt; Versions-/Cache-Stempel erfolgen ausschließlich automatisch.
+
+Erster CI-Lauf: alle bestehenden Gruppen bestanden. Die neuen Prüfungen wurden auf Server-Browserlocale en-US/UTC vorbereitet. Die deutsche Fotobeschriftung wird durch ausdrückliche App-Sprachwahl geprüft. Bei Datenerhalt wird außerdem eine bestehende Ablehnung mitgespeichert und vollständig verglichen: vorher hatte ausschließlich die spätere Initialisierung der leeren internen Ablehnungsliste fehlend→{} den Test ausgelöst. Keine Datenfelder werden ausgeschlossen. Alle 26 neuen Fälle bestehen nach dieser Fixturekorrektur unter en-US/UTC; App-Code bleibt unverändert.

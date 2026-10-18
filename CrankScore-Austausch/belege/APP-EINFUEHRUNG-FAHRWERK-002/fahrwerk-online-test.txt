@@ -1,0 +1,19 @@
+  ok   Ohne Rad zuerst zum Aufbau statt Gewicht, Pro oder Fahrwerkfragen
+  ok   Fehlender Daempfer wird am Rad ergaenzt, direkter Fragenaufruf zeigt keine falschen Werte
+  ok   Erst im Fahrwerk-Tab, Teile bestaetigen und unterbrochene Fragen fortsetzen
+  ok   Sechs persoenliche Fragen beim Fully ohne SAG-Ziele, Maximaldruck oder Klickzaehlpflicht
+  ok   Keine stillen Antworten: unbekannt ist moeglich, falsche Federzahl sperrt Weiter
+  ok   Modellwerte automatisch: alte manuelle SAG-/Druckvorgaben ersetzen keine Herstellergrenze
+  ok   475-lbs-Feder bleibt statt 500 und beeinflusst SAG sowie Zugstufen-Startwert
+  ok   Feder- und Gewichtsaenderung entwerten nur Messung, Notizen und Feintuning bleiben
+  ok   Bestehende beantwortete Setups bleiben offen, nur fehlende Antworten werden nachgefragt
+  ok   Fahrstil gilt pro Rad, neue Gabel verwirft nur ihre eigenen Daten
+  ok   Hardtail ohne Daempferfragen, Coil ohne Luftfelder, Free ohne persoenliche Werte
+  ok   Defekt sperrt Werte, separater Zustandsdialog macht nach Pruefung wieder weiter
+  ok   Einrichtung erneut: aktuelle Funktionen und Fahrerfragen ohne Verlust des bestehenden Rads
+  ok   Deutsch/Englisch, OLED/Hell und 320/390/1280 px: Fragen und Hauptansicht ohne Ueberstand
+  ok   SAG-Anleitung betrifft nur das ausgewaehlte Teil, Stahlfeder ohne Pumpe oder Luftkammer
+  ok   Nur Fotos des gewaehlten Modells, keine Schema-Ersatzbilder bei unbekanntem Teil
+  ok   Naechster Schritt oeffnet die richtige Karte und erreicht Messung und Testfahrt
+  ok   Hersteller-Druckreihen unterscheiden Jahr und Federweg, offene Gewichtsgrenzen ohne Extrapolation
+FAHRWERK-FRAGEN: 18 von 18 Prüfungen bestanden.

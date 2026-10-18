@@ -11,6 +11,7 @@ import path from 'node:path';
 import http from 'node:http';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
+import {isDeepStrictEqual} from 'node:util';
 
 const require=createRequire(import.meta.url);
 let pw;try{pw=require('playwright');}catch{pw=require(path.join(execSync('npm root -g').toString().trim(),'playwright'));}
@@ -27,7 +28,7 @@ const server=live?null:http.createServer((q,r)=>{
 if(server)await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const url=live||`http://127.0.0.1:${server.address().port}/index.html`,origin=new URL(url).origin;
 const browser=await pw.chromium.launch({channel:process.env.CRANKSCORE_BROWSER_CHANNEL||(process.platform==='win32'?'chrome':undefined)});
-const ctx=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce',serviceWorkers:'block'}),posts=[];
+const ctx=await browser.newContext({viewport:{width:390,height:844},locale:'en-US',timezoneId:'UTC',reducedMotion:'reduce',serviceWorkers:'block'}),posts=[];
 await ctx.route('**/*',r=>{
   if(!['GET','HEAD'].includes(r.request().method())){posts.push(r.request().url());return r.abort();}
   if(new URL(r.request().url()).origin!==origin)return r.abort();
@@ -48,7 +49,7 @@ const screenshot=async name=>{if(process.env.CRANKSCORE_SCREENSHOTS){fs.mkdirSyn
 const fresh=async()=>{
   await page.setViewportSize({width:390,height:844});await page.goto(url);
   await ev(()=>{localStorage.clear();for(const k of ['einstieg2','tour','szenen','start'])localStorage.setItem('mtb.'+k,'1');localStorage.setItem('mtb.sprache','de');});
-  await page.reload();await page.waitForFunction(()=>typeof suErstGezeigt!=='undefined'&&typeof fwErsterBesuch==='function');
+  await page.reload();await page.waitForFunction(()=>typeof suErstGezeigt!=='undefined'&&typeof fwErsterBesuch==='function');await page.waitForLoadState('networkidle');
   await ev(()=>{
     schliesse();schliesseStartseite();pro={key:'test',inst:'i',status:'aktiv',geprueft:Date.now()};wechsle('real');
     build.rahmen='f-spindrift';build.gabel='g-zeb';const t=katalog(quelleOf(slotOf('daempfer'))).find(t=>t.id==='d-sdcoil');
@@ -65,7 +66,16 @@ const finish=slot=>ev(slot=>{
   for(const st of suSchritte(f,d,slot))if(!['sag','test'].includes(st.key))P.fertig[st.key]=true;
   suSagSetzen(slot,x.modi[fedModus].sagMm);suLog(d,{typ:'tr',txt:'Isolierte Testfahrt abgeschlossen'});suSichern();setupZeichnen();
 },slot);
-const state=()=>ev(()=>({build:JSON.stringify(build),plan:JSON.stringify(plan),profiles:JSON.stringify(profile),setup:JSON.stringify(setupAlle),wishlist:JSON.stringify(wunschListe()),saved:Object.fromEntries(Object.keys(localStorage).filter(k=>k.startsWith('mtb.')).sort().map(k=>[k,localStorage.getItem(k)]))}));
+const state=()=>ev(()=>{const clone=v=>JSON.parse(JSON.stringify(v)),parse=v=>{try{return JSON.parse(v);}catch{return v;}};
+  return {build:clone(build),plan:clone(plan),profiles:clone(profile),setup:clone(setupAlle),wishlist:clone(wunschListe()),saved:Object.fromEntries(Object.keys(localStorage).filter(k=>k.startsWith('mtb.')).sort().map(k=>[k,parse(localStorage.getItem(k))]))};});
+const sameState=(actual,expected)=>{
+  if(isDeepStrictEqual(actual,expected))return;
+  const changes=[],short=v=>{const s=JSON.stringify(v);return s===undefined?'undefined':s.length>140?s.slice(0,140)+'…':s;};
+  const walk=(a,b,p)=>{if(isDeepStrictEqual(a,b))return;if(a&&b&&typeof a==='object'&&typeof b==='object'&&Array.isArray(a)===Array.isArray(b)){
+    for(const k of new Set([...Object.keys(a),...Object.keys(b)]))walk(a[k],b[k],p+'['+JSON.stringify(k)+']');
+    if(Array.isArray(a)&&a.length!==b.length)changes.push(p+'.length: '+b.length+' → '+a.length);
+  }else changes.push(p+': '+short(b)+' → '+short(a));};walk(actual,expected,'state');assert.fail('Gespeicherte Daten veraendert: '+changes.slice(0,12).join('; ')+(changes.length>12?`; weitere ${changes.length-12} Felder`:''));
+};
 let count=0,failed=0;
 const test=async(name,f)=>{count++;try{await f();console.log('  ok   '+name);}catch(e){failed++;console.log('  FEHL '+name+'\n       '+e.stack);}};
 
@@ -125,10 +135,13 @@ try{
     }
   });
   await test('475-lbs-Feder, Messung, Notizen und Feintuning bleiben bei Auswahl, Bildansicht und Reload erhalten; keine API',async()=>{
-    await fresh();await ev(()=>{const f=federRechnen(),d=suDaten(f),k=suKnoepfe('daempfer',f.daempfer,d).find(k=>k.art==='zug');suP(d).off[k.key]=1;suP(d).psi.gabel=145;suLog(d,{typ:'notiz',text:'475 lbs behalten'});suSagSetzen('daempfer',20);suGrundSpeichern(f,d);wunschListe().push({id:'orientierung-wunsch',slot:'bremsen',teil:'b-xt',stufe:'gemerkt'});suSichern();sichern();setupZeichnen();});const before=await state();
+    await fresh();await ev(()=>{const f=federRechnen(),d=suDaten(f),k=suKnoepfe('daempfer',f.daempfer,d).find(k=>k.art==='zug');suP(d).off[k.key]=1;suP(d).psi.gabel=145;suLog(d,{typ:'notiz',text:'475 lbs behalten'});suSagSetzen('daempfer',20);suGrundSpeichern(f,d);wunschListe().push({id:'orientierung-wunsch',slot:'bremsen',teil:'b-xt',stufe:'gemerkt'});
+      /* Der Aufbau initialisiert p.nein sonst beim Reload. Eine bestehende
+         Ablehnung wird hier mitgespeichert und anschliessend mitgeprueft. */
+      upNein().gabel=basisVon(build.gabel);setupZeichnen();suSichern();sichern();});const before=await state();
     for(const slot of ['daempfer','gabel','daempfer'])await choose(slot);await openCard('daempfer','feder');assert.equal(await page.locator(`${card('daempfer','feder')} [data-fwin="df"]`).inputValue(),'475');
-    const picture=page.locator(`${card('daempfer','feder')} .fw-ort .fw-nah-link`).first();await picture.click();await page.waitForSelector('#produktbild-dialog[open]');await click('[data-pb-close]');await ev(()=>fwNeu());assert.deepEqual(await state(),before);
-    await page.reload();await page.waitForFunction(()=>typeof fwErsterBesuch==='function');await ev(()=>{pro={key:'test',inst:'i',status:'aktiv',geprueft:Date.now()};view='setup';zeichne();});await choose('daempfer');assert.equal(await ev(()=>federRechnen().daempfer.federIst),475);assert.deepEqual(await state(),before);assert.deepEqual(posts,[]);assert.deepEqual(errors,[]);
+    const picture=page.locator(`${card('daempfer','feder')} .fw-ort .fw-nah-link`).first();await picture.click();await page.waitForSelector('#produktbild-dialog[open]');await click('[data-pb-close]');await ev(()=>fwNeu());sameState(await state(),before);
+    await page.reload();await page.waitForFunction(()=>typeof fwErsterBesuch==='function');await page.waitForLoadState('networkidle');await ev(()=>{pro={key:'test',inst:'i',status:'aktiv',geprueft:Date.now()};view='setup';zeichne();});await choose('daempfer');assert.equal(await ev(()=>federRechnen().daempfer.federIst),475);sameState(await state(),before);assert.deepEqual(posts,[]);assert.deepEqual(errors,[]);
   });
 }finally{await browser.close();if(server)await new Promise(r=>server.close(r));}
 console.log(`FAHRWERK-ORIENTIERUNG: ${count-failed} von ${count} Prüfungen bestanden.`);

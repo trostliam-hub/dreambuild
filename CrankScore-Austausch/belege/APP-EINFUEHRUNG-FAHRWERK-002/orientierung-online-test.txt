@@ -1,0 +1,8 @@
+  ok   Gabel/Daempfer zuerst waehlen: Auswahl steht vor Fortschritt und zeigt genau ein Teil
+  ok   Fortschritt und Abschluss gehoeren zum ausgewaehlten Teil; die andere Federung bleibt offen
+  ok   Erste Luft-/Federkarte oeffnet nur einmal; bewusstes Schliessen bleibt nach Render und Teilwechsel erhalten
+  ok   Coil-SAG misst zwischen Befestigungsaugen, markiert beide Messpunkte und braucht keinen O-Ring
+  ok   LSC und HSC sind direkt erreichbar und zeigen verschiedene korrekt bezeichnete Einsteller
+  ok   Echtes Bild vor Wert und Anleitung, volle Breite/230–260 px ohne Ueberstand bei320/390/1280
+  ok   475-lbs-Feder, Messung, Notizen und Feintuning bleiben bei Auswahl, Bildansicht und Reload erhalten; keine API
+FAHRWERK-ORIENTIERUNG: 7 von 7 Prüfungen bestanden.

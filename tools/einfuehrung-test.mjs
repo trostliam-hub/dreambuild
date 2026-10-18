@@ -13,6 +13,7 @@ import path from 'node:path';
 import http from 'node:http';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
+import {isDeepStrictEqual} from 'node:util';
 
 const require=createRequire(import.meta.url);
 let pw; try{pw=require('playwright');}catch{pw=require(path.join(execSync('npm root -g').toString().trim(),'playwright'));}
@@ -28,7 +29,7 @@ const server=live?null:http.createServer((q,r)=>{
 if(server)await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const url=live||`http://127.0.0.1:${server.address().port}/index.html`;
 const browser=await pw.chromium.launch({channel:process.env.CRANKSCORE_BROWSER_CHANNEL||(process.platform==='win32'?'chrome':undefined)});
-const ctx=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce',serviceWorkers:'block'});
+const ctx=await browser.newContext({viewport:{width:390,height:844},locale:'en-US',timezoneId:'UTC',reducedMotion:'reduce',serviceWorkers:'block'});
 await ctx.route('**/*',r=>{
   if(!r.request().url().startsWith(new URL(url).origin))return r.abort();
   if(live)return r.continue();
@@ -50,16 +51,30 @@ const ended=()=>page.waitForFunction(()=>!document.querySelector('#szenen .sz'))
 const fresh=async({lang='de',light=false,motion='reduce'}={})=>{
   await page.emulateMedia({reducedMotion:motion});await page.setViewportSize({width:390,height:844});
   await page.goto(url);await ev(lang=>{localStorage.clear();for(const k of ['einstieg2','tour','szenen','start'])localStorage.setItem('mtb.'+k,'1');localStorage.setItem('mtb.sprache',lang);},lang);
-  await page.reload();await page.waitForFunction(()=>typeof oeffneSzenen==='function'&&typeof zeichne==='function');
+  await page.reload();await page.waitForFunction(()=>typeof oeffneSzenen==='function'&&typeof zeichne==='function');await page.waitForLoadState('networkidle');
   await ev(({lang,light})=>{schliesse();schliesseStartseite();sprache=lang;setzeDesign(light);view='aufbau';zeichne();window.__introDone=0;},{lang,light});
 };
 const open=()=>ev(()=>oeffneSzenen(()=>{window.__introDone++;}));
-const state=()=>ev(()=>({build:JSON.stringify(build),builds:JSON.stringify(builds),plan:JSON.stringify(plan),profile:JSON.stringify(profile),setup:JSON.stringify(setupAlle),wishlist:JSON.stringify(wunschListe()),
-  saved:Object.fromEntries(Object.keys(localStorage).filter(k=>/^mtb\./.test(k)&&k!=='mtb.szenen').sort().map(k=>[k,localStorage.getItem(k)]))}));
+const state=()=>ev(()=>{const clone=v=>JSON.parse(JSON.stringify(v)),parse=v=>{try{return JSON.parse(v);}catch{return v;}};
+  return {build:clone(build),builds:clone(builds),plan:clone(plan),profile:clone(profile),setup:clone(setupAlle),wishlist:clone(wunschListe()),
+    saved:Object.fromEntries(Object.keys(localStorage).filter(k=>/^mtb\./.test(k)&&k!=='mtb.szenen').sort().map(k=>[k,parse(localStorage.getItem(k))]))};});
+/* Inhalt vollstaendig vergleichen, JSON-Schluesselreihenfolge ist bedeutungslos.
+   Kleine Feldpfade bleiben auch im gekuerzten CI-Bericht lesbar. */
+const sameState=(actual,expected)=>{
+  if(isDeepStrictEqual(actual,expected))return;
+  const changes=[],short=v=>{const s=JSON.stringify(v);return s===undefined?'undefined':s.length>140?s.slice(0,140)+'…':s;};
+  const walk=(a,b,p)=>{if(isDeepStrictEqual(a,b))return;if(a&&b&&typeof a==='object'&&typeof b==='object'&&Array.isArray(a)===Array.isArray(b)){
+    for(const k of new Set([...Object.keys(a),...Object.keys(b)]))walk(a[k],b[k],p+'['+JSON.stringify(k)+']');
+    if(Array.isArray(a)&&a.length!==b.length)changes.push(p+'.length: '+b.length+' → '+a.length);
+  }else changes.push(p+': '+short(b)+' → '+short(a));};walk(actual,expected,'state');assert.fail('Gespeicherte Daten veraendert: '+changes.slice(0,12).join('; ')+(changes.length>12?`; weitere ${changes.length-12} Felder`:''));
+};
 const seed=()=>ev(()=>{
   wechsle('real');build.rahmen='f-spindrift';build.gabel='g-zeb';build.bremsen='b-xt';plan.fahrer=83;
   fwInfo().df=475;fwInfo().gj=2025;wunschListe().push({id:'intro-test-wunsch',slot:'bremsen',teil:'b-xt',stufe:'gemerkt',notiz:'Demo darf das nicht ersetzen'});
-  const d=suDaten();suP(d).psi.gabel=67;suP(d).off['gabel|Zugstufe']=1;suLog(d,{typ:'notiz',text:'Vor der Einfuehrung'});suSichern();sichern();zeichne();
+  /* Das Menue initialisiert Ablehnungen sonst erst spaeter via upNein().
+     Eine bestehende Ablehnung ist echtes Testdatum und muss ebenfalls bleiben. */
+  upNein().gabel=basisVon(build.gabel);
+  const d=suDaten();suP(d).psi.gabel=67;suP(d).off['gabel|Zugstufe']=1;suLog(d,{typ:'notiz',text:'Vor der Einfuehrung'});zeichne();suSichern();sichern();
 });
 const screenshot=async name=>{if(process.env.CRANKSCORE_SCREENSHOTS){fs.mkdirSync(process.env.CRANKSCORE_SCREENSHOTS,{recursive:true});await page.screenshot({path:path.join(process.env.CRANKSCORE_SCREENSHOTS,`einfuehrung-${name}.png`),animations:'disabled'});}};
 let count=0,failed=0;
@@ -89,9 +104,9 @@ try{
     await fresh();await seed();const before=await state();await open();await point(1);
     const demo='#szenen [data-szdemo="adapter"]',adapter='#szenen [data-szadapter]';assert.equal(await page.locator(demo).count(),1);
     assert.match(await page.locator(adapter).textContent(),/Direktmontage|direct mount|Kein Adapter|No adapter/i);assert.match(await page.locator('#szenen').textContent(),/180\s*mm/);
-    await click(demo);assert.match(await page.locator(adapter).textContent(),/\+\s*23\s*mm/);assert.match(await page.locator('#szenen').textContent(),/203\s*mm/);assert.deepEqual(await state(),before);
-    await click(demo);assert.match(await page.locator(adapter).textContent(),/Direktmontage|direct mount|Kein Adapter|No adapter/i);assert.deepEqual(await state(),before);
-    await screenshot('adapter-180');await click(demo);await screenshot('adapter-203');await click('#szenen [data-szweg]');await ended();assert.deepEqual(await state(),before);
+    await click(demo);assert.match(await page.locator(adapter).textContent(),/\+\s*23\s*mm/);assert.match(await page.locator('#szenen').textContent(),/203\s*mm/);sameState(await state(),before);
+    await click(demo);assert.match(await page.locator(adapter).textContent(),/Direktmontage|direct mount|Kein Adapter|No adapter/i);sameState(await state(),before);
+    await screenshot('adapter-180');await click(demo);await screenshot('adapter-203');await click('#szenen [data-szweg]');await ended();sameState(await state(),before);
   });
   await test('Ueberspringen und wiederholtes Schliessen rufen den Abschluss nur einmal auf',async()=>{
     await fresh({motion:'no-preference'});await open();await click('#szenen [data-szweg]');await ev(()=>{szenenEnde();szenenEnde();});await ended();assert.equal(await ev(()=>window.__introDone),1);
@@ -155,7 +170,7 @@ try{
   });
   await test('Erneut ansehen startet bei Szene 1 und behaelt gespeicherte Daten; keine JavaScript-Fehler',async()=>{
     await fresh();await seed();const before=await state();await ev(()=>{oeffneMenu();$('modal').querySelector('[data-szenen]').click();});await page.waitForSelector('#szenen .sz');assert.equal(await scene(),'ohne');await point(4);await click('#szenen [data-szweg]');await ended();
-    await ev(()=>{schliesse();oeffneSzenen(null);});assert.equal(await scene(),'ohne');assert.equal(await page.locator('#szenen [data-szpunkt="0"]').getAttribute('aria-current'),'step');assert.equal(await page.locator('#szenen [data-szpunkt]').count(),6);await click('#szenen [data-szweg]');await ended();assert.deepEqual(await state(),before);assert.deepEqual(errors,[]);
+    await ev(()=>{schliesse();oeffneSzenen(null);});assert.equal(await scene(),'ohne');assert.equal(await page.locator('#szenen [data-szpunkt="0"]').getAttribute('aria-current'),'step');assert.equal(await page.locator('#szenen [data-szpunkt]').count(),6);await click('#szenen [data-szweg]');await ended();sameState(await state(),before);assert.deepEqual(errors,[]);
   });
 }finally{await browser.close();if(server)await new Promise(r=>server.close(r));}
 console.log(`EINFUEHRUNG: ${count-failed} von ${count} Prüfungen bestanden.`);

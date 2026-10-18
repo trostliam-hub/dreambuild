@@ -42,7 +42,7 @@ const lauf = (datei, muster, erwartet) => {
      im Log, welche Teilpruefung scheiterte, ohne den Bericht herunterzuladen */
   const zl = aus.split('\n'), fehl = zl.flatMap((z, i) => /^\s*FEHL|JS-Fehler|Error:/.test(z) ? [z].concat(/^\s*FEHL/.test(z) && /^\s{6,}\S/.test(zl[i + 1] || '') ? [zl[i + 1].slice(0, 600)] : []) : []).slice(0, 30);
   const bestanden = m ? +m[1] : 0, gelaufen = m ? +m[2] : 0;
-  return {exit:r.status, bestanden, gelaufen, erwartet, fehl, ausgabe:aus.slice(-4000), ok:r.status === 0 && m && bestanden === gelaufen && (erwartet == null || gelaufen === erwartet)};
+  return {exit:r.status, bestanden, gelaufen, erwartet, fehl, ausgabe:aus.slice(r.status === 0 ? -4000 : -64000), ok:r.status === 0 && m && bestanden === gelaufen && (erwartet == null || gelaufen === erwartet)};
 };
 /* 2. Kompatibilitaet: erwartete Zahl aus den Falllisten selbst */
 {

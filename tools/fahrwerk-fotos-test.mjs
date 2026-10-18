@@ -20,13 +20,15 @@ const server=http.createServer((q,r)=>{
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const url='http://127.0.0.1:'+server.address().port+'/index.html';
 const browser=await pw.chromium.launch(),ctx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block',reducedMotion:'reduce'});
+/* Die Textprüfungen sind deutsch; die App-Sprache darf nicht von der CI-Browserlocale abhängen. */
+await ctx.addInitScript(()=>localStorage.setItem('mtb.sprache','de'));
 await ctx.route('**/*',r=>r.request().url().startsWith(new URL(url).origin)?r.continue():r.abort());
 const page=await ctx.newPage(),errors=[],results=[];
 page.setDefaultTimeout(8000);page.on('pageerror',e=>errors.push(e.message));
 const test=async(name,fn)=>{try{await fn();results.push({name,ok:true});console.log('OK   '+name);}catch(e){results.push({name,ok:false});console.log('FEHL '+name+'\n      '+e.message);}};
 await page.goto(url);await page.waitForFunction(()=>typeof suNahFotos==='function');
 await page.evaluate(()=>{
-  localStorage.clear();['einstieg2','szenen','tour','start'].forEach(k=>localStorage.setItem('mtb.'+k,'1'));
+  localStorage.clear();localStorage.setItem('mtb.sprache','de');['einstieg2','szenen','tour','start'].forEach(k=>localStorage.setItem('mtb.'+k,'1'));
   schliesseStartseite();schliesse();
   const variante=(slot,id,key,value)=>{
     const b=K[slot].find(t=>t.id===id),w=b.v.map(v=>v.d),i=b.v.findIndex(v=>v.k===key);w[i]=b.v[i].o.findIndex(o=>o.n===value);return varianteNachIndex(b,w);
