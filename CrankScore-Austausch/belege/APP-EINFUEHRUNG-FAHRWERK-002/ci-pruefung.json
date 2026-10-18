@@ -1,0 +1,62 @@
+{
+  "run": {
+    "id": 39160394790,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/trostliam-hub/dreambuild/actions/runs/39160394790",
+    "head_sha": "fd13bc8b1d7b4212b8963b8339d450afb924ff66",
+    "updated_at": "2026-10-18T19:56:30Z"
+  },
+  "jobs": [
+    {
+      "id": 117772294756,
+      "name": "pruefen",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 117773661944,
+      "name": "stempeln",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 117773728159,
+      "name": "veroeffentlichen",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "appTests": 369,
+  "scriptSyntax": 2,
+  "sprachFunde": 0,
+  "sprachTexte": 11134,
+  "preiseFehler": 0,
+  "workerTests": 8,
+  "dauerAppTestsSek": 321,
+  "summary": [
+    "OK   Syntax index.html — 2 Skripte",
+    "OK   Kompatibilität — 200 von 200 bestanden, erwartet 200, Exit 0",
+    "OK   Setup und Speicher — 25 von 25 bestanden, Exit 0",
+    "OK   Persönliche Fahrwerkfragen und Einrichtung — 18 von 18 bestanden, Exit 0",
+    "OK   Ein Weg je Aufgabe — 36 von 36 bestanden, Exit 0",
+    "OK   Sprache Deutsch/Englisch — 0 Funde in 11134 Texten, Exit 0",
+    "OK   Teile finden, Adapter, Wunschliste (BEVEL-002) — 34 von 34 bestanden, Exit 0",
+    "OK   Preis-Skript offline — 0 Fehler, Exit 0",
+    "OK   Produktfotos und Großansicht — 14 von 14 bestanden, Exit 0",
+    "OK   KI-Guide Deutsch/Englisch — 16 Prüfungen bestanden, Exit 0",
+    "OK   Einführung und interaktive Vorschau — 10 von 10 bestanden, Exit 0",
+    "OK   Fahrwerkfotos und Einsteller — 9 von 9 bestanden, Exit 0",
+    "OK   Fahrwerk: Orientierung und Datenerhalt — 7 von 7 bestanden, Exit 0",
+    "ALLE TESTS BESTANDEN · Revision fd13bc8 · 321 s · Bericht: test-ergebnis.json",
+    "# tests 8",
+    "# pass 8",
+    "# fail 0"
+  ],
+  "pagesRun": {
+    "id": 39160898425,
+    "status": "completed",
+    "conclusion": "success",
+    "sha": "bc172188653f1958a0f200636358cb50e57fa714"
+  }
+}
