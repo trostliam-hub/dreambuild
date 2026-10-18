@@ -58,7 +58,7 @@ const lauf = (datei, muster, erwartet) => {
 }
 /* 4. Ein Weg je Aufgabe */
 {
-  const r = lauf('fahrwerk-fragen-test.mjs', /FAHRWERK-FRAGEN: (\d+) von (\d+) Prüfungen bestanden/, 11);
+  const r = lauf('fahrwerk-fragen-test.mjs', /FAHRWERK-FRAGEN: (\d+) von (\d+) Prüfungen bestanden/, 18);
   teil('Persönliche Fahrwerkfragen und Einrichtung', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
 }
 {

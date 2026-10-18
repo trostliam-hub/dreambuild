@@ -1,44 +1,40 @@
-# Persönliche Fahrwerkfragen und Einrichtung
+# Persönliches Fahrwerk, einfach erklärt
 
-Stand: 17.10.2026 · APP-FAHRWERK-PERSOENLICH-001
+Stand: 18.10.2026 · APP-FAHRWERK-EINFACH-001
 
-## Einstieg
+Vor persönlichen Zahlen prüft der Fahrwerk-Tab den Aufbau: Ohne Rahmen, benötigte Gabel oder benötigten Dämpfer führt ein Knopf direkt zur fehlenden Teileauswahl, noch vor Pro-Vorschau und Fragen. Danach folgen fünf Fragen beim Hardtail, sechs beim Fully: Modell/Baujahr von Gabel und ggf. Dämpfer, Gewicht/Ausrüstung, Gelände, Tempo/Sprünge und Fahrgefühl. Gewicht bleibt im gemeinsamen Fahrerprofil. Unbekannte Antworten sind erlaubt; technisch falsche Zahlen sperren Weiter. Keine Eingabe für Ziel-SAG oder Maximaldruck.
 
-Die Fahrwerkfragen starten beim ersten Öffnen des Fahrwerk-Tabs mit Pro und vorhandenem Federelement. Sie sind kein Teil der allgemeinen App-Einrichtung. Beim Wechsel auf ein noch nicht eingerichtetes Rad innerhalb des Tabs gilt derselbe Ablauf. Ohne Federelement wird zuerst die Teilewahl erklärt; ohne Pro bleibt die bestehende Vorschau erhalten.
+Die Hauptansicht zeigt den nächsten konkreten Schritt und drei Karten pro Teil: Luftdruck/Stahlfeder, Einsinken messen (SAG), Ausfedern einstellen. Weitere Einsteller, Erklärungen, Profile, Quellen, Baselines und Notizen sind aufklappbar. Testfahrt und erneute gemeinsame Einrichtung bleiben erhalten. Für früher gemeldete Defekte ist ein separater Zustandsdialog erreichbar; die Warnung wird nicht still entfernt.
 
-Der Assistent fragt nach:
+## Herstellerdaten
 
-- Gewicht und Ausrüstung; der gemeinsame Fahrerprofil-Editor bleibt die einzige Stelle für Körpergewicht, Größe und Erfahrung. Von den Fahrwerkfragen aus geht es dorthin und anschließend zurück zur offenen Frage.
-- Rad, Rahmen, Baujahr, Größe, Radtyp und optional gewogenem Radgewicht.
-- Tatsächlicher Gabel bzw. Dämpfer, Modelljahr, Federart und gegebenenfalls eingebauter Federhärte und Hinterbau-Federweg. Modell und Ausführung stammen aus dem Aufbau.
-- Vorhandenen Einstellern, Gelände, Tempo, Sprüngen, gewünschtem Fahrgefühl, gegebenenfalls Bergaufanteil und Fahrprofil.
-- Optionalen SAG-Vorgaben aus der passenden Anleitung und dem Maximaldruck vom Aufkleber.
-- Bisherigen Einstellungen und Problemen sowie Zustand und Messwerkzeug.
+`fwModellVorgaben` ordnet belegte Grenzen nach Modell und ausdrücklich angegebenem Komponentenjahr zu. Alte manuelle `fw.vorgaben` überschreiben diese Daten nicht. Bei unbekannter Grenze gibt es keinen berechneten Pumpwert und keine Druckänderung; die App verweist auf Modelljahr/Anleitung. Bereits gespeicherte Daten bleiben erhalten. Quellen stehen an Druckkarte und Erklärung.
 
-Ein Hardtail erhält keine Dämpferfragen; bei Stahlfederung entfällt die Luftdruckeingabe. Fahrstilfragen verlangen eine Auswahl oder ausdrücklich „Weiß ich nicht“. Unbekannt bleibt erkennbar, Zahlen außerhalb der Eingabebereiche werden nicht übernommen. Das bisherige Setup dient zum Vorher/Nachher-Vergleich; der Wunschtext bleibt eine Notiz und steuert keine automatische oder KI-basierte Verstellung.
+| Modell/Jahr | Daten |
+| --- | --- |
+| FOX 32/34, 2025 | SAG 15–20 %. 32 Step-Cast/Rhythm 140 psi, Taper-Cast 150; 34 FLOAT/Step-Cast/Rhythm 120. SL wird nicht gleichgesetzt. |
+| FOX 36/38, 2025 | SAG 15–20 %. 36: 120 psi; 38 FLOAT: 140, Rhythm: 120. |
+| RS Pike/Lyrik/ZEB, 2023–2026 | Druckreihen nach Jahr/Federweg. Pike 120 MY23/24: 194 psi, sonst 163; Lyrik 140–160: 163; ZEB 150–190: 148. |
+| RS Lyrik/ZEB LinearXL, 2027 | 300 psi. Getrennte Druckreihen je Modell und Federweg. |
+| FOX Float/Float X/X2, 2025 | Float/Float X: 350 psi, SAG 25–30 %; X2: 300 psi, SAG 30 %. Float SL ohne sichere EVOL-Zuordnung unbekannt. |
+| FOX DHX/DHX2, 2025 | SAG 30 %, kein Luftdruck. Vorspannung nach Modellanleitung. |
+| RS Super Deluxe D1 Luft, 2027 | 400 psi, SAG-Ausgangspunkt 30 %. |
+| RS Vivid Luft, 2024 | Konservative Grenze 300 psi, weil Hub/Tokens das Maximum von 360 auf 300 absenken können; ausdrücklich gekennzeichnet. |
 
-## Berechnung und Messung
+FOX Step-Cast/Rhythm haben eigene Druckreihen. RS verwendet nur geschlossene Gewichtsspalten 120–220 lb mit Mittelpunkten 130/150/170/190/210. Zwischenwerte werden als App-Interpolation bezeichnet, außerhalb wird nicht weitergerechnet. Systemlast, Fahrstil und unbekannte SAG-Ziele bleiben App-Schätzungen. Ein allgemeiner RS-Gabel-Richtwert wird nicht als modellspezifische Herstellervorgabe ausgegeben. Ziele bleiben innerhalb bestätigter Herstellerbereiche; Profiltexte zeigen das tatsächlich verbleibende Delta.
 
-Die vorhandenen Tabellen und Fahrstilregeln werden weiter genutzt. Neu ist die Speicherung der Fahrstilantworten unter `build.fw.stil` pro Rad. Frühere Angaben aus `mtb.fprofil` dienen als Vorbelegung; ein bewusst gewähltes „Weiß ich nicht“ überschreibt sie nur für dieses Rad.
+Primärquellen: FOX [32/34](https://tech.ridefox.com/bike/owners-manuals/2978/fork--2025-32mm--or-34mm-(including-step-cast-and-taper-cast)), [36/38](https://tech.ridefox.com/bike/owners-manuals/2979/fork--2025-36mm-or-38mm), [Float](https://tech.ridefox.com/bike/owners-manuals/2982/shock--2025-float), [Float X](https://tech.ridefox.com/bike/owners-manuals/2983/shock--2025-float-), [X2](https://tech.ridefox.com/bike/owners-manuals/2984/shock--2025-float-x2), [DHX/DHX2](https://tech.ridefox.com/bike/owners-manuals/2981/shock--2025-all-coil-shocks-(dhx2-and-dhx-models)). RS Gabeldaten [2023](https://www.sram.com/globalassets/document-hierarchy/service-manuals/rockshox/front-suspension/2023-front-suspension-oil-air-coil-token-specifications-english.pdf), [2024](https://www.sram.com/globalassets/document-hierarchy/service-manuals/rockshox/front-suspension/2024-front-suspension-specifications.pdf), [2025](https://www.sram.com/globalassets/document-hierarchy/service-manuals/rockshox/front-suspension/2025-front-suspension-specifications.pdf), [2026](https://www.sram.com/globalassets/document-hierarchy/service-manuals/rockshox/front-suspension/2026-front-suspension-specifications.pdf), [2027](https://www.sram.com/globalassets/document-hierarchy/service-manuals/rockshox/front-suspension/2027-front-suspension-specifications.pdf), [Super Deluxe D1](https://support.rockshox.com/hc/en-us/articles/48154037771163-What-is-the-maximum-air-pressure-of-the-Super-Deluxe-D1), [Vivid Hub/Tokens](https://support.rockshox.com/hc/en-us/articles/17939965514523-What-kind-of-Bottomless-Tokens-does-Vivid-use-and-how-many-tokens-can-Vivid-hold), [Dämpferdruck und Rahmen](https://support.rockshox.com/hc/en-us/articles/4412440335643-How-much-air-should-I-have-in-my-RockShox-rear-shock-for-my-rider-weight).
 
-Ein eingetragenes Hersteller-SAG-Ziel bestimmt das Ziel in Prozent und Millimetern in allen drei Fahrprofilen. Bei Coil-Dämpfern geht es auch in die vorhandene Abschätzung der Federhärte ein. Dämpfer-SAG bezieht sich auf den Hub. Ein eingegebener Maximaldruck kann bekannte Herstellergrenzen nur absenken. Berechnete und gespeicherte Drücke werden zentral daran geprüft. Der Eingangswert 400 psi ist lediglich eine obere Plausibilitätsgrenze bei unbekanntem Modellmaximum und keine pauschale Druckfreigabe.
+## Vorhandene Stahlfeder behalten
 
-Neue SAG-Messungen speichern zusätzlich ihren Bezug zu Fahrergewicht mit Ausrüstung, Rad und Federelement. Bei veränderter Grundlage zählen sie nicht mehr als aktuelle Messung; die alten Werte bleiben erhalten. Gespeichertes Feintuning wird nicht automatisch überschrieben. Bei gemeldeten Undichtigkeiten, Spiel oder Klemmen führt die App zuerst zur Prüfung des Zustands.
+Die eingegebene Feder ist der Hauptwert, z. B. 475 lbs; ein berechneter Richtwert von 500 lbs steht darunter. Bestätigter Hinterrad-Federweg: Spindrift CF [180 mm](https://www.propain-bikes.com/us/product/ready-to-roll/spindrift-cf-29-performance/), Stumpjumper Alloy [130 mm](https://www.specialized.com/ca/en/stumpjumper-alloy/p/175253). Fehlen Federweg/Hub, wird keine Vergleichsfeder erfunden. Ältere Radangaben bleiben erhalten.
 
-Herstellerdaten und App-Schätzungen bleiben getrennt bezeichnet. Die Antworten liefern Startwerte, kein garantiert perfektes Setup. Anschließend bleiben die vorhandenen SAG-Messung und die Testfahrt mit jeweils einer Änderung maßgeblich.
+SAG-Näherung: ungerundete berechnete Federrate × Ziel-SAG ÷ tatsächliche Federrate. Vorspannung, Reibung und Hinterbauverlauf begrenzen diese Schätzung; anschließend wird gemessen. LSR-Korrektur: `sign(Ist/Soll−1) × min(2, round(abs(Ist/Soll−1)×10))` Klicks. Weichere Feder: weniger Dämpfung, härtere: mehr. Dies ist ausdrücklich eine begrenzte App-Heuristik, keine universelle Herstellertabelle. HSR und Druckstufe bleiben ohne verifiziertes Mapping unverändert. Eine stark unpassende Feder lässt sich nicht allein durch Dämpfung ausgleichen; sie wird trotzdem nicht automatisch ausgetauscht.
 
-Fachlicher Abgleich: [RockShox Setup und Tuning](https://www.sram.com/globalassets/document-hierarchy/tuning-manuals/suspension-setup-and-tuning-guide-english.pdf) und [RockShox Fine Tuning](https://www.sram.com/en/rockshox/learn/suspension-fine-tuning) nennen Fahrergewicht inklusive Ausrüstung, SAG vor Dämpfungsabstimmung und iterative Prüfung auf dem Trail. [FOX: SAG messen](https://tech.ridefox.com/fox_tech_center/owners_manuals/013/Content/Intro/Correct_air_pressure_sag.html) beschreibt die Messung in Fahrkleidung. Modellspezifische Vorgaben haben Vorrang; aus diesen allgemeinen Quellen wurden keine neuen modellübergreifenden Druck- oder Klicktabellen abgeleitet.
+Messungen speichern ihren Bezug zu Gewicht, Rad, Teil und tatsächlicher Feder. Bei Änderungen zählen alte Messungen nicht mehr als aktuell; Notizen, Baselines und Feintuning bleiben erhalten. Coil-Dämpfer werden über den Befestigungsabstand ohne/mit Fahrer gemessen, die Differenz ist das Einsinken. Keine Pumpen-, Luftkammer- oder O-Ring-Anweisung im Coil-Dämpfer-Assistenten. Gabel und Dämpfer erhalten getrennte Messpositionen.
 
-## Wiederaufnahme und vorhandene Daten
+## Fotos und Prüfungen
 
-`build.fw.fragenVersion` kennzeichnet den gesehenen Fragenstand. Antworten und abgeschlossene Abschnitte werden laufend gespeichert. Schließen oder Neuladen führt zu einer Fortsetzen-Kachel statt erneutem Zwangsstart. Erst die Abschlussaktion markiert die Einrichtung als fertig.
+Gezeichnete Teile-, Rad-, Körper/Cockpit-, Adapter- und Intro-Grafiken werden nicht mehr gerendert. UI-Icons und Datenskalen bleiben. Der Aufbau zeigt nur ein tatsächlich hochgeladenes Radfoto. Fahrwerkbilder verwenden das gewählte Produkt und die belegte Ausführung; abweichende Kartusche oder erkennbares Bildjahr führen zu einer ehrlichen Bildlücke. Keine andere Modellfamilie, Referenz-Nahaufnahme oder erfundene Marker als Ersatz. Fotos und Quellenansichten haben schwarzen Hintergrund.
 
-Bereits abgeschlossene ältere Setups werden um die neuen Abschnitte Herstellervorgaben und Vorbereitung ergänzt. Fehlende Fahrstil-Antworten aus früher übersprungenen Fragen werden gezielt nachgeholt; vorhandene Werte, Baselines und Notizen bleiben erhalten. Ein Komponentenwechsel entfernt nur die Angaben des ersetzten Federelements und öffnet die betroffenen Abschnitte erneut. Ein Rahmenwechsel entfernt außerdem das alte hintere SAG-Ziel.
-
-## Einrichtung erneut durchgehen
-
-Unter **App & Profil → Fahrerprofil → Einrichtung komplett neu durchgehen** laufen die aktualisierten sechs Einführungsszenen und alle Fahrerfragen erneut. Danach erlaubt **Mit meinem Rad weitermachen** die Rückkehr ohne neues Rad und ohne Datenlöschung. Alternativ bleiben die bekannten Wege zum Anlegen eines anderen Rads erreichbar. Die Einführung zeigt direkte Teilesuche, optionale Beratung, automatische Bremsadapter, Fahrwerk, Guide, Fotos, Wunschliste und Einkauf. Sie ist auch allein unter Hilfe verfügbar.
-
-## Prüfungen
-
-`node tools/fahrwerk-fragen-test.mjs` prüft elf Szenarien einschließlich tatsächlicher Klickwege, Wiederaufnahme nach Neuladen, Eingabeprüfung, Coil-/Luft-Berechnung, Druckgrenzen, Messungsbezug, Migration, Radwechsel, Datenerhalt und DE/EN in OLED/Hell bei 320/390/1280 px. Die Gruppe läuft mit `npm test` und im Veröffentlichungsworkflow. Sprachtests enthalten alle neuen Fragen und Einführungsszenen. Browserprüfungen verwenden isolierte Testdaten; echtes iPhone/Safari ist damit nicht nachgewiesen.
+Fragen, Wiederaufnahme, fehlende Teile, Herstellergrenzen, Feder475/500, Messungsbezug, Datenerhalt, Zustandsdialog, Fotos und responsive DE/EN-Ansichten werden automatisch geprüft. Zusätzlich getrennte Quellen-, Bild- und simulierte Einsteigerreviews sowie Chromium-Sichtprüfung bei 320/390/1280 px, OLED/Hell. Dies sind keine Tests mit echten fachfremden Personen und kein iPhone/Safari-Nachweis. Startwerte werden durch Messung und Testfahrt verfeinert; kein Versprechen eines garantiert perfekten Setups.

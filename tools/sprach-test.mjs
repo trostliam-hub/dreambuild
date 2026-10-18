@@ -55,7 +55,7 @@ const SZENEN = [
   ['setup-karten', PRO + FED + "for(const [s, x] of suElemente(federRechnen())) for(const it of suItems(s, x, suDaten(federRechnen()))) suAuf.add('fwk-' + it.key.replace(/\\W/g, '-')); suAuf.add('alle'); suAuf.add('prof-erkl'); suAuf.add('w-quellen'); view='setup'; zeichne()", 'traum'],
   ['setup-karten-daempfer', PRO + FED + "suElWahl='daempfer'; for(const [s, x] of suElemente(federRechnen())) for(const it of suItems(s, x, suDaten(federRechnen()))) suAuf.add('fwk-' + it.key.replace(/\\W/g, '-')); view='setup'; zeichne()", 'traum'],
   ...['downhill', 'spruenge'].map(m => ['setup-profil-' + m, PRO + FED + `fedModus='${m}'; suAuf.add('prof-erkl'); view='setup'; zeichne()`, 'traum']),
-  ...['start', 'gewicht', 'rad', 'gabel', 'daempfer', 'einsteller', 'fahrer', 'stil', 'gefuehl', 'profil', 'abstimmung', 'aktuell', 'probleme', 'vorbereitung', 'ende'].map(n => ['setup-angaben-' + n, PRO + "plan.fahrer = 80; view='setup'; zeichne(); obOeffnen('" + n + "')", 'traum']),
+  ...['start', 'gabel', 'daempfer', 'gewicht', 'fahrer', 'stil', 'gefuehl', 'vorbereitung', 'ende'].map(n => ['setup-angaben-' + n, PRO + "plan.fahrer = 80; view='setup'; zeichne(); obOeffnen('" + n + "')", 'traum']),
   ...[0,1,2,3,4,5].map(i => ['einfuehrung-' + i, `oeffneSzenen(null); szeneZeigen(${i})`, 'traum']),
   ['einrichtung-wiederholen', "oeffneEinstieg('wiederholen'); ei.schritt=5; eiZeigen()", 'traum'],
   ...[0, 1, 2, 3, 4, 5].map(i => ['sag-' + i, PRO + FED + "view='setup'; zeichne(); oeffneSagWizard('gabel'); sagW.i=" + i + "; zeigeSheet(sagWizardHtml())", 'traum']),

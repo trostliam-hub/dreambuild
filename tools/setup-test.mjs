@@ -49,55 +49,61 @@ const PRO = () => { pro = {key:'x', inst:'i', status:'aktiv', geprueft:Date.now(
 
 /* Jede Pruefung: [Name, async () => {ok, info}] */
 const PRUEFUNGEN = [
-  ['Super Deluxe Coil B1: HSC/LSC getrennt, Zugstufe und Hebel als markierte Fotos', async () => {
+  ['Super Deluxe Coil: eigenes Modellfoto fuer jeden Einsteller, HSC/LSC weiter getrennt erklaert', async () => {
     const r = await ev(() => {
-      const x = {t:{n:'RockShox Super Deluxe Coil',m:'RockShox',v:[{k:'Ausführung',o:[{n:'Ultimate'}]}],wahl:[0]},coil:true};
-      const daten = suErgaenzendeNahDaten('daempfer',x), html = a => suEinstellBild('daempfer',x,{zeig:[a]});
-      const d = daempferDaten(x.t);
-      return {lsc:html('lsc').includes('rs-sdcoil-side-detail.png') && html('lsc').includes('>LSC</text>'),
-        hsc:html('hsc').includes('rs-sdcoil-front-detail.png') && html('hsc').includes('>HSC</text>'),
-        getrennt:daten.lsc.datei !== daten.hsc.datei && daten.lsc.p.join() !== daten.hsc.p.join(),
-        keinBolzen:!html('hsc').includes('cx="368"') && !html('lsc').includes('rs-rc2t-druck.jpg'),
-        zug:html('zug').includes('rs-sdcoil-front-detail.png') && !html('zug').includes('il-daempfer'),
-        hebel:html('hebel').includes('rs-sdcoil-3q-detail.png') && !html('hebel').includes('il-daempfer'),
-        beschriftung:d.lsc.wo.includes('Ende des Ausgleichsbehälters') && d.hsc.wo.includes('seitlicher')};
-    });
-    return {ok:Object.values(r).every(Boolean),info:r};
-  }],
-  ['Daempfer: Federhaerte und vorhandene Detailbilder zeigen auf das Bauteil', async () => {
-    const r = await ev(() => {
-      const x = (n,m,au,coil) => ({t:{n,m,v:[{k:'Ausführung',o:[{n:au}]}],wahl:[0]},coil});
-      const vivid = x('RockShox Vivid Coil','RockShox','Ultimate',true);
-      const feder = suEinstellBild('daempfer',vivid,{zeig:['feder'],nr:1});
-      const arten = ['zug','lsc','hsc','bo','oring'].every(a => suEinstellBild('daempfer',vivid,{zeig:[a]}).includes('<path d="M'));
-      const fox = ['Fox DHX','Fox DHX2','Fox Float X2','Fox Float X'].every(n => {
-        const html = suEinstellBild('daempfer',x(n,'Fox','Factory',n.includes('DHX')),{zeig:['lsc']});
-        return html.includes('<path d="M') && html.includes('Bildquelle');
+      const t = findeTeil('daempfer', 'd-sd230'), x = {t,coil:true}, b = produktBildInfo(t);
+      const bilder = ['lsc','hsc','zug','hebel','feder','oring'].map(art => {
+        const html = suEinstellBild('daempfer', x, {zeig:[art]});
+        const dom = new DOMParser().parseFromString(html, 'text/html');
+        return {art, src:dom.querySelector('img')?.getAttribute('src'), modell:dom.querySelector('figure')?.dataset.fwmodell,
+          ersatz:!!dom.querySelector('svg,.il,.fw-nah-link') || /bilder\/fahrwerk\//.test(html)};
       });
-      const eigen = suNahFotos('daempfer',{...vivid,t:{...vivid.t,eigen:true}},{zeig:['feder']});
-      return {feder:feder.includes('rs-nah-coil-sag.jpg') && feder.includes('cx="420"') && feder.includes('Aufdruck'),arten,fox,eigen:eigen === ''};
+      const d = daempferDaten(t);
+      return {foto:b?.src === 'bilder/produkte/d-sdcoil--ultimate.png',
+        bilder:bilder.every(v => v.src === b?.src && v.modell === 'd-sdcoil' && !v.ersatz),
+        beschriftung:d.lsc.wo.includes('Ende des Ausgleichsbehälters') && d.hsc.wo.includes('seitlicher'), details:bilder};
     });
-    return {ok:Object.values(r).every(Boolean),info:r};
+    return {ok:r.foto && r.bilder && r.beschriftung,info:r};
   }],
-  ['Einstellbilder: echtes Foto, schwarze Flaeche und modellsichere Marker', async () => {
+  ['Stahlfeder und SAG: FOX und RockShox bekommen ausschliesslich ihr Modellfoto', async () => {
     const r = await ev(() => {
-      const x = {t:{id:'g-lyrik',n:'Lyrik Ultimate',m:'RockShox',v:[{k:'Kartusche',o:[{n:'Charger 3.2 RC2'}]}],wahl:[0]},coil:false};
-      const luft = suEinstellBild('gabel', x, {zeig:['luft'],nr:1});
-      const zug = suEinstellBild('gabel', x, {zeig:['zug'],nr:3});
-      const zeb = ['luft','druck','lsc','hsc','zug','oring','bo'].every(art => {
-        const html = suEinstellBild('gabel', {t:{...x.t,id:'g-zeb',n:'ZEB Ultimate'}}, {zeig:[art],nr:1});
-        return html.includes('bilder/fahrwerk/rs-nah-gabel-') && html.includes('<path d="M') && !html.includes('bilder/produkte/') && !html.includes('il-gabel');
+      const alt = build.fw; build.fw = {...alt,dj:2026};
+      const bilder = ['d-dhx','d-dhx2','d-vivid250','d-sd230'].map(id => {
+        const t = findeTeil('daempfer', id), b = produktBildInfo(t);
+        const html = ['feder','oring','zug'].map(art => suEinstellBild('daempfer', {t,coil:true}, {zeig:[art]})).join('');
+        const dom = new DOMParser().parseFromString(html, 'text/html');
+        return {id,src:b?.src,korrekt:!!b && dom.querySelectorAll('img').length === 3
+          && [...dom.querySelectorAll('img')].every(img => img.getAttribute('src') === b.src)
+          && !dom.querySelector('svg,.il,.fw-nah-link') && !/bilder\/fahrwerk\//.test(html)};
       });
-      const eigen = suNahFotos('gabel', {t:{...x.t,eigen:true}}, {zeig:['luft']});
-      const fremd = suEinstellBild('gabel', {t:{id:'g-fox38',n:'FOX 38',m:'FOX'}}, {zeig:['zug']});
-      const host = document.createElement('div'); host.innerHTML = luft; document.body.append(host);
-      const schwarz = ['.fw-nah-link','.fw-foto','figcaption','figcaption a'].every(sel => getComputedStyle(host.querySelector(sel)).backgroundColor === 'rgb(0, 0, 0)' || sel === 'figcaption a' && getComputedStyle(host.querySelector(sel).parentNode).backgroundColor === 'rgb(0, 0, 0)'); host.remove();
-      const hsc = suEinstellBild('gabel',x,{zeig:['hsc']});
-      return {foto:luft.includes('href="bilder/fahrwerk/rs-nah-gabel-luft.jpg"'),marker:luft.includes('cx="573"'),
-        ohneSchema:!luft.includes('il-gabel'),zeb,schwarz,nah:zug.includes('rs-nah-gabel-zug.jpg'),ausschnitt:hsc.includes('viewBox="300 160 360 340"'),
-        nummer:zug.includes('>3</text>'),eigen:eigen === '',fremd:fremd.includes('il-gabel') && !fremd.includes('rs-nah-')};
+      const t = findeTeil('daempfer','d-vivid250'), eigen = {...t,eigen:true};
+      const html = suEinstellBild('daempfer',{t:eigen,coil:true},{zeig:['feder']});
+      const dom = new DOMParser().parseFromString(html,'text/html');
+      build.fw = alt;
+      return {bilder,eigen:produktBildInfo(eigen) === null && !!dom.querySelector('.fw-foto-fehlt') && !dom.querySelector('img,svg')};
     });
-    return {ok:Object.values(r).every(Boolean),info:r};
+    return {ok:r.bilder.every(b => b.korrekt) && r.eigen,info:r};
+  }],
+  ['Gabelbilder: Lyrik und ZEB unterscheiden sich, Originalquelle und schwarze Flaeche bleiben', async () => {
+    const r = await ev(() => {
+      const alt = build.fw; build.fw = {...alt,gj:2027};
+      const bilder = ['g-lyrik','g-zeb'].map(id => {
+        const t = findeTeil('gabel', id), b = produktBildInfo(t);
+        const html = suEinstellBild('gabel',{t},{zeig:['luft','zug','hsc']});
+        const host = document.createElement('div'); host.innerHTML = html; document.body.append(host);
+        const fig = host.querySelector('.fw-foto'), link = host.querySelector('.fw-foto-link'), img = host.querySelector('img'), quelle = host.querySelector('figcaption a');
+        const schwarz = fig && link && getComputedStyle(fig).backgroundColor === 'rgb(0, 0, 0)' && getComputedStyle(link).backgroundColor === 'rgb(0, 0, 0)';
+        const out = {id,src:img?.getAttribute('src'),korrekt:!!b && img?.getAttribute('src') === b.src
+          && link?.getAttribute('href') === b.src && quelle?.getAttribute('href') === b.quelle
+          && fig?.dataset.fwmodell === id && !host.querySelector('svg,.il,.fw-nah-link') && !/bilder\/fahrwerk\//.test(html),schwarz:!!schwarz};
+        host.remove(); return out;
+      });
+      const html = suEinstellBild('gabel',{t:{id:'unbekannte-gabel',n:'Unbekannte Gabel'}},{zeig:['zug']});
+      const dom = new DOMParser().parseFromString(html,'text/html');
+      build.fw = alt;
+      return {bilder,verschieden:bilder[0].src !== bilder[1].src,fehlend:!!dom.querySelector('.fw-foto-fehlt') && !dom.querySelector('img,svg')};
+    });
+    return {ok:r.bilder.every(b => b.korrekt && b.schwarz) && r.verschieden && r.fehlend,info:r};
   }],
   ['Produktbilder: Ausstattung, eigene Teile und fehlende Modelle', async () => {
     const r = await ev(() => {
@@ -127,30 +133,60 @@ const PRUEFUNGEN = [
     });
     return {ok:r.anzahl >= 100 && !r.fehler.length, info:r};
   }],
-  ['Fahrwerk-Bilder: richtige Kartusche und Referenzjahr', async () => {
+  ['Fahrwerk-Bilder: fremde Kartusche und unpassendes oder unbekanntes Bildjahr bleiben ohne Foto', async () => {
     const r = await ev(() => {
-      const t = (n, m, ka) => ({n, m, v:[{k:'Kartusche', o:[{n:ka}]}], wahl:[0]});
-      const fotos = (n, m, ka) => suFotoDaten('gabel', {t:t(n, m, ka)}).map(b => b.datei);
-      const alt = build.fw; build.fw = {gj:2025};
-      const xAlt = fotos('Fox 36 Factory', 'Fox', 'GRIP X'); build.fw.gj = 2026;
-      const xNeu = fotos('Fox 36 Factory', 'Fox', 'GRIP X');
-      const out = {xAlt, xNeu, x2:fotos('Fox 38 Factory', 'Fox', 'GRIP X2'),
-        grip2:fotos('Fox 36 Factory', 'Fox', 'GRIP2'), fit4:fotos('Fox 34', 'Fox', 'FIT4'),
-        charger:fotos('RockShox Lyrik Ultimate', 'RockShox', 'Charger 3.1 RC2'),
-        neuer:fotos('RockShox ZEB Ultimate', 'RockShox', 'Charger 3.2 RC2'),
-        boxxer:fotos('RockShox BoXXer Ultimate', 'RockShox', 'Charger 3 RC2')};
-      build.fw = alt; return out;
+      const variante = (id, ka) => { const b = K.gabel.find(t => t.id === id), w = b.v.map(v => v.d), i = b.v.findIndex(v => v.k === 'Kartusche');
+        w[i] = b.v[i].o.findIndex(o => o.n === ka); return varianteNachIndex(b,w); };
+      const alt = build.fw;
+      const bild = (id,ka,jahr) => {
+        build.fw = jahr ? {gj:jahr} : {};
+        const t = variante(id,ka), html = suEinstellBild('gabel',{t},{zeig:['zug']});
+        const dom = new DOMParser().parseFromString(html,'text/html');
+        return {src:dom.querySelector('img')?.getAttribute('src') || '',fehlt:!!dom.querySelector('.fw-foto-fehlt'),ersatz:!!dom.querySelector('svg,.fw-nah-link')};
+      };
+      const passend = [bild('g-fox36','GRIP X',2027),bild('g-zeb','Charger 3.2 RC2',2027),bild('g-lyrik','Charger 3.2 RC2',2027)];
+      const unpassend = [bild('g-fox36','GRIP2',2023),bild('g-fox36','FIT4',2019),bild('g-fox36','GRIP X2',2027),
+        bild('g-lyrik','Charger 3.1 RC2',2025),bild('g-zeb','Charger 2.1 RC2',2021),bild('g-zeb','Charger 3.2 RC2',2025),
+        bild('g-fox36','GRIP X',2025),bild('g-fox36','GRIP X',0)];
+      const dhx = findeTeil('daempfer','d-dhx2');
+      const shockBild = jahr => { build.fw = {dj:jahr}; const dom = new DOMParser().parseFromString(suEinstellBild('daempfer',{t:dhx,coil:true},{zeig:['zug']}),'text/html');
+        return {src:dom.querySelector('img')?.getAttribute('src') || '',fehlt:!!dom.querySelector('.fw-foto-fehlt')}; };
+      const dhxPassend=shockBild(2026),dhxFalsch=shockBild(2025);
+      build.fw = alt; return {passend,unpassend,dhxPassend,dhxFalsch};
     });
-    return {ok:!r.xAlt.length && r.xNeu.length === 1 && r.x2.length === 1 && !r.grip2.length && !r.fit4.length && r.charger.length === 2 && !r.neuer.length && !r.boxxer.length, info:r};
+    return {ok:r.passend.every(b => b.src.startsWith('bilder/produkte/') && !b.ersatz) && r.unpassend.every(b => !b.src && b.fehlt && !b.ersatz)
+      && r.dhxPassend.src === 'bilder/produkte/d-dhx2--factory.png' && !r.dhxFalsch.src && r.dhxFalsch.fehlt,info:r};
   }],
-  ['Fahrwerk-Bilder: Select bekommt keine Ultimate-Einsteller', async () => {
+  ['Fahrwerk-Bilder: Select zeigt sein Foto; fehlende Ausfuehrung bekommt keinen Ultimate-Ersatz', async () => {
     const r = await ev(() => {
-      const bilder = au => suFotoDaten('daempfer', {t:{n:'RockShox Super Deluxe Coil', m:'RockShox', v:[{k:'Ausführung', o:[{n:au}]}], wahl:[0]}});
-      return {ultimate:bilder('Ultimate').length, select:bilder('Select').length, plus:bilder('Select+').length,
-        unbekannt:suFotoDaten('daempfer', {t:{n:'DVO Topaz', m:'DVO'}}).length,
-        fallback:suEinstellBild('gabel', {t:{n:'DVO Onyx', m:'DVO'}}, {zeig:['zug']}).includes('il-gabel')};
+      const basis = K.daempfer.find(t => t.id === 'd-sd');
+      const bilde = au => { const w = basis.v.map(v => v.d), i = basis.v.findIndex(v => v.k === 'Ausführung');
+        w[i] = basis.v[i].o.findIndex(o => o.n === au); const t = varianteNachIndex(basis,w);
+        const dom = new DOMParser().parseFromString(suEinstellBild('daempfer',{t},{zeig:['lsc']}),'text/html');
+        return dom.querySelector('img')?.getAttribute('src') || ''; };
+      const unbekannt = {...findeTeil('daempfer','d-sd230'),v:[{k:'Ausführung',o:[{n:'Nicht hinterlegte Ausführung'}]}],wahl:[0]};
+      const dom = new DOMParser().parseFromString(suEinstellBild('daempfer',{t:unbekannt},{zeig:['lsc']}),'text/html');
+      const dvo = findeTeil('gabel','g-onyx'), html = suEinstellBild('gabel',{t:dvo},{zeig:['zug']});
+      return {ultimate:bilde('Ultimate'),select:bilde('Select'),plus:bilde('Select+'),
+        keineFalscheVariante:produktBildInfo(unbekannt) === null && !!dom.querySelector('.fw-foto-fehlt') && !dom.querySelector('img,svg'),
+        dvo:html.includes('bilder/produkte/g-onyx.jpg') && !/il-gabel|rs-nah-/.test(html)};
     });
-    return {ok:r.ultimate === 1 && !r.select && !r.plus && !r.unbekannt && r.fallback, info:r};
+    return {ok:r.ultimate === 'bilder/produkte/d-sd--ultimate.png' && r.select === 'bilder/produkte/d-sd--select.png'
+      && r.plus === 'bilder/produkte/d-sd--selectplus.png' && r.keineFalscheVariante && r.dvo,info:r};
+  }],
+  ['Keine Ersatzzeichnungen oder 3D-Modelle in Fahrwerk, Einrichtung und Adapterhilfe', async () => {
+    const r = await ev(() => {
+      const zeichnungen = [ilGabel(),ilDaempfer(),ilRad(),ilSag(),radSvg(),figurSvg(),cockpitSvg(),adGrafik({}),
+        adMontage('PM'),adMontage('FM'),adMontage('IS'),szBremse('problem'),szBremse('loesung'),beispielRad(),beispielRad(true),woIcon('hsc')];
+      const alt = szene.i, szenen = [];
+      for(let i=0;i<6;i++){ szene.i=i; szenen.push(szenenHtml()); } szene.i = alt;
+      const dom = new DOMParser().parseFromString(szenen.join(''),'text/html');
+      oeffne3D();
+      return {leer:zeichnungen.every(h => h === ''),szenen:!dom.querySelector('.szb,.brad,canvas,img'),
+        kein3d:!document.querySelector('#d3,[data-d3gruppe]'),
+        keineReferenzdetails:suNahFotos('daempfer',{t:findeTeil('daempfer','d-sd230'),coil:true},{zeig:['feder','lsc']}) === ''};
+    });
+    return {ok:Object.values(r).every(Boolean),info:r};
   }],
   ['Fahrwerk-Bilder: lokal dekodierbar und im Offline-Cache', async () => {
     const dir = path.join(wurzel, 'bilder', 'fahrwerk'), sw = fs.readFileSync(path.join(wurzel, 'mtb-sw.js'), 'utf8');
@@ -231,12 +267,22 @@ const PRUEFUNGEN = [
     const r = await ev(() => { build.fw = {gj:2024, fertig:true}; plan.fahrer = 80; const fox34 = katalog(quelleOf(slotOf('gabel'))).find(t => /34/.test(t.n) && /^Fox/.test(t.m || t.n));
       build.gabel = fox34.id; const f = federRechnen(); const out = {fox34:f.gabel.max, daempfer:f.daempfer && f.daempfer.max}; build.gabel = 'g-pike'; return out; });
     return {ok:r.fox34 === null && r.daempfer === null, info:r}; }],
-  ['14/15 Daempfer: Feder nur mit Federweg, Startdruck nur FOX', async () => {
-    const r = await ev(() => { const kat = katalog(quelleOf(slotOf('daempfer'))), alt = build.daempfer;
-      const mit = (t, fwH) => { build.daempfer = (t.v ? besteVariante('daempfer', t, build) : t).id; build.fw = {gj:2025, fertig:true}; if(fwH) build.fw.fwH = fwH; const d = federRechnen().daempfer; return {psi:d.psi, rate:d.rate}; };
-      const coil = kat.find(t => /Coil/.test(t.n)), rs = kat.find(t => /Deluxe/.test(t.n) && !/Coil/.test(t.n)), fox = kat.find(t => /^Fox/.test(t.m || t.n) && /Float/.test(t.n) && !/Coil/.test(t.n));
-      const out = {coilOhne:mit(coil), coilMit:mit(coil, 150), rs:mit(rs), fox:mit(fox)}; build.daempfer = alt; return out; });
-    return {ok:r.coilOhne.rate === null && r.coilMit.rate > 0 && r.rs.psi === null && r.fox.psi > 0, info:r}; }],
+  ['14/15 Daempfer: Rahmen-Federweg automatisch, unbekannter Rahmen ohne Erfindung, Druck nur mit Modellvorgabe', async () => {
+    const r = await ev(() => {
+      const alt={rahmen:build.rahmen,daempfer:build.daempfer,fw:build.fw}, kat=K.daempfer;
+      const mit=(id,rahmen,jahr,fwH) => {
+        build.rahmen=rahmen; const t=kat.find(t=>t.id===id); build.daempfer=(t.v?besteVariante('daempfer',t,build):t).id;
+        build.fw={gj:2025,dj:jahr,fertig:true}; if(fwH) build.fw.fwH=fwH;
+        const d=federRechnen().daempfer; return {psi:d.psi,rate:d.rate,fwH:d.fwH,max:d.max};
+      };
+      const out={stumpy:mit('d-sdcoil','f-stumpy',2025),spindrift:mit('d-sdcoil','f-spindrift',2025),
+        bekannteVorgabe:mit('d-sdcoil','f-stumpy',2025,150),unbekannt:mit('d-sdcoil','f-topfuel',2025),
+        rs:mit('d-sd','f-spindrift',2025),fox:mit('d-x2','f-spindrift',2025),foxUnbekannt:mit('d-x2','f-spindrift',0)};
+      Object.assign(build,alt); return out;
+    });
+    return {ok:r.stumpy.fwH===130 && r.stumpy.rate>0 && r.spindrift.fwH===180 && r.spindrift.rate>0
+      && r.bekannteVorgabe.fwH===130 && r.bekannteVorgabe.rate===r.stumpy.rate && r.unbekannt.rate===null
+      && r.unbekannt.fwH===0 && r.rs.psi===null && r.fox.psi>0 && r.fox.max>0 && r.foxUnbekannt.psi===null,info:r}; }],
   ['17 gespeicherter Druck zentral begrenzt', async () => {
     const r = await ev(PRO => { eval('(' + PRO + ')()'); plan.fahrer = 80; build.gabel = 'g-pike'; build.fw = {gj:2025, fertig:true}; const f = federRechnen(), d = suDaten(f);
       suP(d).psi.gabel = 999; const out = {psi:suPsi('gabel', f.gabel, d), rec:f.gabel.modi.allround.psi, ung:suPsiUngueltig('gabel', f.gabel, d)}; delete suP(d).psi.gabel; return out; }, PRO.toString());
@@ -256,7 +302,7 @@ const PRUEFUNGEN = [
       s.forEach((n, i) => { if(n === 'start' || n === 'ende') return; obW = {i, einzeln:false, tipp:null}; zeigeSheet(obHtml());
         const m = $('modal'); if(!m.querySelector('.fw-warum') || !m.querySelector('.fw-wn')) fehlt.push(n); });
       schliesse(); return {schritte:s.length, fehlt}; }, PRO.toString());
-    return {ok:r.schritte >= 10 && !r.fehlt.length, info:r}; }],
+    return {ok:r.schritte === 8 && !r.fehlt.length, info:r}; }],
   ['Alle Gabeln und Daempfer: keine erfundenen Werte, kein undefined/NaN', async () => {
     const r = await ev(PRO => { eval('(' + PRO + ')()'); plan.fahrer = 78; view = 'setup'; const out = {n:0, fehler:[], erfunden:[]};
       for(const spr of ['de', 'en']){ sprache = spr;

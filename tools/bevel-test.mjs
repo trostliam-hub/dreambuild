@@ -490,9 +490,10 @@ const PRUEFUNGEN = [
     const neutral = z => /andere Bauart/.test(z) && !/besser|schlechter/.test(z);
     return {ok:r.kopf.length === 4 && neutral(r.hin) && neutral(r.rueck) && r.ziel && r.kosten && r.fehlend && r.gewicht, info:r}; }],
   /* BEVEL-003: Reihenfolge Rad -> Score -> Pruefung -> "Verbessern" -> Teile (Rahmen zuerst) */
-  ['Pruefung im Aufbau: unter Rad und Score, vor "Verbessern" und dem Rahmen, aufklappbar per Tastatur, Zustand bleibt', async () => {
+  ['Pruefung im Aufbau: unter eigenem Radfoto und Score, vor "Verbessern" und Rahmen, per Tastatur, Zustand bleibt', async () => {
     await neu();
-    await ev(() => { pruefOffen = false; try{ localStorage.setItem('mtb.pruef', 'zu'); }catch(e){} view = 'aufbau'; zeichne(); });
+    await ev(() => { pruefOffen = false; try{ localStorage.setItem('mtb.pruef', 'zu'); }catch(e){}
+      fotos[modus] = 'data:image/gif;base64,R0lGODlhAQABAAAAACw='; view = 'aufbau'; zeichne(); });
     const kopf = await seite.$('#pruef .pf-kopf'); await kopf.focus(); await seite.keyboard.press('Enter'); await seite.waitForTimeout(200);
     const r = await ev(() => { const p = $('pruef'), a = $('aufbau');
       const teile = ['.radbild', '#seite', '#pruef', '.verb', '.grp'].map(q => a.querySelector(q));
@@ -501,21 +502,30 @@ const PRUEFUNGEN = [
       return {da:teile.map(x => !!x), reihe:teile.every((x, i) => i === 0 || vor(teile[i - 1], x)), rahmenZuerst:!!rahmen && a.querySelector('.grp').contains(rahmen),
         offen:p.querySelector('.pf-kopf').getAttribute('aria-expanded'), inhalt:!$('pf-inhalt').hidden, gespeichert:localStorage.getItem('mtb.pruef')}; });
     return {ok:r.da.every(Boolean) && r.reihe && r.rahmenZuerst && r.offen === 'true' && r.inhalt && r.gespeichert === 'auf', info:r}; }],
-  ['Radbild: kein fremdes Rad -- eigenes Foto, Spindrift-Modell nur beim Spindrift, sonst Geometrie oder Platzhalter', async () => {
+  ['Radbild: nur eigenes Foto, kein Spindrift-Render oder fremdes Schema, Foto entfernen erhaelt das Rad', async () => {
     await neu();
-    const r = await ev(() => { const art = () => ($('aufbau').querySelector('.radbild') || {className:''}).className.replace('radbild', '').trim();
-      build.rahmen = 'f-spindrift'; zeichne(); const sp = art();
-      build.rahmen = 'f-stumpy'; zeichne(); const geo = art();
-      build.rahmen = null; zeichne(); const leer = art();
-      wechsle('real'); fotos.real = 'data:image/gif;base64,R0lGODlhAQABAAAAACw='; zeichne(); const foto = art();
-      return {sp, geo, leer, foto}; });
-    return {ok:r.sp === 'render' && r.geo === 'geo' && r.leer === 'leer' && r.foto === 'foto', info:r}; }],
+    const r = await ev(() => {
+      const lese = () => { const rad=$('aufbau').querySelector('.radbild'); return {bild:rad?.querySelector('img')?.getAttribute('src') || '',
+        upload:!!rad?.querySelector('label[for="foto-in"]'),ersatz:!!document.querySelector('#aufbau .render,#aufbau .geo,#aufbau .brad,#aufbau .rs,#aufbau [data-d3]')}; };
+      const traum=[]; fotos.traum=null;
+      for(const rahmen of ['f-spindrift','f-stumpy',null]){ build.rahmen=rahmen; zeichne(); traum.push({rahmen,ohneFoto:!$('aufbau').querySelector('.radbild img'),ersatz:lese().ersatz}); }
+      wechsle('real'); fotos.real=null; const real=[];
+      for(const rahmen of ['f-spindrift','f-stumpy',null]){ build.rahmen=rahmen; zeichne(); real.push({rahmen,...lese()}); }
+      build.rahmen='f-spindrift'; build.gabel='g-zeb'; const quelle='data:image/gif;base64,R0lGODlhAQABAAAAACw=';
+      fotos.real=quelle; zeichne(); const foto=lese(), ersetzen=!!document.querySelector('#aufbau [data-fotowahl]'), entfernen=document.querySelector('#aufbau [data-fotoweg]');
+      entfernen?.click(); const danach=lese();
+      return {traum,real,foto,quelle,ersetzen,entfernen:!!entfernen,danach,
+        radErhalten:build.rahmen==='f-spindrift' && build.gabel==='g-zeb',beispiel:beispielRad()};
+    });
+    return {ok:r.traum.every(v=>v.ohneFoto&&!v.ersatz) && r.real.every(v=>!v.bild&&v.upload&&!v.ersatz)
+      && r.foto.bild===r.quelle && !r.foto.ersatz && r.ersetzen && r.entfernen && !r.danach.bild && r.danach.upload
+      && r.radErhalten && r.beispiel==='',info:r}; }],
   ['Englisch: Finder, Vergleich und Wunschliste ohne deutsche Reste', async () => {
     await neu('en');
     const r = await ev(() => { oeffneSlot('bremsen', {ziel:'leicht'}); const a = $('modal').textContent;
       const e = finderRechnen('bremsen'); if(e.treffer[0]) oeffneVergleich('bremsen', e.treffer[0].t.id); const b = $('modal').textContent; schliesse();
       if(e.treffer[0]) merken('bremsen', e.treffer[0].t.id); view = 'wunsch'; zeichne(); const c = $('wunschliste').textContent;
-      view = 'aufbau'; pruefOffen = true; zeichne(); const d = $('pruef').textContent + $('aufbau').querySelector('.radbild').textContent;
+      view = 'aufbau'; pruefOffen = true; zeichne(); const d = $('pruef').textContent + ($('aufbau').querySelector('.radbild')?.textContent || '');
       const de = /\b(Leichter|Merken|Vergleichen|Gemerkt|Passt mit|Richtpreis|statt|Einschätzung|Wunschliste|Prüfung|Keine Konflikte|Zubehör|Teil eintragen)\b/;
       return {a:de.test(a) ? a.match(de)[0] : '', b:de.test(b) ? b.match(de)[0] : '', c:de.test(c) ? c.match(de)[0] : '', d:de.test(d) ? d.match(de)[0] : ''}; });
     return {ok:!r.a && !r.b && !r.c && !r.d, info:r}; }],

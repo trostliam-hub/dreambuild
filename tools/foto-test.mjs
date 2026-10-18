@@ -10,7 +10,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const mime = {'.html':'text/html','.js':'text/javascript','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.avif':'image/avif','.woff2':'font/woff2','.json':'application/json'};
 const server = http.createServer((q, a) => {
   const p = path.resolve(root, '.' + decodeURIComponent(q.url.split('?')[0] === '/' ? '/index.html' : q.url.split('?')[0]));
-  if(!p.startsWith(root + '/') || !fs.existsSync(p) || fs.statSync(p).isDirectory()){ a.writeHead(404); a.end(); return; }
+  if(!p.startsWith(root + path.sep) || !fs.existsSync(p) || fs.statSync(p).isDirectory()){ a.writeHead(404); a.end(); return; }
   a.writeHead(200, {'Content-Type':mime[path.extname(p)] || 'application/octet-stream'}); fs.createReadStream(p).pipe(a);
 });
 await new Promise(r => server.listen(0, '127.0.0.1', r));
@@ -105,14 +105,18 @@ await test('Englische Bildansicht ist übersetzt und eigene Teile bekommen kein 
   check(await page.evaluate(() => !produktBildInfo({...K.gabel.find(t => t.id === 'g-domain'),eigen:true}) && !teilFoto({id:'g-user',n:'My fork',eigen:true})), 'Fremdes Foto für eigenes Teil');
   await page.locator('[data-pb-close]').click();
 });
-await test('Echte Fahrwerk-Nahaufnahme behält Markierungen und bekommt einen schwarzen Fotohintergrund', async () => {
-  await page.evaluate(() => {
+await test('Fahrwerk zeigt das gewaehlte Modell schwarz und vergroessert es ohne erfundene Markierungen', async () => {
+  const bild = await page.evaluate(() => {
     const box = document.createElement('div'); box.id = 'foto-test-nah';
-    box.innerHTML = suNahFotos('daempfer',{t:{n:'Fox DHX Coil',m:'Fox'},coil:true},{zeig:['zug']}); document.body.append(box);
+    build.fw={...build.fw,dj:2026}; const t=findeTeil('daempfer','d-dhx|factory~230x65m');
+    box.innerHTML = suEinstellBild('daempfer',{t,coil:true},{zeig:['zug']}); document.body.append(box);
+    return {teil:t?.n,ausfuehrung:t&&wahlVon(t,'Ausführung'),src:box.querySelector('img')?.getAttribute('src'),html:box.innerHTML};
   });
-  await page.waitForFunction(() => document.querySelector('#foto-test-nah svg image')?.dataset.photoBackground === 'schwarz');
-  check(await page.locator('#foto-test-nah svg').evaluate(e => e.querySelectorAll('circle').length === 2 && e.getAttribute('viewBox') === '155 160 300 325'), 'Markierung oder Ausschnitt verändert');
-  await page.locator('#foto-test-nah a.fw-nah-link').click();
+  check(!!bild.src, 'Kein passendes Herstellerfoto: '+JSON.stringify(bild));
+  await page.locator('#foto-test-nah img').scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => document.querySelector('#foto-test-nah img')?.complete);
+  check(await page.locator('#foto-test-nah').evaluate(e => !e.querySelector('svg,.il') && e.querySelector('figure')?.dataset.fwmodell==='d-dhx' && getComputedStyle(e.querySelector('figure')).backgroundColor==='rgb(0, 0, 0)'), 'Fremdes Modell, Ersatzgrafik oder heller Hintergrund');
+  await page.locator('#foto-test-nah a.fw-foto-link').click();
   await page.waitForSelector('#produktbild-dialog[open]'); check((await page.locator('#pb-titel').textContent()).includes('DHX'), 'Nahaufnahme nicht geöffnet');
   await page.locator('[data-pb-close]').click(); await page.evaluate(() => document.querySelector('#foto-test-nah').remove());
 });

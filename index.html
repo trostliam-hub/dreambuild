@@ -130,6 +130,9 @@ var m=document.createElement("meta");m.name="theme-color";m.content=hell?"#f2f0e
   src: url(fonts/inter-400-800-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
+.sz-bild:empty,.fw-ob-hero:empty,.ei-rad:empty,.fw-wie-b:empty,.fit-rad,.ei-figur,.ei-cockpit .ck-unter{display:none!important}
+.fw-modellfoto .fw-foto-link{background:#000;display:block}.fw-foto.fw-modellfoto img{height:240px;object-fit:contain;background:#000}.fw-hintergrund{margin-top:16px}.fw-hintergrund>summary,.fw-optional>summary{font-size:16px;min-height:48px}.fw-optional{margin-top:16px}.fw-einfach-lead{max-width:64ch}
 </style>
 <style>
 /* Schriften: Fliesstext in der Systemschrift (SF Pro auf dem iPhone, sonst
@@ -2339,7 +2342,8 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-elw button > span:last-child{display:flex;flex-direction:column;min-width:0}
 .fw-elw b{font-size:13px;font-weight:800;line-height:1.2}
 .fw-elw small{font-size:11px;color:var(--ink-3);line-height:1.25;overflow-wrap:anywhere}
-.fw-elw button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-hoch)}
+.fw-elw button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-hoch);outline:1px solid var(--ink);outline-offset:-1px}
+.fw-elw button[aria-pressed="true"]::after{content:"✓";margin-left:auto;flex:none;font-weight:800}
 .fw-el-ic{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;color:var(--anod);background:var(--anod-soft)}
 .fw-el-ic.daempfer{background:color-mix(in srgb,var(--m-eins) 16%,transparent);color:var(--m-eins)}
 .fw-el-ic.rad{background:var(--gut-soft);color:var(--gut)}
@@ -2521,7 +2525,8 @@ details.auf > :not(summary){animation:ei-hoch var(--t-mittel) var(--e-aus)}
 .fw-wz-bilder{display:grid;grid-template-columns:minmax(0,140px) minmax(0,1fr);gap:12px;align-items:center}
 .fw-wz-bilder .il-gabel:only-child{max-width:160px;margin:0 auto;grid-column:1 / -1}
 .fw-wz-el{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:center;padding:12px;border-radius:14px;background:var(--surface-2);font-size:14px;line-height:1.45;color:var(--ink-2)}
-.fw-wz-el b{display:block;color:var(--ink)}
+.fw-wz-el b{display:inline;color:var(--ink)}
+.fw-wz-el > span > b:first-child{display:block}
 .fw-wz .fx-sag{background:var(--surface-2)}
 .fw-wz .fx-pm{background:var(--surface)}
 .fw-wahlen{display:grid;grid-template-columns:1fr;gap:8px}
@@ -4347,7 +4352,7 @@ rahmen:[
  {id:"f-topfuel", n:"Trek Top Fuel Carbon", m:"Trek", seit:2023, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", ha:"148x12",
   bb:"BSA73", stuetze:34.9, einsteck:215, maxReifen:64, maxScheibeHR:180, pmHR:160, udh:true,
   daempfer:{el:185,hub:50,typ:"Trunnion"}, geo:{rs:1175,ks:435,lw:66.5,sw:76,  sr:430,ta:35}, ohne:[], fb:{h:"#1d2c4e",a:"#d6403a"}, e:E(5,3,0,0,0,0,0), g:2450, p:2799},
- {id:"f-stumpy", n:"Specialized Stumpjumper Alloy", m:"Specialized", seit:2021, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", steuerrohr:"IS42/IS52", ha:"148x12",
+ {id:"f-stumpy", fwH:130, n:"Specialized Stumpjumper Alloy", m:"Specialized", seit:2021, lrV:"29", lrH:"29", maxGabel:140, schaft:"tapered", steuerrohr:"IS42/IS52", ha:"148x12",
   /* maxScheibeHR (BEVEL-003): 203 mm war nicht belegt -- Specialized nennt fuer den Stumpjumper 2019-2020
      hinten hoechstens 200 mm, fuer diese Generation fand sich keine Angabe. Deshalb offen, die App fragt nach. */
   bb:"BSA73", stuetze:34.9, einsteck:240, maxReifen:64, maxScheibeHR:null, pmHR:180, udh:true,
@@ -4430,7 +4435,7 @@ rahmen:[
  {id:"f-sb160", n:"Yeti SB160", m:"Yeti", seit:2023, geo:{rs:1252,ks:441,lw:63.5,sw:78,sr:415,ta:27}, fb:{h:"#1f6f5c",a:"#101216"}, lrV:"29", lrH:"29", maxGabel:190, schaft:"tapered", steuerrohr:"ZS44/ZS56", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:66, maxScheibeHR:203, pmHR:180, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,3,5,4,0,0,0), g:3200, p:4299},
  {id:"f-foxy", n:"Mondraker Foxy", m:"Mondraker", seit:2023, geo:{rs:1240,ks:437,lw:64,sw:77.5,sr:415,ta:30}, fb:{h:"#101216",a:"#00c2a8"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:235, maxReifen:65, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:[], e:E(0,4,5,2,0,0,0), g:3050, p:2699},
  {id:"f-metatr", n:"Commencal Meta TR", m:"Commencal", seit:2022, geo:{rs:1238,ks:438,lw:64,sw:77.5,sr:415,ta:30}, fb:{h:"#0f1115",a:"#ff4d00"}, lrV:"29", lrH:"29", maxGabel:160, schaft:"tapered", steuerrohr:"ZS56/ZS56", ha:"148x12", bb:"PF92", stuetze:34.9, einsteck:235, maxReifen:65, maxScheibeHR:223, pmHR:200, udh:false, udhAb:2023, daempfer:{el:210,hub:55,typ:"Standard"}, ohne:[], e:E(0,4,5,2,0,0,0), g:3200, p:1799},
- {id:"f-spindrift", n:"Propain Spindrift", m:"Propain", seit:2022, geo:{rs:1262,ks:440,lw:63,sw:78,sr:410,ta:22}, fb:{h:"#1a1d21",a:"#d1372f"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, pmHR:180, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,1,5,4,0,0,0), g:3500, p:2499},
+ {id:"f-spindrift", fwH:180, n:"Propain Spindrift", m:"Propain", seit:2022, geo:{rs:1262,ks:440,lw:63,sw:78,sr:410,ta:22}, fb:{h:"#1a1d21",a:"#d1372f"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:240, maxReifen:66, maxScheibeHR:203, pmHR:180, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,1,5,4,0,0,0), g:3500, p:2499},
  {id:"f-tarvo", n:"Last Tarvo", m:"Last", seit:2020, geo:{rs:1250,ks:440,lw:63.5,sw:78,sr:410,ta:28}, fb:{h:"#23272c",a:"#c6ff00"}, lrV:"29", lrH:"29", maxGabel:170, schaft:"tapered", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:64, maxScheibeHR:203, udh:true, daempfer:{el:205,hub:65,typ:"Trunnion"}, ohne:[], e:E(0,3,5,3,0,0,0), g:3000, p:3299},
  {id:"f-nomad", n:"Santa Cruz Nomad", m:"Santa Cruz", seit:2023, geo:{rs:1250,ks:437,lw:63.5,sw:78,sr:410,ta:22}, fb:{h:"#1f6f5c",a:"#ff2d55"}, lrV:"29", lrH:"27.5", maxGabel:180, schaft:"tapered", steuerrohr:"IS41/IS52", ha:"148x12", bb:"BSA73", stuetze:31.6, einsteck:238, maxReifen:64, maxScheibeHR:223, pmHR:200, udh:true, daempfer:{el:230,hub:65,typ:"Standard"}, ohne:[], e:E(0,2,5,4,0,0,0), g:3250, p:3899},
  {id:"f-demo", n:"Specialized Demo Race", m:"Specialized", seit:2023, geo:{rs:1290,ks:445,lw:62.5,sw:76,sr:380,ta:18}, fb:{h:"#2b3a55",a:"#c9d400"}, lrV:"29", lrH:"27.5", maxGabel:200, schaft:"dc", ha:"148x12", bb:"BSA83", stuetze:30.9, einsteck:130, maxReifen:66, maxScheibeHR:220, pmHR:180, udh:false, daempfer:{el:225,hub:75,typ:"Trunnion"}, ohne:[], e:E(0,0,1,5,0,0,0), g:4000, p:3799},
@@ -5684,10 +5689,15 @@ function produktBildInfo(t){
   if(!t || t.eigen) return null;
   const id = t.basisId || basisVon(t.id), au = wahlVon(t, "Ausführung");
   const daten = typeof PRODUKTBILDER === "undefined" ? {} : PRODUKTBILDER;
-  const lokal = daten[id + "@" + au] || daten[id];
-  if(lokal) return {src:lokal.datei, quelle:lokal.quelle, marke:lokal.bildquelle || lokal.marke,
+  const varianten = Object.keys(daten).some(k => k.startsWith(id + "@"));
+  const lokal = daten[id + "@" + au] || (au && varianten ? null : daten[id]);
+  const ka=wahlVon(t,"Kartusche") || "", fotoKa=lokal && (lokal.modell || "").match(/GRIP X2|GRIP X|GRIP2|FIT4/);
+  if(fotoKa && ka && fotoKa[0] !== ka) return null;
+  if(lokal && /^g-(zeb|lyrik)/.test(id) && /[-_]27/.test(lokal.original || "") && ka && !/3\.2/.test(ka)) return null;
+  if(lokal && !/Modellfamilie|model family/i.test(lokal.hinweis || "")) return {src:lokal.datei, quelle:lokal.quelle, marke:lokal.bildquelle || lokal.marke,
     ansicht:tx(lokal.ansicht || "", lokal.ansicht_en || lokal.ansichtEN || (/Komplettrad/i.test(lokal.ansicht || "") ? "Complete bike · model reference" : "")),
     hinweis:tx(lokal.hinweis || "", lokal.hinweis_en || lokal.hinweisEN || (lokal.hinweis ? (/Komplettrad/i.test(lokal.ansicht || "") ? "The frame model is shown as a complete bike; fitted components are for reference." : "Model reference; the shown specification and colour may differ from your build.") : "")), lokal:true};
+  if(au && varianten) return null;
   const angebot = angebote(t).find(a => /^https:\/\//i.test(a.b || ""));
   return angebot ? {src:angebot.b, quelle:angebot.l || "", marke:angebot.s || "", lokal:false} : null;
 }
@@ -8412,6 +8422,7 @@ function szBsp(){
    zu tief, die Belaege greifen neben die Bremsspur. In Szene 2 schiebt sich der
    Adapter dazwischen und hebt den Sattel auf die Spur (Masse 1,5 px je mm). */
 function szBremse(art){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   const loesung = art === "loesung", r = 140;
   const loecher = Array.from({length:24}, (_, i) => { const w = (-160 + i * 6.2) * Math.PI / 180; return `<circle cx="${(150 + r * Math.cos(w)).toFixed(1)}" cy="${(330 + r * Math.sin(w)).toFixed(1)}" r="2.6"/>`; }).join("");
   return `<svg class="szb ${art}" viewBox="0 108 320 132" role="img" aria-label="${loesung ? tx("Mit Adapter sitzt der Bremssattel 11,5 mm höher, die Beläge greifen auf die Bremsspur der 203-mm-Scheibe.", "With the adapter the caliper sits 11.5 mm higher and the pads bite on the braking track of the 203 mm rotor.") : tx("Ohne Adapter sitzt der Bremssattel für eine 180-mm-Scheibe — an der 203-mm-Scheibe greifen die Beläge neben die Bremsspur.", "Without an adapter the caliper sits for a 180 mm rotor — on the 203 mm rotor the pads miss the braking track.")}">
@@ -9774,15 +9785,7 @@ function glatt(pts, zu){
    Groesse L, Mullet -- Modell, Skripte und GLB liegen in 3d/ (siehe 3d/README.md). Es steht fuer
    kein ausgewaehltes Rad, deshalb die Unterschrift. klein: Rundgang-Karte. */
 const RAD_BILD = {b:1200, h:661, vor:"data:image/webp;base64,UklGRuoBAABXRUJQVlA4WAoAAAAQAAAAHwAAEQAAQUxQSPYAAAARX6CojRQ4thpO4EdEBJqczPUTcK1tT9t88hVIttPZbI8NJ6PZHsPxWIYxnLXcOah25tsMXENE/ycAALwSAaiIw24kAPkKOUQNArjVY4oE6mXGDsFjavtyJh3RLAT6qGgyAoCqGjuPxXzMxtdlAjS2791RjQ1y6g/nNpT17Zi3E7VLBtxsvQmNTMyvk6Rp0VVgsceTB1v1vbv+laDMtFhs1Jfy47zIuQ0lVV/NfLaSvj47fx8STtP8ayWfLeXFfYG/yVAytWPk04XtJm6m6aBTURPPnbNUKz06IKBLk6nLnLLpXXIZABrzYHQnYPD/n5Iduvr/twBWUDggzgAAAPAEAJ0BKiAAEgA+7WCoTamlo6IwCAEwHYlpAAPkygVNJtWbcxjs7gtxQs74xQtspAD+7ogowWxVDxKHsx+gW34zgRZ29LT288SN8RKNRs+IOpTFKmpwMW6KAnGsIvt6hmhvOr8f8ICeKV2NiVareCp/mvT4EH9DqPFNpUbWazQvusgujbXiBVBcdQkA2wfU2ukhDfE5wtN5eIZZGQaMGN+zC+ewMCTCHvk5ZvWA9vmeLZqQkraCx4RfHO/kocXi8m7e1fqccVaJ+zi4AAAA"};
-const beispielRad = klein => `<figure class="brad">
-  <span class="brad-b" style="aspect-ratio:${RAD_BILD.b} / ${RAD_BILD.h}">
-    <img class="brad-vor" src="${RAD_BILD.vor}" alt="" aria-hidden="true">
-    <img class="brad-img" src="bilder/beispielrad-seite-640.webp" srcset="bilder/beispielrad-seite-640.webp 640w, bilder/beispielrad-seite-1200.webp 1200w"
-      sizes="${klein ? "236px" : "(min-width:600px) 520px, 94vw"}" width="${RAD_BILD.b}" height="${RAD_BILD.h}" decoding="async"
-      alt="${esc(tx("Mountainbike in der Seitenansicht", "Mountain bike, side view"))}"></span>
-  <figcaption>${klein ? tx("Beispielrad: Propain Spindrift 5 AL", "Example bike: Propain Spindrift 5 AL")
-    : tx("Beispielrad: Propain Spindrift 5 AL, Größe L, Mullet", "Example bike: Propain Spindrift 5 AL, size L, mullet")}</figcaption>
-</figure>`;
+const beispielRad = klein => "";
 /* load bubbelt nicht -- in der Einfangphase am Dokument kommt es trotzdem an, auch fuer spaeter
    per innerHTML eingesetzte Bilder */
 document.addEventListener("load", e => {
@@ -9846,6 +9849,7 @@ function radGeo(b){
     label:tx(`${r.n}: Seitenansicht aus der Katalog-Geometrie, vereinfacht`, `${r.n}: side view from the catalogue geometry, simplified`)};
 }
 function radSvg(o){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   o = o || {};
   const {add, sub, mul, len, unit, nrm, lerp, polar} = V;
   const n = ++svgNr, id = s => "rs" + n + s;
@@ -10364,6 +10368,7 @@ function radSvg(o){
    hat Volumen: Licht von vorn links, Schatten rechts. Das Gewicht macht
    Rumpf, Arme und Beine breiter -- nur fuers Auge. Links das Massband in cm. */
 function figurSvg(h, kg){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   const n = ++svgNr, id = s => "fg" + n + s, w = fKlemm((kg > 0 ? kg / Math.pow(h / 100, 2) : 22) / 22, .85, 1.45);
   const X = 104, f1 = v => v.toFixed(1), bw = k => 1 + (w - 1) * k;   /* Breitenfaktor je Koerperteil */
   const wT = bw(.9), wA = bw(.6), wL = bw(.7);
@@ -10497,6 +10502,7 @@ function figurSvg(h, kg){
    Knochen), gruen die Lenkerbreite; das gruene Band an den Enden zeigt, was
    fuer dich passt. Die Zahl zur Lenkerbreite steht gross unter der Zeichnung. */
 function cockpitSvg(f){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   const S = f.schulter * 10, B = f.lenker, hy = 470, hand = B / 2 - 74, n = ++svgNr, id = s => "ck" + n + s;
   const sx = S / 2, ex = Math.max(sx, hand) + 48, lv = B / 2 - 178;
   const pill = (x, y, txt, k) => { const bw = txt.length * 25 + 44;
@@ -13216,6 +13222,33 @@ function gabelTabelle(g){
   if(/38|Mezzer|Durolux/.test(g.n)) return klasse("fox38");
   return klasse("fox36");
 }
+/* Geschlossene Gewichtsintervalle aus den jeweiligen Herstellerdaten.
+   Zwischenwerte sind eine Interpolation der App, keine exakte Herstellertabelle. */
+function fwDruckTabelle(g,tab,j){
+  const pts=[130,150,170,190,210], tr=g.travel, n=g.n || "";
+  const reihe=v=>v.map((p,i)=>[pts[i],p]);
+  if(g.m==="Fox" && j===2025 && !/\b(?:34|36) SL\b/.test(n)){
+    if(/32|34/.test(n) && /Step-Cast/.test(n)) return [65,70,74,80,85,90,96,101,106,111,116,121,126].map((v,i)=>[125+i*10,v]);
+    if(/34/.test(n) && /Rhythm/.test(n)) return [58,63,68,72,77,82,86,91,96,100,105,110,114].map((v,i)=>[125+i*10,v]);
+    if(/^(fox34|fox36|fox36r|fox38)$/.test(tab.tab)) return FED_TAB[tab.tab];
+  }
+  if(g.m!=="RockShox") return null;
+  if(j>=2023 && j<=2026){
+    if(/Pike/.test(n) && !/DJ/.test(n) && [120,130,140].includes(tr)) return reihe([50,60,70,80,90].map(v=>v+(tr===120?10:0)+(j>=2025?5:0)));
+    if(/Lyrik/.test(n) && [140,150,160].includes(tr) && tab.tab!=="linearxl") return reihe([55,65,75,85,95].map(v=>v+(tr===140?10:0)));
+    if(/ZEB/.test(n) && tab.tab!=="linearxl"){ const v=({150:[49.5,58,66,74,82.5],160:[49.5,58,66,74,82.5],170:[41,49.5,58,66,74],180:[41,49.5,58,66,74],190:[33,41.5,50,58,66]})[tr]; return v?reihe(v):null; }
+  }
+  if(j===2027 && tab.tab==="linearxl"){
+    if(/Lyrik/.test(n) && [140,150,160,170].includes(tr)) return reihe([123.5,141.5,156.5,168.5,177.5].map(v=>v-(tr-140)));
+    if(/ZEB/.test(n) && [150,160,170,180].includes(tr)) return reihe([115.5,133.5,149.5,163.5,175.5].map(v=>v-(tr-150)));
+  }
+  return null;
+}
+function fwDruckAus(reihe,lb){
+  if(!reihe || reihe.length<2 || lb<reihe[0][0] || lb>reihe[reihe.length-1][0]) return null;
+  for(let i=1;i<reihe.length;i++) if(lb<=reihe[i][0]){ const a=reihe[i-1],b=reihe[i]; return a[1]+(b[1]-a[1])*(lb-a[0])/(b[0]-a[0]); }
+  return null;
+}
 /* Welche Druckstufen-Regler hat die Gabel? hl = High- und Low-Speed, l = ein Knopf, lock = nur Lockout */
 function gabelRegler(g){
   const s = wahlVon(g, "Kartusche") + " " + g.n;
@@ -13657,11 +13690,12 @@ function federRechnen(){
        gehoert, das Baujahr bestaetigt ist (wo die Tabelle erst ab einem Jahr
        gilt) und das Gewicht innerhalb der Tabelle liegt -- keine Verlaengerung
        ueber die Tabellenenden hinaus. */
-    const jahr = fwJahr("gj"), abJahr = TAB_AB[tab.tab] || 0, reihe = tab.eigen ? FED_TAB[tab.tab] : null;
+    const jahr = fwJahr("gj"), abJahr = TAB_AB[tab.tab] || 0, reihe = tab.eigen ? fwDruckTabelle(g,tab,jahr) : null;
     const jahrFehlt = !!(tab.eigen && abJahr && !jahr), zuAlt = !!(tab.eigen && jahr && abJahr && jahr < abJahr);
     const imBereich = !!(reihe && lb >= reihe[0][0] && lb <= reihe[reihe.length - 1][0]);
-    const tabOk = tab.eigen && !zuAlt && !jahrFehlt && imBereich;
-    const sag = fwSagZiel("gabel") || (dh ? st.sagV + 5 : st.sagV), klasse = fwKlasse(g.travel, dh), max = tab.eigen ? (FED_MAX[tab.tab] || null) : null;
+    const jahrPasst = !!(reihe && reihe.length>1);
+    const tabOk = tab.eigen && jahrPasst && !zuAlt && !jahrFehlt && imBereich;
+    const sag = fwSagZiel("gabel",dh?st.sagV+5:st.sagV) || (dh?st.sagV+5:st.sagV), klasse=fwKlasse(g.travel,dh), max=fwModellVorgaben("gabel",g).max;
     let psi = null, grenze = false, feder = null;
     const vf = vorneFaktor(r);
     let tokens = null, fw = null;
@@ -13671,17 +13705,17 @@ function federRechnen(){
       feder = fw ? fw.name + (fw.lbs ? " · " + fw.lbs + " lbs/in" : "") : null;
     }
     else {
-      if(tabOk){ psi = Math.round(psiAus(tab.tab, lb) * st.psiV); if(max && psi > max){ psi = max; grenze = true; } }
+      if(tabOk){ psi = Math.round(fwDruckAus(reihe,lb) * st.psiV); if(max && psi > max){ psi = max; grenze = true; } }
       tokens = tokenEmpfehlung(tabOk ? tab.tab : null, g.travel, grenze, sg.typ);
     }
     /* Quelle je Tabelle (Befund 19): 32/34 und 36/38 haben eigene Anleitungen */
     const tq = {fox32:"fox3234", fox34:"fox3234", fox36:"fox36", fox36r:"fox36", fox38:"fox36", fox40:"foxManuals"}[tab.tab] || "rsTrailhead";
     const quellen = {psi:tabOk ? {art:"tab", name:FED_NAME[tab.tab], q:tq}
         : zuAlt ? {art:"jahr", ab:abJahr, name:FED_NAME[tab.tab], q:tq} : jahrFehlt ? {art:"jahrfehlt", ab:abJahr, name:FED_NAME[tab.tab], q:tq}
-        : tab.eigen && !coil ? {art:"bereich", von:Math.round(reihe[0][0] / 2.20462), bis:Math.round(reihe[reihe.length - 1][0] / 2.20462), name:FED_NAME[tab.tab], q:tq} : {art:"keine"},
+        : tab.eigen && !coil && jahrPasst ? {art:"bereich", von:Math.round(reihe[0][0] / 2.20462), bis:Math.round(reihe[reihe.length - 1][0] / 2.20462), name:FED_NAME[tab.tab], q:tq} : {art:"keine"},
       zug:/^fox36/.test(tab.tab) && tab.eigen ? "fox36tune" : fox ? "foxManuals" : "vGmbnDe",
       druck:/^fox36/.test(tab.tab) && tab.eigen ? "fox36tune" : /^fox/.test(tab.tab) && tab.eigen ? tq : /Charger 3/.test(basis.txt) ? "rsCharger3" : "vGmbnDe"};
-    out.gabel = {sgTxt:sgText(sg, "v"), t:g, coil:coil, psi:psi, feder:feder, fw:fw, tokens:tokens, vf:vf, grenze:grenze, tab:tab, tabOk:tabOk, sag:sag, sagMm:Math.round(g.travel * sag / 100),
+    out.gabel = {sgTxt:sgText(sg, "v"), t:g, coil:coil, psi:psi, feder:feder, fw:fw, tokens:tokens, vf:vf, grenze:grenze, tab:{...tab,reihe}, tabOk:tabOk, sag:sag, sagMm:Math.round(g.travel * sag / 100),
       regler:regler, basis:basis, klasse:klasse, fox:fox, quellen:quellen, max:max, modi:luftModi(psi, sag, max, coil, klasse, g.travel, false), ds:druckstufen(daten, st, kg, false, klasse, fox)};
   }
   if(d){
@@ -13693,7 +13727,7 @@ function federRechnen(){
     const fwH = (r && r.fwH > 0 ? r.fwH : 0) || ((build.fw || {}).fwH > 0 ? build.fw.fwH : 0);
     const hinten = fwH || (r && r.maxGabel ? r.maxGabel - (r.schaft === "dc" ? 3 : 10) : 140);
     const lr = fwH && d.hub > 0 ? fwH / d.hub : null;
-    const sag = fwSagZiel("daempfer") || (dh ? st.sagH + 3 : st.sagH);
+    const sag = fwSagZiel("daempfer",dh?st.sagH+3:st.sagH) || (dh?st.sagH+3:st.sagH);
     const fox = d.m === "Fox";
     let psi = null, rate = null, rateExakt = null, grenze = false;
     if(coil){
@@ -13721,14 +13755,18 @@ function federRechnen(){
   }
   for(const slot of ["gabel", "daempfer"]){
     const x = out[slot]; if(!x) continue;
-    const ziel = fwSagZiel(slot), max = suMax(slot, x);
-    x.sagEigen = !!ziel;
+    const v=fwModellVorgaben(slot,x.t), max=suMax(slot,x);
+    x.vorgaben=v; x.max=max; const ziel=v.sag;
+    x.sagEigen = false;
     for(const m of Object.values(x.modi)){
       /* Eine ausdrueckliche Herstellervorgabe wird nicht vom Fahrprofil verschoben. */
-      if(ziel){ m.sag = ziel; m.sagMm = Math.round((slot === "gabel" ? x.t.travel : x.t.hub) * ziel / 10) / 10; }
+      if(ziel){ m.sag=fKlemm(m.sag,ziel[0],ziel[1]); m.sagMm=Math.round((slot==="gabel"?x.t.travel:x.t.hub)*m.sag/10)/10; }
       if(max && m.psi > max){ m.psi = max; m.grenze = true; }
+      if(!max && !x.coil) m.psi=null;
     }
     if(max && x.psi > max){ x.psi = max; x.grenze = true; }
+    if(!max && !x.coil) x.psi=null;
+    fwFederAnwenden(slot,x);
   }
   return out;
 }
@@ -13740,7 +13778,7 @@ function federRechnen(){
 /* Zelle: [Zahl, Einheit klein darunter] -- in beiden Sprachen gleich schmal */
 function modusZelle(z){
   const v = z[2];
-  if(v && v.zug && v.n != null){ const t = v.kurz, i = t.indexOf(" "); return [t.slice(0, i), t.slice(i + 1)]; }
+  if(v && v.zug && v.n != null) return [String(v.ab === "offen" ? v.n-v.pos : v.pos), v.ab === "offen" ? tx("zu", "in") : tx("auf", "out")];
   if(v && v.zug) return !v.mitte ? ["0", tx("Grundwert", "base")] : v.mitte > 0 ? [String(v.mitte), tx("langsamer", "slower")] : [String(-v.mitte), tx("schneller", "faster")];
   if(v && v.stufen) return [v.kurz, tx("Stufe", "position")];
   if(v && v.skala) return [v.kurz, v.skala === "zahl" ? tx("auf Knopf", "on knob") : tx("ab Mitte", "from middle")];
@@ -13771,7 +13809,8 @@ function modusWas(x){
   if(p === "allround") return tx("<b>Allround</b> — gemischte Trails: genau nach deinen Angaben zum Fahrstil, ausgewogen zwischen Grip und Halt. Die Basis, von der aus Downhill und Sprünge nur einzelne Einstellungen ändern.",
     "<b>All-round</b> — mixed trails: set exactly to your riding-style answers, balanced between grip and support. Downhill and Jumps start from here and only change individual settings.");
   const z = [], vz = v => v > 0 ? "+" : "−";
-  if(e.sag && !x.coil && !x.sagEigen) z.push(tx(`SAG ${vz(e.sag)}${Math.abs(e.sag)} %`, `sag ${vz(e.sag)}${Math.abs(e.sag)}%`));
+  const sagDelta=m.sag-x.modi.allround.sag;
+  if(sagDelta && !x.coil) z.push(tx(`SAG ${vz(sagDelta)}${Math.abs(sagDelta)} %`, `sag ${vz(sagDelta)}${Math.abs(sagDelta)}%`));
   if(e.luft && !x.coil && m.psi) z.push(tx(`Luft ${vz(e.luft)}${Math.abs(Math.round(e.luft * 100))} %`, `air ${vz(e.luft)}${Math.abs(Math.round(e.luft * 100))}%`));
   if(m.grenze) z.push(tx("am Maximaldruck", "at maximum pressure"));
   if(m.tok) z.push(x.tokens && x.tokens.soll != null && x.tokens.max != null ? tx(`+${m.tok} Volumen-Spacer (höchstens ${x.tokens.max})`, `+${m.tok} volume spacer${m.tok === 1 ? "" : "s"} (max ${x.tokens.max})`) : tx("mehr Progression (Token, nur wenn laut Anleitung Platz ist)", "more progression (token, only if the manual allows)"));
@@ -13787,7 +13826,7 @@ function federKarte(titel, x, slot){
   const reihe = (lbl, zeilen) => `<div class="fed-ds"><span class="fed-dk">${lbl}</span>
     ${zeilen.map(([k, v]) => `<span class="fed-dz"><b>${knopfName(k)}</b><span>${esc(v)}</span></span>`).join("")}</div>`;
   const haupt = x.coil
-    ? (x.rate ? `<b class="fed-wert">${x.rate} lbs/in</b><span class="fed-u">${tx("Federhärte", "spring rate")}</span>`
+    ? (x.federIst ? `<b class="fed-wert">${x.federIst} lbs/in</b><span class="fed-u">${tx("Deine eingebaute Feder","Your fitted spring")}</span>` : x.rate ? `<b class="fed-wert">${x.rate} lbs/in</b><span class="fed-u">${tx("Federhärte", "spring rate")}</span>`
               : `<b class="fed-wert">${x.feder || (x.hintenEl ? tx("per SAG", "by sag") : tx("laut Tabelle", "per chart"))}</b><span class="fed-u">${x.hintenEl && !x.feder ? tx("Stahlfeder — ohne Hinterbau-Federweg rechnet die App keine Federhärte", "coil — without the rear travel the app calculates no spring rate") : tx("Stahlfeder", "coil spring")}</span>`)
     : m.psi ? `<b class="fed-wert">${m.psi} psi</b><span class="fed-u">${barVon(m.psi)} bar · ${esc(modusName(fedModus))}</span>`
     : `<b class="fed-wert">${tx("per SAG", "by sag")}</b><span class="fed-u">${x.hintenEl ? tx("kein Pauschalwert des Herstellers — Startdruck aus Trailhead oder der Anleitung, dann per SAG", "no blanket value from the manufacturer — starting pressure from Trailhead or the manual, then by sag")
@@ -13831,6 +13870,7 @@ const relZahl = r => r > 0 ? "+" + zahlDe(r) : r < 0 ? "−" + zahlDe(-r) : "0";
 const WO = {hsc:["großer Ring außen", "large outer ring"], lsc:["kleiner Knopf innen", "small inner knob"], knopf:["Druckstufen-Knopf", "compression knob"]};
 /* Kleines Symbol: welcher Knopf am Top Cap gemeint ist */
 function woIcon(wo){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   const ring = wo === "hsc" ? " an" : "", mitte = wo === "lsc" || wo === "knopf" ? " an" : "";
   return `<svg class="kk-ic" viewBox="0 0 40 40" aria-hidden="true">
     <circle class="kk-ic-g" cx="20" cy="20" r="18"/>
@@ -14028,7 +14068,7 @@ function topCapBlock(slot, x){
       `Take a photo of the top of ${teilName} with the adjuster dials — the app writes the setting straight into the picture. The photo stays on your phone.`)}</span></div>`;
   const offen = knoepfe.filter(k => !(tc.marks && tc.marks[k]));
   const werte = {};
-  for(const z of x.ds[fedModus]) werte[z[0]] = z[2] && z[2].kurz ? z[2].kurz : z[3] && z[3].o.length ? stellName(z[3].o[z[3].an]) : z[1];
+  for(const z of x.ds[fedModus]) werte[z[0]] = z[2] ? fxKnopf(z,slot).kurz : z[3] && z[3].o.length ? stellName(z[3].o[z[3].an]) : z[1];
   /* Kurz, damit dicht beieinander liegende Knoepfe (GRIP X2: HSC und LSC
      uebereinander) sich nicht verdecken; der zweite steht ueber dem Punkt */
   const kurz = v => !v ? "" : v.replace(/^(offen|open)\b.*$/, "$1");
@@ -14275,11 +14315,7 @@ function suKnoepfe(slot, x, d){
 /* Luftdruck: eigener Wert im Profil, sonst die Empfehlung (fehlt sie, der
    aktuelle Wert aus dem Onboarding) */
 /* Maximaldruck nur, wenn er fuer das Modell belegt ist (Befunde 12, 16) */
-const suMax = (slot, x) => {
-  const v = (((build.fw || {}).vorgaben || {})[slot] || {}).max;
-  const eigen = Number.isFinite(v) && v >= 20 && v <= 400 ? v : null;
-  return x.max && eigen ? Math.min(x.max, eigen) : x.max || eigen;
-};
+const suMax = (slot,x) => fwModellVorgaben(slot,x.t).max;
 /* Jeder Druck, der angezeigt oder zum Pumpen genannt wird, laeuft hier durch
    (Befund 17): unter 10 psi, ueber dem belegten Maximum oder ueber 400 psi
    ist er ungueltig -- dann gilt er nicht, und die Karte sagt es. */
@@ -14414,6 +14450,7 @@ function ilMarker(pos, zeig, an){
     return `<g class="il-m${k === an ? " an" : ""}" transform="translate(${p[0]} ${p[1]})"><circle class="il-m-puls" r="13"/><circle class="il-m-r" r="10"/><text y="4">${i + 1}</text></g>`; }).join("");
 }
 function ilGabel(o){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   o = o || {}; const zeig = o.zeig || [], coil = !!o.coil;
   return `<svg class="il il-gabel" viewBox="0 0 200 248" role="img" aria-label="${tx("Federgabel von vorn", "Suspension fork from the front")}">
     <rect class="il-silber il-k" x="92" y="4" width="16" height="36" rx="3"/>
@@ -14437,6 +14474,7 @@ function ilGabel(o){
     ${ilMarker(IL_GABEL_M, zeig, o.an)}</svg>`;
 }
 function ilDaempfer(o){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   o = o || {}; const zeig = o.zeig || [], coil = !!o.coil;
   const zz = []; for(let x = 58; x <= 206; x += 12) zz.push(`${x},${(x - 58) / 12 % 2 ? 38 : 86}`);
   return `<svg class="il il-daempfer" viewBox="0 0 260 112" role="img" aria-label="${tx("Dämpfer von der Seite", "Rear shock from the side")}">
@@ -14514,6 +14552,7 @@ function suFotoDaten(slot, x){
   return [];
 }
 function suFotos(slot, x, arten){
+  return suEinstellBild(slot,x,{zeig:arten});
   if(slot === "daempfer"){
     const nah = suNahFotos(slot,x,{zeig:arten}); if(nah) return nah;
   }
@@ -14525,8 +14564,14 @@ function suFotos(slot, x, arten){
       <figcaption><b>${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstellerbild · Referenzversion; Baujahr und Ausstattung können abweichen.", "Manufacturer image · reference version; year and specification may differ.")}</small><a href="${esc(q[1])}" target="_blank" rel="noopener">${tx("Quelle", "Source")}: ${esc(q[0])} ↗</a></figcaption></figure>`;
   }).join("")}</div>`;
 }
-function suEinstellBild(slot, x, o){
-  return suNahFotos(slot, x, o) || suFotos(slot, x, o.zeig || []) || (slot === "gabel" ? ilGabel(o) : ilDaempfer(o));
+function suEinstellBild(slot,x,o){
+  if(!x || !x.t) return "";
+  let b=produktBildInfo(x.t);
+  const metadaten=typeof PRODUKTBILDER!=="undefined" ? PRODUKTBILDER[(x.t.basisId || basisVon(x.t.id))+"@"+wahlVon(x.t,"Ausführung")] || PRODUKTBILDER[x.t.basisId || basisVon(x.t.id)] : null;
+  const jahre=metadaten?[...(metadaten.quelle+" "+metadaten.original).matchAll(/(?:MY|my|[-_])(?:20)?(2\d)(?=[-_a-zA-Z])/gi)].map(m=>2000+Number(m[1])):[];
+  if(jahre.length && !jahre.includes(fwJahr(slot==="gabel"?"gj":"dj"))) b=null;
+  if(!b) return `<p class="su-hint fw-foto-fehlt">${tx("Für dieses genaue Modell ist noch kein Foto hinterlegt.","There is no photo for this exact model yet.")}</p>`;
+  return `<figure class="fw-foto fw-modellfoto" data-fwmodell="${esc(x.t.basisId || basisVon(x.t.id))}"><a class="fw-foto-link" href="${esc(b.src)}" ${fotoAttribute(x.t)}><img src="${esc(b.src)}" alt="${esc(x.t.n)}" loading="lazy" decoding="async" onerror="this.closest('figure').hidden=true"></a><figcaption><b>${esc(x.t.n)}</b>${b.hinweis?`<span>${esc(b.hinweis)}</span>`:""}<small>${tx("Herstellerfoto zur Modellübersicht. Wo der Einsteller sitzt, erklärt der Text; für die genaue Version gilt die verlinkte Anleitung.","Manufacturer photo for the model overview. The text explains the adjuster's location; use the linked manual for the exact version.")}</small>${b.quelle?`<a href="${esc(b.quelle)}" target="_blank" rel="noopener">${tx("Bildquelle","Image source")}: ${esc(b.marke)} ↗</a>`:""}</figcaption></figure>`;
 }
 /* Echte Nahaufnahmen aus den RockShox-Anleitungen. Der Bildausschnitt ist
    nur eine SVG-Ansicht: das Originalfoto bleibt unveraendert verlinkt. */
@@ -14561,6 +14606,7 @@ function suNahDaten(slot, x){
   return {};
 }
 function suNahFotos(slot, x, o){
+  return ""; /* Referenzdetails anderer Modelle/Baujahre sind keine Ersatzfotos. */
   const daten = Object.assign(suErgaenzendeNahDaten(slot,x),suNahDaten(slot,x)), zeig = o.zeig || [];
   const arten = zeig.filter(a => daten[a]); if(!arten.length) return "";
   return `<div class="fw-fotos fw-nah">${arten.map(a => {
@@ -14632,6 +14678,7 @@ function suErgaenzendeNahDaten(slot,x){
 }
 
 function ilRad(o){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   o = o || {}; const zeig = o.zeig || [];
   return `<svg class="il il-rad" viewBox="0 0 260 160" role="img" aria-label="${tx("Mountainbike von der Seite", "Mountain bike from the side")}">
     <circle class="il-reifen" cx="58" cy="114" r="38"/><circle class="il-reifen" cx="204" cy="114" r="38"/>
@@ -14644,6 +14691,7 @@ function ilRad(o){
 }
 /* SAG am Standrohr: O-Ring wandert beim Aufsitzen von der Dichtung weg */
 function ilSag(){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   return `<svg class="il il-sag" viewBox="0 0 220 180" role="img" aria-label="${tx("SAG messen: Abstand O-Ring bis Dichtung", "Measuring sag: O-ring to seal distance")}">
     <rect class="il-silber il-k" x="60" y="10" width="30" height="120" rx="5"/>
     <rect class="il-casting il-k" x="52" y="128" width="46" height="46" rx="10"/>
@@ -14719,14 +14767,18 @@ const SU_PROFIL = {
     preis:["Dafür: weniger Grip und Komfort in ruppigen Passagen.", "The trade-off: less grip and comfort in rough sections."]}
 };
 function suWarum(f, slot, x, it){
+  const d=suDaten(f);
   const m = x.modi[fedModus], e = einsatzVon(fedModus, x.klasse || 0, slot === "daempfer"), z = [], q = [];
   const pName = esc(modusKurz(fedModus)), pg = SU_PGRUND[fedModus] || {};
   const pz = v => (v > 0 ? "+" : "−") + Math.abs(Math.round(v * 100)) + " %";
+  if(x.coil && it.k && it.k.art==="zug" && x.federIst && x.federSoll){
+    z.push(tx(`Die App berücksichtigt deine eingebaute ${x.federIst}-lbs-Feder. ${x.federKlicks?`Der Startwert ist ${Math.abs(x.federKlicks)} Klick(s) ${x.federKlicks>0?"langsamer":"schneller"} als bei der berechneten Feder.`:"Die kleine Abweichung ändert den gerundeten Klickwert nicht."} Das ist eine App-Schätzung, keine Herstellertabelle. Prüfe sie auf der Testfahrt.`,`The app accounts for your fitted ${x.federIst} lb spring. ${x.federKlicks?`The starting value is ${Math.abs(x.federKlicks)} click(s) ${x.federKlicks>0?"slower":"faster"} than for the calculated spring.`:"The small difference does not change the rounded click setting."} This is an app estimate, not a manufacturer chart. Check it on a test ride.`));
+  }
   if(it.art === "luft"){
     const qp = x.quellen.psi;
     if(slot === "gabel" && x.tabOk){
-      const basis = Math.round(psiAus(x.tab.tab, f.kg * 2.20462));
-      z.push(tx(`Herstellertabelle ${esc(FED_NAME[x.tab.tab])}: <b>${basis} psi</b> bei ${zahlDe(Math.round(f.kg))} kg — so viel deines Gewichts mit Ausrüstung und des Rads liegt nach der Rechnung der App auf der Gabel (Annahme der App, keine Herstellerangabe).`,
+      const basis = Math.round(fwDruckAus(x.tab.reihe, f.kg * 2.20462));
+    z.push(tx(`Herstellerdaten ${esc(FED_NAME[x.tab.tab])}, für Modelljahr und Federweg zugeordnet: <b>${basis} psi</b> bei ${zahlDe(Math.round(f.kg))} kg (Zwischenwerte interpoliert die App) — so viel deines Gewichts mit Ausrüstung und des Rads liegt nach der Rechnung der App auf der Gabel (Annahme der App, keine Herstellerangabe).`,
         `Maker's chart ${esc(FED_NAME[x.tab.tab])}: <b>${basis} psi</b> at ${Math.round(f.kg)} kg — by the app's calculation, that's how much of you with your gear and of the bike sits on the fork (the app's assumption, not a manufacturer's figure).`));
       if(Math.abs(f.st.psiV - 1) >= 0.005) z.push(tx(`App-Anpassung für deinen Fahrstil (keine Herstellerangabe): ${pz(f.st.psiV - 1)}.`, `App adjustment for your riding style (not a manufacturer's figure): ${pz(f.st.psiV - 1)}.`));
       q.push(qp.q);
@@ -14752,13 +14804,13 @@ function suWarum(f, slot, x, it){
       q.push("rsHinten", "rsTrailhead");
     }
     if(e.luft && m.psi) z.push(tx(`App-Anpassung Profil ${pName}: ${pz(e.luft)} — ${sp2(pg.luft)}.`, `App adjustment, ${pName} profile: ${pz(e.luft)} — ${sp2(pg.luft)}.`));
-    if(m.grenze) z.push(tx(`Am Maximaldruck von ${x.max} psi gedeckelt — mehr geht nur über Tokens.`, `Capped at the maximum of ${x.max} psi — beyond that only tokens help.`));
+    if(m.grenze) z.push(tx(`Bei ${x.max} psi begrenzt. Wenn das Einsinken damit nicht passt, prüfe die Abstimmung mit einer Werkstatt.`, `Limited to ${x.max} psi. If sag is still wrong, check the setup with a workshop.`));
     if(!suMax(slot, x)) z.push(tx("Den Maximaldruck nennt die App für dieses Modell nicht — er steht auf dem Aufkleber; nie darüber pumpen.", "The app doesn't know the maximum pressure for this model — it's on the sticker; never pump above it."));
   }
   else if(it.art === "feder"){
     if(slot === "daempfer" && !x.lr){
-      z.push(tx("Für die Federhärte braucht es den Federweg deines Hinterbaus — er steht beim Rahmenhersteller. Trag ihn unter „Deine Angaben → Dämpfer“ ein, dann rechnet die App wie der FOX-Federrechner. Bis dahin: Feder nach Herstellerrechner wählen und per SAG prüfen.",
-        "The spring rate needs your rear travel — your frame manufacturer lists it. Enter it under “Your details → Shock” and the app calculates like the FOX spring calculator. Until then: pick the spring with the manufacturer's calculator and check it by sag."));
+      z.push(tx("Für diesen Rahmen fehlt der App der bestätigte Hinterrad-Federweg. Deshalb berechnet sie keine andere Feder. Deine eingebaute Feder bleibt erhalten; prüfe das Einsinken durch Messen oder nutze den Herstellerrechner.",
+        "The app has no confirmed rear travel for this frame, so it does not calculate another spring. Keep your fitted spring; check sag by measuring or use the manufacturer's calculator."));
       q.push("foxSpring", "cane");
     }
     else if(slot === "daempfer"){
@@ -14776,8 +14828,7 @@ function suWarum(f, slot, x, it){
   }
   else if(it.art === "sag"){
     z.push(tx("SAG-Ziele hängen von Modell und Rahmen ab. Die Anleitung deines Herstellers hat Vorrang vor dem App-Richtwert; am Dämpfer wird der Hub gemessen, nicht der Hinterrad-Federweg.", "Sag targets depend on the model and frame. Your manufacturer's instructions take priority over the app estimate; measure shock stroke, not rear wheel travel."));
-    z.push(x.sagEigen ? tx(`Dein Ziel: <b>${zahlDe(m.sag)} %</b> (${zahlDe(m.sagMm)} mm) — von dir aus der Anleitung eingetragen. Gilt in allen Fahrprofilen.`, `Your target: <b>${m.sag}%</b> (${m.sagMm} mm) — entered by you from the manual. Applies to every riding profile.`) : tx(`Dein Ziel: <b>${m.sag} %</b> (${zahlDe(m.sagMm)} mm) — aus deinen Angaben zum Fahrstil${e.sag && !x.coil ? `; Profil ${pName} ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)} %: ${sp2(pg.sag)}` : ""}.`,
-      `Your target: <b>${m.sag}%</b> (${m.sagMm} mm) — from your riding-style answers${e.sag && !x.coil ? `; ${pName} profile ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)}%: ${sp2(pg.sag)}` : ""}.`));
+    z.push(tx(`Ziel: <b>${zahlDe(m.sag)} %</b> (${zahlDe(m.sagMm)} mm). `, `Target: <b>${m.sag}%</b> (${m.sagMm} mm). `) + (x.vorgaben.sag ? tx("Die App wählt innerhalb des bestätigten Herstellerbereichs für dein Modell und Baujahr.", "The app chooses within the confirmed manufacturer's range for your model and year.") : tx("Das ist ein App-Richtwert nach deinem Rad und Fahrstil. Eine abweichende Rahmen- oder Modellanleitung hat Vorrang.", "This is an app estimate based on your bike and riding style. Different instructions for your frame or model take priority.")));
     q.push("foxSag", "rsWelcome", "rsDH");
   }
   else if(it.art === "tokens"){
@@ -14815,7 +14866,7 @@ function suWarum(f, slot, x, it){
     if(k.art === "zug") q.push("vFoxReb");
     if(k.art === "lsc" || k.art === "hsc") q.push("vGmbnDials");
   }
-  return `<p>${z.join(" ")}</p>${[...new Set(q.filter(Boolean))].map(fwQ).join("")}`;
+  return `<p>${z.join(" ")}</p>${x.vorgaben && x.vorgaben.q ? `<a class="fw-q" href="${esc(x.vorgaben.q)}" target="_blank" rel="noopener">${tx("Herstellerdaten für dein Modell","Manufacturer data for your model")} ↗</a>` : ""}${[...new Set(q.filter(Boolean))].map(fwQ).join("")}`;
 }
 /* Einstellkarten je Federelement, in der Reihenfolge des Einstellens */
 function suItems(slot, x, d){
@@ -14831,6 +14882,7 @@ function suWert(slot, x, d, it){
     return {w:tx("per SAG", "by sag"), e:"", s:slot === "gabel" ? tx("Druck vom Aufkleber", "pressure from the sticker") : tx("Startdruck aus Trailhead", "start from Trailhead")}; }
   if(it.art === "feder"){
     const own = slot === "gabel" ? (build.fw || {}).gf : (build.fw || {}).df;
+    if(x.federIst) return {w:x.federIst,e:"lbs",s:tx("deine eingebaute Feder","your fitted spring")};
     if(slot === "daempfer" && x.rate) return {w:x.rate, e:"lbs", s:own > 0 ? tx(`deine: ${own} lbs`, `yours: ${own} lbs`) : tx("Federhärte", "spring rate")};
     if(slot === "daempfer") return own > 0 ? {w:own, e:"lbs", s:tx("deine Feder · per SAG prüfen", "your spring · check by sag")} : {w:tx("per SAG", "by sag"), e:"", s:tx("Federweg hinten fehlt", "rear travel missing")};
     return x.fw ? {w:x.fw.lbs || x.fw.name, e:x.fw.lbs ? "lbs" : "", s:x.fw.lbs ? x.fw.name : tx("laut Hersteller", "per manufacturer")} : {w:tx("Tabelle", "chart"), e:"", s:tx("laut Anleitung", "per manual")};
@@ -14849,7 +14901,8 @@ function suStatus(slot, x, d, it){
   if(it.art === "luft"){ if(suPsiUngueltig(slot, x, d)) return ["mittel", tx("Prüfen", "Check")]; if(suPsiEigen(slot, d)) return ["eigen", tx("Dein Wert", "Yours")];
     const m = x.modi[fedModus], angepasst = Math.abs(stilVon().psiV - 1) >= 0.005 || !!m.luft;
     return m.psi ? (slot === "gabel" ? ["hersteller", angepasst ? tx("Tabelle + App", "Chart + app") : tx("Tabelle", "Chart")] : ["regel", tx("FOX-Faustregel", "FOX rule")])
-      : fwAkt(slot).psi > 0 && suPsi(slot, x, d) ? ["eigen", tx("Dein Druck", "Yours")] : x.quellen.psi.art === "jahrfehlt" ? ["keine", tx("Modelljahr fehlt", "Year missing")] : ["keine", tx("Per SAG", "By sag")]; }
+      : fwAkt(slot).psi > 0 && suPsi(slot, x, d) ? ["eigen", tx("Dein Druck", "Yours")] : x.quellen.psi.art === "jahrfehlt" ? ["keine", tx("Modelljahr fehlt", "Year missing")] : ["keine", tx("Anleitung prüfen", "Check manual")]; }
+  if(it.art === "feder" && x.federIst) return ["eigen",tx("Wird behalten","Keeping it")];
   if(it.art === "feder") return slot === "daempfer" ? (x.rate ? ["regel", tx("Berechnet", "Calculated")] : ["keine", tx("Federweg fehlt", "Travel missing")]) : x.fw ? ["hersteller", tx("Tabelle", "Chart")] : ["keine", tx("Anleitung", "Manual")];
   if(it.art === "sag"){ const g = fxMess(slot, x, d), mm = slot === "gabel" ? x.t.travel : x.t.hub; if(!g || !mm) return ["offen", tx("Messen", "Measure")];
     const a = Math.abs(g / mm * 100 - x.modi[fedModus].sag); return a <= 2 ? ["gut", tx("Passt", "Spot on")] : ["mittel", tx("Anpassen", "Adjust")]; }
@@ -14863,24 +14916,26 @@ function suStatus(slot, x, d, it){
 }
 function suKarte(f, slot, x, d, it, nr){
   const id = "fwk-" + it.key.replace(/\W/g, "-"), offen = suAuf.has(id), info = SU_INFO[it.art] || SU_INFO.druck, w = suWert(slot, x, d, it), st = suStatus(slot, x, d, it);
-  const name = it.k ? (it.k.art === "zug" ? sp2(SU_INFO.zug.n) : it.k.art === "druck" ? sp2(SU_INFO.druck.n) : sp2(info.n)) : sp2(info.n);
+  const name = it.art==="sag"?tx("Einsinken messen (SAG)","Measure how far it sinks (sag)"):it.art==="zug"?tx("Ausfedern einstellen","Set rebound speed"):it.k ? (it.k.art === "zug" ? sp2(SU_INFO.zug.n) : it.k.art === "druck" ? sp2(SU_INFO.druck.n) : sp2(info.n)) : sp2(info.n);
   const fertig = suP(d).fertig[it.key];
   let steuer = "";
   if(offen){
     if(it.art === "luft"){
       const p = suPsi(slot, x, d), rec = x.modi[fedModus].psi, max = suMax(slot, x), sch = slot === "gabel" ? 1 : 5;
-      steuer = `<div class="fw-st"><button class="fw-pm" data-fwpsi="${slot}|-${sch}" aria-label="${tx("weniger Druck", "less pressure")}"${p ? "" : " disabled"}>−</button>
-        <label class="fw-st-w"><input type="number" inputmode="numeric" min="10" max="${max || 400}" value="${p || ""}" placeholder="—" data-fwpsiin="${slot}" aria-label="${tx("Dein Luftdruck in psi", "Your air pressure in psi")}"><span>psi</span></label>
-        <button class="fw-pm" data-fwpsi="${slot}|${sch}" aria-label="${tx("mehr Druck", "more pressure")}"${p ? "" : " disabled"}>+</button></div>
+      steuer = `<div class="fw-st"><button class="fw-pm" data-fwpsi="${slot}|-${sch}" aria-label="${tx("weniger Druck", "less pressure")}"${p && max ? "" : " disabled"}>−</button>
+        <label class="fw-st-w"><input type="number" inputmode="numeric" min="10" max="${max || 400}" value="${p || ""}" placeholder="—" data-fwpsiin="${slot}" aria-label="${tx("Dein Luftdruck in psi", "Your air pressure in psi")}"${max?"":" readonly"}><span>psi</span></label>
+        <button class="fw-pm" data-fwpsi="${slot}|${sch}" aria-label="${tx("mehr Druck", "more pressure")}"${p && max ? "" : " disabled"}>+</button></div>
         ${suPsiUngueltig(slot, x, d) ? `<p class="fw-warn">${tx(`Dein gespeicherter Wert (${suPsiUngueltig(slot, x, d)} psi) liegt außerhalb des zulässigen Bereichs (10 bis ${max || PSI_UNBEKANNT_MAX} psi) und wird nicht verwendet. Prüf den Maximaldruck auf dem Aufkleber und trag den Druck neu ein.`, `Your saved value (${suPsiUngueltig(slot, x, d)} psi) is outside the allowed range (10 to ${max || PSI_UNBEKANNT_MAX} psi) and isn't used. Check the maximum on the sticker and enter the pressure again.`)}</p>` : ""}
-        <p class="fw-st-r">${rec ? tx(`Empfehlung: ${rec} psi`, `Recommended: ${rec} psi`) : tx("Keine Empfehlung — trag deinen Druck ein", "No recommendation — enter your pressure")}${max ? tx(` · Maximum ${max} psi`, ` · maximum ${max} psi`) : tx(" · Maximaldruck: steht auf dem Aufkleber", " · maximum pressure: on the sticker")}${suPsiEigen(slot, d) && rec ? ` · <button class="fw-link" data-fwreset="${slot}|luft">${tx("Auf Empfehlung", "Back to recommended")}</button>` : ""}</p>`;
+        <p class="fw-st-r">${rec ? tx(`Empfehlung: ${rec} psi`, `Recommended: ${rec} psi`) : tx("Keine Empfehlung — trag deinen Druck ein", "No recommendation — enter your pressure")}${max ? x.vorgaben.konservativ ? tx(` · sichere Druckgrenze ${max} psi (abhängig von Hub und Tokens)`,` · conservative pressure limit ${max} psi (depends on stroke and tokens)`) : tx(` · Maximum ${max} psi`, ` · maximum ${max} psi`) : tx(" · Modelljahr und Anleitung prüfen", " · check model year and manual")}${suPsiEigen(slot, d) && rec ? ` · <button class="fw-link" data-fwreset="${slot}|luft">${tx("Auf Empfehlung", "Back to recommended")}</button>` : ""}</p>${!max?`<button class="btn ghost wide" data-fwob="${slot}">${tx("Modelljahr prüfen","Check model year")}</button>`:""}${x.vorgaben.q?`<a class="fw-q" href="${esc(x.vorgaben.q)}" target="_blank" rel="noopener">${tx("Herstellerdaten","Manufacturer data")} ↗</a>`:""}`;
     }
     else if(it.art === "feder"){
       const own = slot === "gabel" ? (build.fw || {}).gf : (build.fw || {}).df;
-      steuer = `<div class="fw-st"><label class="fw-st-w breit"><span>${tx("Deine Feder", "Your spring")}</span><input type="text" inputmode="numeric" autocomplete="off" maxlength="4" value="${own > 0 ? own : ""}" placeholder="${slot === "gabel" ? tx("z. B. 45", "e.g. 45") : tx("z. B. 450", "e.g. 450")}" data-fwin="${slot === "gabel" ? "gf" : "df"}"><span>lbs</span></label></div>
-        <p class="fw-st-r">${tx("Die Härte steht auf der Feder, z. B. „450 × 2.80“ (lbs × Hub in Zoll). Vorspannung höchstens 1–2 Umdrehungen — sie ändert die Härte nicht.", "The rate is printed on the spring, e.g. “450 × 2.80” (lbs × stroke in inches). Preload no more than 1–2 turns — it doesn't change the rate.")}</p>`;
+      steuer = `<div class="fw-st"><label class="fw-st-w breit"><span>${tx("Welche Feder fährst du gerade?", "Which spring are you riding?")}</span><input type="text" inputmode="numeric" autocomplete="off" maxlength="4" value="${own > 0 ? own : ""}" placeholder="${slot === "gabel" ? tx("z. B. 45", "e.g. 45") : tx("z. B. 450", "e.g. 450")}" data-fwin="${slot === "gabel" ? "gf" : "df"}"><span>lbs</span></label></div>
+        <p class="fw-st-r">${x.federIst?tx(`Du fährst <b>${x.federIst} lbs</b>. Wir berücksichtigen diese Feder; du musst sie nicht automatisch wechseln.`,`You ride <b>${x.federIst} lbs</b>. We account for this spring; you do not have to replace it automatically.`):tx("Trage die Zahl von deiner eingebauten Feder ein. Die App behält sie als Grundlage.","Enter the number on your fitted spring. The app will use it as the basis.")}</p>
+        <p class="fw-st-r">${x.federSoll?tx(`Berechneter Richtwert: ${x.federSoll} lbs.`, `Calculated guide value: ${x.federSoll} lbs.`):""}${x.federSag?tx(` Mit deiner Feder erwarten wir grob ${zahlDe(x.federSag)} % Einsinken. Wir prüfen das gleich durch Messen.`, ` With your spring we estimate about ${x.federSag}% sag. We will check that by measuring.`):""}</p>
+        <p class="fw-st-r">${tx("Die Härte steht auf der Feder, z. B. „450 × 2.80“ (lbs × Hub in Zoll). Vorspannung nur nach Anleitung für dein Modell — sie ändert die Federhärte nicht.", "The rate is printed on the spring, e.g. “450 × 2.80” (lbs × stroke in inches). Set preload only as instructed for your model — it does not change the spring rate.")}</p>`;
     }
-    else if(it.art === "sag") steuer = `<button class="btn fw-gross" data-fwsag="${slot}">${ic(SU_IC.sag, 18)}${tx("SAG jetzt messen", "Measure sag now")}</button>`;
+    else if(it.art === "sag") steuer = `<button class="btn fw-gross" data-fwsag="${slot}">${ic(SU_IC.sag, 18)}${tx("Messung starten", "Start measurement")}</button>`;
     else if(it.k && it.k.basis[2]){
       const r = knopfRaum(it.k.basis), off = it.k.off;
       steuer = `<div class="fw-st"><button class="fw-pm" data-fwklick="${it.key}|-1" aria-label="${it.k.g === "zug" ? tx("schneller", "faster") : tx("weicher", "softer")}"${off <= r[0] ? " disabled" : ""}>−</button>
@@ -14905,14 +14960,14 @@ function suKarte(f, slot, x, d, it, nr){
     ${offen ? `<div class="fw-kb">
       ${steuer}
       <div class="fw-ab"><h4>${tx("So stellst du es ein", "How to set it")}</h4><div class="fw-wie"><div class="fw-wie-t">${wie}</div><div class="fw-wie-b">${bild}</div></div></div>
-      <div class="fw-ab"><h4>${tx("Was es bewirkt", "What it does")} ${fwB(SU_BEGRIFF_ART[it.art] || "druck")}</h4><p>${sp2(info.was)}</p></div>
+      ${suDetails("erk-"+id,"su-mehr fw-erk",tx("Mehr dazu: Wirkung und Herkunft","More: effect and source"),`<div class="fw-ab"><h4>${tx("Was es bewirkt", "What it does")} ${fwB(SU_BEGRIFF_ART[it.art] || "druck")}</h4><p>${sp2(info.was)}</p></div>
       <div class="fw-ab"><h4>${tx("Warum dieser Wert", "Why this value")}</h4>${suWarum(f, slot, x, it)}</div>
-      <div class="fw-ab fw-zv"><div><h4>${sp2(info.viel)}</h4><p>${sp2(info.vielT)}</p></div><div><h4>${sp2(info.wenig)}</h4><p>${sp2(info.wenigT)}</p></div></div>
+      <div class="fw-ab fw-zv"><div><h4>${sp2(info.viel)}</h4><p>${sp2(info.vielT)}</p></div><div><h4>${sp2(info.wenig)}</h4><p>${sp2(info.wenigT)}</p></div></div>`)}
       ${nr && it.art !== "sag" ? `<button class="fw-ok${fertig ? " an" : ""}" data-fwok="${it.key}">${ic(`<path d="m5 12.5 4.5 4.5L19 7.5"/>`, 16)}${fertig ? tx("Eingestellt", "Done") : tx("Als eingestellt abhaken", "Mark as done")}</button>` : ""}
     </div>` : ""}</li>`;
 }
 function suElementHtml(f, slot, x, d){
-  const its = suItems(slot, x, d), basis = its.filter(i => !SU_PROFI[i.art]), profi = its.filter(i => SU_PROFI[i.art]);
+  const its=suItems(slot,x,d), basis=its.filter(i=>["luft","feder","sag","zug"].includes(i.art)), profi=its.filter(i=>!basis.includes(i));
   const fw = build.fw || {}, jahr = slot === "gabel" ? fw.gj : fw.dj;
   let nr = 0;
   const zeigM = its.filter(i => i.art !== "sag").map(i => i.art === "tokens" ? null : i.art).filter((a, i, l) => a && l.indexOf(a) === i);
@@ -14921,9 +14976,9 @@ function suElementHtml(f, slot, x, d){
     <div class="fw-el-kopf"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot], 20)}</span><span class="fw-el-t"><span class="fw-el-o">${slot === "gabel" ? tx("Vorn, Federgabel", "Front fork") : tx("Hinten, Dämpfer", "Rear shock")}</span>
       <b>${esc(x.t.nb || x.t.n)}</b><small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "", x.coil ? tx("Stahlfeder", "Coil") : tx("Luftfeder", "Air"), jahr > 1990 ? tx(`Baujahr ${jahr}`, `${jahr}`) : jahr === "alt" ? tx("älter", "older") : ""].filter(Boolean).join(" · ")}</small></span></div>
 
-    ${suDetails("bild-" + slot, "su-mehr fw-bild", tx("Wo sitzt was?", "What's where?"), suNahFotos(slot, x, {zeig:zeigM, coil:x.coil}) || `${suFotos(slot, x, zeigM)}<p class="fw-schema-h">${tx("Schema zur Orientierung", "Orientation diagram")}</p><div class="fw-bild-in">${slot === "gabel" ? ilGabel({zeig:zeigM, coil:x.coil}) : ilDaempfer({zeig:zeigM, coil:x.coil})}${fwLegende(leg.map(esc))}</div>`)}
+    ${suDetails("bild-"+slot,"su-mehr fw-bild",tx("Dein Modell ansehen","View your model"),suEinstellBild(slot,x,{}))}
     <ol class="fw-kl">${basis.map(it => suKarte(f, slot, x, d, it, ++nr)).join("")}</ol>
-    ${profi.length ? `<p class="fw-profi-h">${tx("Profi-Einsteller", "Advanced adjusters")} <span>${tx("aufklappen für Details", "expand for details")}</span></p><ol class="fw-kl profi">${profi.map(it => suKarte(f, slot, x, d, it, 0)).join("")}</ol>` : ""}
+    ${profi.length?suDetails("optional-"+slot,"su-mehr fw-optional",tx("Weitere Einsteller (optional)","More adjusters (optional)"),`<p class="su-hint">${tx("Lass diese Einsteller zunächst auf dem Startwert. Öffne sie, wenn du nach der Testfahrt gezielt etwas ändern möchtest.","Leave these adjusters at the starting value for now. Open them when you want a specific change after the test ride.")}</p><ol class="fw-kl profi">${profi.map(it=>suKarte(f,slot,x,d,it,0)).join("")}</ol>`):""}
   </section>`;
 }
 /* Was tun, wenn die App keinen Druck nennt (Gabel ohne passende Tabelle,
@@ -14936,10 +14991,10 @@ const suOhneDruckTxt = (slot, x) => slot === "gabel"
 function suSchritte(f, d){
   const s = [], el = suElemente(f);
   for(const [slot, x] of el) s.push({key:slot + ":" + (x.coil ? "feder" : "luft"), slot:slot, t:x.coil ? tx(`Feder ${suOrt(slot)} prüfen`, `Check ${suOrt(slot)} spring`) : tx(`Luftdruck ${suOrt(slot)} einstellen`, `Set ${suOrt(slot)} air pressure`)});
-  s.push({key:"sag", t:tx("SAG messen", "Measure sag"), aktion:"sag"});
-  for(const art of ["zug", "druck"]) for(const [slot, x] of el){
+  s.push({key:"sag", t:tx("Einsinken messen (SAG)", "Measure sag"), aktion:"sag"});
+  for(const art of ["zug"]) for(const [slot, x] of el){
     const k = suKnoepfe(slot, x, d).find(q => !q.profi && (art === "zug" ? q.art === "zug" : q.art === "druck" || q.art === "lsc"));
-    if(k && k.basis[2]) s.push({key:k.key, slot:slot, t:art === "zug" ? tx(`Zugstufe ${suOrt(slot)} einstellen`, `Set ${suOrt(slot)} rebound`) : tx(`Druckstufe ${suOrt(slot)} einstellen`, `Set ${suOrt(slot)} compression`), k:k});
+    if(k && k.basis[2]) s.push({key:k.key, slot:slot, t:art === "zug" ? tx(`Ausfedern ${suOrt(slot)} einstellen`, `Set ${suOrt(slot)} rebound`) : tx(`Druckstufe ${suOrt(slot)} einstellen`, `Set ${suOrt(slot)} compression`), k:k});
   }
   s.push({key:"test", t:tx("Testfahrt machen", "Do a test ride"), aktion:"test"});
   return s;
@@ -14951,11 +15006,11 @@ function suNaechsterHtml(f, d){
   const st = s[i];
   const was = st.k ? `${esc(st.k.k.tun)}${st.k.k.von ? " (" + esc(st.k.k.von) + ")" : ""}` : st.aktion === "sag" ? tx("Mit Ausrüstung aufs Rad, Abstand am O-Ring messen — 5 Minuten.", "Get on with your gear, measure at the O-ring — 5 minutes.")
     : st.aktion === "test" ? tx("Fahr eine Runde, die typisch für dich ist — danach fragt dich „Testfahrt“ unten, wie es war.", "Ride a loop that's typical for you — then “Test ride” below asks how it went.")
-    : (() => { const x = f[st.slot], p = suPsi(st.slot, x, d); return x.coil ? tx("Federhärte prüfen und Vorspannung einstellen.", "Check the spring rate and set preload.") : p ? tx(`Auf ${p} psi pumpen (${barVon(p)} bar).`, `Pump to ${p} psi (${barVon(p)} bar).`) : suOhneDruckTxt(st.slot, x); })();
+    : (() => { const x = f[st.slot], p = suPsi(st.slot, x, d); return x.coil ? (x.federIst?tx(`Deine ${x.federIst}-lbs-Feder bleibt eingebaut. Prüfe gleich, wie weit sie unter dir einsinkt.`,`Keep your ${x.federIst} lb spring fitted. Next, check how far it sinks under you.`):tx("Zahl von der eingebauten Feder eintragen, dann Einsinken messen.","Enter the number on your fitted spring, then measure sag.")) : p && suMax(st.slot,x) ? tx(`Auf ${p} psi pumpen (${barVon(p)} bar).`, `Pump to ${p} psi (${barVon(p)} bar).`) : suOhneDruckTxt(st.slot, x); })();
   return `<div class="fw-weiter"><span class="fw-weiter-n">${i + 1}<small>/${s.length}</small></span><span class="fw-weiter-t"><small>${tx("Dein nächster Schritt", "Your next step")} · ${n} ${tx("erledigt", "done")}</small><b>${st.t}</b><span>${was}</span></span>
     <span class="fw-weiter-k">${st.aktion === "sag" ? (() => { const z = suElemente(f).find(([sl]) => !suSagGut(f, d, sl)) || suElemente(f)[0];
         return `<button class="btn sm" data-fwzu="${z[0]}|${z[0]}:sag">${tx("Anleitung zeigen", "Show me how")}</button>`; })()
-      : st.aktion === "test" ? ""
+      : st.aktion === "test" ? `<button class="btn sm" data-fwtest="1">${tx("Testfahrt starten","Start test ride")}</button>`
       : `<button class="btn sm" data-fwzu="${st.slot}|${st.key}">${tx("Anleitung zeigen", "Show me how")}</button><button class="btn sm ghost" data-fwok="${st.key}">${tx("Erledigt", "Mark as done")}</button>`}</span></div>`;
 }
 /* Was sich im Profil gegenueber Allround aendert */
@@ -14969,7 +15024,8 @@ function suProfilHtml(f, d){
     const zeilen = [];
     for(const [slot, x] of suElemente(f)){
       const e = einsatzVon(p, x.klasse || 0, slot === "daempfer"), pg = SU_PGRUND[p], z = [];
-      if(e.sag && !x.coil && !x.sagEigen) z.push([tx(`SAG ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)} %`, `Sag ${e.sag > 0 ? "+" : "−"}${Math.abs(e.sag)}%`), pg.sag]);
+      const sagDelta=x.modi[p].sag-x.modi.allround.sag;
+      if(sagDelta && !x.coil) z.push([tx(`SAG ${sagDelta > 0 ? "+" : "−"}${Math.abs(sagDelta)} %`, `Sag ${sagDelta > 0 ? "+" : "−"}${Math.abs(sagDelta)}%`), pg.sag]);
       if(e.luft && !x.coil && x.modi[p].psi) z.push([tx(`Luft ${e.luft > 0 ? "+" : "−"}${Math.abs(Math.round(e.luft * 100))} %`, `Air ${e.luft > 0 ? "+" : "−"}${Math.abs(Math.round(e.luft * 100))}%`), pg.luft]);
       if(x.modi[p].tok && x.tokens) z.push([tx(`+${x.modi[p].tok} Token`, `+${x.modi[p].tok} token`), pg.tok]);
       for(const k of suKnoepfe(slot, x, d)){
@@ -15044,7 +15100,8 @@ function fxSagHtml(slot, x, d){
   let rat, neu = 0;
   if(status === "offen") rat = tx("Stell ein, was du gemessen hast — Regler oder −/+.", "Enter what you measured — slider or −/+.");
   else if(status === "gut") rat = tx("Passt — so lassen.", "Spot on — leave it.");
-  else if(x.coil) rat = dz > 0 ? tx("Zu weich: nächsthärtere Feder (+25 bis 50 lbs).", "Too soft: next firmer spring (+25 to 50 lbs).") : tx("Zu hart: nächstweichere Feder (−25 bis 50 lbs).", "Too firm: next softer spring (−25 to 50 lbs).");
+  else if(x.coil) rat = tx("Deine Feder bleibt gespeichert. ","Your spring stays saved. ") + (ad<=5 ? tx("Die Messung weicht etwas vom Ziel ab. Prüfe zuerst Messung und Vorspannung laut Modellanleitung; teste danach das Fahrgefühl.","The measurement is a little off target. Check the measurement and preload against your model's manual first; then test how it feels.") : tx("Die Abweichung ist groß. Lass Feder und Vorspannung prüfen. Dämpfung allein kann eine unpassende Feder nicht ausgleichen.","The difference is large. Have the spring and preload checked. Damping alone cannot compensate for an unsuitable spring."));
+  else if(!suMax(slot,x)) rat=tx("Für diese Version fehlt der App eine bestätigte Druckgrenze. Prüfe Modelljahr und Modellanleitung, bevor du den Druck änderst.","The app has no confirmed pressure limit for this version. Check the model year and manual before changing pressure.");
   else if(!psi) rat = dz > 0 ? tx("Zu weich: etwas Luft nachpumpen (rund 5 %), dann nachmessen.", "Too soft: add a little air (about 5%), then measure again.") : tx("Zu hart: etwas Luft ablassen (rund 5 %), dann nachmessen.", "Too firm: let out a little air (about 5%), then measure again.");
   else {
     /* hoechstens 20 % pro Schritt -- Sag und Druck haengen nicht linear zusammen */
@@ -15052,7 +15109,7 @@ function fxSagHtml(slot, x, d){
     const max = suMax(slot, x);
     neu = Math.round(psi * fk); if(max && neu > max) neu = max;
     const dp = Math.abs(neu - psi);
-    rat = !dp ? tx("Am Maximaldruck — mehr Halt nur noch über Tokens.", "At maximum pressure — more support only via tokens.")
+    rat = !dp ? tx("An der Druckgrenze. Lass die Abstimmung prüfen, wenn das Einsinken noch nicht passt.", "At the pressure limit. Have the setup checked if sag is still wrong.")
       : dz > 0 ? tx(`Zu weich: auf etwa <b>${neu} psi</b> pumpen (+${dp}), dann nachmessen.`, `Too soft: pump to about <b>${neu} psi</b> (+${dp}), then measure again.`)
       : tx(`Zu hart: auf etwa <b>${neu} psi</b> ablassen (−${dp}), dann nachmessen.`, `Too firm: let out to about <b>${neu} psi</b> (−${dp}), then measure again.`);
     if(!dp) neu = 0;
@@ -15060,14 +15117,14 @@ function fxSagHtml(slot, x, d){
   const statusTxt = {offen:tx("Noch nicht gemessen", "Not measured"), gut:tx("Optimal", "Optimal"), mittel:dz > 0 ? tx("Etwas weich", "A bit soft") : tx("Etwas straff", "A bit firm"),
     schlecht:dz > 0 ? tx("Zu weich", "Too soft") : tx("Zu straff", "Too firm")}[status];
   return `<div class="fx-sag" id="fxs-${slot}">
-    <div class="fx-sag-kopf"><span>${slot === "gabel" ? tx("SAG Gabel", "Fork sag") : tx("SAG Dämpfer", "Shock sag")} · ${x.coil ? (x.rate ? x.rate + " lbs" : tx("Stahlfeder", "coil")) : psi ? psi + " psi" : tx("Druck vom Aufkleber", "sticker pressure")}</span><span class="fx-status ${status}">${statusTxt}</span></div>
+    <div class="fx-sag-kopf"><span>${slot === "gabel" ? tx("SAG Gabel", "Fork sag") : tx("SAG Dämpfer", "Shock sag")} · ${x.coil ? (x.federIst ? x.federIst + " lbs" : tx("Stahlfeder", "coil")) : psi ? psi + " psi" : tx("Druck vom Aufkleber", "sticker pressure")}</span><span class="fx-status ${status}">${statusTxt}</span></div>
     <div class="fx-baro" style="--yl:${pos(ziel - 5)}%;--gl:${pos(ziel - 2)}%;--gr:${pos(ziel + 2)}%;--yr:${pos(ziel + 5)}%">
       <span class="fx-baro-ziel" style="left:${pos(ziel)}%"></span><span class="fx-baro-mark ${status}" style="left:${pos(pz)}%"></span>
       <input class="fx-baro-in" type="range" data-fxsagin="${slot}" min="${Math.floor(lo * mm / 100 / schritt) * schritt}" max="${Math.ceil(hi * mm / 100 / schritt) * schritt}" step="${schritt}" value="${mess}"
         aria-label="${tx("Gemessener SAG in mm", "Measured sag in mm")}" aria-valuetext="${zahlDe(mess)} mm · ${prozent(pz)} · ${statusTxt}"></div>
     <div class="fx-baro-l"><span>${tx("straff", "firm")}</span><span>${tx("Ziel", "target")} ${ziel - 2}–${prozent(ziel + 2)} · ${zahlDe(m.sagMm)} mm</span><span>${tx("weich", "soft")}</span></div>
     <div class="fx-mess"><button class="fx-pm" data-fxsag="${slot}|-${schritt}" aria-label="${tx("weniger SAG gemessen", "less sag measured")}">−</button>
-      <span class="fx-mw"><b>${gem == null ? "—" : zahlDe(mess) + " mm"}</b><small>${gem == null ? tx("Abstand O-Ring bis Dichtung", "O-ring to seal distance") : tx("gemessen", "measured") + " · " + prozent(pz)}</small></span>
+      <span class="fx-mw"><b>${gem == null ? "—" : zahlDe(mess) + " mm"}</b><small>${gem == null ? x.coil && slot==="daempfer" ? tx("Differenz deiner beiden Messungen","Difference between your two measurements") : tx("Abstand Gummiring bis Dichtung", "Rubber ring to seal distance") : tx("gemessen", "measured") + " · " + prozent(pz)}</small></span>
       <button class="fx-pm" data-fxsag="${slot}|${schritt}" aria-label="${tx("mehr SAG gemessen", "more sag measured")}">+</button></div>
     <p class="fx-rat ${status}">${rat}</p>
     ${neu ? `<button class="btn sm fx-gepumpt" data-supsi="${slot}|${neu}">${tx(`Auf ${neu} psi gepumpt`, `Pumped to ${neu} psi`)}</button>` : ""}
@@ -15109,50 +15166,51 @@ function sagWizardHtml(){
   const kopf = `<div class="fw-wz-k"><span>${tx(`Schritt ${i + 1} von ${SAG_SCHRITTE.length}`, `Step ${i + 1} of ${SAG_SCHRITTE.length}`)}</span><div class="leit-bahn"><i style="width:${Math.round((i + 1) / SAG_SCHRITTE.length * 100)}%"></i></div></div>`;
   let titel = "", inhalt = "";
   const dh = (f.gabel && f.gabel.t.schaft === "dc");
+  const nurCoil=el.length>0 && el.every(([,x])=>x.coil), coilD=nurCoil && el.every(([s])=>s==="daempfer");
   if(sch === "vor"){
     titel = tx("Vorbereiten", "Get ready");
     inhalt = `${ilSag()}<ul class="fw-check">
       <li>${ic(`<circle cx="12" cy="7" r="4"/><path d="M5 21c1-4 4-6 7-6s6 2 7 6"/>`, 18)}<span>${tx("<b>Volle Ausrüstung an</b>: Helm, Schuhe, Rucksack oder Hüfttasche — gefüllt, so wie du fährst.", "<b>Full gear on</b>: helmet, shoes, backpack or hip pack — filled, the way you ride.")}</span></li>
-      <li>${ic(`<path d="M8 21V9a4 4 0 0 1 8 0v12"/><path d="M6 21h12"/>`, 18)}<span>${tx("<b>Dämpferpumpe</b> und ein Lineal oder Maßband.", "A <b>shock pump</b> and a ruler or tape measure.")}</span></li>
+      <li>${ic(`<path d="M8 21V9a4 4 0 0 1 8 0v12"/><path d="M6 21h12"/>`, 18)}<span>${nurCoil?tx("Ein <b>Lineal oder Maßband</b> und jemanden zum Helfen.","A <b>ruler or tape measure</b> and someone to help."):tx("<b>Dämpferpumpe</b> und ein Lineal oder Maßband.", "A <b>shock pump</b> and a ruler or tape measure.")}</span></li>
       <li>${ic(SU_IC.hebel, 18)}<span>${tx("<b>Kletterhebel und Druckstufen offen</b> (FOX) — sonst stimmt die Messung nicht.", "<b>Climb switch and compression open</b> (FOX) — otherwise the measurement is off.")}</span></li>
       <li>${ic(`<path d="M4 21V3M4 12h6"/>`, 18)}<span>${tx("<b>Wand oder Helfer</b>: Rad anlehnen oder halten lassen, auf ebenem Boden.", "<b>Wall or helper</b>: lean the bike against something or have someone hold it, on level ground.")}</span></li></ul>
       <p class="fw-q-zeile">${fwQ("foxSag")}${fwQ("vFoxSag")}${fwQ("vRsSag")}</p>`;
   }
   else if(sch === "pumpen"){
-    titel = tx("Startdruck einstellen", "Set the starting pressure");
+    titel = coilD?tx("Ohne Fahrer messen","Measure without the rider"):nurCoil?tx("Feder prüfen","Check the spring"):tx("Luftdruck einstellen", "Set the air pressure");
     inhalt = el.map(([s, x]) => { const p = suPsi(s, x, d);
-      return `${suEinstellBild(s, x, {zeig:[x.coil ? "feder" : "luft"], coil:x.coil})}<div class="fw-wz-el"><span class="fw-el-ic ${s}">${ic(SU_IC[s], 18)}</span><span><b>${s === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")}</b>${x.coil
-        ? tx("Stahlfeder: Vorspannung so weit, dass die Feder ohne Spiel sitzt — höchstens 1–2 Umdrehungen.", "Coil: preload only until the spring sits without play — no more than 1–2 turns.")
-        : p ? tx(`Auf <b>${p} psi</b> pumpen (${barVon(p)} bar).`, `Pump to <b>${p} psi</b> (${barVon(p)} bar).`) : suOhneDruckTxt(s, x)}</span></div>`; }).join("")
-      + `<p class="fw-tip">${ic(`<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h0"/>`, 16)}<span>${tx("Mit aufgesetzter Pumpe 5× (Gabel) bzw. 10× (Dämpfer) ein Viertel des Federwegs einfedern — so gleichen sich die Luftkammern aus. Danach den Druck nochmal einstellen. Nie über den Maximaldruck.", "With the pump attached, push the suspension a quarter of the way into its travel 5 times (fork) or 10 times (shock) — this equalises the air chambers. Then set the pressure again. Never exceed the maximum.")}</span></p>`;
+      return `<div class="fw-wz-el"><span class="fw-el-ic ${s}">${ic(SU_IC[s], 18)}</span><span><b>${s === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")}</b>${x.coil
+        ? (x.federIst?tx(`Deine <b>${x.federIst}-lbs-Feder</b> bleibt eingebaut. `,`Keep your <b>${x.federIst} lb spring</b> fitted. `):"") + (coilD?tx("Miss den Abstand zwischen den Mittelpunkten der beiden Dämpfer-Befestigungen, während niemand auf dem Rad sitzt. Notiere diesen ersten Abstand.","With nobody on the bike, measure between the centres of the two shock mounts. Write down this first distance."):tx("Prüfe die Vorspannung nach der Anleitung deines Modells. Sie ändert die Federhärte nicht.","Check preload against your model's manual. It does not change the spring rate."))
+        : p && suMax(s,x) ? tx(`Auf <b>${p} psi</b> pumpen (${barVon(p)} bar).`, `Pump to <b>${p} psi</b> (${barVon(p)} bar).`) : suOhneDruckTxt(s, x)}</span></div>${suDetails("sagbild-"+s,"su-mehr",tx("Mein Modell ansehen","View my model"),suEinstellBild(s,x,{}))}`; }).join("")
+      + (nurCoil?`<p class="su-hint">${tx("Für Vorspannung und Messposition gilt die Anleitung deines Modells.","Follow your model's manual for preload and measurement position.")}</p>`:`<p class="fw-tip">${tx("Nach dem Pumpen mehrmals leicht einfedern und den Druck erneut prüfen. Beachte die Anleitung und die Druckgrenze deines Modells.","After pumping, compress gently several times and recheck the pressure. Follow your model's manual and pressure limit.")}</p>`);
   }
   else if(sch === "ring"){
-    titel = tx("O-Ring an die Dichtung", "O-ring to the seal");
+    titel = coilD?tx("Mit Fahrer messen","Measure with the rider"):tx("Gummiring verschieben", "Move the rubber ring");
     inhalt = `<div class="fw-wz-bilder">${f.gabel && nurG ? suEinstellBild("gabel", f.gabel, {zeig:["oring"], an:"oring", coil:f.gabel.coil}) : ""}${f.daempfer && nurD ? suEinstellBild("daempfer", f.daempfer, {zeig:["oring"], an:"oring", coil:f.daempfer.coil}) : ""}</div>
-      <p>${tx("Schieb den O-Ring (den Gummiring) ganz nach unten an die Dichtung — an der Gabel am Standrohr, am Dämpfer an der Luftkammer. Kein Ring? Ein lockerer Kabelbinder tut's.", "Push the O-ring right down to the seal — on the fork's stanchion, on the shock's air can. No ring? A loose cable tie works.")}</p>`;
+      <p>${coilD?tx("Setz dich mit Ausrüstung aufs Rad, Füße auf den Pedalen. Lass das Rad halten. Dein Helfer misst denselben Abstand zwischen den Dämpfer-Befestigungen. Notiere den zweiten Abstand; die Modellanleitung bestimmt die Messposition.","Sit on the bike with your gear on and feet on the pedals. Have the bike held. Your helper measures the same distance between the shock mounts. Write down this second distance; your model's manual determines the riding position."):tx("Schieb den Gummiring auf dem glatten Rohr bis an die Dichtung. An der Gabel ist das das Standrohr, am Luftdämpfer die Kolbenstange. Fehlt der Ring, lass dir beim Messen helfen; nichts in die Dichtung stecken.","Push the rubber ring along the smooth tube to the seal: the stanchion on a fork, or the shaft on an air shock. If there is no ring, get help measuring; do not put anything into the seal.")}</p>`;
   }
   else if(sch === "auf"){
-    titel = tx("Vorsichtig aufsitzen", "Get on carefully");
+    titel = coilD?tx("Einsinken ausrechnen","Calculate how far it sinks"):tx("Vorsichtig aufsitzen", "Get on carefully");
     inhalt = `<ul class="fw-check">
-      <li>${ic(SU_IC.gabel, 18)}<span>${dh ? tx("<b>Gabel und Dämpfer</b>: stehend in Fahrposition, Pedale waagerecht (Downhill-Rad).", "<b>Fork and shock</b>: standing in riding position, pedals level (downhill bike).")
-        : tx("<b>Gabel</b>: stehend in Fahrposition, Pedale waagerecht, Hände am Lenker.", "<b>Fork</b>: standing in riding position, pedals level, hands on the bar.")}</span></li>
-      ${dh ? "" : `<li>${ic(SU_IC.daempfer, 18)}<span>${tx("<b>Dämpfer</b>: sitzend, Füße auf den Pedalen.", "<b>Shock</b>: seated, feet on the pedals.")}</span></li>`}
-      <li>${ic(`<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`, 18)}<span>${tx("10–30 Sekunden ruhig bleiben, ohne zu wippen (FOX) — dann vorsichtig absteigen, ohne nochmal einzufedern.", "Stay still for 10–30 seconds without bouncing (FOX) — then get off carefully without compressing again.")}</span></li></ul>`;
+      ${nurG?`<li>${ic(SU_IC.gabel,18)}<span>${tx("<b>Gabel</b>: stehend in Fahrposition, Pedale waagerecht, Hände am Lenker.","<b>Fork</b>: standing in riding position, pedals level, hands on the bar.")}</span></li>`:""}
+      ${nurD?`<li>${ic(SU_IC.daempfer,18)}<span>${dh?tx("<b>Dämpfer</b>: stehend in Fahrposition, Pedale waagerecht (Downhill-Rad).","<b>Shock</b>: standing in riding position, pedals level (downhill bike)."):tx("<b>Dämpfer</b>: sitzend, Füße auf den Pedalen. Beachte eine abweichende Messposition in deiner Modellanleitung.","<b>Shock</b>: seated, feet on the pedals. Follow a different measurement position if specified by your model's manual.")}</span></li>`:""}
+      <li>${ic(`<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`, 18)}<span>${tx("10–30 Sekunden ruhig bleiben, ohne zu wippen — dann vorsichtig absteigen, ohne nochmal einzufedern.", "Stay still for 10–30 seconds without bouncing — then get off carefully without compressing again.")}</span></li></ul>`;
+    if(coilD) inhalt=`<p>${tx("Erster Abstand (ohne Fahrer) minus zweiter Abstand (mit Fahrer) = Einsinken in Millimetern. Beispiel: 230 mm − 210 mm = 20 mm. Trage dein Ergebnis im nächsten Schritt ein.","First distance (without rider) minus second distance (with rider) = sag in millimetres. Example: 230 mm − 210 mm = 20 mm. Enter your result in the next step.")}</p>`;
   }
   else if(sch === "messen"){
     titel = tx("Abstand messen", "Measure the distance");
-    inhalt = `<p>${tx("Miss den Abstand vom O-Ring zur Dichtung in Millimetern und stell ihn hier ein.", "Measure from the O-ring to the seal in millimetres and enter it here.")}</p>` + el.map(([s, x]) => fxSagHtml(s, x, d)).join("");
+    inhalt = `<p>${coilD?tx("Trage die Differenz deiner beiden Messungen in Millimetern ein.","Enter the difference between your two measurements in millimetres."):tx("Miss den Abstand vom Gummiring zur Dichtung in Millimetern und stell ihn hier ein.", "Measure from the rubber ring to the seal in millimetres and enter it here.")}</p>` + el.map(([s, x]) => fxSagHtml(s, x, d)).join("");
   }
   else {
     titel = tx("Ergebnis", "Result");
     const gut = sagOk;
     inhalt = (gut ? `<div class="fw-weiter fertig">${ic(`<path d="m5 12.5 4.5 4.5L19 7.5"/>`, 20)}<span><b>${tx("SAG passt", "Sag is spot on")}</b><small>${tx("Gespeichert im Profil", "Saved in the profile")} ${esc(modusKurz(fedModus))}.</small></span></div>` : "")
       + el.map(([s, x]) => fxSagHtml(s, x, d)).join("")
-      + (gut ? "" : `<p class="fw-tip">${ic(`<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h0"/>`, 16)}<span>${tx("Nach dem Pumpen: O-Ring wieder an die Dichtung schieben, aufsitzen, nochmal messen.", "After pumping: push the O-ring back to the seal, get on and measure again.")}</span></p>`);
+      + (gut ? "" : `<p class="fw-tip">${ic(`<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h0"/>`, 16)}<span>${nurCoil?tx("Deine Feder bleibt gespeichert. Prüfe die Messung und beachte den Hinweis unten.","Your spring stays saved. Check the measurement and follow the advice below."):tx("Nach einer Druckänderung: Gummiring an die Dichtung schieben, aufsitzen, nochmal messen.","After changing pressure: move the rubber ring to the seal, get on and measure again.")}</span></p>`);
   }
   const zurueck = i > 0 ? `<button class="btn ghost" data-fwsagi="${i - 1}">${tx("Zurück", "Back")}</button>` : "";
   const fertigK = sagW.zurueck ? `<button class="btn${sagOk ? "" : " ghost"}" data-fwsagzurueck="1">${tx("Zurück zur Testfahrt", "Back to the test ride")}</button>` : `<button class="btn" data-zu="1">${tx("Fertig", "Done")}</button>`;
-  const weiter = sch === "ergebnis" ? (sagOk ? fertigK : (sagW.zurueck ? fertigK : "") + `<button class="btn" data-fwsagi="2">${tx("Gepumpt — nochmal messen", "Done pumping — measure again")}</button>`)
+  const weiter = sch === "ergebnis" ? (sagOk ? fertigK : fertigK + `<button class="btn" data-fwsagi="${coilD?1:2}">${tx("Nochmal messen", "Measure again")}</button>`)
     : `<button class="btn" data-fwsagi="${i + 1}">${sch === "messen" ? tx("SAG auswerten", "Check my sag") : tx("Weiter", "Next")}</button>`;
   const wer = sagW.slot === "gabel" ? tx("Gabel", "Fork") : sagW.slot === "daempfer" ? tx("Dämpfer", "Shock") : "";
   return `<div class="sheet-h"><h3><span class="sub">${tx("SAG messen", "Measure sag")}${wer ? " · " + wer : ""} · ${esc(modusKurz(fedModus))}</span>${titel}</h3>${zuBtn}</div>
@@ -15193,6 +15251,7 @@ function trKandidaten(f, d, el, sym, antw){
     if(x.coil){ out.push({art:"info", slot:slot, titel:dir > 0 ? tx(`Härtere Feder ${suOrt(slot)}`, `Firmer spring ${suImEl(slot)}`) : tx(`Weichere Feder ${suOrt(slot)}`, `Softer spring ${suImEl(slot)}`),
       txt:tx("Eine Stufe (25–50 lbs) — das macht der Fachhändler. Danach SAG prüfen.", "One step (25–50 lbs) — a shop does that. Then check the sag."), why:why}); return; }
     const p = suPsi(slot, x, d), max = suMax(slot, x);
+    if(!max){ out.push({art:"info",slot,titel:tx("Modellangaben prüfen","Check model details"),txt:tx("Für diese Version fehlt eine bestätigte Druckgrenze. Prüfe Modelljahr und Herstelleranleitung, bevor du den Druck änderst.","There is no confirmed pressure limit for this version. Check the model year and manufacturer's manual before changing pressure."),why}); return; }
     if(!p){ out.push({art:"info", slot:slot, titel:dir > 0 ? tx(`Etwas mehr Luft ${suOrt(slot)}`, `A little more air ${suImEl(slot)}`) : tx(`Etwas weniger Luft ${suOrt(slot)}`, `A little less air ${suImEl(slot)}`),
       txt:tx("Rund 5 % — dann SAG nachmessen.", "About 5% — then re-check sag."), why:why}); return; }
     let neu = Math.round(p * (1 + dir * 0.05)); if(max && neu > max) neu = max;
@@ -15475,15 +15534,71 @@ function oeffneBegriff(k, knopf){
    alles bleibt spaeter aenderbar. Angaben zum Rad liegen am Aufbau
    (build.fw), die zum Fahrer im Fahrprofil (fprofil, koerper). ── */
 let obW = {i:0, einzeln:false, vonEnde:false, tipp:null};
-const FW_FRAGEN_VERSION = 2;
+const FW_FRAGEN_VERSION = 3;
 const obStilGruppen = () => ({fahrer:["gelaende"], stil:["tempo", "spruenge"], gefuehl:obHat().daempfer ? ["gefuehl", "bergauf"] : ["gefuehl"]});
-function fwSagZiel(slot){
-  const v = (((build.fw || {}).vorgaben || {})[slot] || {}).sag;
-  return Number.isFinite(v) && v >= (slot === "gabel" ? 10 : 15) && v <= (slot === "gabel" ? 30 : 35) ? v : null;
+function fwModellVorgaben(slot,t){
+  if(!t || t.eigen) return {sag:null,max:null,q:null};
+  const j=fwJahr(slot==="gabel"?"gj":"dj"), n=t.n||"", m=t.m||"", ka=wahlVon(t,"Kartusche")||"";
+  const fox="https://tech.ridefox.com/bike/owners-manuals/", rs="https://www.sram.com/globalassets/document-hierarchy/service-manuals/rockshox/front-suspension/";
+  if(slot==="gabel" && m==="Fox" && j===2025 && !/\b(?:34|36) SL\b/.test(n)){
+    const q=fox+(/32|34/.test(n)?"2978/fork--2025-32mm--or-34mm-(including-step-cast-and-taper-cast)":"2979/fork--2025-36mm-or-38mm");
+    const max=/38/.test(n)?(/Rhythm/.test(n+" "+ka)?120:140):/36|34/.test(n)?120:/32/.test(n)?(/TC|Taper/.test(n)?150:/Step-Cast|Rhythm/.test(n)?140:null):null;
+    if(max) return {sag:[15,20],max,q};
+  }
+  if(slot==="gabel" && m==="RockShox"){
+    if(j===2027 && /ZEB|Lyrik/.test(n) && /3\.2/.test(ka)) return {sag:null,max:300,q:"https://support.rockshox.com/hc/en-us/articles/48153513107867-What-is-the-maximum-air-pressure"};
+    if([2023,2024,2025,2026].includes(j) && !/3\.2/.test(ka)){
+      const max=/ZEB/.test(n)&&t.travel>=150&&t.travel<=190?148:/Lyrik/.test(n)&&t.travel>=140&&t.travel<=160?163:/Pike/.test(n)&&!/DJ/.test(n)&&t.travel>=120&&t.travel<=140?(j<=2024 && t.travel===120?194:163):null;
+      if(max) return {sag:null,max,q:rs+(j===2023?"2023-front-suspension-oil-air-coil-token-specifications-english.pdf":j+"-front-suspension-specifications.pdf")};
+    }
+  }
+  if(slot==="daempfer" && m==="Fox" && j===2025){
+    if(/DHX/.test(n)) return {sag:[30,30],max:null,q:fox+"2981/shock--2025-all-coil-shocks-(dhx2-and-dhx-models)"};
+    if(/Float X2/.test(n)) return {sag:[30,30],max:300,q:fox+"2984/shock--2025-float-x2"};
+    if(/Float X\b/.test(n)) return {sag:[25,30],max:350,q:fox+"2983/shock--2025-float-"};
+    if(/^Fox Float$|^Float$/.test(n)) return {sag:[25,30],max:350,q:fox+"2982/shock--2025-float"};
+  }
+  if(slot==="daempfer" && m==="RockShox"){
+    const q="https://support.rockshox.com/hc/en-us/articles/4412440335643-How-much-air-should-I-have-in-my-RockShox-rear-shock-for-my-rider-weight";
+    if(/Super Deluxe/.test(n) && !/Coil/.test(n) && j===2027) return {sag:[30,30],max:400,q:"https://support.rockshox.com/hc/en-us/articles/48154037771163-What-is-the-maximum-air-pressure-of-the-Super-Deluxe-D1"};
+    if(/Vivid/.test(n) && !/Coil/.test(n) && j===2024) return {sag:[30,30],max:300,konservativ:true,q:"https://support.rockshox.com/hc/en-us/articles/17939965514523-What-kind-of-Bottomless-Tokens-does-Vivid-use-and-how-many-tokens-can-Vivid-hold"};
+    if(/Deluxe|Vivid/.test(n) && !/Coil/.test(n)) return {sag:[30,30],max:null,q};
+  }
+  return {sag:null,max:null,q:null};
 }
+function fwFederAnwenden(slot,x){
+  if(!x.coil) return;
+  const v=(build.fw||{})[slot==="gabel"?"gf":"df"], lo=slot==="gabel"?20:150, hi=slot==="gabel"?120:1000;
+  x.federIst=Number.isFinite(v)&&v>=lo&&v<=hi?v:null;
+  x.federSoll=slot==="daempfer"?x.rate:x.fw&&x.fw.lbs;
+  x.federSag=x.federIst&&x.rateExakt?Math.round(x.rateExakt*x.sag/x.federIst*10)/10:null;
+  x.federKlicks=0;
+  if(x.federIst && x.federSoll){
+    const delta=x.federIst/x.federSoll-1;
+    x.federKlicks=Math.sign(delta)*Math.min(2,Math.round(Math.abs(delta)*10));
+    for(const p of FMODI) x.ds[p]=x.ds[p].map(z=>suArt(z[0])==="zug"?knopfPlus(z,x.federKlicks):z);
+  }
+}
+function fwSagZiel(slot,fallback){
+  const t=build[slot]?findeTeil(slot,build[slot]):null, v=fwModellVorgaben(slot,t);
+  return v.sag?fKlemm(fallback || (v.sag[0]+v.sag[1])/2,v.sag[0],v.sag[1]):null;
+}
+function fwRadFehlt(){
+  const r=build.rahmen?findeTeil("rahmen",build.rahmen):null;
+  if(!r) return "rahmen";
+  const g=build.gabel?findeTeil("gabel",build.gabel):null;
+  if(r.maxGabel>0 && !(g && g.travel>0)) return "gabel";
+  if(r.daempfer && !(build.daempfer && findeTeil("daempfer",build.daempfer))) return "daempfer";
+  return null;
+}
+function fwRadStartHtml(slot){
+  const n=slot==="rahmen"?tx("dein Rad","your bike"):slot==="gabel"?tx("deine Gabel","your fork"):tx("deinen Dämpfer","your shock");
+  return `<section class="su-karte su-start fw-rad-fehlt"><h3>${tx("Zuerst dein Rad eintragen","Enter your bike first")}</h3><p>${tx(`Wir müssen ${n} kennen, bevor wir passende Einstellungen zeigen können.`,`We need to know ${n} before we can show suitable settings.`)}</p><button class="btn wide" data-fwaufbau="${slot}">${slot==="rahmen"?tx("Mein Rad eintragen","Enter my bike"):tx("Fehlendes Teil auswählen","Choose the missing part")}</button></section>`;
+}
+
 /* Nur beim Betreten des Tabs starten, niemals im allgemeinen Onboarding oder beim Neuzeichnen. */
 function fwErsterBesuch(){
-  if(!istPro() || view !== "setup" || (!obHat().gabel && !obHat().daempfer)) return;
+  if(fwRadFehlt() || !istPro() || view !== "setup" || (!obHat().gabel && !obHat().daempfer)) return;
   const fw = fwInfo();
   if(fw.fragenVersion === FW_FRAGEN_VERSION || $("modal").firstElementChild) return;
   const altFertig = !!fw.fertig;
@@ -15494,6 +15609,7 @@ function fwErsterBesuch(){
     for(const [n, felder] of Object.entries(obStilGruppen())) if(felder.some(k => !fAngabe(k) && !(fw.wn || {})["ff:" + k])) delete fw.besucht[n];
   }
   fw.fragenVersion = FW_FRAGEN_VERSION;
+  if(altFertig && !obOffen().length){ sichern(); return; }
   fw.fertig = false;
   sichern(); obOeffnen(altFertig || Object.keys(fw.besucht || {}).length ? "weiter" : "start");
 }
@@ -15505,13 +15621,8 @@ function fwVorbereitungHtml(){
   return z.length ? `<div class="fw-tip" role="status"><span>${z.map(t => `<p>${t}</p>`).join("")}</span></div>` : "";
 }
 function fwFragenKarte(){
-  const offen = obOffen().length;
-  return `<section class="su-karte su-start fw-fragen"><span class="pro-orb">${ic(IC.fahrwerk, 24)}</span>
-    <h3>${tx("Dein Fahrwerk, auf dich abgestimmt", "Your suspension, tailored to you")}</h3>
-    <p>${tx("Wir gehen Gewicht und Ausrüstung, dein Rad, Einsteller, Gelände und Fahrstil durch. Dazu kommen Herstellervorgaben und dein bisheriges Setup. Unbekanntes kannst du später ergänzen.", "We go through weight and gear, your bike, adjusters, terrain and riding style, plus manufacturer limits and your current setup. You can fill in unknown details later.")}</p>
-    <p class="su-hint">${tx("Rechne mit etwa 5 Minuten. Deine Antworten werden laufend gespeichert. Die Fragen gehören zu diesem Rad; Gewicht und Körpermaße gelten für alle Räder.", "Allow about 5 minutes. Your answers save as you go. These questions belong to this bike; weight and body measurements apply to every bike.")}</p>
-    <button class="btn wide" data-fwob="${Object.keys((build.fw || {}).besucht || {}).length ? "weiter" : "start"}">${tx("Fahrwerkfragen öffnen", "Open suspension questions")}${offen ? ` · ${offen}` : ""}</button>
-    <p class="su-hint">${tx("Danach: Startwerte prüfen, SAG messen und auf deiner Teststrecke verfeinern. Gespeichertes Feintuning bleibt erhalten.", "Next: check starting values, measure sag and refine on your test trail. Saved fine-tuning is kept.")}</p></section>`;
+  const angefangen=Object.keys((build.fw||{}).besucht||{}).length>0;
+  return `<section class="su-karte su-start fw-fragen"><h3>${tx("Ein paar Fragen zu dir","A few questions about you")}</h3><p>${tx("Prüfe zuerst deine Gabel und deinen Dämpfer. Danach fragen wir nach Gewicht, Ausrüstung und Fahrstil. Du brauchst kein Vorwissen.","Check your fork and shock first. Then we ask about weight, gear and riding style. You do not need prior knowledge.")}</p><p class="su-hint">${tx("Bekannte Modellwerte übernimmt die App automatisch. Fehlende Angaben zeigt sie dir. Deine Antworten werden gespeichert.","The app supplies known model settings automatically and shows any missing details. Your answers are saved.")}</p><button class="btn wide" data-fwob="${angefangen?"weiter":"start"}">${angefangen?tx("Fragen fortsetzen","Continue questions"):tx("Los geht’s","Let's start")}</button></section>`;
 }
 function obHat(){
   const g = build.gabel ? findeTeil("gabel", build.gabel) : null, d = build.daempfer && !entfaellt(build, "daempfer") ? findeTeil("daempfer", build.daempfer) : null;
@@ -15535,14 +15646,9 @@ function fwPruef(){
   }
 }
 function obSchritte(){
-  const h = obHat(), fed = h.gabel || h.daempfer, s = ["start", "gewicht", "rad"];
-  if(h.gabel) s.push("gabel");
-  if(h.daempfer) s.push("daempfer");
-  if(fed) s.push("einsteller");
-  s.push("fahrer", "stil", "gefuehl");
-  if(fed) s.push("profil", "abstimmung", "aktuell", "probleme", "vorbereitung");
-  s.push("ende");
-  return s;
+  const h=obHat(), s=["start"];
+  if(h.gabel) s.push("gabel"); if(h.daempfer) s.push("daempfer");
+  s.push("gewicht","fahrer","stil","gefuehl","ende"); return s;
 }
 const obOffen = () => { const fw = build.fw || {}, b = fw.besucht || {}; return obSchritte().filter(n => n !== "start" && n !== "ende" && !b[n]); };
 const OB_I = `<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h0"/>`;
@@ -15550,7 +15656,7 @@ const obWahl = (attr, an, titel, sub, kl) => `<button class="fw-ow${kl ? " " + k
 const obWn = (feld, an) => `<button class="fw-ow fw-wn" data-fwwn="${feld}" aria-pressed="${!!an}"><b>${tx("Weiß ich nicht", "Not sure")}</b></button>`;
 const obWarum = (id, txt) => suDetails("ob-w-" + id, "fw-warum", tx("Wozu fragt die App das?", "Why does the app ask?"), `<p>${txt}</p>`);
 const obGruppe = (titel, inhalt, warum, id, kl) => `<fieldset class="fw-og"><legend>${titel}</legend><div class="fw-ows${kl ? " " + kl : ""}">${inhalt}</div>${warum ? obWarum(id, warum) : ""}</fieldset>`;
-const obWo = (bild, leg) => `<figure class="fw-wo"><div class="fw-wo-b">${bild}</div><figcaption><span class="fw-wo-t">${tx("Hier findest du es", "Where to find it")}</span>${fwLegende(leg)}</figcaption></figure>`;
+const obWo = (bild, leg) => !bild ? "" : `<figure class="fw-wo"><div class="fw-wo-b">${bild}</div><figcaption><span class="fw-wo-t">${tx("Hier findest du es", "Where to find it")}</span>${fwLegende(leg)}</figcaption></figure>`;
 const obTipp = txt => `<p class="fw-tip" role="status">${ic(OB_I, 16)}<span>${txt}</span></p>`;
 const obZahl = (feld, wert, label, einheit, ph, dez) => `<label class="fw-oz"><span>${label}</span><span class="fw-oz-f"><input type="text" inputmode="${dez ? "decimal" : "numeric"}" autocomplete="off" maxlength="6"
   value="${wert != null && wert !== "" ? zahlDe(wert) : ""}" placeholder="${ph}" data-fwin="${feld}"><i>${einheit}</i></span></label>`;
@@ -15561,7 +15667,7 @@ function obJahre(feld, wert, wn){
   return j.join("") + obWn(feld, wn);
 }
 const obWnAn = k => !!((build.fw || {}).wn || {})[k];
-const obTeilKarte = (slot, t, x) => `<div class="fw-teil">${produktBildUrl(t) ? teilFoto(t, "fw-teil-foto") : `<span class="fw-el-ic ${slot}">${ic(SU_IC[slot] || SU_IC.gabel, 20)}</span>`}<span><b>${t ? esc(t.nb || t.n) : tx("Noch nicht gewählt", "Not chosen yet")}</b>${x ? `<small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "",
+const obTeilKarte = (slot, t, x) => `<div class="fw-teil">${x && suEinstellBild(slot,x,{}).includes("<img ") ? teilFoto(t, "fw-teil-foto") : `<span class="fw-el-ic ${slot}">${ic(SU_IC[slot] || SU_IC.gabel, 20)}</span>`}<span><b>${t ? esc(t.nb || t.n) : tx("Noch nicht gewählt", "Not chosen yet")}</b>${x ? `<small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "",
   x.coil ? tx("Stahlfeder", "coil") : tx("Luftfeder", "air")].filter(Boolean).join(" · ")}</small>` : `<small>${tx("Teile wählst du im Aufbau", "You choose parts in the build")}</small>`}</span></div>`;
 /* Bezugspunkt fuer "was ist gerade eingestellt" -- so wie der Hersteller zaehlt */
 function obBezug(v){
@@ -15596,7 +15702,7 @@ function obInhalt(n, f, fw){
   if(n === "start"){
     r.titel = tx("Dein Fahrwerk-Setup", "Your suspension setup");
     r.html = `<div class="fw-ob-hero">${ilRad({zeig:[]})}</div>
-      <p class="fw-wz-lead">${tx("Nimm dir etwa 5 Minuten für Gewicht mit Ausrüstung, Rad, Fahrwerk und deinen Fahrstil. Wir fragen nur nach dem, was an deinem Rad vorhanden ist. Bekannte Angaben sind vorausgefüllt; deine Antworten werden laufend gespeichert.", "Allow about 5 minutes for weight with gear, your bike, suspension and riding style. We only ask about what is fitted to your bike. Known details are pre-filled; your answers save as you go.")}</p>
+      <p class="fw-wz-lead">${tx("Wir prüfen kurz deine Teile und fragen nach dir und deinem Fahrstil. Bekannte Angaben sind vorausgefüllt. Schließen und später weitermachen geht jederzeit.", "We briefly check your parts and ask about you and your riding style. Known details are pre-filled. You can close this and continue later at any time.")}</p>
       <p class="su-hint">${tx("Die App berechnet persönliche Startwerte. Herstellervorgaben haben Vorrang; SAG-Messung und Testfahrt machen daraus deine Abstimmung.", "The app calculates personal starting values. Manufacturer instructions take priority; sag measurement and a test ride turn them into your setup.")}</p>
       <ul class="fw-check">
         <li>${ic(OB_I, 18)}<span>${tx("Bei jeder Frage steht, <b>warum</b> sie wichtig ist.", "Every question explains <b>why</b> it matters.")}</span></li>
@@ -15639,25 +15745,23 @@ function obInhalt(n, f, fw){
     const slot = n, x = f[slot], t2 = slot === "gabel" ? (build.gabel ? findeTeil("gabel", build.gabel) : null) : (build.daempfer ? findeTeil("daempfer", build.daempfer) : null);
     const jk = slot === "gabel" ? "gj" : "dj", fk = slot === "gabel" ? "gf" : "df";
     r.titel = slot === "gabel" ? tx("Deine Federgabel", "Your fork") : tx("Dein Dämpfer", "Your shock");
-    r.q = slot === "gabel" ? tx("Welche Gabel ist verbaut — und aus welchem Jahr?", "Which fork is fitted — and from which year?") : tx("Welcher Dämpfer ist verbaut — und aus welchem Jahr?", "Which shock is fitted — and from which year?");
+    r.q=slot==="gabel"?tx("Ist das deine Gabel?","Is this your fork?"):tx("Ist das dein Dämpfer?","Is this your shock?");
     const jahrHinweis = x && slot === "gabel" && x.quellen.psi.art === "jahr" ? obTipp(tx(`Die Drucktabelle in der App gilt für ${esc(x.quellen.psi.name)} ab Modelljahr ${x.quellen.psi.ab}. Für deine Gabel zeigen wir deshalb keinen Tabellenwert, sondern den Weg dorthin: Aufkleber an der Gabel, Trailhead oder FOX-App.`, `The pressure chart in the app applies to ${esc(x.quellen.psi.name)} from model year ${x.quellen.psi.ab}. So for your fork we show no chart value, but the way to get it: sticker on the fork, Trailhead or the FOX app.`)) : "";
     const leg = slot === "gabel" ? [tx("Aufkleber am Tauchrohr: Modell, oft mit Drucktabelle", "Sticker on the lower leg: model, often with a pressure chart"), tx("Seriennummer: hinten an Krone oder Casting — damit findest du in Trailhead (RockShox) oder der FOX-App Modell und Jahr", "Serial number: back of the crown or lowers — Trailhead (RockShox) or the FOX app shows model and year from it")]
       : [tx("Aufkleber am Dämpfer: Modell und Maße (Einbaulänge × Hub, z. B. 210×55)", "Sticker on the shock: model and size (eye-to-eye × stroke, e.g. 210×55)"), tx("Seriennummer am Dämpferkörper — für Trailhead oder die FOX-App", "Serial number on the shock body — for Trailhead or the FOX app")];
     const zeig = slot === "gabel" ? ["aufkleber", "serie"] : ["aufkleber"];
     if(x && x.coil){ zeig.push("feder"); leg.push(tx("Feder: Härte steht auf der Feder (z. B. 450 × 2.25 = lbs × Hub in Zoll)", "Spring: rate printed on it (e.g. 450 × 2.25 = lbs × stroke in inches)")); }
     if(slot === "daempfer") leg.splice(1, 1);
-    r.html = `${obTeilKarte(slot, t2, x)}
+    r.html = `${obTeilKarte(slot, t2, x)}<button class="btn ghost wide" data-fwaufbau="${slot}">${tx("Das ist nicht mein Modell","This is not my model")}</button>
       ${obGruppe(tx("Modelljahr", "Model year"), obJahre(jk, fw[jk], wn[jk]), slot === "gabel"
         ? tx("Drucktabellen, Klickbereiche und Einsteller ändern sich mit dem Modelljahr — RockShox z. B. hat 2023 den Charger 3 eingeführt, bei dem die Druckstufen-Klicks ab der Mitte gezählt werden. Passt die Tabelle nicht zu deinem Modelljahr, zeigt die App keinen Druck, sondern erklärt, wie du den richtigen Wert findest.", "Pressure charts, click ranges and adjusters change with the model year — RockShox, for example, introduced Charger 3 in 2023, where compression clicks are counted from the middle. If the chart doesn't match your year, the app won't show a pressure — it tells you how to find the right one.")
         : tx("Einsteller und Klickbereiche von Dämpfern ändern sich mit dem Modelljahr. Den Luftdruck hinten gibt es ohnehin nicht pauschal — er hängt vom Rahmen ab; den Ausschlag gibt der SAG.", "Adjusters and click ranges on shocks change with the model year. There's no blanket rear air pressure anyway — it depends on the frame; the sag decides."), jk, "jahre")}
       ${t === jk ? obTipp(tx("Kein Problem — dann nennt die App keinen Tabellendruck, wenn die Tabelle erst ab einem bestimmten Jahr gilt. Nimm den Druck vom Aufkleber. Die Seriennummer in Trailhead (RockShox) oder der FOX-App verrät das Baujahr; du kannst es jederzeit nachtragen.", "No problem — then the app shows no chart pressure where the chart only applies from a certain year. Use the pressure on the sticker. The serial number in Trailhead (RockShox) or the FOX app reveals the year; you can add it any time.")) : ""}
       ${jahrHinweis}
-      ${x && x.coil ? obZahl(fk, fw[fk] > 0 ? fw[fk] : "", tx("Deine Federhärte", "Your spring rate"), "lbs", slot === "gabel" ? tx("z. B. 45", "e.g. 45") : tx("z. B. 450", "e.g. 450")) + `<div class="fw-ows">${obWn(fk, wn[fk])}</div>`
+      ${x && x.coil ? obZahl(fk, fw[fk] > 0 ? fw[fk] : "", tx("Welche Feder fährst du gerade?", "Which spring are you riding?"), "lbs", slot === "gabel" ? tx("z. B. 45", "e.g. 45") : tx("z. B. 450", "e.g. 450")) + `<div class="fw-ows">${obWn(fk, wn[fk])}</div>`
         + obWarum(fk, tx("Mit der Härte deiner Feder rechnet die App den SAG aus, den du damit bekommst — und ob eine andere Feder passt.", "With your spring's rate the app works out the sag you'll get — and whether another spring fits better.")) : ""}
-      ${slot === "daempfer" && x && x.coil ? obZahl("fwH", fw.fwH > 0 ? fw.fwH : "", tx("Federweg hinten (Rahmen)", "Rear travel (frame)"), "mm", tx("z. B. 150", "e.g. 150")) + `<div class="fw-ows">${obWn("fwH", wn.fwH)}</div>`
-        + obWarum("fwH", tx("Ohne den Federweg des Hinterbaus kennt die App die Übersetzung nicht und rechnet keine Federhärte. Er steht in den technischen Daten deines Rahmens.", "Without the rear travel the app doesn't know the leverage and calculates no spring rate. It's in your frame's tech specs.")) : ""}
-      ${t === "fwH" ? obTipp(tx("Dann wählt die App keine Federhärte — nimm den Federrechner des Rahmen- oder Dämpferherstellers und prüf per SAG.", "Then the app picks no spring rate — use the frame or shock manufacturer's spring calculator and check by sag.")) : ""}
-      ${t === fk ? obTipp(tx("Die Zahl steht auf der Feder selbst. Bei der Gabel: Kappe oben auf der Federseite abschrauben (Anleitung) — oder beim Händler nachfragen.", "The number is printed on the spring itself. For a fork: unscrew the cap on top of the spring side (manual) — or ask your shop.")) : ""}
+      ${slot==="daempfer"&&x&&x.coil&&!x.fwH?`<p class="su-hint">${tx("Für diesen Rahmen fehlt uns noch der hintere Federweg. Deine vorhandene Feder kannst du trotzdem eintragen und mit der Messung prüfen.","Rear travel is not on file for this frame yet. You can still enter your fitted spring and check it with the measurement.")}</p>`:""}
+      ${t === fk ? obTipp(tx("Die Zahl steht auf der Feder selbst. Falls du sie nicht lesen kannst, lass die Feder im Fachgeschäft bestimmen.", "The number is printed on the spring itself. If you cannot read it, ask a bike shop to identify the spring.")) : ""}
       ${obWo(slot === "gabel" ? ilGabel({zeig:zeig, coil:x && x.coil}) : ilDaempfer({zeig:zeig, coil:x && x.coil}), leg)}
       <p class="fw-q-zeile">${fwQ("rsTrailhead")}${fwQ(slot === "gabel" ? "fox36" : "foxX2")}</p>`;
     return r;
@@ -15707,19 +15811,7 @@ function obInhalt(n, f, fw){
       ${obWarum("prof", tx("Jedes Profil speichert eigene Werte und eine eigene Grundeinstellung. Wechseln geht jederzeit oben im Setup — z. B. Allround für die Hausrunde, Sprünge für den Bikepark. „Für Sprünge alles härter“ gibt es nicht: Die App ändert nur, was dem Profil hilft, und sagt, was es kostet.", "Each profile stores its own values and its own baseline. Switch any time at the top of Setup — e.g. all-round for your local loop, jumps for the bike park. There's no “everything firmer for jumps”: the app only changes what helps the profile, and says what it costs."))}`;
     return r;
   }
-  if(n === "abstimmung"){
-    r.titel = tx("Vorgaben deiner Hersteller", "Your manufacturers' settings");
-    r.q = tx("Welche Vorgaben stehen in deiner Anleitung?", "What does your manual specify?");
-    r.html = `<p class="su-hint">${tx("Optional: Werte nur aus der Anleitung für dein genaues Modell übernehmen. Beim Dämpfer nennt oft der Rahmenhersteller das SAG-Ziel. Leer lassen, wenn unbekannt. Ein eingetragenes SAG-Ziel bleibt in allen Fahrprofilen gleich.", "Optional: only copy values from the manual for your exact model. The frame maker often specifies rear shock sag. Leave blank if unknown. An entered sag target stays the same in every riding profile.")}</p>`
-      + suElemente(f).map(([slot, x]) => { const v = (fw.vorgaben || {})[slot] || {};
-        return `<fieldset class="fw-og"><legend>${slot === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")} · ${esc(x.t.nb || x.t.n)}</legend><div class="fw-oz-gitter">
-          ${obZahl(`vorgabe:${slot}:sag`, v.sag, tx("SAG-Ziel laut Anleitung", "Sag target from manual"), "%", tx("unbekannt", "unknown"), true)}
-          ${x.coil ? "" : obZahl(`vorgabe:${slot}:max`, v.max, tx("Maximaldruck laut Aufkleber", "Maximum pressure on label"), "psi", x.max ? String(x.max) : tx("unbekannt", "unknown"))}
-        </div></fieldset>`; }).join("") + `<div class="fw-ows">${obWn("vorgaben", !Object.keys(fw.vorgaben || {}).some(s => Object.keys(fw.vorgaben[s]).length))}</div>`
-      + obWarum("vorgaben", tx("Dein Rahmen kann ein anderes SAG-Ziel brauchen als der allgemeine Richtwert. Ein niedrigerer Maximaldruck begrenzt auch gespeicherte Werte; ein höherer hebt bekannte Herstellergrenzen niemals an.", "Your frame may need a different sag target from the general estimate. A lower pressure limit also restricts saved values; a higher one never raises known manufacturer limits."))
-      + `<p class="fw-q-zeile">${fwQ("rsTrailhead")}${fwQ("foxManuals")}</p>`;
-    return r;
-  }
+
   if(n === "vorbereitung"){
     r.titel = tx("Bereit zum Messen?", "Ready to measure?");
     r.q = tx("Was brauchst du vor der ersten Einstellung?", "What do you need before setting up?");
@@ -15807,8 +15899,8 @@ function obHtml(){
   fwPruef();
   const s = obSchritte();
   obW.i = Math.max(0, Math.min(s.length - 1, obW.i || 0));
-  const n = s[obW.i], f = federRechnen(), fw = fwInfo(), r = obInhalt(n, f, fw), fragen = s.length - 2;
-  const kopf = n === "start" || n === "ende" ? "" : `<div class="fw-wz-k"><span>${tx(`Frage ${obW.i} von ${fragen}`, `Question ${obW.i} of ${fragen}`)}</span><div class="leit-bahn"><i style="width:${Math.round(obW.i / fragen * 100)}%"></i></div></div>`;
+  const n = obW.spezial || s[obW.i], f = federRechnen(), fw = fwInfo(), r = obInhalt(n, f, fw), fragen = s.length - 2;
+  const kopf = obW.spezial || n === "start" || n === "ende" ? "" : `<div class="fw-wz-k"><span>${tx(`Frage ${obW.i} von ${fragen}`, `Question ${obW.i} of ${fragen}`)}</span><div class="leit-bahn"><i style="width:${Math.round(obW.i / fragen * 100)}%"></i></div></div>`;
   let fuss;
   if(n === "start") fuss = `<button class="btn wide" data-fwobw="1">${tx("Los geht's", "Let's go")}</button>`;
   else if(n === "ende") fuss = `<button class="btn wide" data-fwobfertig="1">${tx("Zu meinen Einstellungen", "Go to my settings")}</button>`;
@@ -15820,6 +15912,7 @@ function obHtml(){
 }
 /* w: Schrittname, "start", "weiter" (erste offene Frage) oder "ende" */
 function obOeffnen(w){
+  if(fwRadFehlt()){ schliesse(); oeffneSetup(); return; }
   if(!istPro()){ schliesse(); oeffneSetup(); return; }
   fwPruef();
   const s = obSchritte(), fw = fwInfo(), b = fw.besucht || {};
@@ -15827,6 +15920,7 @@ function obOeffnen(w){
   let i = w === "start" ? 0 : w === "weiter" ? s.findIndex((n, j) => j > 0 && n !== "ende" && !b[n]) : s.indexOf(w);
   if(i < 0) i = w === "weiter" ? s.length - 1 : 0;
   obW = {i:i, einzeln:!!fw.fertig && w !== "start" && w !== "weiter" && w !== "ende", vonEnde:false, tipp:null};
+  if(w === "vorbereitung"){ obW.spezial=w; obW.einzeln=true; }
   zeigeSheet(obHtml());
 }
 function obZu(){
@@ -15939,60 +16033,22 @@ function suAktionen(f, d, offen){
     ${kach(`data-fwob="${offen ? "weiter" : "ende"}"`, `<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/>`, tx("Deine Angaben", "Your details"), offen ? tx(`${offen} offen`, `${offen} open`) : plan.fahrer + " kg · " + esc(modusKurz(fedModus)), offen ? "offen" : "")}</div>`;
 }
 function setupHtml(){
-  const kopf = (sub, rechts) => `<div class="su-kopf"><div class="su-titel"><h2>${tx("Fahrwerk", "Suspension setup")}</h2><span>${sub}</span></div>${rechts || ""}</div>`;
-  if(!istPro()) return kopf(tx("Dein Fahrwerk, Schritt für Schritt", "Your suspension, step by step")) + suProHtml();
-  fwPruef();
-  if((obHat().gabel || obHat().daempfer) && !fwInfo().fertig) return kopf(tx("Persönliche Fahrwerkfragen", "Personal suspension questions")) + fwFragenKarte();
-  /* Start: der Assistent fragt alles Noetige -- nichts ist Pflicht ausser dem Gewicht */
-  if(!(plan.fahrer > 0)) return kopf(tx("Dein Fahrwerk, Schritt für Schritt", "Your suspension, step by step")) + `
-    <section class="su-karte fw-hero"><div><div class="fw-hero-b">${ilGabel({zeig:["luft", "druck", "zug"]})}${ilDaempfer({zeig:["luft", "druck", "zug"]})}</div>
-      <p class="fw-hero-leg"><span><i>1</i>${tx("Luft", "Air")}</span><span><i>2</i>${tx("Druckstufe · blau", "Compression · blue")}</span><span><i>3</i>${tx("Zugstufe · rot", "Rebound · red")}</span></p></div>
-      <div class="fw-hero-t"><h3>${tx("In drei Minuten zu deinem Setup", "Your setup in three minutes")}</h3>
-      <p>${tx("Das Setup rechnet mit deinem Gewicht aus dem Fahrerprofil — das fehlt noch. Danach ein paar Fragen zu Rad und Fahrstil, und du weißt, was du einstellen musst, wie du es machst und warum.", "Setup is based on the weight in your rider profile — that's still missing. Then a few questions about your bike and riding, and you'll know what to set, how to do it and why.")}</p>
-      <ol class="fw-hero-l"><li>${tx("Gewicht im Fahrerprofil", "Weight in your rider profile")}</li><li>${tx("Luft und SAG einstellen", "Set air and sag")}</li><li>${tx("Zug- und Druckstufe", "Rebound and compression")}</li><li>${tx("Testfahren und nachjustieren", "Test ride and fine-tune")}</li></ol>
-      <button class="btn wide" data-fahrerprofil="1">${tx("Fahrerprofil öffnen", "Open rider profile")}</button></div></section>`;
-  const f = federRechnen();
-  if(!f.gabel && !f.daempfer) return kopf(tx("Dein Fahrwerk, Schritt für Schritt", "Your suspension, step by step")) + `
-    <section class="su-karte su-start"><h3>${tx("Kein Fahrwerk im Aufbau", "No suspension in this build")}</h3>
-      <p>${tx("Federgabel und Dämpfer wählst du im Aufbau — dann steht hier, wie du sie einstellst.", "You choose fork and shock in the build — then this shows how to set them up.")}</p>
-      <button class="btn" data-view="aufbau">${tx("Zum Aufbau", "Go to Build")}</button></section>`;
-  /* Harter Konflikt an Gabel oder Daempfer (falsches Daempfermass, zu lange
-     Gabel ...): erst klaeren, keine Einstellwerte fuer einen Aufbau, der so
-     nicht passt (Bericht 06.10., Befund 21) */
-  const konf = pruefe(build).filter(b => b.level === "fehler" && (b.slots || []).some(sl => sl === "gabel" || sl === "daempfer"));
-  if(konf.length) return kopf(el0Titel(f)) + `
-    <section class="su-karte su-start fw-konflikt"><h3>${tx("Erst den Aufbau klären", "Sort out the build first")}</h3>
-      <p>${tx("Gabel oder Dämpfer passen so nicht in diesen Rahmen. Für Teile, die nicht zusammenpassen, zeigt die App keine Pump- oder Klickwerte.", "The fork or shock doesn't fit this frame as is. For parts that don't fit together, the app shows no pressure or click values.")}</p>
-      <ul>${konf.map(b => `<li><b>${b.titel}</b></li>`).join("")}</ul>
-      <button class="btn" data-view="befunde">${tx("Zur Prüfung", "Go to Check")}</button></section>`;
-  const d = suDaten(f), el = suElemente(f), fw = build.fw || {};
-  if(fw.zustand === "pruefen") return kopf(el0Titel(f)) + fwVorbereitungHtml() + `<button class="btn wide" data-fwob="vorbereitung">${tx("Zustand erneut prüfen", "Review condition")}</button>`;
-  if(!el.some(e => e[0] === suElWahl)) suElWahl = el[0][0];
-  const x = f[suElWahl], offen = fw.fertig ? [] : obOffen();
-  /* Nur Status -- bearbeitet wird ausschliesslich unter "Deine Angaben" */
-  const banner = offen.length ? `<div class="fw-banner" role="status">${ic(`<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4z"/>`, 20)}<span><b>${tx(`Noch ${offen.length} ${offen.length === 1 ? "Angabe" : "Angaben"} offen`, `${offen.length} ${offen.length === 1 ? "detail" : "details"} still open`)}</b>
-      <small>${tx("Damit die Werte zu deinem Rad und Fahrstil passen — unter „Deine Angaben“. Bis dahin gilt die Mitte.", "So the values fit your bike and riding — under “Your details”. Until then the middle applies.")}</small></span></div>` : "";
-  const wahl = el.length > 1 ? `<div class="fw-elw" role="group" aria-label="${tx("Federelement", "Fork or shock")}">${el.map(([s, y]) => `<button data-fwel="${s}" aria-pressed="${s === suElWahl}"><span class="fw-el-ic ${s}">${ic(SU_IC[s], 18)}</span>
-      <span><b>${s === "gabel" ? tx("Gabel", "Fork") : tx("Dämpfer", "Shock")}</b><small>${s === "gabel" ? tx("vorn", "front") : tx("hinten", "rear")} · ${esc(y.t.nb || y.t.n)}</small></span></button>`).join("")}</div>` : "";
-  const teile = el.map(([, y]) => esc(y.t.nb || y.t.n)).join(" · ");
-  const basis = `<section class="su-karte su-start"><h3>${tx("Deine persönliche Ausgangsbasis", "Your personal starting point")}</h3>
-    <p>${tx(`Du ${zahlDe(plan.fahrer)} kg + Ausrüstung ${zahlDe(monturKg())} kg = <b>${zahlDe(systemKg())} kg</b>.`, `You ${plan.fahrer} kg + gear ${monturKg()} kg = <b>${systemKg()} kg</b>.`)} ${!fprofil.montur || !fprofil.montur.eigen ? tx("Ausrüstungsgewicht geschätzt.", "Gear weight estimated.") : tx("Ausrüstungsgewicht von dir gewogen.", "Gear weight measured by you.")}</p>
-    <p class="su-hint">${["fahrer", "stil", "gefuehl"].map(n => obZeile(n, f, fw)[1]).join(" · ")}</p>
-    <p class="su-hint">${tx("Herstellerdaten und App-Schätzungen stehen bei jedem Wert unter „Warum dieser Wert“. Dein gespeichertes Feintuning hat Vorrang vor neuen Rechenwerten. Nach Änderungen an Gewicht, Ausrüstung oder Rad erneut SAG messen.", "Manufacturer data and app estimates are under “Why this value” for each setting. Saved fine-tuning takes priority over new calculations. Measure sag again after changes to weight, gear or bike.")}</p>
-    ${fwVorbereitungHtml()}</section>`;
-  return kopf(teile) + banner + basis + `
-    <div class="su-spalten"><div class="su-sp">
-      <section class="su-karte fw-oben">${suProfilHtml(f, d)}</section>
-      ${suNaechsterHtml(f, d)}
-      <section class="su-karte fw-teile">${wahl}${suElementHtml(f, suElWahl, x, d)}</section>
-      ${suAktionen(f, d, offen.length)}
-    </div>
-    <div class="su-sp">
-      ${suGrundHtml(f, d)}
-      ${suBuchHtml(f, d)}
-      ${suWissenHtml()}
-      ${suDetails("alle", "su-karte su-mehr su-alle", tx("Alle berechneten Werte und Herstellerangaben", "All calculated values & manufacturer info"), `<p class="su-hint">${tx("Die Werte aus dem Rechner, ohne dein Feintuning — mit Vergleich der drei Profile, Knopf-Skalen und Herstellerlinks.", "The calculator's values without your fine-tuning — with the three profiles compared, knob scales and manufacturer links.")}</p>${federErgebnisHtml(true)}`)}
-    </div></div>`;
+  const kopf=`<div class="su-kopf"><div class="su-titel"><h2>${tx("Fahrwerk","Suspension setup")}</h2><span>${tx("Schritt für Schritt für dein Rad","Step by step for your bike")}</span></div><button class="btn ghost sm" data-view="aufbau">${tx("Mein Rad","My bike")}</button></div>`;
+  const fehlt=fwRadFehlt(); if(fehlt) return kopf+fwRadStartHtml(fehlt);
+  if(!istPro()) return kopf+suProHtml();
+  fwPruef(); const f=federRechnen();
+  if(!f.gabel&&!f.daempfer) return kopf+`<section class="su-karte su-start"><p>${tx("An diesem Rad ist kein Fahrwerk eingetragen.","No suspension is entered for this bike.")}</p><button class="btn" data-fwaufbau="gabel">${tx("Mein Rad prüfen","Check my bike")}</button></section>`;
+  if(!fwInfo().fertig) return kopf+fwFragenKarte();
+  if(!(plan.fahrer>0)) return kopf+`<section class="su-karte su-start fw-hero"><h3>${tx("Dein Gewicht fehlt noch","Your weight is still missing")}</h3><p>${tx("Damit die Einstellungen zu dir passen, ergänze dein Gewicht. Deine bisherigen Antworten bleiben gespeichert.","Add your weight so the settings fit you. Your previous answers are saved.")}</p><button class="btn wide" data-fahrerprofil="1">${tx("Gewicht ergänzen","Add weight")}</button></section>`;
+  const konflikte=pruefe(build).filter(b=>b.level==="fehler"&&(b.slots||[]).some(sl=>sl==="gabel"||sl==="daempfer"));
+  if(konflikte.length) return kopf+`<section class="su-karte su-start fw-konflikt"><h3>${tx("Erst den Aufbau klären","Sort out the build first")}</h3><p>${tx("Gabel oder Dämpfer passen so nicht zum Rahmen. Prüfe zuerst die ausgewählten Teile.","The fork or shock does not fit the frame as selected. Check the parts first.")}</p><button class="btn" data-view="befunde">${tx("Teile prüfen","Check parts")}</button></section>`;
+  const fw=fwInfo(),d=suDaten(f),el=suElemente(f);
+  if(fw.zustand==="pruefen") return kopf+fwVorbereitungHtml()+`<button class="btn wide" data-fwob="vorbereitung">${tx("Zustand erneut prüfen","Recheck condition")}</button>`;
+  if(!el.some(e=>e[0]===suElWahl)) suElWahl=el[0][0];
+  const x=f[suElWahl];
+  const wahl=el.length>1?`<div class="fw-elw" role="group" aria-label="${tx("Welches Teil stellst du ein?","Which part are you adjusting?")} ">${el.map(([sl,y])=>`<button data-fwel="${sl}" aria-pressed="${sl===suElWahl}"><span><b>${sl==="gabel"?tx("Gabel · vorn","Fork · front"):tx("Dämpfer · hinten","Shock · rear")}</b><small>${esc(y.t.nb||y.t.n)}</small></span></button>`).join("")}</div>`:"";
+  const basis=`<p>${tx(`Du mit Ausrüstung: ${zahlDe(systemKg())} kg.`,`You with gear: ${systemKg()} kg.`)} ${["fahrer","stil","gefuehl"].map(n=>obZeile(n,f,fw)[1]).join(" · ")}</p><p class="su-hint">${tx("Die Zahlen sind Startwerte. Wir prüfen sie mit der Messung und auf einer kurzen Testfahrt.","These numbers are starting values. We check them with the measurement and a short test ride.")}</p>${fwVorbereitungHtml()}${suProfilHtml(f,d)}${suGrundHtml(f,d)}${suBuchHtml(f,d)}${suWissenHtml()}${suDetails("alle","su-mehr",tx("Alle Werte und Quellen","All values and sources"),federErgebnisHtml(true))}`;
+  return kopf+`<p class="su-hint fw-einfach-lead">${tx("Wir zeigen dir, was du jetzt einstellen sollst. Danach messen wir, wie weit dein Fahrwerk unter dir einsinkt (SAG), und machen eine kurze Testfahrt.","We show you what to adjust now. Then we measure how far your suspension sinks under you (sag), and take a short test ride.")}</p>${suNaechsterHtml(f,d)}<section class="su-karte fw-teile">${wahl}${suElementHtml(f,suElWahl,x,d)}</section>${suAktionen(f,d,0)}${suDetails("mehr-wissen","su-karte su-mehr fw-hintergrund",tx("Profile, Notizen und weitere Details","Profiles, notes and more details"),basis)}`;
 }
 const el0Titel = f => suElemente(f).map(([, y]) => esc(y.t.nb || y.t.n)).join(" · ");
 /* Rechenwerte neu zeigen (Top-Cap-Foto, Gewicht, Profil) -- im Setup zeichnet der ganze Reiter neu */
@@ -16362,6 +16418,7 @@ function adZurueck(){
 
 /* Skizzen, schematisch. Farben ueber die Design-Variablen, damit hell und dunkel stimmen. */
 function adGrafik(a){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   const g = a.grafik || {}, T = (x, y, s, kl) => `<text x="${x}" y="${y}" class="${kl || ""}">${s}</text>`;
   if(g.typ === "scheibe"){
     const cx = 18, cy = 150, r = mm => (mm - 100) + 22, rN = r(g.nativ), rS = r(g.scheibe), th = 38 * Math.PI / 180;
@@ -16457,6 +16514,7 @@ function schliesseAdapterInfo(){
 /* ═══ Guide: Adapter verstehen ═══ */
 let adGuideThema = "bremse";
 function adMontage(art){
+  return ""; /* Nur echte Fotos; keine gezeichneten Ersatzbilder. */
   /* Drei Aufnahmen nebeneinander, schematisch: Bein/Strebe, Aufnahme, Sattel */
   if(art === "PM") return `<svg class="ag-mini" viewBox="0 0 120 84" aria-hidden="true"><rect class="ag-rahmen" x="10" y="6" width="22" height="74" rx="9"/>
     <rect class="ag-rahmen" x="30" y="20" width="16" height="10" rx="3"/><rect class="ag-rahmen" x="30" y="52" width="16" height="10" rx="3"/>
@@ -17593,28 +17651,11 @@ function angabeSetzen(k, typ, nativ){
    gekennzeichnet. Ohne Rahmen ein Platzhalter -- nie ein fremdes Rad, das
    aussieht wie deins (Liam 2026-10-10). */
 function radbildKarte(){
-  const foto = fotos[modus], r = build.rahmen ? findeTeil("rahmen", build.rahmen) : null;
-  const spindrift = r && basisVon(r.id) === "f-spindrift";
-  let bild = "", unter = "", art = "leer";
-  if(foto){ art = "foto"; bild = `<img class="rb-foto" src="${foto}" alt="${tx("Dein Rad", "Your bike")}">`;
-    unter = modus === "markt" ? tx("Bild aus dem Inserat.", "Image from the listing.") : tx("Dein Foto.", "Your photo."); }
-  else if(spindrift){ art = "render"; bild = `<span class="brad-b" style="aspect-ratio:${RAD_BILD.b} / ${RAD_BILD.h}"><img class="brad-vor" src="${RAD_BILD.vor}" alt="" aria-hidden="true">
-      <img class="brad-img" src="bilder/beispielrad-seite-640.webp" srcset="bilder/beispielrad-seite-640.webp 640w, bilder/beispielrad-seite-1200.webp 1200w"
-        sizes="(min-width:820px) 600px, 94vw" width="${RAD_BILD.b}" height="${RAD_BILD.h}" decoding="async" alt="${tx("Propain Spindrift 5 AL, 3D-Modell von der Seite", "Propain Spindrift 5 AL, 3D model, side view")}"></span>`;
-    unter = tx("3D-Modell deines Rahmens. Anbauteile sind im Modell allgemein dargestellt — nicht deine Teile.", "3D model of your frame. Components in the model are generic — not your parts."); }
-  else if(r){ const gx = radGeo(build);
-    if(gx){ art = "geo"; bild = radSvg({geo:gx}); unter = tx("Schema aus Richtwerten der Katalog-Geometrie (Größe L) — nicht maßgetreu. Anbauteile sind allgemein gezeichnet; nachgebaut ist nur der Propain Spindrift.", "Schematic from catalogue geometry guide values (size L) — not to scale. Components are drawn generically; only the Propain Spindrift is modelled."); } }
-  if(!bild){ bild = `<span class="rb-platz">${gruppenIc("Rahmen")}<span>${r ? tx("Für diesen Rahmen ist keine Geometrie hinterlegt.", "No geometry on file for this frame.") : tx("Wähle einen Rahmen — dann steht hier dein Rad.", "Choose a frame — then your bike appears here.")}</span></span>`; }
-  const fotoKn = modus !== "traum" ? (foto ? `<button class="btn ghost sm" data-fotowahl="1">${tx("Foto ersetzen", "Replace photo")}</button><button class="btn ghost sm" data-fotoweg="1">${tx("Foto entfernen", "Remove photo")}</button>`
-    : `<label class="btn ghost sm" for="foto-in">${modus === "markt" ? tx("Bild aus dem Inserat", "Listing image") : tx("Foto aufnehmen", "Add a photo")}</label>`) : "";
-  return `<section class="radbild ${art}" aria-label="${tx("Dein Rad", "Your bike")}">
-    <div class="rb-bild">${bild}</div>
-    ${unter ? `<p class="rb-unter">${unter}</p>` : ""}
-    ${fotoKn || modus === "real" ? `<div class="rb-akt">${fotoKn}${modus === "real" ? `<button class="btn ghost sm" data-spick="1">${tx("Wo steht was am Rad?", "What's where on your bike?")}</button>` : ""}</div>` : ""}
-    ${art === "render" ? `<div class="rb-akt"><button class="btn ghost sm" data-d3="1">${tx("In 3D ansehen", "View in 3D")}</button></div>` : ""}
-  </section>`;
+  const foto=fotos[modus];
+  const knopf=modus!=="traum" ? (foto ? `<button class="btn ghost sm" data-fotowahl="1">${tx("Foto ersetzen","Replace photo")}</button><button class="btn ghost sm" data-fotoweg="1">${tx("Foto entfernen","Remove photo")}</button>` : `<label class="btn ghost sm" for="foto-in">${tx("Foto von deinem Rad hinzufügen","Add a photo of your bike")}</label>`) : "";
+  if(!foto && !knopf) return "";
+  return `<section class="radbild ${foto?"foto":"leer"}" aria-label="${tx("Dein Rad","Your bike")}">${foto?`<div class="rb-bild"><img class="rb-foto" src="${esc(foto)}" alt="${tx("Dein Rad","Your bike")}"></div>`:""}<div class="rb-akt">${knopf}</div></section>`;
 }
-
 /* BEVEL-003: sichtbarer Einstieg "Was moechtest du an deinem Rad verbessern?" --
    die haeufigen Bereiche als Knoepfe, alles andere unter "Andere Teile". Jeder
    Knopf oeffnet die kurze Auswahl (Ziel, Marke, Budget) fuer genau dieses Teil;
@@ -17756,6 +17797,7 @@ const D3_GRUPPEN = [["", ["Alles", "Everything"], null], ["rahmen", ["Rahmen", "
   ["cockpit", ["Cockpit", "Cockpit"], ["lenker", "vorbau", "griffe"]], ["sitz", ["Sitz", "Saddle & post"], ["stuetze", "sattel"]]];
 let d3 = null;
 function oeffne3D(){
+  zeigeToast(tx("Füge ein echtes Foto deines Rads hinzu.","Add a real photo of your bike.")); return;
   zeigeSheet(`<div class="sheet-h"><h3><span class="sub">Propain Spindrift 5 AL · ${tx("3D-Modell", "3D model")}</span>${tx("Dein Rahmen in 3D", "Your frame in 3D")}</h3>${zuBtn}</div>
     <div class="sheet-b">
       <div class="d3" id="d3" aria-label="${tx("3D-Ansicht, mit Ziehen drehen", "3D view, drag to rotate")}" role="img">
@@ -19291,6 +19333,8 @@ document.addEventListener("click", e => {
   const bgr = T("[data-begriff]");
   if(bgr){ oeffneBegriff(bgr.dataset.begriff, bgr); return; }
   /* Onboarding */
+  const fwrad=T("[data-fwaufbau]");
+  if(fwrad){ schliesse(); view="aufbau"; zeichne(); oeffneSlot(fwrad.dataset.fwaufbau || "rahmen"); return; }
   if(T("[data-fwfahrer]")){
     const weiter = {...obW}; oeffneEinstieg("fahrer");
     ei.nach = () => { obW = weiter; zeigeSheet(obHtml()); }; return;
@@ -19301,8 +19345,8 @@ document.addEventListener("click", e => {
   if(fobi){ obW = {i:+fobi.dataset.fwobi, einzeln:true, vonEnde:true, tipp:null}; zeigeSheet(obHtml()); blattOben(); return; }
   if(T("[data-fwobw]")){
     const s = obSchritte(), fw = fwInfo();
-    if(!obWeiterPruefen(s[obW.i])) return;
-    (fw.besucht = fw.besucht || {})[s[obW.i]] = true;
+    if(!obWeiterPruefen(obW.spezial || s[obW.i])) return;
+    (fw.besucht = fw.besucht || {})[obW.spezial || s[obW.i]] = true;
     if(obW.einzeln){
       sichern();
       if(obW.vonEnde){ obW = {i:s.length - 1, einzeln:false, vonEnde:false, tipp:null}; zeigeSheet(obHtml()); blattOben(); } else obZu();
@@ -19331,7 +19375,7 @@ document.addEventListener("click", e => {
     const [slot, dl] = fps.dataset.fwpsi.split("|"), f = federRechnen(), x = f[slot];
     if(!x) return;
     const dd = suDaten(f), alt = suPsi(slot, x, dd), max = suMax(slot, x);
-    if(!alt) return;
+    if(!alt || !max) return;
     let neu = Math.max(10, alt + +dl); if(max) neu = Math.min(max, neu);
     if(neu === alt){ zeigeToast(tx(`Maximaldruck ${max} psi — mehr geht nicht.`, `Maximum pressure is ${max} psi — you can't go higher.`)); return; }
     suPsiSetzen(f, dd, slot, x, neu); fwNeu(); fokusZurueck(`[data-fwpsi="${fps.dataset.fwpsi}"]`);
@@ -20005,7 +20049,8 @@ document.addEventListener("change", e => {
   if(e.target.dataset && e.target.dataset.fwpsiin){
     const slot = e.target.dataset.fwpsiin, f = federRechnen(), x = f[slot];
     if(!x) return;
-    const z = feldZahl(e.target), v = Math.round(z.v), max = suMax(slot, x) || 400;
+    const z = feldZahl(e.target), v = Math.round(z.v), max = suMax(slot, x);
+    if(!max) return;
     if(isNaN(v) || v < 10 || v > max){ feldHinweis(e.target, z.kaputt ? NUR_ZIFFERN() : tx(`Gib einen Druck zwischen 10 und ${max} psi ein.`, `Enter a pressure between 10 and ${max} psi.`)); return; }
     suPsiSetzen(f, suDaten(f), slot, x, v); setupZeichnen(); return;
   }
