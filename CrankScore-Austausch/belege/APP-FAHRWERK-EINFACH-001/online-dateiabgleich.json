@@ -1,0 +1,21 @@
+{
+  "zeit": "2026-10-18T18:09:48.424Z",
+  "stampCommit": "9c6d1e109e04f19615c47a1fcca276bc87cd9e16",
+  "codeCommit": "6105c3cc1e1502327e37a991af5f5df64399e10e",
+  "dateien": [
+    {
+      "file": "index.html",
+      "http": 200,
+      "gleich": true,
+      "sha256": "bdb566dbc8b36d319e2d0dd78be1063c569cf1fb396313a3b5023eae388bf180"
+    },
+    {
+      "file": "mtb-sw.js",
+      "http": 200,
+      "gleich": true,
+      "sha256": "0526440fa8f15b2ff9939aa573a76312f85792a83bffd46fbb265eaabfe0dd06"
+    }
+  ],
+  "version": "20261018-2007",
+  "cache": "dreambuild-20261018-2007"
+}

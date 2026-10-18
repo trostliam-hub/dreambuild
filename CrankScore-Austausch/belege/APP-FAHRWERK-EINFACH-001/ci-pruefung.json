@@ -1,0 +1,12 @@
+{
+  "codeCommit": "6105c3cc1e1502327e37a991af5f5df64399e10e",
+  "stampCommit": "9c6d1e109e04f19615c47a1fcca276bc87cd9e16",
+  "workflow": "https://github.com/trostliam-hub/dreambuild/actions/runs/39152309742",
+  "conclusion": "success",
+  "pruefJob": 117748278811,
+  "appDauerSek": 273,
+  "gruppen": {"syntax": 2, "kompatibilitaet": 200, "setup": 25, "fahrwerkFragen": 18, "wege": 36, "sprachFunde": 0, "sprachTexte": 11082, "bevel": 34, "preisFehler": 0, "fotos": 14, "guideUI": 16, "workerMock": 8},
+  "oeffentlicherFahrwerktest": {"bestanden": 18, "gesamt": 18, "isolierteTestdaten": true},
+  "version": "20261018-2007",
+  "cache": "dreambuild-20261018-2007"
+}
