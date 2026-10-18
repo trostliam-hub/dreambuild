@@ -180,8 +180,9 @@ und `CrankScore-Austausch/belege/APP-BEVEL-002/`.
   erst auf Tippen; Baugruppen tragen ihre Teile-Kategorie (`3d/skripte/module.py`).
   Licht von oben und ein weicher Bodenschatten (VSM) lassen das Rad stehen; Details,
   Materialien und Studio-Licht der Renderings kommen aus `3d/skripte/aussehen.py`.
-- *Einführung:* drei überspringbare Szenen vor der Ersteinrichtung (`mtb.szenen`),
-  erneut unter Einstellungen › Hilfe.
+- *Einführung:* sechs überspringbare Funktionsvorschauen mit echten Produktfotos
+  und einer interaktiven Adapter-Demo vor der Ersteinrichtung (`mtb.szenen`),
+  erneut unter Einstellungen › Hilfe. Beispiele verändern keine Rad-Daten.
 
 **Designsystem „Datenblatt“ (APP-REDESIGN-001, 09.10.2026).** Liams Ziel: die
 ganze App eigenständig und professionell, ohne Vorlagen-Look, mit kurzen Wegen.

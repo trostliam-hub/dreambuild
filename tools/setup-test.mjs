@@ -65,14 +65,14 @@ const PRUEFUNGEN = [
     });
     return {ok:r.foto && r.bilder && r.beschriftung,info:r};
   }],
-  ['Stahlfeder und SAG: FOX und RockShox bekommen ausschliesslich ihr Modellfoto', async () => {
+  ['Modelluebersicht: FOX und RockShox zeigen ohne Detailauswahl ausschliesslich ihr eigenes Foto', async () => {
     const r = await ev(() => {
       const alt = build.fw; build.fw = {...alt,dj:2026};
       const bilder = ['d-dhx','d-dhx2','d-vivid250','d-sd230'].map(id => {
         const t = findeTeil('daempfer', id), b = produktBildInfo(t);
-        const html = ['feder','oring','zug'].map(art => suEinstellBild('daempfer', {t,coil:true}, {zeig:[art]})).join('');
+        const html = suEinstellBild('daempfer', {t,coil:true}, {zeig:[]});
         const dom = new DOMParser().parseFromString(html, 'text/html');
-        return {id,src:b?.src,korrekt:!!b && dom.querySelectorAll('img').length === 3
+        return {id,src:b?.src,korrekt:!!b && dom.querySelectorAll('img').length === 1
           && [...dom.querySelectorAll('img')].every(img => img.getAttribute('src') === b.src)
           && !dom.querySelector('svg,.il,.fw-nah-link') && !/bilder\/fahrwerk\//.test(html)};
       });
@@ -89,7 +89,7 @@ const PRUEFUNGEN = [
       const alt = build.fw; build.fw = {...alt,gj:2027};
       const bilder = ['g-lyrik','g-zeb'].map(id => {
         const t = findeTeil('gabel', id), b = produktBildInfo(t);
-        const html = suEinstellBild('gabel',{t},{zeig:['luft','zug','hsc']});
+        const html = suEinstellBild('gabel',{t},{zeig:[]});
         const host = document.createElement('div'); host.innerHTML = html; document.body.append(host);
         const fig = host.querySelector('.fw-foto'), link = host.querySelector('.fw-foto-link'), img = host.querySelector('img'), quelle = host.querySelector('figcaption a');
         const schwarz = fig && link && getComputedStyle(fig).backgroundColor === 'rgb(0, 0, 0)' && getComputedStyle(link).backgroundColor === 'rgb(0, 0, 0)';
@@ -140,7 +140,7 @@ const PRUEFUNGEN = [
       const alt = build.fw;
       const bild = (id,ka,jahr) => {
         build.fw = jahr ? {gj:jahr} : {};
-        const t = variante(id,ka), html = suEinstellBild('gabel',{t},{zeig:['zug']});
+        const t = variante(id,ka), html = suEinstellBild('gabel',{t},{zeig:[]});
         const dom = new DOMParser().parseFromString(html,'text/html');
         return {src:dom.querySelector('img')?.getAttribute('src') || '',fehlt:!!dom.querySelector('.fw-foto-fehlt'),ersatz:!!dom.querySelector('svg,.fw-nah-link')};
       };
@@ -149,7 +149,7 @@ const PRUEFUNGEN = [
         bild('g-lyrik','Charger 3.1 RC2',2025),bild('g-zeb','Charger 2.1 RC2',2021),bild('g-zeb','Charger 3.2 RC2',2025),
         bild('g-fox36','GRIP X',2025),bild('g-fox36','GRIP X',0)];
       const dhx = findeTeil('daempfer','d-dhx2');
-      const shockBild = jahr => { build.fw = {dj:jahr}; const dom = new DOMParser().parseFromString(suEinstellBild('daempfer',{t:dhx,coil:true},{zeig:['zug']}),'text/html');
+      const shockBild = jahr => { build.fw = {dj:jahr}; const dom = new DOMParser().parseFromString(suEinstellBild('daempfer',{t:dhx,coil:true},{zeig:[]}),'text/html');
         return {src:dom.querySelector('img')?.getAttribute('src') || '',fehlt:!!dom.querySelector('.fw-foto-fehlt')}; };
       const dhxPassend=shockBild(2026),dhxFalsch=shockBild(2025);
       build.fw = alt; return {passend,unpassend,dhxPassend,dhxFalsch};
@@ -182,9 +182,12 @@ const PRUEFUNGEN = [
       for(let i=0;i<6;i++){ szene.i=i; szenen.push(szenenHtml()); } szene.i = alt;
       const dom = new DOMParser().parseFromString(szenen.join(''),'text/html');
       oeffne3D();
-      return {leer:zeichnungen.every(h => h === ''),szenen:!dom.querySelector('.szb,.brad,canvas,img'),
+      return {leer:zeichnungen.every(h => h === ''),szenen:!dom.querySelector('.szb,.brad,canvas,.il')
+        && dom.querySelectorAll('.sz-feature').length === 6 && dom.querySelectorAll('[data-szquelle]').length >= 4
+        && [...dom.querySelectorAll('.sz-feature')].every(e => /Beispiel|example/.test(e.getAttribute('aria-label')))
+        && [...dom.querySelectorAll('img')].every(e => e.getAttribute('src').startsWith('bilder/produkte/')),
         kein3d:!document.querySelector('#d3,[data-d3gruppe]'),
-        keineReferenzdetails:suNahFotos('daempfer',{t:findeTeil('daempfer','d-sd230'),coil:true},{zeig:['feder','lsc']}) === ''};
+        keineReferenzdetails:suNahFotos('daempfer',{t:findeTeil('daempfer','d-vivid250'),coil:true},{zeig:['feder','lsc']}) === ''};
     });
     return {ok:Object.values(r).every(Boolean),info:r};
   }],

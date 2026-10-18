@@ -178,7 +178,9 @@ const PRUEFUNGEN = [
       const g = katalog(quelleOf(slotOf('gabel'))).find(t => t.travel > 0); if(g) build.gabel = build.gabel || g.id; sichern();
       view = 'setup'; zeichne(); const s = $('setup');
       const z = q => s.querySelectorAll(q).length;
-      const out = {fwslot:z('[data-fwslot]'), sagAlle:z('[data-fwsag="alle"]'), test:z('[data-fwtest]'), blick:z('.su-blick'), trail:z('[data-fxtrail]'), fwob:z('[data-fwob]'), banner:z('button.fw-banner'), begriffe:z('.fw-begriffe')};
+      /* Eine gemeinsame Einrichtung; der geoeffnete Druckschritt darf separat
+         zum fehlenden Modelljahr fuehren. Das ist keine zweite Einrichtung. */
+      const out = {fwslot:z('[data-fwslot]'), sagAlle:z('[data-fwsag="alle"]'), test:z('[data-fwtest]'), blick:z('.su-blick'), trail:z('[data-fxtrail]'), fwob:z('[data-fwob="ende"]'), banner:z('button.fw-banner'), begriffe:z('.fw-begriffe')};
       /* SAG-Karte der Gabel oeffnen: genau ein Startknopf, Messung nur fuer die Gabel */
       suKarteZeigen('gabel', 'gabel:sag'); out.sagStart = s.querySelectorAll('[data-fwsag]').length; out.sagWert = (s.querySelector('[data-fwsag]') || {}).dataset;
       s.querySelector('[data-fwsag]').click(); sagW.i = 4; zeigeSheet(sagWizardHtml()); out.messFelder = $('modal').querySelectorAll('[data-fxsagin]').length;

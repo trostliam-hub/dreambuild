@@ -535,7 +535,7 @@ const PRUEFUNGEN = [
     await seite.waitForSelector('#szenen .sz');
     const r1 = await ev(() => ({punkte:document.querySelectorAll('#szenen .sz-punkte i').length, weg:!!document.querySelector('[data-szweg]'), ei:!!document.querySelector('#modal .ei'), fokus:document.activeElement && document.activeElement.dataset.szweiter}));
     await seite.keyboard.press('ArrowRight'); await seite.keyboard.press('ArrowRight');
-    const r2 = await ev(() => ({szene:szene.i, titel:document.querySelector('#sz-h').textContent}));
+    const r2 = await ev(() => ({szene:szene.i, titel:document.querySelector('#sz-h').textContent, beratung:document.querySelector('#szenen').textContent.includes('Was soll sich verbessern?')}));
     /* Die Einrichtung liegt sofort unter den ausblendenden Szenen; danach
        verschwindet die Szenen-Ebene. Gewartet wird auf den Zustand, nicht auf
        eine feste Zeit -- ohne Grafikkarte (CI) dauert ein Bild bis 300 ms. */
@@ -554,7 +554,7 @@ const PRUEFUNGEN = [
     await seite.waitForFunction(() => !document.querySelector('#szenen .sz'), null, {timeout:5000}).catch(() => {});
     const r6 = await ev(() => ({weg:!document.querySelector('#szenen .sz'), frei:document.body.style.position === '', modal:!!$('modal').firstElementChild}));
     const r = {r1, r2, r3a, r3, r4, r5, r6};
-    return {ok:r1.punkte === 6 && r1.weg && !r1.ei && r1.fokus === '1' && r2.szene === 2 && /Klarer Plan/.test(r2.titel) && r3a.ei && r3a.gesperrt
+    return {ok:r1.punkte === 6 && r1.weg && !r1.ei && r1.fokus === '1' && r2.szene === 2 && r2.beratung && r3a.ei && r3a.gesperrt
       && r3.gesehen === '1' && r3.weg && r3.ei && r3.gesperrt && !r4.szenen && r5.wieder && r6.weg && r6.frei && !r6.modal, info:r}; }],
 ];
 

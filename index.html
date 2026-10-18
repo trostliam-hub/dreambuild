@@ -3805,6 +3805,52 @@ details.legal p{margin:0 0 var(--sp-2)}
 :root:not([data-theme="light"]) .ls-fund.ok em{background:#000;color:#3ddc84}
 :root:not([data-theme="light"]) .ls-urteil{background:#000;color:#3ddc84;border:1px solid #242424}
 :root:not([data-theme="light"]) .ls-ring.gross svg{filter:drop-shadow(0 0 5px rgba(255,255,255,.35))}
+
+/* APP-EINFUEHRUNG-ERLEBNIS: kurze Highlights, echte Fotos, klare Navigation. */
+#szenen{background:#000;color:#fff;padding-top:calc(env(safe-area-inset-top,0px) + 8px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 12px)}
+#szenen .sz-neu{max-width:1040px;min-height:0;height:100%;--sz-line:#303030;--sz-muted:#bdbdbd;--sz-akzent:#c6ee8a;--ink:#fff;--ink-2:#ddd;--ink-3:#bdbdbd;--ground:#000;--surface:#000;--surface-2:#141414}
+#szenen .sz-kopf{display:block;flex:none;padding-bottom:4px}.sz-top{display:flex;justify-content:space-between;align-items:center;min-height:40px}.sz-brand{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;letter-spacing:-.3px}.sz-brand svg{color:#fff}#szenen .sz-weg{color:var(--sz-muted);font-size:12px;min-height:40px}
+#szenen .sz-punkte{display:flex;gap:6px;width:100%;height:32px;align-items:center}#szenen .sz-punkte button{position:relative;flex:1;height:32px;min-width:0;padding:0;background:none;border-radius:8px}#szenen .sz-punkte i{display:block;width:100%;height:3px;border-radius:3px;background:#333}#szenen .sz-punkte .an i{background:var(--sz-akzent);height:4px}#szenen .sz-punkte .war i{background:#777}#szenen button:focus-visible,#szenen a:focus-visible{outline:2px solid var(--sz-akzent);outline-offset:3px}
+#szenen .sz-inhalt{min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;justify-content:center;gap:24px;padding:14px 0 10px;scrollbar-width:thin;animation:sz-feature-in .36s ease-out both}
+#szenen .sz-feature{position:relative;width:100%;max-width:450px;align-self:center;flex:none;min-width:0}.sz-preview-label{display:block;color:#929292;font-size:10px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}.sz-feature-ic{display:grid;place-items:center;width:36px;height:36px;flex:none;color:var(--sz-akzent);background:#191919;border-radius:12px}
+#szenen .sz-copy{max-width:470px;min-width:0}#szenen .sz-ue{display:flex;align-items:center;gap:8px;color:var(--sz-akzent);font-size:12px;font-weight:750;margin-bottom:10px;letter-spacing:.01em}#szenen h2{font-size:clamp(36px,8.5vw,60px);font-weight:850;line-height:1.02;letter-spacing:-.035em;text-wrap:balance;margin:0 0 14px;color:#fff}#szenen .sz-copy>p{color:#c4c4c4;font-size:15px;line-height:1.5;max-width:43ch}.sz-count{display:block;margin-top:18px;font-size:12px;font-weight:750;color:var(--sz-akzent);letter-spacing:.08em}.sz-count i{font-style:normal;color:#757575}.sz-pro{color:#000;background:var(--sz-akzent);font-size:10px;letter-spacing:.04em;padding:3px 6px;border-radius:5px}
+#szenen .sz-fuss{flex:none;align-items:center;gap:10px;padding-top:12px;min-height:58px}#szenen .sz-next{display:flex;justify-content:space-between;gap:12px;align-items:center;flex:1;background:var(--sz-akzent);color:#000;border:none;box-shadow:none;min-height:52px;border-radius:16px;padding:14px 18px;font-weight:800;font-size:15px}#szenen .sz-back{display:grid;place-items:center;width:52px;height:52px;border:1px solid #444;border-radius:16px;color:#fff;flex:none}#szenen .sz-next svg{flex:none}
+#szenen .sz-foto{border:0;background:#000;margin:0;border-radius:14px;overflow:hidden;box-shadow:none}#szenen .sz-foto img{width:100%;height:100%;max-height:none;object-fit:contain;display:block;background:#000}#szenen .sz-quelle{display:inline-block;min-height:26px;padding-top:7px;color:#999;font-size:10px;text-decoration:underline;text-underline-offset:3px;line-height:1.4}
+.sz-bike{position:relative;min-height:238px;padding-top:20px}.sz-mini-label{position:absolute;top:0;left:0;color:#c5c5c5;font-size:10px}.sz-bike-foto{height:215px;transform:rotate(-3deg);margin:0 -8px!important;width:calc(100% + 16px)}.sz-float{position:relative;display:flex;gap:10px;align-items:center;border:1px solid #383838;background:#111;padding:12px;border-radius:16px;margin:-16px 2px 0}.sz-float>span:nth-child(2){flex:1;min-width:0}.sz-float b{font-size:13px;display:block;line-height:1.3}.sz-float small{display:block;color:#aaa;font-size:11px;margin-top:3px}.sz-float>svg{color:var(--sz-akzent);flex:none}
+.sz-adapter,.sz-finder,.sz-guide-preview,.sz-wishlist,.sz-shopping-list{border:1px solid #333;border-radius:22px;padding:16px;background:#090909}.sz-demo-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:750}.sz-status{display:flex;align-items:center;gap:4px;color:var(--sz-akzent);font-size:10px}.sz-adapter-main{display:flex;align-items:center;gap:14px;margin:10px 0}.sz-brake-foto{width:43%;height:130px;flex:none}.sz-demo-values{flex:1;min-width:0}.sz-demo-values>small{display:block;font-size:11px;color:#aaa}.sz-demo-size{font-family:var(--f-zahl);font-size:50px;line-height:1.15;display:block}.sz-demo-size i{font-family:var(--f-sans);font-style:normal;font-size:13px;font-weight:600;color:#aaa;margin-left:4px}.sz-demo-values>span{font-size:12px;display:block;color:var(--sz-akzent);line-height:1.4}.sz-auto-note{display:flex;align-items:center;gap:7px;font-size:11px;color:#b9dcca;border-top:1px solid #292929;padding:10px 0}.sz-auto-note svg{flex:none}.sz-demo-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;min-height:40px;border:1px solid #505050;border-radius:11px;padding:8px;color:#fff;font-size:12px;font-weight:700;background:#181818}
+.sz-search{display:flex;align-items:center;gap:8px;color:#bdbdbd;border:1px solid #343434;border-radius:11px;padding:9px 10px;font-size:12px}.sz-advice{display:flex;align-items:center;gap:9px;margin:12px 0 4px;padding:12px 0;border-bottom:1px solid #2c2c2c}.sz-advice>span:nth-child(2){flex:1}.sz-advice b{display:block;font-size:13px;line-height:1.3}.sz-advice small{display:block;font-size:11px;color:#aaa;margin-top:4px}.sz-advice>svg{flex:none;color:var(--sz-akzent)}.sz-product{display:flex;align-items:center;gap:12px;padding-top:10px;min-width:0}.sz-product-foto{width:95px;height:100px;flex:none}.sz-product>span{min-width:0}.sz-product b{font-size:15px;display:block;line-height:1.25}.sz-product small{display:block;font-size:10px;color:#a9a9a9;line-height:1.3;margin-bottom:6px}.sz-product-tags{display:block;color:var(--sz-akzent);font-size:11px;margin-top:9px}
+.sz-suspension{display:flex;align-items:center;gap:8px;border:1px solid #353535;border-radius:22px;padding:12px;background:#080808}.sz-coil-foto{width:40%;height:244px;flex:none}.sz-setup-preview{flex:1;min-width:0}.sz-setup-preview>small{font-size:10px;color:#aaa;display:block;line-height:1.4}.sz-setup-title{display:block;font-size:13px;font-weight:750;line-height:1.3;margin:8px 0 0}.sz-spring{font-family:var(--f-zahl);font-size:58px;letter-spacing:-.04em;line-height:1.1;display:block}.sz-spring i{font-style:normal;font-family:var(--f-sans);font-size:13px;margin-left:4px;letter-spacing:0}.sz-keep{display:flex;gap:4px;align-items:center;color:#8ce0bb;font-size:11px;font-weight:700;margin:6px 0 10px}.sz-measure{display:flex;align-items:center;gap:7px;font-size:11px;color:#ddd;border-top:1px solid #343434;padding-top:12px;margin-top:12px;line-height:1.3}.sz-measure svg{flex:none}
+.sz-guide-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}.sz-guide-orb{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:14px;background:#241d2e;color:var(--sz-akzent)}.sz-guide-head b{font-size:13px;display:block}.sz-guide-head small{font-size:10px;color:#aaa;display:block;margin-top:3px}.sz-chat-user{margin-left:auto;width:max-content;max-width:90%;background:#e9dcf8;color:#171020;border-radius:14px 14px 4px 14px;padding:10px 13px;font-size:13px;font-weight:700}.sz-chat-answer{margin-top:12px;border:1px solid #38303f;border-radius:4px 14px 14px;padding:13px;background:#111}.sz-chat-answer>small{font-size:10px;color:#aaa}#szenen .sz-chat-answer p{font-size:13px;line-height:1.45;color:#e4e4e4;margin:7px 0 11px}.sz-guide-link{display:flex;align-items:center;gap:7px;color:var(--sz-akzent);font-size:11px;border:1px solid #494050;border-radius:9px;padding:9px}.sz-guide-link>span{flex:1}.sz-guide-link svg{flex:none}.sz-ai-note{display:block;color:#aaa;font-size:10px;text-align:center;margin-top:12px}
+.sz-shopping{position:relative;padding-bottom:4px}.sz-wishlist{margin-right:18px}.sz-wishlist .sz-product-foto{height:82px;width:80px}.sz-shopping-list{position:relative;margin:-2px 0 0 20px;background:#111}.sz-shopping-list>span{display:flex;gap:8px;align-items:center;font-size:12px;color:#ccc;margin-top:11px}.sz-shopping-list>span svg,.sz-saved svg{color:var(--sz-akzent);flex:none}#szenen .sz-saved{display:flex;align-items:center;gap:4px;margin:8px 0 0;color:var(--sz-akzent)}
+@keyframes sz-feature-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(min-width:760px){#szenen{padding:24px 40px}.sz-neu .sz-top{min-height:50px}#szenen .sz-inhalt{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:64px;padding:30px 0}.sz-feature{grid-column:2;grid-row:1}.sz-copy{grid-column:1;grid-row:1}#szenen h2{font-size:64px}#szenen .sz-copy>p{font-size:17px}.sz-bike-foto{height:270px}.sz-fuss{max-width:440px}.sz-coil-foto{height:290px}.sz-brake-foto{height:170px}.sz-product-foto{height:130px}.sz-preview-label{margin-bottom:15px}}
+@media(max-width:359px){#szenen .sz-inhalt{gap:18px}#szenen h2{font-size:35px}#szenen .sz-copy>p{font-size:13px}.sz-bike-foto{height:180px}.sz-bike{min-height:212px}.sz-spring{font-size:48px}.sz-coil-foto{height:220px}.sz-float b{font-size:12px}.sz-float small{font-size:10px}}
+@media(max-height:720px) and (max-width:759px){#szenen .sz-inhalt{justify-content:flex-start;gap:16px;padding-top:6px}#szenen h2{font-size:34px;margin-bottom:9px}#szenen .sz-copy>p{font-size:13px;line-height:1.4}.sz-count{display:none}.sz-bike-foto{height:150px}.sz-bike{min-height:178px}.sz-float{padding:8px}.sz-brake-foto{height:96px}.sz-adapter,.sz-finder,.sz-guide-preview,.sz-wishlist,.sz-shopping-list{padding:12px}.sz-coil-foto{height:185px}.sz-product-foto{height:75px;width:76px}.sz-spring{font-size:46px}.sz-preview-label{margin-bottom:6px}.sz-guide-head{margin-bottom:9px}.sz-chat-answer{margin-top:8px;padding:10px}.sz-ai-note{margin-top:8px}.sz-shopping-list>span{margin-top:8px}#szenen .sz-fuss{padding-top:8px}}
+@media(prefers-reduced-motion:reduce){#szenen,#szenen.weg,#szenen .sz-inhalt,#szenen .sz-punkte i{animation:none!important;transition:none!important}}
+@media(max-height:600px) and (max-width:759px){#szenen h2{font-size:30px}#szenen .sz-copy>p{font-size:12.5px;line-height:1.4}#szenen .sz-inhalt{gap:12px}.sz-coil-foto{height:132px}.sz-spring{font-size:38px}.sz-setup-title{font-size:12px;margin-top:5px}.sz-keep{margin:4px 0 6px}.sz-measure{margin-top:6px;padding-top:7px;font-size:10px}.sz-bike-foto{height:116px}.sz-bike{min-height:151px}.sz-float{padding:7px}.sz-brake-foto{height:72px}.sz-demo-size{font-size:40px}.sz-adapter-main{margin:7px 0}.sz-auto-note{padding:7px 0}.sz-product-foto{height:62px;width:68px}.sz-wishlist .sz-product-foto{height:54px;width:60px}.sz-shopping-list>span{font-size:11px;margin-top:6px}.sz-guide-head{margin-bottom:6px}.sz-chat-user{padding:7px 10px;font-size:12px}#szenen .sz-chat-answer p{font-size:12px;margin:5px 0 8px}.sz-chat-answer{padding:8px}.sz-guide-link{padding:7px}.sz-ai-note{margin-top:6px;font-size:9px}}
+
+/* Der geneigte Rad-Ausschnitt bleibt innerhalb der scrollbaren Szene. */
+#szenen .sz-bike-foto{margin:0!important;width:100%;transform:rotate(-3deg) scale(.95)}
+
+/* APP-FAHRWERK-ORIENTIERUNG: ein Foto pro offener Anleitung, keine Miniaturspalte. */
+#setup .fw-k{scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + 62px)}
+@media(min-width:820px){#setup .fw-k{scroll-margin-top:calc(env(safe-area-inset-top,0px) + var(--kopf-h) + var(--nav-h) + 62px)}}
+#setup .fw-weiter{margin-bottom:16px;padding:12px;gap:10px}#setup .fw-weiter-n{font-size:20px;width:42px;min-width:42px;height:52px}#setup .fw-weiter-t>b{font-size:16px}#setup .fw-weiter-t>span{font-size:13px;line-height:1.4}#setup .fw-elw{margin:12px 0}
+.fw-ort{margin:0 0 16px}.fw-ort>h4{font-size:14px;color:var(--ink-2);margin:0 0 10px;font-weight:750}.fw-ort .fw-fotos{margin:0}.fw-ort .fw-foto{width:100%;margin:0;max-width:none}.fw-ort .fw-foto img{height:260px;max-height:280px;width:100%;object-fit:contain}.fw-ort .fw-nah-link{display:block;width:100%;height:260px;background:#000}.fw-ort .fw-nah-link svg{display:block;width:100%;height:100%;max-height:280px;object-fit:contain}.fw-ort .fw-foto figcaption{padding:10px 12px;font-size:13px}.fw-ort .fw-foto figcaption small{font-size:11px;line-height:1.4}.fw-ort .fw-foto figcaption a{font-size:11px}.fw-direkt>h4{font-size:14px}.fw-direkt p{font-size:14px;line-height:1.55}.fw-optional-hinweis{font-size:13px;margin-bottom:10px}#setup .fw-kl.profi{margin-top:8px}#setup .fw-profi-h{margin-top:22px;margin-bottom:8px;font-size:14px}
+@media(max-width:359px){.fw-ort .fw-foto img,.fw-ort .fw-nah-link{height:230px}#setup .fw-weiter-t>b{font-size:15px}}
+</style>
+<style>
+/* APP-FAHRWERK-FOTOS-002: echte Detailbilder mit Zeiger, unverzerrt und mobil begrenzt. */
+.fw-gezeigt{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;min-width:0}
+.fw-gezeigt .fw-nahfoto,.fw-gezeigt .fw-nah-link,.fw-gezeigt .fw-nahfoto figcaption{background:#000;color:#ddd}
+.fw-gezeigt .fw-nahfoto figcaption b{color:#fff;font-size:13px;line-height:1.5;font-weight:600}
+.fw-gezeigt .fw-nahfoto figcaption small,.fw-gezeigt .fw-nahfoto figcaption a{color:#bbb}
+:where(.fw-gezeigt) .fw-nah-link{height:clamp(220px,60vw,280px);display:block;overflow:hidden}
+:where(.fw-gezeigt) .fw-nah-link svg{display:block;width:100%;height:100%;max-height:none;background:#000}
+.fw-fotopointer{pointer-events:none}
+.fw-modellfoto .fw-foto-link{background:#000}
+@media(min-width:820px){:where(.fw-gezeigt) .fw-nah-link{height:280px}}
+/* Ende APP-FAHRWERK-FOTOS-002 */
 </style>
 </head>
 <body>
@@ -8410,7 +8456,7 @@ window.addEventListener("hashchange", () => {
    genau einmal (mtb.szenen), unter Einstellungen > Hilfe erneut ansehbar.
    Gezeichnet mit den Bausteinen der App, keine Fotos fremder Raeder. */
 const szenenGesehen = () => { try{ return localStorage.getItem("mtb.szenen") === "1"; }catch(e){ return true; } };
-let szene = {i:0, danach:null};
+let szene = {i:0, danach:null, demo:false};
 /* Das Beispiel der Szenen aus dem Katalog: Shimano XT M8120 mit 203/180 an einer
    Gabel mit PM-180-Aufnahme braucht vorn einen PM-Adapter +23 mm */
 function szBsp(){
@@ -8443,46 +8489,46 @@ function szBremse(art){
     <text class="szb-l szb-l1" x="14" y="126">${loesung ? tx("PM 180 + 23 mm = 203 mm", "PM 180 + 23 mm = 203 mm") : tx("Gabel: PM 180 · Scheibe: 203 mm", "Fork: PM 180 · rotor: 203 mm")}</text>
   </svg>`;
 }
+
+/* Die Vorschau ist vom gespeicherten Rad getrennt: echte Katalogfotos,
+   eine lokale Adapter-Demo und keine Änderungen am Aufbau oder Setup. */
+function szProdukt(slot,id){
+  const t=findeTeil(slot,id), b=produktBildInfo(t);
+  return {t,b,foto:kl=>b?`<figure class="fw-foto sz-foto ${kl||""}" data-szfoto="${esc(t.basisId||basisVon(t.id))}"><img src="${esc(b.src)}" alt="${esc(t.nb||t.n)}" loading="eager" decoding="async"></figure>`:""};
+}
+function szQuelle(p){return p.b&&p.b.quelle?`<a class="sz-quelle" data-szquelle="1" href="${esc(p.b.quelle)}" target="_blank" rel="noopener">${tx("Bildquelle","Image source")}: ${esc(p.b.marke)} ↗</a>`:"";}
 function szenenHtml(){
-  const S = [
-    {k:"ohne", ue:tx("Ohne Überblick", "Without an overview"), h:tx("Neue Bremse da — und sie passt nicht", "New brake arrives — and it doesn't fit"),
-     t:tx(`Die Gabel ist für 180-mm-Scheiben gebaut, die neue Bremse kommt mit 203 mm. Ohne Adapter sitzt der Sattel 11,5 mm zu tief — die Beläge greifen neben die Bremsspur. Solche Fragen gibt es an jedem Teil.`, `The fork is made for 180 mm rotors, the new brake comes with 203 mm. Without an adapter the caliper sits 11.5 mm too low — the pads miss the braking track. Questions like this come up with every part.`),
-     bild:szBremse("problem")},
-    {k:"mit", ue:tx("Mit CrankScore", "With CrankScore"), h:tx("Die App plant den Adapter mit ein", "The app plans the adapter in"),
-     t:tx(`Vor dem Kauf erkennt die App: vorn fehlt ein Post-Mount-Adapter +23 mm — konkret z. B. <b>Shimano SM-MA-F203P/PM</b>. Er hebt den Sattel auf die Spur. Ganze Lösung: ${eur(szBsp().gesamt)} statt ${eur(szBsp().teil)} (Richtpreise, ohne Scheiben). Fehlt eine Angabe, fragt die App nach.`,
-       `Before you buy, the app sees that the front needs a +23 mm post-mount adapter — e.g. <b>Shimano SM-MA-F203P/PM</b>. It lifts the caliper onto the track. Complete solution: ${eur(szBsp().gesamt)} instead of ${eur(szBsp().teil)} (guide prices, excluding rotors). If a detail is missing, the app asks.`),
-     bild:szBremse("loesung")},
-    {k:"plan", ue:tx("Dein Plan", "Your plan"), h:tx("Dein Rad. Passende Teile. Klarer Plan.", "Your bike. Matching parts. A clear plan."),
-     t:tx("Tippe im Aufbau auf ein Teil und suche direkt selbst. Die Kachel „Was soll sich verbessern?“ öffnet auf Wunsch die Beratung nach Ziel, Marke und Budget. Nötige Bremsadapter werden bei Änderungen automatisch neu eingeplant und angezeigt.", "Tap a part in Build and search yourself. The “What would you like to improve?” tile opens optional advice by goal, brand and budget. Required brake adapters are automatically recalculated and shown when parts change."),
-     bild:`<div class="sz-plan" aria-hidden="true"><span class="sz-karte"><span class="sz-kk">${tx("Bremsen · Ziel: Bremskraft · Marke egal · Preis offen", "Brakes · goal: stopping power · any brand · open price")}</span><b>${tx("Gleiches Modell, Scheiben 220/203", "Same model, rotors 220/203")}</b>
-       <span class="sz-kz"><i class="sz-p">+</i>${tx("Scheibe vorn 220 statt 203 mm", "Front rotor 220 vs 203 mm")}</span><span class="sz-kz"><i class="sz-m">!</i>${tx("Dazu: 2 Adapter, 2 Scheiben", "Plus: 2 adapters, 2 rotors")}</span>
-       <span class="sz-kn"><i class="an">${tx("Vergleichen", "Compare")}</i><i>${tx("Merken", "Save")}</i><i>${tx("Zum Produkt", "View product")}</i></span></span></div>`},
-    {k:"fahrwerk", ue:tx("Persönliches Fahrwerk", "Personal suspension"), h:tx("Erst dein Rad. Dann dein Setup.", "Your bike first. Then your setup."),
-     t:tx("Beim ersten Öffnen von Fahrwerk fragt dich die App nach Rad, Ausrüstung und Fahrstil. Daraus entstehen Startwerte mit Erklärungen und Bildern. Anschließend misst du den SAG und verfeinerst das Ergebnis mit einer Testfahrt. Fahrwerk-Setup gehört zu Pro.", "The first time you open Suspension setup, the app asks about your bike, gear and riding style. It creates starting values with explanations and pictures. Then measure sag and refine the result with a test ride. Suspension setup is part of Pro."),
-     bild:`<div class="sz-plan"><span class="sz-karte"><b>${tx("Auf dich abgestimmt", "Tailored to you")}</b><span>${tx("1 · Persönliche Fragen", "1 · Personal questions")}</span><span>${tx("2 · Startwerte und SAG", "2 · Starting values and sag")}</span><span>${tx("3 · Testfahrt und Feintuning", "3 · Test ride and fine-tuning")}</span></span></div>`},
-    {k:"guide", ue:tx("Kurz und verständlich", "Short and clear"), h:tx("Frag den Guide", "Ask the Guide"),
-     t:tx("Die Sprechblase oben hilft bei Aufbau, Teilen und Fahrwerk und verlinkt passende Stellen und Quellen aus der App. KI-Antworten schaltest du freiwillig ein. Prüfe genaue Modellfreigaben immer in der verlinkten Herstelleranleitung.", "The speech bubble at the top helps with builds, parts and suspension, linking to relevant app sections and sources. You can optionally enable AI answers. Always check exact model approvals in the linked manufacturer's manual."),
-     bild:`<div class="sz-plan"><span class="sz-karte"><b>${tx("Welchen Adapter brauche ich?", "Which adapter do I need?")}</b><span>${tx("Einfach erklärt · passend zu deinem Rad", "Simply explained · relevant to your bike")}</span><span class="sz-kn"><i class="an">${tx("Zur passenden Stelle", "Go to the relevant section")}</i></span></span></div>`},
-    {k:"merken", ue:tx("Alles an einem Ort", "Everything in one place"), h:tx("Vergleichen, merken, einkaufen", "Compare, save, shop"),
-     t:tx("Merke Teile in der Wunschliste und prüfe die vollständige Einkaufsliste samt Zubehör. Produktfotos und Detailbilder helfen bei der Orientierung. Unter Profil kannst du deine Angaben bearbeiten, Daten sichern und diese Einführung komplett neu starten.", "Save parts in your wishlist and check the complete shopping list including accessories. Product and detail photos help you find your way. Under Profile you can edit your details, back up data and restart this whole introduction."),
-     bild:`<div class="sz-plan"><span class="sz-karte"><b>${tx("Deine vier Bereiche", "Your four sections")}</b><span>${tx("Aufbau · Wunschliste", "Build · Wishlist")}</span><span>${tx("Fahrwerk · Einkauf", "Suspension · Shopping")}</span></span></div>`}];
-  szene.anzahl = S.length;
-  const s = S[szene.i], letzte = szene.i === S.length - 1;
-  return `<div class="sz" role="dialog" aria-modal="true" aria-labelledby="sz-h" data-szene="${s.k}">
-    <div class="sz-kopf"><span class="sz-punkte" aria-label="${tx(`Szene ${szene.i + 1} von ${S.length}`, `Scene ${szene.i + 1} of ${S.length}`)}">${S.map((x, i) => `<i class="${i === szene.i ? "an" : i < szene.i ? "war" : ""}"></i>`).join("")}</span>
-      <button class="sz-weg" data-szweg="1">${tx("Überspringen", "Skip")}</button></div>
-    <div class="sz-inhalt" key="${szene.i}">
-      <div class="sz-bild">${s.bild}</div>
-      <span class="sz-ue">${s.ue}</span>
-      <h2 id="sz-h">${s.h}</h2>
-      <p>${s.t}</p>
-    </div>
-    <div class="sz-fuss">${szene.i > 0 ? `<button class="btn ghost" data-szzurueck="1">${tx("Zurück", "Back")}</button>` : "<span></span>"}
-      <button class="btn" data-szweiter="1">${letzte ? tx("Los geht's", "Let's go") : tx("Weiter", "Next")}</button></div>
-  </div>`;
+  const bike=szProdukt("rahmen","f-firebird"),bremse=szProdukt("bremsen","b-xt"),coil=szProdukt("daempfer","d-sd230"),demo=!!szene.demo;
+  const check=ic(IC.haken,16),arrow=ic(IC.senden,18),merk=ic(IC.merken||'<path d="M6 3h12v18l-6-4-6 4z"/>',18);
+  const beispiel=tx("Funktionsvorschau · Beispiel","Feature preview · example");
+  const S=[
+    {k:"ohne",c:"#c6ee8a",ue:tx("Dein Rad. Deine Möglichkeiten.","Your bike. Your possibilities."),h:tx("Bau dein Traumrad.","Build your dream bike."),
+     t:tx("Wähle deine Lieblingsteile. Oder hol mehr aus dem Rad, das du schon fährst. Dein Aufbau beginnt mit einer Idee.","Choose your favourite parts. Or get more from the bike you already ride. Your build starts with an idea."),next:tx("Entdecken","Explore"),
+     bild:`<div class="sz-bike"><span class="sz-mini-label">${tx("Beispielmodell · Pivot Firebird","Example model · Pivot Firebird")}</span>${bike.foto("sz-bike-foto")}<div class="sz-float"><span class="sz-feature-ic">${ic(IC.traum,21)}</span><span><b>${tx("Aus einer Idee wird dein Rad","From an idea to your bike")}</b><small>${tx("Teile wählen · Aufbau planen","Choose parts · plan your build")}</small></span>${arrow}</div></div>${szQuelle(bike)}`},
+    {k:"mit",c:"#8ce0bb",ue:tx("Die App denkt mit","The app thinks ahead"),h:tx("Passt das zusammen?","Will it fit together?"),
+     t:tx("CrankScore prüft deine Teile. Wechselst du die Bremsscheibe, wird der benötigte Adapter automatisch mitgeplant und angezeigt.","CrankScore checks your parts. Change a brake rotor and the required adapter is automatically included and shown."),next:tx("Upgrades entdecken","Explore upgrades"),
+     bild:`<div class="sz-adapter"><div class="sz-demo-head"><span>${tx("Bremsen","Brakes")}</span><span class="sz-status">${check}${tx("Mitgedacht","Included")}</span></div><div class="sz-adapter-main">${bremse.foto("sz-brake-foto")}<div class="sz-demo-values"><small>${tx("Bremsscheibe vorn","Front brake rotor")}</small><b class="sz-demo-size">${demo?203:180}<i>mm</i></b><span data-szadapter="1">${demo?tx("Adapter +23 mm nötig","+23 mm adapter required"):tx("Kein Adapter nötig","No adapter needed")}</span></div></div><div class="sz-auto-note">${check}<span>${demo?tx("Adapter automatisch aktualisiert","Adapter automatically updated"):tx("Passend zur Gabel mit PM 180","Matches a fork with PM 180")}</span></div><button class="sz-demo-btn" data-szdemo="adapter" aria-pressed="${demo}">${ic(IC.neustart,17)}${demo?tx("Zurück zu 180 mm","Back to 180 mm"):tx("203-mm-Scheibe ausprobieren","Try a 203 mm rotor")}</button></div>${szQuelle(bremse)}`},
+    {k:"plan",c:"#a8c8ff",ue:tx("Dein nächstes Upgrade","Your next upgrade"),h:tx("Finde, was dich weiterbringt.","Find what takes you further."),
+     t:tx("Suche selbst nach Teilen. Oder öffne „Was soll sich verbessern?“ und lass dich nach Ziel, Marke und Budget beraten.","Browse parts yourself. Or open “What would you like to improve?” for advice based on your goal, brand and budget."),next:tx("Fahrwerk erleben","Explore suspension"),
+     bild:`<div class="sz-finder"><div class="sz-search">${ic('<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',18)}<span>${tx("Bremsen suchen","Search brakes")}</span></div><div class="sz-advice"><span class="sz-feature-ic">${ic(IC.upgrade,20)}</span><span><b>${tx("Was soll sich verbessern?","What would you like to improve?")}</b><small>${tx("Beratung, wenn du sie möchtest","Advice whenever you want it")}</small></span>${arrow}</div><div class="sz-product">${bremse.foto("sz-product-foto")}<span><small>${tx("Beispiel aus dem Katalog","Example from the catalogue")}</small><b>${esc(bremse.t?.nb||bremse.t?.n||"Shimano XT")}</b><span class="sz-product-tags">${tx("Vergleichen · Merken","Compare · Save")}</span></span></div></div>${szQuelle(bremse)}`},
+    {k:"fahrwerk",c:"#f1b7a8",ue:tx("Persönliches Fahrwerk","Personal suspension"),badge:"Pro",h:tx("Dein Fahrwerk. Für dich.","Your suspension. For you."),
+     t:tx("Gewicht, Ausrüstung und Fahrstil zählen. Deine vorhandene Feder wird berücksichtigt. Messung und Testfahrt helfen beim Verfeinern.","Weight, gear and riding style matter. Your fitted spring is taken into account. Measure and test ride to refine it."),next:tx("Guide kennenlernen","Meet the Guide"),
+     bild:`<div class="sz-suspension">${coil.foto("sz-coil-foto")}<div class="sz-setup-preview"><small>${tx("Beispielabstimmung","Example setup")}</small><span class="sz-setup-title">${tx("Deine eingebaute Feder","Your fitted spring")}</span><b class="sz-spring">475<i>lbs</i></b><span class="sz-keep">${check}${tx("Wird behalten","Keeping it")}</span><small>${tx("Berechneter Richtwert: 500 lbs","Calculated guide value: 500 lbs")}</small><div class="sz-measure">${ic(SU_IC.sag,17)}${tx("Einsinken messen","Measure how far it sinks")}</div></div></div>${szQuelle(coil)}`},
+    {k:"guide",c:"#d6baff",ue:tx("Weniger rätseln. Mehr verstehen.","Less guessing. More understanding."),h:tx("Frag einfach.","Just ask."),
+     t:tx("Kurze Antworten, einfache Schritte und Links zur passenden Stelle in der App. KI-Antworten schaltest du auf Wunsch ein.","Short answers, simple steps and links to the right place in the app. Enable AI answers whenever you want."),next:tx("Deinen Plan ansehen","See your plan"),
+     bild:`<div class="sz-guide-preview"><div class="sz-guide-head"><span class="sz-guide-orb">${ic(IC.guide,28)}</span><span><b>CrankScore Guide</b><small>${tx("Einfach erklärt","Simply explained")}</small></span></div><div class="sz-chat-user">${tx("Was ist SAG?","What is sag?")}</div><div class="sz-chat-answer"><small>${tx("Beispielantwort","Example answer")}</small><p>${tx("So weit sinkt dein Fahrwerk ein, wenn du mit Ausrüstung auf dem Rad sitzt oder stehst.","How far your suspension sinks when you sit or stand on the bike with your riding gear.")}</p><div class="sz-guide-link">${ic(SU_IC.sag,17)}<span>${tx("Zur geführten Messung","Go to the guided measurement")}</span>${arrow}</div></div><span class="sz-ai-note">${tx("KI auf Wunsch · Hilfe direkt in der App","Optional AI · help right in the app")}</span></div>`},
+    {k:"merken",c:"#f1dc8e",ue:tx("Vom Wunsch zum Aufbau","From wishlist to build"),h:tx("Dein Plan wird konkret.","Make your plan happen."),
+     t:tx("Merke Favoriten, vergleiche Teile und behalte deine Einkaufsliste samt benötigtem Zubehör im Blick. Alles für deinen nächsten Aufbau.","Save favourites, compare parts and keep track of your shopping list, including required accessories. Everything for your next build."),next:tx("Loslegen","Get started"),
+     bild:`<div class="sz-shopping"><div class="sz-wishlist"><div class="sz-demo-head"><b>${tx("Wunschliste","Wishlist")}</b>${merk}</div><div class="sz-product">${bremse.foto("sz-product-foto")}<span><b>${esc(bremse.t?.nb||bremse.t?.n||"Shimano XT")}</b><small class="sz-saved">${check}${tx("Für später gemerkt","Saved for later")}</small></span></div></div><div class="sz-shopping-list"><div class="sz-demo-head"><b>${tx("Deine Einkaufsliste","Your shopping list")}</b>${ic(IC.kauf||'<path d="M3 3h2l3 12h10l3-9H6M9 21h.01M18 21h.01"/>',18)}</div><span>${check}${tx("Ausgewählte Teile","Selected parts")}</span><span>${check}${tx("Benötigtes Zubehör","Required accessories")}</span><span>${check}${tx("Angebote und Produktlinks","Offers and product links")}</span></div></div>${szQuelle(bremse)}`}];
+  szene.anzahl=S.length;szene.i=Math.max(0,Math.min(S.length-1,szene.i||0));
+  const s=S[szene.i];
+  return `<div class="sz sz-neu" role="dialog" aria-modal="true" aria-labelledby="sz-h" data-szene="${s.k}" style="--sz-akzent:${s.c}">
+    <header class="sz-kopf"><div class="sz-top"><span class="sz-brand">${csLogo(24)}CrankScore</span><button class="sz-weg" data-szweg="1">${tx("Überspringen","Skip")}</button></div><nav class="sz-punkte" aria-label="${tx("Highlights der App","App highlights")}">${S.map((x,i)=>`<button class="${i===szene.i?"an":i<szene.i?"war":""}" data-szpunkt="${i}" aria-label="${esc(tx(`Szene ${i+1}: ${x.h}`,`Scene ${i+1}: ${x.h}`))}"${i===szene.i?' aria-current="step"':""}><i></i></button>`).join("")}</nav></header>
+    <div class="sz-inhalt"><section class="sz-feature" aria-label="${beispiel}"><span class="sz-preview-label">${beispiel}</span>${s.bild}</section><div class="sz-copy"><span class="sz-ue">${s.ue}${s.badge?`<span class="sz-pro">${s.badge}</span>`:""}</span><h2 id="sz-h">${s.h}</h2><p>${s.t}</p><span class="sz-count">${String(szene.i+1).padStart(2,"0")} <i>/ ${String(S.length).padStart(2,"0")}</i></span></div></div>
+    <footer class="sz-fuss">${szene.i>0?`<button class="sz-back" data-szzurueck="1" aria-label="${tx("Zurück","Back")}">${ic('<path d="m15 6-6 6 6 6"/>',20)}</button>`:""}<button class="btn sz-next" data-szweiter="1">${s.next}${arrow}</button></footer></div>`;
 }
 function oeffneSzenen(danach){
-  szene = {i:0, danach:danach || null};
+  szene = {i:0, danach:danach || null, demo:false};
   let el = $("szenen");
   if(!el){ el = document.createElement("div"); el.id = "szenen"; document.body.appendChild(el); }
   /* War die Ebene gerade beim Ausblenden, bleibt sie jetzt stehen */
@@ -8521,7 +8567,7 @@ document.addEventListener("keydown", e => {
   if(e.key === "Escape"){ e.preventDefault(); e.stopImmediatePropagation(); szenenEnde(); }
   else if(e.key === "ArrowRight"){ e.preventDefault(); if(szene.i < szene.anzahl - 1) szeneZeigen(szene.i + 1); }
   else if(e.key === "ArrowLeft"){ e.preventDefault(); if(szene.i > 0) szeneZeigen(szene.i - 1); }
-  else if(e.key === "Tab"){ const f = [...$("szenen").querySelectorAll("button")]; if(!f.length) return;
+  else if(e.key === "Tab"){ const f = [...$("szenen").querySelectorAll("button,a[href]")]; if(!f.length) return;
     const i = f.indexOf(document.activeElement), n = e.shiftKey ? (i <= 0 ? f.length - 1 : i - 1) : (i + 1) % f.length; e.preventDefault(); f[n].focus(); }
 });
 
@@ -14566,6 +14612,8 @@ function suFotos(slot, x, arten){
 }
 function suEinstellBild(slot,x,o){
   if(!x || !x.t) return "";
+  o=o || {};
+  if(Array.isArray(o.zeig) && o.zeig.length){ const nah=suNahFotos(slot,x,o); if(nah) return nah; }
   let b=produktBildInfo(x.t);
   const metadaten=typeof PRODUKTBILDER!=="undefined" ? PRODUKTBILDER[(x.t.basisId || basisVon(x.t.id))+"@"+wahlVon(x.t,"Ausführung")] || PRODUKTBILDER[x.t.basisId || basisVon(x.t.id)] : null;
   const jahre=metadaten?[...(metadaten.quelle+" "+metadaten.original).matchAll(/(?:MY|my|[-_])(?:20)?(2\d)(?=[-_a-zA-Z])/gi)].map(m=>2000+Number(m[1])):[];
@@ -14577,103 +14625,92 @@ function suEinstellBild(slot,x,o){
    nur eine SVG-Ansicht: das Originalfoto bleibt unveraendert verlinkt. */
 function suNahDaten(slot, x){
   if(!x || !x.t || x.t.eigen || x.t.m !== "RockShox") return {};
-  const t = x.t, ka = wahlVon(t, "Kartusche") || "";
-  const f = (name, p, ausschnitt, de, en, fein, h) => ({datei:"rs-nah-" + name + ".jpg",p,ausschnitt,text:tx(de,en),h:h || 636,
-    modell:name.startsWith("daempfer-") ? "Super Deluxe Ultimate" : /gabel-(hsc|lsc)/.test(name) ? "Charger 3.2 RC2" : "LinearXL · 2027",
-    quelle:"https://www.sram.com/en/rockshox/learn/" + (fein ? "suspension-fine-tuning" : "suspension-welcome-guide")});
-  if(slot === "gabel" && /ZEB|Lyrik/.test(t.n) && /Charger 3\.2 RC2/.test(ka)){
-    const lsc = f("gabel-lsc",[475,320],[300,160,360,340],"LSC: kleiner Knopf innen, mit blauem Ring.","LSC: small inner knob with blue ring.",true);
+  const t=x.t,id=t.basisId || basisVon(t.id),ka=wahlVon(t,"Kartusche"),jahr=Number(fwJahr(slot==="gabel"?"gj":"dj"));
+  const f=(name,p,a,de,en,fein,h) => ({datei:"rs-nah-"+name+".jpg",p,ausschnitt:a,w:960,h:h || 636,text:tx(de,en),marke:"RockShox",
+    modell:slot==="gabel" ? (/gabel-(hsc|lsc)/.test(name) ? "Charger 3.2 RC2 · 2027" : "LinearXL · 2027") : "Super Deluxe Ultimate · D1 · 2027",
+    quelle:"https://www.sram.com/en/rockshox/learn/"+(fein?"suspension-fine-tuning":"suspension-welcome-guide")});
+  if(slot==="gabel" && ["g-zeb","g-lyrik"].includes(id) && jahr===2027 && ka==="Charger 3.2 RC2"){
+    const lsc=f("gabel-lsc",[525,320],[300,160,360,340],"LSC: der kleine innere Knopf mit dem blauen Ring.","LSC: the small inner dial with the blue ring.",true);
     return {
-      luft:f("gabel-luft",[573,327],[430,235,300,300],"Luftventil unter der Kappe oben am linken Holm; hier wird die Pumpe angeschlossen.","Air valve under the cap on top of the left leg; the pump attaches here."),
-      zug:f("gabel-zug",[537,330],[410,195,270,280],"Zugstufenknopf an der Unterseite des rechten Holms.","Rebound knob underneath the right leg."),
-      oring:f("gabel-oring",[474,289],[330,165,320,320],"Der rote O-Ring am Standrohr wird zur SAG-Messung an die Dichtung geschoben.","Push the red stanchion O-ring to the wiper seal to measure sag.",false,567),
+      luft:f("gabel-luft",[573,327],[430,235,300,300],"Hier kommt die Pumpe dran: Luftventil unter der Kappe oben am linken Holm.","Attach the pump here: the air valve under the cap on top of the left leg."),
+      zug:f("gabel-zug",[537,330],[410,195,270,280],"Zugstufe: der schwarze gerändelte Knopf unten am rechten Holm.","Rebound: the black knurled dial underneath the right leg."),
+      oring:f("gabel-oring",[474,289],[330,165,320,320],"Der rote Gummiring am Standrohr. Zum Messen an die Dichtung schieben.","The red rubber ring on the stanchion. Slide it to the seal before measuring.",false,567),
       lsc,druck:lsc,
-      hsc:f("gabel-hsc",[570,355],[300,160,360,340],"HSC: großer schwarzer Außenring um den LSC-Knopf.","HSC: large black outer ring around the LSC knob.",true),
-      bo:f("gabel-bo",[484,334],[350,165,350,340],"ABO: Einsteller unten am linken Holm auf der Luftseite (LinearXL).","ABO: adjuster underneath the left, air-side leg (LinearXL).",true)
+      hsc:f("gabel-hsc",[570,355],[300,160,360,340],"HSC: der große schwarze Außenring um den kleinen LSC-Knopf.","HSC: the large black outer ring around the small LSC dial.",true),
+      bo:f("gabel-bo",[484,334],[350,165,350,340],"ABO: der schwarze Knopf unten am linken Holm auf der LinearXL-Luftseite.","ABO: the black dial underneath the left, LinearXL air-side leg.",true)
     };
   }
-  if(slot === "daempfer" && /Super Deluxe/.test(t.n) && !x.coil && wahlVon(t,"Ausführung") === "Ultimate"){
-    const lsc = f("daempfer-druck",[483,110],[270,0,560,430],"LSC: blaues Rädchen am Ausgleichsbehälter.","LSC: blue dial on the reservoir.");
+  if(slot==="daempfer" && id==="d-sd" && !x.coil && jahr===2027 && wahlVon(t,"Ausführung")==="Ultimate"){
+    const lsc=f("daempfer-druck",[483,110],[270,0,560,430],"LSC: das blaue Rädchen am Ende des Ausgleichsbehälters.","LSC: the blue dial at the end of the reservoir.");
     return {
-      luft:f("daempfer-luft",[657,253],[510,120,310,330],"Luftventil mit AIR-Kappe an der Luftkammer.","Air valve with AIR cap on the air can."),
-      zug:f("daempfer-zug",[378,309],[180,170,340,320],"Zugstufe: rotes Rädchen am oberen Dämpferauge.","Rebound: red dial by the upper shock eyelet."),
-      oring:f("daempfer-oring",[340,363],[190,180,370,340],"Roter O-Ring auf der Kolbenstange; zur Messung an die Dichtung schieben.","Red O-ring on the shock shaft; move to the seal for measurement.",false,567),
+      luft:f("daempfer-luft",[657,253],[510,120,310,330],"Hier kommt die Pumpe dran: das Luftventil mit AIR-Kappe.","Attach the pump here: the air valve with the AIR cap."),
+      zug:f("daempfer-zug",[378,309],[180,170,340,320],"Zugstufe: der Einsteller mit rotem Rand neben dem oberen Dämpferauge.","Rebound: the red-edged adjuster beside the upper shock eyelet."),
+      oring:f("daempfer-oring",[340,363],[190,180,370,340],"Der rote Gummiring auf der Kolbenstange. Zum Messen an die Dichtung schieben.","The red rubber ring on the shaft. Slide it to the seal before measuring.",false,567),
       lsc,druck:lsc,
-      hsc:f("daempfer-druck",[604,295],[270,0,560,430],"HSC: blauer Inbus-Einsteller am Ausgleichsbehälter.","HSC: blue hex adjuster on the reservoir."),
-      hebel:f("daempfer-druck",[761,155],[270,0,560,430],"Kletterhebel seitlich am Ausgleichsbehälter; bergab offen lassen.","Climb switch on the side of the reservoir; leave open on descents.")
+      hsc:f("daempfer-druck",[604,295],[270,0,560,430],"HSC: der separate blaue Inbus-Einsteller seitlich unter dem Ausgleichsbehälter.","HSC: the separate blue hex adjuster on the side below the reservoir."),
+      hebel:f("daempfer-druck",[761,155],[270,0,560,430],"Kletterhebel: der blaue Hebel seitlich am Ausgleichsbehälter. Bergab offen lassen.","Climb switch: the blue lever on the side of the reservoir. Leave it open downhill.")
     };
   }
   return {};
 }
 function suNahFotos(slot, x, o){
-  return ""; /* Referenzdetails anderer Modelle/Baujahre sind keine Ersatzfotos. */
-  const daten = Object.assign(suErgaenzendeNahDaten(slot,x),suNahDaten(slot,x)), zeig = o.zeig || [];
-  const arten = zeig.filter(a => daten[a]); if(!arten.length) return "";
-  return `<div class="fw-fotos fw-nah">${arten.map(a => {
-    const b = daten[a], nr = o.nr || zeig.indexOf(a)+1, label = a === "hsc" ? "HSC" : a === "lsc" ? "LSC" : String(nr), [px,py] = b.p;
-    const [vx,vy,vw,vh] = b.ausschnitt, mx = px < vx+vw/2 ? vx+35 : vx+vw-35, my = Math.max(vy+30,py-55);
-    return `<figure class="fw-foto"><a class="fw-nah-link" href="bilder/fahrwerk/${b.datei}" target="_blank" rel="noopener" aria-label="${esc(tx("Nahaufnahme vergrößern: ","Enlarge close-up: ")+b.text)}"><svg viewBox="${b.ausschnitt.join(" ")}" role="img" aria-label="${esc(b.text)}"><image href="bilder/fahrwerk/${b.datei}" width="${b.w || 960}" height="${b.h}"/><g fill="none" stroke="#fff" stroke-width="2" style="filter:drop-shadow(0 0 2px #000)"><path d="M${mx} ${my}L${px} ${py}"/><circle cx="${px}" cy="${py}" r="12"/><circle cx="${mx}" cy="${my}" r="18" fill="#000"/><text x="${mx}" y="${my+5}" text-anchor="middle" fill="#fff" stroke="none" font-size="15" font-weight="800">${label}</text></g></svg></a><figcaption><b>${tx("Nahaufnahme", "Close-up")} · ${esc(b.modell)}</b><span>${esc(b.text)}</span><small>${tx("Herstelleraufnahme · Referenzmodell; Baujahr und Ausstattung können abweichen.","Manufacturer photo · reference model; year and specification may differ.")}</small><a href="${b.quelle}" target="_blank" rel="noopener">${tx("Bildquelle", "Image source")}: ${esc(b.marke || "RockShox")} ↗</a></figcaption></figure>`;
-  }).join("")}</div>`;
+  o=o || {};
+  const daten={...suErgaenzendeNahDaten(slot,x),...suNahDaten(slot,x)},zeig=Array.isArray(o.zeig)?o.zeig:[],gesehen=new Set();
+  const arten=zeig.filter(a=>{
+    const b=daten[a]; if(!b) return false;
+    const key=b.datei+"|"+b.p.join(); if(gesehen.has(key)) return false; gesehen.add(key); return true;
+  });
+  const namen={luft:tx("Ventil","Valve"),zug:tx("Zug","Rebound"),hsr:"HSR",lsc:"LSC",druck:"LSC",hsc:"HSC",bo:"ABO",hebel:tx("Hebel","Lever"),feder:tx("Feder","Spring"),oring:"SAG"};
+  const bilder=arten.map(a=>{
+    const b=daten[a],w=b.w || 960,h=b.h,[vx,vy,vw,vh]=b.ausschnitt,punkte=b.punkte || [b.p];
+    if(!(w>0 && h>0 && vw>0 && vh>0) || vx<0 || vy<0 || vx+vw>w || vy+vh>h
+      || punkte.some(p=>!Array.isArray(p) || p.length!==2 || p[0]<vx || p[0]>vx+vw || p[1]<vy || p[1]>vy+vh)) return "";
+    const label=namen[a] || a,mw=Math.max(66,label.length*12+24),mx=b.p[0]>vx+vw/2?vx+12:vx+vw-mw-12,my=vy+12;
+    const quell="bilder/fahrwerk/"+b.datei,bildname=tx("Hier sitzt es: ","Find it here: ")+b.text;
+    const kreise=punkte.map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="12" stroke="#000" stroke-width="6"/><circle class="fw-zielpunkt" cx="'+p[0]+'" cy="'+p[1]+'" r="12" stroke="#fff" stroke-width="2.5"/>').join("");
+    const mess=punkte.length===2?'<path d="M'+punkte[0].join(" ")+'L'+punkte[1].join(" ")+'" stroke="#fff" stroke-width="2" stroke-dasharray="8 6"/>':"";
+    const marker='<g class="fw-fotopointer" fill="none" stroke-linejoin="round"><path d="M'+(mx+mw/2)+' '+(my+17)+'L'+b.p.join(" ")+'" stroke="#000" stroke-width="6"/><path class="fw-zeiger" d="M'+(mx+mw/2)+' '+(my+17)+'L'+b.p.join(" ")+'" stroke="#fff" stroke-width="2.5"/>'+mess+kreise+
+      '<rect x="'+mx+'" y="'+my+'" width="'+mw+'" height="34" rx="17" fill="#000" stroke="#fff" stroke-width="2"/><text x="'+(mx+mw/2)+'" y="'+(my+23)+'" text-anchor="middle" fill="#fff" font-size="20" font-weight="800">'+esc(label)+'</text></g>';
+    return '<figure class="fw-foto fw-nahfoto" data-fwmodell="'+esc(x.t.basisId || basisVon(x.t.id))+'" data-fwart="'+esc(a)+'"><a class="fw-nah-link" href="'+quell+'" target="_blank" rel="noopener" aria-label="'+esc(tx("Originalbild vergrößern: ","Enlarge original image: ")+b.text)+'"><svg viewBox="'+b.ausschnitt.join(" ")+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="'+esc(bildname)+'"><image href="'+quell+'" width="'+w+'" height="'+h+'"/>'+marker+'</svg></a><figcaption><b>'+esc(b.text)+'</b><small>'+esc(b.modell)+'</small><a href="'+esc(b.quelle)+'" target="_blank" rel="noopener">'+tx("Bildquelle","Image source")+': '+esc(b.marke || "RockShox")+' ↗</a></figcaption></figure>';
+  }).filter(Boolean);
+  return bilder.length?'<div class="fw-fotos fw-nah fw-gezeigt">'+bilder.join("")+'</div>':"";
 }
 
-/* Auch aeltere Dämpferbilder bekommen eine Markierung auf dem Bauteil.
-   Koordinaten und Ausschnitt beziehen sich jeweils auf das konkrete Original. */
+/* Modell- und jahrsichere Ergänzungen aus vorhandenen Herstelleroriginalen. */
 function suErgaenzendeNahDaten(slot,x){
-  if(slot !== "daempfer" || !x || !x.t || x.t.eigen) return {};
-  const cfg = {
-    "fox-dhx-zug.jpg":{w:480,h:501,p:{zug:[330,283]},a:[155,160,300,325]},
-    "fox-dhx-lsc.jpg":{w:291,h:582,p:{lsc:[58,122],druck:[58,122]},a:[0,0,291,320]},
-    "fox-dhx-hebel.jpg":{w:488,h:474,p:{hebel:[115,196]},a:[0,60,300,300]},
-    "fox-floatx-lsc.jpg":{w:619,h:567,p:{lsc:[464,205],druck:[464,205]},a:[190,100,420,360]},
-    "fox-floatx-hebel.jpg":{w:599,h:583,p:{hebel:[154,261]},a:[0,70,360,360]},
-    "fox-dhx2-druck.jpg":{w:838,h:463,p:{lsc:[298,150],druck:[298,150],hsc:[327,168]},a:[155,20,300,310]},
-    "fox-dhx2-zug.jpg":{w:775,h:458,p:{zug:[220,245]},a:[70,95,330,330]},
-    "fox-dhx2-hsr.jpg":{w:695,h:539,p:{hsr:[512,285]},a:[335,130,340,320]},
-    "fox-x2-druck.jpg":{w:839,h:464,p:{lsc:[280,152],druck:[280,152],hsc:[306,168]},a:[130,20,310,310]},
-    "fox-x2-zug.jpg":{w:783,h:463,p:{zug:[239,239]},a:[85,85,330,330]},
-    "fox-x2-hsr.jpg":{w:669,h:535,p:{hsr:[499,298]},a:[320,140,330,310]},
-
-  };
-  const out = {};
-  for(const b of suFotoDaten(slot,x)){
-    let c = cfg[b.datei]; if(!c) continue;
-
-    for(const art of b.arten) if(c.p[art]) out[art] = {datei:b.datei,p:c.p[art],ausschnitt:c.a,w:c.w,h:c.h,text:b.text,modell:b.modell,marke:x.t.m,quelle:SU_FOTO_Q[b.q][1]};
-  }
-  const q = "https://www.sram.com/en/rockshox/learn/downhill-suspension-welcome-guide";
-  const f = (name,p,a,de,en,h) => ({datei:"rs-nah-coil-"+name+".jpg",p,ausschnitt:a,w:960,h:h || 636,text:tx(de,en),modell:"RockShox Vivid Coil · " + tx("Beispiel", "example"),quelle:q});
-  if(x.coil){
-    out.feder = f("sag",[420,184],[250,80,340,350],"Die Härte steht auf der Stahlfeder. Die Markierung zeigt den Aufdruck; deine empfohlene Härte steht oben in der Karte. Vorspannen ändert die Federhärte nicht.","Spring rate is printed on the coil. The marker points to the label; your recommended rate is above in the card. Preload does not change spring rate.");
-    out.oring = f("sag",[356,397],[220,230,340,340],"SAG-Messpunkt im Beispiel: Gummipuffer auf der Kolbenstange zwischen den Federwindungen.","Example sag measurement point: rubber bumper on the shaft between the spring coils.");
-  }
-  if(x.t.m === "RockShox" && /Vivid Coil/.test(x.t.n)){
-    const lsc = f("druck",[600,318],[395,145,370,370],"LSC: blaues Rädchen am Ausgleichsbehälter.","LSC: blue dial on the reservoir.");
-    out.zug = f("zug",[457,252],[315,95,400,400],"Zugstufe: Rädchen mit rotem Rand am unteren Dämpferende.","Rebound: red-edged dial at the lower shock end.");
-    if(wahlVon(x.t,"Ausführung") !== "Select"){out.lsc=lsc;out.druck=lsc;}
-    if(wahlVon(x.t,"Ausführung") === "Ultimate"){
-      out.hsc = f("hsc",[432,262],[280,115,370,370],"HSC: blauer Inbus-Einsteller am Ausgleichsbehälter.","HSC: blue hex adjuster on the reservoir.");
-      out.bo = f("zug",[457,252],[315,95,400,400],"HBO sitzt bei dieser Referenzversion hinter dem Zugstufenknopf. Die Markierung zeigt den Zugang; der HBO-Einsteller ist hier verdeckt. Anleitung des Modelljahrs beachten.","On this reference version, HBO sits behind the rebound knob. The marker shows the access point; the HBO adjuster is hidden here. Follow the model-year manual.");
+  if(slot!=="daempfer" || !x || !x.t || x.t.eigen) return {};
+  const t=x.t,id=t.basisId || basisVon(t.id),jahr=Number(fwJahr("dj")),au=wahlVon(t,"Ausführung"),out={};
+  /* Nur die zum konkreten FOX-Modell gehörenden Abbildungen aus seiner 2025er Anleitung. */
+  if(t.m==="Fox" && jahr===2025 && ["Factory","Performance Elite","Performance"].includes(au) && ["d-dhx","d-dhx2","d-floatx","d-x2"].includes(id)){
+    const cfg={
+      "fox-dhx-zug.jpg":{w:480,h:501,p:{zug:[330,283]},a:[155,160,300,325]},
+      "fox-dhx-lsc.jpg":{w:291,h:582,p:{lsc:[58,122],druck:[58,122]},a:[0,0,291,320]},
+      "fox-dhx-hebel.jpg":{w:488,h:474,p:{hebel:[115,196]},a:[0,60,300,300]},
+      "fox-floatx-lsc.jpg":{w:619,h:567,p:{lsc:[464,205],druck:[464,205]},a:[190,100,420,360]},
+      "fox-floatx-hebel.jpg":{w:599,h:583,p:{hebel:[154,261]},a:[0,70,360,360]},
+      "fox-dhx2-druck.jpg":{w:838,h:463,p:{lsc:[298,150],druck:[298,150],hsc:[327,168]},a:[155,20,300,310]},
+      "fox-dhx2-zug.jpg":{w:775,h:458,p:{zug:[220,245]},a:[70,95,330,330]},
+      "fox-dhx2-hsr.jpg":{w:695,h:539,p:{hsr:[512,285]},a:[335,130,340,320]},
+      "fox-x2-druck.jpg":{w:839,h:464,p:{lsc:[280,152],druck:[280,152],hsc:[306,168]},a:[130,20,310,310]},
+      "fox-x2-zug.jpg":{w:783,h:463,p:{zug:[239,239]},a:[85,85,330,330]},
+      "fox-x2-hsr.jpg":{w:669,h:535,p:{hsr:[499,298]},a:[320,140,330,310]}
+    };
+    for(const b of suFotoDaten(slot,x)){
+      const c=cfg[b.datei]; if(!c) continue;
+      for(const art of b.arten) if(c.p[art]) out[art]={datei:b.datei,p:c.p[art],ausschnitt:c.a,w:c.w,h:c.h,text:b.text,modell:b.modell,marke:"FOX",quelle:SU_FOTO_Q[b.q][1]};
     }
+    return out;
   }
-  if(x.t.m === "RockShox" && /Super Deluxe/.test(x.t.n) && wahlVon(x.t,"Ausführung") === "Ultimate"){
-    const r = (datei,p,a,w,h,de,en) => ({datei,p,ausschnitt:a,w,h,text:tx(de,en),modell:x.coil ? "Super Deluxe Coil Ultimate · B1" : "Super Deluxe Ultimate · RC2T",quelle:datei.endsWith(".png") ? "https://www.sram.com/en/rockshox/models/rs-sdlc-ult-b1" : SU_FOTO_Q.rc2t[1]});
-    out.lsc = x.coil
-      ? r("rs-sdcoil-side-detail.png",[697,137],[505,20,320,320],1007,1200,"LSC: blaues Rädchen am Ende des Ausgleichsbehälters. Die Markierung zeigt auf den gerändelten Außenrand des LSC-Rädchens.","LSC: blue dial at the end of the reservoir. The marker points to the knurled outer edge of the LSC dial.")
-      : r("rs-rc2t-lsc-detail.jpg",[795,150],[590,25,370,350],1200,675,"LSC: blaues Rädchen am Ende des Ausgleichsbehälters.","LSC: blue dial at the end of the reservoir.");
-    out.druck = out.lsc;
-    out.hsc = x.coil
-      ? r("rs-sdcoil-front-detail.png",[507,182],[340,55,340,340],1007,1200,"HSC: separater seitlicher 3-mm-Inbus unter der Aufschrift HSC. Er sitzt seitlich unter dem Ausgleichsbehälter.","HSC: separate side-mounted 3 mm hex adjuster below the HSC label, underneath the reservoir.")
-      : r("rs-rc2t-hsc-detail.jpg",[519,240],[235,60,470,430],1200,675,"HSC: separater seitlicher 3-mm-Inbus unter der Aufschrift HSC.","HSC: separate side-mounted 3 mm hex adjuster below the HSC label.");
-    if(x.coil){
-      out.zug = r("rs-sdcoil-front-detail.png",[530,1064],[350,890,320,310],1007,1200,"Zugstufe: rotes Rädchen unten am Dämpferauge.","Rebound: red dial at the lower shock eyelet.");
-      out.hebel = r("rs-sdcoil-3q-detail.png",[518,98],[325,20,385,320],1007,1200,"Kletterhebel: schwarzer Hebel oben neben dem Ausgleichsbehälter. Bergab offen lassen.","Climb switch: black lever at the top beside the reservoir. Leave open on descents.");
-      out.feder = {...r("rs-sdcoil-3q-detail.png",[588,662],[350,515,330,350],1007,1200,out.feder.text,out.feder.text),text:out.feder.text};
-      out.oring = r("rs-sdcoil-front-detail.png",[507,948],[350,750,320,330],1007,1200,"SAG-Messpunkt: Gummipuffer auf der Kolbenstange zwischen den Federwindungen.","Sag measurement point: rubber bumper on the shaft between the spring coils.");
-    }
-  }
-  if(x.coil && x.t.m === "RockShox" && /Super Deluxe/.test(x.t.n) && wahlVon(x.t,"Ausführung") === "Ultimate"){
-    out.bo = {...f("bo",[490,274],[315,125,360,350],"HBO: lila Inbus-Einsteller am Dämpferkörper.","HBO: purple hex adjuster on the shock body.",529),modell:"Super Deluxe Coil · " + tx("Referenz", "reference"),quelle:"https://www.sram.com/en/rockshox/learn/suspension-fine-tuning"};
-  }
+  /* B1-Coil ist nicht Vivid Coil und nicht der neue D1-Luftdämpfer. */
+  if(t.m!=="RockShox" || id!=="d-sdcoil" || !x.coil || au!=="Ultimate" || ![2023,2024,2025,2026].includes(jahr)) return out;
+  const r=(datei,p,a,de,en)=>({datei,p,ausschnitt:a,w:1007,h:1200,text:tx(de,en),modell:"Super Deluxe Coil Ultimate · B1 · 2023–2026",marke:"RockShox",quelle:"https://www.sram.com/en/rockshox/models/rs-sdlc-ult-b1"});
+  out.lsc=r("rs-sdcoil-side-detail.png",[697,137],[505,20,320,320],"LSC: das blaue Rädchen am Ende des Ausgleichsbehälters. Drehe seinen gerändelten Außenrand.","LSC: the blue dial at the end of the reservoir. Turn its knurled outer edge.");
+  out.druck=out.lsc;
+  out.hsc=r("rs-sdcoil-front-detail.png",[507,182],[340,55,340,340],"HSC: der separate seitliche 3-mm-Inbus unter der Aufschrift HSC.","HSC: the separate side-mounted 3 mm hex adjuster below the HSC label.");
+  out.zug=r("rs-sdcoil-front-detail.png",[530,1064],[350,890,320,310],"Zugstufe: das rote Rädchen unten am Dämpferauge.","Rebound: the red dial at the lower shock eyelet.");
+  out.hebel=r("rs-sdcoil-3q-detail.png",[518,98],[325,20,385,320],"Kletterhebel: der schwarze Hebel oben neben dem Ausgleichsbehälter. Bergab offen lassen.","Climb switch: the black lever at the top beside the reservoir. Leave it open downhill.");
+  out.feder=r("rs-sdcoil-3q-detail.png",[588,662],[350,515,330,350],"Hier steht die Härte auf der Stahlfeder. Für dein Rad zählt der Wert, den du als vorhandene Feder eingetragen hast.","The spring rate is printed here on the coil. Your bike uses the rate you entered for your fitted spring.");
+  out.oring={...r("rs-sdcoil-side-detail.png",[455,88],[310,10,450,1165],"SAG bei Stahlfeder: miss zwischen den Mittelpunkten der beiden Befestigungsaugen, einmal ohne und einmal mit Fahrer. Die Differenz ist der SAG.","Coil sag: measure between the centres of the two mounting eyelets, once without and once with the rider. The difference is sag."),punkte:[[455,88],[463,1107]]};
   return out;
 }
 
@@ -14708,6 +14745,7 @@ const fwLegende = (eintraege) => `<ol class="fw-leg">${eintraege.map((e, i) => `
 
 /* ── Darstellung ── */
 let suOffen = null, suSym = null, suFuehl = null, suNotizText = "", suLogAlle = false, suElWahl = "gabel";
+const suErstGezeigt = new Set();
 const suAuf = new Set();
 const suDetails = (id, kl, titel, inhalt) => `<details class="${kl}" data-suauf="${id}"${suAuf.has(id) ? " open" : ""}><summary><span>${titel}</span></summary>${inhalt}</details>`;
 const suElemente = f => [["gabel", f.gabel], ["daempfer", f.daempfer]].filter(e => e[1]);
@@ -14916,7 +14954,7 @@ function suStatus(slot, x, d, it){
 }
 function suKarte(f, slot, x, d, it, nr){
   const id = "fwk-" + it.key.replace(/\W/g, "-"), offen = suAuf.has(id), info = SU_INFO[it.art] || SU_INFO.druck, w = suWert(slot, x, d, it), st = suStatus(slot, x, d, it);
-  const name = it.art==="sag"?tx("Einsinken messen (SAG)","Measure how far it sinks (sag)"):it.art==="zug"?tx("Ausfedern einstellen","Set rebound speed"):it.k ? (it.k.art === "zug" ? sp2(SU_INFO.zug.n) : it.k.art === "druck" ? sp2(SU_INFO.druck.n) : sp2(info.n)) : sp2(info.n);
+  const name = it.art==="sag"?tx("Einsinken messen (SAG)","Measure how far it sinks (sag)"):it.art==="zug"?tx("Zugstufe · Ausfedern","Rebound · return speed"):it.art==="lsc"?tx("LSC · langsames Einfedern","LSC · slow compression"):it.art==="hsc"?tx("HSC · schnelle Schläge","HSC · fast hits"):it.k ? (it.k.art === "zug" ? sp2(SU_INFO.zug.n) : it.k.art === "druck" ? sp2(SU_INFO.druck.n) : sp2(info.n)) : sp2(info.n);
   const fertig = suP(d).fertig[it.key];
   let steuer = "";
   if(offen){
@@ -14949,7 +14987,7 @@ function suKarte(f, slot, x, d, it, nr){
   const wo = (it.k && it.k.k.wo) || sp2((SU_WO[slot] || {})[it.art] || ["", ""]);
   const wie = it.art === "luft" ? `<p>${tx(`Dämpferpumpe aufs Ventil (${esc(wo)}) und pumpen, dann ${slot === "gabel" ? "5×" : "10×"} ein Viertel des Federwegs einfedern — so gleichen sich die Luftkammern aus (FOX, RockShox). Danach nochmal ablesen.`, `Attach the shock pump to the valve (${esc(wo)}) and pump up, then push the ${slot === "gabel" ? "fork" : "shock"} a quarter of the way into its travel ${slot === "gabel" ? "5" : "10"} times — this equalises the air chambers (FOX, RockShox). Then check the reading again.`)}</p>`
     : it.art === "feder" ? `<p>${tx("Andere Härte = andere Feder (Fachhändler). Vorspannung nur so weit, dass die Feder ohne Spiel sitzt.", "Different rate = different spring (shop). Preload only enough that the spring sits without play.")}</p>`
-    : it.art === "sag" ? `<p>${tx("O-Ring an die Dichtung schieben, mit Ausrüstung vorsichtig aufsitzen, absteigen und den Abstand messen. Der Assistent führt dich Schritt für Schritt durch die Messung.", "Push the O-ring to the seal, get on carefully with your gear, get off and measure the distance. The assistant walks you through it.")}</p>`
+    : it.art === "sag" ? `<p>${x.coil ? tx("Mit einem Helfer den Abstand zwischen den beiden Befestigungsaugen vergleichen: einmal ohne und einmal mit dir auf dem Rad. Der Messassistent zeigt dir jeden Schritt.", "With a helper, compare the distance between the two mounting eyelets: once without you and once with you on the bike. The measurement guide shows you every step.") : tx("O-Ring an die Dichtung schieben, mit Ausrüstung vorsichtig aufsitzen, absteigen und den Abstand messen. Der Assistent führt dich Schritt für Schritt durch die Messung.", "Push the O-ring to the seal, get on carefully with your gear, get off and measure the distance. The assistant walks you through it.")}</p>`
     : it.art === "tokens" ? `<p>${tx("Luft ablassen, Kappe der Luftseite öffnen (Anleitung), Token auf- oder abschrauben, schließen, aufpumpen.", "Let the air out, open the air-side cap (manual), screw tokens on or off, refit the cap, pump up.")}</p>`
     : it.art === "hebel" ? `<p>${tx("Hebel umlegen — bergab immer offen.", "Flip the lever — always open on descents.")}</p>`
     : `<p>${tx("Sitzt", "Where")}: <b>${esc(wo)}</b>.</p>` + suWie(slot, it.art, it.k && it.k.basis);
@@ -14958,8 +14996,9 @@ function suKarte(f, slot, x, d, it, nr){
       <span class="fw-kn"><b>${esc(name)}</b><small>${esc(wo)}</small></span>
       <span class="fw-kw"><b>${typeof w.w === "number" ? w.w : esc(String(w.w))}${w.e ? `<i>${w.e}</i>` : ""}</b><small class="fw-pill ${st[0]}">${st[1]}</small></span>${ic(`<path d="m6 9 6 6 6-6"/>`, 16)}</button>
     ${offen ? `<div class="fw-kb">
+      <div class="fw-ort"><h4>${it.art==="sag"?tx("Hier misst du","Measure here"):it.art==="feder"?tx("Deine eingebaute Feder","Your fitted spring"):tx("Hier sitzt der Einsteller","Find the adjuster here")}</h4>${bild}</div>
       ${steuer}
-      <div class="fw-ab"><h4>${tx("So stellst du es ein", "How to set it")}</h4><div class="fw-wie"><div class="fw-wie-t">${wie}</div><div class="fw-wie-b">${bild}</div></div></div>
+      <div class="fw-ab fw-direkt"><h4>${tx("So stellst du es ein", "How to set it")}</h4><div class="fw-wie-t">${wie}</div></div>
       ${suDetails("erk-"+id,"su-mehr fw-erk",tx("Mehr dazu: Wirkung und Herkunft","More: effect and source"),`<div class="fw-ab"><h4>${tx("Was es bewirkt", "What it does")} ${fwB(SU_BEGRIFF_ART[it.art] || "druck")}</h4><p>${sp2(info.was)}</p></div>
       <div class="fw-ab"><h4>${tx("Warum dieser Wert", "Why this value")}</h4>${suWarum(f, slot, x, it)}</div>
       <div class="fw-ab fw-zv"><div><h4>${sp2(info.viel)}</h4><p>${sp2(info.vielT)}</p></div><div><h4>${sp2(info.wenig)}</h4><p>${sp2(info.wenigT)}</p></div></div>`)}
@@ -14968,6 +15007,8 @@ function suKarte(f, slot, x, d, it, nr){
 }
 function suElementHtml(f, slot, x, d){
   const its=suItems(slot,x,d), basis=its.filter(i=>["luft","feder","sag","zug"].includes(i.art)), profi=its.filter(i=>!basis.includes(i));
+  const startKey=suKey(f)+"|"+slot+"|"+x.t.id;
+  if(!suErstGezeigt.has(startKey)){ suErstGezeigt.add(startKey); suAuf.add("fwk-"+basis[0].key.replace(/\W/g,"-")); }
   const fw = build.fw || {}, jahr = slot === "gabel" ? fw.gj : fw.dj;
   let nr = 0;
   const zeigM = its.filter(i => i.art !== "sag").map(i => i.art === "tokens" ? null : i.art).filter((a, i, l) => a && l.indexOf(a) === i);
@@ -14976,9 +15017,8 @@ function suElementHtml(f, slot, x, d){
     <div class="fw-el-kopf"><span class="fw-el-ic ${slot}">${ic(SU_IC[slot], 20)}</span><span class="fw-el-t"><span class="fw-el-o">${slot === "gabel" ? tx("Vorn, Federgabel", "Front fork") : tx("Hinten, Dämpfer", "Rear shock")}</span>
       <b>${esc(x.t.nb || x.t.n)}</b><small>${[slot === "gabel" ? x.t.travel + " mm" : x.t.hub ? tx(`${x.t.hub} mm Hub`, `${x.t.hub} mm stroke`) : "", x.coil ? tx("Stahlfeder", "Coil") : tx("Luftfeder", "Air"), jahr > 1990 ? tx(`Baujahr ${jahr}`, `${jahr}`) : jahr === "alt" ? tx("älter", "older") : ""].filter(Boolean).join(" · ")}</small></span></div>
 
-    ${suDetails("bild-"+slot,"su-mehr fw-bild",tx("Dein Modell ansehen","View your model"),suEinstellBild(slot,x,{}))}
     <ol class="fw-kl">${basis.map(it => suKarte(f, slot, x, d, it, ++nr)).join("")}</ol>
-    ${profi.length?suDetails("optional-"+slot,"su-mehr fw-optional",tx("Weitere Einsteller (optional)","More adjusters (optional)"),`<p class="su-hint">${tx("Lass diese Einsteller zunächst auf dem Startwert. Öffne sie, wenn du nach der Testfahrt gezielt etwas ändern möchtest.","Leave these adjusters at the starting value for now. Open them when you want a specific change after the test ride.")}</p><ol class="fw-kl profi">${profi.map(it=>suKarte(f,slot,x,d,it,0)).join("")}</ol>`):""}
+    ${profi.length?`<div class="fw-profi-h">${tx("Weitere Einsteller · optional","More adjusters · optional")}</div><p class="su-hint fw-optional-hinweis">${tx("Tippe auf einen Einsteller, um seine Position und die Anleitung zu sehen.","Tap an adjuster to see its location and instructions.")}</p><ol class="fw-kl profi">${profi.map(it=>suKarte(f,slot,x,d,it,0)).join("")}</ol>`:""}
   </section>`;
 }
 /* Was tun, wenn die App keinen Druck nennt (Gabel ohne passende Tabelle,
@@ -14988,8 +15028,8 @@ const suOhneDruckTxt = (slot, x) => slot === "gabel"
     : tx("Auf den Druck vom Aufkleber an der Gabel pumpen (oder aus Trailhead / FOX-App).", "Pump to the pressure on the fork's sticker (or from Trailhead / the FOX app)."))
   : tx("Startdruck aus Trailhead (Seriennummer) oder der Anleitung pumpen — ohne Angabe dein bisheriger Druck. Dann SAG messen.", "Pump to the starting pressure from Trailhead (serial number) or the manual — otherwise your current pressure. Then measure sag.");
 /* Naechster Schritt fuer Einsteiger: ein Schritt nach dem anderen */
-function suSchritte(f, d){
-  const s = [], el = suElemente(f);
+function suSchritte(f, d, nur){
+  const s = [], el = suElemente(f).filter(([slot])=>!nur||slot===nur);
   for(const [slot, x] of el) s.push({key:slot + ":" + (x.coil ? "feder" : "luft"), slot:slot, t:x.coil ? tx(`Feder ${suOrt(slot)} prüfen`, `Check ${suOrt(slot)} spring`) : tx(`Luftdruck ${suOrt(slot)} einstellen`, `Set ${suOrt(slot)} air pressure`)});
   s.push({key:"sag", t:tx("Einsinken messen (SAG)", "Measure sag"), aktion:"sag"});
   for(const art of ["zug"]) for(const [slot, x] of el){
@@ -15000,15 +15040,15 @@ function suSchritte(f, d){
   return s;
 }
 function suNaechsterHtml(f, d){
-  const s = suSchritte(f, d), fertig = st => st.key === "sag" ? suSagGut(f, d) : st.key === "test" ? d.log.some(e => (e.typ === "tr" || e.typ === "test") && (e.p || "allround") === fedModus) : !!suP(d).fertig[st.key];
+  const s = suSchritte(f, d, suElWahl), fertig = st => st.key === "sag" ? suSagGut(f, d, suElWahl) : st.key === "test" ? d.log.some(e => (e.typ === "tr" || e.typ === "test") && (e.p || "allround") === fedModus) : !!suP(d).fertig[st.key];
   const i = s.findIndex(st => !fertig(st)), n = s.filter(fertig).length;
-  if(i < 0) return `<div class="fw-weiter fertig">${ic(`<path d="m5 12.5 4.5 4.5L19 7.5"/>`, 20)}<span><b>${tx("Alles eingestellt", "All set")}</b><small>${tx("Jetzt fahren — und unter „Testfahrt“ Schritt für Schritt verfeinern.", "Now ride — and refine step by step under “Test ride”.")}</small></span></div>`;
+  if(i < 0) return `<div class="fw-weiter fertig">${ic(`<path d="m5 12.5 4.5 4.5L19 7.5"/>`, 20)}<span><b>${suElWahl==="gabel"?tx("Gabel eingestellt","Fork set"):tx("Dämpfer eingestellt","Shock set")}</b><small>${tx("Jetzt fahren — und unter „Testfahrt“ Schritt für Schritt verfeinern.", "Now ride — and refine step by step under “Test ride”.")}</small></span></div>`;
   const st = s[i];
-  const was = st.k ? `${esc(st.k.k.tun)}${st.k.k.von ? " (" + esc(st.k.k.von) + ")" : ""}` : st.aktion === "sag" ? tx("Mit Ausrüstung aufs Rad, Abstand am O-Ring messen — 5 Minuten.", "Get on with your gear, measure at the O-ring — 5 minutes.")
+  const was = st.k ? `${esc(st.k.k.tun)}${st.k.k.von ? " (" + esc(st.k.k.von) + ")" : ""}` : st.aktion === "sag" ? tx("Die Anleitung zeigt dir Schritt für Schritt, wie du das Einsinken misst.", "The guide shows you step by step how to measure sag.")
     : st.aktion === "test" ? tx("Fahr eine Runde, die typisch für dich ist — danach fragt dich „Testfahrt“ unten, wie es war.", "Ride a loop that's typical for you — then “Test ride” below asks how it went.")
     : (() => { const x = f[st.slot], p = suPsi(st.slot, x, d); return x.coil ? (x.federIst?tx(`Deine ${x.federIst}-lbs-Feder bleibt eingebaut. Prüfe gleich, wie weit sie unter dir einsinkt.`,`Keep your ${x.federIst} lb spring fitted. Next, check how far it sinks under you.`):tx("Zahl von der eingebauten Feder eintragen, dann Einsinken messen.","Enter the number on your fitted spring, then measure sag.")) : p && suMax(st.slot,x) ? tx(`Auf ${p} psi pumpen (${barVon(p)} bar).`, `Pump to ${p} psi (${barVon(p)} bar).`) : suOhneDruckTxt(st.slot, x); })();
-  return `<div class="fw-weiter"><span class="fw-weiter-n">${i + 1}<small>/${s.length}</small></span><span class="fw-weiter-t"><small>${tx("Dein nächster Schritt", "Your next step")} · ${n} ${tx("erledigt", "done")}</small><b>${st.t}</b><span>${was}</span></span>
-    <span class="fw-weiter-k">${st.aktion === "sag" ? (() => { const z = suElemente(f).find(([sl]) => !suSagGut(f, d, sl)) || suElemente(f)[0];
+  return `<div class="fw-weiter"><span class="fw-weiter-n">${i + 1}<small>/${s.length}</small></span><span class="fw-weiter-t"><small>${tx("Dein nächster Schritt", "Your next step")} · ${suElWahl==="gabel"?tx("Gabel","Fork"):tx("Dämpfer","Shock")} · ${n} ${tx("erledigt", "done")}</small><b>${st.t}</b><span>${was}</span></span>
+    <span class="fw-weiter-k">${st.aktion === "sag" ? (() => { const z = suElemente(f).find(([sl])=>sl===suElWahl) || suElemente(f)[0];
         return `<button class="btn sm" data-fwzu="${z[0]}|${z[0]}:sag">${tx("Anleitung zeigen", "Show me how")}</button>`; })()
       : st.aktion === "test" ? `<button class="btn sm" data-fwtest="1">${tx("Testfahrt starten","Start test ride")}</button>`
       : `<button class="btn sm" data-fwzu="${st.slot}|${st.key}">${tx("Anleitung zeigen", "Show me how")}</button><button class="btn sm ghost" data-fwok="${st.key}">${tx("Erledigt", "Mark as done")}</button>`}</span></div>`;
@@ -16048,7 +16088,7 @@ function setupHtml(){
   const x=f[suElWahl];
   const wahl=el.length>1?`<div class="fw-elw" role="group" aria-label="${tx("Welches Teil stellst du ein?","Which part are you adjusting?")} ">${el.map(([sl,y])=>`<button data-fwel="${sl}" aria-pressed="${sl===suElWahl}"><span><b>${sl==="gabel"?tx("Gabel · vorn","Fork · front"):tx("Dämpfer · hinten","Shock · rear")}</b><small>${esc(y.t.nb||y.t.n)}</small></span></button>`).join("")}</div>`:"";
   const basis=`<p>${tx(`Du mit Ausrüstung: ${zahlDe(systemKg())} kg.`,`You with gear: ${systemKg()} kg.`)} ${["fahrer","stil","gefuehl"].map(n=>obZeile(n,f,fw)[1]).join(" · ")}</p><p class="su-hint">${tx("Die Zahlen sind Startwerte. Wir prüfen sie mit der Messung und auf einer kurzen Testfahrt.","These numbers are starting values. We check them with the measurement and a short test ride.")}</p>${fwVorbereitungHtml()}${suProfilHtml(f,d)}${suGrundHtml(f,d)}${suBuchHtml(f,d)}${suWissenHtml()}${suDetails("alle","su-mehr",tx("Alle Werte und Quellen","All values and sources"),federErgebnisHtml(true))}`;
-  return kopf+`<p class="su-hint fw-einfach-lead">${tx("Wir zeigen dir, was du jetzt einstellen sollst. Danach messen wir, wie weit dein Fahrwerk unter dir einsinkt (SAG), und machen eine kurze Testfahrt.","We show you what to adjust now. Then we measure how far your suspension sinks under you (sag), and take a short test ride.")}</p>${suNaechsterHtml(f,d)}<section class="su-karte fw-teile">${wahl}${suElementHtml(f,suElWahl,x,d)}</section>${suAktionen(f,d,0)}${suDetails("mehr-wissen","su-karte su-mehr fw-hintergrund",tx("Profile, Notizen und weitere Details","Profiles, notes and more details"),basis)}`;
+  return kopf+`<p class="su-hint fw-einfach-lead">${tx("Wähle Gabel oder Dämpfer. Das Foto zeigt dir den Einsteller; darunter stellst du deinen Wert ein.","Choose fork or shock. The photo shows the adjuster; set your value below it.")}</p>${wahl}${suNaechsterHtml(f,d)}<section class="su-karte fw-teile">${suElementHtml(f,suElWahl,x,d)}</section>${suAktionen(f,d,0)}${suDetails("mehr-wissen","su-karte su-mehr fw-hintergrund",tx("Profile, Notizen und weitere Details","Profiles, notes and more details"),basis)}`;
 }
 const el0Titel = f => suElemente(f).map(([, y]) => esc(y.t.nb || y.t.n)).join(" · ");
 /* Rechenwerte neu zeigen (Top-Cap-Foto, Gewicht, Profil) -- im Setup zeichnet der ganze Reiter neu */
@@ -19572,6 +19612,9 @@ document.addEventListener("click", e => {
   if(T("[data-d3]")){ oeffne3D(); return; }
   if(T("[data-szenen]")){ schliesse(); setTimeout(() => oeffneSzenen(null), 200); return; }
   if(T("[data-szweg]")){ szenenEnde(); return; }
+  const szpunkt=T("[data-szpunkt]");
+  if(szpunkt){ szeneZeigen(+szpunkt.dataset.szpunkt); return; }
+  if(T("[data-szdemo]")){ szene.demo=!szene.demo; const el=$("szenen"); if(el){ el.innerHTML=szenenHtml(); el.querySelector("[data-szdemo]")?.focus({preventScroll:true}); } return; }
   if(T("[data-szweiter]")){ if(szene.i >= szene.anzahl - 1) szenenEnde(); else szeneZeigen(szene.i + 1); return; }
   if(T("[data-szzurueck]")){ szeneZeigen(Math.max(0, szene.i - 1)); return; }
   const d3g = T("[data-d3gruppe]");

@@ -1,10 +1,10 @@
 # Persönliches Fahrwerk, einfach erklärt
 
-Stand: 18.10.2026 · APP-FAHRWERK-EINFACH-001
+Stand: 18.10.2026 · APP-EINFUEHRUNG-FAHRWERK-002
 
 Vor persönlichen Zahlen prüft der Fahrwerk-Tab den Aufbau: Ohne Rahmen, benötigte Gabel oder benötigten Dämpfer führt ein Knopf direkt zur fehlenden Teileauswahl, noch vor Pro-Vorschau und Fragen. Danach folgen fünf Fragen beim Hardtail, sechs beim Fully: Modell/Baujahr von Gabel und ggf. Dämpfer, Gewicht/Ausrüstung, Gelände, Tempo/Sprünge und Fahrgefühl. Gewicht bleibt im gemeinsamen Fahrerprofil. Unbekannte Antworten sind erlaubt; technisch falsche Zahlen sperren Weiter. Keine Eingabe für Ziel-SAG oder Maximaldruck.
 
-Die Hauptansicht zeigt den nächsten konkreten Schritt und drei Karten pro Teil: Luftdruck/Stahlfeder, Einsinken messen (SAG), Ausfedern einstellen. Weitere Einsteller, Erklärungen, Profile, Quellen, Baselines und Notizen sind aufklappbar. Testfahrt und erneute gemeinsame Einrichtung bleiben erhalten. Für früher gemeldete Defekte ist ein separater Zustandsdialog erreichbar; die Warnung wird nicht still entfernt.
+Die Hauptansicht beginnt mit der Wahl von Gabel oder Dämpfer. Nächster Schritt und Fortschritt beziehen sich auf dieses Teil. Drei Hauptkarten zeigen Luftdruck/Stahlfeder, Einsinken messen (SAG) und Ausfedern einstellen. Beim ersten Anzeigen je Rad/Teil ist die erste Karte geöffnet; bewusst geschlossene Karten bleiben bei erneutem Zeichnen geschlossen. Weitere Einsteller wie LSC und HSC stehen direkt als aufklappbare Zeilen darunter. Erklärungen, Profile, Quellen, Baselines und Notizen bleiben optional. Testfahrt und erneute gemeinsame Einrichtung bleiben erhalten. Für früher gemeldete Defekte ist ein separater Zustandsdialog erreichbar; die Warnung wird nicht still entfernt.
 
 ## Herstellerdaten
 
@@ -35,6 +35,12 @@ Messungen speichern ihren Bezug zu Gewicht, Rad, Teil und tatsächlicher Feder. 
 
 ## Fotos und Prüfungen
 
-Gezeichnete Teile-, Rad-, Körper/Cockpit-, Adapter- und Intro-Grafiken werden nicht mehr gerendert. UI-Icons und Datenskalen bleiben. Der Aufbau zeigt nur ein tatsächlich hochgeladenes Radfoto. Fahrwerkbilder verwenden das gewählte Produkt und die belegte Ausführung; abweichende Kartusche oder erkennbares Bildjahr führen zu einer ehrlichen Bildlücke. Keine andere Modellfamilie, Referenz-Nahaufnahme oder erfundene Marker als Ersatz. Fotos und Quellenansichten haben schwarzen Hintergrund.
+Gezeichnete Teile-, Rad-, Körper/Cockpit-, Adapter- und Intro-Grafiken werden nicht mehr gerendert. UI-Icons und Datenskalen bleiben. Der Aufbau zeigt nur ein tatsächlich hochgeladenes Radfoto. Offene Fahrwerkkarten zeigen zuerst ein großes Herstellerbild mit der Position des passenden Einstellers, danach Wert und Anweisung. Die Bildfläche ist auf dem kleinen Handy 230 px, sonst 260 px hoch; Originalproportionen bleiben erhalten und Antippen öffnet die Großansicht.
+
+Detailbilder werden nur bei passender Modellfamilie, Ausführung und bestätigtem Jahr freigeschaltet: RockShox Lyrik/ZEB mit Charger 3.2 RC2 und LinearXL 2027; Super Deluxe Luft D1 Ultimate 2027; Super Deluxe Coil B1 Ultimate 2023–2026; FOX DHX/DHX2/FLOAT X/FLOAT X2 aus der jeweiligen 2025er Anleitung. Die FOX-Dateien sind offizielle technische Herstellerabbildungen, keine selbst gezeichneten Ersatzbilder. HSC und LSC besitzen getrennte Zielpunkte; beim B1-Coil auch getrennte Originalansichten. Federaufdruck, Zugstufe und Kletterhebel sind am B1-Coil markiert. Seine SAG-Ansicht markiert die Mittelpunkte beider Befestigungsaugen, passend zur Messanweisung.
+
+Ohne passende Detailansicht erscheint das belegte eigene Modellfoto mit einer Textanweisung; bei abweichender Kartusche oder erkennbarem Bildjahr bleibt eine ehrliche Bildlücke. Vivid Coil erhält keine Super-Deluxe-Bilder. Keine andere Modellfamilie, Referenz-Nahaufnahme oder erfundene Marker als Ersatz. Bildflächen, Fotos und Quellenansichten haben schwarzen Hintergrund; fotografierte Umgebungen werden nicht verändert.
+
+Die sechsteilige Einführung zeigt echte Produktfotos und die wichtigsten Funktionen: Aufbau, Teileprüfung mit einer interaktiven PM-180/203-Adaptervorschau, optionale Beratung, persönliche Fahrwerkwerte mit vorhandener Feder, den freiwilligen KI-Guide sowie Wunschliste und Einkauf. Beispiele sind ausdrücklich gekennzeichnet, Quellen erreichbar. Die Vorschau verändert keine Rad- oder Setup-Daten und sendet keine KI-Anfrage. Szenen wechseln nur per Bedienung; reduzierte Bewegung wird berücksichtigt.
 
 Fragen, Wiederaufnahme, fehlende Teile, Herstellergrenzen, Feder475/500, Messungsbezug, Datenerhalt, Zustandsdialog, Fotos und responsive DE/EN-Ansichten werden automatisch geprüft. Zusätzlich getrennte Quellen-, Bild- und simulierte Einsteigerreviews sowie Chromium-Sichtprüfung bei 320/390/1280 px, OLED/Hell. Dies sind keine Tests mit echten fachfremden Personen und kein iPhone/Safari-Nachweis. Startwerte werden durch Messung und Testfahrt verfeinert; kein Versprechen eines garantiert perfekten Setups.

@@ -102,6 +102,18 @@ if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:
   teil('KI-Guide Deutsch/Englisch', !!ok, {zeile:m ? `${m[1]} Prüfungen bestanden, Exit ${r.status}` : `keine Schlusszeile, Exit ${r.status}`, exit:r.status, fehl:ok ? [] : aus.split('\n').filter(Boolean).slice(-20), ausgabe:aus.slice(-4000)});
 }
 
+{
+  const r = lauf('einfuehrung-test.mjs', /EINFUEHRUNG: (\d+) von (\d+) Prüfungen bestanden/, 10);
+  teil('Einführung und interaktive Vorschau', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
+{
+  const r = lauf('fahrwerk-fotos-test.mjs', /FAHRWERK-FOTOS: (\d+) von (\d+) Prüfungen bestanden/, 9);
+  teil('Fahrwerkfotos und Einsteller', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
+{
+  const r = lauf('fahrwerk-orientierung-test.mjs', /FAHRWERK-ORIENTIERUNG: (\d+) von (\d+) Prüfungen bestanden/, 7);
+  teil('Fahrwerk: Orientierung und Datenerhalt', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
 bericht.ok = gesamtOk; bericht.dauerSek = Math.round((Date.now() - start) / 1000); bericht.zeit = new Date().toISOString();
 fs.writeFileSync(path.join(wurzel, 'test-ergebnis.json'), JSON.stringify(bericht, null, 2));
 for(const t of bericht.teile) if(!t.ok && t.fehl && t.fehl.length) console.log(`\n${t.name}:\n  ` + t.fehl.join('\n  '));
