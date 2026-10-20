@@ -114,6 +114,19 @@ if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:
   const r = lauf('fahrwerk-orientierung-test.mjs', /FAHRWERK-ORIENTIERUNG: (\d+) von (\d+) Prüfungen bestanden/, 7);
   teil('Fahrwerk: Orientierung und Datenerhalt', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
 }
+/* Qualitaetsrunde: echte Bedienwege, Datenrettung und Offline-Updates. */
+{
+  const r = lauf('bedienung-test.mjs', /BEDIENUNG: (\d+) von (\d+) Prüfungen bestanden/, 10);
+  teil('Dialogfokus, Bildausfall und schmaler Einkauf', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
+{
+  const r = lauf('zuverlaessigkeit-test.mjs', /ZUVERLAESSIGKEIT: (\d+) von (\d+) Prüfungen bestanden/, 10);
+  teil('Datenrettung, Guide-Limit und Offline-Update', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
+{
+  const r = lauf('qualitaet-ux-test.mjs', /QUALITAET-UX: (\d+) von (\d+) Prüfungen bestanden/, 8);
+  teil('Verständliche Preise, Prüfung und Hilfe', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
 bericht.ok = gesamtOk; bericht.dauerSek = Math.round((Date.now() - start) / 1000); bericht.zeit = new Date().toISOString();
 fs.writeFileSync(path.join(wurzel, 'test-ergebnis.json'), JSON.stringify(bericht, null, 2));
 for(const t of bericht.teile) if(!t.ok && t.fehl && t.fehl.length) console.log(`\n${t.name}:\n  ` + t.fehl.join('\n  '));

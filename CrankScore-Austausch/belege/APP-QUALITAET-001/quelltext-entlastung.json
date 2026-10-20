@@ -1,0 +1,57 @@
+{
+  "basis": "3240eef97a568ace90b06f65f5473e625212e454",
+  "vorherBytes": 1866073,
+  "nachherBytes": 1783186,
+  "entfernteBytes": 82887,
+  "functions": [
+    {
+      "name": "szBremse",
+      "entfernteBytes": 2152
+    },
+    {
+      "name": "radSvg",
+      "entfernteBytes": 42585
+    },
+    {
+      "name": "figurSvg",
+      "entfernteBytes": 12076
+    },
+    {
+      "name": "cockpitSvg",
+      "entfernteBytes": 13107
+    },
+    {
+      "name": "woIcon",
+      "entfernteBytes": 406
+    },
+    {
+      "name": "ilGabel",
+      "entfernteBytes": 1655
+    },
+    {
+      "name": "ilDaempfer",
+      "entfernteBytes": 1627
+    },
+    {
+      "name": "ilRad",
+      "entfernteBytes": 834
+    },
+    {
+      "name": "ilSag",
+      "entfernteBytes": 934
+    },
+    {
+      "name": "adGrafik",
+      "entfernteBytes": 5238
+    },
+    {
+      "name": "adMontage",
+      "entfernteBytes": 1306
+    },
+    {
+      "name": "suFotos",
+      "entfernteBytes": 967
+    }
+  ],
+  "syntax": 2
+}

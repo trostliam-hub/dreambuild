@@ -88,7 +88,7 @@ self.addEventListener('install', function(e){
 
 self.addEventListener('activate', function(e){
   e.waitUntil(caches.keys().then(function(ks){
-    return Promise.all(ks.map(function(k){ return k === CACHE ? null : caches.delete(k); }));
+    return Promise.all(ks.map(function(k){ return k === CACHE || !/^(dreambuild|crankscore)-/.test(k) ? null : caches.delete(k); }));
   }).then(function(){ return self.clients.claim(); }));
 });
 
