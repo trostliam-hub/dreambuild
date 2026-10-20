@@ -1,0 +1,45 @@
+{
+  "datum": "2026-10-20",
+  "fehler": {
+    "runs": [
+      39416756894,
+      39372021956,
+      39334495641
+    ],
+    "ursache": "PREIS_FEEDS leer; Produktseitenprüfung kann nur preise.json schreiben; zwingendes git add preisverlauf.json brach mit Exit128 ab",
+    "vorQualitaetsrunde": true
+  },
+  "aenderungen": [
+    "Nur existierende Preisdateien vormerken",
+    "Bilder, Vendor und konkretes Rahmenmodell auch beim Preis-Deploy archivieren"
+  ],
+  "pruefung": {
+    "alterFehlerReproduziert": true,
+    "stagingFaelle": [
+      "nur preise.json",
+      "beide Dateien",
+      "keine Datei"
+    ],
+    "stagingAlleExit0": true,
+    "keineFremddateiVorgemerkt": true,
+    "bashSyntax": true,
+    "pythonPreisFehler": 0,
+    "archivReferenz": "3e10f9536c990f2f18308387a0a397e35b55a381",
+    "serviceWorkerAssets": "53/53",
+    "produktskripte": [
+      "bilder/produkte/katalog.js",
+      "bilder/produkte/ansicht.js"
+    ],
+    "vendorDateien": 10,
+    "glbBytes": 925956,
+    "glbKennung": "glTF",
+    "unabhaengigerReview": "Keine neuen P1/P2-Befunde; Manifest mit Haupt-Release-Auswahl abgeglichen"
+  },
+  "workflowSHA256": "8D6C4D52882194470F1FB82E70E84BE902DF3E0E7D254270F1E0BA67260DAF19",
+  "hinweise": [
+    "Keine Secrets oder Feeds ergänzt",
+    "Keine externen Feedanfragen und keine kostenpflichtigen Aufrufe",
+    "Livepreise bleiben ohne Shopfeeds unkonfiguriert",
+    "Nachweise prüfen Skript und Archiv lokal, kein neuer entfernter Preis-Workflowlauf behauptet"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "datum": "2026-10-20",
+  "codeCommit": "3e10f9536c990f2f18308387a0a397e35b55a381",
+  "stempelCommit": "b057b759d63a50d79172a050215594deff5080e0",
+  "version": "20261020-1622",
+  "workflow": {
+    "id": 39437374439,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/trostliam-hub/dreambuild/actions/runs/39437374439"
+  },
+  "pages": {
+    "id": 39438622258,
+    "name": "pages build and deployment",
+    "status": "completed",
+    "conclusion": "success",
+    "sha": "b057b759d63a50d79172a050215594deff5080e0",
+    "url": "https://github.com/trostliam-hub/dreambuild/actions/runs/39438622258",
+    "updated_at": "2026-10-20T14:24:25Z"
+  },
+  "jobs": [
+    {
+      "id": 118677880110,
+      "name": "pruefen",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 118681923658,
+      "name": "stempeln",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 118682044107,
+      "name": "veroeffentlichen",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "pruefung": {
+    "appFaelle": 397,
+    "syntaxSkripte": 2,
+    "sprachFunde": 0,
+    "sprachTexte": 11139,
+    "preisFehler": 0,
+    "neueGruppen": [
+      10,
+      10,
+      8
+    ],
+    "dauerSekunden": 404,
+    "kiServerTests": 8,
+    "kiServerFehler": 0
+  },
+  "berichtArtefakt": {
+    "id": 12271648291,
+    "name": "test-ergebnis",
+    "digest": "sha256:bef58f2d65288ef3216a1f2a38affaab5e2022fbc0453ee000248651549fc923"
+  },
+  "online": {
+    "bedienungUndDatenerhalt": 17,
+    "synthetischeBrowserdaten": true,
+    "echteKiAufrufe": false,
+    "hinweis": "17 Onlinefälle vor automatischem Stempel; dieser änderte nur APP_VERSION und CACHE. Nach Stempel öffentliche HTML und SW vollständig abgeglichen."
+  }
+}

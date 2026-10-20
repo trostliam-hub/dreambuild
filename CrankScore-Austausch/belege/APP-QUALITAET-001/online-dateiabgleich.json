@@ -1,0 +1,25 @@
+{
+  "zeit": "2026-10-20T14:24:13.687Z",
+  "url": "https://trostliam-hub.github.io/dreambuild/index.html",
+  "dateien": [
+    {
+      "name": "index.html",
+      "status": 200,
+      "gleich": true,
+      "bytes": 1797182,
+      "lokalSha256": "d24681609c59ed9add3e13bea859d4e11ab3b09f4090b91e5e83fa129464eca4",
+      "onlineSha256": "d24681609c59ed9add3e13bea859d4e11ab3b09f4090b91e5e83fa129464eca4",
+      "version": "20261020-1622"
+    },
+    {
+      "name": "mtb-sw.js",
+      "status": 200,
+      "gleich": true,
+      "bytes": 5316,
+      "lokalSha256": "10e3f0a42aa02ae7ad3a1b3b287581c6bc4715525ce7760052a9cff3c2d84a1f",
+      "onlineSha256": "10e3f0a42aa02ae7ad3a1b3b287581c6bc4715525ce7760052a9cff3c2d84a1f",
+      "version": "dreambuild-20261020-1622"
+    }
+  ],
+  "ok": true
+}
