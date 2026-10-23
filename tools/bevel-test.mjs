@@ -391,6 +391,9 @@ const PRUEFUNGEN = [
   ['Angebote: ohne gepruefte Quelle kein "Zum Produkt"; nicht lieferbar, veraltet, Einzelbremse und kaputter Link zaehlen nicht', async () => {
     await neu();
     const r = await ev(() => { const t = findeTeil('bremsen', 'b-xt'), frisch = new Date().toISOString(), alt = new Date(Date.now() - 5 * 864e5).toISOString();
+      /* "ohne gepruefte Quelle" heisst auch: keine gepruefte Produktseite. Unabhaengig von dem, was der
+         Preis-Lauf gerade in preise.json geschrieben hat (seit 20.10. eine gepruefte XT-Seite) */
+      const seitenVor = live.seiten; live.seiten = {};
       const probe = (teile, stand) => { live.teile = teile; live.stand = stand; ANGEBOTE.clear(); return {html:zumProduktHtml(t, true), link:!!produktLink(t)}; };
       const o = {s:'Testshop', p:329, u:399, v:0, l:'https://shop.example/xt-set', b:'', n:'Shimano XT BR-M8120 Set', a:1};
       const leer = probe({}, null);
@@ -400,7 +403,7 @@ const PRUEFUNGEN = [
       const einzel = probe({'b-xt':[{...o, z:'vorn'}]}, frisch);
       const kaputt = probe({'b-xt':[{...o, k:0}]}, frisch);
       const ohneHttps = probe({'b-xt':[{...o, l:'http://shop.example/x'}]}, frisch);
-      live.teile = {}; live.stand = null; ANGEBOTE.clear();
+      live.teile = {}; live.stand = null; live.seiten = seitenVor; ANGEBOTE.clear();
       return {leer, aus, ok, veraltet, einzel, kaputt, ohneHttps}; });
     const kein = x => !x.link && /Derzeit kein geprüftes Angebot/.test(x.html);
     return {ok:kein(r.leer) && kein(r.aus) && r.ok.link && /Zum Produkt/.test(r.ok.html) && /Anzeige/.test(r.ok.html) && kein(r.veraltet) && kein(r.einzel) && kein(r.kaputt) && kein(r.ohneHttps), info:r}; }],

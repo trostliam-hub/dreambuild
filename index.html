@@ -13518,7 +13518,93 @@ function suDaten(f){
   const k = suKey(f), alt = suTeile(f);
   /* Stand vor dem Profilschluessel: gehoert dem Rad, das ihn zuerst oeffnet */
   if(!setupAlle[k] && setupAlle[alt] && setupAlle[alt].log){ setupAlle[k] = setupAlle[alt]; delete setupAlle[alt]; }
-  const d = setupAlle[k] || (setupAlle[k] = {});
+  if(!setupAlle[k]) suErben(f, k);
+  const d = suNorm(setupAlle[k] || (setupAlle[k] = {}));
+  /* Vor der Korrektur angelegter Eintrag ohne Werte des unveraenderten Elements: einmal ergaenzen */
+  if(!d.erbe && ((f.gabel && suLeerFuer(d, "gabel")) || (f.daempfer && suLeerFuer(d, "daempfer")))) suErben(f, k, d);
+  return d;
+}
+/* CS-01 (Audit 23.10.2026): Wird nur Gabel ODER Daempfer getauscht, entsteht ein
+   neuer Schluessel. Das unveraenderte Element bringt dann seine eigenen Werte mit --
+   Druck, Klicks, Messung, Haken und Grundeinstellung je Fahrprofil sowie seine
+   eigenen Verlaufseintraege. Paarbezogenes (Testfahrt, Notizen, gemeinsamer SAG-Haken,
+   laufende Tests) bleibt beim alten Paar; der alte Eintrag selbst bleibt unveraendert.
+   Gesucht wird nur im selben Rad. Teile-Ids koennen "|" enthalten: deshalb wird der
+   Rest des Schluessels als gueltige Id des anderen Elements geprueft, nicht zerlegt. */
+function suErben(f, k, ziel){
+  const rad = (aktivId[modus] || modus) + "|", gid = (f.gabel && f.gabel.t.id) || "", did = (f.daempfer && f.daempfer.t.id) || "";
+  const gueltig = (slot, id) => id === "-" || !!findeTeil(slot, id);
+  const eigen = (s, key) => typeof key === "string" && (key.startsWith(s + "|") || key.startsWith(s + ":"));
+  /* Juengster Stand gewinnt: Zeiten aus Verlauf, Messungen und Grundeinstellungen (kein eigener Stempel,
+     damit blosses Ansehen nichts am Speicher aendert) */
+  const zeit = d => { let t = 0; if(!d) return t;
+    for(const e of Array.isArray(d.log) ? d.log : []) t = Math.max(t, (e && e.t) || 0);
+    for(const p in d.prof || {}){ const P = d.prof[p] || {}; if(P.gesp && P.gesp.t) t = Math.max(t, P.gesp.t); for(const s in P.sag || {}) t = Math.max(t, (P.sag[s] && P.sag[s].t) || 0); }
+    return t; };
+  const quelle = {gabel:null, daempfer:null};
+  for(const K in setupAlle){
+    if(K === k || !K.startsWith(rad) || !setupAlle[K] || typeof setupAlle[K] !== "object") continue;
+    const rest = K.slice(rad.length);
+    let slot = null;
+    if(gid && rest.startsWith(gid + "|") && rest !== gid + "|" + (did || "-") && gueltig("daempfer", rest.slice(gid.length + 1))) slot = "gabel";
+    else if(did && rest.endsWith("|" + did) && rest !== (gid || "-") + "|" + did && gueltig("gabel", rest.slice(0, -did.length - 1))) slot = "daempfer";
+    if(slot && (!quelle[slot] || zeit(setupAlle[K]) > zeit(quelle[slot]))) quelle[slot] = setupAlle[K];
+  }
+  if(!quelle.gabel && !quelle.daempfer) return false;
+  let T = ziel;
+  if(!T){ T = {log:[], prof:{}}; for(const p of FMODI) T.prof[p] = {psi:{}, off:{}, sag:{}, fertig:{}, gesp:null}; }
+  let geerbt = false;
+  for(const s of ["gabel", "daempfer"]){
+    const q = quelle[s] && suNorm(quelle[s]);
+    /* Bestehender Eintrag (vor der Korrektur schon angelegt): nur ergaenzen, wenn er fuer
+       dieses Element in keinem Fahrprofil eigene Werte hat -- Eigenes wird nie ueberschrieben */
+    if(!q || (ziel && !suLeerFuer(T, s))) continue;
+    for(const p of FMODI){
+      const A = q.prof[p], B = T.prof[p];
+      if(A.psi[s] > 0){ B.psi[s] = A.psi[s]; geerbt = true; }
+      if(A.alt && A.alt[s] > 0){ (B.alt = B.alt || {})[s] = A.alt[s]; geerbt = true; }
+      for(const key in A.off) if(eigen(s, key)){ B.off[key] = A.off[key]; geerbt = true; }
+      if(A.sag[s]){ B.sag[s] = JSON.parse(JSON.stringify(A.sag[s])); geerbt = true; }
+      for(const key in A.fertig) if(eigen(s, key)){ B.fertig[key] = A.fertig[key]; geerbt = true; }
+      if(A.gesp && typeof A.gesp === "object"){
+        const goff = Object.keys(A.gesp.off || {}).filter(key => eigen(s, key)), gpsi = A.gesp.psi && A.gesp.psi[s] > 0;
+        if(goff.length || gpsi){
+          const g = B.gesp || (B.gesp = {t:A.gesp.t, off:{}, psi:{}});
+          g.off = g.off || {}; g.psi = g.psi || {};
+          for(const key of goff) g.off[key] = A.gesp.off[key];
+          if(gpsi) g.psi[s] = A.gesp.psi[s];
+          geerbt = true;
+        }
+      }
+    }
+    /* Laeuft im alten Paar noch eine Testfahrt fuer dieses Element, wird ihr unbestaetigter
+       Testwert nicht als fester Wert vererbt, sondern der Wert davor (CS-01/CS-02) */
+    const trc = q.tr && q.tr.stand === "test" && q.tr.c, pT = trc ? trUrsprung(q) : null;
+    if(trc && pT && (trc.slot === s || eigen(s, trc.key))){
+      const B = T.prof[pT];
+      if(trc.art === "knopf"){ if(trc.vorher) B.off[trc.key] = trc.vorher; else delete B.off[trc.key]; }
+      else if(trc.art === "psi"){ if(trc.vorher > 0) B.psi[trc.slot] = trc.vorher; else delete B.psi[trc.slot]; }
+    }
+    const da = new Set(T.log.map(e => e && [e.t, e.typ, e.k || e.slot].join("|")));
+    for(const e of q.log)
+      if(e && ((e.typ === "psi" && e.slot === s) || ((e.typ === "knopf" || e.typ === "test" || e.typ === "fertig") && eigen(s, e.k))) && !da.has([e.t, e.typ, e.k || e.slot].join("|"))){
+        T.log.push({...e, von:"erbe"}); geerbt = true; }
+  }
+  if(!geerbt) return false;
+  T.log.sort((a, b) => (a.t || 0) - (b.t || 0));
+  if(T.log.length > 200) T.log.splice(0, T.log.length - 200);
+  T.erbe = 1;                                          /* einmal ergaenzt -- spaeteres eigenes Leeren bleibt leer */
+  setupAlle[k] = T;
+  return true;
+}
+/* Hat der Eintrag fuer dieses Element in irgendeinem Fahrprofil eigene Werte? */
+function suLeerFuer(T, s){
+  const eigen = key => typeof key === "string" && (key.startsWith(s + "|") || key.startsWith(s + ":"));
+  return FMODI.every(p => { const P = T.prof[p];
+    return !(P.psi[s] > 0) && !(P.alt && P.alt[s] > 0) && !Object.keys(P.off).some(eigen) && !P.sag[s] && !Object.keys(P.fertig).some(eigen)
+      && !(P.gesp && (Object.keys(P.gesp.off || {}).some(eigen) || (P.gesp.psi && P.gesp.psi[s] > 0))); });
+}
+function suNorm(d){
   d.log = Array.isArray(d.log) ? d.log : [];
   if(!d.prof || typeof d.prof !== "object"){
     /* Stand vor den Profilen: ein gemeinsames Feintuning und ein Standard */
@@ -13623,7 +13709,7 @@ function suKnoepfe(slot, x, d){
   const ord = {zug:0, hsr:1, druck:2, lsc:2, hsc:3, bo:4, hebel:5};
   liste.sort((p, q) => ord[suArt(p[0])] - ord[suArt(q[0])]);
   return liste.map(z => {
-    const key = slot + "|" + z[0], t = d.test && d.test.k === key ? d.test : null, off = t ? t.cur : (P.off[key] || 0), z2 = knopfPlus(z, off);
+    const key = slot + "|" + z[0], t = d.test && d.test.k === key && suTestHier(d.test) ? d.test : null, off = t ? t.cur : (P.off[key] || 0), z2 = knopfPlus(z, off);
     const art = suArt(z[0]);
     return {z:z2, basis:z, key:key, off:off, test:!!t, g:suGruppe(z[0]), art:art, profi:!!SU_PROFI[art], k:fxKnopf(z2, slot)};
   });
@@ -14637,10 +14723,36 @@ function testHtml(){
   return `<div class="sheet-h"><h3><span class="sub">${tx("Testfahrt-Assistent", "Test-ride assistant")} · ${esc(modusKurz(fedModus))}</span>${tx("Wie war die Fahrt?", "How was the ride?")}</h3>${zuBtn}</div>
     <div class="sheet-b fw-wz fw-trwz">${inhalt}</div>${fuss || st !== "start" ? `<div class="sheet-f fw-wz-f">${st !== "start" && st !== "ok" && st !== "test" ? `<button class="btn ghost" data-trw="start">${tx("Neu anfangen", "Start over")}</button>` : ""}${fuss}</div>` : ""}`;
 }
-function oeffneTest(){ const f = federRechnen(); if(!f.gabel && !f.daempfer) return; const d = suDaten(f); if(!(d.tr && d.tr.stand === "test")) trW = {st:"start"}; zeigeSheet(testHtml()); }
+function oeffneTest(){
+  const f = federRechnen(); if(!f.gabel && !f.daempfer) return; const d = suDaten(f);
+  if(!(d.tr && d.tr.stand === "test")) trW = {st:"start"};
+  else {
+    /* CS-02: eine laufende Testfahrt gehoert ihrem Ursprungsprofil -- Anzeige, Klickzahlen,
+       Ergebnis und Abbruch gelten dort. Wurde inzwischen das Profil gewechselt, zurueck dorthin. */
+    const p0 = trUrsprung(d);
+    if(p0 && p0 !== fedModus){
+      fedModus = p0; try{ localStorage.setItem("mtb.fmodus", fedModus); }catch(e){}
+      fedErgNeu();
+      zeigeToast(tx(`Die laufende Testfahrt gehört zum Profil ${modusKurz(p0)} — dorthin gewechselt.`, `The running test ride belongs to the ${modusKurz(p0)} profile — switched there.`), 4200);
+    }
+  }
+  zeigeSheet(testHtml());
+}
+/* CS-02 (Audit 23.10.2026): In welchem Fahrprofil lief die Testfahrt? Neue Tests merken es
+   sich (tr.p). Alte Staende ohne Angabe: das Profil, in dem der Testwert steht -- nur wenn
+   eindeutig; sonst null, dann wird nichts zurueckgestellt statt im falschen Profil. */
+function trUrsprung(d){
+  const tr = d && d.tr;
+  if(!tr || tr.stand !== "test") return null;
+  if(FMODI.indexOf(tr.p) >= 0) return tr.p;
+  const c = tr.c || {};
+  const treffer = FMODI.filter(p => { const P = suP(d, p);
+    return c.art === "knopf" ? (P.off[c.key] || 0) === (c.neu || 0) : c.art === "psi" ? P.psi[c.slot] === c.neu : false; });
+  return treffer.length === 1 ? treffer[0] : null;
+}
 /* Aenderung eines Vorschlags anwenden bzw. zuruecknehmen */
-function trSetzen(d, c, wert){
-  const P = suP(d);
+function trSetzen(d, c, wert, p){
+  const P = suP(d, p);
   if(c.art === "knopf"){ if(wert) P.off[c.key] = wert; else delete P.off[c.key]; }
   else if(c.art === "psi") P.psi[c.slot] = wert;
 }
@@ -14656,17 +14768,20 @@ function suTestStart(key, dir, s){
   if(!z || !z[2]) return;
   if(d.test) suTestEnde(d, true);
   const P = suP(d), best = knopfKlemm(z, P.off[key] || 0), schritt = Math.max(1, Math.min(s || knopfSchritt(z), knopfSchritt(z) || 1));
-  let t = {k:key, d:dir, s:schritt, best:best, cur:knopfKlemm(z, best + dir * schritt), runde:1, besser:0, gedreht:false, war:[best]};
+  let t = {k:key, p:fedModus, d:dir, s:schritt, best:best, cur:knopfKlemm(z, best + dir * schritt), runde:1, besser:0, gedreht:false, war:[best]};
   if(t.cur === best){ t.d = -dir; t.gedreht = true; t.cur = knopfKlemm(z, best - dir * schritt);
     if(t.cur === best){ zeigeToast(tx("Der Knopf steht schon am Anschlag.", "The knob is already at its end stop.")); return; } }
   d.test = t; suSichern(); fwNeu();
 }
+/* Profi-Knopftest gehoert ebenfalls seinem Startprofil (CS-02); alte Tests ohne Angabe: aktives Profil wie bisher */
+const suTestP = t => t && FMODI.indexOf(t.p) >= 0 ? t.p : fedModus;
+const suTestHier = t => !t || suTestP(t) === fedModus;
 function suBewerten(erg){
   const d = suDaten(), t = d.test;
   if(!t) return;
   const z = suBasisKnopf(t.k);
   if(!z){ d.test = null; suSichern(); fwNeu(); return; }
-  suLog(d, {typ:"test", k:t.k, d:t.cur - t.best, erg:erg});
+  const e = {typ:"test", k:t.k, d:t.cur - t.best, erg:erg}; suLog(d, e); e.p = suTestP(t);
   t.war = (t.war || [t.best]).concat(t.cur);
   if(erg === "gleich"){ suTestEnde(d); return; }
   if(erg === "besser"){ t.best = t.cur; t.besser++; }
@@ -14681,10 +14796,10 @@ function suBewerten(erg){
 function suTestEnde(d, still){
   const t = d.test;
   if(!t) return;
-  const P = suP(d);
+  const P = suP(d, suTestP(t));
   P.off[t.k] = t.best; d.test = null;
   if(!P.off[t.k]) delete P.off[t.k];
-  suLog(d, {typ:"fertig", k:t.k, off:t.best});
+  const e = {typ:"fertig", k:t.k, off:t.best}; suLog(d, e); e.p = suTestP(t);
   if(!still){
     const z = suBasisKnopf(t.k), [slot, name] = t.k.split("|");
     zeigeToast(tx("Gemerkt: ", "Saved: ") + suKnopfLabel(slot, name) + " — " + (t.best && z ? suSchrittTxt(z, t.best) + tx(" ggü. Empfehlung", " vs. recommended") : tx("Empfehlung passt", "recommendation fits")));
@@ -14693,6 +14808,11 @@ function suTestEnde(d, still){
 }
 function suTestHtml(f, d){
   const t = d.test;
+  if(t && !suTestHier(t)){
+    const p = suTestP(t);
+    return `<div class="su-test" role="group" aria-label="${tx("Testrunde", "Test lap")}"><p class="su-tj">${tx(`Der Knopf-Test läuft im Profil ${esc(modusKurz(p))}.`, `The knob test is running in the ${esc(modusKurz(p))} profile.`)}</p>
+      <button class="su-link" data-fmodus="${p}">${tx(`Zum Profil ${esc(modusKurz(p))} wechseln`, `Switch to the ${esc(modusKurz(p))} profile`)}</button></div>`;
+  }
   if(t){
     const z = suBasisKnopf(t.k), [slot, name] = t.k.split("|");
     if(!z) return "";
@@ -15266,8 +15386,9 @@ function suProHtml(){
    Setup-Daten unter "Deine Angaben", die Setup-Karte ist die Ausgabe zum
    Mitnehmen (Doppelungen-Pruefung 2026-10-06) */
 function suAktionen(f, d, offen){
-  const laeuft = d.tr && d.tr.stand === "test";
-  const tst = laeuft ? tx("Test läuft — weiter, wo du warst", "test in progress — pick up where you left off") : d.test ? tx("Knopf-Test läuft", "knob test running") : tx("eine Änderung nach der anderen", "one change at a time");
+  const laeuft = d.tr && d.tr.stand === "test", trP = laeuft ? trUrsprung(d) : null;
+  const tst = laeuft ? (trP && trP !== fedModus ? tx(`Test läuft im Profil ${esc(modusKurz(trP))} — weiter, wo du warst`, `test running in the ${esc(modusKurz(trP))} profile — pick up where you left off`)
+    : tx("Test läuft — weiter, wo du warst", "test in progress — pick up where you left off")) : d.test ? tx("Knopf-Test läuft", "knob test running") : tx("eine Änderung nach der anderen", "one change at a time");
   const kach = (a, i, t, u, kl) => `<button class="fw-akt${kl ? " " + kl : ""}" ${a}><span class="fw-akt-ic">${ic(i, 20)}</span><b>${t}</b><small>${u}</small></button>`;
   return `<div class="fw-akts">${kach('data-fwtest="1"', `<path d="m4 12 4 4 12-12"/>`, laeuft ? tx("Testfahrt fortsetzen", "Continue test ride") : tx("Testfahrt starten", "Start test ride"), tst)}
     ${kach('data-fxtrail="1"', `<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/>`, tx("Setup-Karte", "Setup card"), tx("alle Werte auf einen Blick", "all values at a glance"))}
@@ -18701,20 +18822,23 @@ document.addEventListener("click", e => {
     if(c.art === "knopf"){ if(dd.test) suTestEnde(dd, true); c.vorher = P.off[c.key] || 0; trSetzen(dd, c, c.neu); }
     else if(c.art === "psi"){ c.vorher = P.psi[c.slot] || null; P.psi[c.slot] = c.neu; }
     trW = Object.assign({}, trW, {st:"test", c:c});
-    dd.tr = {stand:"test", el:trW.el, sym:trW.sym, antw:trW.antw || {}, ki:trW.ki || 0, c:c};
+    dd.tr = {stand:"test", p:fedModus, el:trW.el, sym:trW.sym, antw:trW.antw || {}, ki:trW.ki || 0, c:c};
     suSichern(); fwNeu(); blattOben(); return;
   }
   const trg = T("[data-trerg]");
   if(trg){
     const erg = trg.dataset.trerg, f = federRechnen(), dd = suDaten(f), c = trW.c || (dd.tr && dd.tr.c);
     if(!c) return;
-    const P = suP(dd), txt = trTxt(c);
-    if(erg === "besser"){ suLog(dd, {typ:"tr", txt:txt, erg:"besser"}); dd.tr = null; trW = {st:"ok"}; }
+    /* CS-02: Ergebnis und Abbruch gelten ausschliesslich im Ursprungsprofil der Testfahrt */
+    const lauf = dd.tr && dd.tr.stand === "test", p0 = lauf ? trUrsprung(dd) : fedModus;
+    const P = p0 ? suP(dd, p0) : null, txt = trTxt(c), logP = e => { suLog(dd, e); if(p0) e.p = p0; };
+    if(erg === "besser"){ logP({typ:"tr", txt:txt, erg:"besser"}); dd.tr = null; trW = {st:"ok"}; }
     else {
-      if(c.art === "knopf"){ if(c.vorher) P.off[c.key] = c.vorher; else delete P.off[c.key]; }
+      if(!P && (c.art === "knopf" || c.art === "psi")) zeigeToast(tx("Diese ältere Testfahrt lässt sich keinem Fahrprofil sicher zuordnen — es wurde nichts zurückgestellt. Prüf den Wert bitte selbst.", "This older test ride can't be matched to a riding profile for sure — nothing was undone. Please check the value yourself."), 6000);
+      else if(c.art === "knopf"){ if(c.vorher) P.off[c.key] = c.vorher; else delete P.off[c.key]; }
       else if(c.art === "psi"){ if(c.vorher > 0) P.psi[c.slot] = c.vorher; else delete P.psi[c.slot]; }
       else zeigeToast(tx("Stell es wieder so ein wie vorher.", "Set it back to how it was."));
-      if(erg !== "zurueck") suLog(dd, {typ:"tr", txt:txt, erg:erg});
+      if(erg !== "zurueck") logP({typ:"tr", txt:txt, erg:erg});
       dd.tr = null;
       trW = Object.assign({}, trW, {st:"vorschlag", c:null, ki:erg === "zurueck" ? (trW.ki || 0) : (trW.ki || 0) + 1});
     }

@@ -127,6 +127,11 @@ if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:
   const r = lauf('qualitaet-ux-test.mjs', /QUALITAET-UX: (\d+) von (\d+) Prüfungen bestanden/, 8);
   teil('Verständliche Preise, Prüfung und Hilfe', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
 }
+/* APP-CLAUDE-AUDIT-001: Werte beim Teilewechsel und Testfahrt im richtigen Profil */
+{
+  const r = lauf('fahrwerk-erhalt-test.mjs', /FAHRWERK-ERHALT: (\d+) von (\d+) bestanden/, 10);
+  teil('Fahrwerk: Werte beim Teilewechsel, Testfahrt je Profil', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
 bericht.ok = gesamtOk; bericht.dauerSek = Math.round((Date.now() - start) / 1000); bericht.zeit = new Date().toISOString();
 fs.writeFileSync(path.join(wurzel, 'test-ergebnis.json'), JSON.stringify(bericht, null, 2));
 for(const t of bericht.teile) if(!t.ok && t.fehl && t.fehl.length) console.log(`\n${t.name}:\n  ` + t.fehl.join('\n  '));
