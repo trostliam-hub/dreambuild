@@ -1,0 +1,54 @@
+{
+  "url": "https://trostliam-hub.github.io/dreambuild/index.html",
+  "blocked": [],
+  "errors": [],
+  "tabs": [
+    {
+      "id": "",
+      "text": "Neues Rad zusammenstellenAus Einzelteilen, genau für dich — der Assistent macht den ersten Entwurf.",
+      "inside": true
+    },
+    {
+      "id": "",
+      "text": "Mein Rad eintragenWas ist verbaut, was passt nicht, welches Upgrade lohnt sich?",
+      "inside": true
+    },
+    {
+      "id": "",
+      "text": "Gebrauchtrad prüfenAngebot gefunden? Die App sagt, ob der Preis fair ist.",
+      "inside": true
+    },
+    {
+      "id": "",
+      "text": "CrankScorePro\n      \n      \n        99TraumradSpecialized Stumpjumper Alloy\n        \n      \n    \n   ",
+      "inside": false
+    },
+    {
+      "id": "mini",
+      "text": "99TraumradSpecialized Stumpjumper Alloy",
+      "inside": false
+    },
+    {
+      "id": "btn-guide",
+      "text": "",
+      "inside": false
+    },
+    {
+      "id": "btn-menu",
+      "text": "",
+      "inside": false
+    }
+  ],
+  "before": {
+    "version": "20261020-1622",
+    "title": "Mit welchem Rad fängst du an?",
+    "dialog": true,
+    "focus": "<h2 class=\"ei-q\" tabindex=\"-1\" style=\"--i:1\">Mit welchem Rad fängst du an?</h2>"
+  },
+  "after": {
+    "dialog": false,
+    "sheet": "EinstellungenApp & Profil",
+    "title": "Schließen",
+    "firstSetupCompleted": null
+  }
+}

@@ -1,0 +1,63 @@
+[
+  {
+    "name": "backup-invalid-profile-entry",
+    "data": {
+      "accepted": true,
+      "applied": true,
+      "preview": [
+        "?"
+      ],
+      "oldName": "Wichtiger Altstand",
+      "stored": "{\"v\":1,\"modus\":\"real\",\"aktiv\":{\"traum\":\"pmvl68r4y7uyi\",\"real\":\"pmvl68r4yvtm2\",\"markt\":\"pmvl68r4yn4i8\"},\"liste\":{\"traum\":[{\"id\":\"pmvl68r4y7uyi\",\"name\":\"\",\"build\":{\"rahmen\":\"f-stumpy\",\"gabel\":\"g-pike\",\"daempfer\":\"d-deluxe|ultimate~190x45m\",\"laufraeder\":\"w-newmen|microspline\",\"reifenVR\":\"t-kryptotal\",\"reifenHR\":\"t-dhr2\",\"schalthebel\":\"sh-xt\",\"schaltwerk\":\"sw-xt\",\"kassette\":\"ka-xt\",\"kette\":\"ke-m8100\",\"kurbel\":\"k-xt\",\"innenlager\":\"il-mt800\",\"bremsen\":\"b-xt|180180\",\"lenker\":\"l-race\",\"vorbau\":\"v-race\",\"stuetze\":\"s-fox349\",\"sattel\":\"sa-ergon\",\"pedale\":\"pe-oneupa\",\"griffe\":\"gr-ge1\",\"steuersatz\":null,\"rahmenlager\":null},\"sel\":[\"trail\"],\"plan\":{\"budget\":0,\"mSchalt\":\"\",\"mBrems\":\"\",\"mFed\":\"\",\"prio\":\"pl\",\"lr\":\"\",\"federung\":\"\",\"pedal\":\"\"},\"jahr\":2026,\"markt\":null,\"wuensche\":[]}],\"real\":[null],\"markt\":[{\"id\":\"pmvl68r4yn4i8\",\"name\":\"\",\"build\":{\"rahmen\":null,\"gabel\":null,\"daempfer\":null,\"laufraeder\":null,\"reifenVR\":null,\"reifenHR\":null,\"schalthebel\":null,\"schaltwerk\":null,\"kassette\":null,\"kette\":null,\"kurbel\":null,\"innenlager\":null,\"bremsen\":null,\"lenker\":null,\"vorbau\":null,\"stuetze\":null,\"sattel\":null,\"pedale\":null,\"griffe\":null,\"steuersatz\":null,\"rahmenlager\":null},\"sel\":[\"trail\"],\"plan\":{\"budget\":0,\"mSchalt\":\"\",\"mBrems\":\"\",\"mFed\":\"\",\"prio\":\"pl\",\"lr\":\"\",\"federung\":\"\",\"pedal\":\"\"},\"jahr\":2023,\"markt\":{\"alter\":3,\"zustand\":\"gepflegt\",\"verschleiss\":{},\"preis\":0}}]}}",
+      "after": {
+        "name": "",
+        "wishes": 0,
+        "protected": true
+      }
+    },
+    "errors": [],
+    "externalRequestsBlocked": 0,
+    "screenshot": "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\audit-20261023-backup-invalid-profile-entry.png"
+  },
+  {
+    "name": "backup-invalid-setup-export",
+    "data": {
+      "accepted": true,
+      "applied": true,
+      "after": {
+        "exportError": "Cannot read properties of undefined (reading 'length')",
+        "rawSetup": "{\"bad-key\":{\"prof\":{}}}"
+      }
+    },
+    "errors": [],
+    "externalRequestsBlocked": 0,
+    "screenshot": "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\audit-20261023-backup-invalid-setup-export.png"
+  },
+  {
+    "name": "profile-copy-real-quota-photo",
+    "data": {
+      "photoLength": 344599,
+      "originalPhotoKept": true,
+      "copyHasPhoto": false,
+      "copyStored": true,
+      "toasts": [],
+      "usedChars": 5163148
+    },
+    "errors": [],
+    "externalRequestsBlocked": 0,
+    "screenshot": "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\audit-20261023-profile-copy-real-quota-photo.png"
+  },
+  {
+    "name": "invalid-json-profile-crash",
+    "data": {
+      "groups": 0,
+      "protected": false,
+      "storedSel": "trail"
+    },
+    "errors": [
+      "(p.sel || []).filter is not a function"
+    ],
+    "externalRequestsBlocked": 0,
+    "screenshot": "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\audit-20261023-invalid-json-profile-crash.png"
+  }
+]

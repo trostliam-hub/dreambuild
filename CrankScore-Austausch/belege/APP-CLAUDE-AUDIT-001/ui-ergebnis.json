@@ -1,0 +1,50 @@
+{
+  "live_url": "https://trostliam-hub.github.io/dreambuild/index.html",
+  "app_version": "20261020-1622",
+  "source_commit": "29e7a8f021c50b8f221a257d2fadbbdead8f025f",
+  "browser": "Vorhandenes Chrome/Playwright, isolierte Kontexte, 320/390 px, synthetische Profile",
+  "repo_aenderungen": false,
+  "echte_api_lizenz_kaufaktionen": false,
+  "findings": [
+    {
+      "id": "UI-01",
+      "priority": "P2",
+      "title": "Startseite und Einrichtung lassen den Tastaturfokus in den Hintergrund entkommen",
+      "steps": [
+        "Mit frischem Browserprofil Live-App öffnen. Schon der erste Tab fokussiert #mini hinter der Startseite statt einen Startseitenknopf.",
+        "Starten anklicken, Einführung überspringen. Die Überschrift 'Mit welchem Rad fängst du an?' erhält den Fokus.",
+        "Siebenmal Tab drücken: drei Radoptionen, BODY, #mini, #btn-guide, #btn-menu.",
+        "Enter drücken. Die Ersteinrichtung verschwindet und 'App & Profil' öffnet sich, obwohl keine Radoption gewählt wurde."
+      ],
+      "expected": "Während einer aria-modal-Oberfläche bleibt der Fokus darin; Tab/Shift+Tab laufen zyklisch. Hintergrundknöpfe sind nicht bedienbar. Einrichtung wird nur durch ihre eigenen Aktionen verlassen.",
+      "actual": "Die Tastatur aktiviert verdeckte Hintergrundnavigation und ersetzt die laufende Einrichtung. Ebenso reproduziert im separaten Fahrerprofil.",
+      "source": [
+        "index.html:8482 oeffneStartseite: keine Fokusübernahme/Begrenzung oder Hintergrund-inert",
+        "index.html:10246 eiZeigen: .ei-Dialog fokussiert Überschrift, begrenzt Tab danach nicht",
+        "index.html:17633 blattDialogAktiv: berücksichtigt nur .scrim > .sheet; .ls und .ei sind ausgeschlossen",
+        "index.html:17651 und 17659 bestehende Fokus-Handler greifen deshalb für diese Dialoge nicht"
+      ],
+      "screenshots": [
+        "390-onboarding-tab7-hintergrund.png",
+        "390-onboarding-enter-profil-statt-einrichtung.png"
+      ],
+      "proof": "fokus-beweis.json",
+      "repro_helper": "fokus-repro.cjs"
+    }
+  ],
+  "improvement_ideas_separate": [
+    {
+      "title": "Vergrößerung für Nutzer mit eingeschränktem Sehvermögen ermöglichen",
+      "status": "Bewusste bestehende Produktentscheidung, kein als Regression ausgegebener Fehler",
+      "evidence": "Viewport maximum-scale=1/user-scalable=no; universelles touch-action:pan-x pan-y; gesturestart und Zwei-Finger-touchmove werden live preventDefault-abgebrochen.",
+      "source": "index.html:5, 1955-1962, 17590-17596",
+      "note": "Quelltextkommentar nennt einen früheren Wunsch, Zoom zu sperren. Deshalb als gesonderte Produkt-/A11y-Abwägung behandeln; nicht stillschweigend umstellen. Die künstlichen CSS-zoom-Screenshots sind keine Browser-Zoom-Fehlerbeweise."
+    }
+  ],
+  "not_findings": [
+    "Schwarze Bildzonen vor Ladeabschluss wurden verworfen. Nach explizitem Ladeabschluss waren Intro-Coil, Federaufdruck, SAG, Zugstufe, LSC und HSC sichtbar; keine neue falsche Markerzuordnung in diesen geprüften Fällen.",
+    "Leere Wunschliste/Einkauf und Fahrwerk ohne eingetragenes Rad waren bei 320 px verständlich und ohne bestätigten Überstand. Fahrwerk führt zum Eintragen des Rads.",
+    "preisverlauf.json liefert 404, ist aber optional und ohne Preisfeeds kein bestätigter Funktionsfehler.",
+    "Kein JavaScriptfehler im isolierten Browserlauf. Normale .sheet-Dialoge und Foto-Großansicht wurden nicht erneut als die schon behobenen Fokusfehler gemeldet."
+  ]
+}

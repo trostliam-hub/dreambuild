@@ -1,0 +1,102 @@
+{
+  "app": "20261020-1622",
+  "commit": "ba9f1764cba0b1a04dff7fd1865a7ae5dcd5d42e",
+  "url": "https://trostliam-hub.github.io/dreambuild/index.html",
+  "method": "Simulierte Einsteigerprüfung in isoliertem synthetischem Playwright-Browserprofil; externe Requests blockiert; keine API-, Kauf- oder Lizenzaufrufe.",
+  "P1_Daempferwechsel": {
+    "before": {
+      "key": "pmvl621791t9m|g-zeb|charger3.2rc2~180|d-sdcoil|ultimate~230x65m",
+      "p": {
+        "psi": {
+          "gabel": 102
+        },
+        "off": {
+          "gabel|Zugstufe": 2
+        },
+        "alt": null,
+        "gesp": null,
+        "sag": {
+          "gabel": {
+            "mm": 36,
+            "psi": 102,
+            "basis": "[84,\"f-spindrift\",null,\"analog\",\"g-zeb|charger3.2rc2~180\",180,null,null]",
+            "t": 1792771886215
+          }
+        },
+        "fertig": {}
+      },
+      "log": [
+        {
+          "typ": "psi",
+          "slot": "gabel",
+          "alt": 130,
+          "neu": 102,
+          "t": 1792771873566,
+          "p": "allround"
+        },
+        {
+          "typ": "knopf",
+          "k": "gabel|Zugstufe",
+          "off": 2,
+          "t": 1792771886205,
+          "p": "allround"
+        },
+        {
+          "typ": "notiz",
+          "text": "Gabel bleibt: 102 psi, Zug +2",
+          "t": 1792771886215,
+          "p": "allround"
+        }
+      ]
+    },
+    "after": {
+      "psi": 130,
+      "prof": {
+        "psi": {},
+        "off": {},
+        "alt": null,
+        "gesp": null,
+        "sag": {},
+        "fertig": {}
+      },
+      "log": []
+    },
+    "steps": [
+      "Gabel102psi und Zugstufe+2 speichern; SAG36mm, Notiz",
+      "Mein Rad→Dämpfer→Super Deluxe Ultimate230×65Standard→Einbauen",
+      "Fahrwerk→Fragen fortsetzen→Dämpferjahr2027→Weiter bis Abschluss"
+    ],
+    "expected": "Unveränderte Gabeleinstellungen und Gabelmessung bleiben erhalten; nur Dämpferdaten neu.",
+    "screenshot": "C:/Users/trost/.codex/visualizations/2026/10/13/01a135c6-c1f3-72a3-b061-bf6f15e8793c/audit-20261023-fahrwerk/daempferwechsel-verliert-gabelwerte-390.png"
+  },
+  "P1_TestfahrtProfilwechsel": {
+    "beforeDownhillOff": {
+      "gabel|Zugstufe": 1
+    },
+    "startedAllround": {
+      "beforeOff": 0,
+      "testOff": 2
+    },
+    "afterCancel": {
+      "activeProfile": "downhill",
+      "downhillOff": {},
+      "allroundOff": {
+        "gabel|Zugstufe": 2
+      },
+      "runningTest": null
+    },
+    "steps": [
+      "Downhill-Gabelzugstufe+1 speichern",
+      "Allround→Testfahrt→Etwas stimmt nicht→Gabel→Kickt→Ist eingestellt–testen",
+      "Dialog schließen→Profile→Downhill→Testfahrt fortsetzen→Abbrechen und zurückstellen"
+    ],
+    "expected": "Testfahrt bleibt an Allround gebunden; Abbruch stellt Allround zurück, Downhill bleibt unverändert.",
+    "screenshot": "C:/Users/trost/.codex/visualizations/2026/10/13/01a135c6-c1f3-72a3-b061-bf6f15e8793c/audit-20261023-fahrwerk/testfahrt-falsches-profil-390.png"
+  },
+  "P2_Orientierung": {
+    "header": "rotes Rädchen unten am rechten Holm",
+    "photoCaption": "Zugstufe: der schwarze gerändelte Knopf unten am rechten Holm.",
+    "model": "RockShox ZEB Ultimate / Charger3.2RC2 /2027",
+    "screenshot": "C:/Users/trost/.codex/visualizations/2026/10/13/01a135c6-c1f3-72a3-b061-bf6f15e8793c/audit-20261023-fahrwerk/zeb2027-zugstufe-farbwiderspruch-390.png"
+  }
+}

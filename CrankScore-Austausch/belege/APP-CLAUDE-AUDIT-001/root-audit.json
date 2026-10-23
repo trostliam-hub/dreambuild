@@ -1,0 +1,45 @@
+{
+  "time": "2026-10-23T16:15:17.046Z",
+  "source": "29e7a8f021c50b8f221a257d2fadbbdead8f025f",
+  "live": {
+    "index.html": {
+      "status": 200,
+      "sha256": "d24681609c59ed9add3e13bea859d4e11ab3b09f4090b91e5e83fa129464eca4",
+      "identical": true,
+      "version": "20261020-1622"
+    },
+    "mtb-sw.js": {
+      "status": 200,
+      "sha256": "10e3f0a42aa02ae7ad3a1b3b287581c6bc4715525ce7760052a9cff3c2d84a1f",
+      "identical": true,
+      "cache": "dreambuild-20261020-1622"
+    },
+    "preise.json": {
+      "status": 200,
+      "sha256": "a30c5592ccdb3689cae0281eb154f7271032a18e75d53178f2797fc73e5bf58b",
+      "identical": true,
+      "offers": 0,
+      "productPages": 2
+    },
+    "preisverlauf.json": {
+      "status": 404
+    }
+  },
+  "publicConfig": {
+    "missingOperatorFields": [
+      "name",
+      "strasse",
+      "ort",
+      "email"
+    ],
+    "monthlyCheckout": false,
+    "yearlyCheckout": false,
+    "storeConfigured": false,
+    "productConfigured": false,
+    "adapter": "Rahmen und Gabel geben über ihre Aufnahme eine Mindestgröße vor — die <b>native</b> Größe, etwa Post Mount 160, 180 oder 200 — und laut Hersteller eine Höchstgröße. Kleiner als nativ geht nicht. Größer geht mit einem Adapter um genau die Differenz: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (zwei 1,5-mm-Distanzscheiben). Flat Mount und IS brauchen für die üblichen Post-Mount-Bremssättel immer einen Adapter. Die App rechnet das aus und zeigt es gelb mit „passt mit Adapter“. Üblich: 180 mm für XC und Trail, 200–220 mm für Enduro, Downhill und E-MTB.",
+    "brakeCategory": "Hebel, Bremssättel und Scheiben. Mehr Kolben und größere Scheiben bremsen kräftiger."
+  },
+  "guideText": "Hi! Ich bin der Guide. Frag mich alles zur App, zu deinem Rad und zum Schrauben — zum Beispiel „Was fehlt zur 100?“, „Welche Gabel soll ich nehmen?“, „Meine Bremse schleift“ oder „Wie stelle ich die Schaltung ein?“. Ich erkläre es einfach und Schritt für Schritt, passend zu den Teilen an deinem Rad. Gerade offen: Traumrad · Trail · Score 99.\nWie groß dürfen die Bremsscheiben sein?\nRahmen und Gabel geben über ihre Aufnahme eine Mindestgröße vor — die native Größe, etwa Post Mount 160, 180 oder 200 — und laut Hersteller eine Höchstgröße. Kleiner als nativ geht nicht. Größer geht mit einem Adapter um genau die Differenz: PM180 + 23 mm = 203 mm, PM160 + 20 = 180, PM200 + 3 = 203 (zwei 1,5-mm-Distanzscheiben). Flat Mount und IS brauchen für die üblichen Post-Mount-Bremssättel immer einen Adapter. Die App rechnet das aus und zeigt es gelb mit „passt mit Adapter“. Üblich: 180 mm für XC und Trail, 200–220 mm für Enduro, Downhill und E-MTB.",
+  "errors": [],
+  "blockedRequests": 0
+}
