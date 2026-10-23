@@ -163,7 +163,16 @@ try{
       photos+=imgs.length;for(let j=0;j<imgs.length;j++){
         const img=imgs[j];assert.ok(img.alt.trim(),'Foto braucht Alttext');
         assert.ok(/\.(?:jpe?g|png|webp)(?:[?#]|$)/i.test(img.src)||img.src.startsWith('blob:')&&img.background==='schwarz','Fotodatei oder Schwarz-Darstellung eines Herstellerfotos statt Ersatzzeichnung: '+img.src);
-        assert.doesNotMatch(img.src,/^data:|placeholder|generated|claude/i);if(img.local){await images.nth(j).evaluate(e=>e.decode());assert.ok(await images.nth(j).evaluate(e=>e.naturalWidth>0),'Foto laesst sich nicht decodieren');}
+        assert.doesNotMatch(img.src,/^data:|placeholder|generated|claude/i);if(img.local){
+          /* Erst laden lassen, dann die Datei selbst vollstaendig decodieren. img.decode() laeuft in Chromium ueber den
+             Compositor und meldete in der Headless-CI sporadisch EncodingError, obwohl die Datei gueltig ist (auch am
+             Stand b200edc, gleiche Revision mal gruen, mal rot). createImageBitmap prueft die Bilddaten ohne diesen Umweg;
+             eine kaputte oder fehlende Datei faellt weiterhin durch. */
+          const d=await images.nth(j).evaluate(async e=>{
+            if(!e.complete)await new Promise((ok,nein)=>{e.addEventListener('load',ok,{once:true});e.addEventListener('error',()=>nein(new Error('Foto laedt nicht: '+e.src)),{once:true});});
+            const r=await fetch(e.currentSrc||e.src);if(!r.ok)throw new Error('Foto fehlt: '+e.src);
+            const bmp=await createImageBitmap(await r.blob()),w=bmp.width,h=bmp.height;bmp.close();return {w,h,nw:e.naturalWidth};});
+          assert.ok(d.w>0&&d.h>0&&d.nw>0,'Foto laesst sich nicht decodieren: '+img.src);}
       }
       if(imgs.length){const sources=page.locator('#szenen [data-szquelle]');assert.ok(await sources.count(),'Fotoquelle fehlt');for(const a of await sources.all()){assert.equal(await a.isVisible(),true);assert.match(await a.getAttribute('href'),/^https:\/\//);assert.ok((await a.textContent()).trim());}}
     }assert.ok(photos>0,'Einführung zeigt kein echtes Foto');await click('#szenen [data-szweg]');await ended();
