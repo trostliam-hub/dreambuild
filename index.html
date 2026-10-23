@@ -1782,6 +1782,7 @@ body.einflug .urteil,body.einflug .fotokarte,body.einflug .panel > .card{
    Immer hell, wie die Vorlage -- mit eigenem Satz Farben, unabhaengig vom
    Design der App. Liegt unter den Schubladen (z 60), damit Impressum, Guide
    und Pro darueber aufgehen. */
+.ls:focus,main.wrap:focus{outline:none}
 .ls{position:fixed;inset:0;z-index:55;background:#fff;color:#1d1d1f;display:flex;flex-direction:column;
   --l-karte:#f2f2f5;--l-ink:#1d1d1f;--l-ink2:#6e6e73;--l-line:#e3e3e8;animation:einblenden .3s ease;
   --gut:#2fb86b;--bad:#e0344f;--on-bad:#fff;--m-pass:#6E7976;--m-eins:#6E7976;--anod:#14171B;--anod-soft:#E9E6E0;--on-anod:#fff;--on-akzent:#ffffff; --akzent-flaeche:#14171B;--grad:linear-gradient(#14171B,#14171B)}
@@ -8443,7 +8444,7 @@ function startseiteHtml(){
     tx("Größenberatung", "Sizing advice"), tx("Gebrauchtrad-Bewertung", "Used bike rating"), tx(`Guide: ${PRO_GUIDE_FREI} Fragen am Tag`, `Guide: ${PRO_GUIDE_FREI} questions a day`), tx("Ein Rad je Modus", "One bike per mode")];
   const plus = [tx("Alles aus Free", "Everything in Free"), tx("Unbegrenzt viele Räder", "Unlimited bikes"), tx("Fahrwerk-Setup", "Suspension setup"), tx("Guide ohne Limit", "Unlimited guide")];
   const liste = a => `<ul>${a.map(x => `<li>${ic(IC.haken, 15)}${x}</li>`).join("")}</ul>`;
-  return `<div class="ls" role="dialog" aria-modal="true" aria-label="CrankScore">
+  return `<div class="ls" role="dialog" aria-modal="true" aria-label="CrankScore" tabindex="-1">
     <header class="ls-nav"><span class="ls-logo"><svg class="brand-logo" aria-hidden="true" focusable="false"><use href="#cs-logo"/></svg>Crank<i>Score</i></span><span class="ls-nav-r">
       <button class="ls-sprache" data-sprache="${tx("en", "de")}" lang="${tx("en", "de")}">${tx("English", "Deutsch")}</button>
       <button class="ls-mini" data-lsstart="1">${(() => { try{ return localStorage.getItem("mtb.einstieg2"); }catch(e){ return null; } })() ? tx("Zur App", "Open app") : tx("Starten", "Start")}</button></span></header>
@@ -8540,8 +8541,10 @@ function oeffneStartseite(){
     b.querySelectorAll(".ls-rein").forEach(x => { x.classList.add("zu"); beob.observe(x); });
   }
   b.addEventListener("scroll", () => el.firstElementChild.classList.toggle("gerollt", b.scrollTop > 10), {passive:true});
+  /* Audit CS-05: Fokus beginnt auf der Startseite, nicht in der App dahinter */
+  if(!$("modal").firstElementChild) try{ el.firstElementChild.focus({preventScroll:true}); }catch(e){}
 }
-function schliesseStartseite(){ $("startseite").innerHTML = ""; }
+function schliesseStartseite(){ const drin = $("startseite").contains(document.activeElement); $("startseite").innerHTML = ""; if(drin) fokusApp(); }
 /* #start auch, wenn die App schon offen ist (Link in derselben Seite) */
 window.addEventListener("hashchange", () => {
   if(!/^#start$/i.test(location.hash)) return;
@@ -10298,6 +10301,9 @@ function eiZeigen(still){
   const id = st[ei.schritt], s = EI_SCHRITT[id]();
   let root = $("modal").querySelector(".ei");
   if(!root){
+    /* Audit CS-05: Ausloeser merken wie bei Blaettern -- schliesse() gibt den Fokus dorthin zurueck.
+       Kam die Einrichtung aus einem Blatt, bleibt dessen Ausloeser. */
+    if(!$("modal").querySelector(".scrim")) blattAusloeser = document.activeElement && document.activeElement.closest("#startseite,#szenen") ? null : ausloeserMerken();
     $("modal").innerHTML = `<div class="ei" role="dialog" aria-modal="true" aria-label="${tx("Einrichtung", "Getting started")}">
       <div class="ei-kopf"><button class="ei-zur" data-eizurueck="1" aria-label="${tx("Zurück", "Back")}">${ic(IC.zurueck, 20)}</button>
         <div class="ei-bahn" role="progressbar" aria-label="${tx("Fortschritt", "Progress")}" aria-valuemin="0" aria-valuemax="100"><i></i></div>
@@ -10408,7 +10414,7 @@ function eiLive(){
 function eiSchliessen(){
   try{ localStorage.setItem("mtb.einstieg2", "1"); }catch(e){}
   const nach = ei.nach; ei.nach = null;
-  sichern(); schliesse(); zeichne(); einflug();
+  sichern(); schliesse(); zeichne(); einflug(); fokusApp();
   return nach;
 }
 function eiSkip(){
@@ -17820,17 +17826,49 @@ document.addEventListener("touchmove", e => {
    nach oben. Bleibt es dasselbe Blatt (gleicher Titel), bleibt auch die
    Scrollposition. Nur ein neues Blatt laesst seine Eintraege einfliegen. */
 let tastaturNav = false, blattAusloeser = null;
+function ausloeserMerken(){
+  const ae = document.activeElement;
+  if(!ae || ae === document.body || ae.closest("#modal")) return null;
+  const at = Array.prototype.find.call(ae.attributes, x => /^data-/.test(x.name));
+  return {el:ae, k:at ? at.name : null, v:at ? at.value : null};
+}
 document.addEventListener("keydown", e => { if(e.key === "Tab" || e.key === "Enter" || e.key === " ") tastaturNav = true; }, true);
 document.addEventListener("pointerdown", () => { tastaturNav = false; }, true);
 /* APP-BEDIENUNG-MODAL-001: nur das sichtbare Sheet, ohne Foto-/Intro-Dialoge. */
 const blattSichtbar = el => !!(el && el.getClientRects().length && !el.closest("[hidden],[inert],.weg") && getComputedStyle(el).visibility !== "hidden"
   && (!el.checkVisibility || el.checkVisibility({visibilityProperty:true})));
+/* Wirksame Stapelhoehe einer Ebene: z-index des naechsten Vorfahren, der einen hat */
+function ebeneZ(el){
+  for(let x = el; x && x !== document.body; x = x.parentElement){ const z = getComputedStyle(x).zIndex; if(z !== "auto") return +z || 0; }
+  return 0;
+}
 function blattDialogAktiv(){
   const sheet = $("modal").querySelector(".scrim > .sheet");
   if(!blattSichtbar(sheet) || document.querySelector("dialog[open]")) return null;
   const sc = sheet.parentElement;
-  if([...document.querySelectorAll('[role="dialog"]')].some(el => el !== sc && !sc.contains(el) && blattSichtbar(el))) return null;
+  /* Nur Dialoge darueber (Foto, Szenen, Adapter-Info) bekommen die Tastatur -- die Startseite darunter nicht (Audit CS-05) */
+  if([...document.querySelectorAll('[role="dialog"]')].some(el => el !== sc && !sc.contains(el) && blattSichtbar(el) && ebeneZ(el) >= ebeneZ(sc))) return null;
   return sheet;
+}
+/* Audit CS-05: Startseite (.ls) und Einrichtung/Fahrerprofil (.ei) sind ebenso modal. Ihnen gehoert die
+   Tastatur, wenn sie die oberste sichtbare Ebene sind; eigene Ebenen (Szenen, Foto, Adapter-Info) bleiben,
+   wie sie sind. */
+function ebeneAktiv(){
+  if(document.querySelector("dialog[open]")) return null;
+  const sichtbar = [...document.querySelectorAll('[role="dialog"]')].filter(blattSichtbar);
+  if(!sichtbar.length) return null;
+  const oben = sichtbar.reduce((a, b) => ebeneZ(b) > ebeneZ(a) ? b : a);
+  return oben.matches(".ls,.ei") ? oben : null;
+}
+const fokusBereich = () => blattDialogAktiv() || ebeneAktiv();
+/* Nach dem Verlassen von Startseite oder Einrichtung: Fokus an den Anfang der App statt ins Leere */
+function fokusApp(){
+  setTimeout(() => {
+    if(!tastaturNav || (document.activeElement && document.activeElement !== document.body) || fokusBereich()) return;
+    const m = document.querySelector("main.wrap"); if(!m) return;
+    if(!m.hasAttribute("tabindex")) m.setAttribute("tabindex", "-1");
+    try{ m.focus({preventScroll:true}); }catch(e){}
+  }, 0);
 }
 function blattFokusZiele(sheet){
   return [...sheet.querySelectorAll('a[href],button,input,select,textarea,summary,[tabindex],[contenteditable="true"]')]
@@ -17844,15 +17882,20 @@ function blattDialogBenennen(sheet){
 }
 document.addEventListener("keydown", e => {
   if(e.key !== "Tab" || e.defaultPrevented) return;
-  const sheet = blattDialogAktiv(); if(!sheet) return;
-  const ziele = blattFokusZiele(sheet), i = ziele.indexOf(document.activeElement);
+  const sheet = fokusBereich(); if(!sheet) return;
+  const ziele = blattFokusZiele(sheet), a = document.activeElement, i = ziele.indexOf(a);
   if(!ziele.length){ e.preventDefault(); sheet.focus({preventScroll:true}); return; }
+  /* Fokus auf einer Ueberschrift im Bereich (Einrichtung): weiter in Lesereihenfolge, nicht zurueck an den Anfang */
+  if(i < 0 && a && a !== sheet && sheet.contains(a)){
+    const nach = ziele.filter(z => a.compareDocumentPosition(z) & Node.DOCUMENT_POSITION_FOLLOWING), vor = ziele.filter(z => !nach.includes(z));
+    e.preventDefault(); (e.shiftKey ? vor[vor.length - 1] || ziele[ziele.length - 1] : nach[0] || ziele[0]).focus(); return;
+  }
   if(i < 0 || (e.shiftKey ? i === 0 : i === ziele.length - 1)){
     e.preventDefault(); ziele[e.shiftKey ? ziele.length - 1 : 0].focus();
   }
 }, true);
 document.addEventListener("focusin", e => {
-  const sheet = blattDialogAktiv(); if(!sheet || sheet.contains(e.target)) return;
+  const sheet = fokusBereich(); if(!sheet || sheet.contains(e.target)) return;
   (blattFokusZiele(sheet)[0] || sheet).focus({preventScroll:true});
 });
 /* Ende APP-BEDIENUNG-MODAL-001 */
@@ -17871,11 +17914,7 @@ function zeigeSheet(html){
     /* Ausloeser merken, damit der Tastaturfokus nach dem Schliessen dorthin
        zurueckkehrt (APP-REDESIGN-001; vorher landete er am Seitenanfang).
        Wird die Seite inzwischen neu gezeichnet, findet ihn das data-Merkmal. */
-    const ae = document.activeElement;
-    if(ae && ae !== document.body && !ae.closest("#modal")){
-      const at = Array.prototype.find.call(ae.attributes, x => /^data-/.test(x.name));
-      blattAusloeser = {el:ae, k:at ? at.name : null, v:at ? at.value : null};
-    } else blattAusloeser = null;
+    blattAusloeser = ausloeserMerken();
     const dunkel = blattWeg(true);
     $("modal").innerHTML = `<div class="scrim${dunkel ? " ohne-ein" : ""}" role="dialog" aria-modal="true"><div class="sheet frisch">${html}</div></div>`;
     const s = $("modal").querySelector(".sheet");

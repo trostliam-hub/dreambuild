@@ -224,6 +224,66 @@ await test('CS-04 Kopie passt gar nicht: nichts angelegt, Speicher unveraendert,
   assert.equal(await ev(()=>profile.real.length),1);
 });
 
+/* ── CS-05: Tastaturfokus bleibt in Startseite, Einrichtung und Fahrerprofil ── */
+const fokus=()=>ev(()=>{const a=document.activeElement;return {ls:!!(a&&a.closest('.ls')),ei:!!(a&&a.closest('.ei')),sheet:!!(a&&a.closest('#modal .sheet')),
+  text:a?(a.getAttribute('aria-label')||a.textContent||a.tagName).trim().slice(0,50):'',id:a&&a.id,tag:a&&a.tagName};});
+const neuerBesuch=async()=>{await page.goto(url);await ev(()=>{localStorage.clear();localStorage.setItem('mtb.sprache','de');});await page.reload();
+  await page.waitForFunction(()=>!!document.querySelector('#startseite .ls'));};
+const tabs=async(n,shift)=>{const out=[];for(let i=0;i<n;i++){await page.keyboard.press(shift?'Shift+Tab':'Tab');out.push(await fokus());}return out;};
+
+await test('CS-05 Startseite: Fokus beginnt dort, Tab und Shift+Tab bleiben zyklisch darin',async()=>{
+  await neuerBesuch();
+  assert.ok((await fokus()).ls,'Anfangsfokus auf der Startseite');
+  const n=await ev(()=>blattFokusZiele(document.querySelector('.ls')).length);
+  const vor=await tabs(n+3);assert.ok(vor.every(f=>f.ls),'Tab verlaesst die Startseite nicht: '+vor.filter(f=>!f.ls).map(f=>f.id||f.text).join(', '));
+  /* Beim Scrollen kommen Karten dazu -- zyklisch heisst: der erste Treffer kommt wieder */
+  assert.ok(vor.slice(1).some(f=>f.text===vor[0].text),'Tab laeuft im Kreis: '+vor.map(f=>f.text).join(' | '));
+  const zur=await tabs(n+3,true);assert.ok(zur.every(f=>f.ls),'Shift+Tab verlaesst die Startseite nicht');
+});
+
+await test('CS-05 Ersteinrichtung (Audit-Weg): 7x Tab und Enter bleiben in der Einrichtung, kein App-Menue dahinter',async()=>{
+  await neuerBesuch();
+  await page.click('#startseite .ls-mini[data-lsstart]');
+  if(await page.$('#szenen [data-szweg]'))await page.click('#szenen [data-szweg]');
+  await page.waitForFunction(()=>!!document.querySelector('#modal .ei .ei-q'));
+  const start=await ev(()=>document.activeElement&&document.activeElement.matches('.ei-q')&&document.activeElement.textContent);
+  assert.match(start||'',/Mit welchem Rad/,'Anfangsfokus auf der Frage');
+  const sieben=await tabs(7);assert.ok(sieben.every(f=>f.ei),'Tab bleibt in der Einrichtung: '+sieben.map(f=>f.id||f.text).join(' | '));
+  const erster=await ev(()=>{const q=document.querySelector('.ei-q'),z=blattFokusZiele(document.querySelector('.ei'));
+    return z.find(x=>q.compareDocumentPosition(x)&Node.DOCUMENT_POSITION_FOLLOWING).textContent.trim().slice(0,50);});
+  assert.equal(sieben[0].text,erster,'erster Tab geht von der Frage zur ersten Antwort');
+  const gewaehlt=await ev(()=>document.activeElement.dataset.eiwahl||document.activeElement.className);
+  await page.keyboard.press('Enter');await page.waitForTimeout(900);
+  const nach=await ev(()=>({titel:(document.querySelector('#modal .sheet-h h3')||{}).textContent||'',ziel:ei.ziel}));
+  assert.doesNotMatch(nach.titel,/App/,'kein App-&-Profil-Menue aus dem Hintergrund');
+  if(/^ziel\|/.test(gewaehlt))assert.equal('ziel|'+nach.ziel,gewaehlt,'Enter wirkt auf die fokussierte Antwort der Einrichtung');
+  /* Danach fuehrt die Einrichtung weiter (naechster Schritt oder Teileauswahl) -- auch dort bleibt der Fokus im obersten Bereich */
+  const viele=await tabs(30);assert.ok(viele.every(f=>f.ei||f.sheet),'nach Enter: '+viele.map(f=>(f.ei||f.sheet?'':'!')+(f.id||f.text)).join(' | '));
+  assert.ok((await tabs(12,true)).every(f=>f.ei||f.sheet));
+});
+
+await test('CS-05 Fahrerprofil: Tab bleibt drin, Schliessen gibt den Fokus an den Ausloeser zurueck',async()=>{
+  await leer();await ev(()=>{schliesse();view='aufbau';zeichne();});
+  const ausl=await ev(()=>{const b=[...document.querySelectorAll('main.wrap button')].find(b=>b.getClientRects().length&&[...b.attributes].some(a=>/^data-/.test(a.name)));
+    b.focus();return b.outerHTML.slice(0,80);});
+  await page.keyboard.press('Shift+Tab');await page.keyboard.press('Tab');
+  await ev(()=>oeffneEinstieg('fahrer'));await page.waitForFunction(()=>!!document.querySelector('#modal .ei'));
+  const t=await tabs(25);assert.ok(t.every(f=>f.ei),'Tab bleibt im Fahrerprofil: '+t.filter(f=>!f.ei).map(f=>f.id||f.text).join(', '));
+  assert.ok((await tabs(10,true)).every(f=>f.ei));
+  await page.focus('#modal .ei-skip');await page.keyboard.press('Enter');await page.waitForTimeout(150);
+  const zurueck=await ev(()=>document.activeElement.outerHTML.slice(0,80));
+  assert.equal(zurueck,ausl,'Fokus zurueck am Ausloeser');
+});
+
+await test('CS-05 Blatt ueber der Startseite (Impressum): Tab bleibt im Blatt, Escape gibt den Fokus zurueck',async()=>{
+  await neuerBesuch();
+  await page.focus('#startseite [data-recht="impressum"]');await page.keyboard.press('Enter');
+  await page.waitForFunction(()=>!!document.querySelector('#modal .scrim > .sheet'));
+  const t=await tabs(15);assert.ok(t.every(f=>f.sheet),'Tab bleibt im Blatt: '+t.filter(f=>!f.sheet).map(f=>f.id||f.text).join(', '));
+  await page.keyboard.press('Escape');await page.waitForTimeout(150);
+  assert.equal(await ev(()=>document.activeElement.dataset.recht),'impressum');
+});
+
 if(errors.length){count++;failed++;console.log('  FEHL JS-Fehler: '+[...new Set(errors)].join(' | '));}
 console.log(`\nAUDIT: ${count-failed} von ${count} bestanden.`);
 await browser.close();server.close();
