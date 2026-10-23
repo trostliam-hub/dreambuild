@@ -1,11 +1,12 @@
 # Gemeinsame Einstellungen für die englische Serie "DON'T WAKE HER"
 import json
 
+# Stimmen nach Natürlichkeits-Test (UTMOS, tools/voice_score.py): Mischungen klingen menschlicher als am_onyx/am_michael allein
 VOICES = {
-    "narrator": {"engine": "kokoro", "sid": 17, "deep": 1.0, "style": "natural", "speed": 0.92},   # am_onyx, tief, ruhig
-    "you":      {"engine": "kokoro", "sid": 10, "deep": 1.0, "style": "natural", "speed": 0.95},   # af_sky, jung, leise
-    "mrs_hale": {"engine": "kokoro", "sid": 3,  "deep": 1.0, "style": "natural", "speed": 1.0},    # af_heart, warm
-    "mr_hale":  {"engine": "kokoro", "sid": 16, "deep": 1.0, "style": "natural", "speed": 0.95},   # am_michael, ruhig, müde
+    "narrator": {"engine": "kokoro", "sid": {"am_liam": 0.6, "am_onyx": 0.4}, "deep": 1.0, "style": "clean", "speed": 1.08},  # tief, lebendig; 1.08 = normales Erzähltempo (QA)
+    "you":      {"engine": "kokoro", "sid": "af_nova", "deep": 1.0, "style": "clean", "speed": 1.0, "gain": 2.5},  # jung; +2.5 dB = Pegel wie Erzähler
+    "mrs_hale": {"engine": "kokoro", "sid": "af_heart", "deep": 1.0, "style": "clean", "speed": 1.0},    # warm
+    "mr_hale":  {"engine": "kokoro", "sid": {"am_fenrir": 0.5, "am_eric": 0.5}, "deep": 1.0, "style": "clean", "speed": 1.0},  # müde, nervös
     "shape":    {"engine": "kokoro", "sid": 6,  "deep": 0.78, "style": "entity", "speed": 0.75},   # af_nicole, tief verlangsamt
 }
 

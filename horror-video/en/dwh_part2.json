@@ -13,31 +13,38 @@
  "voices": {
   "narrator": {
    "engine": "kokoro",
-   "sid": 17,
+   "sid": {
+    "am_liam": 0.6,
+    "am_onyx": 0.4
+   },
    "deep": 1.0,
-   "style": "natural",
-   "speed": 0.92
+   "style": "clean",
+   "speed": 1.08
   },
   "you": {
    "engine": "kokoro",
-   "sid": 10,
+   "sid": "af_nova",
    "deep": 1.0,
-   "style": "natural",
-   "speed": 0.95
+   "style": "clean",
+   "speed": 1.0,
+   "gain": 2.5
   },
   "mrs_hale": {
    "engine": "kokoro",
-   "sid": 3,
+   "sid": "af_heart",
    "deep": 1.0,
-   "style": "natural",
+   "style": "clean",
    "speed": 1.0
   },
   "mr_hale": {
    "engine": "kokoro",
-   "sid": 16,
+   "sid": {
+    "am_fenrir": 0.5,
+    "am_eric": 0.5
+   },
    "deep": 1.0,
-   "style": "natural",
-   "speed": 0.95
+   "style": "clean",
+   "speed": 1.0
   },
   "shape": {
    "engine": "kokoro",
@@ -387,7 +394,7 @@
    },
    "lines": [
     {
-     "text": "You text:"
+     "text": "You text her:"
     },
     {
      "text": "I'm in the nursery. The closet is open.",
@@ -534,7 +541,12 @@
    "lines": [
     {
      "text": "Cute! Last dance!",
-     "voice": "mrs_hale"
+     "voice": "mrs_hale",
+     "speed": 0.97,
+     "takes": [
+      1,
+      1
+     ]
     },
     {
      "text": "She puts her phone away.",
@@ -827,7 +839,9 @@
      "voice": "shape",
      "emph": [
       "Shhh"
-     ]
+     ],
+     "hush": true,
+     "gain": -4.5
     }
    ],
    "post": 0.4,
@@ -1094,7 +1108,8 @@
  ],
  "coldOpen": {
   "beat": 12,
-  "words": "someone whispers: Shhh.",
+  "at": 1.087,
+  "dur": 3.03,
   "label": "LATER"
  },
  "beds": [

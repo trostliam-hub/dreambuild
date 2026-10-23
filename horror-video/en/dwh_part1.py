@@ -56,7 +56,7 @@ B.append({"scene": "phone_chat", "clock": "11:42 PM", "captionY": 1490, "capBox"
         {"side": "out", "text": "Is anyone else in the house?", "at": -1}, {"side": "in", "text": "Just you and Wren. Why?", "at": -1},
         {"side": "out", "text": "Someone is in the nursery.", "at": -1},
         {"side": "in", "text": "Nursery cam's live. Nobody's there.", "at": "@nursery-0.1", "typing": 0.2, "red": True}]},
-    "lines": [L("She checks her camera app."), L("Nursery cam's live. Nobody's there.", voice="mrs_hale", emph=["Nobody's"])],
+    "lines": [L("She checks her camera app.", say="She checks her camera app"), L("Nursery cam's live. Nobody's there.", voice="mrs_hale", emph=["Nobody's"])],
     "sfx": [{"name": "phone_ping", "at": "@nursery-0.1", "gain": -3}]})
 # 10-11: ihre App
 FEEDS = lambda guest_alert=None: [

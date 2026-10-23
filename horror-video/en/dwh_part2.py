@@ -42,7 +42,7 @@ B.append({"scene": "phone_chat", "clock": "11:48 PM", "captionY": 1490, "capBox"
     "p": {**CHAT_MRS, "messages": [{"kind": "stamp", "text": "11:48 PM", "at": 0},
         {"side": "out", "text": "I'm in the nursery. The closet is open.", "at": "@im"},
         {"side": "in", "text": "It never shuts right. There you are! Wave.", "at": "@it-0.1", "typing": "@im+1.6"}]},
-    "lines": [L("You text:"), L("I'm in the nursery. The closet is open.", voice="you", emph=["closet"]),
+    "lines": [L("You text her:"), L("I'm in the nursery. The closet is open.", voice="you", emph=["closet"]),
               L("It never shuts right. There you are! Wave.", voice="mrs_hale", emph=["Wave"])],
     "sfx": [{"name": "phone_ping", "at": "@it-0.1", "gain": -4}]})
 # 6: du winkst (ihre App)
@@ -56,7 +56,7 @@ B.append({"scene": "phone_chat", "clock": "11:49 PM", "captionY": 1490, "capBox"
         {"side": "out", "text": "I'm in the nursery. The closet is open.", "at": -1},
         {"side": "in", "text": "It never shuts right. There you are! Wave.", "at": -1},
         {"side": "in", "text": "Cute! Last dance!", "at": "@cute-0.1"}]},
-    "lines": [L("Cute! Last dance!", voice="mrs_hale"), L("She puts her phone away.", emph=["away"])],
+    "lines": [L("Cute! Last dance!", voice="mrs_hale", speed=0.97, takes=(1, 1)), L("She puts her phone away.", emph=["away"])],
     "sfx": [{"name": "phone_ping", "at": "@cute-0.1", "gain": -4}]})
 # 8: du kommst zurück (Gegenschuss)
 B.append({"scene": "hallway", "clock": "11:50 PM", "zoom": [1.0, 1.04], "trans": "cut", "captionY": 1500, "capBox": True,
@@ -91,7 +91,7 @@ B.append({"scene": "phone_chat", "clock": "11:53 PM", "captionY": 1490, "capBox"
 B.append({"scene": "sfx_text", "clock": "11:54 PM", "captionY": 1460, "capBox": True, "trans": "cut", "vignette": 0.95,
     "p": {"lines": ["SHHH."], "times": ["@shhh"], "xs": [700], "y": 900, "size": 260, "bg": "bedroom",
           "bgP": {"pose": "sitting", "hood": True, "tremble": True, "roomCam": True, **bed_mon("11:44 PM")}},
-    "lines": [L("Right beside your ear, someone whispers:"), L("Shhh.", voice="shape", emph=["Shhh"])], "post": 0.4,
+    "lines": [L("Right beside your ear, someone whispers:"), L("Shhh.", voice="shape", emph=["Shhh"], hush=True, gain=-4.5)], "post": 0.4,
     "sfx": [{"name": "breath_whisper", "at": "@shhh-0.2", "gain": -8}]})
 # 14
 B.append({"scene": "bedroom", "clock": "11:54 PM", "zoom": [1.0, 1.1], "focus": [400, 900], "trans": "cut",
@@ -119,7 +119,7 @@ B.append({"scene": "end_card", "clock": "12:00 AM", "captionY": 1500, "capBox": 
 
 story = base(2, "FOLLOW FOR PART 3")
 story["beats"] = B
-story["coldOpen"] = {"beat": 12, "words": "someone whispers: Shhh.", "label": "LATER"}  # Teaser vorneweg, harter Schnitt
+story["coldOpen"] = {"beat": 12, "at": 1.087, "dur": 3.03, "label": "LATER"}  # Teaser vorneweg, harter Schnitt
 story["beds"] = [
     {"name": "drone_bed", "from": 0, "to": 200, "gain": 1, "fade": 0.4},
     {"name": "house_ambience", "from": 0, "to": 200, "gain": 10, "fade": 0.5},

@@ -35,7 +35,7 @@ B.append({"scene": "phone_chat", "clock": "12:03 AM", "captionY": 1490, "capBox"
     "p": {**CHAT_MRS, "messages": [{"kind": "stamp", "text": "12:03 AM", "at": 0},
         {"side": "in", "kind": "photo", "photo": {"kind": "feed", "room": "nursery", "label": "NURSERY", "stamp": "12:03 AM", "figures": [{**SHAPE, "pose": "bend"}]}, "at": "@watching"},
         {"side": "in", "text": "It's leaning over her crib.", "at": "@its-0.1", "typing": "@texts", "red": True}]},
-    "lines": [L("But Mrs. Hale is watching live.", say="But Missus Hale is watching live.", emph=["live"]), L("She texts:"),
+    "lines": [L("But Mrs. Hale is watching live.", say="But Missus Hale is watching live.", emph=["live"]), L("She texts you:"),
               L("It's leaning over her crib.", voice="mrs_hale", emph=["crib"])],
     "sfx": [{"name": "phone_ping", "at": "@watching", "gain": -6}, {"name": "phone_ping", "at": "@its-0.1", "gain": -4}]})
 # 4: Mr. Hale fährt
@@ -47,7 +47,7 @@ B.append({"scene": "phone_chat", "clock": "12:04 AM", "captionY": 1490, "capBox"
 # 5: Live – es beugt sich tiefer, Finger am Gesicht
 B.append({"scene": "cctv_grid", "clock": "12:04 AM", "zoom": [1.0, 1.04], "focus": [540, 960], "captionY": 1515, "capBox": True, "trans": "cut",
     "p": app("12:04 AM", 0, [{**SHAPE, "pose": "bendShush", "fromPose": "bend", "poseAt": "@finger", "poseDur": 0.9, "eyes": -5}], alert="@feed", at="@feed", extra={"door": 0.6}),
-    "lines": [L("On Mrs. Hale's feed, it bends lower.", say="On Missus Hale's feed, it bends lower.", emph=["lower"]), L("Finger to its face."), L("Hushing her.", emph=["Hushing"])],
+    "lines": [L("On Mrs. Hale's feed, it bends lower.", say="On Missus Hale's feed, it bends lower.", emph=["lower"]), L("A finger to its face."), L("Hushing her.", emph=["Hushing"])],
     "sfx": [{"name": "sub_pulse", "at": "@feed", "gain": -6}]})
 # 6: das Muster – jedes Summen, ein Shhh
 B.append({"scene": "phone_lock", "clock": "12:04 AM", "zoom": [1.0, 1.08], "focus": [540, 760], "captionY": 1500, "capBox": True, "trans": "cut",
@@ -84,7 +84,7 @@ B.append({"scene": "phone_lock", "clock": "12:05 AM", "zoom": [1.0, 1.12], "focu
     "p": {"time": "12:05", "notifs": [{"sender": "Mrs. Hale", "text": "Wake her up.", "at": "@buzzes"}], "buzz": ["@buzzes", "@buzzes+0.5"]},
     "lines": [L("Your phone buzzes.", emph=["buzzes"]), L("Too loud.", emph=["loud"]), L("Mrs. Hale sees you on the guest cam.", say="Missus Hale sees you on the guest cam."),
               L("Wake her up.", voice="mrs_hale", emph=["Wake"])],
-    "sfx": [{"name": "phone_vibrate", "at": "@buzzes", "gain": 0}, {"name": "phone_vibrate", "at": "@buzzes+0.5", "gain": -2}]})
+    "sfx": [{"name": "phone_vibrate", "at": "@buzzes", "gain": 0}, {"name": "phone_vibrate", "at": "@buzzes+0.5", "gain": -4, "dur": 0.8}]})
 # 12: live – sein Kopf dreht sich nach unten, zu dir (Quelle des Cold Opens)
 B.append({"scene": "cctv_grid", "clock": "12:05 AM", "zoom": [1.0, 1.06], "focus": [540, 900], "captionY": 1515, "capBox": True, "trans": "cut",
     "p": app("12:05 AM", 0, [{**SHAPE, "pose": "down", "fromPose": "bendShush", "poseAt": "@turns", "poseDur": 2.6, "eyes": "@slowly", "eyesDownAt": "@down", "sightAt": "@toward", "ringAt": "@you"}], alert=-1, extra={"door": 0.6}),

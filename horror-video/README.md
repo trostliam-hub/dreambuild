@@ -33,5 +33,5 @@ ffmpeg -i video.mp4 -i build/mix.wav -c:v copy -c:a aac -b:a 256k -shortest -mov
 
 Englische Parts: `python3 en/dwh_part1.py <work>` erzeugt `en/dwh_part1.json`, dann wie oben bauen; `tools/render_part.sh <builddir> <out.mp4>` rendert in 3 parallelen Segmenten (Dauer inkl. Cold Open aus `timeline.json`).
 
-Stimmen: Thorsten-Voice (Piper/VITS, CC0) für Deutsch; Kokoro-82M (Apache-2.0) für Englisch – Erzähler `am_onyx`, du `af_sky`, Mrs. Hale `af_heart`, Mr. Hale `am_michael`, die Gestalt `af_nicole` (verlangsamt, tiefer, mit Hall). Englische Erzählung wird absatzweise am Stück gesprochen („fluent“-Modus), Wort-Timing über Sprechpausen.
+Stimmen: Thorsten-Voice (Piper/VITS, CC0) für Deutsch; Kokoro-82M (Apache-2.0) für Englisch – Erzähler Mischung `am_liam` 60 % + `am_onyx` 40 % (Tempo 1.08), du `af_nova`, Mrs. Hale `af_heart`, Mr. Hale Mischung `am_fenrir` + `am_eric`, die Gestalt `af_nicole` (verlangsamt, tiefer, mit Hall); „Shhh.“ wird als echtes Zischen synthetisiert (`hush=True`), weil Kokoro es buchstabiert. Stimmen per Natürlichkeits-Score ausgewählt: `tools/voice_bench.py` + `tools/voice_score.py` (UTMOS, Tonhöhe, Tempo), Einzelsätze testen mit `tools/line_test.py`. Englische Erzählung wird absatzweise am Stück gesprochen („fluent“-Modus), Wort-Timing über Sprechpausen.
 Beim Hochladen auf TikTok „KI-generierter Inhalt“ aktivieren.

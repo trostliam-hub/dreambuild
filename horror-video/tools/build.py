@@ -22,9 +22,30 @@ from pedalboard import Pedalboard, HighpassFilter, LowShelfFilter, PeakFilter, H
 
 _TTS, _ASR = {}, None
 LANG = story.get("lang", "de")
+KOKORO_NAMES = ("af_alloy af_aoede af_bella af_heart af_jessica af_kore af_nicole af_nova af_river af_sarah af_sky "
+                "am_adam am_echo am_eric am_fenrir am_liam am_michael am_onyx am_puck am_santa "
+                "bf_alice bf_emma bf_isabella bf_lily bm_daniel bm_fable bm_george bm_lewis").split()
+MIX_SID = {}
+def kokoro_dir():
+    """Gemischte Kokoro-Stimmen ({"am_liam": .6, "am_onyx": .4}) als zusätzliche Sprecher: Kopie von voices.bin,
+    die letzten (nicht-englischen) Plätze werden mit den Mischungen überschrieben."""
+    src = f"{MODELS}/kokoro-multi-lang-v1_0"
+    blends = {json.dumps(v["sid"], sort_keys=True): v["sid"] for v in VCFG.values() if v.get("engine") == "kokoro" and isinstance(v.get("sid"), dict)}
+    if not blends: return src
+    dst = f"{MODELS}/kokoro-mix"; os.makedirs(dst, exist_ok=True)
+    for f in os.listdir(src):
+        if f != "voices.bin" and not os.path.exists(f"{dst}/{f}"): os.symlink(f"{src}/{f}", f"{dst}/{f}")
+    V = np.fromfile(f"{src}/voices.bin", dtype=np.float32).reshape(-1, 510, 256).copy()
+    for k, (key, mix) in enumerate(sorted(blends.items())):
+        slot = len(V) - 1 - k; assert slot >= len(KOKORO_NAMES)
+        V[slot] = sum(w * V[KOKORO_NAMES.index(n)] for n, w in mix.items()) / sum(mix.values()); MIX_SID[key] = slot
+    V.tofile(f"{dst}/voices.bin"); return dst
+def kokoro_sid(sid):
+    if isinstance(sid, dict): return MIX_SID[json.dumps(sid, sort_keys=True)]
+    return KOKORO_NAMES.index(sid) if isinstance(sid, str) else sid
 def get_tts(model):
     if model == "kokoro" and model not in _TTS:
-        K = f"{MODELS}/kokoro-multi-lang-v1_0"
+        K = kokoro_dir()
         cfg = sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
             model=f"{K}/model.onnx", voices=f"{K}/voices.bin", tokens=f"{K}/tokens.txt", data_dir=f"{K}/espeak-ng-data",
             lexicon=f"{K}/lexicon-us-en.txt", dict_dir=f"{K}/dict"), num_threads=4))
@@ -51,12 +72,16 @@ VOICES = {"narrator": ("neutral", 0.92, "narrator"), "whisper": ("whisper", 0.95
 VCFG = story.get("voices", {})
 def voice_cfg(voice):
     if voice in VCFG:
-        v = VCFG[voice]; return v["engine"], v["sid"], v.get("deep", 1.0), v.get("style", "narrator"), v.get("speed")
+        v = VCFG[voice]; return v["engine"], v["sid"], v.get("deep", 1.0), v.get("style", "narrator"), v.get("speed")  # sid: Zahl, Name oder Mischung
     spk, deep, style = VOICES[voice]; model, sid = SPK[spk]; return model, sid, deep, style, None
 
 def voice_fx(a, sr, deep, style):
     """Tiefer (Abspielrate * deep), EQ, Kompression, Raum, Limiter -> 48 kHz."""
     src = int(round(sr * deep)); g = gcd(SR, src); y = resample_poly(a, SR // g, src // g).astype(np.float32)
+    if style == "clean":  # Kokoro: so natürlich wie möglich – leichte Wärme, sanfte Kompression, kein Hall (beste UTMOS-Werte)
+        fx = [HighpassFilter(60), LowShelfFilter(cutoff_frequency_hz=150, gain_db=1.5), Compressor(threshold_db=-18, ratio=2.0, attack_ms=10, release_ms=150),
+              Gain(7), Limiter(threshold_db=-3.0, release_ms=80), Gain(-1.5)]  # Pegel wie "natural" (≈ -13 LUFS), damit die Musik nicht lauter wirkt
+        y = Pedalboard(fx)(y, SR); return (y[0] if y.ndim > 1 else y).astype(np.float32)
     if style == "natural":  # Kokoro: natürlich lassen, nur Wärme, sanfte Kompression, kleiner Raum
         fx = [HighpassFilter(60), LowShelfFilter(cutoff_frequency_hz=150, gain_db=2.0), PeakFilter(3000, 1.5, 1.0),
               Compressor(threshold_db=-20, ratio=2.5, attack_ms=8, release_ms=150), Gain(3),
@@ -102,7 +127,7 @@ TAKES_LOG = []
 def tts_clip(text, voice, speed, say=None, takes=None):
     """Mehrere Takes erzeugen, deutlichsten per Whisper wählen. Cache über Hash."""
     say = say or text
-    key = hashlib.md5((f"{say}|{voice}|{speed}|v5" if voice not in VCFG else f"{say}|{json.dumps(VCFG[voice], sort_keys=True)}|{speed}|v6").encode()).hexdigest()[:12]
+    key = hashlib.md5((f"{say}|{voice}|{speed}|v5" if voice not in VCFG else f"{say}|{json.dumps(VCFG[voice], sort_keys=True)}|{speed}|v7").encode()).hexdigest()[:12]
     out = f"{WD}/vo/{key}.wav"
     if os.path.exists(out) and os.path.exists(out + ".json"):
         TAKES_LOG.append(json.load(open(out + ".json"))); return out
@@ -112,7 +137,7 @@ def tts_clip(text, voice, speed, say=None, takes=None):
     cands = []
     for k in range(hi):
         sp = speed * (1 + (0.035 * ((k + 1) // 2) * (1 if k % 2 else -1) if model == "kokoro" else 0))  # Kokoro ist deterministisch: Takes über Tempo variieren
-        g = get_tts(model).generate(say, sid=sid, speed=sp)
+        g = get_tts(model).generate(say, sid=kokoro_sid(sid) if model == "kokoro" else sid, speed=sp)
         y = voice_fx(np.array(g.samples, dtype=np.float32), g.sample_rate, deep, style)
         hyp = asr(y); e = min(cer(text, hyp), cer(say, hyp))
         cands.append((e, len(y) / SR, y, hyp))
@@ -125,6 +150,24 @@ def tts_clip(text, voice, speed, say=None, takes=None):
     info = {"text": text, "say": say, "voice": voice, "takes": len(cands), "cer": round(e, 3), "asr": hyp}
     json.dump(info, open(out + ".json", "w"), ensure_ascii=False); TAKES_LOG.append(info)
     print(f"  [{voice:8s}] {len(cands):2d} Takes, CER {e:.2f}: {text} -> {hyp}", flush=True)
+    return out
+
+def hush_clip(voice, dur, seed):
+    """„Shhh.“ als echtes Zischen: Kokoro liest „Shhh“ als Buchstaben (S-H-H-H). Band-gefiltertes Rauschen mit Atem-Hüllkurve,
+    leichtem Flattern und derselben Effektkette wie die Stimme."""
+    out = f"{WD}/vo/hush_{voice}_{dur}_{seed}.wav"
+    if os.path.exists(out): return out
+    from scipy.signal import butter, sosfilt
+    sr = 24000; rng = np.random.default_rng(1000 + seed); n = int(dur * sr); tt = np.arange(n) / sr
+    x = sosfilt(butter(4, [1800, 6500], btype="band", fs=sr, output="sos"), rng.standard_normal(n))
+    x = x + 0.5 * sosfilt(butter(2, [2400, 3200], btype="band", fs=sr, output="sos"), rng.standard_normal(n))  # Sch-Formant
+    flutter = 1 + 0.12 * np.sin(2 * np.pi * 5.5 * tt + rng.uniform(0, 6)) + 0.06 * rng.standard_normal(n).cumsum() / np.sqrt(n)
+    env = np.minimum(1, tt / 0.09) ** 1.5 * np.exp(-np.maximum(0, tt - dur * 0.5) / (dur * 0.2))
+    x = (x * env * flutter).astype(np.float32); x = 0.3 * x / np.max(np.abs(x))
+    model, sid, deep, style, vspeed = voice_cfg(voice)
+    y = voice_fx(x, sr, deep, style); sf.write(out, y, SR, subtype="PCM_24")
+    TAKES_LOG.append({"text": "Shhh.", "voice": voice, "takes": 0, "cer": 0.0, "asr": "(synthetic hush)"})
+    print(f"  [{voice:8s}] synthetisches Zischen {dur:.2f}s", flush=True)
     return out
 
 def trim(a, thr_db=-42):
@@ -170,8 +213,19 @@ def refine(words, a, dur):
     """Phrasengrenzen (Kommas) auf echte Pausen im Clip schieben."""
     sil = silences(a)
     bidx = [i for i, w in enumerate(words[:-1]) if re.search(r"[,;:.!?–]$", w[0]) and w[0].lower() not in ABBR]
-    if not bidx or len(sil) < len(bidx): return words
-    sil = sorted(sorted(sil, key=lambda s: -s[1])[:len(bidx)])
+    if not bidx or not sil: return words
+    if len(sil) < len(bidx):  # weniger Pausen als Satzzeichen: jede Pause an die nächste freie Grenze (Satzende bevorzugt)
+        est = {i: words[i][2] for i in bidx}; used = {}
+        sent = [i for i in bidx if re.search(r"[.!?]$", words[i][0])]; pool = sent if len(sent) >= len(sil) else bidx  # Satzenden zuerst
+        for ts, d in sorted(sil, key=lambda s: -s[1]):
+            free = [i for i in pool if i not in used]
+            if not free: break
+            used[min(free, key=lambda i: abs(est[i] - ts) - (0.15 if re.search(r"[.!?]$", words[i][0]) else 0))] = ts
+        cuts = sorted(used.items())
+        if any(b2[1] <= b1[1] for b1, b2 in zip(cuts, cuts[1:])): return words  # Reihenfolge passt nicht -> Schätzung behalten
+        bidx = [i for i, _ in cuts]; sil = [(ts, 0) for _, ts in cuts]
+    else:
+        sil = sorted(sorted(sil, key=lambda s: -s[1])[:len(bidx)])
     # Segmentweise neu verteilen
     bounds = [0] + [s[0] for s in sil] + [dur]
     groups = []; start = 0
@@ -193,7 +247,7 @@ for bi, b in enumerate(story["beats"]):
     # Zeilen gruppieren: im "fluent"-Modus werden aufeinanderfolgende Zeilen derselben Stimme am Stück gesprochen
     groups, cur = [], []
     for ln in b.get("lines", []):
-        if cur and (not story.get("fluent") or ln.get("voice", "narrator") != cur[-1].get("voice", "narrator") or "gap" in cur[-1]
+        if cur and (not story.get("fluent") or ln.get("voice", "narrator") != cur[-1].get("voice", "narrator") or "gap" in cur[-1] or ln.get("hush") or cur[-1].get("hush")
                     or ln.get("speed") != cur[-1].get("speed") or ln.get("gain", 0) != cur[-1].get("gain", 0)):
             groups.append(cur); cur = []
         cur.append(ln)
@@ -201,10 +255,11 @@ for bi, b in enumerate(story["beats"]):
     for gi, g in enumerate(groups):
         vname = g[0].get("voice", "narrator")
         text = " ".join(l["text"] for l in g); say = " ".join(l.get("say", l["text"]) for l in g)
-        clip = tts_clip(text, vname, g[0].get("speed", story.get("speed", None if vname in VCFG else 1.0)), say if say != text else None, g[0].get("takes"))
+        if g[0].get("hush"): clip = hush_clip(vname, g[0].get("hushDur", 1.2), g[0].get("seed", bi))
+        else: clip = tts_clip(text, vname, g[0].get("speed", story.get("speed", None if vname in VCFG else 1.0)), say if say != text else None, g[0].get("takes"))
         a, sr = sf.read(clip, dtype="float32"); a = trim(a); dur = len(a) / SR
         p = f"{WD}/vo/b{bi:02d}_{gi}.wav"; sf.write(p, a, SR, subtype="PCM_24")
-        voice_track.append((t, p, g[0].get("gain", 0.0)))
+        voice_track.append((t, p, g[0].get("gain", 0.0) + VCFG.get(vname, {}).get("gain", 0.0)))
         wt = refine(word_times(text, dur), a, dur)
         owners = [k for k, l in enumerate(g) for _ in l["text"].split()]
         for (w, ws, we), k in zip(wt, owners):

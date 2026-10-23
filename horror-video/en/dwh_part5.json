@@ -13,31 +13,38 @@
  "voices": {
   "narrator": {
    "engine": "kokoro",
-   "sid": 17,
+   "sid": {
+    "am_liam": 0.6,
+    "am_onyx": 0.4
+   },
    "deep": 1.0,
-   "style": "natural",
-   "speed": 0.92
+   "style": "clean",
+   "speed": 1.08
   },
   "you": {
    "engine": "kokoro",
-   "sid": 10,
+   "sid": "af_nova",
    "deep": 1.0,
-   "style": "natural",
-   "speed": 0.95
+   "style": "clean",
+   "speed": 1.0,
+   "gain": 2.5
   },
   "mrs_hale": {
    "engine": "kokoro",
-   "sid": 3,
+   "sid": "af_heart",
    "deep": 1.0,
-   "style": "natural",
+   "style": "clean",
    "speed": 1.0
   },
   "mr_hale": {
    "engine": "kokoro",
-   "sid": 16,
+   "sid": {
+    "am_fenrir": 0.5,
+    "am_eric": 0.5
+   },
    "deep": 1.0,
-   "style": "natural",
-   "speed": 0.95
+   "style": "clean",
+   "speed": 1.0
   },
   "shape": {
    "engine": "kokoro",
@@ -725,16 +732,19 @@
    },
    "lines": [
     {
-     "text": "Twelve fourteen."
+     "text": "Twelve fourteen.",
+     "say": "Twelve fourteen,"
     },
     {
      "text": "Headlights.",
+     "say": "headlights,",
      "emph": [
       "Headlights"
      ]
     },
     {
      "text": "Keys in the lock.",
+     "say": "keys in the lock.",
      "emph": [
       "lock"
      ]
@@ -1203,7 +1213,13 @@
    },
    "lines": [
     {
-     "text": "Shhh. Your turn.",
+     "text": "Shhh.",
+     "voice": "shape",
+     "hush": true,
+     "gain": -4.5
+    },
+    {
+     "text": "Your turn.",
      "voice": "shape",
      "emph": [
       "turn"

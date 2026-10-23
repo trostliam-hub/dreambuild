@@ -70,7 +70,7 @@ B.append({"scene": "nursery_pov", "clock": "12:07 AM", "zoom": [1.0, 1.06], "foc
 # 8: Haustür – Scheinwerfer, Schlüssel
 B.append({"scene": "front_door", "clock": "12:14 AM", "zoom": [1.0, 1.05], "focus": [540, 900], "captionY": 1500, "capBox": True, "trans": "fade", "place": "HALE HOUSE · FRONT DOOR",
     "p": {"headlights": "@headlights-0.3", "hlDur": 2.2, "keyAt": "@keys+0.4"},
-    "lines": [L("Twelve fourteen."), L("Headlights.", emph=["Headlights"]), L("Keys in the lock.", emph=["lock"])],
+    "lines": [L("Twelve fourteen.", say="Twelve fourteen,"), L("Headlights.", say="headlights,", emph=["Headlights"]), L("Keys in the lock.", say="keys in the lock.", emph=["lock"])],
     "sfx": [{"name": "car_arrive", "at": 0.0, "gain": -6}, {"name": "keys_lock", "at": "@keys", "gain": -4}]})
 # 9: Die Hales kommen herein
 B.append({"scene": "front_door", "clock": "12:14 AM", "zoom": [1.0, 1.04], "focus": [540, 900], "captionY": 1500, "capBox": True, "trans": "cut", "place": "HALE HOUSE · FRONT DOOR",
@@ -114,7 +114,7 @@ B.append(monitor("12:16 AM", "12:06 AM", [L("From inside the closet,", emph=["cl
 B.append({"scene": "sfx_text", "clock": "12:16 AM", "captionY": 1500, "capBox": True, "trans": "cut", "vignette": 0.95,
     "p": {"lines": ["SHHH.", "YOUR TURN."], "times": ["@shhh", "@your"], "y": 700, "size": 200, "bg": "nursery_pov",
           "bgP": {"dark": 0.9, "closetGap0": 0, "slatEye": -1, "nightlight": 0.3}},
-    "lines": [L("Shhh. Your turn.", voice="shape", emph=["turn"])], "post": 0.8,
+    "lines": [L("Shhh.", voice="shape", hush=True, gain=-4.5), L("Your turn.", voice="shape", emph=["turn"])], "post": 0.8,
     "sfx": [{"name": "static_burst", "at": "@shhh-0.2", "gain": -18}, {"name": "sub_pulse", "at": "@turn+0.3", "gain": -2}]})
 # 16
 B.append({"scene": "end_card", "clock": "12:16 AM", "captionY": 1500, "capBox": True, "trans": "cut",

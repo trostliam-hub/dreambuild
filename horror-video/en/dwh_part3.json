@@ -13,31 +13,38 @@
  "voices": {
   "narrator": {
    "engine": "kokoro",
-   "sid": 17,
+   "sid": {
+    "am_liam": 0.6,
+    "am_onyx": 0.4
+   },
    "deep": 1.0,
-   "style": "natural",
-   "speed": 0.92
+   "style": "clean",
+   "speed": 1.08
   },
   "you": {
    "engine": "kokoro",
-   "sid": 10,
+   "sid": "af_nova",
    "deep": 1.0,
-   "style": "natural",
-   "speed": 0.95
+   "style": "clean",
+   "speed": 1.0,
+   "gain": 2.5
   },
   "mrs_hale": {
    "engine": "kokoro",
-   "sid": 3,
+   "sid": "af_heart",
    "deep": 1.0,
-   "style": "natural",
+   "style": "clean",
    "speed": 1.0
   },
   "mr_hale": {
    "engine": "kokoro",
-   "sid": 16,
+   "sid": {
+    "am_fenrir": 0.5,
+    "am_eric": 0.5
+   },
    "deep": 1.0,
-   "style": "natural",
-   "speed": 0.95
+   "style": "clean",
+   "speed": 1.0
   },
   "shape": {
    "engine": "kokoro",
@@ -292,6 +299,7 @@
     {
      "text": "Clock's wrong.",
      "voice": "mrs_hale",
+     "say": "Clawk's wrong.",
      "emph": [
       "wrong"
      ]
@@ -607,9 +615,9 @@
      ]
     },
     {
-     "text": "Finger to its face.",
+     "text": "A finger to its face.",
      "emph": [
-      "Finger"
+      "finger"
      ]
     }
    ],
@@ -675,7 +683,7 @@
    },
    "lines": [
     {
-     "text": "She types:"
+     "text": "Then she types:"
     },
     {
      "text": "Don't move.",
@@ -785,7 +793,13 @@
    },
    "lines": [
     {
-     "text": "Shhh. You'll wake her.",
+     "text": "Shhh.",
+     "voice": "shape",
+     "hush": true,
+     "gain": -4.5
+    },
+    {
+     "text": "You will wake her.",
      "voice": "shape",
      "emph": [
       "wake"
@@ -1014,7 +1028,9 @@
     },
     {
      "text": "Shhh.",
-     "voice": "shape"
+     "voice": "shape",
+     "hush": true,
+     "gain": -4.5
     }
    ],
    "post": 1.0,

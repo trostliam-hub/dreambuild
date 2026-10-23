@@ -36,7 +36,7 @@ B.append({"scene": "fridge_note", "clock": "12:00 AM", "zoom": [1.0, 1.08], "foc
         {"text": "Wren down by eight ♥", "at": -5},
         {"text": "Old monitor. Clock's wrong. Just ignore it!", "at": -5, "row": 1, "strike": "@never"},
         {"text": "Cameras on my phone. Text anytime! – Dana", "at": -5, "row": 3}]},
-    "lines": [L("The fridge note said:"), L("Clock's wrong.", voice="mrs_hale", emph=["wrong"]), L("It never was.", emph=["never"]),
+    "lines": [L("The fridge note said:"), L("Clock's wrong.", voice="mrs_hale", say="Clawk's wrong.", emph=["wrong"]), L("It never was.", emph=["never"]),
               L("The picture runs ten minutes late.", emph=["ten", "late"])],
     "sfx": [{"name": "light_click", "at": 0.05, "gain": 0}, {"name": "low_piano_hit", "at": "@ten", "gain": -6}]})
 # 4: Vergleich
@@ -70,14 +70,14 @@ B.append({"scene": "cctv_grid", "clock": "12:01 AM", "zoom": [1.0, 1.03], "focus
                     {"room": "guest", "label": "GUEST RM", "alert": "@over",
                      "figures": [{"kind": "shape", "pose": "shush", "fromPose": "hunch", "poseAt": "@finger", "poseDur": 0.9, "x": 0.5, "y": 0.86, "h": 0.86, "eyes": "@over", "flip": True, "at": -1},
                                  {"kind": "you", "pose": "sit", "x": 0.3, "y": 0.78, "h": 0.38}]}]},
-    "lines": [L("There you are, on the bed."), L("And over your shoulder, the thing from the nursery.", emph=["shoulder"]), L("Finger to its face.", emph=["Finger"])],
+    "lines": [L("There you are, on the bed."), L("And over your shoulder, the thing from the nursery.", emph=["shoulder"]), L("A finger to its face.", emph=["finger"])],
     "post": 0.3, "sfx": [{"name": "stinger_violin_screech", "at": "@over", "gain": -9}], "glitch": [{"at": "@over", "d": 0.12}]})
 # 9
 B.append({"scene": "phone_chat", "clock": "12:01 AM", "captionY": 1490, "capBox": True, "zoom": [1.0, 1.1], "focus": [540, 1000], "trans": "cut",
     "p": {**CHAT_MRS, "messages": [{"side": "in", "text": "Cute! Last dance!", "at": -1},
         {"side": "in", "kind": "photo", "photo": {"kind": "grid4", "stamp": "12:01 AM", "shapeGuest": True}, "at": -1},
         {"side": "in", "text": "Don't move.", "at": "@dont-0.1", "typing": 0.1, "red": True}]},
-    "lines": [L("She types:"), L("Don't move.", voice="mrs_hale", speed=0.85, emph=["move"])], "post": 0.4,
+    "lines": [L("Then she types:"), L("Don't move.", voice="mrs_hale", speed=0.85, emph=["move"])], "post": 0.4,
     "sfx": [{"name": "phone_ping", "at": "@dont-0.1", "gain": -2}]})
 # 10
 B.append({"scene": "bedroom", "clock": "12:01 AM", "zoom": [1.05, 1.18], "focus": [420, 820], "trans": "cut",
@@ -90,7 +90,7 @@ B.append({"scene": "sfx_text", "clock": "12:01 AM", "captionY": 1460, "capBox": 
     "p": {"lines": ["SHHH."], "times": ["@shhh"], "xs": [700], "y": 900, "size": 260, "bg": "bedroom",
           "bgP": {"pose": "sitting", "hood": True, "tremble": True, "roomCam": True, **bed_mon("11:51 PM", monitorDoor=0.6),
                   "shapeBehind": {"at": -1, "alpha": 1.0, "x": 430, "y": 1300, "h": 1000, "eyes": -1, "pose": "hunch"}}},
-    "lines": [L("Shhh. You'll wake her.", voice="shape", emph=["wake"])], "post": 0.5})
+    "lines": [L("Shhh.", voice="shape", hush=True, gain=-4.5), L("You will wake her.", voice="shape", emph=["wake"])], "post": 0.5})
 # 12: es geht hinaus und die Treppe hoch
 B.append({"scene": "hallway", "clock": "12:02 AM", "zoom": [1.0, 1.05], "trans": "cut", "captionY": 1060, "capBox": True,
     "p": {"noLamp": True, "youBack": True, "figure": {"kind": "shape", "pose": "walk", "h0": 1250, "h1": 300, "y0": 1950, "y1": 1025, "at": -1}, "approach": [0.2, 3.6]},
@@ -115,7 +115,7 @@ B.append({"scene": "rule_card", "clock": "12:03 AM", "captionY": 1500, "capBox":
 # 16
 B.append({"scene": "end_card", "clock": "12:03 AM", "captionY": 1500, "capBox": True, "trans": "cut",
     "p": {"title": "DON'T WAKE HER", "kicker": "PART 3", "time": "12:03 AM", "pill": "FOLLOW FOR PART 4", "sub": "WHEN DID YOU CATCH IT?|TELL ME IN THE COMMENTS"},
-    "lines": [L("Follow for part four.", emph=["four"]), L("Shhh.", voice="shape")], "post": 1.0,
+    "lines": [L("Follow for part four.", emph=["four"]), L("Shhh.", voice="shape", hush=True, gain=-4.5)], "post": 1.0,
     "endShape": {"at": 0.3, "eyes": 0.3, "turn": 0.6, "finger": "@shhh-0.3"},
     "sfx": [{"name": "whoosh_reverse", "at": 0.0, "gain": -8}, {"name": "breath_whisper", "at": "@shhh-0.4", "gain": -8}]})
 
