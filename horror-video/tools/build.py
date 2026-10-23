@@ -57,6 +57,11 @@ def voice_cfg(voice):
 def voice_fx(a, sr, deep, style):
     """Tiefer (Abspielrate * deep), EQ, Kompression, Raum, Limiter -> 48 kHz."""
     src = int(round(sr * deep)); g = gcd(SR, src); y = resample_poly(a, SR // g, src // g).astype(np.float32)
+    if style == "natural":  # Kokoro: natürlich lassen, nur Wärme, sanfte Kompression, kleiner Raum
+        fx = [HighpassFilter(60), LowShelfFilter(cutoff_frequency_hz=150, gain_db=2.0), PeakFilter(3000, 1.5, 1.0),
+              Compressor(threshold_db=-20, ratio=2.5, attack_ms=8, release_ms=150), Gain(3),
+              Reverb(room_size=0.25, damping=0.7, wet_level=0.08, dry_level=0.96, width=0.0), Limiter(threshold_db=-3.0, release_ms=80), Gain(-1.5)]
+        y = Pedalboard(fx)(y, SR); return (y[0] if y.ndim > 1 else y).astype(np.float32)
     fx = [HighpassFilter(70), LowShelfFilter(cutoff_frequency_hz=140, gain_db=3.5), PeakFilter(320, -2.5, 1.0),
           PeakFilter(2800, 2.5, 0.9), HighShelfFilter(9000, -2.0), Compressor(threshold_db=-20, ratio=3.2, attack_ms=6, release_ms=120), Gain(4)]
     if style == "entity": fx += [HighShelfFilter(6500, -2.0), Reverb(room_size=0.4, damping=0.6, wet_level=0.13, dry_level=0.92, width=0.0)]
@@ -103,7 +108,7 @@ def tts_clip(text, voice, speed, say=None, takes=None):
         TAKES_LOG.append(json.load(open(out + ".json"))); return out
     model, sid, deep, style, vspeed = voice_cfg(voice)
     if speed is None: speed = vspeed or 1.0
-    lo, hi = (takes or ((3, 7) if model == "kokoro" else (4, 14)))
+    lo, hi = (takes or (tuple(story.get("takesKokoro", (2, 4))) if model == "kokoro" else (4, 14)))
     cands = []
     for k in range(hi):
         sp = speed * (1 + (0.035 * ((k + 1) // 2) * (1 if k % 2 else -1) if model == "kokoro" else 0))  # Kokoro ist deterministisch: Takes über Tempo variieren
@@ -144,6 +149,7 @@ def silences(a, thr_db=-38, min_len=.09):
         else: i += 1
     return out
 
+ABBR = {"mrs.", "mr.", "dr.", "ms.", "st."}
 def syl_weight(w):
     w = w.lower(); v = len(re.findall(r"[aeiouyäöü]+", w)); return max(1, v) + len(w) * .12
 
@@ -153,7 +159,7 @@ def word_times(text, dur):
     for t in toks:
         wgt = syl_weight(re.sub(r"[^\wäöüßÄÖÜ]", "", t) or "a")
         weights.append(wgt)
-    pauses = [(.35 if re.search(r"[.!?…]$", t) else .22 if re.search(r"[,;:–-]$", t) else 0) for t in toks]
+    pauses = [(0 if t.lower() in ABBR else .35 if re.search(r"[.!?…]$", t) else .22 if re.search(r"[,;:–-]$", t) else 0) for t in toks]
     total = sum(weights) + sum(pauses[:-1])
     lead = .04; usable = dur - lead - .1; x = lead; out = []
     for t, wgt, p in zip(toks, weights, pauses):
@@ -163,7 +169,7 @@ def word_times(text, dur):
 def refine(words, a, dur):
     """Phrasengrenzen (Kommas) auf echte Pausen im Clip schieben."""
     sil = silences(a)
-    bidx = [i for i, w in enumerate(words[:-1]) if re.search(r"[,;:.!?–]$", w[0])]
+    bidx = [i for i, w in enumerate(words[:-1]) if re.search(r"[,;:.!?–]$", w[0]) and w[0].lower() not in ABBR]
     if not bidx or len(sil) < len(bidx): return words
     sil = sorted(sorted(sil, key=lambda s: -s[1])[:len(bidx)])
     # Segmentweise neu verteilen
@@ -180,23 +186,36 @@ def refine(words, a, dur):
 t = story.get("lead", 0.35)
 beats_out, words_out, chunks, cues = [], [], [], []
 voice_track = []  # (start, path)
+LINE_ID = [0]
 for bi, b in enumerate(story["beats"]):
     start = t; t += b.get("pre", 0.0)
     bw = []  # Wörter dieses Beats
-    for li, ln in enumerate(b.get("lines", [])):
-        vname = ln.get("voice", "narrator")
-        clip = tts_clip(ln["text"], vname, ln.get("speed", story.get("speed", None if vname in VCFG else 1.0)), ln.get("say"), ln.get("takes"))
+    # Zeilen gruppieren: im "fluent"-Modus werden aufeinanderfolgende Zeilen derselben Stimme am Stück gesprochen
+    groups, cur = [], []
+    for ln in b.get("lines", []):
+        if cur and (not story.get("fluent") or ln.get("voice", "narrator") != cur[-1].get("voice", "narrator") or "gap" in cur[-1]
+                    or ln.get("speed") != cur[-1].get("speed") or ln.get("gain", 0) != cur[-1].get("gain", 0)):
+            groups.append(cur); cur = []
+        cur.append(ln)
+    if cur: groups.append(cur)
+    for gi, g in enumerate(groups):
+        vname = g[0].get("voice", "narrator")
+        text = " ".join(l["text"] for l in g); say = " ".join(l.get("say", l["text"]) for l in g)
+        clip = tts_clip(text, vname, g[0].get("speed", story.get("speed", None if vname in VCFG else 1.0)), say if say != text else None, g[0].get("takes"))
         a, sr = sf.read(clip, dtype="float32"); a = trim(a); dur = len(a) / SR
-        p = f"{WD}/vo/b{bi:02d}_{li}.wav"; sf.write(p, a, SR, subtype="PCM_24")
-        voice_track.append((t, p, ln.get("gain", 0.0)))
-        wt = refine(word_times(ln["text"], dur), a, dur)
-        emph = set(e.lower() for e in ln.get("emph", []) + b.get("emph", []))
-        for w, ws, we in wt:
+        p = f"{WD}/vo/b{bi:02d}_{gi}.wav"; sf.write(p, a, SR, subtype="PCM_24")
+        voice_track.append((t, p, g[0].get("gain", 0.0)))
+        wt = refine(word_times(text, dur), a, dur)
+        owners = [k for k, l in enumerate(g) for _ in l["text"].split()]
+        for (w, ws, we), k in zip(wt, owners):
+            ln = g[k]; lid = LINE_ID[0] + k
+            emph = set(e.lower() for e in ln.get("emph", []) + b.get("emph", []))
             clean = re.sub(r"[^\wäöüßÄÖÜ:']", "", w)
             words_out.append({"text": re.sub(r"[„“\"]", "", w), "start": round(t + ws, 3), "end": round(t + we, 3),
-                              "emph": clean.lower() in emph, "beat": bi, "line": len(voice_track) - 1, "voice": ln.get("voice", "narrator")})
+                              "emph": clean.lower() in emph, "beat": bi, "line": lid, "voice": vname})
             bw.append(words_out[-1])
-        t += dur + ln.get("gap", story.get("lineGap", 0.28))
+        LINE_ID[0] += len(g)
+        t += dur + g[-1].get("gap", story.get("lineGap", 0.28))
     t += b.get("post", story.get("beatGap", 0.12))
     t = max(t, start + b.get("minDur", 1.4))
     ob = {k: v for k, v in b.items() if k not in ("lines", "sfx", "pre", "post", "minDur", "emph", "flash", "glitch")}
@@ -231,7 +250,7 @@ phrases, cur = [], []
 for i, w in enumerate(words_out):
     if cur and words_out[cur[-1]]["line"] != w["line"]: phrases.append(cur); cur = []
     cur.append(i)
-    if re.search(r"[.!?…,:;]$", w["text"]): phrases.append(cur); cur = []
+    if re.search(r"[.!?…,:;]$", w["text"]) and w["text"].lower() not in ABBR: phrases.append(cur); cur = []
 if cur: phrases.append(cur)
 from PIL import ImageFont
 _CF = ImageFont.truetype(os.path.join(SCRATCH, "video", "fonts", "Montserrat.ttf"), 70)

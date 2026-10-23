@@ -101,3 +101,21 @@ Rule: never put a loud hit (boom/hit/screech/knock) on top of an important spoke
 - **bathroom_mirror** `reflBack: true` → Mom's reflection shows the BACK of her head (hair, no face) — physically right when she stands
   between you and the mirror. `reflH` (size, default 760), `reflY` (feet y, default 1410), `reflFace` ("wide"|"stare"|"yawn").
   `front` + `reflMama` can be combined with `front: "you"` (you from behind + Mom reflected somewhere in the mirror).
+
+## Camera-feed scenes (scenes/feeds.js)
+
+- **monitor_screen** — one grainy camera feed (REC dot, running timestamp, label). `device`: "baby" (white baby-monitor handset) | "tablet" | "none" (full screen);
+  `room`: "nursery" (crib, mobile, window) | "bedroom" (`sleeper: true` = someone asleep in the bed) | "living" | "corridor" | "stairs" | "entrance" | "parking" | "aisle";
+  `label` "NURSERY CAM", `stamp` "03:12:00" (counts up with the beat), `figure` or `figures: [{kind: "shade"|"pale"|"child", x 0..1, y 0..1 (feet), h 0..1, at, fade, eyes (time eyes glow, shade only), face: "stare"|"wide", smile, pose, alpha}]`,
+  `static: t` / `staticEnd` / `staticText` (signal loss), `feedZoom: [1, 1.6]` + `feedFocus: [x, y]` (zoom inside the feed), `red: true` (red tint), `rocking` (crib rocks), `signal` 0-5.
+- **cctv_grid** — 2×2 security feeds. `feeds: [{room, label, figure|figures, dead: t, deadEnd, deadText, alert: t (red frame), stamp}] ×4`, `stamp`, `title` "SECURITY — LIVE",
+  `focus: {feed: 0-3, at, dur}` (that feed grows to full screen).
+- monitor_screen / cctv feeds (babysit.js): `door` 0..1 / `doorSwing [t0,t1,from,to]` = left element with black gap; `doorStyle: "closet"` = slatted closet door;
+  `gapEyes: [t0,t1]` (dim red eyes in the gap), `doorHand: t`; `entry` 0..1 / `entrySwing [t0,t1,from,to]` = nursery entrance door at the right edge, `entryHand: t`, `hallLight`;
+  `nightlight`, `clean: true` (no grain), `hud: false` (no REC/label/stamp), `muted`, `mutedPulse`, `stampRing: t`, `camDot`, `scale` (device size, default .8), `top`.
+  Feed figure kinds: `"shape"` {pose: stand|bend|finger|hunch|walk, fromPose, poseAt, poseDur, turn (time head turns to camera), eyes (time), move [t0,t1,toX], until, flip, alpha},
+  `"you"` {pose: stand|wave|sit, waveAt, waveDur, move [t0,t1,toX], flip, phone}.
+- bedroom: `monitorOnStand`, `hood`, `shapeBehind: {at, alpha, x, y, h, pose, flip, eyes}`.
+- Beat overlays: `pops: [{text, at, x, y, size, dur, rot}]` (small red words like "CREAK"), `hudRing: t` (red ring around the top-left clock),
+  `card: {at, until, kind: "nursery_you"|"grid4", stamp, x, y, w, h, rot, caption}` (a photo card pops up).
+- phone_chat photo kinds: `grid4` (parents' 4-camera screenshot), `nursery_you` (you by the crib); choice_split icons `feed_empty`, `feed_shape`.

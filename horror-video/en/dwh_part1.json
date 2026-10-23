@@ -1,0 +1,1095 @@
+{
+ "lang": "en",
+ "fluent": true,
+ "series": "PART 1",
+ "place": "HALE HOUSE",
+ "lead": 0.15,
+ "tail": 1.3,
+ "lineGap": 0.2,
+ "beatGap": 0.1,
+ "duckDb": 7,
+ "capMaxPx": 860,
+ "noEndFade": true,
+ "voices": {
+  "narrator": {
+   "engine": "kokoro",
+   "sid": 17,
+   "deep": 1.0,
+   "style": "natural",
+   "speed": 0.92
+  },
+  "you": {
+   "engine": "kokoro",
+   "sid": 10,
+   "deep": 1.0,
+   "style": "natural",
+   "speed": 0.95
+  },
+  "mrs_hale": {
+   "engine": "kokoro",
+   "sid": 3,
+   "deep": 1.0,
+   "style": "natural",
+   "speed": 1.0
+  },
+  "mr_hale": {
+   "engine": "kokoro",
+   "sid": 16,
+   "deep": 1.0,
+   "style": "natural",
+   "speed": 0.95
+  },
+  "shape": {
+   "engine": "kokoro",
+   "sid": 6,
+   "deep": 0.78,
+   "style": "entity",
+   "speed": 0.75
+  }
+ },
+ "ui": {
+  "now": "now",
+  "message": "iMessage",
+  "date": "Friday, October 23",
+  "typing": "Mrs. Hale is typing",
+  "sender": "Unknown",
+  "kicker": "PART 2",
+  "pill": "FOLLOW FOR PART 2",
+  "title": "WOULD YOU GO UP?",
+  "optA": "OPTION ONE",
+  "optB": "OPTION TWO",
+  "end": "DON'T WAKE HER"
+ },
+ "beats": [
+  {
+   "scene": "monitor_screen",
+   "clock": "11:40 PM",
+   "p": {
+    "room": "nursery",
+    "label": "CAM - NURSERY",
+    "stamp": "11:30 PM",
+    "device": "baby",
+    "muted": true,
+    "door": 0.0,
+    "doorStyle": "closet",
+    "figure": {
+     "kind": "shape",
+     "pose": "bend",
+     "x": 0.42,
+     "y": 0.86,
+     "h": 0.8
+    }
+   },
+   "lines": [
+    {
+     "text": "Something is standing over the crib.",
+     "emph": [
+      "crib"
+     ]
+    }
+   ],
+   "captionY": 1590,
+   "capBox": true,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    760
+   ],
+   "trans": "cut",
+   "post": 0.5,
+   "sfx": [
+    {
+     "name": "sub_pulse",
+     "at": "@crib",
+     "gain": -4
+    },
+    {
+     "name": "low_piano_hit",
+     "at": "@crib+0.6",
+     "gain": -8
+    }
+   ]
+  },
+  {
+   "scene": "bedroom",
+   "clock": "11:40 PM",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "p": {
+    "pose": "sitting",
+    "lookPhone": true,
+    "hood": true,
+    "monitorOnStand": true,
+    "roomCam": true
+   },
+   "pops": [
+    {
+     "text": "GUEST ROOM",
+     "at": 0.15,
+     "x": 760,
+     "y": 560,
+     "size": 54,
+     "dur": 2.6,
+     "rot": 0
+    }
+   ],
+   "lines": [
+    {
+     "text": "Eleven forty."
+    },
+    {
+     "text": "You're babysitting, alone downstairs.",
+     "emph": [
+      "alone"
+     ]
+    }
+   ],
+   "sfx": []
+  },
+  {
+   "scene": "bedroom",
+   "clock": "11:40 PM",
+   "pan": [
+    0,
+    0,
+    0,
+    430
+   ],
+   "zoom": [
+    1.0,
+    1.0
+   ],
+   "trans": "cut",
+   "p": {
+    "pose": "sitting",
+    "lookPhone": true,
+    "hood": true,
+    "monitorOnStand": true,
+    "roomCam": true,
+    "ceilingCrib": "@wren",
+    "ceilingLabel": "UPSTAIRS: BABY WREN"
+   },
+   "lines": [
+    {
+     "text": "Wren sleeps right above you.",
+     "emph": [
+      "above"
+     ]
+    },
+    {
+     "text": "The Hales are at a wedding."
+    }
+   ],
+   "sfx": [
+    {
+     "name": "door_creak",
+     "at": "@hales",
+     "gain": -16,
+     "dur": 1.0
+    }
+   ]
+  },
+  {
+   "scene": "monitor_screen",
+   "clock": "11:41 PM",
+   "p": {
+    "room": "nursery",
+    "label": "CAM - NURSERY",
+    "stamp": "11:31 PM",
+    "device": "baby",
+    "muted": true,
+    "door": 0.0,
+    "doorStyle": "closet",
+    "feedZoom": [
+     1.0,
+     1.3
+    ],
+    "feedFocus": [
+     0.42,
+     0.55
+    ],
+    "figure": {
+     "kind": "shape",
+     "pose": "bend",
+     "x": 0.42,
+     "y": 0.86,
+     "h": 0.8
+    }
+   },
+   "lines": [
+    {
+     "text": "On the baby monitor, it doesn't move.",
+     "emph": [
+      "move"
+     ]
+    }
+   ],
+   "captionY": 1590,
+   "capBox": true,
+   "trans": "cut",
+   "pre": 0.2
+  },
+  {
+   "scene": "monitor_screen",
+   "clock": "11:41 PM",
+   "p": {
+    "room": "nursery",
+    "label": "CAM - NURSERY",
+    "stamp": "11:31 PM",
+    "device": "baby",
+    "muted": true,
+    "door": 0.0,
+    "doorStyle": "closet",
+    "feedZoom": [
+     1.3,
+     1.5
+    ],
+    "feedFocus": [
+     0.42,
+     0.55
+    ],
+    "mutedPulse": "@muted",
+    "figure": {
+     "kind": "shape",
+     "pose": "bend",
+     "x": 0.42,
+     "y": 0.86,
+     "h": 0.8
+    }
+   },
+   "lines": [
+    {
+     "text": "Bent low over Wren."
+    },
+    {
+     "text": "The sound is muted.",
+     "emph": [
+      "muted"
+     ]
+    }
+   ],
+   "captionY": 1590,
+   "capBox": true,
+   "trans": "cut",
+   "post": 0.4,
+   "sfx": [
+    {
+     "name": "heartbeat_slow_muffled",
+     "at": "@muted",
+     "gain": 2,
+     "dur": 2.0
+    }
+   ]
+  },
+  {
+   "scene": "fridge_note",
+   "clock": "11:41 PM",
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "focus": [
+    540,
+    760
+   ],
+   "captionY": 1460,
+   "capBox": true,
+   "trans": "cut",
+   "p": {
+    "title": "Hi babysitter!",
+    "lines": [
+     {
+      "text": "Wren down by eight ♥",
+      "at": 0.0,
+      "dur": 0.5
+     },
+     {
+      "text": "Old monitor. Clock's wrong. Just ignore it!",
+      "at": "@old",
+      "dur": 1.8,
+      "row": 1,
+      "glowAt": "@old"
+     },
+     {
+      "text": "Cameras on my phone. Text anytime! – Dana",
+      "at": 0.25,
+      "dur": 0.6,
+      "row": 3
+     }
+    ]
+   },
+   "lines": [
+    {
+     "text": "Mrs. Hale's note said:",
+     "say": "Missus Hale's note said:"
+    },
+    {
+     "text": "Old monitor. Clock's wrong. Just ignore it!",
+     "voice": "mrs_hale",
+     "emph": [
+      "wrong"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "light_click",
+     "at": 0.05,
+     "gain": 0
+    }
+   ]
+  },
+  {
+   "scene": "phone_chat",
+   "clock": "11:41 PM",
+   "captionY": 720,
+   "capBox": true,
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "trans": "cut",
+   "p": {
+    "name": "Mrs. Hale",
+    "initials": "DH",
+    "avatarColor": "#5a1316",
+    "headerSub": "Active now",
+    "headerDot": true,
+    "messages": [
+     {
+      "kind": "stamp",
+      "text": "11:41 PM",
+      "at": 0
+     },
+     {
+      "side": "out",
+      "text": "Is anyone else in the house?",
+      "at": "@is"
+     },
+     {
+      "side": "in",
+      "text": "Just you and Wren. Why?",
+      "at": "@just-0.1",
+      "typing": "@is+1.0"
+     },
+     {
+      "side": "out",
+      "text": "Someone is in the nursery.",
+      "at": "@someone"
+     }
+    ]
+   },
+   "lines": [
+    {
+     "text": "You can't ignore this."
+    },
+    {
+     "text": "So you text her."
+    },
+    {
+     "text": "Is anyone else in the house?",
+     "voice": "you"
+    },
+    {
+     "text": "Just you and Wren. Why?",
+     "voice": "mrs_hale"
+    },
+    {
+     "text": "Someone is in the nursery.",
+     "voice": "you",
+     "emph": [
+      "nursery"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "phone_ping",
+     "at": "@just-0.1",
+     "gain": -4
+    }
+   ]
+  },
+  {
+   "scene": "phone_chat",
+   "clock": "11:42 PM",
+   "captionY": 720,
+   "capBox": true,
+   "zoom": [
+    1.04,
+    1.08
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "trans": "cut",
+   "p": {
+    "name": "Mrs. Hale",
+    "initials": "DH",
+    "avatarColor": "#5a1316",
+    "headerSub": "Active now",
+    "headerDot": true,
+    "messages": [
+     {
+      "kind": "stamp",
+      "text": "11:41 PM",
+      "at": 0
+     },
+     {
+      "side": "out",
+      "text": "Is anyone else in the house?",
+      "at": -1
+     },
+     {
+      "side": "in",
+      "text": "Just you and Wren. Why?",
+      "at": -1
+     },
+     {
+      "side": "out",
+      "text": "Someone is in the nursery.",
+      "at": -1
+     },
+     {
+      "side": "in",
+      "text": "Nursery cam's live. Nobody's there.",
+      "at": "@nursery-0.1",
+      "typing": 0.2,
+      "red": true
+     }
+    ]
+   },
+   "lines": [
+    {
+     "text": "She checks her camera app."
+    },
+    {
+     "text": "Nursery cam's live. Nobody's there.",
+     "voice": "mrs_hale",
+     "emph": [
+      "Nobody's"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "phone_ping",
+     "at": "@nursery-0.1",
+     "gain": -3
+    }
+   ]
+  },
+  {
+   "scene": "cctv_grid",
+   "clock": "11:42 PM",
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "focus": [
+    540,
+    960
+   ],
+   "p": {
+    "stamp": "11:42 PM",
+    "title": "HALE CAMS • LIVE",
+    "live": true,
+    "clean": true,
+    "feeds": [
+     {
+      "room": "nursery",
+      "label": "NURSERY",
+      "door": 0.08,
+      "doorStyle": "closet"
+     },
+     {
+      "room": "corridor",
+      "label": "HALL"
+     },
+     {
+      "room": "stairs",
+      "label": "STAIRS"
+     },
+     {
+      "room": "guest",
+      "label": "GUEST RM",
+      "figures": [
+       {
+        "kind": "you",
+        "pose": "sit",
+        "x": 0.3,
+        "y": 0.78,
+        "h": 0.38
+       }
+      ]
+     }
+    ],
+    "focus": {
+     "feed": 0,
+     "at": "@wren",
+     "dur": 0.6
+    }
+   },
+   "lines": [
+    {
+     "text": "She sends a screenshot."
+    },
+    {
+     "text": "Just Wren, asleep.",
+     "emph": [
+      "asleep"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "camera_shutter",
+     "at": 0.05,
+     "gain": 0
+    }
+   ]
+  },
+  {
+   "scene": "cctv_grid",
+   "clock": "11:42 PM",
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "focus": [
+    540,
+    960
+   ],
+   "trans": "cut",
+   "p": {
+    "stamp": "11:42 PM",
+    "title": "HALE CAMS • LIVE",
+    "live": true,
+    "clean": true,
+    "feeds": [
+     {
+      "room": "nursery",
+      "label": "NURSERY",
+      "door": 0.08,
+      "doorStyle": "closet"
+     },
+     {
+      "room": "corridor",
+      "label": "HALL"
+     },
+     {
+      "room": "stairs",
+      "label": "STAIRS"
+     },
+     {
+      "room": "guest",
+      "label": "GUEST RM",
+      "figures": [
+       {
+        "kind": "you",
+        "pose": "sit",
+        "x": 0.3,
+        "y": 0.78,
+        "h": 0.38
+       }
+      ]
+     }
+    ],
+    "focus": {
+     "feed": 3,
+     "at": 0.1,
+     "dur": 0.6
+    }
+   },
+   "lines": [
+    {
+     "text": "Even your room."
+    },
+    {
+     "text": "Just you.",
+     "emph": [
+      "you"
+     ]
+    }
+   ],
+   "post": 0.3
+  },
+  {
+   "scene": "monitor_screen",
+   "clock": "11:44 PM",
+   "p": {
+    "room": "nursery",
+    "label": "CAM - NURSERY",
+    "stamp": "11:34 PM",
+    "device": "baby",
+    "muted": true,
+    "door": 0.0,
+    "doorStyle": "closet",
+    "feedZoom": [
+     1.0,
+     1.2
+    ],
+    "feedFocus": [
+     0.45,
+     0.5
+    ],
+    "figure": {
+     "kind": "shape",
+     "pose": "bend",
+     "x": 0.42,
+     "y": 0.86,
+     "h": 0.8,
+     "turn": "@lifts"
+    }
+   },
+   "lines": [
+    {
+     "text": "But your monitor still shows it.",
+     "emph": [
+      "still"
+     ]
+    },
+    {
+     "text": "Its head lifts."
+    },
+    {
+     "text": "Slowly."
+    }
+   ],
+   "captionY": 1590,
+   "capBox": true,
+   "trans": "cut",
+   "sfx": [
+    {
+     "name": "tension_riser_4s",
+     "at": "@lifts-0.5",
+     "gain": -14
+    }
+   ]
+  },
+  {
+   "scene": "monitor_screen",
+   "clock": "11:44 PM",
+   "p": {
+    "room": "nursery",
+    "label": "CAM - NURSERY",
+    "stamp": "11:34 PM",
+    "device": "baby",
+    "muted": true,
+    "door": 0.0,
+    "doorStyle": "closet",
+    "feedZoom": [
+     1.4,
+     1.75
+    ],
+    "feedFocus": [
+     0.6,
+     0.3
+    ],
+    "figure": {
+     "kind": "shape",
+     "pose": "bend",
+     "x": 0.42,
+     "y": 0.86,
+     "h": 0.8,
+     "turn": -5,
+     "eyes": "@two"
+    }
+   },
+   "lines": [
+    {
+     "text": "Toward the camera."
+    },
+    {
+     "text": "Two red eyes.",
+     "emph": [
+      "eyes"
+     ]
+    }
+   ],
+   "captionY": 1590,
+   "capBox": true,
+   "trans": "cut",
+   "post": 0.5,
+   "sfx": [
+    {
+     "name": "stinger_violin_screech",
+     "at": "@two",
+     "gain": -10
+    }
+   ],
+   "glitch": [
+    {
+     "at": "@two",
+     "d": 0.1
+    }
+   ]
+  },
+  {
+   "scene": "monitor_screen",
+   "clock": "11:45 PM",
+   "p": {
+    "room": "nursery",
+    "label": "CAM - NURSERY",
+    "stamp": "11:35 PM",
+    "device": "baby",
+    "muted": true,
+    "door": 0.0,
+    "doorStyle": "closet",
+    "feedZoom": [
+     1.2,
+     1.3
+    ],
+    "feedFocus": [
+     0.45,
+     0.4
+    ],
+    "figure": {
+     "kind": "shape",
+     "pose": "finger",
+     "x": 0.42,
+     "y": 0.86,
+     "h": 0.8,
+     "fromPose": "bend",
+     "poseAt": "@finger",
+     "poseDur": 1.4,
+     "turn": -5,
+     "eyes": -5
+    }
+   },
+   "lines": [
+    {
+     "text": "One long finger rises to where a mouth should be.",
+     "emph": [
+      "finger"
+     ]
+    }
+   ],
+   "captionY": 1590,
+   "capBox": true,
+   "trans": "cut",
+   "post": 0.6,
+   "sfx": [
+    {
+     "name": "tinnitus_ring",
+     "at": "@finger",
+     "gain": -12
+    }
+   ]
+  },
+  {
+   "scene": "monitor_screen",
+   "clock": "11:46 PM",
+   "p": {
+    "room": "nursery",
+    "label": "CAM - NURSERY",
+    "stamp": "11:36 PM",
+    "device": "baby",
+    "muted": true,
+    "door": 0.35,
+    "doorStyle": "closet",
+    "doorKeys": [
+     [
+      0,
+      0
+     ],
+     [
+      "@folds",
+      0
+     ],
+     [
+      "@folds+0.7",
+      0.55
+     ],
+     [
+      "@folds+1.8",
+      0.55
+     ],
+     [
+      "@crack",
+      0.08
+     ]
+    ],
+    "gapEyes": [
+     "@crack",
+     "@crack+1.0"
+    ],
+    "figure": {
+     "kind": "shape",
+     "pose": "hunch",
+     "x": 0.42,
+     "y": 0.86,
+     "h": 0.8,
+     "fromPose": "finger",
+     "poseAt": "@folds",
+     "poseDur": 0.8,
+     "eyes": -5,
+     "turn": -5,
+     "move": [
+      "@folds",
+      "@folds+1.5",
+      0.13
+     ],
+     "until": "@folds+1.7"
+    }
+   },
+   "lines": [
+    {
+     "text": "It folds itself into the closet."
+    },
+    {
+     "text": "The door stays open a crack.",
+     "emph": [
+      "crack"
+     ]
+    }
+   ],
+   "captionY": 1590,
+   "capBox": true,
+   "pops": [
+    {
+     "text": "sssllide",
+     "at": "@folds+0.2",
+     "x": 330,
+     "y": 520,
+     "size": 46,
+     "dur": 1.2
+    }
+   ],
+   "trans": "cut",
+   "sfx": [
+    {
+     "name": "impact_hit_short",
+     "at": "@crack+0.9",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "monitor_screen",
+   "clock": "11:46 PM",
+   "p": {
+    "room": "nursery",
+    "label": "CAM - NURSERY",
+    "stamp": "11:36 PM",
+    "device": "baby",
+    "muted": true,
+    "door": 0.08,
+    "doorStyle": "closet",
+    "flickerClean": [
+     0.05,
+     1.6
+    ],
+    "feedZoom": [
+     1.0,
+     1.45
+    ],
+    "feedFocus": [
+     0.13,
+     0.45
+    ]
+   },
+   "lines": [
+    {
+     "text": "Now your monitor matches her screenshot."
+    },
+    {
+     "text": "Exactly.",
+     "emph": [
+      "Exactly"
+     ]
+    },
+    {
+     "text": "But nothing ever left that room.",
+     "emph": [
+      "nothing"
+     ]
+    }
+   ],
+   "captionY": 1590,
+   "capBox": true,
+   "trans": "cut",
+   "post": 0.4,
+   "sfx": [
+    {
+     "name": "whoosh",
+     "at": 0.05,
+     "gain": -12
+    },
+    {
+     "name": "whoosh",
+     "at": 0.85,
+     "gain": -12
+    },
+    {
+     "name": "heartbeat_slow_muffled",
+     "at": "@nothing",
+     "gain": 0,
+     "dur": 2.0
+    }
+   ]
+  },
+  {
+   "scene": "phone_lock",
+   "clock": "11:46 PM",
+   "zoom": [
+    1.0,
+    1.18
+   ],
+   "focus": [
+    540,
+    700
+   ],
+   "trans": "cut",
+   "p": {
+    "time": "11:46",
+    "notifs": [
+     {
+      "sender": "Mrs. Hale",
+      "text": "Go peek if it helps! I'll watch on the app.",
+      "at": 0.05
+     }
+    ],
+    "buzz": [
+     0.05
+    ]
+   },
+   "lines": [
+    {
+     "text": "Go peek if it helps! I'll watch on the app.",
+     "voice": "mrs_hale",
+     "emph": [
+      "peek"
+     ]
+    }
+   ],
+   "pre": 0.5,
+   "sfx": [
+    {
+     "name": "phone_vibrate",
+     "at": 0.05,
+     "gain": -2
+    }
+   ]
+  },
+  {
+   "scene": "choice_split",
+   "clock": "11:46 PM",
+   "captionY": 1590,
+   "capBox": true,
+   "p": {
+    "title": "Would you go up?",
+    "kicker": "WREN IS STILL UP THERE",
+    "a": "Go|up",
+    "b": "Stay|down",
+    "iconA": "stairs",
+    "iconB": "bed"
+   },
+   "lines": [
+    {
+     "text": "Would you go upstairs?",
+     "emph": [
+      "upstairs"
+     ]
+    },
+    {
+     "text": "Tell me in the comments."
+    }
+   ],
+   "sfx": [
+    {
+     "name": "impact_boom",
+     "at": 0.0,
+     "gain": -7
+    }
+   ]
+  },
+  {
+   "scene": "end_card",
+   "clock": "11:46 PM",
+   "captionY": 1590,
+   "capBox": true,
+   "trans": "cut",
+   "p": {
+    "title": "DON'T WAKE HER",
+    "kicker": "PART 1",
+    "time": "11:46 PM",
+    "pill": "FOLLOW FOR PART 2",
+    "sub": "GO UP OR STAY DOWN?|TELL ME IN THE COMMENTS"
+   },
+   "lines": [
+    {
+     "text": "Follow for part two.",
+     "emph": [
+      "two"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "endEyes": "@two+0.9",
+   "sfx": [
+    {
+     "name": "whoosh_reverse",
+     "at": 0.0,
+     "gain": -8
+    },
+    {
+     "name": "breath_whisper",
+     "at": "@two+0.9",
+     "gain": -12
+    }
+   ]
+  }
+ ],
+ "beds": [
+  {
+   "name": "drone_bed",
+   "from": 0,
+   "to": 200,
+   "gain": 1,
+   "fade": 0.4
+  },
+  {
+   "name": "house_ambience",
+   "from": 0,
+   "to": 200,
+   "gain": 10,
+   "fade": 0.5
+  },
+  {
+   "name": "music_box_lullaby",
+   "fromBeat": 1,
+   "toBeat": 5,
+   "gain": -1,
+   "fade": 1.2
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 12,
+   "toBeat": 16,
+   "gain": -2,
+   "fade": 1.0
+  },
+  {
+   "name": "whisper_texture",
+   "fromBeat": 13,
+   "toBeat": 15,
+   "gain": -5,
+   "fade": 0.8
+  }
+ ]
+}
