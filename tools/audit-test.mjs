@@ -284,6 +284,52 @@ await test('CS-05 Blatt ueber der Startseite (Impressum): Tab bleibt im Blatt, E
   assert.equal(await ev(()=>document.activeElement.dataset.recht),'impressum');
 });
 
+/* ── CS-06: Zugstufenknopf je Modell und Jahr; CS-07: Hilfetexte wie Oberflaeche und Vergleich ── */
+const sprache=async l=>{await ev(l=>{localStorage.setItem('mtb.sprache',l);sichern();},l);await neuLaden();};
+/* ZEB mit gewaehlter Kartusche; liest die Zugstufenkarte aus der echten Setup-Ansicht (geoeffnet) */
+const zugKarte=(kart,jahr)=>ev(([kart,jahr])=>{
+  schliesse();wechsle('real');const z=katalog(quelleOf(slotOf('gabel'))).find(t=>t.id==='g-zeb'),w=z.v.map(d=>d.d),ki=z.v.findIndex(d=>d.k==='Kartusche');
+  w[ki]=z.v[ki].o.findIndex(o=>o.n===kart);build.gabel=varianteNachIndex(z,w).id;
+  /* Neue Gabel: Fahrwerkfragen wie beim ersten Aufbau beantwortet */
+  delete build.fw;fwPruef();const fw=fwInfo();fw.fertig=true;fw.fragenVersion=FW_FRAGEN_VERSION;fw.gj=jahr;fw.dj=2025;fw.df=475;
+  fw.besucht=Object.fromEntries(obSchritte().filter(n=>!['start','ende'].includes(n)).map(n=>[n,true]));
+  fw.stil={gelaende:'ruppig',tempo:'zuegig',spruenge:'klein',gefuehl:'mittel',bergauf:'egal'};sichern();
+  pro={key:'isoliert',inst:'i',status:'aktiv',geprueft:Date.now()};view='setup';suElWahl='gabel';zeichne();
+  const li=[...document.querySelectorAll('#setup .fw-k')].find(l=>/^(Zugstufe|Rebound)/.test(l.querySelector('.fw-kn b').textContent));
+  if(!li)throw new Error('keine Zugstufenkarte: '+build.gabel+' / '+[...document.querySelectorAll('#setup .fw-k .fw-kn b')].map(b=>b.textContent).join(', ')+' / '+document.querySelector('#setup').textContent.replace(/\s+/g,' ').slice(0,300));li.querySelector('[data-fwk]').click();
+  const offen=document.getElementById(li.id);
+  return {ka:wahlVon(findeTeil('gabel',build.gabel),'Kartusche'),kopf:offen.querySelector('.fw-kn small').textContent,farbe:offen.querySelector('.fw-ki').className,
+    karte:offen.textContent.replace(/\s+/g,' '),bild:[...offen.querySelectorAll('figcaption,img[alt]')].map(e=>e.alt||e.textContent).join(' ').replace(/\s+/g,' ')};},[kart,jahr]);
+
+for(const l of ['de','en'])await test(`CS-06 ZEB 2027 (Charger 3.2): Kopf, Anleitung und Foto nennen denselben schwarzen Knopf; aeltere ZEB bleibt rot (${l})`,async()=>{
+  await fuellen();if(l==='en')await sprache('en');
+  const neu=await zugKarte('Charger 3.2 RC2',2027),alt=await zugKarte('Charger 3.1 RC2',2025);
+  const schwarz=l==='de'?/schwarze[rn]? gerändelte[rn]? Knopf/:/black knurled dial/,rot=l==='de'?/rotes Rädchen/:/red dial/;
+  assert.equal(neu.ka,'Charger 3.2 RC2');assert.match(neu.kopf,schwarz,'Kopf');assert.match(neu.karte,schwarz,'Anleitung');
+  assert.doesNotMatch(neu.karte,rot,'kein rotes Rädchen in der Karte der ZEB 2027');assert.match(neu.bild,schwarz,'Nahfoto-Text unveraendert passend');
+  assert.doesNotMatch(neu.farbe,/\brot\b/,'Symbol nicht rot');
+  assert.equal(alt.ka,'Charger 3.1 RC2');assert.match(alt.kopf,rot,'aeltere Ausfuehrung bleibt rot');assert.match(alt.farbe,/\brot\b/);
+  if(l==='en')await sprache('de');
+});
+
+for(const l of ['de','en'])await test(`CS-07 Guide Bremsscheiben nennt den automatisch eingeplanten Adapter wie die Pruefung; Bremsen-Kategorie wie der Vergleich (${l})`,async()=>{
+  await fuellen();if(l==='en')await sprache('en');
+  const r=await ev(()=>{schliesse();wechsle('real');const b=katalog(quelleOf(slotOf('bremsen'))).find(t=>t.id==='b-xt');build.bremsen=besteVariante('bremsen',b,build).id;sichern();
+    const funde=pruefe(build).filter(f=>f.ad&&f.ad.art==='bremse');
+    let pill='';for(const v of ['aufbau','befunde']){view=v;pruefOffen=true;zeichne();const p=document.querySelector('.find.ad .pill');if(p){pill=p.textContent;break;}}
+    const g=GUIDE.find(x=>x.id==='scheiben');
+    return {funde:funde.length,pill,guide:sp2(g.a).replace(/<[^>]+>/g,''),};});
+  assert.ok(r.funde>0,'Testrad braucht einen Bremsadapter');assert.ok(r.pill,'Pruefung zeigt den Adapterhinweis');
+  assert.ok(r.guide.includes(r.pill),'Guide nennt dieselbe Bezeichnung wie die Oberflaeche: '+r.pill);
+  assert.doesNotMatch(r.guide,/passt mit Adapter|fits with adapter|gelb|yellow/,'kein veralteter gelber Hinweis');
+  assert.match(r.guide,/PM180 \+ 23 mm = 203 mm/,'Rechenbeispiel bleibt');
+  /* Kategorie "Was ist das?" im echten Teile-Blatt; der Vergleich sagt bereits: haengt von Uebersetzung, Belag und Hebel ab */
+  const kat=await ev(()=>{schliesse();oeffneSlot('bremsen');return document.querySelector('#modal details.was-das p').textContent;});
+  assert.match(kat,l==='de'?/hängt von Übersetzung, Belag und Hebel ab/:/depends on ratio, pads and lever/,'Kategorie wie Vergleich');
+  assert.doesNotMatch(kat,/Mehr Kolben und|More pistons and/,'keine pauschale Kolbenregel');
+  if(l==='en')await sprache('de');
+});
+
 if(errors.length){count++;failed++;console.log('  FEHL JS-Fehler: '+[...new Set(errors)].join(' | '));}
 console.log(`\nAUDIT: ${count-failed} von ${count} bestanden.`);
 await browser.close();server.close();

@@ -5405,7 +5405,7 @@ const SLOTS = [
   {k:"kette",      label:"Kette",         gew:0.5, grp:"Antrieb",   anteil:.015, was:"Verbindet Kurbel und Kassette. Muss zur Gangzahl passen."},
   {k:"kurbel",     label:"Kurbel",        gew:1,   grp:"Antrieb",   anteil:.04, was:"Die Arme mit Kettenblatt, an denen die Pedale sitzen."},
   {k:"innenlager", label:"Innenlager",    gew:0,   grp:"Antrieb",   anteil:.01, was:"Das Lager im Rahmen, in dem sich die Kurbel dreht. Muss zu Rahmen und Kurbelwelle passen."},
-  {k:"bremsen",    label:"Bremsen",       gew:2,   grp:"Bremsen",   anteil:.08, was:"Hebel, Bremssättel und Scheiben. Mehr Kolben und größere Scheiben bremsen kräftiger."},
+  {k:"bremsen",    label:"Bremsen",       gew:2,   grp:"Bremsen",   anteil:.08, was:"Hebel, Bremssättel und Scheiben. Größere Scheiben bremsen kräftiger; ob mehr Kolben stärker bremsen, hängt von Übersetzung, Belag und Hebel ab."},
   {k:"lenker",     label:"Lenker",        gew:1,   grp:"Cockpit",   anteil:.025, was:"Breite und Höhe bestimmen, wie du auf dem Rad stehst und lenkst."},
   {k:"vorbau",     label:"Vorbau",        gew:1,   grp:"Cockpit",   anteil:.015, was:"Verbindet Lenker und Gabel. Kürzer lenkt direkter."},
   {k:"stuetze",    label:"Sattelstütze",  gew:1,   grp:"Sitz",      anteil:.05, was:"Hält den Sattel. Eine Variostütze senkt ihn per Knopfdruck für die Abfahrt."},
@@ -5429,7 +5429,7 @@ const SLOTS_EN = {
   kette:["Chain", "Connects crank and cassette. Must match the number of gears."],
   kurbel:["Crankset", "The arms with the chainring that the pedals attach to."],
   innenlager:["Bottom bracket", "The bearing in the frame the crank spins in. Must fit the frame and the crank spindle."],
-  bremsen:["Brakes", "Levers, calipers and rotors. More pistons and bigger rotors brake harder."],
+  bremsen:["Brakes", "Levers, calipers and rotors. Bigger rotors brake harder; whether more pistons brake harder depends on ratio, pads and lever."],
   lenker:["Handlebar", "Width and rise decide how you stand on the bike and how it steers."],
   vorbau:["Stem", "Connects bar and fork. Shorter steers more directly."],
   stuetze:["Seatpost", "Holds the saddle. A dropper post lowers it at the push of a button for the descent."],
@@ -11849,8 +11849,8 @@ const GUIDE = [
      "Three adapters you often need: <b>end caps</b> change a hub's axle diameter (15 ↔ 20 mm), never the width. A <b>reducer lower cup</b> fits a straight 1 1/8″ fork into a tapered head tube. A <b>converter bottom bracket</b> puts a thin spindle (24 mm, DUB) into a BB30/PF30 shell. If your build needs one of these, the app adds it automatically."],
    ak:["adguide:achse"]},
   {id:"scheiben", k:"scheibengroesse scheibe scheiben bremsscheibe bremsscheiben duerfen 160 180 200 203 220 223 postmount bremsaufnahme maximal rotor rotors size mount", t:["Wie groß dürfen die Bremsscheiben sein?", "How big can the rotors be?"],
-   a:["Rahmen und Gabel geben über ihre Aufnahme eine Mindestgröße vor — die <b>native</b> Größe, etwa Post Mount 160, 180 oder 200 — und laut Hersteller eine Höchstgröße. Kleiner als nativ geht nicht. Größer geht mit einem Adapter um genau die Differenz: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (zwei 1,5-mm-Distanzscheiben). Flat Mount und IS brauchen für die üblichen Post-Mount-Bremssättel immer einen Adapter. Die App rechnet das aus und zeigt es gelb mit „passt mit Adapter“. Üblich: 180 mm für XC und Trail, 200–220 mm für Enduro, Downhill und E-MTB.",
-     "Frame and fork set a minimum size through their mount — the <b>native</b> size, e.g. post mount 160, 180 or 200 — and a maximum per the manufacturer. Smaller than native won't work. Bigger works with an adapter of exactly the difference: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (two 1.5 mm shims). Flat mount and IS always need an adapter for the usual post-mount calipers. The app works this out and shows it in yellow as “fits with adapter”. Typical: 180 mm for XC and trail, 200–220 mm for enduro, downhill and e-MTB."]},
+   a:["Rahmen und Gabel geben über ihre Aufnahme eine Mindestgröße vor — die <b>native</b> Größe, etwa Post Mount 160, 180 oder 200 — und laut Hersteller eine Höchstgröße. Kleiner als nativ geht nicht. Größer geht mit einem Adapter um genau die Differenz: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (zwei 1,5-mm-Distanzscheiben). Flat Mount und IS brauchen für die üblichen Post-Mount-Bremssättel immer einen Adapter. Die App rechnet das aus und plant den passenden Adapter automatisch ein: Er steht als „Automatisch dabei“ mit (i) daneben, das die Rechnung zeigt. Üblich: 180 mm für XC und Trail, 200–220 mm für Enduro, Downhill und E-MTB.",
+     "Frame and fork set a minimum size through their mount — the <b>native</b> size, e.g. post mount 160, 180 or 200 — and a maximum per the manufacturer. Smaller than native won't work. Bigger works with an adapter of exactly the difference: <b>PM180 + 23 mm = 203 mm</b>, PM160 + 20 = 180, PM200 + 3 = 203 (two 1.5 mm shims). Flat mount and IS always need an adapter for the usual post-mount calipers. The app works this out and adds the right adapter automatically: it's listed as “Included automatically” with an (i) next to it that shows the calculation. Typical: 180 mm for XC and trail, 200–220 mm for enduro, downhill and e-MTB."]},
   {id:"achse", k:"achse steckachse schnellspanner 15x110 20x110 12x148 12x157 12x142 15x100 axle thru", t:["Welche Achsen gibt es?", "Which axles are there?"],
    a:["Heute fast immer Steckachsen. <b>Vorn</b>: 110×15 (Boost) an Trail und Enduro, 110×20 an Downhill-Doppelbrücken. <b>Hinten</b>: 148×12 (Boost) oder 157×12 (Super Boost, DH). Ältere Räder: 100×15 vorn, 142×12 hinten. Nabe und Rahmen oder Gabel müssen zusammenpassen.",
      "Almost always thru-axles now. <b>Front</b>: 110×15 (Boost) on trail and enduro, 110×20 on downhill dual crowns. <b>Rear</b>: 148×12 (Boost) or 157×12 (Super Boost, DH). Older bikes: 100×15 front, 142×12 rear. Hub and frame or fork must match."]},
@@ -12682,8 +12682,10 @@ function gabelDaten(g){
     txt:tx("Öhlins RXF36 m.2: LSC 15 Klicks, HSC 3 Stufen, Zugstufe 15 Klicks, gezählt ab ganz zu. Grundeinstellung (0): Mitte", "Öhlins RXF36 m.2: LSC 15 clicks, HSC 3 positions, rebound 15 clicks, counted from fully closed. Base setting (0): middle")};
   if(/Charger 3(\.[12])? RC2/.test(s)){
     const zahl = /3\.2/.test(s), abo = zahl && /^g-(lyrik|zeb)/.test(id);
+    /* Audit CS-06: Lyrik und ZEB mit Charger 3.2 (2027) haben einen schwarzen gerändelten Zugstufenknopf
+       (RockShox-Anleitung 2027, Nahfoto); ältere Charger bleiben beim roten Rädchen */
     return {typ:"hl", lsc:{n:14, base:7, skala:zahl ? "zahl" : "mitte"}, hsc:{n:4, base:2, skala:zahl ? "zahl" : "mitte"},
-      zug:[{name:"Zugstufe", n:18, wo:rot}],
+      zug:[abo ? {name:"Zugstufe", n:18, wo:tx("schwarzer gerändelter Knopf unten am rechten Holm", "black knurled dial underneath the right leg"), farbe:"grau"} : {name:"Zugstufe", n:18, wo:rot}],
       abo:abo ? {o:["1", "2", "3", "4", "5"], b:2, wo:tx("ABO-Rad unten am linken Holm auf der Luftseite, Stufe ab ganz offen gezählt", "ABO dial underneath the left, air-side leg, position counted from fully open")} : null,
       txt:(zahl ? tx("RockShox Charger 3.2: LSC −7 bis +7 (15 Stellungen), HSC −2 bis +2 (5 Stellungen) — die Zahlen stehen auf den Knöpfen", "RockShox Charger 3.2: LSC −7 to +7 (15 positions), HSC −2 to +2 (5 positions) — the numbers are printed on the knobs")
                : tx(`RockShox Charger ${/3\.1/.test(s) ? "3.1" : "3"}: LSC 15, HSC 5 Stellungen, gezählt ab der Mitte`, `RockShox Charger ${/3\.1/.test(s) ? "3.1" : "3"}: LSC 15, HSC 5 positions, counted from the middle`))
@@ -12871,7 +12873,7 @@ function zugWert(info, r, hinten, start){
     const menge = offen ? info.n - pos : pos, kl = menge === 1 ? tx("Klick", "click") : tx("Klicks", "clicks");
     const bez = rel > 0 ? tx(`${rel} langsamer als der Startwert`, `${rel} slower than the starting value`) : rel < 0 ? tx(`${-rel} schneller als der Startwert`, `${-rel} faster than the starting value`) : tx("Startwert für dein Gewicht", "start value for your weight");
     return [info.name || "Zugstufe", `${menge} ${kl} ${offen ? tx("ab ganz offen (Hase)", "from fully open (hare)") : tx("ab ganz zu (Schildkröte)", "from fully closed (tortoise)")} · ${bez}`,
-      {zug:true, n:info.n, start:start, pos:pos, rel:rel, ab:info.ab || "zu", wo:info.wo || "", kurz:`${menge} ${offen ? tx("ab ganz auf", "from open") : tx("ab ganz zu", "from closed")}`}, null];
+      {zug:true, n:info.n, start:start, pos:pos, rel:rel, ab:info.ab || "zu", wo:info.wo || "", farbe:info.farbe, kurz:`${menge} ${offen ? tx("ab ganz auf", "from open") : tx("ab ganz zu", "from closed")}`}, null];
   }
   const rel = Math.max(-3, Math.min(3, rund(r)));
   const wo = hinten ? tx("rotes Rädchen oder Hebel am Dämpfer", "red dial or lever on the shock") : tx("rotes Rädchen unten am Holm", "red dial at the bottom of the fork leg");
@@ -13510,7 +13512,7 @@ const SU_PROFI = {hsr:1, hsc:1, bo:1, tokens:1};
 function fxKnopf(z, slot){
   const art = fxArt(z[0]), vis = z[2], h = z[3];
   const kl = n => n === 1 ? tx("Klick", "click") : tx("Klicks", "clicks");
-  const r = {art:art, roh:z[0], wo:(vis && vis.wo) || (h && h.wo) || "",
+  const r = {art:art, roh:z[0], wo:(vis && vis.wo) || (h && h.wo) || "", farbe:vis && vis.farbe,
     name:art === "zug" ? tx("Ausfeder-Geschwindigkeit", "Rebound speed") : art === "druck" ? tx("Härte beim Einfedern", "Compression firmness") : knopfName(z[0]),
     fach:art === "zug" ? tx("Zugstufe · Rebound", "rebound") : art === "druck" ? tx("Druckstufe", "compression") : "", tun:esc(z[1]), von:"", zeichen:"", kurz:""};
   const ausMitte = m => !m ? [tx("Auf die Mitte", "Set to the middle"), "", "", tx("Mitte", "middle")]
@@ -14359,7 +14361,7 @@ function suKarte(f, slot, x, d, it, nr){
     : it.art === "hebel" ? `<p>${tx("Hebel umlegen — bergab immer offen.", "Flip the lever — always open on descents.")}</p>`
     : `<p>${tx("Sitzt", "Where")}: <b>${esc(wo)}</b>.</p>` + suWie(slot, it.art, it.k && it.k.basis);
   return `<li class="fw-k${offen ? " offen" : ""}${fertig ? " fertig" : ""}" id="${id}">
-    <button class="fw-kk" data-fwk="${id}" aria-expanded="${offen}"><span class="fw-ki ${SU_FARBE[it.art] || "grau"}" aria-hidden="true">${nr ? `<i>${nr}</i>` : ""}${ic(SU_IC[it.art] || SU_IC.druck, 16)}</span>
+    <button class="fw-kk" data-fwk="${id}" aria-expanded="${offen}"><span class="fw-ki ${(it.k && it.k.k.farbe) || SU_FARBE[it.art] || "grau"}" aria-hidden="true">${nr ? `<i>${nr}</i>` : ""}${ic(SU_IC[it.art] || SU_IC.druck, 16)}</span>
       <span class="fw-kn"><b>${esc(name)}</b><small>${esc(wo)}</small></span>
       <span class="fw-kw"><b>${typeof w.w === "number" ? w.w : esc(String(w.w))}${w.e ? `<i>${w.e}</i>` : ""}</b><small class="fw-pill ${st[0]}">${st[1]}</small></span>${ic(`<path d="m6 9 6 6 6-6"/>`, 16)}</button>
     ${offen ? `<div class="fw-kb">
@@ -15219,7 +15221,7 @@ function obInhalt(n, f, fw){
           <div class="fw-ein-w"><div class="fw-wo-b">${bild}${fwLegende(an.map(a => esc(sp2((SU_WO[slot] || {})[a] || SU_INFO[a].n))))}</div><div class="fw-ows">${chips}${obWn("ein:" + slot, !((build.fw || {}).ein || {})[slot])}</div></div></fieldset>`;
       }).join("")
       + obWarum("ein", tx("Dieselbe Gabel gibt es oft in mehreren Ausstattungen (z. B. Select, Performance, Ultimate) mit unterschiedlichen Knöpfen. Was du hier abwählst, verschwindet aus den Einstellkarten; was du ohne Herstellerdaten anhakst, startet in der Mitte.", "The same fork often comes in several spec levels (e.g. Select, Performance, Ultimate) with different knobs. What you untick disappears from the setting cards; what you tick without manufacturer data starts in the middle."))
-      + (t && /^ein:/.test(t) ? obTipp(tx("Dann gelten die Herstellerdaten. Blaue Knöpfe stellen die Druckstufe, rote die Zugstufe; Hebel sind meist der Kletterhebel.", "Then the manufacturer's data applies. Blue knobs set compression, red ones rebound; levers are usually the climb switch.")) : "");
+      + (t && /^ein:/.test(t) ? obTipp(tx("Dann gelten die Herstellerdaten. Meist stellen blaue Knöpfe die Druckstufe und rote die Zugstufe; Hebel sind meist der Kletterhebel. Wo genau, zeigt dir jede Einstellkarte.", "Then the manufacturer's data applies. Blue knobs usually set compression and red ones rebound; levers are usually the climb switch. Each adjustment card shows exactly where.")) : "");
     return r;
   }
   const ffGruppe = k => { const q = FFRAGEN.find(y => y.k === k);
