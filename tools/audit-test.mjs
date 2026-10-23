@@ -174,6 +174,56 @@ await test('CS-03 bekannte aeltere Sicherungsformen werden weiter angenommen',as
   assert.equal(r,2,'Altformen ohne Profilliste und ohne Messfaecher werden angenommen (2 Setups)');
 });
 
+/* ── CS-04: Radkopie bei echter Speicherknappheit (kein geworfener Mockfehler) ── */
+const grossesFoto=()=>ev(()=>{pro={key:'isoliert',inst:'i',status:'aktiv',geprueft:Date.now()};
+  const c=document.createElement('canvas');c.width=c.height=600;const x=c.getContext('2d'),d=x.createImageData(600,600);let z=17;
+  for(let i=0;i<d.data.length;i+=4){z=(z*1664525+1013904223)>>>0;d.data[i]=z&255;d.data[i+1]=(z>>>8)&255;d.data[i+2]=(z>>>16)&255;d.data[i+3]=255;}
+  x.putImageData(d,0,0);fotos.real=c.toDataURL('image/jpeg',.85);sichern();return {id:aktivId.real,len:fotos.real.length};});
+/* Speicher bis auf "rest" Zeichen fuellen (Fuellwert ausserhalb von mtb.*) */
+const fuellenBis=rest=>ev(rest=>{let lo=0,hi=6*1024*1024;localStorage.removeItem('test.fueller');
+  while(hi-lo>500){const n=(lo+hi)>>1;try{localStorage.setItem('test.fueller','x'.repeat(n));lo=n;}catch(e){hi=n;}}
+  localStorage.setItem('test.fueller','x'.repeat(Math.max(0,lo-rest)));return lo;},rest);
+/* Ohne Fuellwert; ein leeres Anzeigefeld "nein" (abgelehnte Vorschlaege, legt die Aufbau-Ansicht beim Zeichnen an)
+   zaehlt nicht als Aenderung -- alles andere muss Zeichen fuer Zeichen gleich sein */
+const ohneFueller=o=>{const c={...o};delete c['test.fueller'];
+  if(c['mtb.profile']){const q=JSON.parse(c['mtb.profile']);for(const m in q.liste)for(const p of q.liste[m])if(p.nein&&!Object.keys(p.nein).length)delete p.nein;c['mtb.profile']=JSON.stringify(q);}
+  return c;};
+const kopierenKlick=async id=>{await ev(()=>{schliesse();oeffneProfile();});await page.click(`#modal [data-profkopie="${id}"]`);};
+
+await test('CS-04 Radkopie bei vollem Speicher: Kopie sichtbar ohne Foto, Original unveraendert, Foto spaeter uebernehmbar',async()=>{
+  await fuellen();const o=await grossesFoto();assert.ok(o.len>100000,'grosses Foto');
+  await fuellenBis(40000);await ev(()=>{$('toast').hidden=true;speicherFehlerT=0;});
+  await kopierenKlick(o.id);
+  assert.match(await toast(),/ohne Foto/,'verstaendliche Meldung');
+  const r=await ev(id=>{const st=JSON.parse(localStorage.getItem('mtb.profile')).liste.real,k=st.find(p=>p.id===aktivId.real);
+    return {neu:aktivId.real!==id,gespeichert:!!k,markiert:k&&k.fotoVon,origFoto:localStorage.getItem(fotoFach(id)),kopieFoto:localStorage.getItem(fotoFach(aktivId.real)),
+      liste:(profUmbenennen=null,oeffneProfile(),$('modal').textContent.includes('Foto fehlt noch'))};},o.id);
+  assert.ok(r.neu&&r.gespeichert,'Kopie gespeichert und offen');assert.equal(r.markiert,o.id,'Teilkopie markiert');
+  assert.equal(r.origFoto.length,o.len,'Original behaelt sein Foto');assert.equal(r.kopieFoto,null,'kein halbes Foto');assert.ok(r.liste,'Radliste zeigt die Teilkopie');
+  await neuLaden();await ev(()=>{schliesse();view='aufbau';zeichne();});
+  assert.ok(await page.$('#aufbau [data-fotovon]'),'nach Neuladen: Knopf zum Uebernehmen');
+  await page.click('#aufbau [data-fotovon]');assert.match(await toast(),/passt noch nicht/,'ohne Platz: ehrliche Meldung');
+  await ev(()=>localStorage.removeItem('test.fueller'));
+  await page.click('#aufbau [data-fotovon]');assert.match(await toast(),/übernommen/);
+  await neuLaden();
+  const n=await ev(id=>({kopie:!!fotos.real,markiert:!!aktivesProfil('real').fotoVon,orig:(localStorage.getItem(fotoFach(id))||'').length}),o.id);
+  assert.deepEqual(n,{kopie:true,markiert:false,orig:o.len});
+});
+
+await test('CS-04 Kopie passt gar nicht: nichts angelegt, Speicher unveraendert, keine verwaisten Eintraege',async()=>{
+  await fuellen();const o=await grossesFoto();
+  await fuellenBis(300);const vorher=ohneFueller(await alles());
+  await kopierenKlick(o.id);
+  assert.match(await toast(),/nichts angelegt/);
+  const r=await ev(()=>({n:profile.real.length,akt:aktivId.real,umb:!!document.querySelector('#modal .prof-in')}));
+  assert.equal(r.n,1);assert.equal(r.akt,o.id);assert.equal(r.umb,false,'kein Umbenennen-Feld fuer eine nicht angelegte Kopie');
+  const nach=ohneFueller(await alles());
+  for(const k of new Set([...Object.keys(vorher),...Object.keys(nach)])) {const a=vorher[k]||'',b=nach[k]||'';let i=0;while(i<a.length&&a[i]===b[i])i++;
+    assert.ok(nach[k]===vorher[k],'unveraendert: '+k+' ab Zeichen '+i+'\n vorher: '+a.slice(Math.max(0,i-80),i+120)+'\n nachher: '+b.slice(Math.max(0,i-80),i+120));}
+  await ev(()=>localStorage.removeItem('test.fueller'));await neuLaden();
+  assert.equal(await ev(()=>profile.real.length),1);
+});
+
 if(errors.length){count++;failed++;console.log('  FEHL JS-Fehler: '+[...new Set(errors)].join(' | '));}
 console.log(`\nAUDIT: ${count-failed} von ${count} bestanden.`);
 await browser.close();server.close();

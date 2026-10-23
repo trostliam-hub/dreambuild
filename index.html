@@ -6101,19 +6101,49 @@ function profilWechseln(id){
      Pruefung des anderen Rads (APP-UX-001) */
   sichern(); zeichne();
 }
+/* Audit CS-04: Eine Kopie gilt erst als angelegt, wenn Rad und Setup gespeichert sind -- sonst wird sie
+   ganz zurueckgenommen. Passt danach das Foto nicht mehr, ist die Kopie sichtbar "ohne Foto" markiert
+   (fotoVon) und das Foto laesst sich spaeter vom Original uebernehmen. Gibt zurueck, ob es ein neues Rad gibt. */
 function profilNeu(kopieVon){
   profilZurueck(modus);
   const q = kopieVon ? profile[modus].find(x => x.id === kopieVon) : null;
   const p = q ? JSON.parse(JSON.stringify({...q, id:neueId(), name:q.name ? q.name + tx(" (Kopie)", " (copy)") : ""})) : profilLeer(modus);
-  if(q){ try{ const f = localStorage.getItem(fotoFach(q.id)); if(f) localStorage.setItem(fotoFach(p.id), f); }catch(e){}
-    /* Kopie bekommt eine eigene Kopie des Fahrwerk-Setups */
-    for(const k in setupAlle) if(k.indexOf(q.id + "|") === 0) setupAlle[p.id + k.slice(q.id.length)] = JSON.parse(JSON.stringify(setupAlle[k]));
-    suSichern(); }
+  const vorher = aktivId[modus], setupNeu = [];
+  delete p.fotoVon;
+  /* Kopie bekommt eine eigene Kopie des Fahrwerk-Setups */
+  if(q) for(const k in setupAlle) if(k.indexOf(q.id + "|") === 0){ const n = p.id + k.slice(q.id.length); setupAlle[n] = JSON.parse(JSON.stringify(setupAlle[k])); setupNeu.push(n); }
   profile[modus].push(p);
   aktivId[modus] = p.id;
   profilHolen(modus);
   view = "aufbau";
-  sichern(); zeichne();
+  if(!q){ sichern(); zeichne(); return true; }
+  if(!(sichern() && suSichern())){
+    profile[modus] = profile[modus].filter(x => x !== p);
+    for(const n of setupNeu) delete setupAlle[n];
+    aktivId[modus] = vorher; profilHolen(modus);
+    sichern(); suSichern(); zeichne();
+    zeigeToast(tx("Die Kopie passt nicht mehr in den Speicher des Browsers — es wurde nichts angelegt, dein Rad bleibt unverändert. Lösche alte Fotos oder Räder und versuch es dann noch einmal.",
+      "The copy no longer fits in the browser's storage — nothing was created and your bike is unchanged. Delete old photos or bikes, then try again."), 9000);
+    return false;
+  }
+  let f = null; try{ f = localStorage.getItem(fotoFach(q.id)); }catch(e){}
+  if(f){
+    if(lsSetzen(fotoFach(p.id), f)) fotos[modus] = f;
+    else { p.fotoVon = q.id; sichern();
+      zeigeToast(tx("Kopie angelegt — aber ohne Foto: Es passt nicht mehr in den Speicher des Browsers. Das Original behält sein Foto. Gib Platz frei und tippe dann bei der Kopie auf „Foto vom Original übernehmen“.",
+        "Copy created — but without the photo: it no longer fits in the browser's storage. The original keeps its photo. Free some space, then tap “Copy photo from original” on the copy."), 10000); }
+  }
+  zeichne();
+  return true;
+}
+/* Teilkopie ohne Foto (CS-04): Foto erneut vom Original holen */
+function fotoVomOriginal(){
+  const p = aktivesProfil(), q = p && profile[modus].find(x => x.id === p.fotoVon);
+  let f = null; try{ f = q ? localStorage.getItem(fotoFach(q.id)) : null; }catch(e){}
+  if(!f){ delete p.fotoVon; sichern(); zeichne(); zeigeToast(tx("Das Original hat kein Foto mehr — füge bei Bedarf ein eigenes hinzu.", "The original no longer has a photo — add your own if you like."), 6000); return; }
+  if(!lsSetzen(fotoFach(p.id), f)){ zeigeToast(tx("Das Foto passt noch nicht in den Speicher des Browsers. Lösche alte Fotos oder Räder und versuch es dann noch einmal.", "The photo still doesn't fit in the browser's storage. Delete old photos or bikes, then try again."), 7000); return; }
+  delete p.fotoVon; fotos[modus] = f; sichern(); zeichne();
+  zeigeToast(tx("Foto vom Original übernommen.", "Photo copied from the original."), 4000);
 }
 function profilLoeschen(id){
   if(profile[modus].length < 2) return;
@@ -13548,7 +13578,9 @@ const suLeer = d => !d.test && !d.tr && !(d.log || []).length
   && FMODI.every(p => { const P = (d.prof || {})[p] || {}; return !P.gesp && !Object.keys(P.psi || {}).length && !Object.keys(P.off || {}).length && !Object.keys(P.sag || {}).length && !Object.keys(P.fertig || {}).length; });
 function suSichern(){
   for(const k in setupAlle) if(setupAlle[k] && setupAlle[k].prof && suLeer(setupAlle[k])) delete setupAlle[k];
-  if(!lsSetzen("mtb.setup", JSON.stringify(setupAlle))) speicherFehler(setupSchutz ? tx("Das Fahrwerk-Setup auf diesem Gerät ist nicht vollständig lesbar und bleibt deshalb unverändert gespeichert. Gib Speicherplatz frei und öffne die App erneut, bevor du Werte änderst.", "The suspension setup on this device can't be fully read, so it stays saved unchanged. Free some storage and reopen the app before you change any values.") : undefined);
+  const ok = lsSetzen("mtb.setup", JSON.stringify(setupAlle));
+  if(!ok) speicherFehler(setupSchutz ? tx("Das Fahrwerk-Setup auf diesem Gerät ist nicht vollständig lesbar und bleibt deshalb unverändert gespeichert. Gib Speicherplatz frei und öffne die App erneut, bevor du Werte änderst.", "The suspension setup on this device can't be fully read, so it stays saved unchanged. Free some storage and reopen the app before you change any values.") : undefined);
+  return ok;
 }
 /* Schluessel: Radprofil + Gabel + Daempfer (Bericht 06.10., Befund 05). Zwei
    Raeder mit denselben Teilen teilen sich keine Messungen, Druecke oder Notizen. */
@@ -17018,7 +17050,8 @@ function angabeSetzen(k, typ, nativ){
    aussieht wie deins (Liam 2026-10-10). */
 function radbildKarte(){
   const foto=fotos[modus];
-  const knopf=modus!=="traum" ? (foto ? `<button class="btn ghost sm" data-fotowahl="1">${tx("Foto ersetzen","Replace photo")}</button><button class="btn ghost sm" data-fotoweg="1">${tx("Foto entfernen","Remove photo")}</button>` : `<label class="btn ghost sm" for="foto-in">${tx("Foto von deinem Rad hinzufügen","Add a photo of your bike")}</label>`) : "";
+  const ap=aktivesProfil(),fv=!foto&&ap&&ap.fotoVon?`<button class="btn sm" data-fotovon="1">${tx("Foto vom Original übernehmen","Copy photo from original")}</button>`:"";
+  const knopf=modus!=="traum" ? (foto ? `<button class="btn ghost sm" data-fotowahl="1">${tx("Foto ersetzen","Replace photo")}</button><button class="btn ghost sm" data-fotoweg="1">${tx("Foto entfernen","Remove photo")}</button>` : `${fv}<label class="btn ghost sm" for="foto-in">${tx("Foto von deinem Rad hinzufügen","Add a photo of your bike")}</label>`) : "";
   if(!foto && !knopf) return "";
   return `<section class="radbild ${foto?"foto":"leer"}" aria-label="${tx("Dein Rad","Your bike")}">${foto?`<div class="rb-bild"><img class="rb-foto" src="${esc(foto)}" alt="${tx("Dein Rad","Your bike")}"></div>`:""}<div class="rb-akt">${knopf}</div></section>`;
 }
@@ -18209,7 +18242,7 @@ function profilZeile(p){
       ? `<input class="prof-in" data-profname="${p.id}" value="${esc(p.name || "")}" maxlength="40"
            placeholder="${esc(profilName({...p, name:""}, modus))}" aria-label="${modus === "markt" ? tx("Name des Angebots", "Listing name") : tx("Name des Rads", "Bike name")}">`
       : `<button class="prof-w" data-profil="${p.id}"><b>${esc(profilName(p, modus))}</b>
-           <span>${esc(d)} · ${teile} ${teile === 1 ? tx("Teil", "part") : tx("Teile", "parts")}${akt ? tx(" · gerade offen", " · open now") : ""}</span></button>`}
+           <span>${esc(d)} · ${teile} ${teile === 1 ? tx("Teil", "part") : tx("Teile", "parts")}${p.fotoVon ? tx(" · Foto fehlt noch", " · photo still missing") : ""}${akt ? tx(" · gerade offen", " · open now") : ""}</span></button>`}
     <div class="prof-akt">
       ${profUmbenennen === p.id ? `<button class="btn sm" data-profnameok="1">${tx("Fertig", "Done")}</button>`
                                 : `<button class="btn ghost sm" data-profumb="${p.id}">${tx("Umbenennen", "Rename")}</button>`}
@@ -18491,6 +18524,7 @@ function fotoAufnehmen(datei, ziel){
         return;
       }
       fotos[modus] = daten;
+      const ap = aktivesProfil(); if(ap) delete ap.fotoVon;
       sichern();
       /* Beides neu zeichnen: die Schublade zeigt das Bild, die Liste dahinter
          das Vorschaubild in der Zeile. Vorher blieb die Liste stehen. */
@@ -19258,7 +19292,7 @@ document.addEventListener("click", e => {
   if(pu){ profUmbenennen = pu.dataset.profumb; profLoeschFrage = null; oeffneProfile(); return; }
   if(T("[data-profnameok]")){ profUmbenennen = null; sichern(); zeichne(); oeffneProfile(); return; }
   const pk = T("[data-profkopie]");
-  if(pk){ if(proRaederVoll()){ oeffnePro("raeder"); return; } profilNeu(pk.dataset.profkopie); profUmbenennen = aktivId[modus]; oeffneProfile(); return; }
+  if(pk){ if(proRaederVoll()){ oeffnePro("raeder"); return; } if(profilNeu(pk.dataset.profkopie)) profUmbenennen = aktivId[modus]; oeffneProfile(); return; }
   const pf = T("[data-profwegfrage]");
   if(pf){ profLoeschFrage = pf.dataset.profwegfrage; profUmbenennen = null; oeffneProfile(); return; }
   const pl2 = T("[data-profweg]");
@@ -19275,6 +19309,7 @@ document.addEventListener("click", e => {
   const sa = T("[data-shopan]");
   if(sa){ aff.an[sa.dataset.shopan] = !aff.an[sa.dataset.shopan]; sichern(); zeichne(); oeffneMenu(); return; }
   if(T("[data-fotoweg]")){ fotos[modus] = null; sichern(); zeichne(); return; }
+  if(T("[data-fotovon]")){ fotoVomOriginal(); return; }
   if(T("[data-spick]")){ oeffneSpick(); return; }
 
   if(T("[data-aktualisieren]")){ appAktualisieren(); return; }
