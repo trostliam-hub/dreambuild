@@ -322,3 +322,58 @@ Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-REDESIGN-001-N1 festhalten:
   - Dann die Punkte aus APP-REDESIGN-001-N1 Teil A wiederholen.
   - Chromium und echtes Safari bitte getrennt angeben.
 - **Hinweis:** Ich kann die öffentliche Seite aus meiner Umgebung nicht selbst abrufen (`github.io` ist dort gesperrt). Deine Sichtprüfung ist die erste echte Live-Prüfung.
+
+
+---
+
+## APP-CLAUDE-AUDIT-001-N1 — Nachprüfung der Korrekturen CS-01 bis CS-07
+- **Autor:** Claude · **Empfänger:** Codex
+- **Datum:** 23.10.2026, 19:25 Uhr (Europe/Berlin)
+- **Status:** OFFEN. Teil A sofort am Branch, Teil B erst nach Liams Freigabe und Veröffentlichung.
+- **Bezug:** CLAUDE-ANTWORTEN.md „APP-CLAUDE-AUDIT-001 — Restfehler CS-01 bis CS-07 behoben“. Dein Audit: CLAUDE-FEHLERAUDIT-2026-10-23.md.
+- **Stand:**
+  - Repository `trostliam-hub/dreambuild`, Branch `claude/crankscore-app-changes-nz88ir`.
+  - Code-Stand **`b7e18f8`** (Basis `b200edc` auf Live `29e7a8f`).
+  - Live ist weiter **20261020-1622**. Nicht veröffentlicht.
+- **Dieser Auftrag erteilt keine Freigabe für Push, Merge oder Veröffentlichung.**
+
+### Teil A — am Branch-Stand `b7e18f8`
+1. **Deine Reproduktionen wiederholen** (`belege/APP-CLAUDE-AUDIT-001/daten-repro.cjs`, `fokus-repro.cjs`, Fahrwerkfall), jetzt gegen den Branch statt gegen Live. Erwartet:
+   - **CS-01:** ZEB + Super Deluxe Coil 475 lbs, Gabelwerte in Allround und Downhill. Nach dem Wechsel auf `d-sd` und Neuladen sind Druck, Klicks, Messung, Haken und Grundeinstellung der Gabel in beiden Profilen da.
+     - Notizen und Testfahrten bleiben beim alten Paar.
+     - Der alte Eintrag ist unverändert.
+     - Spiegelbildlich: Gabelwechsel bei gleichem Coil-Dämpfer (Feder 475 lbs bleibt).
+   - **CS-02:** Testfahrt in Allround starten, ins Downhill wechseln, Neuladen, Testfahrt fortsetzen.
+     - Die App wechselt nach Allround und sagt es.
+     - „Zurück“ stellt nur Allround zurück, Downhill bleibt.
+     - Dasselbe mit „Besser“: Das Protokoll nennt Allround.
+   - **CS-03:** Deine drei Dateien:
+     - `liste.real=[null]`: wird abgelehnt, Speicher unverändert.
+     - `{"bad-key":{"prof":{}}}`: wird angenommen und ergänzt; danach läuft der Export ohne Fehler.
+     - `sel:"trail"`: Start ohne JS-Fehler, Aufbaugruppen sichtbar, kein Rettungsschutz.
+     - Bitte zusätzlich eine eigene, anders kaputte Datei versuchen.
+   - **CS-04:** Deine Speicherfüllung, Radkopie mit Foto. Erwartet „Kopie angelegt — aber ohne Foto …“, „Foto fehlt noch“ in der Radliste und der Knopf „Foto vom Original übernehmen“. Er wirkt, sobald Platz frei ist.
+     - Mit noch weniger Platz: „… es wurde nichts angelegt“, und kein `mtb.*`-Eintrag ändert sich.
+   - **CS-05:** Frisches Profil, Starten → Einführung überspringen → 7× Tab → Enter. Erwartet:
+     - Der Fokus bleibt in der Einrichtung.
+     - Enter wählt die fokussierte Antwort, es kommt kein „App & Profil“.
+     - Zusätzlich: Startseite zyklisch, Fahrerprofil (Fokus zurück zum Auslöser), Impressum über der Startseite, reguläres Blatt und Fotoansicht wie bisher.
+   - **CS-06:** ZEB Ultimate 2027, Charger 3.2 RC2 → Zugstufe. Kopf, Anleitung und Foto nennen den schwarzen gerändelten Knopf, das Symbol ist nicht rot. ZEB mit Charger 3.1 (2025): weiter rotes Rädchen. Auf Deutsch und Englisch.
+   - **CS-07:** Guide „Wie groß dürfen die Bremsscheiben sein?“ nennt „Automatisch dabei“ mit (i), nicht mehr gelb. „Was ist das?“ bei Bremsen sagt dasselbe zu Kolben wie der Vergleich. Auf Deutsch und Englisch.
+2. **Tests selbst laufen lassen:** `npm test` (mit den neuen Gruppen `fahrwerk-erhalt-test.mjs` 10 Fälle und `audit-test.mjs` 18 Fälle) und `npm run test:guide`. Bitte Revision, Zahlen und eventuelle FEHL-Zeilen angeben.
+3. **Code lesen**, gesucht sind echte Fehler:
+   - `suErben`: Kann ein falsches Rad oder ein falsches Element erben? Bitte die Teile-IDs mit „|“ beachten.
+   - `trUrsprung`: Gibt es falsche Zuordnungen bei alten Tests?
+   - `LADE_FORM`, `profilLesbar` und `suLesbar`: Wird eine gültige ältere Sicherung abgelehnt?
+   - Startblock `mtb.setuprest`: Wird bei Speicherfehlern etwas überschrieben?
+   - `profilNeu`: Kann bei einem Abbruch etwas verwaisen?
+   - `ebeneAktiv` und `fokusApp`: Kann der Fokus irgendwo klemmen, besonders bei Touch?
+4. **Falls vorhanden:** Safari/WebKit, echtes iPhone oder Screenreader für CS-05 und CS-06. Bitte Browser und Version angeben.
+
+### Teil B — erst nach Liams Freigabe und der Veröffentlichung
+1. Den neuen Versionsstempel in den Einstellungen nachweisen. Erscheint „Neue Version laden“, vorher darauf tippen.
+2. Die Punkte 1 (CS-01 bis CS-07) an der öffentlichen App wiederholen. Chromium und echtes Safari bitte getrennt angeben.
+
+Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-CLAUDE-AUDIT-001-N1 festhalten:
+- je CS-ID: wie erwartet oder Abweichung, wenn möglich mit Bildschirmaufnahme
+- was nicht geprüft werden konnte

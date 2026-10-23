@@ -3031,3 +3031,170 @@ Alle in `tools/bevel-test.mjs` (20 von 20 bestanden):
 - **Tests bestanden:** ja (Chromium lokal).
 - **Live:** nein. Live bleibt Version 20261011-1532.
 - **Veröffentlichung:** NEIN. Erst nach Liams ausdrücklicher Freigabe (Push auf `main`, die Action stempelt).
+
+
+---
+
+## APP-CLAUDE-AUDIT-001 — Restfehler CS-01 bis CS-07 behoben (Codex-Audit vom 23.10.2026)
+- **Bezug:** CLAUDE-AUFTRAEGE.md „APP-CLAUDE-AUDIT-001“ und [CLAUDE-FEHLERAUDIT-2026-10-23.md](CLAUDE-FEHLERAUDIT-2026-10-23.md) (Branch `codex/claude-fehleraudit`, `b200edc`).
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 23.10.2026, 19:25 Uhr (Europe/Berlin)
+- **Status:** PRÜFBEREIT. Alle sieben Befunde sind umgesetzt und lokal getestet. **Nicht veröffentlicht.**
+- **GitHub-Abruf:** Ja. `git fetch` hat am 23.10. funktioniert. `main` steht unverändert auf `29e7a8f` (Live 20261020-1622), `codex/claude-fehleraudit` auf `b200edc`. Die öffentliche Seite `github.io` ist aus meiner Umgebung gesperrt, deshalb habe ich die Live-App nicht selbst angesehen.
+- **Repository und Branch:** `trostliam-hub/dreambuild`, Branch `claude/crankscore-app-changes-nz88ir`.
+  - Basis ist `b200edc` (Audit-Übergabe auf dem Live-Stand `29e7a8f`).
+  - Code-Stand für die Prüfung: **`b7e18f8`**. Danach kommen nur Dokumente: `d2a739c` hält Liams Arbeitsablauf (GitHub-Stand und Austauschdateien zuerst lesen) in CLAUDE.md fest, danach folgt dieser Bericht.
+  - Commits: `533941f` (CS-01/CS-02), `33def83` (CS-03), `662717a` (CS-04), `0b2124c` (CS-05), `b7e18f8` (CS-06/CS-07).
+- **Nicht geändert:** Kompatibilitätsregeln, Adapterrechnung, Score, Preise, Pro-Regeln, Herstellerwerte, die 475-lbs-Feder, Modellgrenzen, Bilder, die Zoomsperre und der Versionsstempel. Es gibt keine erfundenen Betreiber-, Kauf- oder Preisangaben und keine kostenpflichtigen Aufrufe. Die fehlende Betreiber-, Pro- und Preisfeed-Konfiguration bleibt ein eigenes Thema.
+
+### Je Befund
+
+**CS-01 · P1 · Dämpfer- oder Gabelwechsel löscht die Werte des anderen Elements** — reproduziert, behoben
+- **Nachgestellt:** Spindrift mit ZEB und Super Deluxe Coil (475 lbs), Gabelwerte in Allround und Downhill. Nach dem Wechsel auf `d-sd` war die Gabel leer.
+- **Umsetzung (`suDaten`, neu `suErben`, `suLeerFuer`, `suNorm`):**
+  - Ein neuer Schlüssel aus Rad, Gabel und Dämpfer übernimmt jetzt vom unveränderten Element dessen eigene Werte aus dem jüngsten passenden Eintrag desselben Rads.
+  - Übernommen werden je Fahrprofil: Druck, Klicks, Messung, Haken und Grundeinstellung. Dazu kommen die elementbezogenen Verlaufseinträge, markiert mit `von:"erbe"`.
+  - Paarbezogenes bleibt beim alten Paar: Notizen, Testfahrten und laufende Tests.
+  - Der alte Eintrag bleibt unverändert. Andere Räder werden nie herangezogen.
+- **Datenmigration:**
+  - Bereits leer angelegte Paare (vor der Korrektur) werden einmal ergänzt (`erbe:1`). Dabei werden nie eigene Werte überschrieben.
+  - Wer danach selbst leert, bleibt leer.
+  - Ein Zeitstempel wird nicht gesetzt: bloßes Ansehen ändert den Speicher nicht.
+- **Tests:** `tools/fahrwerk-erhalt-test.mjs`, fünf CS-01-Fälle, jeweils nach echtem Neuladen.
+  - Dämpferwechsel. Dabei bleiben 102/98 psi, Klicks, 36 mm und die Haken erhalten.
+  - Gabelwechsel spiegelbildlich mit Coil 475 lbs.
+  - Reparatur alter Einträge.
+  - Keine Vermischung zwischen zwei Rädern.
+  - Radkopie und Löschen.
+
+**CS-02 · P1 · Testfahrt springt beim Profilwechsel ins falsche Fahrprofil** — reproduziert, behoben
+- **Umsetzung (`oeffneTest`, `trUrsprung`, `trSetzen`, Ergebnis-Handler, `suTestStart`/`suTestEnde`/`suTestHtml`):**
+  - Testfahrt und Profi-Knopftest merken sich ihr Profil (`tr.p`, `test.p`).
+  - Beim Fortsetzen wechselt die App in dieses Profil und sagt das.
+  - „Besser“, „Schlechter“ und „Zurück“ wirken nur dort. Das Protokoll nennt dieses Profil.
+  - Ein anderes Profil zeigt beim Knopftest nur einen Hinweis mit Wechselknopf.
+- **Alte Tests ohne Profilangabe:**
+  - Sie werden nur zugeordnet, wenn der Testwert in genau einem Profil steht.
+  - Sonst wird nichts zurückgestellt, mit dem Hinweis „lässt sich keinem Fahrprofil sicher zuordnen“.
+- **Wechsel von Gabel oder Dämpfer während einer Testfahrt:** Das neue Paar erbt den Wert *vor* dem Test, nicht den unbestätigten Testwert.
+- **Tests:** fünf CS-02-Fälle mit echten Klicks im Testfahrt-Assistenten:
+  - Abbruch nach Profilwechsel und Neuladen
+  - „Besser“ nach Profilwechsel
+  - alter Test, eindeutig zugeordnet und mehrdeutig
+  - Teilewechsel während der Testfahrt
+  - Profi-Knopftest
+
+**CS-03 · P2 · Import und Laden prüfen den Inhalt nicht genug** — alle drei Fälle reproduziert, behoben
+- **Sicherung laden (`sicherungPruefen`):** Angenommen wird nur, was `laden()` vollständig lesen kann. Gemeinsam genutzt werden `LADE_FORM`, `profilLesbar` und `suLesbar`. Geprüft wird:
+  - jedes Profil mit mindestens einem lesbaren Rad (Kennung, Aufbau, Einsatz, Wünsche, Plan)
+  - alle Nebeneinträge
+  - jedes Fahrwerk-Setup
+- **Bei Fehlern:** Die Datei wird mit dem bestehenden Hinweis „Die Sicherung ist beschädigt …“ abgelehnt, und **kein `mtb.*`-Eintrag ändert sich**.
+- **Fehlende Setup-Teile** ergänzt `suNorm` wie bisher. Der Audit-Fall `{"bad-key":{"prof":{}}}` wird deshalb angenommen und ergänzt (dokumentierte Migration); der Export stürzt nicht mehr ab.
+- **Start mit beschädigten Daten:**
+  - `sel:"trail"` wird verlustfrei zu `["trail"]` (Migration).
+  - Andere unlesbare Formen lösen den bestehenden Rettungsschutz aus. Das Original bleibt Zeichen für Zeichen erhalten.
+  - Unlesbare Setup-Einträge oder eine ganz unlesbare Setup-Datei kommen unverändert nach **`mtb.setuprest`**. Dieser Eintrag ist auch in Sicherungen enthalten. Die App arbeitet mit dem Lesbaren weiter und meldet einmal „Nicht vollständig lesbar: Fahrwerk-Setup“.
+  - Klappt das Aufbewahren nicht (Speicher voll), bleibt `mtb.setup` unangetastet (`setupSchutz`).
+  - `suLeer` und `suSichern` vertragen defekte Einträge. `sicherungAnwenden` lehnt ein Objekt ohne Daten ab.
+- **Tests:** `tools/audit-test.mjs`, acht CS-03-Fälle über die echte Dateiauswahl. Dabei wird der **gesamte Speicher vorher und nachher verglichen**.
+  - fünf kaputte Rad-Varianten
+  - vier kaputte Setups und der Audit-Fall
+  - Einsatz als Text
+  - Einsatz als Objekt
+  - unlesbare Setup-Einträge, dazu ein zweiter Start ohne erneuten Hinweis
+  - Setup-Datei ganz unlesbar, auch mit echtem Speicherfehler
+  - Rundreise einer gültigen Sicherung mit Foto, Wunsch, 475 lbs und Notiz über die Oberfläche: alle Einträge danach Zeichen für Zeichen gleich
+  - ältere Sicherungsformen
+- **Angepasster Altest:** In `tools/setup-test.mjs` nutzt die Rückfallprobe „Speicher voll beim Laden“ jetzt eine gültige Sicherung. Die alte Probe hatte leere Radlisten, die jetzt zu Recht abgelehnt werden. Der Prüfzweck bleibt gleich.
+
+**CS-04 · P3 · Radkopie verliert bei vollem Speicher das Foto ohne Meldung** — reproduziert (echte Chromium-Speicherknappheit), behoben
+- **Umsetzung (`profilNeu`, neu `fotoVomOriginal`):**
+  - Eine Kopie gilt erst als angelegt, wenn Rad und Setup gespeichert sind.
+  - Sonst wird sie ganz zurückgenommen: Original und Speicher sind unverändert, es bleiben keine verwaisten Foto- oder Setup-Einträge. Die Meldung lautet „Die Kopie passt nicht mehr in den Speicher … es wurde nichts angelegt“.
+- **Wenn nur das Foto nicht passt:**
+  - Es entsteht eine ausdrücklich erkennbare Teilkopie: eine Meldung, „Foto fehlt noch“ in der Radliste und das Feld `fotoVon` im Rad.
+  - Mit „Foto vom Original übernehmen“ lässt sich das Foto nachholen, sobald Platz frei ist.
+  - Ein eigenes Foto ersetzt die Markierung.
+- **Tests:**
+  - Teilkopie mit Neuladen, ehrlicher Meldung ohne Platz und Übernahme nach dem Freimachen
+  - „Kopie passt gar nicht“ mit Vergleich aller `mtb.*`-Einträge
+- **Grenze:** Ein leeres Anzeigefeld `nein:{}`, das die Aufbau-Ansicht beim Zeichnen anlegt, zählt im Vergleich nicht als Änderung.
+
+**CS-05 · P2 · Fokus wandert aus Startseite und Einrichtung in die verdeckte App** — reproduziert, behoben
+- **Umsetzung:** Startseite (`.ls`) und Einrichtung/Fahrerprofil (`.ei`) nutzen dieselbe Fokusführung wie die Blätter (`fokusBereich`, `ebeneAktiv`, `ebeneZ`):
+  - Anfangsfokus im Bereich
+  - Tab und Shift+Tab zyklisch
+  - Fokus im Hintergrund wird zurückgeholt
+- **Maßgeblich ist die oberste sichtbare Ebene.** Szenen, Fotoansicht (natives `dialog`) und Adapter-Info behalten ihre eigene Führung. Es gibt keine neue globale Tastatursperre.
+- **Weitere Verbesserungen:**
+  - Ein Blatt über der Startseite (z. B. Impressum) hält den Fokus jetzt ebenfalls. Vorher entkam er.
+  - Von der Frage aus geht Tab in Lesereihenfolge weiter.
+  - Beim Schließen der Einrichtung kehrt der Fokus zum Auslöser zurück. Nach Startseite oder Ersteinrichtung landet er am Anfang der App (`main`), nur bei Tastaturbedienung.
+- **Tests:** vier Tastaturfälle mit echten Tastendrücken:
+  - Startseite zyklisch
+  - Audit-Weg „Starten → Einführung überspringen → 7× Tab → Enter“: Enter wirkt auf die fokussierte Antwort der Einrichtung, kein „App & Profil“
+  - Fahrerprofil mit Fokusrückgabe
+  - Impressum über der Startseite
+- **Weiter grün:** die bestehenden Prüfungen für reguläre Blätter und Fotoansicht (`bedienung-test`, 10/10).
+
+**CS-06 · P2 · ZEB 2027: falsche Farbe in der Positionsanweisung** — reproduziert, behoben
+- **Umsetzung (`gabelDaten`, `zugWert`, `fxKnopf`, Einstellkarte):** Lyrik und ZEB mit Charger 3.2 (2027) nennen in Kopf, Anleitung und Symbol den **schwarzen gerändelten Zugstufenknopf unten am rechten Holm**, passend zum unveränderten RockShox-Nahfoto.
+- **Ältere Charger-Ausführungen** (3.1, 3, 2.1) bleiben beim roten Rädchen. Nichts wurde global ersetzt.
+- **Allgemeiner Tipp zu Knopffarben:** Er sagt jetzt „meist“ und verweist auf die Einstellkarte.
+- **Tests:** ZEB 2027 (Charger 3.2) und ZEB 2025 (Charger 3.1), auf Deutsch und Englisch, aus der gerenderten Einstellkarte gelesen.
+
+**CS-07 · P3 · Hilfetexte widersprechen Oberfläche und Vergleich** — reproduziert, behoben
+- **Guide „Wie groß dürfen die Bremsscheiben sein?“:** Er beschreibt jetzt den automatisch eingeplanten Adapter („Automatisch dabei“ mit (i)) statt des alten gelben Hinweises. Die Rechenbeispiele bleiben.
+- **Bremsen-Kategorie:** Sie sagt jetzt wie der Vergleich: „Größere Scheiben bremsen kräftiger; ob mehr Kolben stärker bremsen, hängt von Übersetzung, Belag und Hebel ab.“
+- Neue Fachbehauptungen gibt es keine.
+- **Tests:**
+  - Der Guide-Text enthält genau die Bezeichnung, die die Prüfung für ein Rad mit nötigem Bremsadapter tatsächlich zeigt (DE/EN).
+  - Die Kategorie im echten Teile-Blatt (DE/EN) ist geprüft.
+
+### Gegenprobe am alten Stand `b200edc`
+- `fahrwerk-erhalt-test`: 1 von 10 besteht. Es besteht nur „keine Vermischung“, eine Absicherung gegen Verschlechterung.
+- `audit-test`: 2 von 18 bestehen. Das sind die beiden Rückfallprüfungen für gültige Sicherungen.
+- Alle Audit-Fälle scheitern dort, wie im Audit beschrieben.
+
+### Ausgeführte Gesamtprüfung (Code-Stand `b7e18f8`, Chromium/Playwright 1.56.1, Node 22)
+- **`npm test`: ALLE TESTS BESTANDEN**, 18 Gruppen, 491 s, Revision `b7e18f8` ohne lokale Änderungen:
+  - Syntax (2 Skripte)
+  - Kompatibilität 200/200
+  - Setup und Speicher 25/25
+  - Fahrwerkfragen 18/18
+  - Wege 36/36
+  - Sprache Deutsch/Englisch: 0 Funde in 11.153 Texten
+  - BEVEL 34/34
+  - Preis-Skript offline 0 Fehler
+  - Fotos 14/14
+  - KI-Guide-Oberfläche 16
+  - Einführung 10/10
+  - Fahrwerkfotos 9/9
+  - Fahrwerk-Orientierung 7/7
+  - Dialogfokus 10/10
+  - Datenrettung 10/10
+  - Preise/Prüfung/Hilfe 8/8
+  - **neu:** Fahrwerk-Erhalt 10/10
+  - **neu:** Audit 18/18
+- **`npm run test:guide`:** 5/5 bestanden.
+- **Einzeln nach jedem Schritt:** die jeweils betroffenen Gruppen (Setup, Fahrwerk, Wege, Bedienung, Einführung, Zuverlässigkeit), jeweils grün.
+- **`git diff --check`:** sauber.
+
+### Nebenbefund (nicht aus dem Audit)
+- `tools/bevel-test.mjs` „Angebote: ohne geprüfte Quelle kein ‚Zum Produkt‘“ scheiterte schon auf `b200edc` mit 33 von 34.
+  - Ursache: Seit dem Preislauf `29e7a8f` (20.10.) steht in `preise.json` eine geprüfte XT-Produktseite. Die Probe hatte `live.seiten` nicht geleert.
+  - Behebung: Die Probe ist jetzt von den Live-Daten entkoppelt, mit Rückstellung danach.
+  - Die App ist dadurch nicht geändert. Das betrifft nur den Test.
+
+### Grenzen
+- Nicht geprüft: echtes iPhone, Safari/WebKit, Screenreader. Alle Prüfungen liefen mit Chromium.
+- CS-04 nutzt die echte Speichergrenze von Chromium. Andere Browser haben andere Grenzen.
+- CS-05 deckt Startseite, Einrichtung, Fahrerprofil und ein Blatt über der Startseite ab. Die Übergangszeit von rund 0,3 s zwischen Einrichtung und dem folgenden Teile-Blatt hat keinen modalen Bereich; der Fokus landet dann am App-Anfang.
+- CS-06 gilt für Lyrik und ZEB mit Charger 3.2; dafür gibt es das RockShox-Nahfoto. Für die Boxxer mit Charger 3.2 liegt mir kein Beleg vor, dort bleibt die bisherige Angabe (rotes Rädchen). Das sollte bei Gelegenheit an der RockShox-Anleitung geprüft werden.
+
+### Stand
+- **Code fertig:** ja (`b7e18f8`).
+- **Tests bestanden:** ja. `npm test` 18/18 Gruppen und `npm run test:guide` 5/5, Chromium lokal, Revision `b7e18f8`.
+- **Live veröffentlicht:** **NEIN.** Live bleibt Version 20261020-1622 (`main` `29e7a8f`). Veröffentlichen heißt: auf `main` pushen. Das mache ich erst nach Liams ausdrücklicher Freigabe für genau diese Änderungen; die Action stempelt danach selbst.
+- **Nachprüfung:** Auftrag für Codex in CODEX-AUFTRAEGE.md unter „APP-CLAUDE-AUDIT-001-N1“.
