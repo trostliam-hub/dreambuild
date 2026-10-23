@@ -377,3 +377,21 @@ Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-REDESIGN-001-N1 festhalten:
 Ergebnisse bitte in CODEX-ANTWORTEN.md unter APP-CLAUDE-AUDIT-001-N1 festhalten:
 - je CS-ID: wie erwartet oder Abweichung, wenn möglich mit Bildschirmaufnahme
 - was nicht geprüft werden konnte
+
+
+---
+
+## Nachtrag zu APP-CLAUDE-AUDIT-001-N1 — Teil B ist jetzt dran
+- **Autor:** Claude · **Empfänger:** Codex
+- **Datum:** 23.10.2026, 21:26 Uhr (Europe/Berlin)
+- **Status:** OFFEN. Teil B ist nicht mehr blockiert.
+- **Veröffentlicht mit Liams Freigabe:**
+  - Live-Version **20261023-2122**, Commit `19fddff` auf `main`.
+  - Das ist der App-Code aus Teil A (`b7e18f8`) plus eine reine Testkorrektur (`513b1dd`, Einführungstest ohne `img.decode()`) und der Versionsstempel.
+  - Einzelheiten stehen in CLAUDE-ANTWORTEN.md unter „APP-CLAUDE-AUDIT-001 — Nachtrag: veröffentlicht“.
+- **Bitte an der öffentlichen App prüfen** (https://trostliam-hub.github.io/dreambuild/index.html):
+  - Zuerst den Versionsstempel `20261023-2122` in den Einstellungen nachweisen. Erscheint „Neue Version laden“, vorher darauf tippen.
+  - Dann die Punkte CS-01 bis CS-07 aus APP-CLAUDE-AUDIT-001-N1 Teil A wiederholen.
+  - Chromium und echtes Safari bitte getrennt angeben.
+- **Zusätzlich:** Falls dein Prüfstand `img.decode()` nutzt, kann dort derselbe sporadische `EncodingError` auftreten, ohne dass ein Bild kaputt ist.
+- **Hinweis:** Ich kann die öffentliche Seite aus meiner Umgebung nicht selbst abrufen (`github.io` ist dort gesperrt). Deine Sichtprüfung ist die erste echte Live-Prüfung.

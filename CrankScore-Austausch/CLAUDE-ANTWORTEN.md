@@ -3198,3 +3198,45 @@ Alle in `tools/bevel-test.mjs` (20 von 20 bestanden):
 - **Tests bestanden:** ja. `npm test` 18/18 Gruppen und `npm run test:guide` 5/5, Chromium lokal, Revision `b7e18f8`.
 - **Live veröffentlicht:** **NEIN.** Live bleibt Version 20261020-1622 (`main` `29e7a8f`). Veröffentlichen heißt: auf `main` pushen. Das mache ich erst nach Liams ausdrücklicher Freigabe für genau diese Änderungen; die Action stempelt danach selbst.
 - **Nachprüfung:** Auftrag für Codex in CODEX-AUFTRAEGE.md unter „APP-CLAUDE-AUDIT-001-N1“.
+
+
+---
+
+## APP-CLAUDE-AUDIT-001 — Nachtrag: veröffentlicht
+- **Bezug:** APP-CLAUDE-AUDIT-001 (Restfehler CS-01 bis CS-07)
+- **Autor:** Claude · **Empfänger:** Liam, Codex
+- **Datum:** 23.10.2026, 21:26 Uhr (Europe/Berlin)
+- **Freigabe:** Liam am 23.10.2026: „Kannste veröffentlichen“.
+- **Vorher geprüft:** `git fetch`. `main` stand unverändert auf `29e7a8f`; das war ein reiner Fast-Forward, keine fremden Änderungen überschrieben.
+
+### Was passiert ist
+- **Erster Versuch, rot:**
+  - `main` von `29e7a8f` auf `27ca2d7` vorgespult.
+  - Der Lauf „Veroeffentlichen“ 40005623721 scheiterte im Prüfschritt an genau einer Prüfung: Einführung 9/10, „Szenen sind als Beispiele gekennzeichnet; echte Fotos haben Alttext und Herstellerquelle“, mit `EncodingError: The source image cannot be decoded` aus `img.decode()`.
+  - Alle anderen 17 Gruppen waren grün, darunter die neuen Fahrwerk-Erhalt 10/10 und Audit 18/18.
+  - Stempeln und Veröffentlichen wurden übersprungen. Das Prüftor hat gehalten.
+- **Ursache, nicht meine Änderung und keine kaputte Datei:**
+  - Derselbe Fehler kam schon am alten Stand `b200edc` (Tests-Lauf 98).
+  - Die gleiche Code-Revision war einmal grün (Tests-Lauf 100, `d2a739c`) und einmal rot (Lauf 101, `27ca2d7`).
+  - Die drei Szenenfotos (`b-xt.jpg`, `d-sdcoil--ultimate.png`, `f-firebird.png`) sind gültig (geprüft mit PIL). Sie werden fest gewählt, nicht zufällig, und die App tauscht ihre Quelle nicht aus.
+  - Lokal war der Test mit `img.decode()` 8 von 8 Mal grün, mit der Korrektur danach 3 von 3.
+  - `img.decode()` läuft in Chromium über den Compositor und meldet in der Headless-CI gelegentlich `EncodingError`, obwohl die Datei gültig ist. Den genauen Auslöser im Browser konnte ich nicht selbst nachstellen; das Ergebnis folgt aus dem Ausschluss aller anderen Ursachen.
+- **Behoben in `513b1dd`, nur im Test:**
+  - Der Test wartet aufs Laden und decodiert die Datei selbst vollständig mit `createImageBitmap`.
+  - Eine kaputte oder fehlende Datei fällt weiterhin durch. Kein Test wurde abgeschaltet oder abgeschwächt.
+  - Die App ist dadurch nicht geändert.
+- **Zweiter Lauf, grün:**
+  - `main` auf `513b1dd` vorgespult.
+  - Lauf 40009919232 komplett grün:
+    - Prüfen (`npm test` und Guide-API-Tests 8/8)
+    - Stempeln: Commit `19fddff`, Version **20261023-2122**
+    - Pages
+    - Live-Prüfung des Workflows: „Live: Version 20261023-2122“
+- **Zwischenzeitlich online ohne neuen Stempel:** Pages baut aus `main`. Zwischen etwa 20:43 und 21:25 Uhr lag der neue Code daher vermutlich schon ohne neuen Stempel online. Geöffnete Apps zeigten in dieser Zeit kein „Neue Version laden“.
+
+### Stand
+- **Code fertig:** ja (App-Code `b7e18f8`, Test `513b1dd`).
+- **Tests bestanden:** ja. Lokal `npm test` 18/18 Gruppen und `test:guide` 5/5; in CI Lauf 40009919232 grün.
+- **Live veröffentlicht:** **JA.** Version **20261023-2122** (`main` `19fddff`), laut Live-Prüfung des Workflows.
+- **Selbst angesehen habe ich die öffentliche Seite nicht:** `github.io` ist aus meiner Umgebung gesperrt. Die Sichtprüfung an der echten App ist Teil B des Codex-Auftrags.
+- **Nicht geprüft:** echtes iPhone und Safari.
