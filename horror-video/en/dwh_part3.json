@@ -54,7 +54,7 @@
   "typing": "Mrs. Hale is typing",
   "sender": "Unknown",
   "kicker": "PART 4",
-  "pill": "THE END",
+  "pill": "FOLLOW FOR PART 4",
   "title": "WOULD YOU GO UP?",
   "optA": "OPTION ONE",
   "optB": "OPTION TWO",
@@ -82,10 +82,10 @@
     ],
     "figure": {
      "kind": "shape",
-     "pose": "finger",
+     "pose": "shush",
      "x": 0.3,
      "y": 0.86,
-     "h": 0.88,
+     "h": 0.82,
      "eyes": -5,
      "turn": -5
     }
@@ -95,13 +95,13 @@
      "text": "Something tall unfolded from the nursery closet."
     },
     {
-     "text": "And you're home alone.",
+     "text": "And it went looking for you.",
      "emph": [
-      "alone"
+      "you"
      ]
     }
    ],
-   "captionY": 1590,
+   "captionY": 1495,
    "capBox": true,
    "trans": "cut",
    "post": 0.3,
@@ -113,7 +113,7 @@
     },
     {
      "name": "heartbeat_slow_muffled",
-     "at": "@alone",
+     "at": "@looking",
      "gain": 2,
      "dur": 1.6
     }
@@ -133,6 +133,10 @@
     "rewind": [
      0.0,
      0.7
+    ],
+    "gapEyes": [
+     0.0,
+     99
     ],
     "figure": {
      "kind": "you",
@@ -156,14 +160,14 @@
      "text": "Your wave."
     },
     {
-     "text": "That's you, ten minutes ago.",
+     "text": "That's you, waving at her app.",
      "emph": [
       "you",
-      "ten"
+      "app"
      ]
     }
    ],
-   "captionY": 1590,
+   "captionY": 1495,
    "capBox": true,
    "trans": "cut",
    "sfx": [
@@ -195,6 +199,7 @@
      99
     ],
     "gapRing": "@two",
+    "gapEyesBright": "@two",
     "feedZoom": [
      1.0,
      1.4
@@ -222,7 +227,7 @@
      ]
     }
    ],
-   "captionY": 1590,
+   "captionY": 1495,
    "capBox": true,
    "trans": "cut",
    "post": 0.5,
@@ -321,9 +326,11 @@
   {
    "scene": "choice_split",
    "clock": "12:00 AM",
-   "captionY": 1590,
+   "captionY": 1500,
    "capBox": true,
    "p": {
+    "optA": "LIVE",
+    "optB": "10 MIN LATE",
     "title": "Nobody lied",
     "kicker": "SAME CAMERA · TEN MINUTES APART",
     "a": "Her app|11:42",
@@ -395,18 +402,8 @@
      ]
     }
    ],
-   "captionY": 1590,
+   "captionY": 1495,
    "capBox": true,
-   "pops": [
-    {
-     "text": "creak",
-     "at": "@glides+0.2",
-     "x": 820,
-     "y": 560,
-     "size": 42,
-     "dur": 1.0
-    }
-   ],
    "trans": "cut",
    "post": 0.4,
    "sfx": [
@@ -420,7 +417,7 @@
   {
    "scene": "phone_chat",
    "clock": "12:01 AM",
-   "captionY": 720,
+   "captionY": 1490,
    "capBox": true,
    "zoom": [
     1.0,
@@ -443,7 +440,7 @@
      },
      {
       "side": "in",
-      "text": "Hallway cam caught you at eleven fifty. Then motion at eleven fifty-one. Too dark to see.",
+      "text": "Hallway cam caught you at 11:50. Then motion at 11:51. Too dark to see.",
       "at": -1,
       "red": true
      },
@@ -493,7 +490,7 @@
     "date": "Saturday, October 24",
     "notifs": [
      {
-      "sender": "Mr. Hale · 11:53",
+      "sender": "Mr. Hale",
       "text": "Getting Dana.",
       "at": -1
      },
@@ -537,12 +534,14 @@
    "clock": "12:01 AM",
    "zoom": [
     1.0,
-    1.06
+    1.03
    ],
    "focus": [
     540,
     960
    ],
+   "captionY": 1515,
+   "capBox": true,
    "p": {
     "stamp": "12:01 AM",
     "title": "HALE CAMS • LIVE",
@@ -575,7 +574,10 @@
       "figures": [
        {
         "kind": "shape",
-        "pose": "hunch",
+        "pose": "shush",
+        "fromPose": "hunch",
+        "poseAt": "@finger",
+        "poseDur": 0.9,
         "x": 0.5,
         "y": 0.86,
         "h": 0.86,
@@ -629,7 +631,7 @@
   {
    "scene": "phone_chat",
    "clock": "12:01 AM",
-   "captionY": 720,
+   "captionY": 1490,
    "capBox": true,
    "zoom": [
     1.0,
@@ -649,7 +651,7 @@
     "messages": [
      {
       "side": "in",
-      "text": "Cute! Last dance! 💃",
+      "text": "Cute! Last dance!",
       "at": -1
      },
      {
@@ -657,7 +659,8 @@
       "kind": "photo",
       "photo": {
        "kind": "grid4",
-       "stamp": "12:01 AM"
+       "stamp": "12:01 AM",
+       "shapeGuest": true
       },
       "at": -1
      },
@@ -707,8 +710,10 @@
    "p": {
     "pose": "sitting",
     "hood": true,
-    "monitorOnStand": true,
     "roomCam": true,
+    "monitorOnStand": true,
+    "monitorStamp": "11:51 PM",
+    "monitorDoor": 0.6,
     "tremble": true,
     "shapeBehind": {
      "at": -1,
@@ -757,7 +762,26 @@
      700
     ],
     "y": 900,
-    "size": 260
+    "size": 260,
+    "bg": "bedroom",
+    "bgP": {
+     "pose": "sitting",
+     "hood": true,
+     "tremble": true,
+     "roomCam": true,
+     "monitorOnStand": true,
+     "monitorStamp": "11:51 PM",
+     "monitorDoor": 0.6,
+     "shapeBehind": {
+      "at": -1,
+      "alpha": 1.0,
+      "x": 430,
+      "y": 1300,
+      "h": 1000,
+      "eyes": -1,
+      "pose": "hunch"
+     }
+    }
    },
    "lines": [
     {
@@ -778,12 +802,16 @@
     1.05
    ],
    "trans": "cut",
+   "captionY": 1060,
+   "capBox": true,
    "p": {
     "noLamp": true,
     "youBack": true,
     "figure": {
-     "h0": 1150,
-     "h1": 230,
+     "kind": "shape",
+     "pose": "walk",
+     "h0": 1250,
+     "h1": 300,
      "y0": 1950,
      "y1": 1025,
      "at": -1
@@ -797,16 +825,16 @@
     {
      "text": "step…",
      "at": "@slow",
-     "x": 640,
-     "y": 1150,
+     "x": 700,
+     "y": 900,
      "size": 44,
      "dur": 1.0
     },
     {
      "text": "step…",
      "at": "@slow+1.2",
-     "x": 560,
-     "y": 1080,
+     "x": 380,
+     "y": 860,
      "size": 40,
      "dur": 1.0
     }
@@ -845,12 +873,16 @@
     1.0
    ],
    "trans": "cut",
+   "captionY": 1500,
+   "capBox": true,
    "p": {
     "pose": "sitting",
     "listen": true,
     "hood": true,
-    "monitorOnStand": true,
     "roomCam": true,
+    "monitorOnStand": true,
+    "monitorStamp": "11:52 PM",
+    "monitorDoor": 0.6,
     "ceilingCrib": 0.1,
     "ceilingLabel": "WREN'S ROOM"
    },
@@ -914,7 +946,7 @@
      ]
     }
    ],
-   "captionY": 1590,
+   "captionY": 1495,
    "capBox": true,
    "trans": "cut",
    "post": 0.7,
@@ -930,7 +962,7 @@
   {
    "scene": "rule_card",
    "clock": "12:03 AM",
-   "captionY": 1590,
+   "captionY": 1500,
    "capBox": true,
    "trans": "cut",
    "p": {
@@ -939,20 +971,17 @@
     "hl": [
      "-10"
     ],
-    "sub": "11:40 PM  /  11:30 PM"
+    "sub": "CLOCK 11:40  /  MONITOR 11:30"
    },
    "lines": [
     {
-     "text": "When did you first notice the monitor's clock?",
+     "text": "When did you catch the ten minutes?",
      "emph": [
-      "clock"
+      "ten"
      ]
     },
     {
-     "text": "Comment the time.",
-     "emph": [
-      "time"
-     ]
+     "text": "Tell me in the comments."
     }
    ],
    "sfx": [
@@ -966,22 +995,28 @@
   {
    "scene": "end_card",
    "clock": "12:03 AM",
-   "noCaptions": true,
+   "captionY": 1500,
+   "capBox": true,
    "trans": "cut",
    "p": {
     "title": "DON'T WAKE HER",
     "kicker": "PART 3",
     "time": "12:03 AM",
-    "pill": "THE END",
-    "sub": "WHEN DID YOU NOTICE?|COMMENT THE TIME"
+    "pill": "FOLLOW FOR PART 4",
+    "sub": "WHEN DID YOU CATCH IT?|TELL ME IN THE COMMENTS"
    },
    "lines": [
+    {
+     "text": "Follow for part four.",
+     "emph": [
+      "four"
+     ]
+    },
     {
      "text": "Shhh.",
      "voice": "shape"
     }
    ],
-   "pre": 1.2,
    "post": 1.0,
    "endShape": {
     "at": 0.3,
@@ -1003,6 +1038,11 @@
    ]
   }
  ],
+ "coldOpen": {
+  "beat": 8,
+  "words": "And over your shoulder, the thing",
+  "label": "LATER"
+ },
  "beds": [
   {
    "name": "drone_bed",

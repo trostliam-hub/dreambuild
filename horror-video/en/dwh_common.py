@@ -26,7 +26,7 @@ def monitor(clock, stamp, lines, figure=None, figures=None, **extra):
     p.update(extra.pop("p", {}))
     if figure: p["figure"] = figure
     if figures: p["figures"] = figures
-    b = {"scene": "monitor_screen", "clock": clock, "p": p, "lines": lines, "captionY": 1590, "capBox": True}
+    b = {"scene": "monitor_screen", "clock": clock, "p": p, "lines": lines, "captionY": 1495, "capBox": True}
     b.update(extra); return b
 
 def hiss(beats, story):

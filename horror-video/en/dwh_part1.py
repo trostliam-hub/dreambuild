@@ -17,13 +17,13 @@ B.append(monitor("11:40 PM", "11:30 PM", [L("Something is standing over the crib
     figure=SHAPE, p=dict(CLOSED), zoom=[1.0, 1.08], focus=[540, 760], trans="cut", post=0.5,
     sfx=[{"name": "sub_pulse", "at": "@crib", "gain": -4}, {"name": "low_piano_hit", "at": "@crib+0.6", "gain": -8}]))
 # 1
-B.append({"scene": "bedroom", "clock": "11:40 PM", "zoom": [1.0, 1.05], "focus": [540, 900],
-    "p": {"pose": "sitting", "lookPhone": True, "hood": True, "monitorOnStand": True, "roomCam": True},
-    "pops": [{"text": "GUEST ROOM", "at": 0.15, "x": 760, "y": 560, "size": 54, "dur": 2.6, "rot": 0}],
+BED_MON = {"monitorOnStand": True, "monitorStamp": "11:30 PM", "monitorShape": True}
+B.append({"scene": "bedroom", "clock": "11:40 PM", "place": "HALE HOUSE · GUEST RM", "zoom": [1.0, 1.05], "focus": [540, 900],
+    "p": {"pose": "sitting", "lookPhone": True, "hood": True, "roomCam": True, **BED_MON},
     "lines": [L("Eleven forty."), L("You're babysitting, alone downstairs.", emph=["alone"])], "sfx": []})
 # 2
-B.append({"scene": "bedroom", "clock": "11:40 PM", "pan": [0, 0, 0, 430], "zoom": [1.0, 1.0], "trans": "cut",
-    "p": {"pose": "sitting", "lookPhone": True, "hood": True, "monitorOnStand": True, "roomCam": True, "ceilingCrib": "@wren", "ceilingLabel": "UPSTAIRS: BABY WREN"},
+B.append({"scene": "bedroom", "clock": "11:40 PM", "place": "HALE HOUSE · GUEST RM", "pan": [0, 0, 0, 430], "zoom": [1.0, 1.0], "trans": "cut", "captionY": 1500, "capBox": True,
+    "p": {"pose": "sitting", "lookPhone": True, "hood": True, "roomCam": True, **BED_MON, "ceilingCrib": "@wren", "ceilingLabel": "UPSTAIRS: BABY WREN"},
     "lines": [L("Wren sleeps right above you.", emph=["above"]), L("The Hales are at a wedding.")],
     "sfx": [{"name": "door_creak", "at": "@hales", "gain": -16, "dur": 1.0}]})
 # 3
@@ -42,7 +42,7 @@ B.append({"scene": "fridge_note", "clock": "11:41 PM", "zoom": [1.0, 1.1], "focu
     "lines": [L("Mrs. Hale's note said:", say="Missus Hale's note said:"), L("Old monitor. Clock's wrong. Just ignore it!", voice="mrs_hale", emph=["wrong"])],
     "sfx": [{"name": "light_click", "at": 0.05, "gain": 0}]})
 # 6-8: Chat
-B.append({"scene": "phone_chat", "clock": "11:41 PM", "captionY": 720, "capBox": True, "zoom": [1.0, 1.04], "focus": [540, 900], "trans": "cut",
+B.append({"scene": "phone_chat", "clock": "11:41 PM", "captionY": 1490, "capBox": True, "zoom": [1.0, 1.04], "focus": [540, 900], "trans": "cut",
     "p": {**CHAT, "messages": M1 + [
         {"side": "out", "text": "Is anyone else in the house?", "at": "@is"},
         {"side": "in", "text": "Just you and Wren. Why?", "at": "@just-0.1", "typing": "@is+1.0"},
@@ -51,7 +51,7 @@ B.append({"scene": "phone_chat", "clock": "11:41 PM", "captionY": 720, "capBox":
               L("Just you and Wren. Why?", voice="mrs_hale"), L("Someone is in the nursery.", voice="you", emph=["nursery"])],
     "sfx": [{"name": "phone_ping", "at": "@just-0.1", "gain": -4}]})
 # 9
-B.append({"scene": "phone_chat", "clock": "11:42 PM", "captionY": 720, "capBox": True, "zoom": [1.04, 1.08], "focus": [540, 900], "trans": "cut",
+B.append({"scene": "phone_chat", "clock": "11:42 PM", "captionY": 1490, "capBox": True, "zoom": [1.04, 1.08], "focus": [540, 900], "trans": "cut",
     "p": {**CHAT, "messages": M1 + [
         {"side": "out", "text": "Is anyone else in the house?", "at": -1}, {"side": "in", "text": "Just you and Wren. Why?", "at": -1},
         {"side": "out", "text": "Someone is in the nursery.", "at": -1},
@@ -64,29 +64,30 @@ FEEDS = lambda guest_alert=None: [
     {"room": "corridor", "label": "HALL"},
     {"room": "stairs", "label": "STAIRS"},
     {"room": "guest", "label": "GUEST RM", "figures": you_sit(), **({"alert": guest_alert} if guest_alert else {})}]
-B.append({"scene": "cctv_grid", "clock": "11:42 PM", "zoom": [1.0, 1.04], "focus": [540, 960],
+B.append({"scene": "cctv_grid", "clock": "11:42 PM", "zoom": [1.0, 1.04], "focus": [540, 960], "captionY": 1515, "capBox": True,
     "p": {"stamp": "11:42 PM", "title": APP, "live": True, "clean": True, "feeds": FEEDS(), "focus": {"feed": 0, "at": "@wren", "dur": 0.6}},
     "lines": [L("She sends a screenshot."), L("Just Wren, asleep.", emph=["asleep"])],
     "sfx": [{"name": "camera_shutter", "at": 0.05, "gain": 0}]})
-B.append({"scene": "cctv_grid", "clock": "11:42 PM", "zoom": [1.0, 1.04], "focus": [540, 960], "trans": "cut",
+B.append({"scene": "cctv_grid", "clock": "11:42 PM", "zoom": [1.0, 1.04], "focus": [540, 960], "trans": "cut", "captionY": 1515, "capBox": True,
     "p": {"stamp": "11:42 PM", "title": APP, "live": True, "clean": True, "feeds": FEEDS(), "focus": {"feed": 3, "at": 0.1, "dur": 0.6}},
     "lines": [L("Even your room."), L("Just you.", emph=["you"])], "post": 0.3})
 # 12-14: Kopf hebt sich, Augen, Finger
 B.append(monitor("11:44 PM", "11:34 PM", [L("But your monitor still shows it.", emph=["still"]), L("Its head lifts."), L("Slowly.")],
-    figure={**SHAPE, "turn": "@lifts"}, p={**CLOSED, "feedZoom": [1.0, 1.2], "feedFocus": [0.45, 0.5]}, trans="cut",
+    figure={**SHAPE, "pose": "lift", "fromPose": "bend", "poseAt": "@lifts", "poseDur": 2.2, "turn": "@lifts"}, p={**CLOSED, "feedZoom": [1.0, 1.2], "feedFocus": [0.45, 0.4]}, trans="cut",
     sfx=[{"name": "tension_riser_4s", "at": "@lifts-0.5", "gain": -14}]))
 B.append(monitor("11:44 PM", "11:34 PM", [L("Toward the camera."), L("Two red eyes.", emph=["eyes"])],
-    figure={**SHAPE, "turn": -5, "eyes": "@two"}, p={**CLOSED, "feedZoom": [1.4, 1.75], "feedFocus": [0.6, 0.3]}, trans="cut", post=0.5,
+    figure={**SHAPE, "pose": "lift", "turn": -5, "eyes": "@two"}, p={**CLOSED, "feedZoom": [1.4, 1.75], "feedFocus": [0.6, 0.2]}, trans="cut", post=0.5,
     sfx=[{"name": "stinger_violin_screech", "at": "@two", "gain": -10}], glitch=[{"at": "@two", "d": 0.1}]))
 B.append(monitor("11:45 PM", "11:35 PM", [L("One long finger rises to where a mouth should be.", emph=["finger"])],
-    figure={**SHAPE, "pose": "finger", "fromPose": "bend", "poseAt": "@finger", "poseDur": 1.4, "turn": -5, "eyes": -5},
-    p={**CLOSED, "feedZoom": [1.2, 1.3], "feedFocus": [0.45, 0.4]}, trans="cut", post=0.6,
+    figure={**SHAPE, "pose": "shush", "fromPose": "lift", "poseAt": "@finger", "poseDur": 1.2, "turn": -5, "eyes": -5},
+    p={**CLOSED, "feedZoom": [1.0, 1.1], "feedFocus": [0.45, 0.45]}, trans="cut", post=0.6,
     sfx=[{"name": "tinnitus_ring", "at": "@finger", "gain": -12}]))
 # 15: in den Schrank
 B.append(monitor("11:46 PM", "11:36 PM", [L("It folds itself into the closet."), L("The door stays open a crack.", emph=["crack"])],
-    figure={**SHAPE, "pose": "hunch", "fromPose": "finger", "poseAt": "@folds", "poseDur": 0.8, "eyes": -5, "turn": -5, "move": ["@folds", "@folds+1.5", 0.13], "until": "@folds+1.7"},
+    figure={**SHAPE, "pose": "hunch", "fromPose": "shush", "flip": True, "poseAt": "@folds", "poseDur": 0.6, "eyes": -5, "turn": -5, "move": ["@folds", "@folds+1.5", 0.12],
+            "shrink": ["@folds+0.3", "@folds+1.5", 0.45], "fadeOut": ["@folds+1.25", "@folds+1.6"], "until": "@folds+1.7"},
     p={"doorStyle": "closet", "doorKeys": [[0, 0], ["@folds", 0], ["@folds+0.7", 0.55], ["@folds+1.8", 0.55], ["@crack", 0.08]], "gapEyes": ["@crack", "@crack+1.0"]},
-    pops=[{"text": "sssllide", "at": "@folds+0.2", "x": 330, "y": 520, "size": 46, "dur": 1.2}], trans="cut",
+    trans="cut",
     sfx=[{"name": "impact_hit_short", "at": "@crack+0.9", "gain": -9}]))
 # 16: A/B-Flackern
 B.append(monitor("11:46 PM", "11:36 PM", [L("Now your monitor matches her screenshot."), L("Exactly.", emph=["Exactly"]), L("But nothing ever left that room.", emph=["nothing"])],
@@ -98,17 +99,18 @@ B.append({"scene": "phone_lock", "clock": "11:46 PM", "zoom": [1.0, 1.18], "focu
     "lines": [L("Go peek if it helps! I'll watch on the app.", voice="mrs_hale", emph=["peek"])],
     "pre": 0.5, "sfx": [{"name": "phone_vibrate", "at": 0.05, "gain": -2}]})
 # 18-19
-B.append({"scene": "choice_split", "clock": "11:46 PM", "captionY": 1590, "capBox": True,
+B.append({"scene": "choice_split", "clock": "11:46 PM", "captionY": 1500, "capBox": True,
     "p": {"title": "Would you go up?", "kicker": "WREN IS STILL UP THERE", "a": "Go|up", "b": "Stay|down", "iconA": "stairs", "iconB": "bed"},
     "lines": [L("Would you go upstairs?", emph=["upstairs"]), L("Tell me in the comments.")],
     "sfx": [{"name": "impact_boom", "at": 0.0, "gain": -7}]})
-B.append({"scene": "end_card", "clock": "11:46 PM", "captionY": 1590, "capBox": True, "trans": "cut",
+B.append({"scene": "end_card", "clock": "11:46 PM", "captionY": 1500, "capBox": True, "trans": "cut",
     "p": {"title": "DON'T WAKE HER", "kicker": "PART 1", "time": "11:46 PM", "pill": "FOLLOW FOR PART 2", "sub": "GO UP OR STAY DOWN?|TELL ME IN THE COMMENTS"},
     "lines": [L("Follow for part two.", emph=["two"])], "post": 0.6, "endEyes": "@two+0.9",
     "sfx": [{"name": "whoosh_reverse", "at": 0.0, "gain": -8}, {"name": "breath_whisper", "at": "@two+0.9", "gain": -12}]})
 
 story = base(1, "FOLLOW FOR PART 2")
 story["beats"] = B
+story["coldOpen"] = {"beat": 11, "words": "Toward the camera. Two red eyes.", "label": "LATER"}  # Teaser vorneweg, harter Schnitt
 story["beds"] = [
     {"name": "drone_bed", "from": 0, "to": 200, "gain": 1, "fade": 0.4},
     {"name": "house_ambience", "from": 0, "to": 200, "gain": 10, "fade": 0.5},

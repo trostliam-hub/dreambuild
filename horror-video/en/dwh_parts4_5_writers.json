@@ -1,0 +1,566 @@
+{
+ "arc": {
+  "name": "DON'T WAKE HER: Ending \"What Never Wakes\" (Part 4: Right Above You / Part 5: Wake Her)",
+  "part4": "DON'T WAKE HER, Part 4: Right Above You\nClock runs 12:03 to 12:05 AM. Every monitor stamp is the clock minus ten minutes. Every cctv stamp is the clock.\n\nCOLD OPEN (about 2.5 s, before beat #0): taken from beat #12 (cctv_grid). Narration that plays: \"Slowly. Down. Toward you.\" (4 words). Label: \"12:05 AM\". Visual: HALE CAMS • LIVE with the NURSERY feed full screen and a red alert frame. The SHAPE is bent over the crib with its finger to its face. Its neck line bends and the head tilts down toward the floor while the red eyes flare. Hard glitch cut (RGB split, static, 4 black frames) at the instant the eyes point straight down. Then beat #0 starts.\n\n#0 12:03 AM bedroom: you on the bed, the door open, the SHAPE gone.\n Narration: The thing that whispered in your ear just climbed the stairs to Wren.\n#1 12:03 AM bedroom: the camera tilts up to the ceiling. The dashed crib outline sits directly above the bed, with small creak lines pulsing right over it.\n Narration: Above you, the floor creaks. Right over her crib.\n#2 12:03 AM monitor_screen: CAM - NURSERY, stamp 11:53 PM, muted icon. Quiet nursery: Wren, the closet open a crack, no SHAPE.\n Narration: Your monitor is no help. It's still showing eleven fifty-three.\n#3 12:03 AM phone_chat (Mrs. Hale, \"Active now\"): a photo bubble shows a live NURSERY still, stamp 12:03 AM, with the SHAPE bent over the crib.\n Narration: But Mrs. Hale is watching live. She texts: \"It's bent over her crib.\"\n MRS. HALE = \"It's bent over her crib.\"\n#4 12:04 AM phone_chat (Mr. Hale):\n Narration: Mr. Hale writes: \"Ten minutes away. Do not go up there.\"\n MR. HALE = \"Ten minutes away. Do not go up there.\"\n#5 12:04 AM cctv_grid: HALE CAMS • LIVE, stamp 12:04 AM. NURSERY grows to full screen with a red alert frame. The SHAPE hunches lower over the crib in the finger pose.\n Narration: On Mrs. Hale's feed, it bends lower. Finger to its face.\n#6 12:04 AM phone_lock: the two old notifications replay one at a time, \"Mr. Hale · 11:53 – Hallway cam caught you at eleven fifty. Then motion at…\" and then \"Mrs. Hale · 12:01 – sent a photo\". A red \"SHHH.\" flashes after each one.\n Narration: Then it clicks. Your phone buzzed. It hushed you. Your phone buzzed again. It hushed you again.\n#7 12:04 AM face_closeup: lit from below, your eyes slowly roll up toward the ceiling.\n Narration: It never told you to leave. It told you to be quiet.\n#8 12:04 AM rule_card: label \"ITS RULE, NOT YOURS\", text \"DON'T WAKE HER.\", sub \"WHAT IF SHE WAKES?\"\n Narration: It needs her asleep. So what happens if she wakes up?\n#9 12:05 AM bedroom: tilt to the ceiling. The dashed crib sits exactly above the bed, and a thin red dashed line drops from the crib to your head.\n Narration: You don't have to go up there. She's right above you.\n#10 12:05 AM bedroom: you stand on the bed (stand pose) with your fist raised an inch under the dashed crib.\n Narration: You stand on the bed. Your fist, right under her crib.\n#11 12:05 AM phone_lock: a buzz, then a red notification \"Mrs. Hale – Wake her up.\"\n Narration: Your phone buzzes. Mrs. Hale sees you on the guest cam. \"Wake her up.\"\n MRS. HALE = \"Wake her up.\"\n#12 12:05 AM cctv_grid: NURSERY full screen, red alert frame, stamp 12:05 AM. The SHAPE's neck bends and its head turns slowly down toward the floor, toward the room below. Red eyes flare and red rings tighten. (This is the source of the cold open.)\n Narration: On her live feed, its head turns. Slowly. Down. Toward you.\n#13 12:05 AM sfx_text: lines [\"DON'T\", \"WAKE HER.\"]. Very low breathy whisper coming from above, centered rather than panned.\n Narration: Through the ceiling, a whisper: \"Don't wake her.\"\n THE SHAPE = \"Don't wake her.\"\n#14 12:05 AM choice_split: title \"Would you wake her?\", kicker \"IT SAYS DON'T. HER MOM SAYS DO.\", a \"Wake|her\", b \"Let her|sleep\".\n Narration: Would you wake her? Tell me in the comments.\n#15 12:05 AM end_card: title \"DON'T WAKE HER\", kicker \"PART 4\", pill \"FOLLOW FOR THE FINALE\", sub \"WAKE HER OR LET HER SLEEP?|TELL ME IN THE COMMENTS\".\n Narration: Follow for the finale.\n\nWORD COUNT: 175 words of narration (beats 0-15: 13/9/10/13/11/11/17/12/11/11/11/14/11/8/9/4). With the 4 repeated cold-open words it is 179. At about 2.2 words/s, like Parts 1-3, it runs roughly 80 s.\nENDING: CLIFFHANGER. The pattern is now clear: every phone buzz brought a \"Shhh\". It never told you to leave, only to be quiet, so it needs Wren asleep. Mr. Hale says \"Do not go up there\", and you don't have to, because the dashed crib is right above your bed. You stand on the bed with your fist under the crib. Mrs. Hale texts \"Wake her up.\" That buzz turns the SHAPE's head on the live feed down through the floor toward you, and through the ceiling comes \"Don't wake her.\" The engagement prompt is \"Would you wake her? Tell me in the comments.\" followed by \"Follow for the finale.\" The new scenes are not used yet.\n\n=== COLD OPENS FOR PARTS 1-3 (same rule; prepend to the existing renders, narration unchanged) ===\nPART 1: beat #11 (monitor_screen, stamp 11:34 PM). Words: \"Toward the camera. Two red eyes.\" (6 words, about 2.9 s, as in the original beat). Label: \"11:44 PM\". The head lifts toward the lens and the hard glitch cut lands the instant both eyes ignite red. Then #0 \"Something is standing over the crib.\"\nPART 2: beat #12 (sfx_text \"SHHH.\"). Words: \"someone whispers: Shhh.\" (3 words). Label: \"11:54 PM\". The red SHHH. flares while the whisper pans right, and the hard glitch cut lands mid-hiss. Then #0.\nPART 3: beat #8 (cctv_grid HALE CAMS • LIVE, stamp 12:01 AM). Words: \"And over your shoulder,\" (4 words). Label: \"12:01 AM\". The GUEST RM tile grows full screen and the SHAPE resolves behind your left shoulder (screen-right). The hard glitch cut lands as its red eyes light, before the finger rises. Then #0.\nPART 4: beat #12, as above. PART 5: beat #14, see Part 5.",
+  "part5": "DON'T WAKE HER, Part 5: Wake Her (FINALE)\nClock runs 12:05 to 12:16 AM. Monitor stamps are the clock minus ten minutes, and cctv stamps are the clock. This part uses the two allowed new scene types: nursery_pov (#7) and front_door (#8).\n\nCOLD OPEN (about 2 s, before beat #0): taken from beat #14 (monitor_screen). Narration that plays: \"From inside the closet,\" (4 words). Label: \"LATER\". Visual: the old monitor handset showing CAM - NURSERY, stamp 12:06 AM, with the closet door fully shut. The muted icon blinks off and red rings tighten on the closet door. On the first breath of the whisper there is a hard glitch cut to black. The whisper's words are NOT heard in the cold open, so the sting stays saved for the end. Then beat #0.\n\n#0 12:05 AM bedroom: tilt to the ceiling, your fist under the dashed crib outline.\n Narration: It's standing over Wren, and it just told you not to wake her.\n#1 12:05 AM face_closeup: lit from below, eyes up.\n Narration: So you do the one thing every babysitter is told never to do.\n#2 12:05 AM bedroom: your fist hits the ceiling right under the dashed crib, and the screen shakes three times.\n Narration: You slam the ceiling. Three times.\n#3 12:05 AM bedroom: hold on the ceiling, dead still. Then a red sound ring bursts out of the dashed crib.\n Narration: One second of silence. Then Wren screams.\n#4 12:05 AM cctv_grid: NURSERY full screen, red alert frame, stamp 12:05 AM. The SHAPE jerks upright with its head at the ceiling line and recoils away from the crib.\n Narration: On Mrs. Hale's feed, it flinches back from the crib. From the noise.\n#5 12:06 AM cctv_grid: stamp 12:06 AM. It folds itself into the closet and the door swings fully shut, leaving no gap for the first time. The red frame drops.\n Narration: It folds into the closet. The door that never shuts right clicks shut.\n#6 12:06 AM phone_chat (Mrs. Hale, \"Active now\"):\n Narration: Mrs. Hale types: \"Don't let her fall asleep.\"\n MRS. HALE = \"Don't let her fall asleep.\"\n#7 12:07 AM nursery_pov: your own eyes, no camera and no timestamp. The lights snap on to show the crib with crying lines (Wren never shown close up and never touched), the mobile, the nightlight and the closet shut tight. Off-key music notes float in the air.\n Narration: You run upstairs. Lights on. You sing, loud and badly, eyes on the closet. She cries. Good.\n#8 12:14 AM front_door: headlights sweep through the window and a key turns.\n Narration: Twelve fourteen. Headlights. A key in the door.\n#9 12:14 AM hallway: light spreads from behind and you turn toward it.\n Narration: The Hales run in. Wren is safe. Wide awake.\n#10 12:15 AM fridge_note: Mrs. Hale's note, with the line \"Wren down by eight ♥\" slowly glowing red.\n Narration: Mrs. Hale whispers: \"She's never woken up at night. Not once.\"\n MRS. HALE = \"She's never woken up at night. Not once.\"\n#11 12:15 AM rule_card: label \"WHAT IT IS\", text \"IT ONLY TAKES WHAT NEVER WAKES.\", sub \"TONIGHT, SHE WOKE.\"\n Narration: Not a good sleeper. A hushed one. It only takes what never wakes. Tonight, she woke.\n#12 12:15 AM bedroom: label \"◀◀ 11:57 PM\" with rewind lines. You sit on the bed with your head bowed and eyes shut. The SHAPE stands behind your LEFT shoulder (screen-right) at 50% opacity, bent low, finger to its face.\n Narration: Remember when you shut your eyes? It stood beside you, waiting for you to sleep.\n#13 12:16 AM monitor_screen: CAM - NURSERY, stamp 12:06 AM, closet shut. The muted icon disappears.\n Narration: Downstairs, for the first time tonight, you unmute the monitor.\n#14 12:16 AM monitor_screen: stamp 12:06 AM, red rings tightening on the closet door, a faint audio waveform. (This is the source of the cold open.)\n Narration: From inside the closet, ten minutes ago:\n#15 12:16 AM sfx_text: lines [\"SHHH.\", \"YOUR TURN.\"]. Very low breathy whisper.\n Narration: \"Shhh. Your turn.\"\n THE SHAPE = \"Shhh. Your turn.\"\n#16 12:16 AM end_card: title \"DON'T WAKE HER\", kicker \"PART 5 · FINALE\", pill \"THE END\", sub \"HOW LONG COULD YOU STAY AWAKE?|TELL ME IN THE COMMENTS\".\n Narration: How long could you stay awake? Tell me in the comments.\n\nWORD COUNT: 180 words of narration (beats 0-16: 13/13/6/7/13/13/8/17/8/9/11/16/15/10/7/3/11). With the 4 repeated cold-open words it is 184. That runs roughly 80 s.\nENDING: RESOLUTION, then STING, then COMMENT QUESTION. You do the forbidden thing and slam the ceiling right under the crib. Wren screams. On the live app the SHAPE recoils, folds into the closet, and the door that \"never shuts right\" finally clicks shut. You keep Wren awake until 12:14, exactly ten minutes after Mr. Hale's \"Ten minutes away\". The Hales arrive and Wren is safe and wide awake. Mrs. Hale's \"She's never woken up at night. Not once.\" reveals what the SHAPE is: Wren wasn't a good sleeper, she was a hushed one, and it only takes what never wakes. Tonight she woke, so its hold is broken. The flashback shows it stood beside you while your eyes were shut. In the sting, you unmute the old monitor for the first time and hear, ten minutes late, from inside the shut closet: \"Shhh. Your turn.\" Closing question: \"How long could you stay awake?\"",
+  "what_the_shape_is": "It is a hushing thing that lives in the nursery closet. The closet \"never shuts right\" because it keeps the door open a crack so it can watch. It is physical and real: every camera sees it, and the monitor only shows it ten minutes late (the clock was never wrong). Every night it bends over a sleeping child with its finger to its face and hushes her a little deeper. It only takes what never wakes, into the closet. That is why Wren \"has never woken up at night. Not once.\" She wasn't a good sleeper. She was a hushed one, and tonight, with the parents gone, it was ready to take her.\n\n\"Don't wake her\" / \"You'll wake her\" was never a warning to protect Wren and never a threat against you. It is its own rule, because a single waking breaks its hold, and a child who wakes is no longer one it can take. It never told you to leave, only to be quiet. It wasn't hunting you. It was policing noise. When your phone buzzed at 11:53 it hushed you at 11:54. When your phone buzzed at 12:01 it breathed \"Shhh. You'll wake her.\" While your eyes were shut from 11:54 to 12:00 it stood beside you, waiting for you to fall asleep too, so the whole house would be silent.\n\nThat makes the series title its rule, not yours. Breaking it is the solution: you wake her from directly below, the hold snaps, and it retreats into the closet, which shuts all the way for the first time. Its last words, recorded on the muted, delayed monitor, show that it has chosen the one person who once closed their eyes beside it.",
+  "plants_used": "Each detail planted in Parts 1-3 and where it pays off:\n\n- 10-minute delay: in P4#2 the monitor is useless, still showing 11:53. Mr. Hale's \"Ten minutes away\" (P4#4) mirrors the delay and the parents arrive at exactly 12:14 (P5#8). In the sting (P5#13-15) the unmuted monitor plays 12:06 audio at 12:16: \"From inside the closet, ten minutes ago\". The SHAPE spoke knowing you would hear it ten minutes late.\n- The closet / \"It never shuts right\" / the door open a crack: it is the SHAPE's home and its way of watching. P5#5: \"The door that never shuts right clicks shut.\" P5#7: you sing with your eyes on the closet. P5#14-15: the final whisper comes from inside it.\n- Finger to its face (hush pose): P4#5 shows it bending lower with the finger raised. P5#12 shows the same pose beside you while your eyes were shut. Read together, the gesture is its whole nature: keep the house silent.\n- \"Shhh.\" (P2) and \"Shhh. You'll wake her.\" (P3): each came right after your phone buzzed (11:53 to 11:54, and 12:01). P4#6-8 turns this into the deduction (\"It never told you to leave. It told you to be quiet. It needs her asleep.\"). P4#13's \"Don't wake her.\" makes the title its rule, and P5#15's \"Shhh. Your turn.\" completes the pattern.\n- Muted monitor (\"The sound is muted.\", the muted icon): never touched until P5#13 (\"for the first time tonight, you unmute the monitor\"), which delivers the sting.\n- Parents' live app (HALE CAMS • LIVE, \"Nobody lied\"): Mrs. Hale watches live and relays it (P4#3, #5, #12). It shows the SHAPE flinching from the crib and folding into the closet (P5#4-5). It is the only real-time view, against your delayed monitor.\n- Guest-room camera: Mrs. Hale \"sees you on the guest cam\" standing under the crib and texts \"Wake her up.\" (P4#11). That buzz is what turns its head down toward you (P4#12). P5#12 replays the 11:57 guest-room moment with the SHAPE beside you.\n- Ceiling creak above you / \"Wren sleeps right above you\": P4#1 \"Above you, the floor creaks. Right over her crib.\" It locates the SHAPE and the crib directly over your bed.\n- Dashed crib outline: this is the key to the fair solution. P4#9 \"You don't have to go up there. She's right above you.\" In P4#10 and P5#0-3 you slam the ceiling right under the outline and wake her from below.\n- Fridge note \"Wren down by eight ♥\" (and the \"Clock's wrong\" misdirect already paid off in P3): in P5#10 that line glows as Mrs. Hale says \"She's never woken up at night. Not once.\" This is the reveal that Wren was hushed, not a good sleeper.\n- \"You freeze and shut your eyes\" from 11:54 to midnight (P2#13-14), plus the SHAPE over your shoulder at 12:01 (P3#8): P5#12 \"It stood beside you, waiting for you to sleep.\" This sets up the sting fairly.\n- Mr. Hale's \"Getting Dana\" (P2): they left the wedding, which pays off as headlights and a key at 12:14 (P5#8-9).\n\nProduction checks: the two new scene types (nursery_pov, front_door) stay within the max of two. Wren is never shown close up or touched. There is no gore, and every number in the narration is written as words.",
+  "final_sting": "At 12:16, with the Hales home and Wren safe, you are back alone in the guest room. For the first time all night, you unmute the old monitor. Because it runs ten minutes late, you hear 12:06, the moment the closet that \"never shuts right\" finally clicked shut. Under Wren's crying, very low and breathy, comes a whisper from inside the closet: \"Shhh. Your turn.\" It knew about the delay, it knew you would be the one listening, and it already stood beside you once while your eyes were shut. Then the end card: \"How long could you stay awake? Tell me in the comments.\"\n\nThe sting does not undo the resolution. Wren woke, and it only takes what never wakes, so its hold on her is broken. The parents are home and the explanation stands. The threat now points only at you, the babysitter who has been awake all night, which quietly turns the title \"Don't wake her\" into \"don't fall asleep\" without anyone saying it.\n\nThe Part 5 cold open teases this moment: \"From inside the closet,\" with the red rings on the closet door, cut on the first breath. Viewers have to watch to the end to hear what it said."
+ },
+ "part4": {
+  "part": 4,
+  "title": "DON'T WAKE HER, Part 4: Right Above You",
+  "word_count": 178,
+  "beats": [
+   {
+    "clock": "12:05 AM",
+    "scene": "cctv_grid",
+    "scene_detail": "COLD OPEN, about 2.5 to 3 s, plays before main beat #0. It is a flash-forward of main-script beat #12 (0-based, cold-open entry not counted), which is beats[13] in this array. A tiny label 'LATER' replaces the top-left clock, the same as the cold opens of Parts 1-3 and 5. HALE CAMS • LIVE, with the NURSERY feed already full screen and the red alert frame on. Crop out or blur the feed's time stamp so only 'LATER' reads. The SHAPE is hunched low over the crib in the finger pose, one long finger raised to its blank face. Its head tilts down. As it tilts, both red eyes slide to the bottom edge of the head and red rings tighten around it. Then a thin red dashed sight-line drops from the eyes straight down through the bottom edge of the frame. Reuse the dashed-line element from beats[10] (the line from the crib to your hood) so the two shots rhyme. Hard glitch cut (RGB split, static burst, 4 black frames) the instant the line hits the bottom edge of the frame (the floor), on the word 'you'. Beat #0 then starts clean, with no audio carried over.",
+    "narration": "Slowly. Down. Toward you.",
+    "quotes": [],
+    "emphasis": [
+     "Slowly",
+     "Down",
+     "you"
+    ],
+    "onscreen_text": "LATER | HALE CAMS • LIVE · NURSERY",
+    "sfx": "Low drone and a rising red-ring whine, then the thin rising tone from beats[10] as the dashed line drops. On 'you', a hard digital glitch crack and static burst, then dead silence for the 4 black frames."
+   },
+   {
+    "clock": "12:03 AM",
+    "scene": "bedroom",
+    "scene_detail": "Downstairs guest room. You sit on the bed with your phone glowing up at your face. The monitor sits on the nightstand and the camera dot blinks. The bedroom door stands open to the dark hallway. The SHAPE is gone: nothing behind your shoulder.",
+    "narration": "The thing that whispered in your ear just climbed the stairs to Wren.",
+    "quotes": [],
+    "emphasis": [
+     "whispered",
+     "Wren"
+    ],
+    "onscreen_text": "12:03 AM",
+    "sfx": "Room tone and a slow heartbeat. Faint footsteps on the stairs above, fading upward."
+   },
+   {
+    "clock": "12:03 AM",
+    "scene": "bedroom",
+    "scene_detail": "The camera tilts up from you to the ceiling. The dashed crib outline sits directly above the bed. Small white creak lines pulse right over it twice. No sound ring comes from the crib: Wren is silent.",
+    "narration": "Above you, the floor creaks. Right over her crib. Wren stays silent.",
+    "quotes": [],
+    "emphasis": [
+     "creaks",
+     "silent"
+    ],
+    "onscreen_text": "12:03 AM",
+    "sfx": "Two slow wooden creaks from directly above (centered, high in the mix), then total silence with no baby sound."
+   },
+   {
+    "clock": "12:03 AM",
+    "scene": "monitor_screen",
+    "scene_detail": "Old handset showing CAM - NURSERY, stamp 11:53 PM sitting right under the 12:03 AM clock (the ten-minute gap), muted icon on. Quiet nursery: Wren asleep in the crib, the closet door hanging open and empty (it slid open at 11:50), the nursery entrance door ajar, no SHAPE. This is the minute it was downstairs with you.",
+    "narration": "Your monitor is no help. Still showing eleven fifty-three.",
+    "quotes": [],
+    "emphasis": [
+     "no help",
+     "eleven fifty-three"
+    ],
+    "onscreen_text": "CAM - NURSERY · 11:53 PM",
+    "sfx": "Faint muted-monitor hiss and an electrical hum."
+   },
+   {
+    "clock": "12:03 AM",
+    "scene": "phone_chat",
+    "scene_detail": "Chat with Mrs. Hale (bun avatar, green 'Active now'). A photo bubble arrives with a live NURSERY still from HALE CAMS • LIVE, stamp 12:03 AM, showing the SHAPE leaning low over the crib. Her text bubble follows.",
+    "narration": "But Mrs. Hale is watching live. She texts: It's leaning over her crib.",
+    "say": "But Missus Hale is watching live. She texts: It's leaning over her crib.",
+    "quotes": [
+     {
+      "speaker": "mrs_hale",
+      "text": "It's leaning over her crib."
+     }
+    ],
+    "emphasis": [
+     "live",
+     "leaning over her crib"
+    ],
+    "onscreen_text": "[photo · 12:03 AM] It's leaning over her crib.",
+    "sfx": "Photo pop, then message pop."
+   },
+   {
+    "clock": "12:04 AM",
+    "scene": "phone_chat",
+    "scene_detail": "Chat with Mr. Hale (round avatar with square glasses and tie knot). Typing dots, then his bubble. Optional: a tiny microphone glyph on the bubble (dictated, because he is driving).",
+    "narration": "Mr. Hale writes: Ten minutes away. Do not go up there.",
+    "say": "Mister Hale writes: Ten minutes away. Do not go up there.",
+    "quotes": [
+     {
+      "speaker": "mr_hale",
+      "text": "Ten minutes away. Do not go up there."
+     }
+    ],
+    "emphasis": [
+     "Ten minutes",
+     "Do not go up there"
+    ],
+    "onscreen_text": "Ten minutes away. Do not go up there.",
+    "sfx": "Typing ticks, then message pop."
+   },
+   {
+    "clock": "12:04 AM",
+    "scene": "cctv_grid",
+    "scene_detail": "HALE CAMS • LIVE 2x2 grid (NURSERY/HALL/STAIRS/GUEST RM), stamp 12:04 AM. The NURSERY tile grows to full screen and the red alert frame snaps on. The SHAPE hunches lower over the crib with its long finger raised to its blank face (hush pose). Wren is a still white bundle, never touched and never shown close up.",
+    "narration": "On Mrs. Hale's feed, it bends lower. Finger to its face. Hushing her.",
+    "say": "On Missus Hale's feed, it bends lower. Finger to its face. Hushing her.",
+    "quotes": [],
+    "emphasis": [
+     "lower",
+     "Hushing her"
+    ],
+    "onscreen_text": "HALE CAMS • LIVE · NURSERY · 12:04 AM",
+    "sfx": "Alert ping and a low sub swell."
+   },
+   {
+    "clock": "12:04 AM",
+    "scene": "phone_lock",
+    "scene_detail": "Lock screen. The two earlier notifications replay fast, about 1 s each, exactly as already rendered: a buzz, then the red SHHH flash. First is Mr. Hale's 11:53 notification (Part 2 beat #9): buzz shake, then a red 'SHHH.' flashes with a small '11:54'. Second is Mrs. Hale's 12:01 notification (Part 3 beat #7): buzz shake, then a red 'SHHH. YOU'LL WAKE HER.' flashes with '12:01'. A thin red line links each buzz to its hush.",
+    "narration": "Then you see the pattern. Every buzz, it hushed you.",
+    "quotes": [],
+    "emphasis": [
+     "pattern",
+     "Every buzz",
+     "hushed you"
+    ],
+    "onscreen_text": "11:53 BUZZ → SHHH. (11:54) | 12:01 BUZZ → SHHH. YOU'LL WAKE HER. (12:01)",
+    "sfx": "Phone buzz, then a red flash hit. A second buzz, then a second red flash hit, both quick. No voices."
+   },
+   {
+    "clock": "12:04 AM",
+    "scene": "face_closeup",
+    "scene_detail": "Your scared face lit from below by the phone. Your eyes slowly roll up toward the ceiling.",
+    "narration": "It never told you to leave. It told you to be quiet.",
+    "quotes": [],
+    "emphasis": [
+     "leave",
+     "quiet"
+    ],
+    "onscreen_text": "",
+    "sfx": "The heartbeat slows. One held breath."
+   },
+   {
+    "clock": "12:04 AM",
+    "scene": "rule_card",
+    "scene_detail": "Big text card. Red label 'ITS RULE, NOT YOURS', main text 'DON'T WAKE HER.', sub 'WHAT IF SHE WAKES?'.",
+    "narration": "It needs her asleep. So what happens if she wakes up?",
+    "quotes": [],
+    "emphasis": [
+     "asleep",
+     "wakes up"
+    ],
+    "onscreen_text": "ITS RULE, NOT YOURS | DON'T WAKE HER. | WHAT IF SHE WAKES?",
+    "sfx": "Card slam hit, then a low tone."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "bedroom",
+    "scene_detail": "The camera tilts up to the ceiling again. The dashed crib outline sits exactly above the bed. A thin red dashed line drops from the crib straight down to the hood of your head.",
+    "narration": "You don't have to go up there. She's right above you.",
+    "quotes": [],
+    "emphasis": [
+     "right above you"
+    ],
+    "onscreen_text": "12:05 AM",
+    "sfx": "A rising tone and one faint creak above."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "cctv_grid",
+    "scene_detail": "HALE CAMS • LIVE. The GUEST RM tile grows to full screen, stamp 12:05 AM. Your hooded figure stands on the bed in the existing WAVE pose (no new pose needed): arm raised straight up, hand drawn closed if possible, an inch under the ceiling line. Optional: a faint ghost of the dashed crib outline just above the ceiling line.",
+    "narration": "You stand on the bed. Your fist, right under her crib.",
+    "quotes": [],
+    "emphasis": [
+     "fist",
+     "under her crib"
+    ],
+    "onscreen_text": "HALE CAMS • LIVE · GUEST RM · 12:05 AM",
+    "sfx": "CCTV click, mattress creak, then held silence."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "phone_lock",
+    "scene_detail": "A violent buzz shake, deliberately too loud. A new red notification slides in from Mrs. Hale.",
+    "narration": "Your phone buzzes. Too loud. Mrs. Hale sees you on the guest cam. Wake her up.",
+    "say": "Your phone buzzes. Too loud. Missus Hale sees you on the guest cam. Wake her up.",
+    "quotes": [
+     {
+      "speaker": "mrs_hale",
+      "text": "Wake her up."
+     }
+    ],
+    "emphasis": [
+     "Too loud",
+     "guest cam",
+     "Wake her up"
+    ],
+    "onscreen_text": "Mrs. Hale · now: Wake her up.",
+    "sfx": "Loud vibration rattle that cuts through the silence."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "cctv_grid",
+    "scene_detail": "NURSERY full screen, red alert frame, stamp 12:05 AM. The SHAPE stays hunched over the crib in the finger pose. Its neck line bends and its head turns slowly away from Wren, then tilts straight down toward the floor and the guest room below. As it tilts, both red eyes slide to the bottom edge of the head, the eyes flare and red rings tighten. Then a thin red dashed sight-line drops from the eyes straight down through the bottom edge of the frame. It is the same dashed-line element as beats[10] (crib to your hood), so the two shots rhyme. The line reaches the bottom edge on 'Toward you'. This is the source of the cold open; here it plays in full, with no glitch.",
+    "narration": "On her live feed, its head turns. Slowly. Down. Toward you.",
+    "quotes": [],
+    "emphasis": [
+     "live",
+     "Slowly",
+     "Down",
+     "Toward you"
+    ],
+    "onscreen_text": "HALE CAMS • LIVE · NURSERY · 12:05 AM",
+    "sfx": "A soft creak of a bending neck and a rising red-ring whine, then the thin rising tone from beats[10] as the line drops, then sudden silence."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "sfx_text",
+    "scene_detail": "Huge red glowing words on two lines, 'DON'T' and 'WAKE HER.', with a slight downward shake as if the sound comes through the ceiling.",
+    "narration": "Through the ceiling, a whisper: Don't wake her.",
+    "quotes": [
+     {
+      "speaker": "shape",
+      "text": "Don't wake her."
+     }
+    ],
+    "emphasis": [
+     "Don't wake her"
+    ],
+    "onscreen_text": "DON'T / WAKE HER.",
+    "sfx": "Very low, breathy whisper coming from above, centered rather than panned right as in Parts 2-3, slightly muffled by the ceiling. Sub drop under it."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "choice_split",
+    "scene_detail": "Title 'Would you wake her?', kicker 'IT SAYS DON'T. HER MOM SAYS DO.', option a 'Wake|her', option b 'Let her|sleep'.",
+    "narration": "Would you wake her? Tell me in the comments.",
+    "quotes": [],
+    "emphasis": [
+     "wake her",
+     "comments"
+    ],
+    "onscreen_text": "Would you wake her? | IT SAYS DON'T. HER MOM SAYS DO. | Wake her | Let her sleep",
+    "sfx": "Two-tone choice sting."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "end_card",
+    "scene_detail": "Title 'DON'T WAKE HER', kicker 'PART 4', pill 'FOLLOW FOR THE FINALE', sub 'WAKE HER OR LET HER SLEEP?|TELL ME IN THE COMMENTS'.",
+    "narration": "Follow for the finale.",
+    "quotes": [],
+    "emphasis": [
+     "finale"
+    ],
+    "onscreen_text": "DON'T WAKE HER | PART 4 | FOLLOW FOR THE FINALE | WAKE HER OR LET HER SLEEP? TELL ME IN THE COMMENTS",
+    "sfx": "End-card boom, then one faint breath from above with no words."
+   }
+  ],
+  "ending": "CLIFFHANGER. You climb the stairs in your head, not on your feet. On Mrs. Hale's live feed the SHAPE is back over Wren's crib, while your muted monitor still shows 11:53, the minute it was downstairs with you. Mr. Hale is \"Ten minutes away\" and says \"Do not go up there.\" Then you see the pattern: every buzz, it hushed you (the 11:53 buzz, then \"Shhh.\" at 11:54; the 12:01 buzz, then \"Shhh. You'll wake her.\"). It never told you to leave, only to be quiet, so it needs Wren asleep. You don't have to go up, because the dashed crib is right above your bed. You stand on the bed with your fist under her crib. Your phone buzzes, too loud. Mrs. Hale has just watched it hushing her baby, now sees you on the guest cam, and texts \"Wake her up.\" Right after that buzz, the SHAPE's head on the live feed tilts slowly down. Its eyes slide to the bottom of its head, and a red dashed sight-line drops through the floor toward you. Through the ceiling comes \"Don't wake her.\" ENGAGEMENT: \"Would you wake her? Tell me in the comments.\" on a choice card (IT SAYS DON'T. HER MOM SAYS DO.), then \"Follow for the finale.\"\n\nCOLD OPEN SPEC (Part 4): the source is beat index 12 (0-based in the main script, cold-open entry not counted), which is beats[13] in this array. Words: \"Slowly. Down. Toward you.\" (4 words, verbatim from that beat). Label: \"LATER\" (the series standard). The feed's time stamp is cropped or blurred so only \"LATER\" reads. Visual: the head tilts, both red eyes slide to the bottom edge of the head, and a thin red dashed sight-line drops from the eyes through the bottom edge of the frame. It reuses the dashed-line element from beats[10] so the two shots rhyme. Hard glitch cut the instant the line hits the floor edge, on \"you\". Beat #0's recap hook still works after the cold open.\n\nWORD COUNT: 178 spoken words including the 4 cold-open words (174 in the main script; 179 if \"fifty-three\" is split). Per beat: 4 | 13/12/9/13/11/13/10/12/11/11/11/16/11/8/9/4. At about 2.2 words per second that is roughly 81 s, well over 60 s.\n\nPLANTS SET FOR PART 5: \"Wren stays silent\" under the creak (supports \"She's never woken up at night. Not once.\"). \"Hushing her.\" on Mrs. Hale's feed (motivates her \"Wake her up.\" and her later \"Don't let her fall asleep.\"). \"Ten minutes away\" at 12:04 (the parents arrive at 12:14). The closet hanging open and empty on the 11:53 monitor frame. The muted icon still on. The red dashed sight-line from the SHAPE's eyes down to you, which Part 5's beat #0 picks up.\n\nPRODUCTION: only existing scene types; no new scene types are used. No new poses: beat #10 shows you standing on the bed in the existing WAVE pose on the GUEST RM feed. beats[7] replays the two notifications at about 1 s each. Wren is never shown close up or touched. No gore. Every number in the narration is written as words, and the narrator never says a lone capital letter. TTS say overrides on beats[4], [5], [6] and [12]: \"Mrs.\" is spoken as \"Missus\" and \"Mr.\" as \"Mister\"; captions keep \"Mrs.\"/\"Mr.\". Speaker ids follow Parts 1-3: mrs_hale, mr_hale, shape."
+ },
+ "part5": {
+  "part": 5,
+  "title": "DON'T WAKE HER, Part 5: Wake Her (Finale)",
+  "word_count": 182,
+  "beats": [
+   {
+    "clock": "12:16 AM",
+    "scene": "monitor_screen",
+    "scene_detail": "COLD OPEN, about 2 to 2.5 s, plays before main beat #0. It is a flash-forward of main-script beat #14 (0-based, cold-open entry not counted), which is beats[15] in this array. A tiny label 'LATER' replaces the top-left clock. Crop out or blur the handset's own time stamp so only 'LATER' reads. Old monitor handset showing the grainy nursery cam, cropped tight on the closet's slats rather than its seam, so it is not obvious the door is fully shut. The crib is out of frame so the cold open does not reveal whether Wren woke. The very first frame is already moving: red rings are already tightening on the slats and the audio waveform at the bottom of the handset is already spiking. There is no unmute-click lead-in. Hard glitch cut (RGB split, static burst, 4 black frames) on the first breath of the whisper, an inhale only with no words. One red eye glint appears between the slats at the same instant, looking straight into the monitor lens (the same glint as beats[15]). Beat #0 then starts clean, with no audio carried over.",
+    "narration": "From inside the closet,",
+    "quotes": [],
+    "emphasis": [
+     "inside",
+     "closet"
+    ],
+    "onscreen_text": "LATER",
+    "sfx": "A low sub hit at 0.0 s under thin monitor hiss and a red-ring whine, then one slow, low, breathy inhale from the speaker. On the inhale, as the eye glints, a hard digital glitch crack and static burst, then dead silence for the 4 black frames. No unmute click, no words and no baby sound."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "cctv_grid",
+    "scene_detail": "HALE CAMS • LIVE with the NURSERY feed full screen, red alert frame, stamp 12:05 AM. This matches the last story frame of Part 4 (its beats[13]). The SHAPE is hunched over the crib in the finger pose, head tilted straight down, with both red eyes slid to the bottom edge of its head. The thin red dashed sight-line runs from its eyes down through the bottom edge of the frame. Wren is a still white bundle, never touched and never shown close up. Hold, then a slow push-in on the downturned eyes.",
+    "narration": "It's leaning over Wren. It just told you not to wake her.",
+    "quotes": [],
+    "emphasis": [
+     "Wren",
+     "not to wake her"
+    ],
+    "onscreen_text": "HALE CAMS • LIVE · NURSERY · 12:05 AM",
+    "sfx": "Low drone, the hum of the alert frame and a held sub tone. The whisper from Part 4 is not replayed."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "face_closeup",
+    "scene_detail": "Your scared face, lit from below by the phone. Your eyes roll up toward the ceiling, then narrow. Your jaw sets.",
+    "narration": "So you do the one thing every babysitter is told never to do.",
+    "quotes": [],
+    "emphasis": [
+     "never"
+    ],
+    "onscreen_text": "",
+    "sfx": "The heartbeat speeds up. One sharp inhale."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "cctv_grid",
+    "scene_detail": "HALE CAMS • LIVE with the GUEST RM feed full screen, stamp 12:05 AM. Same framing as Part 4 beat #10: your hooded figure stands on the bed in the existing WAVE pose, arm straight up, hand drawn closed, so no new pose is needed. The fist hits the ceiling line three times. Each hit gets a white impact burst on the ceiling line and a full-frame shake. A faint ghost of the dashed crib outline just above the ceiling line jolts with each hit.",
+    "narration": "You slam the ceiling. Three times.",
+    "quotes": [],
+    "emphasis": [
+     "slam",
+     "Three times"
+    ],
+    "onscreen_text": "HALE CAMS • LIVE · GUEST RM · 12:05 AM",
+    "sfx": "Three heavy, evenly spaced thuds, each with a short bass hit and a plaster rattle."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "bedroom",
+    "scene_detail": "The camera is tilted up to the ceiling, with the dashed crib outline directly above the bed. Hold dead still for about one second, with no creak lines and no rings. Then a big red sound ring bursts out of the dashed crib, followed by two more, each wider than the last.",
+    "narration": "One second of silence. Then Wren screams.",
+    "quotes": [],
+    "emphasis": [
+     "silence",
+     "screams"
+    ],
+    "onscreen_text": "12:05 AM",
+    "sfx": "One second of total silence with all room tone cut. Then ordinary, undistorted baby crying from directly above, slightly muffled by the ceiling and centered."
+   },
+   {
+    "clock": "12:05 AM",
+    "scene": "cctv_grid",
+    "scene_detail": "HALE CAMS • LIVE with the NURSERY feed full screen, red alert frame, stamp 12:05 AM. White crying lines pulse around the bundle. The SHAPE jerks upright so fast its head hits the ceiling line. Its finger drops from its face and it recoils away from the crib toward the slatted closet. Its red eyes flicker.",
+    "narration": "On Mrs. Hale's feed, it flinches from the crib. From the noise.",
+    "say": "On Missus Hale's feed, it flinches from the crib. From the noise.",
+    "quotes": [],
+    "emphasis": [
+     "flinches",
+     "noise"
+    ],
+    "onscreen_text": "HALE CAMS • LIVE · NURSERY · 12:05 AM",
+    "sfx": "Crying continues. A dry, sharp recoil hiss (not a voice), then an alert ping."
+   },
+   {
+    "clock": "12:06 AM",
+    "scene": "cctv_grid",
+    "scene_detail": "Same NURSERY feed, stamp 12:06 AM. The SHAPE folds at the waist and knees and pulls itself into the closet. The slatted door swings and shuts all the way, with no gap, for the first time in the series. One red ring pulses on the closed seam, then the red alert frame drops. Crying lines keep pulsing around the bundle.",
+    "narration": "It folds into the closet. The door that never shuts right clicks shut.",
+    "quotes": [],
+    "emphasis": [
+     "never shuts right",
+     "clicks shut"
+    ],
+    "onscreen_text": "HALE CAMS • LIVE · NURSERY · 12:06 AM",
+    "sfx": "A creak of folding, then one small, clean latch click. Crying continues underneath."
+   },
+   {
+    "clock": "12:06 AM",
+    "scene": "phone_chat",
+    "scene_detail": "Chat with Mrs. Hale (bun avatar, green 'Active now'). Her last bubble, 'Wake her up.', sits at the top. Typing dots appear, then a new red-tinted bubble slides in.",
+    "narration": "Mrs. Hale types: Don't let her fall asleep.",
+    "say": "Missus Hale types: Don't let her fall asleep.",
+    "quotes": [
+     {
+      "speaker": "mrs_hale",
+      "text": "Don't let her fall asleep."
+     }
+    ],
+    "emphasis": [
+     "fall asleep"
+    ],
+    "onscreen_text": "Wake her up. | Don't let her fall asleep.",
+    "sfx": "Typing ticks, then a message pop. Faint crying from above."
+   },
+   {
+    "clock": "12:07 AM",
+    "scene": "nursery_pov",
+    "scene_detail": "NEW SCENE TYPE nursery_pov (1 of the 2 allowed). The nursery seen through your own eyes: no camera frame and no stamp, only the top-left clock reading 12:07 AM. It starts dark, then the ceiling light snaps on. We see the crib with white crying lines around a tiny bundle (Wren is never shown close up and never touched), the mobile turning slowly, the nightlight, and on the left the slatted closet, shut tight with no gap and nothing in the slats. Off-key white music notes and small clap marks float up from the bottom of the frame. Your view stays locked on the closet with a slight sway. About 4 s in comes a wordless micro-scare: the crying lines vanish for half a second, one slat of the closet creaks, and a single red ring pulses on the closet seam. Then the music notes get bigger and faster as your singing gets louder, and the crying lines come back. The SHAPE does not appear.",
+    "narration": "You run upstairs. Lights on. You sing, loud and badly, eyes on the closet. She cries. Good.",
+    "quotes": [],
+    "emphasis": [
+     "Lights on",
+     "sing",
+     "closet",
+     "Good"
+    ],
+    "onscreen_text": "12:07 AM",
+    "sfx": "Fast footsteps on the stairs and a light-switch click. Then a loud, off-key, upbeat wordless 'la-la' song with clapping over steady crying, recorded by a real human voice (not the TTS voice). About 4 s in: the crying drops out for half a second and one slat creaks, then the singing gets louder and the crying comes back."
+   },
+   {
+    "clock": "12:14 AM",
+    "scene": "front_door",
+    "scene_detail": "NEW SCENE TYPE front_door (2 of the 2 allowed). The house's front door seen from inside, in the dark. Headlights sweep through the side window, across the wall and the door. Then the key turns in the lock.",
+    "narration": "Twelve fourteen. Headlights. Keys in the lock.",
+    "quotes": [],
+    "emphasis": [
+     "Twelve fourteen",
+     "Headlights"
+    ],
+    "onscreen_text": "12:14 AM",
+    "sfx": "An engine pulls up and tires crunch on gravel, then a car door. Keys jangle and the lock turns. Crying from upstairs."
+   },
+   {
+    "clock": "12:14 AM",
+    "scene": "hallway",
+    "scene_detail": "Upstairs corridor. The back of your hooded head is in the foreground at the nursery doorway. Warm light spreads from behind as the lights come on along the stairs, and your hood turns toward it. Through the nursery doorway ahead of you stands the shut closet, with one faint red ring pulsing slowly on its seam. No SHAPE.",
+    "narration": "The Hales run in. Wren is safe. Nobody opens the closet.",
+    "quotes": [],
+    "emphasis": [
+     "safe",
+     "Nobody",
+     "closet"
+    ],
+    "onscreen_text": "12:14 AM",
+    "sfx": "Two sets of footsteps pounding up the stairs. The crying keeps going, a little calmer. Your long exhale, then a faint low tone under 'closet'."
+   },
+   {
+    "clock": "12:15 AM",
+    "scene": "monitor_screen",
+    "scene_detail": "A '◀◀' label with rewind lines; this is a narrative recap, not live footage. The old monitor flashes three frames from tonight, about half a second each. Stamp 11:35 PM: the SHAPE bent over the crib with its finger to its face. Stamp 11:49 PM: your hooded figure waving twice beside the crib. Stamp 11:50 PM: the closet sliding open as the SHAPE unfolds. In every frame Wren is the same perfectly still white bundle, and a small red ring pulses around her each time. The handset's muted icon keeps blinking in a corner of the frame throughout. The beat ends frozen on the still bundle.",
+    "narration": "Mrs. Hale whispers: She's never woken up at night. Not once.",
+    "say": "Missus Hale whispers: She's never woken up at night. Not once.",
+    "quotes": [
+     {
+      "speaker": "mrs_hale",
+      "text": "She's never woken up at night. Not once."
+     }
+    ],
+    "emphasis": [
+     "never",
+     "Not once"
+    ],
+    "onscreen_text": "◀◀ | 11:35 PM | 11:49 PM | 11:50 PM",
+    "sfx": "A tape-rewind whir under her whisper and a soft tick on each frame, then silence on the frozen bundle."
+   },
+   {
+    "clock": "12:15 AM",
+    "scene": "rule_card",
+    "scene_detail": "Big text card with the red label 'WHAT IT IS', main text 'IT ONLY TAKES WHAT NEVER WAKES.' and sub 'TONIGHT, SHE WOKE.'. Optional: a tiny slatted-closet icon under the label.",
+    "narration": "Not a good sleeper, a hushed one. It only takes what never wakes. Tonight, she woke.",
+    "quotes": [],
+    "emphasis": [
+     "hushed",
+     "never wakes",
+     "she woke"
+    ],
+    "onscreen_text": "WHAT IT IS | IT ONLY TAKES WHAT NEVER WAKES. | TONIGHT, SHE WOKE.",
+    "sfx": "Card slam and a low tone, then a single warm chord on 'she woke'."
+   },
+   {
+    "clock": "12:15 AM",
+    "scene": "bedroom",
+    "scene_detail": "A '◀◀ 11:57 PM' label briefly replaces the clock, with rewind lines. The guest room: you sit on the bed (sit pose) with your head bowed and eyes shut, your phone dark in your lap and the monitor on the nightstand, its muted icon blinking in a corner of the frame. The SHAPE stands behind your LEFT shoulder (screen-right) at 50% opacity, bent low with its finger to its face and its head tilted close to your closed eyes. Its eye sockets are unlit dark grey. Hold.",
+    "narration": "Remember when you shut your eyes? It stood beside you. Waiting for you to sleep too.",
+    "quotes": [],
+    "emphasis": [
+     "shut your eyes",
+     "beside you",
+     "sleep"
+    ],
+    "onscreen_text": "◀◀ 11:57 PM",
+    "sfx": "Rewind whir, then near silence and one slow breath panned right (behind your left shoulder), as in Parts 2 and 3. No words."
+   },
+   {
+    "clock": "12:16 AM",
+    "scene": "monitor_screen",
+    "scene_detail": "Back in the guest room, alone. The old handset lies on the bed next to your packed bag (a simple bag outline at the bottom-left edge of the frame). The handset shows CAM - NURSERY with stamp 12:06 AM sitting right under the 12:16 AM clock. The nursery on screen is still dark, because the lights came on at 12:07. White crying lines surround the bundle and the closet is shut tight with no gap. The muted icon blinks twice and disappears.",
+    "narration": "Downstairs, packing up, you finally unmute the monitor.",
+    "quotes": [],
+    "emphasis": [
+     "packing up",
+     "finally",
+     "unmute"
+    ],
+    "onscreen_text": "CAM - NURSERY · 12:06 AM",
+    "sfx": "A zipper, then a small plastic click, then the speaker crackles to life with muffled crying from ten minutes ago through cheap monitor hiss."
+   },
+   {
+    "clock": "12:16 AM",
+    "scene": "monitor_screen",
+    "scene_detail": "Same handset, stamp 12:06 AM. Slow zoom onto the slatted closet door while red rings tighten on it and a faint audio waveform wobbles at the bottom of the handset, under the crying. On the inhale, one red eye glint appears between the slats, looking straight into the monitor lens, at you and the viewer. This is the source of the cold open. Here it plays in full with no glitch and flows straight into the whisper.",
+    "narration": "From inside the closet, ten minutes ago:",
+    "quotes": [],
+    "emphasis": [
+     "inside the closet",
+     "ten minutes ago"
+    ],
+    "onscreen_text": "CAM - NURSERY · 12:06 AM",
+    "sfx": "The crying ducks under the hiss. One slow, low, breathy inhale from the speaker, the same inhale the cold open cut on."
+   },
+   {
+    "clock": "12:16 AM",
+    "scene": "sfx_text",
+    "scene_detail": "Huge red glowing words on two lines, 'SHHH.' and 'YOUR TURN.'. They breathe in and out with a slight static jitter, as if coming through the monitor speaker. Behind the words, a dimmed image of the closet slats holds the single red eye glint, still staring straight into the lens.",
+    "narration": "Shhh. Your turn.",
+    "quotes": [
+     {
+      "speaker": "shape",
+      "text": "Shhh. Your turn."
+     }
+    ],
+    "emphasis": [
+     "Your turn"
+    ],
+    "onscreen_text": "SHHH. / YOUR TURN.",
+    "sfx": "A very low, breathy whisper through the monitor speaker, with light crackle, centered and not panned, over faint recorded crying. Sub drop after 'turn', then silence."
+   },
+   {
+    "clock": "12:16 AM",
+    "scene": "end_card",
+    "scene_detail": "Title 'DON'T WAKE HER', kicker 'PART 5 · FINALE', pill 'THE END', sub 'HOW LONG COULD YOU STAY AWAKE?|TELL ME IN THE COMMENTS'.",
+    "narration": "How long could you stay awake? Tell me in the comments.",
+    "quotes": [],
+    "emphasis": [
+     "stay awake",
+     "comments"
+    ],
+    "onscreen_text": "DON'T WAKE HER | PART 5 · FINALE | THE END | HOW LONG COULD YOU STAY AWAKE? TELL ME IN THE COMMENTS",
+    "sfx": "End-card boom, then silence and one slow breath panned right, behind your left shoulder, the same cue as Parts 2 and 3. No words."
+   }
+  ],
+  "ending": "RESOLUTION, THEN STING, THEN COMMENT QUESTION.\n\nResolution: Part 4 ended with the SHAPE's head on the live feed tilted down toward you, a red dashed sight-line dropping from its eyes through the floor, and \"Don't wake her.\" coming through the ceiling. You do the forbidden thing and slam the ceiling three times, right under the dashed crib. After one second of silence, Wren screams. On Mrs. Hale's live feed the SHAPE flinches from the crib and from the noise. It folds into the closet, and the door that \"never shuts right\" clicks fully shut for the first time in the series. Mrs. Hale, who watched it happen live, texts \"Don't let her fall asleep.\" You run upstairs, switch the lights on, and sing loudly and badly with your eyes on the shut closet. About four seconds in, Wren's crying stops for half a second, one slat creaks and a red ring pulses on the seam. You sing louder and the crying comes back.\n\nAt twelve fourteen, exactly ten minutes after Mr. Hale's \"Ten minutes away\" at 12:04, headlights sweep the window and a key turns. The Hales run in. Wren is safe. Nobody opens the closet. The avoidance is deliberate, and through the nursery doorway a faint red ring still pulses on its seam.\n\nReveal: Mrs. Hale whispers \"She's never woken up at night. Not once.\" A rewind shows Wren lying perfectly still through everything tonight: the SHAPE's hush, your two waves, the closet opening. The rule card then explains what the SHAPE is. Wren was never a good sleeper. She was a hushed one, and \"It only takes what never wakes.\" Tonight she woke, so its hold on her is broken. \"Don't wake her\" was always its rule, never yours. All through the explanation, the handset's muted icon keeps blinking in a corner of the frame (beats[11] and beats[13]), so the open loop stays visible.\n\nA flashback to 11:57, when your eyes were shut, shows the SHAPE standing beside you, \"waiting for you to sleep too.\" That explains why it had not taken Wren earlier in the night: it needed the whole house silent.\n\nSting: at 12:16 you are alone downstairs, packing up to leave, and you finally unmute the old monitor. Because the monitor runs ten minutes late, you hear 12:06, the moment the closet had just shut. A red eye glints between the slats, looking straight into the monitor lens at you and the viewer. From inside the closet comes \"Shhh. Your turn.\" On the end card, one slow breath comes from behind your left shoulder, the same cue as Parts 2 and 3: the SHAPE has left Wren's closet and is with you, now. This does not undo the resolution: Wren woke, the parents are home, and the explanation stands. The threat now points only at you, which quietly turns the title into \"don't fall asleep.\" The closing question is \"How long could you stay awake? Tell me in the comments.\"\n\nCOLD OPEN SPEC (Part 5):\n- Source: main-script beat #14 (0-based, cold-open entry not counted), which is beats[15] in this array.\n- Words: \"From inside the closet,\" (4 words, verbatim from that beat).\n- Label: \"LATER\". The handset's time stamp is cropped or blurred so only \"LATER\" reads.\n- Visual: starts already in motion (rings tightening, waveform spiking, sub hit at 0.0 s, no unmute-click lead-in). Tight crop on the closet slats, not the seam, so it is not obvious the door is fully shut. The crib stays out of frame so the cold open does not reveal whether Wren woke.\n- Cut: a hard glitch cut on the first breath of the whisper, together with the red eye glint between the slats. The whisper's words are held back for the end.\n- Beat #0's recap hook still works after the cold open.\n\nWORD COUNT: 182 spoken words, including the 4 cold-open words (178 in the main script).\n- Per beat: 4 | 12/13/6/7/12/13/8/17/7/11/11/16/16/8/7/3/11.\n- At about 2.2 words per second that runs roughly 83 s, well over 60 s.\n\nPLANTS PAID OFF:\n- The ten-minute delay: Mr. Hale's \"Ten minutes away\" leads to the twelve fourteen arrival, and the sting is heard ten minutes late.\n- The closet: it \"never shuts right\" until it clicks shut; nobody opens it, and the final whisper comes from inside it.\n- The finger to its face, the hush pose: the flinch where the finger drops, and the flashback.\n- \"Shhh.\" and \"Shhh. You'll wake her.\": they lead to \"Shhh. Your turn.\"\n- The muted monitor: it is never touched until it is \"finally\" unmuted in the sting.\n- The parents' live app: it shows the flinch and the fold into the closet.\n- The guest-room camera: it shows the ceiling slam, in the same frame as Part 4 beat #10.\n- The ceiling over your bed and the dashed crib outline: the slam and the red cry rings.\n- Your eyes-shut stretch (11:54 to 12:00): the flashback at 11:57.\n- The breath behind your left shoulder from Parts 2 and 3: the final cue on the end card.\n- \"Wren stays silent\" and \"Hushing her.\" from Part 4: \"She's never woken up at night.\"\n\nPRODUCTION CHECKS:\n- New scene types: exactly two, nursery_pov (#7) and front_door (#8).\n- No new poses: the WAVE pose stands in for the raised fist on GUEST RM. The only new prop is a simple bag outline at the frame edge in beats[14].\n- The singing in beats[8] is recorded by a real human voice, not the TTS voice.\n- Wren is never shown close up or touched.\n- No gore, and every number in the narration is written as words.\n- The narrator never says a lone capital letter. The only one-letter word is a lowercase \"a\" in mid-sentence.\n- TTS say overrides on beats[5], [7] and [11]: \"Mrs.\" is spoken as \"Missus\"; captions keep \"Mrs.\".\n- Speaker ids match Parts 1-4: mrs_hale and shape."
+ },
+ "cold_opens": [
+  {
+   "part": 1,
+   "beat": 11,
+   "words": "Toward the camera. Two red eyes.",
+   "label": "11:44 PM",
+   "why": "Visual peak of Part 1: on the monitor the SHAPE's head finishes lifting toward the lens and its eyes light red for the first time. Hard glitch cut on 'eyes' right as they ignite. It raises the questions of what this is and why only your monitor sees it, and it gives away nothing of the screenshot mismatch or the closet ending. Beat #0 ('Something is standing over the crib.') still works as a calm restart. The eyes are pre-shown before their 0:52 first lighting, which is fine for a flash-forward. 6 words, about 2.7 s."
+  },
+  {
+   "part": 2,
+   "beat": 12,
+   "words": "beside your ear, someone whispers: Shhh.",
+   "label": "11:54 PM",
+   "why": "Audio peak of Part 2: the first whisper, right in your ear, panned right as in the main beat, with the huge red SHHH. flaring. Hard glitch cut on 'Shhh.' It raises the questions of who is downstairs with you and how it got there, and it does not spoil the ending, where the closet slides open at midnight (which is why #14 was not used). Beat #0's recap ('It hid in the nursery closet, and only your monitor saw it.') still works, and the cold open makes the 11:54 moment land harder when it comes back. 6 words, about 3 s with the slow whisper."
+  },
+  {
+   "part": 3,
+   "beat": 8,
+   "words": "And over your shoulder,",
+   "label": "12:01 AM",
+   "why": "The SHAPE-revealed peak: on Mrs. Hale's live GUEST RM feed you sit on the bed and the tall silhouette stands behind your left shoulder (screen-right) with its finger raised. Hard glitch cut on 'shoulder', before the line names it, so the viewer gets a glimpse but no explanation. It confirms the Part 2 guess and raises the question of what it will do. It does not touch the real twist (the picture runs ten minutes late, and the figure in the rewind was you). Beat #0 ('...And you're home alone.') becomes ironic after this. Chosen over #11 'Shhh. You'll wake her.' so it does not repeat Part 2's whisper cold open. 4 words."
+  },
+  {
+   "part": 4,
+   "beat": 12,
+   "words": "Slowly. Down. Toward you.",
+   "label": "12:05 AM",
+   "why": "This keeps the cold open already built into the Part 4 script. Main-script beat #12 (beats[13] in the array, cold-open entry not counted): on the live NURSERY feed the SHAPE's head turns away from Wren and down through the floor toward you, and the red eyes flare. Hard glitch cut on 'you' as the eyes point straight down. The words are verbatim from the beat. It raises the question of why it is looking at you and holds back both 'Wake her up.' and 'Don't wake her.' Beat #0's recap ('The thing that whispered in your ear just climbed the stairs to Wren.') still works. 4 words, about 2.5 to 3 s."
+  },
+  {
+   "part": 5,
+   "beat": 14,
+   "words": "From inside the closet,",
+   "label": "LATER",
+   "why": "This keeps the cold open already built into the Part 5 script. Main-script beat #14 (beats[15] in the array): the old monitor at stamp 12:06 AM, cropped tight on the shut closet with the crib out of frame, so it does not reveal whether Wren woke. The muted icon blinks off, red rings tighten, and the hard glitch cut lands on the first breath of the whisper, with the words 'Shhh. Your turn.' held back for the final sting. It raises the question of what is in the closet and who it is talking to. Beat #0's recap still works. 'LATER' rather than a clock hides that the sting comes after the resolution. 4 words, about 2 to 2.5 s."
+  }
+ ],
+ "changes": "I applied all 11 review fixes. Part 4 now has 178 words (was 182). Part 5 stays at 182. All quotes are still exact substrings of the narration.\n\nPART 4\n- beats[7]: two notes gave different fixes for the same line ('Think back.' or 'Then you see the pattern...'). I used 'Then you see the pattern. Every buzz, it hushed you.' (10 words instead of 16). It removes the ambiguous 'It clicks.' and also tightens the pacing. Both notification replays are cut to about 1 s each (buzz, then the red SHHH flash).\n- beats[12]: the fix said to spend 2 of the saved words here and referred to a note that was not included. I added 'Too loud.' ('Your phone buzzes. Too loud. Mrs. Hale sees you...'). It matches the 'deliberately too loud' buzz in the scene and builds on the buzz-then-hush pattern, so the head turn that follows feels earned.\n- beats[0] (cold open) and beats[13] (its source): as the head tilts, both red eyes slide to the bottom edge of the head. A thin red dashed sight-line then drops through the bottom edge of the frame, reusing the dashed-line element from beats[10] together with its rising tone. The glitch cut lands when the line hits the floor edge, on 'you'. The label is now 'LATER'. I also cropped or blurred the feed's time stamp, the same fix as Part 5's cold open, because the 12:05 stamp before a 12:03 beat #0 had the same timeline problem.\n- TTS: added a 'say' field to beats[4], [5], [6] and [12] ('Missus'/'Mister'; captions keep 'Mrs.'/'Mr.'). The ending's PRODUCTION section also lists them, in case the build does not keep extra fields.\n- I updated the ending text to match: the pattern line, the cold open spec, the word count (4 | 13/12/9/13/11/13/10/12/11/11/11/16/11/8/9/4, about 81 s) and the sight-line plant.\n\nPART 5\n- beats[0] (cold open): it now opens already in motion (rings tightening, waveform spiking, sub hit at 0.0 s) with no unmute-click lead-in. The handset stamp is cropped, so the on-screen text reads only 'LATER'. The shot is framed on the slats, not the seam. The cut lands on the inhale together with the red eye glint.\n- beats[1]: matches the new last story frame of Part 4 (eyes at the bottom edge of the head, dashed sight-line).\n- beats[8]: added the wordless micro-scare at about 4 s (crying drops out for half a second, a slat creaks, a red ring pulses on the seam, then louder singing and the crying comes back). The 'lullaby' sound is now a loud, off-key, upbeat wordless 'la-la' song with clapping, recorded by a real human voice. The 'closet stays silent' line is removed.\n- beats[10]: the narration is now 'The Hales run in. Wren is safe. Nobody opens the closet.' (11 words). Through the doorway, a faint red ring pulses on the closet seam.\n- beats[11] and beats[13]: the handset's muted icon blinks in a corner of the frame.\n- beats[14]: the narration is now 'Downstairs, packing up, you finally unmute the monitor.' (8 words). Your packed bag sits on the bed at the edge of the frame, and there is a zipper sound.\n- beats[15] and beats[16]: a red eye glint between the slats stares straight into the monitor lens.\n- beats[17]: the closing monitor crackle is replaced by one slow breath panned right, behind your left shoulder. The threat is now in the present and aimed at you, and the SHAPE is no longer with Wren.\n- TTS: added a 'say' field to beats[5], [7] and [11] ('Missus').\n- I updated the ending text to match: resolution, sting, cold open spec, word count (4 | 12/13/6/7/12/13/8/17/7/11/11/16/16/8/7/3/11, about 83 s), plants and production checks.\n\nNothing else changed."
+}

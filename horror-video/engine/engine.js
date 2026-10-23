@@ -221,6 +221,7 @@ function chatScreen(c, sx, sy, sw, sh, t, p) {
     if (m.kind === 'photo') h = 420; else if (m.kind === 'voice') h = 110; else if (m.kind === 'stamp') h = 40; else { lines = wrap(c, m.text, maxW - pad * 2, font); h = lines.length * lh + pad * 1.6; }
     items.push({ m, h, lines, k, side: m.side || 'in' });
   }
+  c.save(); c.beginPath(); c.rect(sx, sy + 212, sw, sh - 340); c.clip();
   for (const it of items) {
     y -= it.h; const isOut = it.side === 'out';
     let bw;
@@ -254,6 +255,7 @@ function chatScreen(c, sx, sy, sw, sh, t, p) {
     c.restore();
     y -= 18;
   }
+  c.restore();
   // Eingabeleiste
   rr(c, sx + 28, sy + sh - 120, sw - 56, 72, 36); c.fillStyle = '#1b1b21'; c.fill();
   txt(c, U('message'), sx + 64, sy + sh - 74, '500 28px Mont', '#6f6f7a', 'left');
@@ -297,7 +299,7 @@ SCENES.bedroom = (c, lt, b, gt) => {
   bgFill(c, '#111116', '#060607');
   c.translate(0, p.dy != null ? p.dy : -150);
   const FY = 1380; // Boden
-  c.fillStyle = '#141419'; c.fillRect(-100, -100, W + 200, FY + 100);
+  c.fillStyle = '#141419'; c.fillRect(-100, -700, W + 200, FY + 700);
   c.fillStyle = '#0b0b0e'; c.fillRect(-100, FY, W + 200, 900);
   c.strokeStyle = '#25252c'; c.lineWidth = 4; c.beginPath(); c.moveTo(-100, FY); c.lineTo(W + 100, FY); c.stroke();
   // Fenster
@@ -310,11 +312,17 @@ SCENES.bedroom = (c, lt, b, gt) => {
   if (p.ceilingCrib) { // gestrichelter Umriss des Kinderbetts im Stock darüber
     const a = typeof p.ceilingCrib === 'number' ? clamp(prog(lt, p.ceilingCrib, p.ceilingCrib + .8)) : 1;
     c.save(); c.globalAlpha = .75 * a; c.setLineDash([16, 12]); c.strokeStyle = '#e8e8ee'; c.lineWidth = 5;
-    c.strokeRect(330, 60, 340, 150); for (let k = 1; k < 9; k++) { c.beginPath(); c.moveTo(330 + k * 38, 60); c.lineTo(330 + k * 38, 210); c.stroke(); }
-    c.setLineDash([]); c.beginPath(); c.arc(430, 160, 26, 0, 7); c.stroke();
-    c.strokeStyle = 'rgba(232,232,238,.4)'; c.beginPath(); c.moveTo(-100, 250); c.lineTo(W + 100, 250); c.stroke();
-    if (p.ceilingLabel) txt(c, p.ceilingLabel, 500, 40, '700 26px SMono', 'rgba(232,232,238,.85)', 'center', 'alphabetic', 4);
+    c.strokeRect(560, 40, 340, 150); for (let k = 1; k < 9; k++) { c.beginPath(); c.moveTo(560 + k * 38, 40); c.lineTo(560 + k * 38, 190); c.stroke(); }
+    c.setLineDash([]); c.beginPath(); c.arc(660, 140, 26, 0, 7); c.stroke();
+    c.strokeStyle = 'rgba(232,232,238,.4)'; c.beginPath(); c.moveTo(-100, 262); c.lineTo(W + 100, 262); c.stroke();
+    if (p.creakLines != null && lt >= p.creakLines) for (let k = 0; k < 3; k++) { const ph = ((lt - p.creakLines) * .9 + k / 3) % 1; c.save(); c.setLineDash([]); c.strokeStyle = `rgba(255,60,60,${.8 * (1 - ph)})`; c.lineWidth = 5;
+      c.beginPath(); c.ellipse(730, 115, 190 + ph * 140, 90 + ph * 60, 0, 0, 7); c.stroke(); c.restore(); }
+    if (p.cribRing != null && lt >= p.cribRing) for (let k = 0; k < 4; k++) { const ph = clamp((lt - p.cribRing) * 1.2 - k * .22); if (ph <= 0 || ph >= 1) continue; c.save(); c.setLineDash([]);
+      c.strokeStyle = `rgba(255,40,40,${1 - ph})`; c.lineWidth = 10 * (1 - ph) + 2; glow(c, 'rgba(255,30,30,1)', 30); c.beginPath(); c.ellipse(730, 115, 120 + ph * 520, 60 + ph * 300, 0, 0, 7); c.stroke(); c.restore(); }
+    if (p.ceilingLabel) txt(c, p.ceilingLabel, 730, 232, '700 26px SMono', 'rgba(232,232,238,.85)', 'center', 'alphabetic', 4);
     c.restore(); }
+  if (p.ceilingLine != null && lt >= p.ceilingLine) { const k = E.out(prog(lt, p.ceilingLine, p.ceilingLine + .8)); c.save(); c.setLineDash([14, 12]); c.strokeStyle = 'rgba(255,50,50,.9)'; c.lineWidth = 5; glow(c, 'rgba(255,40,40,1)', 16);
+    c.beginPath(); c.moveTo(730, 200); c.lineTo(lerp(730, p.lineX || 300, k), lerp(200, p.lineY || 900, k)); c.stroke(); c.restore(); }
   if (p.roomCam) { c.fillStyle = '#2e2e36'; rr(c, 960, 300, 70, 44, 10); c.fill(); c.fillStyle = (gt % 1.2) < .6 ? '#ff2b2b' : '#4a0a0a'; c.beginPath(); c.arc(1012, 322, 7, 0, 7); c.fill(); }
   // Bild an der Wand
   c.strokeStyle = '#2c2c34'; c.lineWidth = 8; c.strokeRect(120, 470, 250, 180);
@@ -337,9 +345,14 @@ SCENES.bedroom = (c, lt, b, gt) => {
   const buzz = (p.buzz || []).some(bt => lt > bt && lt < bt + 1.2) ? noise(gt * 80, 2) * 5 : 0;
   const phoneOnTable = !(p.pose === 'sitting' && p.lookPhone) && !p.monitorOnStand;
   if (p.monitorOnStand) { // kleines Babyphone mit leuchtendem Bildschirm
-    c.save(); c.translate(965, 1150); rr(c, -52, -70, 104, 140, 18); c.fillStyle = '#dcdade'; glow(c, 'rgba(200,200,210,.5)', 30); c.fill(); noGlow(c);
-    rr(c, -40, -58, 80, 70, 8); c.fillStyle = '#5a5a62'; glow(c, 'rgba(220,220,230,.8)', 25); c.fill(); noGlow(c);
-    c.fillStyle = '#4dff7a'; c.beginPath(); c.arc(30, 50, 5, 0, 7); c.fill(); c.restore(); spot(c, 965, 1110, 220, WHITEA, .12); }
+    const mx = p.onBed ? 330 : 720, my = 1080; spot(c, mx, my - 20, 260, WHITEA, .1);
+    c.save(); c.translate(mx, my); rr(c, -80, -120, 160, 245, 22); c.fillStyle = '#dcdade'; glow(c, 'rgba(200,200,210,.5)', 30); c.fill(); noGlow(c);
+    c.save(); rr(c, -66, -106, 132, 168, 10); c.clip(); c.translate(-66, -106); c.scale(132 / 490, 168 / 620);
+    feedRoom(c, 'nursery', 490, 620, gt, { doorStyle: 'closet', door: p.monitorDoor != null ? p.monitorDoor : (p.monitorCrack ? .08 : 0), _lt: lt });
+    if (p.monitorShape) feedFigure(c, 490, 620, 99, { kind: 'shape', pose: 'bend', x: .42, y: .86, h: .8, eyes: p.monitorShape === 'eyes' ? 0 : null });
+    c.restore();
+    if (p.monitorStamp) txt(c, stampAt(p.monitorStamp, p.stampT != null ? gt - p.stampT : lt), -60, 50, '700 15px SMono', '#f2f2f2', 'left');
+    c.fillStyle = '#4dff7a'; c.beginPath(); c.arc(52, 95, 6, 0, 7); c.fill(); c.restore(); }
   if (p.shapeBehind && lt >= (p.shapeBehind.at || 0)) { const q = p.shapeBehind;
     c.save(); c.globalAlpha = (q.alpha != null ? q.alpha : 1) * clamp(prog(lt, q.at || 0, (q.at || 0) + (q.fade || .4)));
     shapeEntity(c, q.x || 420, q.y || 1300, q.h || 1100, gt, { pose: q.pose || 'hunch', flip: q.flip != null ? q.flip : true, eyes: q.eyes != null && lt >= q.eyes ? clamp(prog(lt, q.eyes, q.eyes + .4)) : 0 });
@@ -360,6 +373,7 @@ SCENES.bedroom = (c, lt, b, gt) => {
     const h = 560, base = 1235 + .44 * h;
     const P = { ...BASE, lk: [.3, -.44], lf: [.6, -.44], rk: [.32, -.43], rf: [.62, -.43], le: [.1, -.62], lh: [.24, -.5], re: [.12, -.64], rh: [.26, -.52] };
     if (p.listen) { P.head = [-.035, -.9]; }
+    if (p.headBowed) { P.head = [.06, -.86]; }
     if (p.lookPhone) { P.re = [.16, -.66]; P.rh = [.14, -.8]; P.le = [.13, -.64]; P.lh = [.11, -.79]; }
     const st = stick(c, 260, base, h, P, gt, { tremble: p.tremble, hood: p.hood });
     blanket();
@@ -370,7 +384,11 @@ SCENES.bedroom = (c, lt, b, gt) => {
     }
   } else if (pose === 'standing') {
     blanket();
-    stick(c, p.figX || 600, 1640, 640, p.figPose || 'phone', gt, { tremble: p.tremble });
+    if (p.onBed) { const hit = p.punch ? p.punch.reduce((a, t0) => a + (lt > t0 && lt < t0 + .25 ? Math.sin((lt - t0) / .25 * Math.PI) : 0), 0) : 0;
+      const P = { ...BASE, re: [.07, -.98], rh: [.05, -1.13 - .05 * hit], le: [-.12, -.62], lh: [-.16, -.46] };
+      const st = stick(c, p.figX || 520, 1222, p.figH || 860, P, gt, { tremble: p.tremble, hood: p.hood });
+      c.fillStyle = C.white; c.beginPath(); c.arc(st.hand[0], st.hand[1], 26, 0, 7); c.fill(); }
+    else stick(c, p.figX || 600, 1640, 640, p.figPose || 'phone', gt, { tremble: p.tremble });
   }
 };
 
@@ -387,7 +405,7 @@ SCENES.phone_chat = (c, lt, b, gt) => {
   const p = b.p || {};
   bgFill(c, '#0b0b0e', '#040405'); spot(c, 540, 900, 760, RED, .14);
   const buzz = (p.messages || []).some(m => m.side !== 'out' && lt > (m.at || 0) && lt < (m.at || 0) + .5) ? noise(gt * 90, 7) * 6 : 0;
-  phoneBody(c, 540 + buzz, 900 + Math.sin(lt * 1.2) * 8, 580, 1160, .03 + noise(gt * .5, 8) * .015, (cc, sx, sy, sw, sh) => chatScreen(cc, sx, sy, sw, sh, lt, p));
+  phoneBody(c, 540 + buzz, 860 + Math.sin(lt * 1.2) * 8, 560, 1100, .03 + noise(gt * .5, 8) * .015, (cc, sx, sy, sw, sh) => chatScreen(cc, sx, sy, sw, sh, lt, p));
 };
 
 SCENES.building_facade = (c, lt, b, gt) => {
@@ -577,6 +595,16 @@ SCENES.peephole = (c, lt, b, gt) => {
   }
 };
 
+function youBackView(c, hx, hy, R, turn) { // du von hinten: graue Kapuze über dem Kopf, Kapuzenpulli-Schultern
+  c.save(); c.fillStyle = '#6e6e78'; glow(c, 'rgba(255,40,40,.35)', 30);
+  c.beginPath(); c.ellipse(hx, 1840, 400, 200, 0, Math.PI, 0); c.lineTo(hx + 400, H + 50); c.lineTo(hx - 400, H + 50); c.closePath(); c.fill(); noGlow(c);
+  c.strokeStyle = '#4e4e57'; c.lineWidth = 8; c.beginPath(); c.moveTo(hx - 150, 1700); c.quadraticCurveTo(hx, 1760, hx + 150, 1700); c.stroke(); // Kapuzensaum
+  c.fillStyle = '#8e8e98'; c.beginPath(); c.ellipse(hx, hy + 20, R * 1.12, R * 1.18, 0, 0, 7); c.fill(); // Kapuze
+  c.strokeStyle = '#6e6e78'; c.lineWidth = 7; c.beginPath(); c.moveTo(hx, hy - R * 1.1); c.lineTo(hx, hy + R * 1.1); c.stroke(); // Naht
+  c.strokeStyle = 'rgba(255,90,90,.55)'; c.lineWidth = 5; c.beginPath(); c.arc(hx, hy + 20, R * 1.14, Math.PI * 1.1, Math.PI * 1.9); c.stroke(); // rotes Gegenlicht
+  if (turn > .3) { c.fillStyle = '#d9d9df'; c.beginPath(); c.ellipse(hx + R * .95, hy + 10, R * .22, R * .42, 0, 0, 7); c.fill(); } // Wange schaut heraus
+  c.restore();
+}
 SCENES.hallway = (c, lt, b, gt) => {
   const p = b.p || {};
   bgFill(c, '#0b0b0e', '#050506');
@@ -606,7 +634,8 @@ SCENES.hallway = (c, lt, b, gt) => {
     const k = p.approach ? E.inOut(prog(lt, p.approach[0], p.approach[1])) : 0;
     const h = lerp(p.figure.h0 || 260, p.figure.h1 || 260, k), y = lerp(p.figure.y0 || vy + fh / 2, p.figure.y1 || vy + fh / 2, k);
     c.save(); c.globalAlpha = (p.figure.alpha != null ? p.figure.alpha : 1) * (p.figure.at != null ? clamp(prog(lt, p.figure.at, p.figure.at + .2)) : 1) * (p.figure.until != null && lt > p.figure.until ? 0 : 1) * (p.flicker ? (fl > .5 ? 1 : 0) : 1);
-    shade(c, vx, y, h, gt, { eyes: p.figure.eyes ? 1 : 0 }); c.restore();
+    if (p.figure.kind === 'shape') shapeEntity(c, vx, y, h, gt, { pose: p.figure.pose || 'walk', eyes: p.figure.eyes ? 1 : 0, rimColor: 'rgba(255,40,40,.6)' });
+    else shade(c, vx, y, h, gt, { eyes: p.figure.eyes ? 1 : 0 }); c.restore();
   }
   if (p.sideDoor != null) { // rechte hintere Tür öffnet sich, roter Lichtstreifen
     const k = E.inOut(prog(lt, p.sideDoor, p.sideDoor + 1.6));
@@ -638,15 +667,7 @@ SCENES.hallway = (c, lt, b, gt) => {
   if (p.youBack) { // Hinterkopf + Schultern im Vordergrund
     const turn = p.youTurn != null ? E.inOut(prog(lt, p.youTurn, p.youTurn + .6)) : 0;
     const hx = 540 + turn * 50, hy = 1330, R = 170;
-    c.save(); c.fillStyle = '#0d0d10'; glow(c, 'rgba(255,40,40,.6)', 40);
-    c.beginPath(); c.ellipse(540, 1830, 400, 210, 0, Math.PI, 0); c.lineTo(940, H + 50); c.lineTo(140, H + 50); c.closePath(); c.fill(); // Schultern
-    c.fillRect(475, 1460, 130, 260); // Hals
-    c.beginPath(); c.arc(hx, hy, R, 0, 7); c.fill();
-    c.beginPath(); c.ellipse(hx - R * .98, hy + 20, 30, 50, 0, 0, 7); c.ellipse(hx + R * .98, hy + 20, 30, 50, 0, 0, 7); c.fill(); // Ohren
-    for (let k = 0; k < 7; k++) { const a = -2.6 + k * .33; c.beginPath(); c.moveTo(hx + Math.cos(a) * R * .9, hy + Math.sin(a) * R * .9); c.lineTo(hx + Math.cos(a + .12) * R * 1.12, hy + Math.sin(a + .12) * R * 1.12); c.lineTo(hx + Math.cos(a + .26) * R * .9, hy + Math.sin(a + .26) * R * .9); c.fill(); } // Haarbüschel
-    noGlow(c); c.strokeStyle = 'rgba(255,80,80,.7)'; c.lineWidth = 6; c.beginPath(); c.arc(hx, hy, R + 2, Math.PI * .95, Math.PI * 2.05); c.stroke();
-    if (turn > .3) { c.fillStyle = 'rgba(255,90,90,.8)'; c.beginPath(); c.ellipse(hx + R * .78, hy - 10, 10, 15, 0, 0, 7); c.fill(); }
-    c.restore();
+    youBackView(c, hx, hy, R, turn);
   }
 };
 
@@ -785,6 +806,7 @@ SCENES.face_closeup = (c, lt, b, gt) => {
   let jx = noise(gt * 14, 5) * 8, jy = noise(gt * 14, 6) * 5; const blink = (lt % 3.1) > 3.0 ? .1 : 1;
   if (p.dart) { const side = Math.sin(lt * 2.6) > 0 ? 1 : -1; jx += side * 34; spot(c, side > 0 ? 1080 : 0, 900, 700, RED, .45); }
   if (p.look != null) jx += (p.lookAt != null ? E.inOut(prog(lt, p.lookAt, p.lookAt + .8)) : 1) * p.look * 36;
+  if (p.lookUp != null) jy -= (p.lookUpAt != null ? E.inOut(prog(lt, p.lookUpAt, p.lookUpAt + 1.2)) : 1) * p.lookUp * 40;
   if (p.lightBelow) spot(c, cx, cy + 520, 620, p.lightBelow === 'grey' ? WHITEA : RED, .35);
   for (const s of [-1, 1]) {
     c.fillStyle = '#fff'; c.beginPath(); c.ellipse(cx + s * 140, cy - 40, 82, 92 * blink, 0, 0, 7); c.fill(); c.lineWidth = 6; c.strokeStyle = '#1a1a1f'; c.stroke();
@@ -805,7 +827,8 @@ SCENES.sfx_text = (c, lt, b, gt) => {
   lines.forEach((l, i) => {
     const at = (p.times && p.times[i] != null) ? p.times[i] : i * .55; if (lt < at) return;
     const k = E.back(prog(lt, at, at + .2)), j = noise(gt * 25, i) * 6;
-    const x = (p.xs && p.xs[i] != null) ? p.xs[i] : 540, y = (p.y || 640) + i * (p.size || 230) * 1.0;
+    c.font = `400 ${p.size || 230}px Anton`; const tw = c.measureText(l).width;
+    const x = clamp((p.xs && p.xs[i] != null) ? p.xs[i] : 540, 60 + tw / 2, 920 - tw / 2), y = (p.y || 640) + i * (p.size || 230) * 1.0;
     c.save(); c.translate(x + j, y); c.scale(lerp(1.6, 1, k), lerp(1.6, 1, k)); c.globalAlpha = clamp(k * 1.5);
     glow(c, 'rgba(255,30,30,1)', 50); txt(c, l, 0, 0, `400 ${p.size || 230}px Anton`, '#ff3030', 'center', 'middle', 2); txt(c, l, 0, 0, `400 ${p.size || 230}px Anton`, '#ff4a4a', 'center', 'middle', 2);
     noGlow(c); c.restore();
@@ -836,18 +859,18 @@ SCENES.choice_split = (c, lt, b, gt) => {
     c.save(); c.beginPath(); c.rect(x0, 0, 540, H); c.clip();
     c.fillStyle = side < 0 ? '#101014' : '#0d0d10'; c.fillRect(x0, 0, 540, H);
     spot(c, x0 + 270, 1050, 500, RED, .12 + .18 * hl);
-    if (icon) drawIcon(c, icon, side < 0 ? 290 : 790, 990, lt, gt);
+    if (icon) drawIcon(c, icon, side < 0 ? 290 : 770, 950, lt, gt);
     c.restore();
     const k = E.back(prog(lt, side < 0 ? .3 : .7, side < 0 ? .7 : 1.1));
     c.save(); c.globalAlpha = clamp(k * 1.4);
-    const cxo = side < 0 ? 290 : 790;
-    txt(c, side < 0 ? U('optA') : U('optB'), cxo, 1160, '700 30px SMono', '#ff5a5a', 'center', 'alphabetic', 6);
-    const L = (label.includes('|') ? label.split('|') : wrap(c, label.toUpperCase(), 380, '400 84px Anton')).map(x => x.trim().toUpperCase());
-    L.forEach((l, i) => txt(c, l, cxo, 1260 + i * 90, '400 84px Anton', '#f2f2f5'));
+    const cxo = side < 0 ? 290 : 770, lab = side < 0 ? (p.optA != null ? p.optA : U('optA')) : (p.optB != null ? p.optB : U('optB'));
+    if (lab) txt(c, lab, cxo, 1160, '700 30px SMono', '#ff5a5a', 'center', 'alphabetic', 6);
+    const L = (label.includes('|') ? label.split('|') : wrap(c, label.toUpperCase(), 330, '400 84px Anton')).map(x => x.trim().toUpperCase());
+    L.forEach((l, i) => { c.font = '400 84px Anton'; const fs = Math.min(84, Math.floor(84 * 320 / Math.max(1, c.measureText(l).width))); txt(c, l, cxo, 1260 + i * 90, `400 ${fs}px Anton`, '#f2f2f5'); });
     if (sub) txt(c, sub.toUpperCase(), cxo, 1260 + L.length * 90 + 4, '700 30px Mont', '#d0d0d8');
     c.restore();
   }
-  c.save(); glow(c, 'rgba(255,40,40,1)', 30); c.fillStyle = C.red; c.fillRect(536, 700, 8, H); noGlow(c); c.restore();
+  c.save(); glow(c, 'rgba(255,40,40,1)', 30); c.fillStyle = C.red; c.fillRect(536, 700, 8, 760); noGlow(c); c.restore();
   const k = E.back(prog(lt, 0, .4));
   c.save(); c.globalAlpha = clamp(k * 1.5);
   if (p.kicker) txt(c, p.kicker, 540, 410, '700 30px SMono', '#ff5a5a', 'center', 'alphabetic', 6);
@@ -865,7 +888,7 @@ SCENES.end_card = (c, lt, b, gt) => {
   spot(c, 540, 860, 650, RED, .22 * f);
   txt(c, p.kicker || U('kicker'), 540, 640, '700 38px SMono', '#e8e8ee', 'center', 'alphabetic', 10);
   const ttl = p.title || U('end'); c.font = '400 250px Anton'; c.letterSpacing = '4px'; const tws = c.measureText(ttl).width; c.letterSpacing = '0px';
-  const tfs = Math.min(250, Math.floor(250 * 880 / tws));
+  const tfs = Math.min(250, Math.floor(250 * 740 / tws));
   c.save(); c.globalAlpha = f; glow(c, 'rgba(255,30,30,1)', 60);
   txt(c, ttl, 540, 900, `400 ${tfs}px Anton`, '#ff3a3a', 'center', 'alphabetic', 4);
   txt(c, ttl, 540, 900, `400 ${tfs}px Anton`, '#ff4a4a', 'center', 'alphabetic', 4); noGlow(c); c.restore();
@@ -875,7 +898,7 @@ SCENES.end_card = (c, lt, b, gt) => {
   const pa = clamp(prog(lt, .6, 1.0));
   c.save(); c.globalAlpha = pa; rr(c, 540 - pw / 2, 1060, pw, 80, 40); c.lineWidth = 4; c.strokeStyle = '#e8e8ee'; c.stroke();
   txt(c, pill, 540, 1112, '700 34px SMono', '#e8e8ee', 'center', 'alphabetic', 5); c.restore();
-  if (p.sub) { c.save(); c.globalAlpha = clamp(prog(lt, 1.0, 1.4)); p.sub.split('|').forEach((l, i) => txt(c, l.trim(), 540, 1260 + i * 58, '800 44px Mont', '#ff5a5a', 'center', 'alphabetic', 1)); c.restore(); }
+  if (p.sub) { c.save(); c.globalAlpha = clamp(prog(lt, 1.0, 1.4)); p.sub.split('|').forEach((l, i) => { c.font = '800 44px Mont'; const fs = Math.min(44, Math.floor(44 * 760 / c.measureText(l.trim()).width)); txt(c, l.trim(), 540, 1260 + i * 58, `800 ${fs}px Mont`, '#ff5a5a', 'center', 'alphabetic', 1); }); c.restore(); }
 };
 
 SCENES.fridge_note = (c, lt, b, gt) => {
@@ -957,16 +980,17 @@ function hud(c, t, beat) {
   c.fillStyle = blink ? C.red : 'rgba(255,40,40,.25)'; c.beginPath(); c.arc(64, 96, 9, 0, 7); c.fill();
   txt(c, TL.series || 'TEIL 1', 84, 106, '700 26px SMono', '#ff6a6a', 'left', 'alphabetic', 5);
   let s = clk;
-  if (changed && hash(Math.floor(t * 30)) > .4) { const m = clk.match(/\d(?=\D*$)/); if (m) { const i = clk.lastIndexOf(m[0]); s = clk.slice(0, i) + String(Math.floor(hash(t * 30) * 10)) + clk.slice(i + 1); } }
+  if (changed && hash(Math.floor(t * 30)) > .4) { const m = clk.match(/\d(?=\D*$)/); if (m) { const i = clk.lastIndexOf(m[0]); s = clk.slice(0, i) + '-' + clk.slice(i + 1); } }
   if (red) glow(c, 'rgba(255,40,40,1)', 30);
   txt(c, s, 52, 190, '700 84px SMono', red ? '#ff3a3a' : '#f1f1f4', 'left');
   noGlow(c);
-  txt(c, TL.place || 'WHG 4B', 56, 240, '700 30px SMono', '#8d8d98', 'left', 'alphabetic', 5);
+  txt(c, beat.place || TL.place || 'WHG 4B', 56, 240, '700 30px SMono', '#8d8d98', 'left', 'alphabetic', 5);
   c.restore();
 }
 function captions(c, t, beat) {
   const ch = TL.chunks.find(k => t >= k.start && t < k.end);
   if (!ch) return;
+  if (CAP_MIN != null && TL.words[ch.words[0]].start < CAP_MIN - .02) return; // Cold Open: keine angeschnittenen Sätze
   const words = ch.words.map(i => TL.words[i]);
   let fs = 70; const font = s => `900 ${s}px Mont`;
   const str = words.map(w => w.text.toUpperCase());
@@ -1015,8 +1039,33 @@ function glitch(c, t, amt, seed) {
 
 // ---------- Hauptschleife ----------
 window.setTimeline = (tl) => { TL = tl; TL.beats.forEach((b, i) => { b.i = i; }); if (!grain) makeGrain(); };
+// Cold Open: TL.coldOpen = {src, dur, gap, label} – zuerst ein Ausschnitt ab src, dann harter Schnitt, dann der Part
 window.renderFrame = (fi) => {
-  const t = fi / FPS;
+  const T = fi / FPS, co = TL.coldOpen;
+  if (!co) return drawAt(T);
+  const D = co.dur + co.gap;
+  if (T < co.dur) {
+    drawAt(co.src + T, true);
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; noGlow(ctx);
+    ctx.strokeStyle = 'rgba(255,40,40,.75)'; ctx.lineWidth = 10; ctx.strokeRect(5, 5, W - 10, H - 10);
+    if (co.label) { ctx.font = '700 30px SMono'; ctx.letterSpacing = '4px'; const tw = ctx.measureText(co.label).width; ctx.letterSpacing = '0px';
+      rr(ctx, 1040 - tw - 64, 96, tw + 64, 54, 12); ctx.fillStyle = 'rgba(208,20,28,.92)'; ctx.fill();
+      ctx.fillStyle = (T % 1) < .6 ? '#fff' : 'rgba(255,255,255,.3)'; ctx.beginPath(); ctx.arc(1040 - tw - 38, 123, 8, 0, 7); ctx.fill();
+      txt(ctx, co.label, 1040 - 18, 134, '700 30px SMono', '#fff', 'right', 'alphabetic', 4); }
+    if (T > co.dur - .16) glitch(ctx, T, 1, Math.floor(T * 30) + 7);
+    return true;
+  }
+  if (T < D) { // Schnitt: Rauschen
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+    ctx.save(); ctx.globalAlpha = .55; ctx.drawImage(grain[Math.floor(T * 30) % 6], 0, 0, W, H); ctx.restore();
+    ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(0, 0, W, H);
+    return true;
+  }
+  return drawAt(T - D);
+};
+let CAP_MIN = null;
+function drawAt(t, isCold) {
+  CAP_MIN = isCold ? TL.coldOpen.src : null;
   let bi = TL.beats.findIndex(b => t >= b.start && t < b.end); if (bi < 0) bi = TL.beats.length - 1;
   const b = TL.beats[bi]; const lt = t - b.start, dur = b.end - b.start;
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; noGlow(ctx);
@@ -1048,6 +1097,7 @@ window.renderFrame = (fi) => {
   }
   // Rote Atmung
   if (b.redPulse) { ctx.fillStyle = `rgba(255,0,0,${.06 + .06 * Math.sin(t * 6)})`; ctx.fillRect(0, 0, W, H); }
+  ctx.save(); ctx.translate(230, 170); ctx.scale(1.7, 1); { const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 300); g.addColorStop(0, 'rgba(0,0,0,.72)'); g.addColorStop(.6, 'rgba(0,0,0,.5)'); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(-300, -300, 600, 600); } ctx.restore();
   hud(ctx, t, b);
   for (const f of POST_HOOKS) { ctx.save(); f(ctx, t, b, lt); ctx.restore(); }
   if (!b.noCaptions) captions(ctx, t, b);
@@ -1064,7 +1114,8 @@ window.renderFrame = (fi) => {
   if (ga > 0) glitch(ctx, t, ga, Math.floor(t * 30) + 1);
   if (bi > 0 && tg === 'fade' && lt < .3) { ctx.fillStyle = `rgba(0,0,0,${1 - lt / .3})`; ctx.fillRect(0, 0, W, H); }
   // Ausblende am Ende
-  if (TL.duration && !TL.noEndFade && t > TL.duration - .6) { ctx.fillStyle = `rgba(0,0,0,${clamp((t - (TL.duration - .6)) / .6)})`; ctx.fillRect(0, 0, W, H); }
+  const TD = TL.durationMain || TL.duration;
+  if (TD && !TL.noEndFade && t > TD - .6) { ctx.fillStyle = `rgba(0,0,0,${clamp((t - (TD - .6)) / .6)})`; ctx.fillRect(0, 0, W, H); }
   return true;
-};
+}
 window.enginePromise = document.fonts.ready.then(() => Promise.all(['Anton', 'Bebas', 'Mont', 'Oswald', 'SMono', 'Caveat', 'RockSalt', 'Marker'].map(f => document.fonts.load(`400 40px ${f}`)))).then(() => document.fonts.load('700 40px Caveat')).then(() => document.fonts.load('900 40px Mont')).then(() => document.fonts.load('700 40px SMono'));

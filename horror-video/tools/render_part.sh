@@ -1,7 +1,8 @@
 #!/bin/bash
 # render_part.sh <builddir> <out.mp4>: rendert timeline.json in 3 Segmenten, muxt mix.wav, kleine Datei
 set -e
-S=/tmp/claude-0/-home-user-dreambuild/2683a2bf-1f2f-55f0-8359-cd20e125af40/scratchpad; V=$S/video; B=$1; OUT=$2; O=$B/seg
+S=${WORK:-$(cd "$(dirname "$0")/.." && pwd)}  # Arbeitsverzeichnis mit tools/ und video/
+V=$S/video; B=$1; OUT=$2; O=$B/seg
 mkdir -p $O; cp $B/timeline.json $O/tl.json; cp $B/mix.wav $O/mix.wav
 N=$(python3 -c "import json; print(int(json.load(open('$O/tl.json'))['duration']*30))"); Q=$((N/3))
 node $V/render.cjs $O/tl.json segment 0 $Q $O/s0.mp4 > $O/l0.txt 2>&1 &

@@ -119,3 +119,27 @@ Rule: never put a loud hit (boom/hit/screech/knock) on top of an important spoke
 - Beat overlays: `pops: [{text, at, x, y, size, dur, rot}]` (small red words like "CREAK"), `hudRing: t` (red ring around the top-left clock),
   `card: {at, until, kind: "nursery_you"|"grid4", stamp, x, y, w, h, rot, caption}` (a photo card pops up).
 - phone_chat photo kinds: `grid4` (parents' 4-camera screenshot), `nursery_you` (you by the crib); choice_split icons `feed_empty`, `feed_shape`.
+
+## Cold open, finale scenes (added for parts 4/5)
+
+- **Story `coldOpen`**: `{"beat": i, "words": "verbatim words spoken in that beat", "label": "LATER"}` (optional `lead` 0.4, `hold` 0.45, `maxDur` 3.6, `gap` 0.35,
+  or `at`/`dur` instead of `words`). build.py cuts that moment out of the finished mix, puts it in front (red frame, label pill, glitch, static gap)
+  and writes `coldOpen` + `durationMain` into timeline.json; the engine maps frames accordingly. Captions of half-cut sentences are hidden in the teaser.
+- Monitor/cctv stamps keep counting across cuts: build.py writes `stampT` (first time that stamp was shown) and the engine uses it.
+- Beat `place` overrides the HUD place line ("HALE HOUSE · GUEST RM"). Beat `rewindFx: {at, dur, label}` = rewind lines + red tint + label pill on any scene.
+  Beat `shakeAt: [{at, d, a}]` = screen shakes. Line `gap: s` = pause after that line (splits the fluent group).
+- **stairwell** (scenes/finale.js) — stairs up to a door with light under it. `doorLight`, `lightOn`, `flicker`, `doorOpen: t` (+`openDur`), `shapeTop: {pose, eyes, …}`, `feet: t`, `youBack`.
+- **nursery_pov** — the nursery seen with your own eyes. `dark` 0..1, `torch: {x, y, r, x1, y1, t0, t1, on}`, `lightsOn: t`, `closetOpen: t` / `closetGap0`, `gapEyes: t`,
+  `slatEye: t` (one red eye between the slats), `seamRing: t` (+`seamRingDur`, `seamFaint`), `cry: t` (+`cryGap [t0,t1]`), `notes: t` (floating music notes), `cribEmpty`, `mobileSpin`,
+  `nightlight`, `camDot`, `shape: {x, y, h, pose, eyes, at, until, move, front}`.
+- **front_door** — front door from inside. `headlights: t` (+`hlDur`), `keyAt: t`, `handleAt: t`, `open: t` (+`openDur`), `porch` 0..1, `parents: {at}` (silhouettes in the doorway),
+  `you: {x, h, pose, flip}`, `shapeOut`, `shapeIn`.
+- **car_headlights** — headlight patch sweeping across a living-room wall. `sweep: [t0, t1]` or `sweeps`, `shadow: {x, y, h, pose}` (shape shadow inside the light), `youCouch`, `monitorGlow`.
+- Shape poses: `stand | bend | lift | finger | shush | bendShush | hunch | down | walk`; finger poses draw one long finger over the mouth.
+  Feed shape extras: `shrink [t0,t1,factor]`, `fadeOut [t0,t1]`, `waveAt`/`waveDur`, `eyesDownAt`, `sightAt` (red dashed line down from the eyes), `ringAt`, `headRim`.
+- Feeds: `cry: t` (crying lines around the baby), `bundleRing: t`, `seamRing: t`, `slatEye: t`, `gapEyesBright: t`. Monitor: `unmuteAt: t`, `waveform: t`,
+  `flashFrames: [{at, stamp, figures, door, ring}]` (quick flashback frames), `stampScale`.
+- bedroom: `monitorOnStand` (now on the bed with a mini live feed) + `monitorStamp`, `monitorShape`, `monitorDoor`; `ceilingCrib` (right of the HUD), `creakLines: t`,
+  `cribRing: t`, `ceilingLine: t` (+`lineX`, `lineY`), `headBowed`, `pose: "standing"` + `onBed: true` (fist to the ceiling, `punch: [t…]`, `figX`, `figH`).
+- face_closeup `lookUp`, `lookUpAt`. choice_split `optA`/`optB` (labels, "" hides), icons `fist`, `crib`. phone_chat photo kind `feed` {room, label, figures}, grid4 `shapeGuest`.
+- New SFX (tools/sfx_finale.py): `baby_cry_ceiling`, `baby_cry_monitor`, `car_arrive`, `keys_lock`, `ceiling_slam`.

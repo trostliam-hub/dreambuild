@@ -80,7 +80,7 @@ function feedFX(c, w, h, t, seed, o = {}) {
   const fs = Math.max(16, w * .045);
   if (o.rec !== false) { c.fillStyle = (t % 1) < .55 ? '#ff2b2b' : 'rgba(255,43,43,.25)'; c.beginPath(); c.arc(w * .06, h * .07, fs * .32, 0, 7); c.fill(); txt(c, 'REC', w * .06 + fs * .55, h * .07 + fs * .35, `700 ${fs}px SMono`, '#e8e8ee', 'left'); }
   if (o.label) txt(c, o.label, w * .95, h * .07 + fs * .35, `700 ${fs}px SMono`, '#e8e8ee', 'right');
-  if (o.stamp) txt(c, o.stamp, w * .05, h * .95, `700 ${fs * .9}px SMono`, '#e8e8ee', 'left');
+  if (o.stamp) txt(c, o.stamp, w * .05, h * .95, `700 ${fs * (o.stampScale || .9)}px SMono`, '#e8e8ee', 'left');
   if (o.dead) { c.save(); c.globalAlpha = .95; c.drawImage(grain[Math.floor(t * 30) % 6], 0, 0, w, h); c.fillStyle = 'rgba(0,0,0,.35)'; c.fillRect(0, 0, w, h); txt(c, o.deadText || 'NO SIGNAL', w / 2, h / 2, `700 ${fs * 1.2}px SMono`, '#ff5a5a'); c.restore(); }
 }
 function stampAt(base, lt) { // "03:12:05" oder "11:30 PM" + lt Sekunden
@@ -122,7 +122,7 @@ SCENES.monitor_screen = (c, lt, b, gt) => {
   if (p.red) { c.fillStyle = 'rgba(255,0,0,.12)'; c.fillRect(0, 0, sw, sh); }
   const dead = p.static != null && lt >= p.static && (p.staticEnd == null || lt < p.staticEnd);
   if (p.redLight) { c.fillStyle = 'rgba(255,30,30,.10)'; c.fillRect(0, 0, sw, sh); spot(c, sw * .86, sh * .66, sw * .5, RED, .22); }
-  feedFX(c, sw, sh, gt, 3, { label: p.label != null ? p.label : 'NURSERY CAM', stamp: p.stamp && !p.hideStamp ? stampAt(p.stamp, lt) : null, dead, deadText: p.staticText, clean: p.clean, hud: p.hud, rec: p.rec });
+  feedFX(c, sw, sh, gt, 3, { label: p.label != null ? p.label : 'NURSERY CAM', stamp: p.stamp && !p.hideStamp ? stampAt(p.stamp, p.stampT != null ? gt - p.stampT : lt) : null, stampScale: p.stampScale || 1.3, dead, deadText: p.staticText, clean: p.clean, hud: p.hud, rec: p.rec });
   c.restore();
 };
 
@@ -131,13 +131,13 @@ SCENES.cctv_grid = (c, lt, b, gt) => {
   const p = b.p || {};
   bgFill(c, '#08080a', '#040405');
   const feeds = p.feeds || [];
-  const gx = 40, gy = 330, cw = 490, chh = 620, gap = 20;
+  const gx = 40, gy = 350, cw = 440, chh = 557, gap = 20;
   const fo = p.focus; const fk = fo && lt >= fo.at ? E.inOut(prog(lt, fo.at, fo.at + (fo.dur || .6))) : 0;
   const draw = (i, x, y, w, h) => {
     const f = feeds[i] || {}; c.save(); c.beginPath(); c.rect(x, y, w, h); c.clip(); c.translate(x, y);
     c.save(); c.scale(w / 490, h / 620); feedRoom(c, f.room || 'corridor', 490, 620, gt, f); (f.figures || (f.figure ? [f.figure] : [])).forEach(fg => feedFigure(c, 490, 620, lt, fg)); c.restore();
     const dead = f.dead != null && lt >= f.dead && (f.deadEnd == null || lt < f.deadEnd);
-    feedFX(c, w, h, gt, i * 5, { label: f.label || `CAM ${i + 1}`, stamp: stampAt(f.stamp || p.stamp, lt), dead, deadText: f.deadText, rec: true, clean: p.clean || f.clean });
+    feedFX(c, w, h, gt, i * 5, { label: f.label || `CAM ${i + 1}`, stamp: stampAt(f.stamp || p.stamp, (f.stamp ? f.stampT : p.stampT) != null ? gt - (f.stamp ? f.stampT : p.stampT) : lt), dead, deadText: f.deadText, rec: true, clean: p.clean || f.clean });
     c.restore(); c.strokeStyle = f.alert && lt >= f.alert ? '#ff3030' : '#2a2a32'; c.lineWidth = f.alert && lt >= f.alert ? 8 : 4;
     if (f.alert && lt >= f.alert) glow(c, 'rgba(255,40,40,.9)', 30); c.strokeRect(x, y, w, h); noGlow(c);
   };
@@ -146,7 +146,7 @@ SCENES.cctv_grid = (c, lt, b, gt) => {
     draw(i, gx + (i % 2) * (cw + gap), gy + Math.floor(i / 2) * (chh + gap), cw, chh);
   }
   if (fo && fk > 0) { const i = fo.feed, x0 = gx + (i % 2) * (cw + gap), y0 = gy + Math.floor(i / 2) * (chh + gap);
-    draw(i, lerp(x0, 40, fk), lerp(y0, 330, fk), lerp(cw, 1000, fk), lerp(chh, 1260, fk)); }
-  if (p.title !== '') { txt(c, p.title || 'SECURITY — LIVE', 1040, 312, '700 28px SMono', '#8d8d99', 'right', 'alphabetic', 5);
-    if (p.live) { c.font = '700 28px SMono'; c.letterSpacing = '5px'; const tw = c.measureText(p.title).width; c.letterSpacing = '0px'; c.fillStyle = (gt % 1.2) < .8 ? '#3dff6e' : '#14501f'; c.beginPath(); c.arc(1040 - tw - 22, 302, 9, 0, 7); c.fill(); } }
+    draw(i, lerp(x0, 40, fk), lerp(y0, 350, fk), lerp(cw, 900, fk), lerp(chh, 1134, fk)); }
+  if (p.title !== '') { txt(c, p.title || 'SECURITY — LIVE', 940, 330, '700 28px SMono', '#8d8d99', 'right', 'alphabetic', 5);
+    if (p.live) { c.font = '700 28px SMono'; c.letterSpacing = '5px'; const tw = c.measureText(p.title).width; c.letterSpacing = '0px'; c.fillStyle = (gt % 1.2) < .8 ? '#3dff6e' : '#14501f'; c.beginPath(); c.arc(940 - tw - 22, 320, 9, 0, 7); c.fill(); } }
 };

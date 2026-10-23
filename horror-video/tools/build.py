@@ -218,7 +218,7 @@ for bi, b in enumerate(story["beats"]):
         t += dur + g[-1].get("gap", story.get("lineGap", 0.28))
     t += b.get("post", story.get("beatGap", 0.12))
     t = max(t, start + b.get("minDur", 1.4))
-    ob = {k: v for k, v in b.items() if k not in ("lines", "sfx", "pre", "post", "minDur", "emph", "flash", "glitch")}
+    ob = {k: v for k, v in b.items() if k not in ("lines", "sfx", "pre", "post", "minDur", "emph", "flash", "glitch", "shakeAt")}
     ob["start"], ob["end"] = round(start, 3), round(t, 3)
     # "@wort+0.2" in Parametern -> lokale Zeit
     def wtime(ref):
@@ -235,12 +235,20 @@ for bi, b in enumerate(story["beats"]):
         return o
     ob = resolve(ob)
     for s in b.get("sfx", []):
-        at = (ob["end"] - start - s["fromEnd"]) if "fromEnd" in s else resolve(s.get("at", 0)); cues.append({"name": s["name"], "t": start + at, "gain": s.get("gain", 0), "dur": s.get("dur")})
+        at = (ob["end"] - start - s["fromEnd"]) if "fromEnd" in s else resolve(s.get("at", 0)); cues.append({"name": s["name"], "t": start + at, "gain": s.get("gain", 0), "dur": resolve(s.get("dur"))})
     for f in b.get("flash", []): story.setdefault("_flashes", []).append({"t": start + resolve(f.get("at", 0)), "d": f.get("d", .15), "c": f.get("c", "#fff"), "a": f.get("a", .85)})
+    for s_ in b.get("shakeAt", []): story.setdefault("shakes", []).append({"t": start + resolve(s_.get("at", 0)), "d": s_.get("d", .3), "a": s_.get("a", 26)})
     for g in b.get("glitch", []): story.setdefault("_glitches", []).append({"t": start + resolve(g.get("at", 0)), "d": g.get("d", .12), "a": g.get("a", 1)})
     beats_out.append(ob)
 duration = round(t + story.get("tail", 1.2), 3)
 beats_out[-1]["end"] = duration
+# Zeitstempel im Kamerabild laufen über Schnitte weiter: Sekunden ab dem ersten Auftauchen desselben Stempels
+_first = {}
+for ob in beats_out:
+    p_ = ob.get("p") or {}
+    for d in [p_] + [f for f in (p_.get("feeds") or []) if isinstance(f, dict)]:
+        st = d.get("stamp") or d.get("monitorStamp")
+        if isinstance(st, str) and re.match(r"^\d", st): d["stampT"] = _first.setdefault(st, ob["start"])
 beats_out[0]["start"] = 0.0
 
 # ---------- Untertitel-Chunks ----------
@@ -319,11 +327,37 @@ duck = 10 ** (-story.get("duckDb", 7) * np.clip(env * 3, 0, 1) / 20)
 mix = bed * duck[:, None] + fx + np.stack([voice, voice], 1) * 10 ** (story.get("voiceGain", 0) / 20)
 mix = mix[:int(duration * SR)]
 fo = int((.04 if story.get("noEndFade") else .6) * SR); mix[-fo:] *= np.linspace(1, 0, fo)[:, None]
+voice = voice[:int(duration * SR)]
+# ---------- Cold Open: Ausschnitt aus dem Part vorneweg, harter Schnitt ----------
+co = story.get("coldOpen")
+if co:
+    nrm_w = lambda x: re.sub(r"[^\wäöüß']", "", x.lower())
+    cbi = co["beat"]; b0 = beats_out[cbi]
+    if co.get("words"):
+        seq = [nrm_w(x) for x in co["words"].split()]; bwc = [w for w in words_out if w["beat"] == cbi]; found = None
+        for i in range(len(bwc) - len(seq) + 1):
+            if [nrm_w(w["text"]) for w in bwc[i:i + len(seq)]] == seq: found = (bwc[i]["start"], bwc[i + len(seq) - 1]["end"]); break
+        if not found: raise SystemExit(f"Cold-Open-Wörter {co['words']!r} nicht in Beat {cbi}")
+        wi = words_out.index(bwc[i]); pe = words_out[wi - 1]["end"] + .03 if wi > 0 else 0.0  # nicht mitten im Wort davor anfangen
+        ts = max(b0["start"], found[0] - co.get("lead", 0.4), min(pe, found[0] - .05)); te = found[1] + co.get("hold", 0.45)
+    else:
+        ts = b0["start"] + co.get("at", 0.0); te = ts + co.get("dur", 2.6)
+    cdur = round(min(te - ts, co.get("maxDur", 3.6)), 3); gap = co.get("gap", 0.35)
+    tl["coldOpen"] = {"src": round(ts, 3), "dur": cdur, "gap": gap, "label": co.get("label", "")}
+    tl["durationMain"] = duration; tl["duration"] = round(duration + cdur + gap, 3)
+    json.dump(tl, open(f"{WD}/timeline.json", "w"), ensure_ascii=False, indent=1)
+    a0 = mix[int(ts * SR):int((ts + cdur) * SR)].copy(); fi_, fo_ = int(.02 * SR), int(.05 * SR)
+    a0[:fi_] *= np.linspace(0, 1, fi_)[:, None]; a0[-fo_:] *= np.linspace(1, 0, fo_)[:, None]
+    g = np.zeros((int(gap * SR), 2), np.float32); st_ = load("static_burst")[:len(g)] * 10 ** (-9 / 20); g[:len(st_)] += st_
+    mix = np.concatenate([a0, g, mix]).astype(np.float32)
+    v0 = voice[int(ts * SR):int((ts + cdur) * SR)]
+    voice = np.concatenate([v0, np.zeros(len(g), np.float32), voice]).astype(np.float32)
+    print(f"Cold Open: {ts:.2f}s +{cdur:.2f}s, Gesamt {tl['duration']:.2f}s")
 sf.write(f"{WD}/mix_pre.wav", mix, SR, subtype="PCM_24")
 # Lautheit auf -14 LUFS (2-Pass loudnorm)
 r = subprocess.run(["ffmpeg", "-hide_banner", "-i", f"{WD}/mix_pre.wav", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"], capture_output=True, text=True)
 m = json.loads(r.stderr[r.stderr.rindex("{"):])
 af = f"loudnorm=I=-14:TP=-1.5:LRA=11:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true"
 run("ffmpeg", "-v", "error", "-y", "-i", f"{WD}/mix_pre.wav", "-af", af, "-ar", "48000", "-c:a", "pcm_s24le", f"{WD}/mix.wav")
-sf.write(f"{WD}/voice_only.wav", voice[:int(duration * SR)], SR, subtype="PCM_24")
+sf.write(f"{WD}/voice_only.wav", voice, SR, subtype="PCM_24")
 print(f"Dauer {duration:.2f}s, {len(beats_out)} Beats, {len(words_out)} Wörter, {len(chunks)} Chunks, {len(cues)} SFX; Eingangs-LUFS {m['input_i']}")
