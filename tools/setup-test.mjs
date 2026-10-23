@@ -255,7 +255,8 @@ const PRUEFUNGEN = [
     return {ok:Object.values(r).every(Boolean), info:r}; }],
   ['08 Sicherung: Speicher voll beim Laden laesst alten Stand stehen', async () => {
     const r = await ev(() => { const altP = localStorage.getItem('mtb.profile'), altF = localStorage.getItem('mtb.fahrer');
-      const s = sicherungPruefen(JSON.stringify({format:SICHERUNG_FORMAT, version:1, daten:{'mtb.fahrer':'55', 'mtb.profile':JSON.stringify({v:1, modus:'traum', aktiv:{}, liste:{traum:[], real:[], markt:[]}}), 'mtb.plan':'{}'}}));
+      const s = sicherungPruefen(JSON.stringify({format:SICHERUNG_FORMAT, version:1, daten:{'mtb.fahrer':'55', 'mtb.profile':JSON.stringify({v:1, modus:'traum', aktiv:{}, liste:{traum:[profilLeer('traum')], real:[profilLeer('real')], markt:[profilLeer('markt')]}}), 'mtb.plan':'{}'}}));
+      if(s.fehler) return {ok:'abgelehnt: ' + s.fehler};
       const o = Storage.prototype.setItem; let n = 0;
       Storage.prototype.setItem = function(k, v){ if(sicherungLaeuft && ++n === 2) throw new DOMException('voll', 'QuotaExceededError'); return o.call(this, k, v); };
       const ok = sicherungAnwenden(s); Storage.prototype.setItem = o;

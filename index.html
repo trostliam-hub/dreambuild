@@ -6131,7 +6131,7 @@ function profilName(p, m){
   if(p.name) return p.name;
   const r = p.build && p.build.rahmen ? findeTeil("rahmen", p.build.rahmen) : null;
   if(r) return String(r.n).split(" · ")[0];
-  const d = (p.sel || []).filter(x => DID.indexOf(x) >= 0);
+  const d = (Array.isArray(p.sel) ? p.sel : []).filter(x => DID.indexOf(x) >= 0);
   const leer = !p.build || !Object.keys(p.build).some(k => p.build[k]);
   return leer ? (m === "markt" ? tx("Neues Angebot", "New listing") : tx("Neues Rad", "New bike")) : d.map(dName).join(" + ") || MODUS_NAME[m];
 }
@@ -6183,35 +6183,45 @@ let offenerSlot = null;
 /* Ein beschaedigter Nebeneintrag darf das Laden der Raeder nicht abbrechen. */
 let ladeDefekte = new Set(), ladeProfilSchutz = false, ladeMigrationOffen = false;
 const ladeObjekt = v => !!v && typeof v === "object" && !Array.isArray(v);
+const ladeListe = (v, el) => v == null || Array.isArray(v) && v.every(el);
+/* Audit CS-03: Was laden() als lesbar annimmt, prueft auch eine Sicherung, bevor sie etwas ersetzt --
+   eine geladene Sicherung darf beim Neustart nie als "nicht vollstaendig lesbar" auffallen */
+const profilLesbar = p => ladeObjekt(p) && typeof p.id === "string" && !!p.id && ladeObjekt(p.build)
+  && (p.name == null || typeof p.name === "string") && (p.sel == null || typeof p.sel === "string" || ladeListe(p.sel, x => typeof x === "string"))
+  && ladeListe(p.wuensche, ladeObjekt) && (p.plan == null || ladeObjekt(p.plan)) && (p.markt == null || ladeObjekt(p.markt));
+const LADE_FORM = {"mtb.builds":ladeObjekt, "mtb.build":ladeObjekt, "mtb.jahr":ladeObjekt, "mtb.markt":ladeObjekt, "mtb.eigene":ladeObjekt, "mtb.zu":ladeObjekt,
+  "mtb.links":v => ladeObjekt(v) && ladeObjekt(v.teile), "mtb.betreiber":ladeObjekt, "mtb.feed":v => ladeObjekt(v) && ladeObjekt(v.treffer), "mtb.fotos":ladeObjekt,
+  "mtb.sel":Array.isArray, "mtb.plan":ladeObjekt, "mtb.aff":ladeObjekt, "mtb.profile":v => ladeObjekt(v) && ladeObjekt(v.liste),
+  "mtb.setup":v => ladeObjekt(v) && Object.keys(v).every(k => suLesbar(v[k]))};
 function ladeWert(k){ try{ return localStorage.getItem(k); }catch(e){ ladeDefekte.add(k); return null; } }
-function ladeJSON(k, pruefen){
+function ladeJSON(k, pruefen = LADE_FORM[k]){
   const raw = ladeWert(k); if(raw == null) return null;
   try{ const v = JSON.parse(raw); if(!pruefen(v)) throw new Error("Form"); return v; }
   catch(e){ ladeDefekte.add(k); return null; }
 }
 function laden(){
   ladeDefekte = new Set(); ladeProfilSchutz = false; ladeMigrationOffen = false;
-  const bs = ladeJSON("mtb.builds", ladeObjekt);
+  const bs = ladeJSON("mtb.builds");
   if(bs){ for(const m of MODI) if(ladeObjekt(bs[m])) builds[m] = {...(m === "traum" ? START : leerBau()), ...bs[m]}; }
-  else { const alt = ladeJSON("mtb.build", ladeObjekt); if(alt) builds.traum = {...START, ...alt}; }
+  else { const alt = ladeJSON("mtb.build"); if(alt) builds.traum = {...START, ...alt}; }
   const md = ladeWert("mtb.modus"); if(MODI.includes(md)) modus = md;
-  const jw = ladeJSON("mtb.jahr", ladeObjekt), mk = ladeJSON("mtb.markt", ladeObjekt);
+  const jw = ladeJSON("mtb.jahr"), mk = ladeJSON("mtb.markt");
   if(jw) jahrWahl = {...jahrWahl, ...jw};
   else if(mk && typeof mk.alter === "number") jahrWahl.markt = AKTUELL - Math.round(mk.alter);
   try{ if(ladeWert("mtb.slugv") !== "2"){ kurznamenUmstellen(); localStorage.setItem("mtb.slugv", "2"); } }catch(e){}
-  const eg = ladeJSON("mtb.eigene", ladeObjekt); if(eg){ eigene = eg; INDEX = {}; }
-  const zg = ladeJSON("mtb.zu", ladeObjekt); if(zg) zuGeklappt = zg;
-  const lk = ladeJSON("mtb.links", v => ladeObjekt(v) && ladeObjekt(v.teile)); if(lk) linksLokal = {teile:lk.teile};
+  const eg = ladeJSON("mtb.eigene"); if(eg){ eigene = eg; INDEX = {}; }
+  const zg = ladeJSON("mtb.zu"); if(zg) zuGeklappt = zg;
+  const lk = ladeJSON("mtb.links"); if(lk) linksLokal = {teile:lk.teile};
   linkVerwaltung = ladeWert("mtb.linkadmin") === "1" && btFrei();
-  const bt = ladeJSON("mtb.betreiber", ladeObjekt); if(bt) betreiberLokal = bt;
-  const fd = ladeJSON("mtb.feed", v => ladeObjekt(v) && ladeObjekt(v.treffer)); if(fd) feed = fd;
-  const ft = ladeJSON("mtb.fotos", ladeObjekt); if(ft) fotos = {traum:ft.traum||null, real:ft.real||null, markt:ft.markt||null};
+  const bt = ladeJSON("mtb.betreiber"); if(bt) betreiberLokal = bt;
+  const fd = ladeJSON("mtb.feed"); if(fd) feed = fd;
+  const ft = ladeJSON("mtb.fotos"); if(ft) fotos = {traum:ft.traum||null, real:ft.real||null, markt:ft.markt||null};
   build = builds[modus];
-  const s = ladeJSON("mtb.sel", Array.isArray); if(s) sel = s.filter(x => DID.includes(x)); if(!sel.length) sel = ["trail"];
+  const s = ladeJSON("mtb.sel"); if(s) sel = s.filter(x => DID.includes(x)); if(!sel.length) sel = ["trail"];
   if(mk) markt = {...MARKT_START, ...mk, verschleiss:{...(mk.verschleiss||{})}};
-  const pl = ladeJSON("mtb.plan", ladeObjekt); if(pl) plan = {...PLAN_START, ...pl};
+  const pl = ladeJSON("mtb.plan"); if(pl) plan = {...PLAN_START, ...pl};
   const fa = ladeWert("mtb.fahrer"); if(fa != null && !isNaN(+fa)) plan.fahrer = +fa;
-  const q = ladeJSON("mtb.profile", v => ladeObjekt(v) && ladeObjekt(v.liste)); let migration = null;
+  const q = ladeJSON("mtb.profile"); let migration = null;
   if(q){
     for(const m of MODI){
       const liste = Array.isArray(q.liste[m]) ? q.liste[m] : [];
@@ -6219,6 +6229,10 @@ function laden(){
       if(!gueltig.length || gueltig.length !== liste.length || !Array.isArray(q.liste[m])) ladeDefekte.add("mtb.profile");
       profile[m] = gueltig.map(p => {
         const x = {...profilLeer(m), ...p};
+        /* Audit CS-03: ein einzelner Einsatz als Text wird verlustfrei zur Liste; andere Formen sind unlesbar */
+        if(typeof x.sel === "string") x.sel = [x.sel];
+        else if(x.sel == null) x.sel = ["trail"];
+        else if(!ladeListe(x.sel, e => typeof e === "string")){ ladeDefekte.add("mtb.profile"); x.sel = ["trail"]; }
         if(x.wuensche != null && (!Array.isArray(x.wuensche) || x.wuensche.some(w => !ladeObjekt(w)))){
           ladeDefekte.add("mtb.profile"); x.wuensche = Array.isArray(x.wuensche) ? x.wuensche.filter(ladeObjekt) : [];
         }
@@ -6248,10 +6262,11 @@ function laden(){
       for(const m of MODI) fotos[m] = ft[m] || null;
     }
   }
-  const a = ladeJSON("mtb.aff", ladeObjekt);
+  const a = ladeJSON("mtb.aff");
+  if(setupGerettet) ladeDefekte.add("mtb.setup");
   if(a) aff = {...AFF_START, ...a, mid:{...(a.mid||{})}, an:{...AFF_START.an, ...(a.an||{})}};
   if(ladeDefekte.size){
-    const namen = {"mtb.profile":tx("Radprofile", "bike profiles"), "mtb.links":tx("Produktlinks", "product links"), "mtb.feed":tx("Preisfeed", "price feed"), "mtb.fotos":tx("alte Fotos", "old photos"), "mtb.builds":tx("alte Aufbauten", "old builds"), "mtb.build":tx("alter Aufbau", "old build"), "mtb.eigene":tx("eigene Teile", "custom parts"), "mtb.jahr":tx("Modelljahre", "model years"), "mtb.markt":tx("Gebrauchtrad-Angaben", "used-bike details"), "mtb.zu":tx("Ansicht", "view"), "mtb.sel":tx("Einsatz", "discipline"), "mtb.plan":tx("Bauplan", "build plan"), "mtb.betreiber":tx("Betreibereinstellungen", "operator settings"), "mtb.aff":tx("Shopeinstellungen", "shop settings")};
+    const namen = {"mtb.profile":tx("Radprofile", "bike profiles"), "mtb.links":tx("Produktlinks", "product links"), "mtb.feed":tx("Preisfeed", "price feed"), "mtb.fotos":tx("alte Fotos", "old photos"), "mtb.builds":tx("alte Aufbauten", "old builds"), "mtb.build":tx("alter Aufbau", "old build"), "mtb.eigene":tx("eigene Teile", "custom parts"), "mtb.jahr":tx("Modelljahre", "model years"), "mtb.markt":tx("Gebrauchtrad-Angaben", "used-bike details"), "mtb.zu":tx("Ansicht", "view"), "mtb.sel":tx("Einsatz", "discipline"), "mtb.plan":tx("Bauplan", "build plan"), "mtb.betreiber":tx("Betreibereinstellungen", "operator settings"), "mtb.aff":tx("Shopeinstellungen", "shop settings"), "mtb.setup":tx("Fahrwerk-Setup", "suspension setup")};
     const text = ladeMigrationOffen ? tx("Die alten Fotos konnten nicht vollständig übernommen werden. Die Originaldaten bleiben erhalten. Gib Speicherplatz frei und öffne die App erneut; bis dahin werden keine neuen Radprofile gespeichert.", "The old photos could not be fully migrated. The original data is kept. Free some storage and reopen the app; until then, new bike profiles are not saved.") : tx("Nicht vollständig lesbar: ", "Could not fully read: ") + [...ladeDefekte].map(k => namen[k] || k).join(", ") + ". " + (ladeProfilSchutz ? tx("Die ursprünglichen Radprofile bleiben gespeichert. Lade eine Datensicherung, bevor du Änderungen speicherst.", "The original bike profiles remain saved. Restore a backup before saving changes.") : tx("Deine Radprofile wurden trotzdem geladen. Prüfe die genannten Angaben.", "Your bike profiles were still loaded. Check the listed details."));
     setTimeout(() => zeigeToast(text, 10000), 500);
   }
@@ -6259,7 +6274,7 @@ function laden(){
 /* Speichern mit Rueckmeldung (Bericht 06.10., Befund 07): jeder Eintrag
    einzeln, ein Fehler wird gemeldet statt verschluckt. Die Profile stehen
    zuerst -- sie sind das Wertvollste. */
-function lsSetzen(k, v){ if(sicherungLaeuft) return true; if(k === "mtb.profile" && ladeProfilSchutz || ladeMigrationOffen && /^mtb\.foto\./.test(k)) return false; try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
+function lsSetzen(k, v){ if(sicherungLaeuft) return true; if(k === "mtb.profile" && ladeProfilSchutz || k === "mtb.setup" && setupSchutz || ladeMigrationOffen && /^mtb\.foto\./.test(k)) return false; try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
 /* ═══ Datensicherung (Bericht 06.10., Befund 08) ═══
    Alle Nutzerdaten als eine Datei: Raeder aller Profile, Fahrerangaben,
    Fahrprofil, Fahrwerk-Setup mit Notizen, Einstellungen -- auf Wunsch mit
@@ -6306,8 +6321,11 @@ function sicherungPruefen(text){
     daten[k] = v;
   }
   const json = k => { try{ return daten[k] ? JSON.parse(daten[k]) : null; }catch(e){ return null; } };
+  for(const k in LADE_FORM) if(k in daten && !LADE_FORM[k](json(k)))
+    return {fehler:tx(`Die Sicherung ist beschädigt (Eintrag „${k}“) und wird nicht geladen. Auf diesem Gerät bleibt alles, wie es ist.`, `The backup is damaged (entry “${k}”) and won't be loaded. Everything on this device stays as it is.`)};
   const pr = json("mtb.profile");
-  if(daten["mtb.profile"] && !(pr && pr.liste && typeof pr.liste === "object" && MODI.every(m => !pr.liste[m] || Array.isArray(pr.liste[m]))))
+  /* Jedes Profil braucht mindestens ein lesbares Rad -- sonst stuende nach dem Neuladen der Rettungsschutz */
+  if(daten["mtb.profile"] && !(pr && ladeObjekt(pr.liste) && MODI.every(m => Array.isArray(pr.liste[m]) && pr.liste[m].length && pr.liste[m].every(profilLesbar))))
     return {fehler:tx("Die Räder in der Sicherung sind beschädigt. Die Sicherung wird nicht geladen, auf diesem Gerät bleibt alles, wie es ist.", "The bikes in the backup are damaged. The backup won't be loaded, and everything on this device stays as it is.")};
   if(!Object.keys(daten).length) return {fehler:tx("Die Sicherung ist leer — es gibt nichts zu laden.", "The backup is empty — there's nothing to load.")};
   const raeder = {};
@@ -6336,6 +6354,7 @@ function sicherungVorschauHtml(s){
 /* Ersetzen mit Rueckfall: erst den alten Stand merken, dann schreiben; scheitert
    ein Eintrag (Speicher voll), kommt alles Alte zurueck */
 function sicherungAnwenden(s){
+  if(!s || !ladeObjekt(s.daten)) return false;
   const alt = {}, bilderBleiben = !s.fotos;
   for(const k of sicherungSchluessel()) alt[k] = localStorage.getItem(k);
   sicherungLaeuft = true;
@@ -13500,14 +13519,36 @@ function fxKnopf(z, slot){
 }
 
 /* ── Gemerktes je Gabel + Daempfer, je Profil ── */
-let setupAlle = {};
-try{ setupAlle = JSON.parse(localStorage.getItem("mtb.setup") || "{}") || {}; }catch(e){ setupAlle = {}; }
-if(!setupAlle || typeof setupAlle !== "object" || Array.isArray(setupAlle)) setupAlle = {};
-const suLeer = d => !d.test && !d.tr && !d.log.length
-  && FMODI.every(p => { const P = d.prof[p]; return !P.gesp && !Object.keys(P.psi).length && !Object.keys(P.off).length && !Object.keys(P.sag || {}).length && !Object.keys(P.fertig || {}).length; });
+/* Audit CS-03: Lesbar ist ein Eintrag, dessen Behaelter die erwartete Form haben; Fehlendes ergaenzt
+   suNorm. Unlesbares wird nie still ueberschrieben: es kommt unveraendert nach mtb.setuprest (auch in
+   Sicherungen), die App arbeitet mit dem Lesbaren weiter. Klappt das Aufbewahren nicht, bleibt
+   mtb.setup unangetastet (setupSchutz). */
+const suLesbar = e => ladeObjekt(e) && ladeListe(e.log, ladeObjekt) && [e.tr, e.test].every(v => v == null || ladeObjekt(v))
+  && (e.prof == null || ladeObjekt(e.prof) && FMODI.every(p => { const P = e.prof[p];
+    return P == null || ladeObjekt(P) && ["psi", "off", "sag", "fertig", "gesp", "alt"].every(f => P[f] == null || ladeObjekt(P[f]))
+      && Object.keys(P.sag || {}).every(s => P.sag[s] == null || ladeObjekt(P.sag[s])); }));
+let setupAlle = {}, setupSchutz = false, setupGerettet = false;
+{
+  let roh = null, o = {};
+  try{ roh = localStorage.getItem("mtb.setup"); }catch(e){}
+  if(roh != null) try{ o = JSON.parse(roh); }catch(e){ o = null; }
+  const rest = {};
+  if(ladeObjekt(o)){ for(const k in o) if(suLesbar(o[k])) setupAlle[k] = o[k]; else rest[k] = o[k]; }
+  if(!ladeObjekt(o) || Object.keys(rest).length){
+    setupGerettet = setupSchutz = true;
+    try{
+      let alt = null; try{ alt = JSON.parse(localStorage.getItem("mtb.setuprest") || "null"); }catch(e){}
+      const text = JSON.stringify({...(ladeObjekt(alt) ? alt : {}), [new Date().toISOString()]:ladeObjekt(o) ? {eintraege:rest} : {text:roh}});
+      localStorage.setItem("mtb.setuprest", text);
+      if(localStorage.getItem("mtb.setuprest") === text){ localStorage.setItem("mtb.setup", JSON.stringify(setupAlle)); setupSchutz = false; }
+    }catch(e){}
+  }
+}
+const suLeer = d => !d.test && !d.tr && !(d.log || []).length
+  && FMODI.every(p => { const P = (d.prof || {})[p] || {}; return !P.gesp && !Object.keys(P.psi || {}).length && !Object.keys(P.off || {}).length && !Object.keys(P.sag || {}).length && !Object.keys(P.fertig || {}).length; });
 function suSichern(){
   for(const k in setupAlle) if(setupAlle[k] && setupAlle[k].prof && suLeer(setupAlle[k])) delete setupAlle[k];
-  if(!lsSetzen("mtb.setup", JSON.stringify(setupAlle))) speicherFehler();
+  if(!lsSetzen("mtb.setup", JSON.stringify(setupAlle))) speicherFehler(setupSchutz ? tx("Das Fahrwerk-Setup auf diesem Gerät ist nicht vollständig lesbar und bleibt deshalb unverändert gespeichert. Gib Speicherplatz frei und öffne die App erneut, bevor du Werte änderst.", "The suspension setup on this device can't be fully read, so it stays saved unchanged. Free some storage and reopen the app before you change any values.") : undefined);
 }
 /* Schluessel: Radprofil + Gabel + Daempfer (Bericht 06.10., Befund 05). Zwei
    Raeder mit denselben Teilen teilen sich keine Messungen, Druecke oder Notizen. */
