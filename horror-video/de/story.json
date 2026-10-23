@@ -1,0 +1,1071 @@
+{
+ "series": "NACHT 1",
+ "place": "WHG 4B",
+ "lead": 0.15,
+ "tail": 1.3,
+ "lineGap": 0.22,
+ "beatGap": 0.1,
+ "duckDb": 7,
+ "beds": [
+  {
+   "name": "drone_bed",
+   "from": 0,
+   "to": 200,
+   "gain": 2,
+   "fade": 0.4
+  },
+  {
+   "name": "heartbeat_loop",
+   "fromBeat": 6,
+   "toBeat": 7,
+   "gain": -5,
+   "fade": 0.6
+  },
+  {
+   "name": "heartbeat_fast",
+   "fromBeat": 17,
+   "toBeat": 18,
+   "gain": -4,
+   "fade": 0.5
+  },
+  {
+   "name": "music_box_lullaby",
+   "fromBeat": 3,
+   "toBeat": 5,
+   "gain": 1,
+   "fade": 1.2
+  },
+  {
+   "name": "house_ambience",
+   "from": 0,
+   "to": 200,
+   "gain": 8,
+   "fade": 0.5
+  },
+  {
+   "name": "whisper_texture",
+   "fromBeat": 16,
+   "toBeat": 17,
+   "gain": -2,
+   "fade": 0.8
+  }
+ ],
+ "beats": [
+  {
+   "scene": "phone_lock",
+   "clock": "03:12",
+   "zoom": [
+    1.0,
+    1.22
+   ],
+   "focus": [
+    540,
+    700
+   ],
+   "trans": "cut",
+   "p": {
+    "time": "3:12",
+    "notifs": [
+     {
+      "sender": "Mama",
+      "text": "Ich steh vor der Tür. Mach auf.",
+      "at": 0.0
+     }
+    ],
+    "buzz": [
+     0.0
+    ]
+   },
+   "lines": [
+    {
+     "text": "Mama schreibt:"
+    },
+    {
+     "text": "Ich steh vor der Tür.",
+     "emph": [
+      "Tür"
+     ]
+    },
+    {
+     "text": "Aber Mama schläft nebenan.",
+     "emph": [
+      "nebenan"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "phone_vibrate",
+     "at": 0.0,
+     "gain": 0
+    },
+    {
+     "name": "phone_ping",
+     "at": 0.0,
+     "gain": 0
+    },
+    {
+     "name": "impact_hit_short",
+     "at": "@nebenan+0.6",
+     "gain": -3
+    }
+   ],
+   "glitch": [
+    {
+     "at": "@nebenan+0.6",
+     "d": 0.1
+    }
+   ]
+  },
+  {
+   "scene": "bedroom",
+   "clock": "03:12",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "p": {
+    "pose": "sitting",
+    "listen": true,
+    "breath": true,
+    "phoneGlow": true,
+    "tremble": true
+   },
+   "lines": [
+    {
+     "text": "Durch die Wand hörst du sie atmen.",
+     "emph": [
+      "atmen"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "breath_whisper",
+     "at": "@atmen",
+     "gain": -4
+    },
+    {
+     "name": "breath_whisper",
+     "at": "@atmen+1.6",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "sfx_text",
+   "clock": "03:13",
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "punch": [
+    "@klopft+0.6",
+    "@klopft+1.7",
+    "@klopft+2.8"
+   ],
+   "p": {
+    "lines": [
+     "KLOPF.",
+     "KLOPF.",
+     "KLOPF."
+    ],
+    "times": [
+     "@klopft+0.6",
+     "@klopft+1.7",
+     "@klopft+2.8"
+    ],
+    "xs": [
+     380,
+     690,
+     470
+    ],
+    "y": 520,
+    "size": 200,
+    "bg": "door_inside",
+    "bgP": {
+     "feet": true,
+     "knocks": [
+      "@klopft+0.6",
+      "@klopft+1.7",
+      "@klopft+2.8"
+     ]
+    }
+   },
+   "lines": [
+    {
+     "text": "Dann klopft es.",
+     "gap": 2.9
+    },
+    {
+     "text": "Dreimal, ganz langsam.",
+     "emph": [
+      "Dreimal"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "knock_single",
+     "at": "@klopft+0.6"
+    },
+    {
+     "name": "knock_single",
+     "at": "@klopft+1.7"
+    },
+    {
+     "name": "knock_single",
+     "at": "@klopft+2.8"
+    }
+   ]
+  },
+  {
+   "scene": "fridge_note",
+   "clock": "03:13",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "pre": 0.2,
+   "captionY": 1460,
+   "capBox": true,
+   "p": {
+    "title": "Mamas Regeln"
+   },
+   "lines": [
+    {
+     "text": "Mamas Regeln am Kühlschrank.",
+     "emph": [
+      "Kühlschrank"
+     ]
+    },
+    {
+     "text": "Du dachtest immer, das wäre nur ein Spiel.",
+     "emph": [
+      "Spiel"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "whoosh",
+     "at": 0.0,
+     "gain": -4
+    },
+    {
+     "name": "light_click",
+     "at": 0.1,
+     "gain": 2
+    }
+   ],
+   "trans": "cut"
+  },
+  {
+   "scene": "fridge_note",
+   "clock": "03:13",
+   "zoom": [
+    1.04,
+    1.12
+   ],
+   "focus": [
+    540,
+    700
+   ],
+   "pre": 0.3,
+   "noCaptions": true,
+   "trans": "cut",
+   "p": {
+    "title": "Mamas Regeln",
+    "lines": [
+     {
+      "text": "1. Klopft es nachts: Frag nach unserem Codewort!",
+      "at": "@klopft",
+      "dur": 2.4
+     }
+    ]
+   },
+   "lines": [
+    {
+     "text": "Regel eins:"
+    },
+    {
+     "text": "Klopft es nachts, frag nach unserem Codewort.",
+     "say": "Klopft es nachts, frag nach unserem Kodewort.",
+     "emph": [
+      "Codewort"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "impact_hit_short",
+     "at": 0.02,
+     "gain": -11
+    }
+   ]
+  },
+  {
+   "scene": "fridge_note",
+   "clock": "03:13",
+   "zoom": [
+    1.08,
+    1.16
+   ],
+   "focus": [
+    540,
+    760
+   ],
+   "pre": 0.3,
+   "noCaptions": true,
+   "trans": "cut",
+   "p": {
+    "title": "Mamas Regeln",
+    "lines": [
+     {
+      "text": "1. Klopft es nachts: Frag nach unserem Codewort!",
+      "at": -10
+     },
+     {
+      "text": "2. Wer kein Spiegelbild hat, gehört nicht zur Familie.",
+      "at": "@wer",
+      "dur": 2.8,
+      "row": 3
+     }
+    ]
+   },
+   "lines": [
+    {
+     "text": "Regel zwei:"
+    },
+    {
+     "text": "Wer kein Spiegelbild hat, gehört nicht zur Familie.",
+     "emph": [
+      "Spiegelbild"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "impact_hit_short",
+     "at": 0.02,
+     "gain": -11
+    }
+   ]
+  },
+  {
+   "scene": "peephole",
+   "clock": "03:14",
+   "zoom": [
+    1.0,
+    1.18
+   ],
+   "focus": [
+    540,
+    760
+   ],
+   "p": {
+    "figure": "mama",
+    "mama": "coat",
+    "smile": 0.95
+   },
+   "lines": [
+    {
+     "text": "Im Türspion steht Mama und lächelt.",
+     "emph": [
+      "lächelt"
+     ],
+     "say": "Im Tür-Spion steht Mama und lächelt.",
+     "takes": [
+      6,
+      20
+     ]
+    },
+    {
+     "text": "Sie blinzelt nicht.",
+     "emph": [
+      "blinzelt"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sub_pulse",
+     "at": 0.0,
+     "gain": -10
+    },
+    {
+     "name": "tinnitus_ring",
+     "at": "@blinzelt",
+     "gain": -14
+    }
+   ]
+  },
+  {
+   "scene": "door_inside",
+   "clock": "03:14",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    1400
+   ],
+   "p": {
+    "feet": true,
+    "whisper": {
+     "text": "Sternschnuppe.",
+     "at": "@sternschnuppe",
+     "dur": 1.0,
+     "y": 1080
+    }
+   },
+   "lines": [
+    {
+     "text": "Du flüsterst:"
+    },
+    {
+     "text": "Das Codewort?",
+     "say": "Das Kodewort?",
+     "voice": "narrator"
+    },
+    {
+     "text": "Sie antwortet sofort:"
+    },
+    {
+     "text": "Sternschnuppe.",
+     "voice": "entity",
+     "speed": 0.9,
+     "emph": [
+      "Sternschnuppe"
+     ],
+     "gain": 1,
+     "takes": [
+      6,
+      20
+     ]
+    },
+    {
+     "text": "Es stimmt.",
+     "emph": [
+      "stimmt"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "breath_whisper",
+     "at": "@sternschnuppe",
+     "gain": -10
+    }
+   ]
+  },
+  {
+   "scene": "phone_chat",
+   "clock": "03:17",
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "p": {
+    "name": "Mama",
+    "initials": "MA",
+    "avatarColor": "#5a1316",
+    "messages": [
+     {
+      "side": "in",
+      "text": "Ich steh vor der Tür. Mach auf.",
+      "at": 0
+     },
+     {
+      "side": "in",
+      "text": "Warum machst du nicht auf?",
+      "at": "@warum-0.15",
+      "typing": 0.15,
+      "red": true
+     }
+    ]
+   },
+   "lines": [
+    {
+     "text": "Mama schreibt:"
+    },
+    {
+     "text": "Warum machst du nicht auf?",
+     "emph": [
+      "nicht",
+      "auf"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "phone_vibrate",
+     "at": "@warum-0.15",
+     "gain": -2
+    },
+    {
+     "name": "phone_ping",
+     "at": "@warum-0.1",
+     "gain": -3
+    }
+   ],
+   "captionY": 720,
+   "capBox": true
+  },
+  {
+   "scene": "peephole",
+   "clock": "03:17",
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "p": {
+    "figure": "mama",
+    "mama": "coat",
+    "smile": 0.95,
+    "typing": "@trotzdem-0.45",
+    "hands": 0.3
+   },
+   "lines": [
+    {
+     "text": "Ihre Hände sind leer.",
+     "emph": [
+      "leer"
+     ]
+    },
+    {
+     "text": "Trotzdem schreibt sie weiter.",
+     "emph": [
+      "weiter"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "phone_vibrate",
+     "at": "@trotzdem-0.45",
+     "gain": -6
+    },
+    {
+     "name": "phone_vibrate",
+     "at": "@weiter+0.6",
+     "gain": -5
+    },
+    {
+     "name": "sub_pulse",
+     "at": 0.0,
+     "gain": -6
+    }
+   ],
+   "captionY": 1290,
+   "capBox": true
+  },
+  {
+   "scene": "hallway",
+   "clock": "03:18",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "p": {
+    "lightBehind": "@knarrt",
+    "youBack": true,
+    "youTurn": "@knarrt+0.4"
+   },
+   "lines": [
+    {
+     "text": "Hinter dir knarrt die Tür von Mamas Zimmer.",
+     "emph": [
+      "knarrt"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "door_creak",
+     "at": "@knarrt",
+     "gain": -4
+    }
+   ]
+  },
+  {
+   "scene": "hallway",
+   "clock": "03:18",
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "focus": [
+    540,
+    1000
+   ],
+   "p": {
+    "person": {
+     "kind": "gown",
+     "at": -1,
+     "h": 640,
+     "y": 1330,
+     "tilt": 0.05
+    }
+   },
+   "lines": [
+    {
+     "text": "Mama steht im Flur, im Nachthemd.",
+     "emph": [
+      "Nachthemd"
+     ],
+     "say": "Mama steht im Flur, im Nacht-Hemd."
+    },
+    {
+     "text": "Sie fragt:"
+    },
+    {
+     "text": "Mit wem redest du, Schatz?",
+     "voice": "whisper",
+     "emph": [
+      "Schatz"
+     ],
+     "gain": 1
+    }
+   ],
+   "sfx": [
+    {
+     "name": "footsteps_approach",
+     "at": 0.0,
+     "gain": -8,
+     "dur": 2.6
+    }
+   ],
+   "capBox": true,
+   "trans": "cut"
+  },
+  {
+   "scene": "face_closeup",
+   "clock": "03:18",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "capBox": true,
+   "p": {
+    "mood": "shock"
+   },
+   "lines": [
+    {
+     "text": "Du fragst auch sie nach dem Codewort.",
+     "say": "Du fragst auch sie nach dem Kodewort."
+    }
+   ]
+  },
+  {
+   "scene": "hallway",
+   "clock": "03:19",
+   "zoom": [
+    1.05,
+    1.15
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "capBox": true,
+   "trans": "cut",
+   "p": {
+    "person": {
+     "kind": "gown",
+     "at": -1,
+     "h": 640,
+     "y": 1330,
+     "tilt": -0.04,
+     "face": "yawn"
+    }
+   },
+   "lines": [
+    {
+     "text": "Sie gähnt:"
+    },
+    {
+     "text": "Welches Codewort?",
+     "say": "Welches Kode-Wort?",
+     "voice": "whisper",
+     "emph": [
+      "Welches"
+     ],
+     "gain": 1,
+     "takes": [
+      6,
+      24
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "impact_hit_short",
+     "gain": -5,
+     "fromEnd": 0.3
+    },
+    {
+     "name": "tinnitus_ring",
+     "gain": -14,
+     "fromEnd": 0.3
+    }
+   ]
+  },
+  {
+   "scene": "bathroom_mirror",
+   "clock": "03:19",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "p": {
+    "front": "gown",
+    "frontX": 250,
+    "reflMama": "gown",
+    "reflX": 660,
+    "drip": true,
+    "noSink": true,
+    "noLamp": true
+   },
+   "lines": [
+    {
+     "text": "Im Spiegel neben ihr:"
+    },
+    {
+     "text": "Sie hat ein Spiegelbild.",
+     "emph": [
+      "Spiegelbild"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "drip",
+     "at": 0.3,
+     "gain": -4
+    },
+    {
+     "name": "drip",
+     "at": 1.5,
+     "gain": -6
+    }
+   ],
+   "capBox": true
+  },
+  {
+   "scene": "bathroom_mirror",
+   "clock": "03:19",
+   "zoom": [
+    1.0,
+    1.18
+   ],
+   "focus": [
+    660,
+    900
+   ],
+   "trans": "cut",
+   "p": {
+    "front": "gown",
+    "frontX": 250,
+    "reflMama": "gown",
+    "reflX": 660,
+    "grinAt": "@lächelt",
+    "flicker": true,
+    "noSink": true,
+    "noLamp": true
+   },
+   "lines": [
+    {
+     "text": "Aber ihr Spiegelbild lächelt.",
+     "emph": [
+      "lächelt"
+     ]
+    },
+    {
+     "text": "Sie selbst nicht."
+    },
+    {
+     "text": "Dann geht sie zurück ins Bett."
+    }
+   ],
+   "sfx": [
+    {
+     "name": "static_long",
+     "at": "@lächelt",
+     "gain": -12
+    },
+    {
+     "name": "impact_hit_short",
+     "at": "@lächelt+0.35",
+     "gain": -8
+    }
+   ],
+   "glitch": [
+    {
+     "at": "@lächelt",
+     "d": 0.15
+    }
+   ],
+   "capBox": true
+  },
+  {
+   "scene": "peephole",
+   "clock": "03:31",
+   "clockRed": true,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "punch": [
+    "@dann+0.55"
+   ],
+   "p": {
+    "figure": "none",
+    "lamp": "flicker",
+    "eyeAt": "@dann+0.55"
+   },
+   "lines": [
+    {
+     "text": "Im Spion: niemand mehr."
+    },
+    {
+     "text": "Dann.",
+     "gap": 1.1
+    },
+    {
+     "text": "Ein Auge.",
+     "emph": [
+      "Auge"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "lamp_buzz",
+     "at": 0.0,
+     "gain": -12
+    },
+    {
+     "name": "impact_boom",
+     "at": "@dann+0.55",
+     "gain": -3
+    },
+    {
+     "name": "tinnitus_ring",
+     "at": "@dann+0.75",
+     "gain": -12
+    }
+   ],
+   "flash": [
+    {
+     "at": "@dann+0.55",
+     "d": 0.18,
+     "c": "#ff2020",
+     "a": 0.6
+    }
+   ],
+   "glitch": [
+    {
+     "at": "@dann+0.55",
+     "d": 0.18
+    }
+   ],
+   "post": 0.9
+  },
+  {
+   "scene": "door_inside",
+   "clock": "03:32",
+   "clockRed": true,
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "focus": [
+    540,
+    1300
+   ],
+   "pre": 1.5,
+   "p": {
+    "feet": true,
+    "whisper": {
+     "text": "Lass mich rein …",
+     "at": "@lass",
+     "dur": 1.2,
+     "y": 1080
+    },
+    "knocks": [
+     0.02,
+     1.27
+    ],
+    "rattle": [
+     "@bevor",
+     1.6
+    ]
+   },
+   "lines": [
+    {
+     "text": "Sternschnuppe,",
+     "voice": "entity",
+     "speed": 0.9,
+     "gain": 1,
+     "takes": [
+      6,
+      20
+     ]
+    },
+    {
+     "text": "flüstert sie."
+    },
+    {
+     "text": "Lass mich rein, bevor sie es merkt.",
+     "voice": "entity",
+     "emph": [
+      "rein"
+     ],
+     "gain": 1
+    }
+   ],
+   "sfx": [
+    {
+     "name": "knock_heavy",
+     "at": 0.0,
+     "gain": -2
+    },
+    {
+     "name": "door_handle",
+     "at": "@bevor",
+     "gain": -2
+    }
+   ],
+   "post": 0.9
+  },
+  {
+   "scene": "choice_split",
+   "clock": "03:33",
+   "clockRed": true,
+   "zoom": [
+    1.0,
+    1.03
+   ],
+   "noCaptions": false,
+   "p": {
+    "title": "Wem vertraust du?",
+    "kicker": "NUR EINE IST MAMA",
+    "a": "Mama|vor der Tür",
+    "subA": "kennt das Codewort",
+    "b": "Mama|im Flur",
+    "subB": "hat ein Spiegelbild",
+    "iconA": "mama_coat",
+    "iconB": "mama_gown"
+   },
+   "lines": [
+    {
+     "text": "Die eine kennt das Codewort.",
+     "say": "Die eine kennt das Kodewort.",
+     "emph": [
+      "Codewort"
+     ]
+    },
+    {
+     "text": "Die andere hat ein Spiegelbild.",
+     "emph": [
+      "Spiegelbild"
+     ]
+    },
+    {
+     "text": "Wem vertraust du? A oder B?",
+     "emph": [
+      "vertraust"
+     ]
+    }
+   ],
+   "post": 0.3,
+   "sfx": [
+    {
+     "name": "whoosh",
+     "at": 0.0,
+     "gain": -6
+    },
+    {
+     "name": "whoosh_reverse",
+     "fromEnd": 1.5,
+     "gain": -4
+    }
+   ],
+   "captionY": 1540,
+   "capBox": true
+  },
+  {
+   "scene": "end_card",
+   "clock": "03:33",
+   "clockRed": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "p": {
+    "title": "NACHT 2",
+    "kicker": "VON: MAMA",
+    "time": "03:33",
+    "pill": "FOLGE FÜR NACHT 2",
+    "sub": "A ODER B?|DIE MEHRHEIT ENTSCHEIDET"
+   },
+   "lines": [
+    {
+     "text": "Die Mehrheit entscheidet,"
+    },
+    {
+     "text": "wen du in Nacht zwei reinlässt.",
+     "emph": [
+      "Nacht",
+      "zwei"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "impact_boom",
+     "at": 0.0,
+     "gain": -4
+    },
+    {
+     "name": "knock_single",
+     "fromEnd": 0.8,
+     "gain": -8
+    }
+   ],
+   "pre": 0.9,
+   "noCaptions": false,
+   "captionY": 1520,
+   "capBox": true,
+   "flash": [
+    {
+     "at": 0.0,
+     "d": 0.12,
+     "c": "#ff2020",
+     "a": 0.35
+    }
+   ]
+  }
+ ],
+ "capMaxPx": 860,
+ "noEndFade": true
+}

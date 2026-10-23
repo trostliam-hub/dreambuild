@@ -1,0 +1,237 @@
+{
+ "title": "Glühwürmchen",
+ "premise": "Um drei Uhr zwölf schreibt dir Mama, dass sie vor der Tür steht. Dabei hörst du sie nebenan atmen. Die Mama draußen kennt euer Codewort vom Kühlschrank, die Mama drinnen hat ein Spiegelbild, und nur eine von beiden ist echt.",
+ "word_count": 180,
+ "beats": [
+  {
+   "clock": "03:12",
+   "scene": "phone_lock",
+   "scene_detail": "Dunkler Sperrbildschirm mit großer Uhr 03:12. Eine Benachrichtigung rutscht rot glühend herein, das Handy vibriert. Absender: Mama.",
+   "narration": "Stell dir vor, Mama schreibt: Ich steh vor der Tür. Aber Mama schläft nebenan.",
+   "emphasis": [
+    "vor der Tür",
+    "nebenan"
+   ],
+   "onscreen_text": "Mama: Ich steh vor der Tür. Mach auf.",
+   "sfx": "vibration"
+  },
+  {
+   "clock": "03:12",
+   "scene": "bedroom",
+   "scene_detail": "Dunkles Schlafzimmer. Die Strichfigur sitzt kerzengerade im Bett, das Handy glüht rot auf dem Nachttisch. Durch die rechte Wand ziehen schwache, rote Atemlinien aus dem Nachbarzimmer.",
+   "narration": "Drei Uhr zwölf. Durch die Wand hörst du sie atmen.",
+   "emphasis": [
+    "atmen"
+   ],
+   "onscreen_text": "",
+   "sfx": "silence"
+  },
+  {
+   "clock": "03:13",
+   "scene": "sfx_text",
+   "scene_detail": "Riesige rot glühende Schrift erscheint Wort für Wort im Takt der Klopfer, bei jedem Schlag wackelt das Bild leicht.",
+   "narration": "Dann klopft es. Dreimal, ganz langsam.",
+   "emphasis": [
+    "Dreimal"
+   ],
+   "onscreen_text": "KLOPF. KLOPF. KLOPF.",
+   "sfx": "knock"
+  },
+  {
+   "clock": "03:13",
+   "scene": "rule_card",
+   "scene_detail": "Vergilbter Zettel unter einem Kühlschrankmagneten auf dunklem Grund. Kleines rotes Label 'VOM KÜHLSCHRANK', darunter groß 'MAMAS REGELN' in ordentlicher Erwachsenen-Handschrift.",
+   "narration": "Mamas Regeln vom Kühlschrank. Du dachtest immer, das wäre ein Spiel.",
+   "emphasis": [
+    "Kühlschrank",
+    "Spiel"
+   ],
+   "onscreen_text": "MAMAS REGELN",
+   "sfx": "whoosh"
+  },
+  {
+   "clock": "03:13",
+   "scene": "rule_card",
+   "scene_detail": "Rotes Label 'REGEL #1', großer weißer Text, das Wort 'Codewort' glüht rot.",
+   "narration": "Regel eins: Klopft es nachts, frag nach unserem Codewort.",
+   "emphasis": [
+    "Codewort"
+   ],
+   "onscreen_text": "REGEL #1: Klopft es nachts, frag nach unserem Codewort.",
+   "sfx": "none"
+  },
+  {
+   "clock": "03:13",
+   "scene": "rule_card",
+   "scene_detail": "Rotes Label 'REGEL #2', großer weißer Text, das Wort 'Spiegelbild' flackert rot.",
+   "narration": "Regel zwei: Wer kein Spiegelbild hat, gehört nicht zur Familie.",
+   "emphasis": [
+    "kein Spiegelbild"
+   ],
+   "onscreen_text": "REGEL #2: Wer kein Spiegelbild hat, gehört nicht zur Familie.",
+   "sfx": "none"
+  },
+  {
+   "clock": "03:14",
+   "scene": "peephole",
+   "scene_detail": "Fischaugenblick ins rot beleuchtete Treppenhaus. MAMA DRAUSSEN (fester Look für alle Szenen): Strichfigur mit Haarknoten und langem dunklem Mantel. Sie steht viel zu nah an der Tür, lächelt starr und breit, die Augen weit offen und reglos.",
+   "narration": "Im Spion steht Mama und lächelt. Sie blinzelt nicht.",
+   "emphasis": [
+    "blinzelt nicht"
+   ],
+   "onscreen_text": "",
+   "sfx": "heartbeat"
+  },
+  {
+   "clock": "03:14",
+   "scene": "door_inside",
+   "scene_detail": "Wohnungstür von innen, rotes Licht sickert unter der Tür durch, im Spalt die Schatten von zwei Füßen. Das Wort 'Glühwürmchen' kriecht als leiser Flüstertext durch den Spalt.",
+   "narration": "Du flüsterst: Codewort? Sie antwortet sofort: Glühwürmchen.",
+   "emphasis": [
+    "Glühwürmchen"
+   ],
+   "onscreen_text": "„Glühwürmchen.“ – RICHTIG",
+   "sfx": "silence"
+  },
+  {
+   "clock": "03:17",
+   "scene": "phone_chat",
+   "scene_detail": "Chat mit 'Mama'. Eingehende Blasen untereinander: 'Ich steh vor der Tür.' / 'Glühwürmchen.' / 'Warum machst du nicht auf?'. Die letzte Blase glüht rot.",
+   "narration": "Mama schreibt: Warum machst du nicht auf?",
+   "emphasis": [
+    "nicht auf"
+   ],
+   "onscreen_text": "Mama: Warum machst du nicht auf?",
+   "sfx": "vibration"
+  },
+  {
+   "clock": "03:17",
+   "scene": "peephole",
+   "scene_detail": "Wieder der Fischaugenblick auf Mama im Mantel. Zoom auf ihre Arme: Sie hängen leer und reglos herunter, kein Handy. Am Bildrand pulsiert klein der Text 'Mama schreibt …'.",
+   "narration": "Ihre Hände sind leer. Trotzdem schreibt sie weiter.",
+   "emphasis": [
+    "leer",
+    "weiter"
+   ],
+   "onscreen_text": "Mama schreibt …",
+   "sfx": "vibration"
+  },
+  {
+   "clock": "03:24",
+   "scene": "hallway",
+   "scene_detail": "Langer dunkler Wohnungsflur, Türen links und rechts. Hinten rechts geht eine Tür langsam auf, ein dünner roter Lichtstreifen fällt auf den Boden. Vorne im Bild der Hinterkopf der Strichfigur.",
+   "narration": "Hinter dir knarrt Mamas Zimmertür.",
+   "emphasis": [
+    "Hinter dir"
+   ],
+   "onscreen_text": "",
+   "sfx": "door_handle"
+  },
+  {
+   "clock": "03:24",
+   "scene": "hallway",
+   "scene_detail": "MAMA DRINNEN (fester Look für alle Szenen): Strichfigur mit offenen, langen, zerzausten Haaren und hellem Nachthemd, Kopf leicht schief. Sie steht mitten im Flur, neben ihr die offene Badtür. Vorne blickt die Strichfigur über die Schulter zurück.",
+   "narration": "Mama steht im Flur, im Nachthemd. Sie fragt: Mit wem redest du, Schatz?",
+   "emphasis": [
+    "Nachthemd",
+    "Schatz"
+   ],
+   "onscreen_text": "„Mit wem redest du, Schatz?“",
+   "sfx": "footsteps"
+  },
+  {
+   "clock": "03:25",
+   "scene": "face_closeup",
+   "scene_detail": "Großes Strichfigur-Gesicht mit Schweißtropfen, die Augen weit aufgerissen. Darunter erscheint Mamas Antwort als Sprechtext, über dem Text ein kleines gähnendes 'Ahh'.",
+   "narration": "Du fragst auch sie nach dem Codewort. Sie gähnt: Welches Codewort?",
+   "emphasis": [
+    "Welches Codewort"
+   ],
+   "onscreen_text": "„Welches Codewort?“",
+   "sfx": "silence"
+  },
+  {
+   "clock": "03:25",
+   "scene": "bathroom_mirror",
+   "scene_detail": "Badezimmerspiegel. Davor Mama im Nachthemd mit ausdruckslosem Gesicht, im Spiegel ihr Spiegelbild, zunächst völlig normal. Nur zwei Figuren: Mama und ihr Spiegelbild.",
+   "narration": "Im Badspiegel hinter ihr: Sie hat ein Spiegelbild.",
+   "emphasis": [
+    "Spiegelbild"
+   ],
+   "onscreen_text": "",
+   "sfx": "drip"
+  },
+  {
+   "clock": "03:26",
+   "scene": "bathroom_mirror",
+   "scene_detail": "Gleiche Einstellung. Mamas Gesicht bleibt leer und reglos, ihr Spiegelbild grinst langsam immer breiter, das Lächeln glüht rot.",
+   "narration": "Aber ihr Spiegelbild lächelt. Sie nicht.",
+   "emphasis": [
+    "lächelt"
+   ],
+   "onscreen_text": "",
+   "sfx": "static"
+  },
+  {
+   "clock": "03:31",
+   "scene": "peephole",
+   "scene_detail": "Fischaugenblick ins Treppenhaus, rot und komplett leer. Nach einer Sekunde presst sich von draußen schlagartig ein riesiges Auge an den Spion und füllt das ganze Bild, rote Adern glühen, es blinzelt nicht.",
+   "narration": "Im Spion: niemand mehr. Dann – ein Auge.",
+   "emphasis": [
+    "Auge"
+   ],
+   "onscreen_text": "",
+   "sfx": "boom"
+  },
+  {
+   "clock": "03:32",
+   "scene": "door_inside",
+   "scene_detail": "Wohnungstür von innen, das rote Licht unter der Tür flackert, im Spalt die Schatten von zwei Füßen, ganz nah. Ein Flüstertext kriecht durch den Spalt.",
+   "narration": "Glühwürmchen, flüstert es. Lass mich rein, bevor sie es merkt.",
+   "emphasis": [
+    "Lass mich rein"
+   ],
+   "onscreen_text": "„Lass mich rein, bevor sie es merkt.“",
+   "sfx": "knock"
+  },
+  {
+   "clock": "03:33",
+   "scene": "face_closeup",
+   "scene_detail": "Großes Strichfigur-Gesicht mit Schweißtropfen. Die Augen springen hin und her: links glüht es rot (Tür), rechts glüht es rot (Flur).",
+   "narration": "Eine kennt das Codewort. Eine hat ein Spiegelbild.",
+   "emphasis": [
+    "Codewort",
+    "Spiegelbild"
+   ],
+   "onscreen_text": "NUR EINE IST MAMA.",
+   "sfx": "heartbeat"
+  },
+  {
+   "clock": "03:33",
+   "scene": "choice_split",
+   "scene_detail": "Geteilter Bildschirm, oben groß 'WEM VERTRAUST DU?'. Links (A): Mama im Mantel mit Haarknoten vor der Tür, darunter 'kennt das Codewort'. Rechts (B): Mama im Nachthemd vor dem Spiegel, darunter 'hat ein Spiegelbild'. Die Mitte glüht rot.",
+   "narration": "Wem vertraust du? A: Mama vor der Tür – oder B: Mama im Flur.",
+   "emphasis": [
+    "Wem vertraust du"
+   ],
+   "onscreen_text": "WEM VERTRAUST DU? A: Mama vor der Tür | B: Mama im Flur",
+   "sfx": "heartbeat"
+  },
+  {
+   "clock": "03:33",
+   "scene": "end_card",
+   "scene_detail": "Schwarzer Hintergrund, groß und rot glühend 'NACHT 2', darunter 'Folge für Teil 2' und klein 'A oder B? Ab in die Kommentare'. Ganz leise klopft es noch einmal.",
+   "narration": "Schreib A oder B. Folge für Nacht zwei.",
+   "emphasis": [
+    "A oder B",
+    "Nacht zwei"
+   ],
+   "onscreen_text": "NACHT 2 – Folge für Teil 2",
+   "sfx": "knock"
+  }
+ ],
+ "final_question": "Eine kennt das Codewort. Eine hat ein Spiegelbild. Wem vertraust du?",
+ "option_a": "A: Mama vor der Tür (kennt das Codewort)",
+ "option_b": "B: Mama im Flur (hat ein Spiegelbild)",
+ "part2_title": "NACHT 2"
+}
