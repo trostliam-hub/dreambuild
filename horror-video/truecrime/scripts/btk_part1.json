@@ -191,8 +191,8 @@
     "stamp": {
      "text": "AIR FORCE|VETERAN",
      "at": "@air",
-     "x": 195,
-     "y": 118
+     "x": 140,
+     "y": 134
     }
    },
    "pops": [
@@ -260,6 +260,12 @@
    "zoom": [
     1.0,
     1.04
+   ],
+   "pan": [
+    0,
+    30,
+    0,
+    30
    ],
    "p": {
     "left": "family",
@@ -702,57 +708,34 @@
    ]
   },
   {
-   "scene": "house_ext",
+   "scene": "memorial",
    "clock": "APR 1974",
    "captionY": 1500,
    "capBox": true,
-   "trans": "cut",
+   "noHud": true,
+   "trans": "fade",
    "zoom": [
     1.0,
-    1.05
+    1.03
    ],
    "focus": [
-    560,
-    980
+    540,
+    900
    ],
    "p": {
-    "style": "suburb",
-    "tree": true,
-    "lamp": true,
-    "windows": [
+    "title": "APRIL 4, 1974",
+    "names": [
      {
-      "i": 3,
-      "off": "@later"
+      "name": "Kathryn Bright",
+      "sub": "AGE 21"
      }
     ],
-    "porch": true
+    "at": "@kathryn-0.1",
+    "gap": 1.0
    },
-   "pops": [
-    {
-     "text": "APRIL 4, 1974",
-     "at": "@april",
-     "x": 500,
-     "y": 410,
-     "size": 84,
-     "dur": 30,
-     "rot": -0.03
-    },
-    {
-     "text": "KATHRYN BRIGHT, 21",
-     "at": "@kathryn",
-     "x": 490,
-     "y": 505,
-     "size": 70,
-     "dur": 30,
-     "rot": 0
-    }
-   ],
    "lines": [
     {
-     "text": "In April, you attack Kathryn Bright, twenty-one.",
-     "emph": [
-      "kathryn"
-     ]
+     "text": "In April, you attack Kathryn Bright, twenty-one."
     },
     {
      "text": "She dies hours later.",
@@ -764,11 +747,6 @@
    "post": 0.6,
    "sfx": [
     {
-     "name": "typewriter_key",
-     "at": "@april",
-     "gain": -6
-    },
-    {
      "name": "heartbeat_single",
      "at": "@later+0.8",
      "gain": -5
@@ -778,6 +756,7 @@
   {
    "scene": "house_ext",
    "clock": "APR 1974",
+   "place": "KEVIN BRIGHT, 19",
    "captionY": 1500,
    "capBox": true,
    "trans": "cut",
@@ -816,22 +795,13 @@
    },
    "pops": [
     {
-     "text": "KEVIN BRIGHT",
-     "at": "@someone-0.1",
-     "x": 540,
-     "y": 450,
-     "size": 88,
-     "dur": 30,
-     "rot": -0.03
-    },
-    {
      "text": "SURVIVED",
-     "at": "@survived",
+     "at": "@someone-0.25",
      "x": 540,
-     "y": 570,
-     "size": 120,
+     "y": 470,
+     "size": 130,
      "dur": 30,
-     "rot": 0.02
+     "rot": -0.02
     }
    ],
    "lines": [
@@ -1044,7 +1014,6 @@
       "text": "OTERO",
       "at": "@murders",
       "dur": 0.45,
-      "red": true,
       "size": 96
      },
      {
@@ -1080,9 +1049,7 @@
       "at": -9
      }
     ],
-    "hl": [
-     "OTERO"
-    ],
+    "hl": [],
     "signature": {
      "text": "B.T.K.",
      "at": "@name",

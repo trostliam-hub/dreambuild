@@ -18,11 +18,12 @@ def pop(text, at, y=560, size=80, dur=30, rot=0.0, x=540):
 # Brief von Okt. 1974: Inhalt wird nie gezeigt – Platzhalter unter Schwärzungsbalken, nur OTERO und B.T.K. bleiben sichtbar
 LT = ["xxxxxxx xxxx xxxxxx xx xxx xxxx xxxxx", "xxxxx xxxx xxxxxxx xx xxxx xxx", "OTERO", "xxxx xxxxxxx xxxxx xxxxxxx xx", "xxxxxx xx xxx xxxx"]
 def btk_letter(times, sig_at):
+    # Opfername OTERO bewusst nicht rot (Würde der Opfer)
     """Brief-Parameter; times = Startzeit je Zeile (Schwärzung liegt sofort über jedem getippten Zeichen)."""
     durs = [0.55, 0.5, 0.45, 0.5, 0.4]
-    lines = [{"text": t, "at": a, "dur": d, **({"red": True, "size": 96} if t == "OTERO" else {})} for t, a, d in zip(LT, times, durs)]
+    lines = [{"text": t, "at": a, "dur": d, **({"size": 96} if t == "OTERO" else {})} for t, a, d in zip(LT, times, durs)]
     red = [{"line": i, "from": 0, "at": -9} for i, t in enumerate(LT) if t != "OTERO"]
-    return {"style": "typewriter", "paper": "white", "tilt": -0.025, "y": 900, "lines": lines, "redact": red, "hl": ["OTERO"],
+    return {"style": "typewriter", "paper": "white", "tilt": -0.025, "y": 900, "lines": lines, "redact": red, "hl": [],
             "signature": {"text": "B.T.K.", "at": sig_at, "style": "type", "red": True}}
 
 TITLE = {"date": "A TRUE STORY.", "place": "WICHITA, KANSAS", "red": [], "at": 0.0, "bg": "black", "y": 560}
@@ -42,7 +43,7 @@ B.append({"scene": "sfx_text", "clock": "1974", **CAP, "noCaptions": True, "tran
 # 2: der Ausweis – Name geschwärzt, Stempel AIR FORCE VETERAN
 B.append({"scene": "id_badge", "clock": "1974", **CAP, "trans": "cut", "zoom": [1.0, 1.08], "focus": [540, 850],
     "p": {"kind": "card", "org": "WICHITA, KANSAS · 1974", "name": BLACK, "title": "COLLEGE STUDENT", "idno": " ",
-          "at": 0.0, "stamp": {"text": "AIR FORCE|VETERAN", "at": "@air", "x": 195, "y": 118}},
+          "at": 0.0, "stamp": {"text": "AIR FORCE|VETERAN", "at": "@air", "x": 140, "y": 134}},   # x 140: Stempelrand bleibt links von x≈930 (rechte TikTok-Leiste); y 134: frei von "STUDENT"
     "pops": [pop("AGE 28", "@twentyeight", y=470, size=96, rot=-0.04), pop("MARRIED", "@married", y=1250, size=84, rot=0.03, x=330),
              pop("STUDENT", "@college", y=1250, size=84, rot=-0.03, x=760)],
     # Pause nach "married," – sonst klingt es wie "married an Air Force veteran"; pre: der Whoosh läuft vor der Stimme
@@ -50,7 +51,8 @@ B.append({"scene": "id_badge", "clock": "1974", **CAP, "trans": "cut", "zoom": [
     "pre": 0.25, "post": 0.35,
     "sfx": [{"name": "whoosh_dark", "at": 0.0, "gain": -10}, {"name": "rubber_stamp", "at": "@air", "gain": -10}]})
 # 3: Doppelleben – Familie links, du im Dunkeln rechts; am Ende frisst die dunkle Hälfte die warme
-B.append({"scene": "double_life", "clock": "LATER", **CAP, "trans": "cut", "zoom": [1.0, 1.04],
+# pan +30 px: die Schilder (fest bei y 412) rücken vom HUD-Ortsnamen weg
+B.append({"scene": "double_life", "clock": "LATER", **CAP, "trans": "cut", "zoom": [1.0, 1.04], "pan": [0, 30, 0, 30],
     "p": {"left": "family", "right": "shadow", "split": "@later", "swap": "@president+0.45",
           "labels": {"l": "FATHER OF TWO. CHURCH COUNCIL PRESIDENT.", "r": "THE KILLER", "at": "@father"}},
     "lines": [L("Later, you'll be a father of two and a church council president.", emph=["father", "president"])], "post": 1.0,
@@ -99,20 +101,21 @@ B.append({"scene": "letter", "clock": "JAN 1974", "clockRed": True, **CAP, "tran
     "punch": ["@murderer+0.42"], "shakeAt": [{"at": "@murderer+0.42", "d": 0.35, "a": 12}],
     "sfx": [{"name": "typewriter_burst", "at": 0.0, "gain": -11}, {"name": "rubber_stamp", "at": "@murderer+0.42", "gain": -3},
             {"name": "hit_deep", "at": "@murderer+0.44", "gain": -7}, {"name": "typewriter_burst", "at": "@nobody", "gain": -13}]})
-# 10: April 1974 – Kathryn Bright
+# 10: April 1974 – Kathryn Bright: ruhige weiße Gedenkkarte wie Beat 6 (Würde: kein roter Pop für Opfernamen), ohne HUD;
+#     das Datum steht als graue Überschrift, der Name erscheint auf "Kathryn"
 BR = {"style": "suburb", "tree": True, "lamp": True}
-B.append({"scene": "house_ext", "clock": "APR 1974", **CAP, "trans": "cut", "zoom": [1.0, 1.05], "focus": [560, 980],
-    "p": {**BR, "windows": [{"i": 3, "off": "@later"}], "porch": True},
-    "pops": [pop("APRIL 4, 1974", "@april", y=410, size=84, rot=-0.03, x=500), pop("KATHRYN BRIGHT, 21", "@kathryn", y=505, size=70, rot=0, x=490)],
-    "lines": [L("In April, you attack Kathryn Bright, twenty-one.", emph=["kathryn"]), L("She dies hours later.", emph=["dies"])], "post": 0.6,
-    "sfx": [{"name": "typewriter_key", "at": "@april", "gain": -6}, {"name": "heartbeat_single", "at": "@later+0.8", "gain": -5}]})
-# 11: Kevin entkommt – Quelle des Cold Opens. Er steht ab "escapes" in der hellen Tür und rennt auf "Someone" los,
-#     damit die Flucht im Cold Open (ab "Someone") zu sehen ist; KEVIN BRIGHT steht schon im ersten Cold-Open-Bild
-B.append({"scene": "house_ext", "clock": "APR 1974", **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [560, 980],
+B.append({"scene": "memorial", "clock": "APR 1974", **CAP, "noHud": True, "trans": "fade", "zoom": [1.0, 1.03], "focus": [540, 900],
+    "p": {"title": "APRIL 4, 1974", "names": [{"name": "Kathryn Bright", "sub": "AGE 21"}], "at": "@kathryn-0.1", "gap": 1.0},
+    "lines": [L("In April, you attack Kathryn Bright, twenty-one."), L("She dies hours later.", emph=["dies"])], "post": 0.6,
+    "sfx": [{"name": "heartbeat_single", "at": "@later+0.8", "gain": -5}]})
+# 11: Kevin entkommt – Quelle des Cold Opens (Bild 0 = TikTok-Cover). Er steht ab "escapes" in der hellen Tür und rennt auf "Someone" los,
+#     damit die Flucht im Cold Open (ab "Someone") zu sehen ist. Sein Name steht ruhig grau in der HUD-Ortszeile (Pops sind immer rot);
+#     SURVIVED kommt 0.25 s vor "Someone", damit es im ersten Cold-Open-Bild schon fertig steht
+B.append({"scene": "house_ext", "clock": "APR 1974", "place": "KEVIN BRIGHT, 19", **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [560, 980],
     "p": {**BR, "windows": [], "porch": True, "door": {"open": "@escapes-0.45", "dur": 0.4, "light": "warm"},
           "figure": {"at": "@escapes-0.1", "x": 0.56, "y": 0.62, "h": 0.112, "move": ["@someone-0.25", "@you+0.35", 1.25], "fade": 0.1,
                      "coat": "none"}},   # junger Mann ohne Mantel – nicht die Täter-Silhouette aus Beat 5
-    "pops": [pop("KEVIN BRIGHT", "@someone-0.1", y=450, size=88, rot=-0.03), pop("SURVIVED", "@survived", y=570, size=120, rot=0.02)],
+    "pops": [pop("SURVIVED", "@someone-0.25", y=470, size=130, rot=-0.02)],
     "lines": [L("Her brother Kevin is badly hurt, but he escapes alive.", emph=["escapes", "alive"], gap=0.4), L("Someone has survived you.", emph=["survived"])],
     "post": 0.7, "punch": ["@survived"], "flash": [{"at": "@survived", "d": 0.1, "c": "#ffffff", "a": 0.25}],
     "sfx": [{"name": "door_handle", "at": "@escapes-0.5", "gain": -7}, {"name": "footsteps_approach", "at": "@someone-0.25", "gain": -10, "dur": 1.6},

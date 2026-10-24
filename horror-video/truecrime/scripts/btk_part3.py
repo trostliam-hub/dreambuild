@@ -29,8 +29,9 @@ B.append({"scene": "phone_booth", "clock": "DEC 1977", **CAP, "trans": "cut", "z
 # 1: das Gedicht über Shirley Vian geht an die Zeitung (Inhalt bleibt verborgen)
 B.append({"scene": "letter", "clock": "JAN 1978", **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [540, 850],
     "p": {"style": "typewriter", "paper": "old", "envelope": True, "title": "", "lines": [{"text": t} for t in XL],
-          # Schwärzungsbalken gleich nach jeder Zeile (Standard „Zeilenende + 0,3“ wäre für die letzte Zeile zu spät, Beat ≈ 4,2 s)
-          "redact": [{"line": 0, "at": 2.15}, {"line": 1, "at": 2.7}, {"line": 2, "at": 3.2}, {"line": 3, "at": 3.62}],
+          # Schwärzung läuft mit dem Tippen mit: Balken-„at“ liegt vor dem Zeilenbeginn (Zeilen ab 1,8 s), damit deckt der Balken
+          # jedes getippte Zeichen im selben Frame ab – die Platzhalter „xxxx“ sind nie lesbar
+          "redact": [{"line": i, "at": 0.0} for i in range(4)],
           "stamp": {"text": "MAILED|JAN 31 1978", "at": "@newspaper+0.55"}},
     "lines": [L("Weeks later, you mail a poem about Shirley Vian to the newspaper.", emph=["poem"])],
     "post": 0.6,
@@ -64,7 +65,8 @@ B.append({"scene": "letter", "clock": "FEB 1978", **CAP, "trans": "cut", "zoom":
     "p": {"style": "typewriter", "paper": "white",
           "lines": [{"text": XL[0], "at": 0.1, "dur": 0.5}, {"text": XL[1], "at": 0.5, "dur": 0.5}, {"text": XL[2], "at": 0.9, "dur": 0.6},
                     {"text": XL[3], "at": 1.4, "dur": 0.5}, {"text": "NATIONAL ATTENTION", "at": "@national", "dur": 0.7, "red": True}, {"text": XL[1], "at": "@attention+0.4", "dur": 0.5}],
-          "redact": [{"line": 0, "at": 0.65}, {"line": 1, "at": 1.05}, {"line": 2, "at": 1.55}, {"line": 3, "at": 2.0}, {"line": 5, "at": "@attention+0.95"}],
+          # Balken-„at“ ≥ 0,4 s vor Zeilenbeginn: Schwärzung folgt dem Tippen, Platzhalter nie lesbar
+          "redact": [{"line": 0, "at": -0.5}, {"line": 1, "at": -0.5}, {"line": 2, "at": -0.5}, {"line": 3, "at": -0.5}, {"line": 5, "at": "@attention"}],
           "hl": ["NATIONAL", "ATTENTION"], "focusLine": 4, "focusAt": "@national"},
     "lines": [L("You ask how many you have to kill before you get some national attention.", emph=["kill", "national", "attention"])], "post": 0.7,
     "sfx": [{"name": "typewriter_burst", "at": 0.1, "gain": -11}, {"name": "typewriter_burst", "at": "@national", "gain": -12},
@@ -80,7 +82,9 @@ B.append({"scene": "tv_news", "clock": "FEB 1978", **CAP, "trans": "cut", "zoom"
 B.append({"scene": "house_ext", "clock": "APR 1979", **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [560, 1000],
     "p": {"style": "suburb", "windows": [], "porch": False,  # kein Auto: sie kommt erst spät (nicht „jemand kommt an“)
           "figure": {"x": 0.98, "at": "@returns-0.25", "move": ["@returns-0.25", "@returns+1.3", 0.56], "h": 0.115, "y": 0.665}},  # Anna kommt erst nach „you leave“
-    "pops": [pop("ANNA WILLIAMS, 63", "@williams-0.1", y=470, size=84, x=480), pop("SHE SURVIVED", "@returns+0.35", y=585, size=74, x=480)],
+    # Würde: Opfernamen nie als roter Pop – ruhig grau in der HUD-Zeile; sie wurde nie angegriffen -> „SPARED“, nicht „SURVIVED“
+    "place": "ANNA WILLIAMS, 63",
+    "pops": [pop("SHE WAS SPARED", "@returns+0.35", y=585, size=74, x=480)],
     "lines": [L("In nineteen seventy-nine, you wait inside the home of Anna Williams.", emph=["wait"]),
               L("She stays out late, and you leave before she returns.", emph=["leave", "returns"])], "post": 0.9,
     "sfx": [{"name": "keys_jingle", "at": "@returns+0.9", "gain": -9}]})
@@ -106,8 +110,9 @@ B.append({"scene": "sfx_text", "clock": "1979", **CAP, "trans": "glitch", "vigne
 # Beide Pins auf derselben Straße, wenige Häuser auseinander (Hedge wohnte ein paar Türen weiter), kein Fluss dazwischen
 B.append({"scene": "city_map", "clock": "1985", "clockRed": True, "place": "PARK CITY, KANSAS", **CAP, "trans": "cut", "zoom": [1.0, 1.08], "focus": [690, 1000],
     "p": {"title": "PARK CITY", "sub": "KANSAS", "coords": "", "river": False,
-          "pins": [{"x": 0.685, "y": 0.47, "at": "@you", "label": "YOU", "red": False},
-                   {"x": 0.69, "y": 0.58, "at": "@hedge", "label": "MARINE HEDGE, 53", "red": True}],
+          # Würde: Opfer-Pin ruhig weiß/grau, der rote Pin ist „du“
+          "pins": [{"x": 0.685, "y": 0.47, "at": "@you", "label": "YOU", "red": True},
+                   {"x": 0.69, "y": 0.58, "at": "@hedge", "label": "MARINE HEDGE, 53", "red": False}],
           "lines": [{"from": 0, "to": 1, "at": "@who"}],
           "ring": {"x": 0.69, "y": 0.50, "r0": 0.7, "r1": 0.17, "t0": "@lives", "t1": "@street+0.6", "label": "SAME STREET"}},
     "lines": [L("In nineteen eighty-five, you kill Marine Hedge, who lives on your own street.", emph=["own", "street"])], "post": 0.8,
@@ -117,14 +122,17 @@ B.append({"scene": "city_map", "clock": "1985", "clockRed": True, "place": "PARK
 B.append({"scene": "house_ext", "clock": "1986", "clockRed": True, **CAP, "trans": "glitch", "zoom": [1.0, 1.08], "focus": [560, 1050],
     "p": {"style": "ranch", "windows": [], "porch": True, "car": {"x": 0.74, "headlights": False}, "dark": 0.15,
           # die Silhouette ist hier der Ehemann: erst ab „husband“, nicht schon bei „you kill“ (Silhouette = „du“ in der Serie)
-          "figure": {"x": 0.4, "y": 0.665, "h": 0.13, "arms": "down", "at": "@husband-0.2"}, "police": "@police-0.2"},
-    "pops": [pop("VICKI WEGERLE, 28", "@vicki-0.1", y=470, size=84, x=480), pop("WRONG MAN", "@not", y=900, size=96, rot=-0.05, x=432)],
+          "figure": {"x": 0.4, "y": 0.665, "h": 0.13, "arms": "down", "at": "@husband-0.2"}, "police": "@police-0.5"},
+    # Würde: Name nicht als roter Pop, sondern ruhig grau in der HUD-Zeile
+    "place": "VICKI WEGERLE, 28",
+    "pops": [pop("WRONG MAN", "@police-0.17", y=900, size=96, rot=-0.05, x=432)],  # schon im ersten Bild (Cover)
     "lines": [L("The next year, you kill Vicki Wegerle, twenty-eight.", say="The next year, you kill Vicki Wegger-lee, twenty-eight.", emph=["twentyeight"]),
               L("Police suspect her husband, not you.", emph=["husband", "not"])], "post": 0.7,
     "sfx": [{"name": "siren_wail", "at": "@police-0.6", "gain": -12, "dur": 4.0}, {"name": "police_radio", "at": "@husband+0.1", "gain": -14},
             {"name": "stinger_reveal", "at": "@you+0.4", "gain": -9}]})
 # 11: Dolores Davis – der Zähler springt bis 1991
-B.append({"scene": "years_flip", "clock": "1991", "place": "SEDGWICK COUNTY, KANSAS", **CAP,  # Davis wohnte nahe Park City, nicht darin "trans": "cut", "zoom": [1.0, 1.06], "focus": [540, 800],
+# Ort: Davis wohnte nahe Park City, nicht darin
+B.append({"scene": "years_flip", "clock": "1991", "place": "SEDGWICK COUNTY, KANSAS", **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [540, 800],
     "p": {"from": 1986, "to": 1991, "t0": 0.15, "t1": "@ninetyone+0.15", "label": "DOLORES DAVIS, 62", "ticks": True},
     "lines": [L("In nineteen ninety-one, you take the life of Dolores Davis, sixty-two.", emph=["life"])], "post": 0.7,
     "sfx": [{"name": "low_piano_hit", "at": "@sixtytwo+0.6", "gain": -7}]})
@@ -136,14 +144,15 @@ B.append({"scene": "years_flip", "clock": "1991–2004", **CAP, "trans": "cut", 
     "post": 1.0, "glitch": [{"at": "@almost+0.05", "d": 0.12}, {"at": "@it+0.5", "d": 0.16}], "flash": [{"at": "@almost", "d": 0.18, "c": "#ff2020", "a": 0.35}],
     "sfx": [{"name": "hit_deep", "at": "@it+0.5", "gain": -5}]})
 # 13: Endkarte
-B.append({"scene": "end_card", "clock": "1991–2004", **CAP, "trans": "cut",
+B.append({"scene": "end_card", "clock": "1991–2004", **CAP, "trans": "cut", "zoom": [1.0, 1.0],
     "p": {"title": "YOU ARE BTK", "kicker": "PART 3 OF 5", "pill": "FOLLOW FOR PART 4", "sub": "WOULD YOU KNOW THE VOICE?|TELL ME IN THE COMMENTS"},
     "lines": [L("Follow for part four.", emph=["four"])], "post": 0.9,
     "sfx": [{"name": "whoosh_reverse", "at": 0.0, "gain": -9}]})
 
 story = base("YOU ARE BTK", 3, "WICHITA, KANSAS", "FOLLOW FOR PART 4", "PART 4")
 story["beats"] = B
-story["coldOpen"] = {"beat": 10, "words": "Police suspect her husband, not you.", "label": "LATER"}
+# lead 0.03: Cold Open beginnt 30 ms vor „Police“ (Stimme setzt erst bei ≈ +0,04 s ein) -> Untertitel steht schon in Frame 0 (TikTok-Cover)
+story["coldOpen"] = {"beat": 10, "words": "Police suspect her husband, not you.", "label": "LATER", "lead": 0.03}
 story["beds"] = [
     {"name": "drone_bed", "from": 0, "to": 200, "gain": 1, "fade": 0.4},
     {"name": "rain_bed", "fromBeat": 0, "toBeat": 0, "gain": 0, "fade": 0.4},

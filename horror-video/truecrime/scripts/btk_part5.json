@@ -675,7 +675,7 @@
    "sfx": [
     {
      "name": "hit_deep",
-     "at": 0.0,
+     "at": "@because-0.08",
      "gain": -8
     },
     {
@@ -915,16 +915,23 @@
    "trans": "cut",
    "zoom": [
     1.035,
-    1.045
+    1.04
    ],
    "focus": [
     540,
     900
    ],
    "pre": 0.35,
-   "post": 0.75,
+   "post": -0.765,
+   "minDur": 0.5,
+   "pan": [
+    0,
+    -85.387,
+    0,
+    -85.8
+   ],
    "p": {
-    "title": "",
+    "title": "REMEMBER THEIR NAMES",
     "names": [
      {
       "name": "Joseph Otero",
@@ -978,10 +985,40 @@
    ]
   },
   {
+   "scene": "memorial",
+   "clock": "AUG 2005",
+   "noCaptions": true,
+   "noHud": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.02
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "pre": 0.0,
+   "post": 0.0,
+   "minDur": 1.515,
+   "p": {
+    "title": "",
+    "names": [
+     {
+      "name": "Not his."
+     }
+    ],
+    "at": -0.3,
+    "gap": 0.0
+   },
+   "lines": []
+  },
+  {
    "scene": "end_card",
    "clock": "AUG 2005",
    "captionY": 1500,
    "capBox": true,
+   "noHud": true,
    "trans": "fade",
    "pre": 0.2,
    "post": 0.1,
@@ -1001,7 +1038,8 @@
  "coldOpen": {
   "beat": 10,
   "words": "Because I was trying to catch you.",
-  "label": "LATER"
+  "label": "LATER",
+  "lead": 0.08
  },
  "beds": [
   {
@@ -1014,7 +1052,7 @@
   {
    "name": "drone_bed",
    "fromBeat": 12,
-   "toBeat": 15,
+   "toBeat": 16,
    "gain": -4,
    "fade": 1.2
   },

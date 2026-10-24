@@ -76,14 +76,14 @@ B.append({"scene": "double_life", "clock": "NOV 1974", **CAP, "trans": "cut", "z
     "p": {"left": "office", "right": "house", "split": 0.25, "labels": {"l": "ALARM INSTALLER", "r": "THE KILLER", "at": 0.8}, "swap": "@like"},
     "lines": [L("Families trust you to keep people like you out.", emph=["trust", "you"])], "post": 0.85,
     # sub_pulse leiser: sein 2. Puls (+1.0 s) lag mit 4.8 dB Abstand unter „people“
-    "sfx": [{"name": "sub_pulse", "at": 0.25, "gain": -12}, {"name": "tv_static_burst", "at": "@like", "gain": -14},
-            {"name": "whoosh_dark", "at": "@like-0.1", "gain": -13}]})
+    # Rauschen und Whoosh je 5 dB leiser: lagen auf „people like you out“ fast so laut wie die Stimme
+    "sfx": [{"name": "sub_pulse", "at": 0.25, "gain": -12}, {"name": "tv_static_burst", "at": "@like", "gain": -19},
+            {"name": "whoosh_dark", "at": "@like-0.1", "gain": -18}]})
 # 7: 17. März 1977 – Shirley Vian
 B.append({"scene": "title_card", "clock": "MAR 1977", **CAP, "trans": "glitch", "zoom": [1.0, 1.06], "focus": [540, 820],
-    # Name als großer Pop (gleiches Gewicht wie „NANCY FOX, 25“ in B9)
-    "p": {"date": "MARCH 17, 1977", "place": " ", "red": ["1977"], "bg": "map", "at": 0.15, "speed": 7, "size": 96},
-    "pops": [{"text": "SHIRLEY VIAN", "at": "@shirley", "x": 540, "y": 1000, "size": 88, "dur": 9, "rot": -0.02}],
-    "lines": [L("On March seventeenth, nineteen seventy-seven, you take the life of Shirley Vian.", emph=["Shirley", "Vian"])], "post": 0.55,
+    # Opfername ruhig in Grau (Ortszeile der Titelkarte), kein roter Pop; gleiche Form wie Nancy Fox in B9
+    "p": {"date": "MARCH 17, 1977", "place": "SHIRLEY VIAN", "red": ["1977"], "bg": "map", "at": 0.15, "speed": 7, "size": 96},
+    "lines": [L("On March seventeenth, nineteen seventy-seven, you take the life of Shirley Vian.", emph=["life"])], "post": 0.55,
     "sfx": [{"name": "typewriter_burst", "at": 0.1, "gain": -11}, {"name": "low_piano_hit", "at": "@vian+0.5", "gain": -10}]})
 # 8: Ihre Kinder überleben
 B.append({"scene": "house_ext", "clock": "MAR 1977", **CAP, "trans": "cut", "zoom": [1.0, 1.04], "focus": [540, 1000],
@@ -91,18 +91,19 @@ B.append({"scene": "house_ext", "clock": "MAR 1977", **CAP, "trans": "cut", "zoo
     "pops": [{"text": "HER CHILDREN SURVIVED", "at": "@survive", "x": 540, "y": 1330, "size": 82, "dur": 9, "rot": -0.03}],
     "lines": [L("Her young children are in the house, and they survive.", emph=["survive"])], "post": 0.6})
 # 9: Dezember 1977 – Nancy Fox, 25
-B.append({"scene": "house_ext", "clock": "DEC 1977", **CAP, "trans": "cut", "zoom": [1.0, 1.05], "focus": [540, 1000],
-    "p": {"style": "suburb", "windows": [{"i": 3, "off": "@home+0.3"}], "porchOff": "@home+0.3", "neighbors": True},
-    "pops": [{"text": "DECEMBER 8, 1977", "at": "@december", "x": 540, "y": 430, "size": 92, "dur": 9, "rot": -0.03},
-             {"text": "NANCY FOX, 25", "at": "@nancy", "x": 540, "y": 1340, "size": 84, "dur": 9, "rot": 0.02}],
-    "lines": [L("That December, you kill Nancy Fox, twenty-five, in her home.", emph=["Nancy", "Fox"])], "post": 0.55,   # +0.3 als "pre" in B10
-    "sfx": [{"name": "hit_deep", "at": "@home+0.4", "gain": -9}]})
+# Titelkarte wie B7: Opfername ruhig in Grau (Ortszeile), kein roter Pop
+B.append({"scene": "title_card", "clock": "DEC 1977", **CAP, "trans": "cut", "zoom": [1.0, 1.04], "focus": [540, 820],
+    "p": {"date": "DECEMBER 8, 1977", "place": "NANCY FOX, 25", "red": ["1977"], "bg": "black", "at": 0.2, "speed": 16, "size": 80},   # Datum bleibt innerhalb x 930
+    "lines": [L("That December, you kill Nancy Fox, twenty-five, in her home.", emph=["home"])], "post": 0.55,   # +0.3 als "pre" in B10
+    # hit_deep 5 dB leiser: sein Nachhall lag unter „And this time“ (B10) lauter als Herzschlag-Bett und sub_pulse
+    "sfx": [{"name": "hit_deep", "at": "@home+0.4", "gain": -14}]})
 # 10: Diesmal wartest du nicht
 B.append({"scene": "profile_silhouette", "clock": "DEC 1977", "clockRed": True, **CAP, "trans": "glitch", "zoom": [1.0, 1.1], "focus": [600, 760],
     "p": {"glow": "none", "paper": False, "glasses": True, "eyeLine": "@dont", "glitch": ["@find"]},
     # Herzschlag bei 0.05 fällt so in die Stille vor „And“
     "lines": [L("And this time, you don't wait for anyone to find her.", emph=["dont", "wait"])], "pre": 0.3, "post": 0.5,
-    "sfx": [{"name": "heartbeat_single", "at": 0.05, "gain": -5}, {"name": "sub_pulse", "at": "@dont", "gain": -9},
+    # sub_pulse 4 dB leiser (Herzschlag-Bett ebenso, siehe beds), damit „And this time“ frei liegt
+    "sfx": [{"name": "heartbeat_single", "at": 0.05, "gain": -5}, {"name": "sub_pulse", "at": "@dont", "gain": -13},
             {"name": "tv_static_burst", "at": "@find", "gain": -16}]})
 # 11: Telefonzelle in der Innenstadt
 B.append({"scene": "phone_booth", "clock": "DEC 1977", "place": "DOWNTOWN WICHITA", **CAP, "trans": "cut", "zoom": [1.0, 1.08], "focus": [540, 860],
@@ -118,11 +119,13 @@ B.append({"scene": "phone_booth", "clock": "DEC 1977", "place": "DOWNTOWN WICHIT
     "lines": [L("You give the dispatcher an address and a name.", emph=["address", "name"])], "post": 0.2,
     "sfx": [{"name": "police_radio", "at": 0.0, "gain": -14}]})
 # 13: Du meldest dein eigenes Verbrechen (Quelle des Cold Opens)
-B.append({"scene": "sfx_text", "clock": "DEC 1977", "clockRed": True, "place": "DOWNTOWN WICHITA", "noCaptions": True, "trans": "glitch",
+# Cover: TikTok nimmt Frame 0 (= Cold-Open-Start) als Titelbild. Daher harter Schnitt statt Glitch, die vier Zeilen
+# knallen in der 0.35-s-Pause vor „You“ herein (fertig bei 0.35 s) und der Cold Open beginnt erst kurz vor „You“.
+B.append({"scene": "sfx_text", "clock": "DEC 1977", "clockRed": True, "place": "DOWNTOWN WICHITA", "noCaptions": True, "trans": "cut",
     "zoom": [1.0, 1.08], "focus": [540, 800], "vignette": 0.9,
-    "p": {"lines": ["YOU ARE", "REPORTING", "YOUR OWN", "CRIME."], "times": ["@you", "@reporting", "@your", "@crime"], "y": 560, "size": 175,
+    "p": {"lines": ["YOU ARE", "REPORTING", "YOUR OWN", "CRIME."], "times": [0.0, 0.05, 0.1, 0.15], "y": 560, "size": 175,
           "bg": "phone_booth", "bgP": {"figure": {"hold": True, "hat": "brim"}}},
-    "lines": [L("You are reporting your own crime.", emph=["own", "crime"])], "post": 0.7,
+    "lines": [L("You are reporting your own crime.", emph=["own", "crime"])], "pre": 0.35, "post": 0.7,
     "punch": ["@crime"], "shakeAt": [{"at": "@crime", "d": 0.4, "a": 12}],
     "sfx": [{"name": "sub_pulse", "at": "@reporting", "gain": -8}, {"name": "hit_deep", "at": "@crime+0.45", "gain": -6}]})
 # 14: Jedes Wort wird aufgezeichnet
@@ -136,21 +139,21 @@ B.append({"scene": "phone_booth", "clock": "DEC 1977", "place": "DOWNTOWN WICHIT
     "flash": [{"at": "@recorded", "d": 0.18, "c": "#ff2020", "a": 0.35}],
     "sfx": [{"name": "police_radio", "at": "@recorded+0.5", "gain": -9}, {"name": "riser_short", "fromEnd": 2.0, "gain": -12}]})
 # 15: Endkarte
-B.append({"scene": "end_card", "clock": "DEC 1977", **CAP, "noCaptions": False, "trans": "cut",
+B.append({"scene": "end_card", "clock": "DEC 1977", **CAP, "noCaptions": False, "trans": "cut", "zoom": [1.0, 1.0],
     "p": {"title": "YOU ARE BTK", "kicker": "PART 2 OF 5", "pill": "FOLLOW FOR PART 3", "sub": "SHOULD THE PAPER HAVE KEPT QUIET?|TELL ME IN THE COMMENTS"},
     "lines": [L("Follow for part three.", emph=["three"])], "post": 0.9,
     "sfx": [{"name": "whoosh_reverse", "at": 0.0, "gain": -9}]})
 
 story = base("YOU ARE BTK", 2, "WICHITA, KANSAS", "FOLLOW FOR PART 3", "PART 3")
 story["beats"] = B
-story["coldOpen"] = {"beat": 13, "words": "You are reporting your own crime.", "label": "LATER"}
+story["coldOpen"] = {"beat": 13, "words": "You are reporting your own crime.", "label": "LATER", "lead": 0.03}
 story["beds"] = [
     {"name": "drone_bed", "from": 0, "to": 200, "gain": 1, "fade": 0.4},
     {"name": "newsroom_bed", "fromBeat": 1, "toBeat": 4, "gain": -5, "fade": 0.6},
     {"name": "clock_tick_bed", "fromBeat": 5, "toBeat": 6, "gain": -8, "fade": 0.5},
     {"name": "night_suburb_bed", "fromBeat": 7, "toBeat": 10, "gain": -2, "fade": 0.8},
     {"name": "dark_pad_tension", "fromBeat": 7, "toBeat": 14, "gain": -4, "fade": 1.0},
-    {"name": "heartbeat_slow_muffled", "fromBeat": 10, "toBeat": 13, "gain": -9, "fade": 0.6},
+    {"name": "heartbeat_slow_muffled", "fromBeat": 10, "toBeat": 13, "gain": -13, "fade": 0.6},
     {"name": "rain_bed", "fromBeat": 11, "toBeat": 14, "gain": -2, "fade": 0.6}]
 save(story, sys.argv[1] + "/en/btk_part2.json")
 print("ok", len(B), "beats,", sum(len(l["text"].split()) for b in B for l in b["lines"]), "words")

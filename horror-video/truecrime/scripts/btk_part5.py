@@ -99,7 +99,8 @@ add("quote", {"scene": "rule_card", "clock": "FEB 2005", "noCaptions": True, "tr
     "p": {"label": "LT. KEN LANDWEHR", "text": "BECAUSE I WAS TRYING TO CATCH YOU.", "hl": ["CATCH", "YOU"]},
     "lines": [L("Because I was trying to catch you.", voice="quote")],
     "punch": ["@catch"],
-    "sfx": [{"name": "hit_deep", "at": 0.0, "gain": -8}, {"name": "heartbeat_single", "at": "@you+0.5", "gain": -6}]})
+    # Schlag genau auf den Anfang des Cold Opens (lead 0.08 vor "Because"): dort ist die Karte schon voll eingeblendet
+    "sfx": [{"name": "hit_deep", "at": "@because-0.08", "gain": -8}, {"name": "heartbeat_single", "at": "@you+0.5", "gain": -6}]})
 # 11: Urteil
 # Uhr nur "2005": Schuldbekenntnis 27. Juni, Urteil 18. Aug. 2005
 add("court", {"scene": "courtroom", "clock": "2005", **CAP, "trans": "cut", "zoom": [1.0, 1.06], "pre": 0.1, "post": 0.25,
@@ -121,17 +122,33 @@ ROLL = [("Kathryn Bright.", None), ("Shirley Vian.", "Shirley Vee-an."), ("Nancy
 add("mem2", {"scene": "memorial", "clock": "AUG 2005", "noCaptions": True, "noHud": True, "trans": "cut", "zoom": [1.02, 1.035], "focus": [540, 900], "pre": MEM_PRE2, "post": 0.3,
     "p": {"title": "", "names": NAMES, "at": round(ROLL_T0 - 4 * MEM_G2, 3), "gap": MEM_G2},
     "lines": [L(t, speed=0.97, **({"say": s} if s else {}), **({"gap": ROLL_GAPS[i]} if i < len(ROLL) - 1 else {})) for i, (t, s) in enumerate(ROLL)]})
-add("mem3", {"scene": "memorial", "clock": "AUG 2005", "noCaptions": True, "noHud": True, "trans": "cut", "zoom": [1.035, 1.045], "focus": [540, 900], "pre": 0.35, "post": 0.75,
-    "p": {"title": "", "names": NAMES, "at": -20, "gap": 0.0},
+# mem3: der Schlusssatz steht als ruhige graue Gedenk-Überschrift über den Namen (kein Rot, keine Untertitel).
+# Mit Titel rutscht die Namensliste in der Szene um (545 - 380) / 2 = 82.5 px nach unten; "pan" schiebt die Kamera
+# genau um zoom * 82.5 zurück (pan und zoom laufen mit derselben Kurve), damit die Namen am Schnitt stillstehen.
+MEM3_Z = [1.035, 1.04]; MEM3_DY = 82.5
+# "not his." bekommt ein eigenes ruhiges Bild (mem3b), sichtbar während es gesprochen wird. Der Satz bleibt EIN TTS-Clip
+# (Ton unverändert): mem3 endet per negativem "post" in der Komma-Pause mitten im Clip, der Rest des Clips läuft unter mem3b.
+# Clip vo/b14_0.wav = 1.585 s, Komma-Pause 0.92–0.98 s, "not" ab ≈1.0 s (Whisper auf den Teilstücken geprüft); lineGap 0.14.
+# mem3b dauert genau so lange, dass die Endkarte wie vorher beginnt (Clip-Ende + 0.14 + 0.75).
+MEM3_CLIP, MEM3_CUT, LGAP = 1.585, 0.96, 0.14
+add("mem3", {"scene": "memorial", "clock": "AUG 2005", "noCaptions": True, "noHud": True, "trans": "cut", "zoom": MEM3_Z, "focus": [540, 900], "pre": 0.35,
+    "post": round(MEM3_CUT - MEM3_CLIP - LGAP, 3), "minDur": 0.5,
+    "pan": [0, round(-MEM3_DY * MEM3_Z[0], 3), 0, round(-MEM3_DY * MEM3_Z[1], 3)],
+    "p": {"title": "REMEMBER THEIR NAMES", "names": NAMES, "at": -20, "gap": 0.0},
     "lines": [L("Remember their names, not his.", speed=0.97)]})
+# mem3b: nur die Worte "Not his." in der ruhigen weißen Gedenk-Schrift (kein Rot, keine Untertitel, kein HUD), blendet kurz vor "not" ein
+add("mem3b", {"scene": "memorial", "clock": "AUG 2005", "noCaptions": True, "noHud": True, "trans": "cut", "zoom": [1.0, 1.02], "focus": [540, 900], "pre": 0.0, "post": 0.0,
+    "minDur": round(MEM3_CLIP - MEM3_CUT + LGAP + 0.75, 3),
+    "p": {"title": "", "names": [{"name": "Not his."}], "at": -0.3, "gap": 0.0}, "lines": []})
 # 15: Endkarte
-add("end", {"scene": "end_card", "clock": "AUG 2005", **CAP, "trans": "fade", "pre": 0.2, "post": 0.1,
+add("end", {"scene": "end_card", "clock": "AUG 2005", **CAP, "noHud": True, "trans": "fade", "pre": 0.2, "post": 0.1,
     "p": {"title": "THE END", "kicker": "YOU ARE BTK", "pill": "FOLLOW FOR THE NEXT TRUE STORY", "sub": "REMEMBER THEIR NAMES|NOT HIS"},
     "lines": [L("Follow for the next true story.")]})
 
 story = base("YOU ARE BTK", 5, "WICHITA, KANSAS", "FOLLOW FOR THE NEXT TRUE STORY", "THE END")
 story["beats"] = B
-story["coldOpen"] = {"beat": IX["quote"], "words": "Because I was trying to catch you.", "label": "LATER"}
+# lead 0.08: Cold Open (= TikTok-Cover, Frame 0) beginnt erst, wenn die Zitatkarte schon voll lesbar ist (Einblendung 0–0.3 s)
+story["coldOpen"] = {"beat": IX["quote"], "words": "Because I was trying to catch you.", "label": "LATER", "lead": 0.08}
 story["beds"] = [
     {"name": "drone_bed", "fromBeat": 0, "toBeat": IX["court"], "gain": 1, "fade": 0.4},
     {"name": "drone_bed", "fromBeat": IX["mem1"], "toBeat": IX["end"], "gain": -4, "fade": 1.2},

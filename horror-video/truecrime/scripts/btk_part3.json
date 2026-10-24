@@ -149,19 +149,19 @@
     "redact": [
      {
       "line": 0,
-      "at": 2.15
+      "at": 0.0
      },
      {
       "line": 1,
-      "at": 2.7
+      "at": 0.0
      },
      {
       "line": 2,
-      "at": 3.2
+      "at": 0.0
      },
      {
       "line": 3,
-      "at": 3.62
+      "at": 0.0
      }
     ],
     "stamp": {
@@ -366,23 +366,23 @@
     "redact": [
      {
       "line": 0,
-      "at": 0.65
+      "at": -0.5
      },
      {
       "line": 1,
-      "at": 1.05
+      "at": -0.5
      },
      {
       "line": 2,
-      "at": 1.55
+      "at": -0.5
      },
      {
       "line": 3,
-      "at": 2.0
+      "at": -0.5
      },
      {
       "line": 5,
-      "at": "@attention+0.95"
+      "at": "@attention"
      }
     ],
     "hl": [
@@ -509,18 +509,10 @@
      "y": 0.665
     }
    },
+   "place": "ANNA WILLIAMS, 63",
    "pops": [
     {
-     "text": "ANNA WILLIAMS, 63",
-     "at": "@williams-0.1",
-     "x": 480,
-     "y": 470,
-     "size": 84,
-     "dur": 30,
-     "rot": 0.001
-    },
-    {
-     "text": "SHE SURVIVED",
+     "text": "SHE WAS SPARED",
      "at": "@returns+0.35",
      "x": 480,
      "y": 585,
@@ -727,14 +719,14 @@
       "y": 0.47,
       "at": "@you",
       "label": "YOU",
-      "red": false
+      "red": true
      },
      {
       "x": 0.69,
       "y": 0.58,
       "at": "@hedge",
       "label": "MARINE HEDGE, 53",
-      "red": true
+      "red": false
      }
     ],
     "lines": [
@@ -808,21 +800,13 @@
      "arms": "down",
      "at": "@husband-0.2"
     },
-    "police": "@police-0.2"
+    "police": "@police-0.5"
    },
+   "place": "VICKI WEGERLE, 28",
    "pops": [
     {
-     "text": "VICKI WEGERLE, 28",
-     "at": "@vicki-0.1",
-     "x": 480,
-     "y": 470,
-     "size": 84,
-     "dur": 30,
-     "rot": 0.001
-    },
-    {
      "text": "WRONG MAN",
-     "at": "@not",
+     "at": "@police-0.17",
      "x": 432,
      "y": 900,
      "size": 96,
@@ -872,6 +856,15 @@
    "place": "SEDGWICK COUNTY, KANSAS",
    "captionY": 1500,
    "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    800
+   ],
    "p": {
     "from": 1986,
     "to": 1991,
@@ -979,6 +972,10 @@
    "captionY": 1500,
    "capBox": true,
    "trans": "cut",
+   "zoom": [
+    1.0,
+    1.0
+   ],
    "p": {
     "title": "YOU ARE BTK",
     "kicker": "PART 3 OF 5",
@@ -1006,7 +1003,8 @@
  "coldOpen": {
   "beat": 10,
   "words": "Police suspect her husband, not you.",
-  "label": "LATER"
+  "label": "LATER",
+  "lead": 0.03
  },
  "beds": [
   {

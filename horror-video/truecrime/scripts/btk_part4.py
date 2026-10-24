@@ -58,20 +58,23 @@ B.append({"scene": "id_badge", "clock": "MAR 2004", **CAP, "trans": "cut", "zoom
     "p": {"kind": "card", "org": "DRIVER'S LICENSE", "title": " ", "name": "VICKI WEGERLE", "idno": " ", "glasses": False, "at": 0.0,
           "stamp": {"text": "COPY", "at": "@license+0.4", "x": 40, "y": 105, "rot": -0.1, "w": 400}},
     "lines": [L("It holds a copy of Vicki Wegerle's driver's license.", say="It holds a copy of Vicky Wegg-er-lee's driver's license.",
-                emph=["Wegerle's"])], "post": 0.6,
+                emph=["license"])], "post": 0.6,  # Opfername nicht dauerhaft rot im Untertitel
     "sfx": [{"name": "paper_rustle", "at": 0.05, "gain": -4}, {"name": "rubber_stamp", "at": "@license+0.4", "gain": -5}]})
 # 6: Beweis – der Verdacht gegen Bill Wegerle fällt
 B.append({"scene": "evidence_board", "clock": "MAR 2004", "clockRed": True, **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [540, 900],
     "p": {"title": "WEGERLE · 1986",
           "cards": [{"kind": "photo", "img": "person", "text": "VICKI WEGERLE", "x": 0.2, "y": 0.1, "at": 0.15, "rot": -0.05},
                     {"kind": "note", "text": "BTK", "x": 0.74, "y": 0.12, "at": "@proves", "red": True, "s": 1.25, "rot": 0.05},
-                    {"text": "BILL WEGERLE\nSUSPECT", "x": 0.3, "y": 0.68, "at": "@after", "rot": -0.03},
-                    {"kind": "note", "text": "SUSPICION LIFTED", "x": 0.72, "y": 0.86, "at": "@lifts", "rot": 0.06}],
+                    # Bill Wegerle wurde nie angeklagt: Karte nie mit nacktem "SUSPECT"; Karte erst bei "suspicion",
+                    # Zettel "SUSPICION LIFTED" ~0,3 s nach dem Landen der Karte (kein Standbild ohne Entlastung)
+                    {"text": "BILL WEGERLE\nWRONGLY SUSPECTED", "x": 0.3, "y": 0.68, "at": "@suspicion-0.05", "rot": -0.03},
+                    {"kind": "note", "text": "SUSPICION LIFTED", "x": 0.72, "y": 0.86, "at": "@suspicion+0.5", "rot": 0.06}],
           "strings": [{"from": 0, "to": 1, "at": "@killed"}],
           "circle": {"i": 1, "at": "@her"}},
     "lines": [L("It proves you killed her.", emph=["killed"], gap=0.3),
               L("After almost eighteen years, the suspicion on her husband Bill finally lifts.", emph=["lifts"])], "post": 0.5,
-    "sfx": [{"name": "hit_deep", "at": "@her+0.3", "gain": -8}, {"name": "paper_rustle", "at": "@after", "gain": -8}]})
+    "sfx": [{"name": "hit_deep", "at": "@her+0.3", "gain": -8}, {"name": "paper_rustle", "at": "@suspicion-0.05", "gain": -8},
+            {"name": "paper_rustle", "at": "@suspicion+0.5", "gain": -10}]})
 # 7: Eitelkeit
 B.append({"scene": "sfx_text", "clock": "2004", **CAP, "trans": "glitch", "vignette": 0.9,
     "p": {"lines": ["VANITY."], "times": ["@vanity"], "y": 760, "size": 230, "bg": "letter", "bgP": KILLMAN_DONE},
@@ -150,7 +153,8 @@ B.append({"scene": "end_card", "clock": "JAN 2005", **CAP, "trans": "cut",
 
 story = base("YOU ARE BTK", 4, "WICHITA, KANSAS", "FOLLOW FOR THE FINAL PART", "PART 5")
 story["beats"] = B
-story["coldOpen"] = {"beat": 13, "words": "A note inside asks police one question.", "label": "LATER"}
+# lead 0.04: Cold Open beginnt genau am Untertitel-Chunk (Bild 0 = TikTok-Cover zeigt schon "A NOTE"), Stimme setzt erst ~0,03 s später ein
+story["coldOpen"] = {"beat": 13, "words": "A note inside asks police one question.", "label": "LATER", "lead": 0.04}
 story["beds"] = [
     {"name": "drone_bed", "from": 0, "to": 200, "gain": 1, "fade": 0.4},
     {"name": "night_suburb_bed", "fromBeat": 0, "toBeat": 0, "gain": -1, "fade": 0.5},

@@ -615,12 +615,12 @@
     {
      "name": "tv_static_burst",
      "at": "@like",
-     "gain": -14
+     "gain": -19
     },
     {
      "name": "whoosh_dark",
      "at": "@like-0.1",
-     "gain": -13
+     "gain": -18
     }
    ]
   },
@@ -640,7 +640,7 @@
    ],
    "p": {
     "date": "MARCH 17, 1977",
-    "place": " ",
+    "place": "SHIRLEY VIAN",
     "red": [
      "1977"
     ],
@@ -649,23 +649,11 @@
     "speed": 7,
     "size": 96
    },
-   "pops": [
-    {
-     "text": "SHIRLEY VIAN",
-     "at": "@shirley",
-     "x": 540,
-     "y": 1000,
-     "size": 88,
-     "dur": 9,
-     "rot": -0.02
-    }
-   ],
    "lines": [
     {
      "text": "On March seventeenth, nineteen seventy-seven, you take the life of Shirley Vian.",
      "emph": [
-      "Shirley",
-      "Vian"
+      "life"
      ]
     }
    ],
@@ -734,56 +722,35 @@
    "post": 0.6
   },
   {
-   "scene": "house_ext",
+   "scene": "title_card",
    "clock": "DEC 1977",
    "captionY": 1500,
    "capBox": true,
    "trans": "cut",
    "zoom": [
     1.0,
-    1.05
+    1.04
    ],
    "focus": [
     540,
-    1000
+    820
    ],
    "p": {
-    "style": "suburb",
-    "windows": [
-     {
-      "i": 3,
-      "off": "@home+0.3"
-     }
+    "date": "DECEMBER 8, 1977",
+    "place": "NANCY FOX, 25",
+    "red": [
+     "1977"
     ],
-    "porchOff": "@home+0.3",
-    "neighbors": true
+    "bg": "black",
+    "at": 0.2,
+    "speed": 16,
+    "size": 80
    },
-   "pops": [
-    {
-     "text": "DECEMBER 8, 1977",
-     "at": "@december",
-     "x": 540,
-     "y": 430,
-     "size": 92,
-     "dur": 9,
-     "rot": -0.03
-    },
-    {
-     "text": "NANCY FOX, 25",
-     "at": "@nancy",
-     "x": 540,
-     "y": 1340,
-     "size": 84,
-     "dur": 9,
-     "rot": 0.02
-    }
-   ],
    "lines": [
     {
      "text": "That December, you kill Nancy Fox, twenty-five, in her home.",
      "emph": [
-      "Nancy",
-      "Fox"
+      "home"
      ]
     }
    ],
@@ -792,7 +759,7 @@
     {
      "name": "hit_deep",
      "at": "@home+0.4",
-     "gain": -9
+     "gain": -14
     }
    ]
   },
@@ -840,7 +807,7 @@
     {
      "name": "sub_pulse",
      "at": "@dont",
-     "gain": -9
+     "gain": -13
     },
     {
      "name": "tv_static_burst",
@@ -964,7 +931,7 @@
    "clockRed": true,
    "place": "DOWNTOWN WICHITA",
    "noCaptions": true,
-   "trans": "glitch",
+   "trans": "cut",
    "zoom": [
     1.0,
     1.08
@@ -982,10 +949,10 @@
      "CRIME."
     ],
     "times": [
-     "@you",
-     "@reporting",
-     "@your",
-     "@crime"
+     0.0,
+     0.05,
+     0.1,
+     0.15
     ],
     "y": 560,
     "size": 175,
@@ -1006,6 +973,7 @@
      ]
     }
    ],
+   "pre": 0.35,
    "post": 0.7,
    "punch": [
     "@crime"
@@ -1117,6 +1085,10 @@
    "capBox": true,
    "noCaptions": false,
    "trans": "cut",
+   "zoom": [
+    1.0,
+    1.0
+   ],
    "p": {
     "title": "YOU ARE BTK",
     "kicker": "PART 2 OF 5",
@@ -1144,7 +1116,8 @@
  "coldOpen": {
   "beat": 13,
   "words": "You are reporting your own crime.",
-  "label": "LATER"
+  "label": "LATER",
+  "lead": 0.03
  },
  "beds": [
   {
@@ -1186,7 +1159,7 @@
    "name": "heartbeat_slow_muffled",
    "fromBeat": 10,
    "toBeat": 13,
-   "gain": -9,
+   "gain": -13,
    "fade": 0.6
   },
   {

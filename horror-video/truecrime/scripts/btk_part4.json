@@ -409,7 +409,7 @@
      "text": "It holds a copy of Vicki Wegerle's driver's license.",
      "say": "It holds a copy of Vicky Wegg-er-lee's driver's license.",
      "emph": [
-      "Wegerle's"
+      "license"
      ]
     }
    ],
@@ -465,10 +465,10 @@
       "rot": 0.05
      },
      {
-      "text": "BILL WEGERLE\nSUSPECT",
+      "text": "BILL WEGERLE\nWRONGLY SUSPECTED",
       "x": 0.3,
       "y": 0.68,
-      "at": "@after",
+      "at": "@suspicion-0.05",
       "rot": -0.03
      },
      {
@@ -476,7 +476,7 @@
       "text": "SUSPICION LIFTED",
       "x": 0.72,
       "y": 0.86,
-      "at": "@lifts",
+      "at": "@suspicion+0.5",
       "rot": 0.06
      }
     ],
@@ -516,8 +516,13 @@
     },
     {
      "name": "paper_rustle",
-     "at": "@after",
+     "at": "@suspicion-0.05",
      "gain": -8
+    },
+    {
+     "name": "paper_rustle",
+     "at": "@suspicion+0.5",
+     "gain": -10
     }
    ]
   },
@@ -1149,7 +1154,8 @@
  "coldOpen": {
   "beat": 13,
   "words": "A note inside asks police one question.",
-  "label": "LATER"
+  "label": "LATER",
+  "lead": 0.04
  },
  "beds": [
   {
