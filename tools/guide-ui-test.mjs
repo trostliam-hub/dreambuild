@@ -41,7 +41,7 @@ try{
     await page.locator('#g-in').fill('Was bedeutet SAG?'); await page.locator('#g-form button').click();
     await page.waitForFunction(() => !gKiLaeuft && gVerlauf.some(x => (x.html || '').includes('SAG erklärt.')));
     assert.equal(await page.locator('#g-liste img').count(), 0);
-    assert.deepEqual(Object.keys(payload).sort(), ['context','parts','question','resources']);
+    assert.deepEqual(Object.keys(payload).sort(), ['context','language','parts','question','resources']);
     assert.ok(payload.context.includes('Score:'));
     assert.ok(payload.resources.every(x => Object.keys(x).sort().join(',') === 'description,id,title'));
     assert.ok(!JSON.stringify(payload).includes('lizenz'));
@@ -91,6 +91,48 @@ try{
     assert.ok(product.fox.some(r => r.url?.includes('ridefox.com')));
     assert.ok(!product.fox.some(r => /rockshox|sram\.com/.test(r.url || '')));
     checks++;
+    // Feste Soforthilfe läuft vor Katalogtreffern, KI und Tagesgrenze, auch ohne Rad.
+    await page.evaluate(() => { setzeBau(leerBau(),true); gSchadensfall=null; });
+    const send = async text => { await page.locator('#g-in').fill(text); await page.locator('#g-form button').click(); await page.waitForFunction(() => !gKiLaeuft && !gWarte); };
+    const noCalls = calls, stand = await page.evaluate(() => JSON.stringify(build));
+    await page.locator('#g-ki').check();
+    await send(language === 'de' ? 'Mir ist ein Bremskolben rausgefallen was tun?' : 'My brake piston popped out');
+    let last = await page.locator('.g-m.bot').last().innerText();
+    assert.match(last,language === 'de' ? /nicht weiterfahren/ : /do not ride/);
+    assert.doesNotMatch(last,/20[–-]30|6[–-]8|Rahmen eintragen|add.*frame/i);
+    assert.equal(calls,noCalls); checks++;
+    await send('Shimano XT M8120');
+    assert.match(await page.locator('.g-m.bot').last().innerText(),/Shimano XT M8120/);
+    await send(language === 'de' ? 'Kann ich trotzdem weiterfahren?' : 'Can I ride anyway?');
+    assert.match(await page.locator('.g-m.bot').last().innerText(),language === 'de' ? /nicht weiterfahren/ : /do not ride/);
+    assert.equal(calls,noCalls); checks++;
+    await page.evaluate(() => { window.auditGuideCount=guideZaehlen; guideZaehlen=()=>false; });
+    await send(language === 'de' ? 'Meine Bremse verliert Öl' : 'My brake is leaking');
+    assert.match(await page.locator('.g-m.bot').last().innerText(),language === 'de' ? /nicht weiterfahren/ : /do not ride/);
+    await page.evaluate(() => { guideZaehlen=window.auditGuideCount; });
+    assert.equal(calls,noCalls); assert.equal(await page.evaluate(() => JSON.stringify(build)),stand); checks++;
+    // Normale Wartung / neue Themen lösen den aktiven Schaden ab.
+    const local = await page.evaluate(() => ({blocked:gAntwort('Wie wechsle ich Bremsbeläge?'),general:gAntwort('Was bedeutet SAG?'),normal:gAntwort('Wie wechsle ich Bremsbeläge?'),state:gSchadensfall,
+      db8:(build.bremsen='b-db8',gBremse([])),unknown:gBremse(gWorte('SRAM')),named:gBremse(gWorte('SRAM Code')),address:gBremse(gWorte('Guide wie kann ich Shimano entlüften'))}));
+    assert.match(local.blocked.id,/^sicher-/); assert.equal(local.address.m,'Shimano');
+    assert.doesNotMatch(local.normal.id,/^sicher-/); assert.equal(local.state,null);
+    assert.equal(local.db8.oel,'min'); assert.doesNotMatch(JSON.stringify(local.db8.fl),/DOT/);
+    assert.equal(local.unknown.oel,null); assert.equal(local.named.oel,'dot'); checks++;
+    // Nur tatsächlich beantwortete KI-Fragen, begrenzt auf zwei Paare; kein globaler Chatverlauf.
+    status=200; await page.evaluate(() => { gKiVerlauf=[]; });
+    for(const question of ['Es knackt beim Treten','Vorne am Lenker','Nur wenn ich stehe','Nach dem Regen']) await send(question);
+    assert.equal(payload.history.length,4);
+    assert.equal(payload.history.filter(m=>m.role==='user').length,2);
+    assert.ok(payload.history.some(m=>m.content==='Vorne am Lenker'));
+    assert.ok(!payload.history.some(m=>m.content==='Es knackt beim Treten'));
+    assert.ok(payload.history.every(m=>m.content.length<=500));
+    assert.ok(!JSON.stringify(payload).includes('PRIVATE-')); checks++;
+    await page.locator('#g-ki').uncheck();
+    assert.equal(await page.evaluate(() => gKiVerlauf.length),0);
+    await page.locator('#g-ki').check();
+    await send('Noch eine Frage zum Knacken'); assert.equal(payload.history,undefined);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),false);
+    assert.deepEqual(errors,[]); checks++;
     await context.close();
   }
   console.log(`GUIDE-UI: ${checks} Prüfungen bestanden (DE/EN, 390/320 px, simulierte API)`);

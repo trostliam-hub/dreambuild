@@ -4065,6 +4065,7 @@ details.legal p{margin:0 0 var(--sp-2)}
 <div id="modal"></div>
 
 <script src="bilder/produkte/katalog.js"></script>
+<script src="guide-safety.js"></script>
 <script>
 "use strict";
 
@@ -5803,7 +5804,7 @@ const setzeBau = (o, frei) => {
    mehr und nicht weniger. Wer etwas an der App aendert, das Daten an Dritte
    schickt (Analyse, Schriften, Einbettungen), muss sie hier nachziehen.
    Entwurf, keine Rechtsberatung: vor dem Markteintritt pruefen lassen. */
-const RECHT_STAND = "17.10.2026";
+const RECHT_STAND = "24.10.2026";
 function impressumHtml(){
   const b = betreiber(), f = impressumFehlt();
   return `${f.length ? `<div class="fehlt">${linkVerwaltung
@@ -5882,8 +5883,9 @@ function datenschutzHtml(){
     <h4>10. Freiwilliger KI-Guide</h4>
     <p>Nur wenn du „KI verwenden“ einschaltest und eine Frage sendest, übermittelt die App den Fragetext, ausgewählte
       Teilenamen, Einsatz, Score, fehlende Teile und begrenzte Ergebnisse der App-Prüfung über unseren Cloudflare Worker
-      an die OpenAI-API. Dazu kommen passende Wissenstexte und Linktitel aus der App. Fotos, Körperdaten aus dem
-      Fahrerprofil, Lizenzdaten und frühere Nachrichten werden nicht automatisch mitgesendet. Schreibe keine
+      an die OpenAI-API. Dazu kommen passende Wissenstexte und Linktitel aus der App sowie höchstens die letzten
+      zwei KI-Fragen und gekürzten KI-Antworten dieser Sitzung, damit Rückfragen verständlich bleiben. Beim Ausschalten wird dieser KI-Kontext geleert. Fotos, Körperdaten aus dem
+      Fahrerprofil und Lizenzdaten werden nicht automatisch mitgesendet. Schreibe keine
       persönlichen Angaben in deine Frage. Mit Ausschalten beendest du die Übermittlung für weitere Fragen.</p>
     <p>Cloudflare verarbeitet dabei technisch notwendige Verbindungsdaten einschließlich deiner IP-Adresse. Unser
       Worker speichert nur gemeinsame Nutzungszähler und Drosselzeiten, keine Fragen, Antworten oder IP-Adressen;
@@ -5978,8 +5980,8 @@ function datenschutzHtmlEn(){
     <h4>10. Optional AI guide</h4>
     <p>Only when you enable “Use AI” and send a question does the app send its text, selected part names, discipline,
       score, missing parts and limited app check results through our Cloudflare Worker to the OpenAI API. Relevant
-      app knowledge and link titles are included. Photos, body measurements from your rider profile, licence data
-      and previous messages are not included automatically. Avoid personal details in your question. Switching off
+      app knowledge and link titles are included, plus at most the last two AI questions and shortened AI answers from this session to support follow-up questions. Switching AI off clears this context. Photos, body measurements from your rider profile and licence data
+      are not included automatically. Avoid personal details in your question. Switching off
       stops transmission for further questions.</p>
     <p>Cloudflare processes necessary connection data, including your IP address. Our Worker stores shared usage
       counters and rate limit timestamps, not questions, answers or IP addresses; our Worker logs are disabled.
@@ -11324,12 +11326,12 @@ const gFrage = (de, en) => `<p class="g-nach">${tx(de, en)}</p>`;
 /* Bremse: Marke, Fluessigkeit, Entlueft-Art. DOT zieht Wasser und greift Lack
    an; Mineraloel ist harmloser. Niemals mischen. */
 const G_BREMS = {
-  shimano:{m:"Shimano", oel:"min", fl:["Shimano-Mineralöl", "Shimano mineral oil"], art:"trichter"},
+  shimano:{m:"Shimano", oel:"min", fl:["Shimano-Öl nach genauer Modellanleitung", "Shimano oil per exact model manual"], art:"trichter"},
   magura:{m:"Magura", oel:"min", fl:["Magura Royal Blood (Mineralöl)", "Magura Royal Blood (mineral oil)"], art:"spritze"},
   trp:{m:"TRP", oel:"min", fl:["TRP-Mineralöl", "TRP mineral oil"], art:"trichter"},
   tektro:{m:"Tektro", oel:"min", fl:["Tektro-Mineralöl", "Tektro mineral oil"], art:"trichter"},
   trickstuff:{m:"Trickstuff", oel:"min", fl:["Trickstuff Bionol (Mineralöl)", "Trickstuff Bionol (mineral oil)"], art:"spritze"},
-  sramMin:{m:"SRAM", oel:"min", fl:["SRAM Maven Mineral Oil", "SRAM Maven mineral oil"], art:"sram"},
+  sramMin:{m:"SRAM", oel:"min", fl:["Maxima Mineral Brake Oil laut Modellanleitung", "Maxima Mineral Brake Oil per model manual"], art:"sram"},
   sram:{m:"SRAM", oel:"dot", fl:["DOT 5.1", "DOT 5.1"], art:"sram"},
   hope:{m:"Hope", oel:"dot", fl:["DOT 5.1", "DOT 5.1"], art:"offen"},
   hayes:{m:"Hayes", oel:"dot", fl:["DOT 5.1", "DOT 5.1"], art:"spritze"},
@@ -11339,7 +11341,8 @@ const G_BREMS = {
 function gBremse(q){
   /* zuerst, was die Frage nennt */
   const n = (q || []).map(x => x.w).join(" ");
-  const ausFrage = /\b(maven|motive)\b/.test(n) ? "sramMin" : /\b(sram|avid)\b/.test(n) ? "sram"
+  if(/\bsram\b/.test(n) && !/\b(maven|motive|db[468]|code|guide|level|g2)\b/.test(n)) return {m:"SRAM",oel:null,fl:null,frage:true};
+  const ausFrage = /\b(maven|motive|db[468])\b/.test(n) ? "sramMin" : /\b(sram|avid)\b/.test(n) ? "sram"
     : /\b(shimano|deore|slx|xtr|saint|zee)\b/.test(n) ? "shimano" : /\b(magura|mt[45578])\b/.test(n) ? "magura"
     : /\bhope\b/.test(n) ? "hope" : /\btrp\b/.test(n) ? "trp" : /\btektro\b/.test(n) ? "tektro" : /\bhayes\b/.test(n) ? "hayes"
     : /\b(trickstuff|maxima|direttissima)\b/.test(n) ? "trickstuff" : /\bcura\b/.test(n) ? "formulaMin" : /\bformula\b/.test(n) ? "formula" : null;
@@ -11348,15 +11351,16 @@ function gBremse(q){
   if(!t) return null;
   if(t.mount === "Felge") return {felge:true, teil:t, m:t.m};
   const id = String(t.id).split("|")[0], m = (t.m || "").toLowerCase();
-  const k = m === "sram" ? (/maven|motive/.test(id) ? "sramMin" : "sram") : m === "formula" ? (/cura/.test(id) ? "formulaMin" : "formula")
+  const k = m === "sram" ? (t.oel === "min" || /maven|motive|db[468]/.test(id) ? "sramMin" : t.oel === "dot" || /code|guide|level|g2/.test(id) ? "sram" : null) : m === "formula" ? (/cura/.test(id) ? "formulaMin" : "formula")
     : G_BREMS[m] ? m : null;
   return k ? {...G_BREMS[k], teil:t} : {m:t.m, teil:t, oel:null};
 }
 const gBremsKopf = b => !b ? "" : b.felge ? tx(`An deinem Rad: <b>${esc(b.teil.n)}</b> (Felgenbremse).`, `On your bike: <b>${esc(b.teil.n)}</b> (rim brake).`)
   : b.teil ? tx(`An deinem Rad: <b>${esc(b.teil.n)}</b>${b.fl ? ` — Bremsflüssigkeit <b>${sp2(b.fl)}</b>` : ""}.`, `On your bike: <b>${esc(b.teil.n)}</b>${b.fl ? ` — brake fluid <b>${sp2(b.fl)}</b>` : ""}.`)
-  : tx(`Für <b>${esc(b.m)}</b>: Bremsflüssigkeit <b>${sp2(b.fl)}</b>.`, `For <b>${esc(b.m)}</b>: brake fluid <b>${sp2(b.fl)}</b>.`);
-const gOhneBremse = () => gFrage("Welche Bremse hast du? Trag sie unter <b>Bremsen</b> ein oder nenn mir die Marke (z. B. „Shimano“ oder „Magura“) — dann sage ich dir genau, was du brauchst.",
-  "Which brake do you have? Add it under <b>Brakes</b> or tell me the brand (e.g. “Shimano” or “Magura”) — then I'll tell you exactly what you need.");
+  : b.fl ? tx(`Für <b>${esc(b.m)}</b>: Bremsflüssigkeit <b>${sp2(b.fl)}</b>; genaue Modellanleitung beachten.`, `For <b>${esc(b.m)}</b>: brake fluid <b>${sp2(b.fl)}</b>; check the exact model manual.`)
+  : tx(`Die Marke <b>${esc(b.m)}</b> allein bestimmt die Bremsflüssigkeit nicht. Bitte das genaue Modell nennen.`, `The brand <b>${esc(b.m)}</b> alone does not identify the brake fluid. Please name the exact model.`);
+const gOhneBremse = () => gFrage("Welche genaue Bremse hast du? Trag sie unter <b>Bremsen</b> ein oder nenne Modell und Generation. Die Marke allein reicht für Flüssigkeit und Service nicht.",
+  "What exact brake do you have? Add it under <b>Brakes</b> or name the model and generation. The brand alone is not enough to identify the fluid or service procedure.");
 
 function gWSchleift(q){
   const b = gBremse(q);
@@ -11366,17 +11370,17 @@ function gWSchleift(q){
     + (b ? "<br>" + gBremsKopf(b) : "")
     + gOl([tx("<b>Laufrad prüfen:</b> Steckachse ganz rein und fest? Sitzt das Rad schief, schleift es schon deshalb.", "<b>Check the wheel:</b> is the thru-axle fully in and tight? A crooked wheel rubs for that reason alone."),
       tx("<b>Bremssattel ausrichten:</b> Die zwei Schrauben, die den <b>Bremssattel</b> (das Gehäuse um die Scheibe) halten, eine halbe Umdrehung lösen. Bremshebel ziehen und festhalten — der Bremssattel richtet sich dabei mittig aus.", "<b>Align the caliper:</b> loosen the two bolts holding the <b>caliper</b> (the housing around the rotor) half a turn. Pull the brake lever and hold it — the caliper centres itself."),
-      tx("Hebel weiter gezogen halten und die Schrauben <b>abwechselnd</b> festziehen (meist 6–8 Nm, steht am Bremssattel). Loslassen, Rad drehen.", "Keep the lever pulled and tighten the bolts <b>alternately</b> (usually 6–8 Nm, marked on the caliper). Let go, spin the wheel."),
+      tx("Schrauben nur nach der Anleitung deines genauen Modells mit dem vorgeschriebenen Drehmoment festziehen. Ohne diese Angabe nicht raten; lass den Sattel ausrichten.", "Tighten bolts only to the torque specified in the manual for your exact model. Without it, do not guess; have the caliper aligned."),
       tx("Schleift es noch: Von hinten durch den Spalt gegen das Licht schauen. Ist die <b>Scheibe verbogen</b> (sie „eiert“ an einer Stelle), vorsichtig mit einem Scheibenrichter oder einem sauberen Gabelschlüssel richten — ohne die Bremsfläche mit Fingern anzufassen.", "Still rubbing: look through the gap from behind against the light. If the <b>rotor is bent</b> (wobbles at one spot), carefully true it with a rotor truing tool or a clean spanner — without touching the braking surface with your fingers."),
-      tx("Kommt ein <b>Kolben</b> (der Stempel, der den Belag drückt) nicht mehr ganz zurück: Rad raus, Beläge raus, Kolben mit einem Kunststoffhebel vorsichtig zurückdrücken und den Hebel ein paarmal pumpen — dabei einen Abstandshalter einlegen.", "If a <b>piston</b> (the plunger that pushes the pad) no longer fully retracts: wheel out, pads out, gently push the piston back with a plastic lever and pump the lever a few times — with a spacer in place.")])
+      tx("Bleibt ein <b>Kolben</b> (der Stempel hinter dem Belag) hängen: nicht einfach ausbauen oder weiterpumpen. Die sichere Rückstellung hängt vom Modell ab. Bei Ölspuren oder einem herausgefallenen Kolben nicht fahren und die Bremse prüfen lassen.", "If a <b>piston</b> (the plunger behind a pad) sticks, do not just remove it or keep pumping. Safe resetting depends on the model. If fluid leaks or a piston falls out, do not ride; have the brake inspected.")])
     + gSicher("Nach der Arbeit immer im Stand prüfen: Hebel fest, Rad bremst sofort. Nie einen Schraubenzieher als Hebel an den Kolben — und Bremse nie ohne Scheibe oder Abstandshalter ziehen. Wenn du unsicher bist: Fachwerkstatt.",
       "After the job always check while standing still: lever firm, wheel stops at once. Never lever the pistons with a screwdriver — and never pull the brake without a rotor or spacer in place. If in doubt: bike shop.");
   return {h:h + (b ? "" : gOhneBremse()), ak:["slot:bremsen"], chips:[{id:"w-quietscht", t:gTitel("w-quietscht")}, {id:"w-belaege", t:gTitel("w-belaege")}]};
 }
 function gWQuietscht(q){
   const b = gBremse(q);
-  const h = tx("Quietschen hat fast immer eine von vier Ursachen: <b>Öl oder Fett</b> auf Scheibe oder Belag, <b>verglaste Beläge</b> (die Oberfläche ist durch Hitze glatt und hart geworden), nicht <b>eingebremste</b> neue Teile oder ein schief sitzender Bremssattel.",
-      "Squealing almost always has one of four causes: <b>oil or grease</b> on rotor or pads, <b>glazed pads</b> (heat made the surface smooth and hard), new parts that weren't <b>bedded in</b>, or a misaligned caliper.")
+  const h = tx("Mögliche Ursachen für Quietschen sind <b>Öl oder Fett</b> auf Scheibe oder Belag, <b>verglaste Beläge</b> (durch Hitze glatt geworden), neue Teile oder ein schief sitzender Bremssattel. Das Geräusch allein ist keine sichere Diagnose. Bei Ölspuren oder schwacher Bremswirkung nicht weiterfahren.",
+      "Possible causes of squealing include <b>oil or grease</b> on rotor or pads, <b>glazed pads</b> (smoothed by heat), new parts or a misaligned caliper. The sound alone is not a reliable diagnosis. If there is fluid or weak braking, do not ride.")
     + (b && !b.felge ? "<br>" + gBremsKopf(b) : "")
     + gOl([tx("Scheibe mit <b>Isopropanol</b> (Reinigungsalkohol aus der Apotheke) oder Bremsenreiniger und einem sauberen Tuch abwischen. Kein Kettenöl, kein Pflegespray in die Nähe!", "Wipe the rotor with <b>isopropyl alcohol</b> or brake cleaner and a clean cloth. No chain lube or polish/silicone spray anywhere near it!"),
       tx("Beläge ausbauen und anschauen: glänzend und glatt → mit feinem Schleifpapier (Körnung 120–180) auf einer ebenen Fläche anrauen. Riechen sie nach Öl oder sind dunkel fleckig → <b>tauschen</b>, Öl kriegt man aus Belägen nicht mehr heraus.", "Remove the pads and look: shiny and smooth → roughen them on fine sandpaper (120–180 grit) on a flat surface. Smell of oil or dark stains → <b>replace</b> them, oil never comes out of pads."),
@@ -11391,25 +11395,13 @@ function gWQuietscht(q){
 function gWEntlueften(q){
   const b = gBremse(q);
   if(b && b.felge) return gWFelge(q);
-  const art = b && b.art, dot = b && b.oel === "dot";
-  const weg = {
-    trichter:tx("Bei dieser Bremse arbeitet man mit einem <b>Trichter</b> oben am Hebel: Öl kommt von unten per Spritze in den Bremssattel und steigt nach oben, die Luft blubbert im Trichter heraus.", "This brake uses a <b>funnel</b> on top of the lever: oil goes in at the caliper from below with a syringe and rises up, the air bubbles out into the funnel."),
-    spritze:tx("Bei dieser Bremse drückt man mit einer <b>Spritze</b> unten am Bremssattel Öl hinein; oben am Hebel fängt eine zweite Spritze oder ein Beutel das alte Öl und die Luft auf.", "With this brake you push oil in with a <b>syringe</b> at the caliper; a second syringe or bag at the lever catches the old oil and the air."),
-    sram:tx("SRAM arbeitet mit <b>zwei Spritzen</b>: eine am Bremssattel (meist mit dem „Bleeding Edge“-Adapter), eine am Hebel. Man drückt hin und her und zieht mit Unterdruck die Luft heraus.", "SRAM uses <b>two syringes</b>: one at the caliper (usually with the “Bleeding Edge” adapter), one at the lever. You push back and forth and pull the air out with vacuum."),
-    offen:tx("Hope hat einen <b>offenen Ausgleichsbehälter</b> am Hebel: Deckel ab, Flüssigkeit oben nachfüllen, am Bremssattel das Entlüftungsventil öffnen und mit dem Hebel durchpumpen.", "Hope has an <b>open reservoir</b> at the lever: lid off, top up from above, open the bleed nipple at the caliper and pump the fluid through with the lever.")};
-  const h = tx("<b>Entlüften</b> heißt: Luftblasen aus der Bremsleitung holen. Luft lässt sich zusammendrücken — der Hebel wird dann weich, „schwammig“, oder lässt sich bis zum Lenker ziehen. Höchste Zeit, wenn der <b>Druckpunkt</b> (der Moment, ab dem der Hebel fest wird) wandert.",
-      "<b>Bleeding</b> means getting air bubbles out of the brake line. Air compresses — the lever goes soft, “spongy”, or pulls to the bar. It's time when the <b>bite point</b> (where the lever goes firm) wanders.")
-    + (b ? "<br>" + gBremsKopf(b) + (art && weg[art] ? " " + weg[art] : "") : "")
-    + gOl([tx("Bereitlegen: das <b>Entlüftungskit des Herstellers</b>, die richtige Flüssigkeit, Handschuhe, Lappen, Isopropanol. Die Anleitung des Herstellers daneben öffnen.", "Get ready: the <b>manufacturer's bleed kit</b>, the correct fluid, gloves, rags, isopropyl alcohol. Keep the manufacturer's instructions open."),
-      tx("Laufrad ausbauen, <b>Beläge raus</b> und einen Abstandshalter (Bleed-Block) zwischen die Kolben stecken. So kann nichts verölen und die Kolben bleiben, wo sie hingehören.", "Remove the wheel, <b>take the pads out</b> and put a spacer (bleed block) between the pistons. That way nothing gets contaminated and the pistons stay put."),
-      tx("Hebel so drehen, dass der <b>Ausgleichsbehälter waagerecht</b> und oben ist — Luft steigt immer zum höchsten Punkt.", "Turn the lever so the <b>reservoir is level</b> and on top — air always rises to the highest point."),
-      tx("Flüssigkeit <b>langsam von unten (Bremssattel) nach oben (Hebel)</b> drücken, bis oben keine Blasen mehr kommen. Zwischendurch Hebel ein paar Mal ziehen und Leitung leicht beklopfen.", "Push fluid <b>slowly from the bottom (caliper) to the top (lever)</b> until no more bubbles appear. Pull the lever a few times in between and tap the hose gently."),
-      tx("Alles verschließen, Reste sauber abwischen, Beläge und Rad wieder einbauen, Druckpunkt im Stand prüfen.", "Close everything, wipe off any residue, refit pads and wheel, check the bite point while standing still."),
-      tx("Kurz <b>einbremsen</b> (siehe Beläge), dann erst richtig fahren.", "Briefly <b>bed in</b> (see pads), only then ride properly.")])
-    + (dot ? tx("<b>DOT</b> zieht mit der Zeit Wasser aus der Luft und greift Lack an — bei DOT-Bremsen etwa <b>einmal im Jahr</b> komplett tauschen und Spritzer sofort abwaschen.", "<b>DOT</b> absorbs water from the air over time and attacks paint — on DOT brakes replace it fully <b>about once a year</b> and wash off any spills at once.") : "")
-    + gSicher("Nie Mineralöl und DOT verwechseln oder mischen — das zerstört die Dichtungen, die Bremse kann ausfallen. Fühlt sich der Hebel danach nicht fest an: nicht fahren. Entlüften ist eine der heikleren Arbeiten — im Zweifel macht das die Fachwerkstatt in 20 Minuten.",
-      "Never confuse or mix mineral oil and DOT — it destroys the seals and the brake can fail. If the lever doesn't feel firm afterwards: don't ride. Bleeding is one of the trickier jobs — if in doubt, a bike shop does it in 20 minutes.");
-  return {h:h + (b ? "" : gOhneBremse()), ak:["slot:bremsen"], chips:[{id:"bremsenpflege", t:gTitel("bremsenpflege")}]};
+  const h = tx("<b>Entlüften</b> entfernt Luft aus der Bremsflüssigkeit. Ein weicher Hebel kann durch Luft entstehen, aber auch durch ein Leck oder einen Defekt — das ist aus der Ferne keine sichere Diagnose.",
+    "<b>Bleeding</b> removes air from brake fluid. A soft lever may be caused by air, but also by a leak or fault — I cannot diagnose that remotely.")
+    + (b ? "<br>" + gBremsKopf(b) : "")
+    + gOl([tx("Bei fehlender Bremswirkung oder Flüssigkeitsverlust: nicht weiterfahren und die Bremse prüfen lassen.", "If braking is unreliable or fluid leaks: do not ride; have the brake inspected."),
+      tx("Genaues Modell und Generation klären. Nur die dafür freigegebene Flüssigkeit, das passende Kit und die zugehörige Herstelleranleitung verwenden. Die Marke allein reicht nicht.", "Identify the exact model and generation. Use only its approved fluid, correct kit and manufacturer's procedure. The brand alone is not enough."),
+      tx("Ohne passende Anleitung und Erfahrung nicht öffnen, pumpen oder nachfüllen. Eine Fachwerkstatt kann Lecks und Schäden vor dem Entlüften ausschließen.", "Without the correct manual and experience, do not open, pump or top up the system. A bike workshop can check for leaks and damage before bleeding.")]);
+  return {h:h + gOhneBremse(), ak:["slot:bremsen"]};
 }
 function gWBelaege(q){
   const b = gBremse(q);
@@ -11641,9 +11633,9 @@ function gWMotoren(){
 }
 function gWBremsfluessigkeit(q){
   const b = gBremse(q);
-  return {h:(b && !b.felge ? gBremsKopf(b) + "<br>" : "") + tx("Es gibt zwei Arten <b>Bremsflüssigkeit</b> (die Flüssigkeit in der Bremsleitung): <b>Mineralöl</b> (Shimano, Magura, TRP, Tektro, SRAM Maven/Motive) und <b>DOT</b> (SRAM Level/Code/G2, Hope, Hayes, Formula).",
-      "There are two kinds of <b>brake fluid</b> (the fluid in the brake line): <b>mineral oil</b> (Shimano, Magura, TRP, Tektro, SRAM Maven/Motive) and <b>DOT</b> (SRAM Level/Code/G2, Hope, Hayes, Formula).")
-    + gUl([tx("<b>Mineralöl</b> ist hautfreundlicher und zieht kein Wasser.", "<b>Mineral oil</b> is kinder to skin and doesn't absorb water."),
+  return {h:(b && !b.felge ? gBremsKopf(b) + "<br>" : "") + tx("Es gibt zwei Arten <b>Bremsflüssigkeit</b> (die Flüssigkeit in der Bremsleitung): <b>Mineralöl</b> (Shimano, Magura, TRP, Tektro, SRAM Maven/Motive/DB8/DB6/DB4) und <b>DOT</b> (SRAM Level/Code/G2, Hope, Hayes, Formula).",
+      "There are two kinds of <b>brake fluid</b> (the fluid in the brake line): <b>mineral oil</b> (Shimano, Magura, TRP, Tektro, SRAM Maven/Motive/DB8/DB6/DB4) and <b>DOT</b> (SRAM Level/Code/G2, Hope, Hayes, Formula).")
+    + gUl([tx("<b>Mineralöl</b> gibt es in unterschiedlichen modellabhängigen Ausführungen. Nicht untereinander mischen; Haut und Augen schützen.", "<b>Mineral oil</b> comes in different model-specific types. Do not mix them; protect skin and eyes."),
       tx("<b>DOT</b> verträgt viel Hitze, zieht aber Wasser aus der Luft — etwa jährlich tauschen. Es greift Lack an: Spritzer sofort abwaschen.", "<b>DOT</b> handles lots of heat but absorbs water from the air — replace about yearly. It attacks paint: wash off spills at once."),
       tx("<b>Beläge</b>: organisch = leise, kräftiger Biss, schneller verschlissen; Sinter = langlebig, hitzefest, lauter.", "<b>Pads</b>: organic = quiet, strong bite, wear faster; sintered = durable, heat-resistant, louder.")])
     + gSicher("Nur die Flüssigkeit verwenden, die auf dem Hebel oder Ausgleichsbehälter steht — die falsche lässt die Dichtungen aufquellen, die Bremse kann versagen.",
@@ -12032,13 +12024,26 @@ function guideAktion(id){ const a = gAktInfo(id); if(a) a[1](); }
 /* Erst nach Server-Einrichtung aktivieren. Hier steht ausschließlich eine öffentliche
    HTTPS-Adresse, niemals ein API-Schlüssel. Leer = bisheriger lokaler Guide. */
 const KI_GUIDE_URL = "https://crankscore-guide.trostliam.workers.dev/guide";
-let gKi = false, gKiLaeuft = false;
+let gKi = false, gKiLaeuft = false, gKiVerlauf = [], gSchadensfall = null, gKiRad = "", gKiGeneration = 0;
+function gSoforthilfe(text){
+  const rad = modus + "|" + aktivId[modus];
+  if(gSchadensfall && gSchadensfall.rad !== rad) gSchadensfall = null;
+  const a = globalThis.CrankGuideSafety.answer(text, tx("de","en"), gSchadensfall && gSchadensfall.kind);
+  const modellAntwort = gSchadensfall && /^(?:(?:es ist|ich habe|nur hinten,?|nur vorne,?|it is|i have) (?:eine? |a |an )?)?(?:shimano|sram|magura|hope|trp|tektro|hayes|formula|xt|slx|deore|m\d{4})(?:[\w -]{0,65})$/i.test(text.trim());
+  const modell = modellAntwort ? text.trim() : gSchadensfall && gSchadensfall.modell;
+  gSchadensfall = a ? {kind:a.kind, rad, modell} : null;
+  if(!a) return null;
+  if(modellAntwort) a.answer = tx("Danke. Für ", "Thanks. For ") + modell + tx(" gilt weiterhin: ", ", this still applies: ") + a.answer.split(/(?<=[.!])\s+/).slice(0,4).join(" ");
+  return {id:"sicher-" + a.kind, html:"<b>" + tx("Sichere erste Schritte", "Safe first steps") + "</b><br>" + esc(a.answer), ak:["slot:" + a.slot], chips:[{f:tx("Anderes Thema","New topic"),t:tx("Anderes Thema","New topic")}]};
+}
 const gKiRestText = () => gKi ? tx(" · KI mit gemeinsamem Kontingent", " · AI with a shared allowance") : guideRestText();
 function gKiHinweis(){
   if(!KI_GUIDE_URL) return "";
-  return `<div style="padding:10px 18px;border-top:1px solid var(--line-soft);flex-shrink:0"><label><input type="checkbox" id="g-ki" ${gKi ? "checked" : ""}> ${tx("KI verwenden · online", "Use AI · online")}</label><p style="font-size:12px;margin:6px 0">${tx("Sendet deine Frage und deinen Teileaufbau über Cloudflare an OpenAI. KI kann sich irren. Begrenztes Kontingent, auch mit Pro.", "Sends your question and bike build through Cloudflare to OpenAI. AI can be wrong. Limited allowance, including with Pro.")}</p><details style="font-size:12px"><summary>${tx("Welche Daten werden gesendet?", "What data is sent?")}</summary><p>${tx("Teilenamen, Score, Einsatz, fehlende Teile und Hinweise der App-Prüfung sowie passende App-Wissenstexte und Linktitel. Keine Körperdaten aus dem Fahrerprofil, Fotos, Lizenzdaten oder früheren Nachrichten. Keine persönlichen Angaben in die Frage schreiben. Ausschalten beendet die Nutzung für weitere Fragen.", "Part names, score, discipline, missing parts and app check notes, plus relevant app knowledge and link titles. No body measurements from your rider profile, photos, licence data or previous messages. Avoid personal details in your question. Switching off stops AI use for further questions.")}</p><button type="button" class="btn ghost sm" data-recht="datenschutz">${tx("Datenschutz lesen", "Read privacy policy")}</button></details></div>`;
+  return `<div style="padding:10px 18px;border-top:1px solid var(--line-soft);flex-shrink:0"><label><input type="checkbox" id="g-ki" ${gKi ? "checked" : ""}> ${tx("KI verwenden · online", "Use AI · online")}</label><p style="font-size:12px;margin:6px 0">${tx("Sendet Frage, Teileaufbau und bis zu zwei letzte KI-Fragen mit gekürzten Antworten über Cloudflare an OpenAI. Vermutungen werden benannt; KI kann sich irren. Begrenztes Kontingent, auch mit Pro.", "Sends your question, bike build and up to two recent AI questions with shortened answers through Cloudflare to OpenAI. Guesses are labelled; AI can be wrong. Limited allowance, including with Pro.")}</p><details style="font-size:12px"><summary>${tx("Welche Daten werden gesendet?", "What data is sent?")}</summary><p>${tx("Teilenamen, Score, Einsatz, fehlende Teile und Hinweise der App-Prüfung sowie passende App-Wissenstexte und Linktitel. Nur die letzten zwei KI-Fragen und gekürzten KI-Antworten dieser Sitzung als Gesprächskontext. Keine Körperdaten aus dem Fahrerprofil, Fotos oder Lizenzdaten. Keine persönlichen Angaben in die Frage schreiben. Ausschalten beendet die Nutzung für weitere Fragen und leert den KI-Gesprächskontext.", "Part names, score, discipline, missing parts and app check notes, plus relevant app knowledge and link titles. Only the last two AI questions and shortened AI answers from this session as conversation context. No body measurements from your rider profile, photos or licence data. Avoid personal details in your question. Switching off stops AI use for further questions and clears AI conversation context.")}</p><button type="button" class="btn ghost sm" data-recht="datenschutz">${tx("Datenschutz lesen", "Read privacy policy")}</button></details></div>`;
 }
 function gKiKontext(text){
+  const rad = modus + "|" + aktivId[modus];
+  if(gKiRad !== rad){ gKiVerlauf = []; gKiRad = rad; }
   const words = gWorte(text), normal = " " + gNorm(text) + " ", resources = [];
   const short = (s,n) => gOhneTags(s).replace(/\s+/g," ").trim().slice(0,n);
   const add = r => {
@@ -12087,7 +12092,8 @@ function gKiKontext(text){
     tx("Fehlend: ", "Missing: ") + gOffen().map(s => s.label).join(", "),
     tx("App-Prüfung (keine Herstellerfreigabe): ", "App check (not manufacturer approval): ") + r.funde.filter(f => /fehler|warnung/.test(f.level)).slice(0,4).map(f => short(f.titel,150)).join("; "),
     ...notes].join("\n").slice(0,2000);
-  const payload = {question:text, parts:parts.slice(0,24).map(x => short(x.s.label + ": " + (x.t.m || "") + " " + x.t.n,100)), context,
+  const payload = {question:text, language:tx("de","en"), parts:parts.slice(0,24).map(x => short(x.s.label + ": " + (x.t.m || "") + " " + x.t.n,100)), context,
+    ...(gKiVerlauf.length ? {history:gKiVerlauf.map(m => ({...m}))} : {}),
     resources:resources.map(({id,title,description}) => ({id,title,description}))};
   // Auch ungewöhnlich lange Unicode-Namen bleiben innerhalb der Servergrenze.
   while(new TextEncoder().encode(JSON.stringify(payload)).length > 9500 && payload.parts.length) payload.parts.pop();
@@ -12103,6 +12109,7 @@ async function gKiFrage(text){
   if(gKiLaeuft || !text) return;
   gKiLaeuft = true;
   const pending = {wer:"bot", tippt:true};
+  const generation = gKiGeneration, rad = modus + "|" + aktivId[modus];
   gVerlauf.push({wer:"du", text}, pending); gZeigen();
   try{
     const {payload,resources} = gKiKontext(text);
@@ -12119,6 +12126,8 @@ async function gKiFrage(text){
       const references = gKiVerweise(data.linkIds, resources);
       pending.html = `<b>${tx("KI-Antwort", "AI answer")}</b><br>` + esc(data.answer).replace(/\n/g, "<br>") + references.html;
       pending.ak = references.ak;
+      if(gKi && generation === gKiGeneration && rad === modus + "|" + aktivId[modus])
+        gKiVerlauf = [...gKiVerlauf, {role:"user",content:text.slice(0,200)}, {role:"assistant",content:data.answer.slice(0,500)}].slice(-4);
     }
   }catch(e){
     pending.html = tx("Keine KI-Antwort erhalten. Prüfe deine Internetverbindung oder verwende den lokalen Guide.", "No AI answer received. Check your internet connection or use the local guide.");
@@ -12154,6 +12163,8 @@ function gAusgabe(e, q){
 }
 const G_ALLGEMEIN = new Set(["befunde", "budget", "gewicht", "mindest", "fehlt", "wertung", "tauschen", "kaufen", "fit"]);
 function gAntwort(text, id){
+  const sicher = gSoforthilfe(!text && gSchadensfall && /^w-(entlueften|schleift|quietscht|belaege)$/.test(id || "") ? tx("Kann ich weiterfahren?", "Can I ride?") : text);
+  if(sicher) return sicher;
   if(id){ const e = GUIDE.find(x => x.id === id); if(e) return gAusgabe(e, []); }
   if(text.indexOf("#teil ") === 0){
     const [, slot, tid] = text.split(" "), x = gKatalog().find(y => y.slot === slot && y.t.id === tid);
@@ -12219,7 +12230,7 @@ function oeffneGuide(){
     <form class="sheet-f g-f" id="g-form" autocomplete="off">
       <input id="g-in" type="text" enterkeyhint="send" maxlength="200" placeholder="${tx("Frag etwas …", "Ask something …")}" aria-label="${tx("Deine Frage", "Your question")}">
       <button class="g-send" type="submit" aria-label="${tx("Senden", "Send")}">${ic(IC.senden, 18)}</button></form>`);
-  if($("g-ki")) $("g-ki").addEventListener("change", e => { gKi = e.target.checked; if($("g-rest")) $("g-rest").textContent = gKiRestText(); });
+  if($("g-ki")) $("g-ki").addEventListener("change", e => { gKi = e.target.checked; if(!gKi){ gKiVerlauf = []; gKiGeneration++; } if($("g-rest")) $("g-rest").textContent = gKiRestText(); });
   const l = $("g-liste"); if(l) l.scrollTop = l.scrollHeight;
   /* Am Rechner gleich ins Feld; am Handy nicht -- sonst verdeckt die Tastatur die Antworten */
   try{ if(window.matchMedia("(pointer:fine)").matches) $("g-in").focus({preventScroll:true}); }catch(e){}
@@ -12229,6 +12240,18 @@ function guideFrage(text, id){
   text = String(text || "").trim().slice(0, 200);
   if(!text && !id) return;
   if(gKiLaeuft) return;
+  if(/^(anderes thema|neues thema|new topic)$/i.test(text)){
+    gSchadensfall=null; gKiVerlauf=[]; gKontext=null; gKiGeneration++;
+    gVerlauf.push({wer:"du",text},{wer:"bot",html:tx("Gern. Was möchtest du zu deinem Rad wissen?","Sure. What would you like to know about your bike?")});
+    gZeigen(); return;
+  }
+  const sicher = gSoforthilfe(!text && gSchadensfall && /^w-(entlueften|schleift|quietscht|belaege)$/.test(id || "") ? tx("Kann ich weiterfahren?", "Can I ride?") : text);
+  if(sicher){
+    if(gWarte){ clearTimeout(gWarte); gWarte = null; gVerlauf = gVerlauf.filter(m => !m.tippt); }
+    gVerlauf.push({wer:"du",text}, {wer:"bot",html:sicher.html,ak:sicher.ak,chips:sicher.chips});
+    if(gVerlauf.length > 40) gVerlauf = gVerlauf.slice(-40);
+    gZeigen(); return;
+  }
   const frei = guideZaehlen();
   if(frei && gKi && KI_GUIDE_URL){
     if(gWarte){ clearTimeout(gWarte); gWarte = null; gVerlauf = gVerlauf.filter(m => !m.tippt); }

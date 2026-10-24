@@ -84,7 +84,7 @@ jobs:
         run: |
           git fetch -q origin "refs/tags/veroeffentlicht:refs/tags/veroeffentlicht"
           mkdir _site
-          git archive veroeffentlicht index.html mtb-sw.js manifest.webmanifest links.json fonts docs bilder vendor 3d/modell/spindrift-5-al.glb $(git ls-tree --name-only veroeffentlicht | grep '^icon-') | tar -x -C _site
+          git archive veroeffentlicht index.html mtb-sw.js manifest.webmanifest links.json fonts docs bilder vendor 3d/modell/spindrift-5-al.glb $(git ls-tree --name-only veroeffentlicht | grep -E '^icon-|^guide-safety\.js$') | tar -x -C _site
           for f in preise.json preisverlauf.json; do [ -f "$f" ] && cp "$f" _site/ || true; done
       - uses: actions/configure-pages@v5
         if: steps.hoch.outputs.neu == 'ja' && steps.quelle.outputs.typ == 'workflow'

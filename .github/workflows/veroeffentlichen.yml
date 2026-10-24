@@ -29,6 +29,7 @@ on:
     paths:
       - index.html
       - mtb-sw.js
+      - guide-safety.js
       - manifest.webmanifest
       - links.json
       - "fonts/**"
@@ -180,7 +181,7 @@ jobs:
         if: steps.quelle.outputs.typ == 'workflow'
         run: |
           mkdir _site
-          cp index.html mtb-sw.js manifest.webmanifest links.json icon-*.png _site/
+          cp index.html mtb-sw.js guide-safety.js manifest.webmanifest links.json icon-*.png _site/
           cp -r fonts docs bilder vendor _site/
           mkdir -p _site/3d/modell
           cp 3d/modell/spindrift-5-al.glb _site/3d/modell/

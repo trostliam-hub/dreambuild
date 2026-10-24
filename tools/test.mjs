@@ -98,8 +98,15 @@ if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:
 {
   const r = spawnSync(process.execPath, [path.join(wurzel, 'tools', 'guide-ui-test.mjs')], {cwd:wurzel, encoding:'utf8', env:process.env, maxBuffer:64e6});
   const aus = (r.stdout || '') + (r.stderr || ''), m = aus.match(/GUIDE-UI: (\d+) Prüfungen bestanden/);
-  const ok = r.status === 0 && m && +m[1] === 16;
+  const ok = r.status === 0 && m && +m[1] === 28;
   teil('KI-Guide Deutsch/Englisch', !!ok, {zeile:m ? `${m[1]} Prüfungen bestanden, Exit ${r.status}` : `keine Schlusszeile, Exit ${r.status}`, exit:r.status, fehl:ok ? [] : aus.split('\n').filter(Boolean).slice(-20), ausgabe:aus.slice(-4000)});
+}
+
+/* Feste Schadenshilfe: echte Sprach-/Routingfälle ohne Modellaufruf. */
+{
+  const r = spawnSync(process.execPath, ['--test',path.join(wurzel,'tools','guide-safety-test.mjs')], {cwd:wurzel, encoding:'utf8',env:process.env});
+  const aus=(r.stdout || '')+(r.stderr || ''), ok=r.status===0 && /(?:pass|passed)\s+24\b|24\s+pass/.test(aus);
+  teil('Guide-Soforthilfe ohne KI',ok,{zeile:'24 Fälle, Exit '+r.status,ausgabe:aus,exit:r.status});
 }
 
 {
