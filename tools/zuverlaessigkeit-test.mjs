@@ -53,7 +53,25 @@ try{
   }
  });
  await test('Free-Tageslimit gilt vor KI-Aufruf und gemeinsam mit lokalem Guide; Pro bleibt unbegrenzt',async()=>{
-  await fresh();const r=await ev(async()=>{let calls=0;window.fetch=async()=>{calls++;return new Response(JSON.stringify({answer:'Nur simulierte Antwort',linkIds:[]}),{status:200});};pro={};localStorage.setItem('mtb.guidezahl',JSON.stringify({tag:heuteTag(),n:8}));oeffneGuide();guideFrage('Was ist SAG?');await new Promise(r=>setTimeout(r,450));gKi=true;guideFrage('Was ist LSC?');while(gKiLaeuft)await new Promise(r=>setTimeout(r,1));const first={calls,n:guideZahl()};guideFrage('Was ist HSC?');await new Promise(r=>setTimeout(r,450));const blocked={calls,n:guideZahl(),text:$('g-liste').textContent};pro={key:'isolated-test',inst:'i',status:'aktiv',geprueft:Date.now()};guideFrage('Was ist Zugstufe?');while(gKiLaeuft)await new Promise(r=>setTimeout(r,1));return{first,blocked,proCalls:calls};});assert.deepEqual(r.first,{calls:1,n:10});assert.equal(r.blocked.calls,1);assert.equal(r.blocked.n,10);assert.match(r.blocked.text,/freien Fragen aufgebraucht/);assert.equal(r.proCalls,2);
+  await fresh();
+  const r=await ev(async()=>{
+   let calls=0;window.auditGuideCalls=()=>calls;
+   window.fetch=async()=>{calls++;return new Response(JSON.stringify({answer:'Nur simulierte Antwort',linkIds:[]}),{status:200});};
+   pro={};localStorage.setItem('mtb.guidezahl',JSON.stringify({tag:heuteTag(),n:8}));oeffneGuide();
+   guideFrage('Was ist SAG?');await new Promise(r=>setTimeout(r,450));
+   gKi=true;guideFrage('Was ist LSC?');while(gKiLaeuft)await new Promise(r=>setTimeout(r,1));
+   const first={calls,n:guideZahl()};guideFrage('Was ist HSC?');await new Promise(r=>setTimeout(r,450));
+   return{first,blocked:{calls,n:guideZahl(),text:$('g-liste').textContent}};
+  });
+  assert.deepEqual(r.first,{calls:1,n:10});assert.equal(r.blocked.calls,1);assert.equal(r.blocked.n,10);assert.match(r.blocked.text,/freien Fragen aufgebraucht/);
+  // Pro hebt das lokale Tageslimit auf, behält aber die globale KI-Pause bei.
+  // Echte Zeitgrenze nicht entfernen: im Browser bis hinter die 35-s-Pause vorspulen.
+  await page.clock.install();await page.clock.fastForward(35000);
+  const proCalls=await ev(async()=>{
+   pro={key:'isolated-test',inst:'i',status:'aktiv',geprueft:Date.now()};guideFrage('Was ist Zugstufe?');
+   while(gKiLaeuft||gFragen.length||gWarte)await new Promise(r=>setTimeout(r,1));return window.auditGuideCalls();
+  });
+  assert.equal(proCalls,2);
   await fresh();const limited=await ev(async()=>{let calls=0;window.fetch=async()=>{calls++;return new Response(JSON.stringify({answer:'Simuliert',linkIds:[]}),{status:200});};pro={};localStorage.setItem('mtb.guidezahl',JSON.stringify({tag:heuteTag(),n:9}));const original=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){if(k==='mtb.guidezahl')throw new DOMException('Speicher voll','QuotaExceededError');return original.call(this,k,v);};try{oeffneGuide();gKi=true;guideFrage('Was ist SAG?');while(gKiLaeuft)await new Promise(r=>setTimeout(r,1));guideFrage('Was ist LSC?');await new Promise(r=>setTimeout(r,450));return{calls,n:guideZahl(),text:$('g-liste').textContent,stored:JSON.parse(localStorage.getItem('mtb.guidezahl')).n};}finally{Storage.prototype.setItem=original;}});assert.equal(limited.calls,1);assert.equal(limited.n,10);assert.equal(limited.stored,9);assert.match(limited.text,/freien Fragen aufgebraucht/);
  });
  await test('Offline oder abgelehnte Abmeldung behaelt Schluessel und Instanz, bestaetigte Abmeldung entfernt sie',async()=>{

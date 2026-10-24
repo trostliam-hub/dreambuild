@@ -97,9 +97,18 @@ try{
     await page.locator('#g-ki').uncheck();await send(language==='de'?'Anderes Thema':'New topic');
     await send('Was bedeutet SAG?');await send('Was bedeutet Zugstufe?');
     await advance(420);await advance(420);
+    await page.waitForFunction(()=>!gWarte && !gFragen.length);
     assert.equal(await page.locator('.g-bl.g-wartet,.g-tippt').count(),0);assert.equal(calls.length,14);
+    assert.deepEqual(await page.evaluate(()=>gVerlauf.slice(-4).map(m=>[m.wer,!!m.html])),[['du',false],['bot',true],['du',false],['bot',true]]);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
     assert.deepEqual(errors,[]);checks++;
+    // Während einer Pause abgebrochene, nie gesendete Fragen kosten keine freie Frage.
+    await page.evaluate(()=>{guideZaehlen=window.queueCount;});await page.locator('#g-ki').check();
+    await send('Was ist ein Tubeless-Reifen?');await arrived(15);await finish();
+    const counted=await page.evaluate(()=>guideZahl());
+    await send('Folgefrage vor dem Ausschalten');assert.equal(await page.evaluate(()=>guideZahl()),counted);
+    await page.locator('#g-ki').uncheck();await advance(35000);
+    assert.equal(await page.evaluate(()=>guideZahl()),counted);assert.equal(calls.length,15);checks++;
     await ctx.close();
   }
   console.log(`GUIDE-QUEUE: ${checks} Prüfungen bestanden (FIFO, virtuelle 35 s, DE/EN, 390/320 px)`);

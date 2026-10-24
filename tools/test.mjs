@@ -105,7 +105,7 @@ if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:
 /* Weitere Fragen bleiben während der Antwort in einer geordneten Warteschlange. */
 {
   const r = spawnSync(process.execPath, [path.join(wurzel,'tools','guide-queue-test.mjs')], {cwd:wurzel,encoding:'utf8',env:process.env,maxBuffer:64e6});
-  const aus=(r.stdout || '')+(r.stderr || ''), m=aus.match(/GUIDE-QUEUE: (\d+) Prüfungen bestanden/), ok=r.status===0 && m && +m[1]===18;
+  const aus=(r.stdout || '')+(r.stderr || ''), m=aus.match(/GUIDE-QUEUE: (\d+) Prüfungen bestanden/), ok=r.status===0 && m && +m[1]===20;
   teil('Guide-Stichpunkte und Warteschlange',!!ok,{zeile:m ? `${m[1]} Prüfungen bestanden, Exit ${r.status}` : `keine Schlusszeile, Exit ${r.status}`,exit:r.status,ausgabe:aus.slice(-4000)});
 }
 

@@ -12050,7 +12050,8 @@ function gFragenWeiter(){
     f.pending.html = tx("Diese Frage wurde nicht gesendet: Rad, Aufbau oder KI-Freigabe wurde geändert. Stell sie bei Bedarf erneut.", "This question was not sent: the bike, build or AI permission changed. Ask it again if needed.");
     gFragenWeiter(); return;
   }
-  if(f.online && Date.now() < gKiNaechste){
+  const darf = f.frei == null ? istPro() || guideRest() > 0 : f.frei;
+  if(darf && f.online && Date.now() < gKiNaechste){
     f.pending.pause = true; gZeigen();
     gQueueTimer = setTimeout(() => { gQueueTimer = null; gFragenWeiter(); }, gKiNaechste - Date.now());
     return;
