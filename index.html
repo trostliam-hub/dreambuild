@@ -12030,7 +12030,7 @@ function gSoforthilfe(text){
   if(gSchadensfall && gSchadensfall.rad !== rad) gSchadensfall = null;
   const a = globalThis.CrankGuideSafety.answer(text, tx("de","en"), gSchadensfall && gSchadensfall.kind);
   const modellAntwort = gSchadensfall && /^(?:(?:es ist|ich habe|nur hinten,?|nur vorne,?|it is|i have) (?:eine? |a |an )?)?(?:shimano|sram|magura|hope|trp|tektro|hayes|formula|xt|slx|deore|m\d{4})(?:[\w -]{0,65})$/i.test(text.trim());
-  const modell = modellAntwort ? text.trim() : gSchadensfall && gSchadensfall.modell;
+  const modell = modellAntwort ? text.trim().replace(/^(?:es ist|ich habe|nur hinten,?|nur vorne,?|it is|i have)\s+(?:(?:eine?|an?)\s+)?/i,"") : gSchadensfall && gSchadensfall.modell;
   gSchadensfall = a ? {kind:a.kind, rad, modell} : null;
   if(!a) return null;
   if(modellAntwort) a.answer = tx("Danke. Für ", "Thanks. For ") + modell + tx(" gilt weiterhin: ", ", this still applies: ") + a.answer.split(/(?<=[.!])\s+/).slice(0,4).join(" ");

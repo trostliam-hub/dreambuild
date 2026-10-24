@@ -101,8 +101,9 @@ try{
     assert.match(last,language === 'de' ? /nicht weiterfahren/ : /do not ride/);
     assert.doesNotMatch(last,/20[–-]30|6[–-]8|Rahmen eintragen|add.*frame/i);
     assert.equal(calls,noCalls); checks++;
-    await send('Shimano XT M8120');
+    await send(language === 'de' ? 'Es ist eine Shimano XT M8120' : 'I have a Shimano XT M8120');
     assert.match(await page.locator('.g-m.bot').last().innerText(),/Shimano XT M8120/);
+    assert.doesNotMatch(await page.locator('.g-m.bot').last().innerText(),/Für Es ist|For I have/);
     await send(language === 'de' ? 'Kann ich trotzdem weiterfahren?' : 'Can I ride anyway?');
     assert.match(await page.locator('.g-m.bot').last().innerText(),language === 'de' ? /nicht weiterfahren/ : /do not ride/);
     assert.equal(calls,noCalls); checks++;
