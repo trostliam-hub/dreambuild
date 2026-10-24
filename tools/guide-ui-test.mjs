@@ -24,10 +24,10 @@ try{
     const page = await context.newPage();
     const errors = []; page.on('pageerror', e => errors.push(e.message));
     let enabled = false, calls = 0, status = 200, payload, error = 'quota';
-    await page.route('**/index.html', r => r.fulfill({contentType:'text/html', body:html.replace(/const KI_GUIDE_URL = "[^"]*";/, 'const KI_GUIDE_URL = "' + (enabled ? 'https://guide.example/guide' : '') + '";')}));
+    await page.route('**/index.html', r => r.fulfill({contentType:'text/html', body:html.replace('const G_KI_PAUSE_MS = 35000;', 'const G_KI_PAUSE_MS = 0;').replace(/const KI_GUIDE_URL = "[^"]*";/, 'const KI_GUIDE_URL = "' + (enabled ? 'https://guide.example/guide' : '') + '";')}));
     await page.route('https://guide.example/guide', r => {
       calls++; payload = r.request().postDataJSON();
-      return r.fulfill({status, contentType:'application/json', headers:{'Retry-After':'12','Access-Control-Expose-Headers':'Retry-After'}, body:JSON.stringify(status === 200 ? {answer:'<img src=x onerror=alert(1)>\nSAG erklärt.',linkIds:['r0','r0','https://evil.example', payload.resources.find(x => /Fahrwerk|suspension setup/.test(x.title))?.id]} : {error})});
+      return r.fulfill({status, contentType:'application/json', headers:{'Retry-After':'1','Access-Control-Expose-Headers':'Retry-After'}, body:JSON.stringify(status === 200 ? {answer:'<img src=x onerror=alert(1)>\nSAG erklärt.',linkIds:['r0','r0','https://evil.example', payload.resources.find(x => /Fahrwerk|suspension setup/.test(x.title))?.id]} : {error})});
     });
     await page.goto(url);
     await page.evaluate(s => {localStorage.setItem('mtb.einstieg2','1');localStorage.setItem('mtb.tour','1');localStorage.setItem('mtb.sprache',s);}, language);
@@ -58,8 +58,8 @@ try{
     assert.match(await page.locator('#g-liste').innerText(), /Kontingent|allowance/); checks++;
     error = 'rate';
     await page.locator('#g-in').fill('Was bedeutet HSC?'); await page.locator('#g-form button').click();
-    await page.waitForFunction(() => !gKiLaeuft && !gVerlauf[gVerlauf.length - 1].tippt);
-    assert.match(await page.locator('#g-liste').innerText(), /12 Sekunden|12 seconds/); checks++;
+    await page.waitForFunction(() => !gKiLaeuft && !gQueueTimer && !gFragen.length);
+    assert.match(await page.locator('#g-liste').innerText(), /weiter ausgelastet|still busy/); checks++;
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),false);
     const oldBuild = await page.evaluate(() => JSON.stringify(build));
     await page.locator('#g-liste [data-gakt="view:setup"]').click();
@@ -69,7 +69,7 @@ try{
     await page.locator('#g-ki').uncheck();
     await page.locator('#g-in').fill('Was bedeutet SAG?'); await page.locator('#g-form button').click();
     await page.waitForFunction(() => !gWarte);
-    assert.equal(calls, 3); assert.deepEqual(errors, []); checks++;
+    assert.equal(calls, 5); assert.deepEqual(errors, []); checks++;
     const product = await page.evaluate(() => {
       build.gabel = 'g-pike';
       live.teile = {}; ANGEBOTE.clear();

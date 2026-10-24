@@ -894,6 +894,9 @@ body.tastatur .sheet-b{padding-bottom:14px}
 .g-tippt span{width:7px;height:7px;border-radius:50%;background:var(--ink-3);animation:gpunkt 1s infinite}
 .g-tippt span:nth-child(2){animation-delay:.15s}
 .g-tippt span:nth-child(3){animation-delay:.3s}
+.g-punkte{margin:8px 0 0;padding-left:19px}
+.g-punkte li{padding-left:2px;margin:6px 0}
+.g-wartet{color:var(--ink-3);font-size:13px}
 @keyframes gpunkt{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-3px)}}
 @media (prefers-reduced-motion:reduce){.g-tippt span{animation:none}}
 .g-f input{flex:1;min-width:0;height:46px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);
@@ -12024,7 +12027,49 @@ function guideAktion(id){ const a = gAktInfo(id); if(a) a[1](); }
 /* Erst nach Server-Einrichtung aktivieren. Hier steht ausschließlich eine öffentliche
    HTTPS-Adresse, niemals ein API-Schlüssel. Leer = bisheriger lokaler Guide. */
 const KI_GUIDE_URL = "https://crankscore-guide.trostliam.workers.dev/guide";
-let gKi = false, gKiLaeuft = false, gKiVerlauf = [], gSchadensfall = null, gKiRad = "", gKiGeneration = 0;
+let gKi = false, gKiLaeuft = false, gKiVerlauf = [], gSchadensfall = null, gKiRad = "", gKiAufbau = "", gKiGeneration = 0;
+const G_KI_PAUSE_MS = 35000;
+let gFragen = [], gQueueTimer = null, gKiNaechste = 0;
+function gKurzHtml(text){
+  const lines = String(text).trim().split(/\n+/).map(s => s.trim()).filter(Boolean);
+  if(lines.length && lines.every(s => /^[-•*]\s+|^\d+[.)]\s+/.test(s)))
+    return '<ul class="g-punkte">' + lines.map(s => '<li>' + esc(s.replace(/^([-•*]|\d+[.)])\s+/, "")) + '</li>').join("") + '</ul>';
+  return esc(text).replace(/\n/g,"<br>");
+}
+function gFragenStoppen(hinweis){
+  clearTimeout(gQueueTimer); gQueueTimer = null;
+  for(const f of gFragen){ delete f.pending.wartet; f.pending.html = esc(hinweis); }
+  gFragen = []; gKiVerlauf = []; gKiGeneration++;
+}
+function gFragenWeiter(){
+  if(gKiLaeuft || gWarte || gQueueTimer) return;
+  const f = gFragen[0];
+  if(!f){ if(gVerlauf.length > 40) gVerlauf = gVerlauf.slice(-40); gZeigen(); return; }
+  if(f.generation !== gKiGeneration || f.rad !== modus + "|" + aktivId[modus] || f.aufbau !== JSON.stringify(build) || (f.online && !gKi)){
+    gFragen.shift(); delete f.pending.wartet;
+    f.pending.html = tx("Diese Frage wurde nicht gesendet: Rad, Aufbau oder KI-Freigabe wurde geändert. Stell sie bei Bedarf erneut.", "This question was not sent: the bike, build or AI permission changed. Ask it again if needed.");
+    gFragenWeiter(); return;
+  }
+  if(f.online && Date.now() < gKiNaechste){
+    f.pending.pause = true; gZeigen();
+    gQueueTimer = setTimeout(() => { gQueueTimer = null; gFragenWeiter(); }, gKiNaechste - Date.now());
+    return;
+  }
+  gFragen.shift(); delete f.pending.wartet; delete f.pending.pause;
+  if(f.frei == null) f.frei = guideZaehlen();
+  if(f.frei && f.online){ gKiFrage(f); return; }
+  const a = f.frei ? gAntwort(f.text, f.id)
+    : {html:tx(`Heute sind deine ${PRO_GUIDE_FREI} freien Fragen aufgebraucht — morgen geht es weiter. Mit <b>Pro</b> (${proPreis()}) fragst du ohne Limit.`,
+        `You've used today's ${PRO_GUIDE_FREI} free questions — more tomorrow. With <b>Pro</b> (${proPreis()}) you can ask without limit.`), ak:["pro"]};
+  f.pending.tippt = true; gZeigen();
+  gWarte = setTimeout(() => {
+    gWarte = null; delete f.pending.tippt;
+    Object.assign(f.pending, f.generation !== gKiGeneration || f.rad !== modus + "|" + aktivId[modus] || f.aufbau !== JSON.stringify(build)
+      ? {html:tx("Die vorige Frage ist durch neuere Hinweise oder Änderungen überholt. Beachte die aktuelle Antwort oder stell die Frage erneut.", "The earlier question has been superseded by newer information or changes. Follow the current reply or ask again.")}
+      : a);
+    gFragenWeiter(); gZeigen(f.generation === gKiGeneration ? f.pending : null);
+  }, 420);
+}
 function gSoforthilfe(text){
   const rad = modus + "|" + aktivId[modus];
   if(gSchadensfall && gSchadensfall.rad !== rad) gSchadensfall = null;
@@ -12033,8 +12078,10 @@ function gSoforthilfe(text){
   const modell = modellAntwort ? text.trim().replace(/^(?:es ist|ich habe|nur hinten,?|nur vorne,?|it is|i have)\s+(?:(?:eine?|an?)\s+)?/i,"") : gSchadensfall && gSchadensfall.modell;
   gSchadensfall = a ? {kind:a.kind, rad, modell} : null;
   if(!a) return null;
-  if(modellAntwort) a.answer = tx("Danke. Für ", "Thanks. For ") + modell + tx(" gilt weiterhin: ", ", this still applies: ") + a.answer.split(/(?<=[.!])\s+/).slice(0,4).join(" ");
-  return {id:"sicher-" + a.kind, html:"<b>" + tx("Sichere erste Schritte", "Safe first steps") + "</b><br>" + esc(a.answer), ak:["slot:" + a.slot], chips:[{f:tx("Anderes Thema","New topic"),t:tx("Anderes Thema","New topic")}]};
+  if(modellAntwort) a.answer += tx(" Genanntes Modell: ", " Named model: ") + modell + ".";
+  const saetze = a.answer.split(/(?<=[.!?])\s+(?=[A-ZÄÖÜ])/);
+  const punkte = saetze.length > 4 ? [...saetze.slice(0,3), saetze.slice(3).join(" ")] : saetze;
+  return {id:"sicher-" + a.kind, html:"<b>" + tx("Sichere erste Schritte", "Safe first steps") + "</b>" + gKurzHtml(punkte.map(s => "- " + s).join("\n")), ak:["slot:" + a.slot], chips:[{f:tx("Anderes Thema","New topic"),t:tx("Anderes Thema","New topic")}]};
 }
 const gKiRestText = () => gKi ? tx(" · KI mit gemeinsamem Kontingent", " · AI with a shared allowance") : guideRestText();
 function gKiHinweis(){
@@ -12043,7 +12090,8 @@ function gKiHinweis(){
 }
 function gKiKontext(text){
   const rad = modus + "|" + aktivId[modus];
-  if(gKiRad !== rad){ gKiVerlauf = []; gKiRad = rad; }
+  const aufbau = JSON.stringify(build);
+  if(gKiRad !== rad || gKiAufbau !== aufbau){ gKiVerlauf = []; gKiRad = rad; gKiAufbau = aufbau; }
   const words = gWorte(text), normal = " " + gNorm(text) + " ", resources = [];
   const short = (s,n) => gOhneTags(s).replace(/\s+/g," ").trim().slice(0,n);
   const add = r => {
@@ -12105,36 +12153,43 @@ function gKiVerweise(ids, resources){
   const links = selected.filter(r => r.url).map(r => `<a class="btn ghost sm" style="white-space:normal;text-align:left" href="${esc(r.url)}" target="_blank" rel="${r.sponsored ? "sponsored nofollow " : ""}noopener noreferrer">${r.sponsored ? tx("Anzeige · ", "Ad · ") : ""}${esc(r.title)} ↗</a>`).join("");
   return {html:links ? `<div class="g-ak" aria-label="${tx("Links aus der App", "Links from the app")}">${links}</div>` : "", ak:selected.filter(r => r.action).map(r => r.action)};
 }
-async function gKiFrage(text){
-  if(gKiLaeuft || !text) return;
+async function gKiFrage(f){
+  const text = f.id ? gTitel(f.id) : f.text, pending = f.pending;
   gKiLaeuft = true;
-  const pending = {wer:"bot", tippt:true};
-  const generation = gKiGeneration, rad = modus + "|" + aktivId[modus];
-  gVerlauf.push({wer:"du", text}, pending); gZeigen();
+  pending.tippt = true; gZeigen();
+  let wiederWarten = false;
   try{
     const {payload,resources} = gKiKontext(text);
+    gKiNaechste = Date.now() + G_KI_PAUSE_MS;
     const r = await fetch(KI_GUIDE_URL, {method:"POST", credentials:"omit", cache:"no-store",
       headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload),
       signal:AbortSignal.timeout(35000)});
     const data = await r.json();
     if(r.status === 429 && data.error === "rate"){
       const seconds = Math.max(1, Math.min(35, Number(r.headers.get("Retry-After")) || 35));
-      pending.html = tx(`Die KI beantwortet gerade eine andere Frage. Versuch es in ${seconds} Sekunden noch einmal.`, `AI is handling another question. Try again in ${seconds} seconds.`);
+      gKiNaechste = Date.now() + seconds * 1000;
+      wiederWarten = f.versuche++ < 2 && gKi && f.generation === gKiGeneration && f.rad === modus + "|" + aktivId[modus] && f.aufbau === JSON.stringify(build);
+      pending.html = tx("Die KI ist weiter ausgelastet. Bitte stell diese Frage später erneut oder nutze den lokalen Guide.", "AI is still busy. Please ask this question again later or use the local guide.");
     }else if(!r.ok || typeof data.answer !== "string" || !data.answer.trim() || data.answer.length > 1800){
       pending.html = tx("Die KI ist gerade nicht verfügbar oder das Kontingent ist ausgeschöpft. Du kannst „KI verwenden“ ausschalten und den lokalen Guide nutzen.", "AI is currently unavailable or its allowance is used up. Turn off “Use AI” to use the local guide.");
     }else{
       const references = gKiVerweise(data.linkIds, resources);
-      pending.html = `<b>${tx("KI-Antwort", "AI answer")}</b><br>` + esc(data.answer).replace(/\n/g, "<br>") + references.html;
+      const aktuell = f.generation === gKiGeneration && f.rad === modus + "|" + aktivId[modus] && f.aufbau === JSON.stringify(build);
+      pending.html = (aktuell ? "" : `<p class="g-wartet">${tx("Antwort zur vorigen Frage: Neuere Hinweise oder Änderungen sind hier noch nicht berücksichtigt.", "Answer to the earlier question: more recent information or changes are not reflected here.")}</p>`) + `<b>${tx("KI-Antwort", "AI answer")}</b><div>` + gKurzHtml(data.answer) + '</div>' + references.html;
       pending.ak = references.ak;
-      if(gKi && generation === gKiGeneration && rad === modus + "|" + aktivId[modus])
+      if(!aktuell && gSchadensfall){
+        pending.html = tx("Die vorige KI-Antwort ist abgeschlossen. Für den neu gemeldeten Schaden gelten die aktuellen Sicherheitshinweise im Chat.", "The earlier AI reply is complete. Follow the current safety advice in the chat for the newly reported damage.");
+        pending.ak = [];
+      }
+      if(gKi && aktuell)
         gKiVerlauf = [...gKiVerlauf, {role:"user",content:text.slice(0,200)}, {role:"assistant",content:data.answer.slice(0,500)}].slice(-4);
     }
   }catch(e){
     pending.html = tx("Keine KI-Antwort erhalten. Prüfe deine Internetverbindung oder verwende den lokalen Guide.", "No AI answer received. Check your internet connection or use the local guide.");
   }finally{
     delete pending.tippt; gKiLaeuft = false;
-    if(gVerlauf.length > 40) gVerlauf = gVerlauf.slice(-40);
-    gZeigen();
+    if(wiederWarten){ pending.wartet = true; gFragen.unshift(f); }
+    gFragenWeiter(); gZeigen(f.generation === gKiGeneration ? pending : null);
   }
 }
 let gVerlauf = [];
@@ -12203,7 +12258,8 @@ function gAntwort(text, id){
 function gListeHtml(){
   return gVerlauf.map((m, i) => {
     if(m.wer === "du") return `<div class="g-m du"><div class="g-bl">${esc(m.text)}</div></div>`;
-    const kopf = `<div class="g-m bot"><span class="g-av" aria-hidden="true">${ic(IC.guide, 15)}</span>`;
+    const kopf = `<div class="g-m bot" data-gm="${i}"><span class="g-av" aria-hidden="true">${ic(IC.guide, 15)}</span>`;
+    if(m.wartet) return kopf + `<div class="g-bl g-wartet" role="status">${m.pause ? tx("Kurze KI-Pause für das gemeinsame Kontingent. Deine Frage wird danach automatisch beantwortet.", "A short AI pause for the shared allowance. Your question will be answered automatically afterwards.") : tx("Frage vorgemerkt. Kommt nach der laufenden Antwort dran.", "Question queued. It will be answered after the current reply.")}</div></div>`;
     if(m.tippt) return kopf + `<div class="g-bl g-tippt" aria-label="${tx("Guide schreibt", "Guide is typing")}"><span></span><span></span><span></span></div></div>`;
     const ak = (m.ak || []).map(a => { const x = gAktInfo(a); return x ? `<button class="btn ghost sm" data-gakt="${esc(a)}">${esc(x[0])}</button>` : ""; }).join("");
     const letzte = i === gVerlauf.length - 1;
@@ -12212,9 +12268,11 @@ function gListeHtml(){
         + `<div class="g-chips">${m.chips.map(c => `<button class="g-chip" data-gfrage="${esc(c.f || "")}"${c.id ? ` data-gid="${esc(c.id)}"` : ""}>${esc(c.t)}</button>`).join("")}</div>` : "");
   }).join("");
 }
-function gZeigen(){
+function gZeigen(antwort){
   const l = $("g-liste"); if(!l) return;
   l.innerHTML = gListeHtml();
+  const anker = antwort && l.querySelector(`[data-gm="${gVerlauf.indexOf(antwort)}"]`);
+  if(anker){ l.scrollTop += anker.getBoundingClientRect().top - l.getBoundingClientRect().top - 10; return; }
   l.scrollTop = l.scrollHeight;
   /* Lange Antworten liest man von oben: an den Anfang der neuen Antwort
      springen statt ans Ende */
@@ -12230,7 +12288,7 @@ function oeffneGuide(){
     <form class="sheet-f g-f" id="g-form" autocomplete="off">
       <input id="g-in" type="text" enterkeyhint="send" maxlength="200" placeholder="${tx("Frag etwas …", "Ask something …")}" aria-label="${tx("Deine Frage", "Your question")}">
       <button class="g-send" type="submit" aria-label="${tx("Senden", "Send")}">${ic(IC.senden, 18)}</button></form>`);
-  if($("g-ki")) $("g-ki").addEventListener("change", e => { gKi = e.target.checked; if(!gKi){ gKiVerlauf = []; gKiGeneration++; } if($("g-rest")) $("g-rest").textContent = gKiRestText(); });
+  if($("g-ki")) $("g-ki").addEventListener("change", e => { gKi = e.target.checked; if(!gKi) gFragenStoppen(tx("Nicht gesendet: KI ausgeschaltet. Du kannst die Frage jetzt an den lokalen Guide stellen.", "Not sent: AI switched off. You can now ask the local guide.")); if($("g-rest")) $("g-rest").textContent = gKiRestText(); gZeigen(); });
   const l = $("g-liste"); if(l) l.scrollTop = l.scrollHeight;
   /* Am Rechner gleich ins Feld; am Handy nicht -- sonst verdeckt die Tastatur die Antworten */
   try{ if(window.matchMedia("(pointer:fine)").matches) $("g-in").focus({preventScroll:true}); }catch(e){}
@@ -12239,40 +12297,24 @@ let gWarte = null;
 function guideFrage(text, id){
   text = String(text || "").trim().slice(0, 200);
   if(!text && !id) return;
-  if(gKiLaeuft) return;
   if(/^(anderes thema|neues thema|new topic)$/i.test(text)){
-    gSchadensfall=null; gKiVerlauf=[]; gKontext=null; gKiGeneration++;
+    gFragenStoppen(tx("Nicht gesendet: Du hast ein neues Thema begonnen.", "Not sent: you started a new topic."));
+    gSchadensfall=null; gKontext=null;
     gVerlauf.push({wer:"du",text},{wer:"bot",html:tx("Gern. Was möchtest du zu deinem Rad wissen?","Sure. What would you like to know about your bike?")});
     gZeigen(); return;
   }
   const sicher = gSoforthilfe(!text && gSchadensfall && /^w-(entlueften|schleift|quietscht|belaege)$/.test(id || "") ? tx("Kann ich weiterfahren?", "Can I ride?") : text);
   if(sicher){
-    if(gWarte){ clearTimeout(gWarte); gWarte = null; gVerlauf = gVerlauf.filter(m => !m.tippt); }
+    gFragenStoppen(tx("Diese vorgemerkte Frage wurde angehalten. Beachte zuerst die aktuellen Sicherheitshinweise.", "This queued question was stopped. Follow the current safety advice first."));
     gVerlauf.push({wer:"du",text}, {wer:"bot",html:sicher.html,ak:sicher.ak,chips:sicher.chips});
-    if(gVerlauf.length > 40) gVerlauf = gVerlauf.slice(-40);
     gZeigen(); return;
   }
-  const frei = guideZaehlen();
-  if(frei && gKi && KI_GUIDE_URL){
-    if(gWarte){ clearTimeout(gWarte); gWarte = null; gVerlauf = gVerlauf.filter(m => !m.tippt); }
-    gKiFrage(id ? gTitel(id) : text); return;
-  }
-  if(gWarte){ clearTimeout(gWarte); gWarte = null; gVerlauf = gVerlauf.filter(m => !m.tippt); }
   const zeig = id ? gTitel(id) : text.indexOf("#teil ") === 0 ? (gKatalog().find(y => text.split(" ")[2] === y.t.id) || {t:{n:text}}).t.n : text;
-  gVerlauf.push({wer:"du", text:zeig});
-  const a = frei ? gAntwort(text, id)
-    : {html:tx(`Heute sind deine ${PRO_GUIDE_FREI} freien Fragen aufgebraucht — morgen geht es weiter. Mit <b>Pro</b> (${proPreis()}) fragst du ohne Limit.`,
-        `You've used today's ${PRO_GUIDE_FREI} free questions — more tomorrow. With <b>Pro</b> (${proPreis()}) you can ask without limit.`), ak:["pro"]};
-  if($("g-rest")) $("g-rest").textContent = guideRestText();
-  gVerlauf.push({wer:"bot", tippt:true});
-  if(gVerlauf.length > 40) gVerlauf = gVerlauf.slice(-40);
-  gZeigen();
-  gWarte = setTimeout(() => {
-    gWarte = null;
-    gVerlauf = gVerlauf.filter(m => !m.tippt);
-    gVerlauf.push({wer:"bot", html:a.html, ak:a.ak, chips:a.chips, auch:a.auch});
-    gZeigen();
-  }, 420);
+  const pending = {wer:"bot", wartet:true};
+  gVerlauf.push({wer:"du", text:zeig}, pending);
+  gFragen.push({text, id, pending, online:!!(gKi && KI_GUIDE_URL), generation:gKiGeneration, rad:modus + "|" + aktivId[modus], aufbau:JSON.stringify(build), versuche:0});
+  gFragenWeiter(); gZeigen();
+  if($("g-rest")) $("g-rest").textContent = gKiRestText();
 }
 
 /* ═══════════ Federungsrechner ═══════════
@@ -19612,7 +19654,6 @@ document.addEventListener("submit", e => {
   if(e.target && e.target.id === "bt-form-menu"){ e.preventDefault(); btEntsperren(($("bt-pin-menu") || {}).value, true); return; }
   if(!e.target || e.target.id !== "g-form") return;
   e.preventDefault();
-  if(gKiLaeuft) return;
   const i = $("g-in"); if(!i) return;
   guideFrage(i.value); i.value = "";
 });
