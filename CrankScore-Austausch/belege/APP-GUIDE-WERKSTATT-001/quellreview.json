@@ -1,0 +1,19 @@
+{
+  "commit": "1965187ecacf11a7301d2d48ea94fa047d47008d",
+  "files": [
+    {
+      "sha256": "034325F9A2F01AE4D286EE75D51BA325293C19A156BD12B3A244FA6E1E15E30A",
+      "file": ".\\index.html"
+    },
+    {
+      "sha256": "C39E0CADB6B5C34E65AE47C5D620D5DB158B28739DFF2618893B95AEB5FBA8BC",
+      "file": ".\\guide-safety.js"
+    },
+    {
+      "sha256": "9C8AB1DE26B50C210C4C550634B4660345D5AABE7B9B612D9A4020AA7C70175C",
+      "file": ".\\guide-api\\cloudflare\\worker.mjs"
+    }
+  ],
+  "independentReview": "abgeschlossen; konkrete P2 gegengeprüft; keine offenen Blocker",
+  "date": "2026-10-24"
+}

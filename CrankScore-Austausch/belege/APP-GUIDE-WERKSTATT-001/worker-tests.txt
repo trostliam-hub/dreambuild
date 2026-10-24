@@ -1,0 +1,22 @@
+
+> test
+> node --test worker.test.mjs
+
+✔ Feste Schadenshilfe vor API und Budget, auch ohne Schlüssel: keine erfundene Schnellreparatur (386.5513ms)
+✔ Kurzer Gesprächskontext hilft bei Nachfragen; Rollen, Größe und verbotene Datenfelder werden geprüft (306.8757ms)
+✔ Ohne Schlüssel, bei 0 oder falschem Kontingent bleibt die API gesperrt (485.0682ms)
+✔ Origin, Methode, JSON und Byte-/Textgrenzen vor kostenpflichtigem Aufruf (148.3938ms)
+✔ Fester OpenAI-Aufruf, keine Client-Werkzeuge oder Schlüssel in der Antwort (138.0522ms)
+✔ Parallele Anfragen und Worker-Neustart können gemeinsames Monatslimit nicht umgehen (425.5531ms)
+✔ Drossel bleibt bei Neustart erhalten; Tageslimit und Monatswechsel (503.8966ms)
+✔ Providerfehler zählen, geben keine Geheimnisse aus und lösen keine Wiederholungen aus (146.4716ms)
+✔ Unvollständige oder leere Modellantworten werden nicht als Erfolg gezeigt (300.22ms)
+✔ Erfundene Links, doppelte IDs und fremde URLs werden nicht übernommen (296.2846ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3469.2608

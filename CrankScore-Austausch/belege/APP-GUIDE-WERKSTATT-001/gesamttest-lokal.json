@@ -1,0 +1,205 @@
+{
+  "revision": "c956962d7bc554fcc6a16c72c633d08e349bff9a",
+  "aenderungen": true,
+  "node": "v24.20.0",
+  "teile": [
+    {
+      "name": "Syntax index.html",
+      "ok": true,
+      "zeile": "2 Skripte",
+      "erwartet": 2,
+      "gelaufen": 2
+    },
+    {
+      "name": "Kompatibilität",
+      "ok": true,
+      "zeile": "200 von 200 bestanden, erwartet 200, Exit 0",
+      "exit": 0,
+      "bestanden": 200,
+      "gelaufen": 200,
+      "erwartet": 200,
+      "fehl": [],
+      "ausgabe": "il+ (Bosch) + SRAM X0 E-MTB Bosch-Kurbel passt, kein Innenlager nötig\n  ok   E-MTB: Rail+ (Bosch) + normale GX-DUB-Kurbel ist rot\n  ok   E-MTB: normale Fuel EX + E-MTB-Kurbel ist rot\n  ok   E-MTB: Decoy (Shimano EP) + Bosch-ISIS-Kurbel ist rot\n  ok   E-MTB: Levo 4 (Specialized, ISIS) + Bosch-Kurbel ist gelb (anderer Versatz)\n  ok   E-MTB: Levo 4 + Praxis Type 3 passt\n  ok   E-MTB: Fuel EXe (TQ) + e*thirteen Helix e*spec passt\n  ok   E-MTB: Orbea Rise (kein UDH) + Transmission ist rot\n  ok   E-MTB: Trek Rail+ (UDH) + Transmission passt\n  ok   E-MTB: Innenlager-Slot entfällt am E-MTB\n  ok   E-MTB: Full-Power mit 2-Kolben-Bremse ist gelb\n  ok   E-MTB: Full-Power mit 180er Scheibe vorn gibt den Hinweis\n  ok   E-MTB: Light-E (Fuel EXe) mit 2 Kolben ist kein E-Bremsen-Fall\n  ok   E-MTB: Mullet-Rahmen (Rail+) + 29/29-Laufradsatz ist rot\n  ok   Gesamtrad: Startrad der App ist grün\n  ok   XC: Specialized Epic 8 Comp (2024)\n  ok   XC: Scott Spark RC Team (2023)\n  ok   XC: Canyon Lux Trail CF 8 (2024)\n  ok   XC: Orbea Oiz M-Pro (2023) · Flat Mount hinten\n  ok   XC: Trek Supercaliber SLR 9.8 Gen 2 (2024)\n  ok   XC: Specialized Chisel Comp (2022) · Hardtail\n  ok   Trail: Trek Fuel EX 9.8 XT Gen 6 (2023)\n  ok   Trail: Specialized Stumpjumper 15 Comp (2025)\n  ok   Trail: Santa Cruz Hightower 3 C S (2023)\n  ok   Trail: YT Izzo Core 3 (2022)\n  ok   Trail: Santa Cruz Tallboy 5 C R (2023)\n  ok   Trail: Santa Cruz 5010 5 C S · Mullet (2023)\n  ok   Trail: Canyon Spectral CF 8 (2021)\n  ok   Trail: Giant Trance X Advanced Pro 29 (2022)\n  ok   Trail: Rocky Mountain Instinct C70 (2023)\n  ok   Trail: Pivot Trail 429 Pro · Super Boost 157 (2023)\n  ok   Trail: Evil Following LS · Super Boost 157 (2023)\n  ok   Trail: Norco Optic C2 (2023)\n  ok   Trail: Transition Spur X0 AXS · Transmission (2025)\n  ok   Trail: Orbea Occam LT M10 (2024)\n  ok   Trail: Yeti SB120 T2 · Transmission (2023)\n  ok   Trail: Propain Hugene Performance (2022)\n  ok   Enduro: Specialized Enduro Expert (2025)\n  ok   Enduro: Santa Cruz Megatower 2 C GX AXS (2024)\n  ok   Enduro: Commencal Meta SX V5 Race · Mullet (2023)\n  ok   Enduro: YT Capra Core 4 · Mullet (2022)\n  ok   Enduro: Canyon Strive CFR Underdog (2022)\n  ok   Enduro: Trek Slash 9.8 GX AXS Gen 6 (2024)\n  ok   Enduro: Propain Tyee CF (2023)\n  ok   Enduro: Specialized Status 160 · Mullet (2022)\n  ok   Enduro: Transition Sentinel V3 X0 AXS (2024)\n  ok   Enduro: Nukeproof Giga 297 Carbon (2023)\n  ok   Enduro: Orbea Rallon M-LTD (2023)\n  ok   Enduro: Mondraker Foxy Carbon RR (2023)\n  ok   Enduro: Ibis HD6 · Mullet (2024)\n  ok   Enduro: Pivot Firebird Pro X0 · Super Boost 157 (2024)\n  ok   Enduro: Cube Stereo ONE55 C:62 TM (2023)\n  ok   Enduro: Canyon Torque CF 8 (2023)\n  ok   DH: Santa Cruz V10 8 CC X01 (2024)\n  ok   DH: Trek Session 9.9 X01 (2023)\n  ok   DH: Commencal Supreme DH V5 Race · Saint · Mullet (2023)\n  ok   DH: Canyon Sender CFR · 148/BSA83 (2025)\n  ok   DH: YT Tues Core 4 · 148/BSA83 (2024)\n  ok   DH: Propain Rage CF 29 · Saint (2022)\n  ok   DH: Cube Two15 Race 27.5 (2022)\n  ok   DH: Specialized Demo Race · Mullet (2023)\n  ok   Dirt: NS Bikes Movement 3 · Singlespeed (2022)\n  ok   Dirt: Dartmoor Two6Player · Singlespeed (2022)\n  ok   Slope: NS Bikes Soda Slope (2021)\n  ok   Trial: Echo Mark VI Mod 20″ · Felgenbremse (2021)\n  ok   Trial: Inspired Fourplay 24″ · 135×12 (2021)\n  ok   Hardtail: Commencal Meta HT AM Ride · IS-Aufnahme hinten (2022)\n  ok   Hardtail: Nukeproof Scout 290 Race (2024)\n  ok   Hardtail: Santa Cruz Chameleon 8 (2022)\n  ok   E-MTB: Trek Rail+ 9.8 GX AXS T-Type · Bosch CX Gen 5 (2025)\n  ok   E-MTB: Specialized Turbo Levo 4 Expert · Specialized 3.1 (2025)\n  ok   E-MTB: Orbea Wild M-Team · Bosch CX (2023)\n  ok   E-MTB: Cube Stereo Hybrid 160 HPC ActionTeam 27.5 · Bosch CX (2023)\n  ok   E-MTB: YT Decoy MX Core 4 · Shimano EP8 (2023)\n  ok   Light-E: Trek Fuel EXe 9.8 XT · TQ HPR50 (2023)\n  ok   Light-E: Orbea Rise M10 · Shimano EP801-RS (2023)\n\n200 von 200 Fällen bestanden (davon 61 komplette Testräder).\n"
+    },
+    {
+      "name": "Setup und Speicher",
+      "ok": true,
+      "zeile": "25 von 25 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 25,
+      "gelaufen": 25,
+      "erwartet": null,
+      "fehl": [],
+      "ausgabe": "  ok   Super Deluxe Coil: eigenes Modellfoto fuer jeden Einsteller, HSC/LSC weiter getrennt erklaert\n  ok   Modelluebersicht: FOX und RockShox zeigen ohne Detailauswahl ausschliesslich ihr eigenes Foto\n  ok   Gabelbilder: Lyrik und ZEB unterscheiden sich, Originalquelle und schwarze Flaeche bleiben\n  ok   Produktbilder: Ausstattung, eigene Teile und fehlende Modelle\n  ok   Produktbilder: gesamte Bibliothek dekodiert, Quellen und Katalog geprueft\n  ok   Fahrwerk-Bilder: fremde Kartusche und unpassendes oder unbekanntes Bildjahr bleiben ohne Foto\n  ok   Fahrwerk-Bilder: Select zeigt sein Foto; fehlende Ausfuehrung bekommt keinen Ultimate-Ersatz\n  ok   Keine Ersatzzeichnungen oder 3D-Modelle in Fahrwerk, Einrichtung und Adapterhilfe\n  ok   Fahrwerk-Bilder: lokal dekodierbar und im Offline-Cache\n  ok   09 Pro: Zukunftsdatum und fehlende Instanz gelten nicht\n  ok   05 Setup je Radprofil, Kopie und Loeschen\n  ok   06 SAG je Fahrprofil und Druck\n  ok   07 Speicher voll wird gemeldet, Foto bleibt\n  ok   08 Sicherung: Rundlauf ohne Verlust\n  ok   08 Sicherung: kaputte, fremde und zu neue Dateien abgelehnt\n  ok   08 Sicherung: Speicher voll beim Laden laesst alten Stand stehen\n  ok   11/13 Gabeldruck nur im Tabellenbereich und mit Baujahr\n  ok   12/16 kein erfundener Maximaldruck\n  ok   14/15 Daempfer: Rahmen-Federweg automatisch, unbekannter Rahmen ohne Erfindung, Druck nur mit Modellvorgabe\n  ok   17 gespeicherter Druck zentral begrenzt\n  ok   20 Tokens ohne Bestueckung keine Stueckzahl\n  ok   21 harter Konflikt sperrt Einstellwerte\n  ok   22 Free-Vorschau ohne Zahlen\n  ok   Onboarding: jede Frage mit Warum und Weiss-ich-nicht\n  ok   Alle Gabeln und Daempfer: keine erfundenen Werte, kein undefined/NaN\n\nSETUP: 25 von 25 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Persönliche Fahrwerkfragen und Einrichtung",
+      "ok": true,
+      "zeile": "18 von 18 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 18,
+      "gelaufen": 18,
+      "erwartet": 18,
+      "fehl": [],
+      "ausgabe": "  ok   Ohne Rad zuerst zum Aufbau statt Gewicht, Pro oder Fahrwerkfragen\n  ok   Fehlender Daempfer wird am Rad ergaenzt, direkter Fragenaufruf zeigt keine falschen Werte\n  ok   Erst im Fahrwerk-Tab, Teile bestaetigen und unterbrochene Fragen fortsetzen\n  ok   Sechs persoenliche Fragen beim Fully ohne SAG-Ziele, Maximaldruck oder Klickzaehlpflicht\n  ok   Keine stillen Antworten: unbekannt ist moeglich, falsche Federzahl sperrt Weiter\n  ok   Modellwerte automatisch: alte manuelle SAG-/Druckvorgaben ersetzen keine Herstellergrenze\n  ok   475-lbs-Feder bleibt statt 500 und beeinflusst SAG sowie Zugstufen-Startwert\n  ok   Feder- und Gewichtsaenderung entwerten nur Messung, Notizen und Feintuning bleiben\n  ok   Bestehende beantwortete Setups bleiben offen, nur fehlende Antworten werden nachgefragt\n  ok   Fahrstil gilt pro Rad, neue Gabel verwirft nur ihre eigenen Daten\n  ok   Hardtail ohne Daempferfragen, Coil ohne Luftfelder, Free ohne persoenliche Werte\n  ok   Defekt sperrt Werte, separater Zustandsdialog macht nach Pruefung wieder weiter\n  ok   Einrichtung erneut: aktuelle Funktionen und Fahrerfragen ohne Verlust des bestehenden Rads\n  ok   Deutsch/Englisch, OLED/Hell und 320/390/1280 px: Fragen und Hauptansicht ohne Ueberstand\n  ok   SAG-Anleitung betrifft nur das ausgewaehlte Teil, Stahlfeder ohne Pumpe oder Luftkammer\n  ok   Nur Fotos des gewaehlten Modells, keine Schema-Ersatzbilder bei unbekanntem Teil\n  ok   Naechster Schritt oeffnet die richtige Karte und erreicht Messung und Testfahrt\n  ok   Hersteller-Druckreihen unterscheiden Jahr und Federweg, offene Gewichtsgrenzen ohne Extrapolation\nFAHRWERK-FRAGEN: 18 von 18 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Ein Weg je Aufgabe",
+      "ok": true,
+      "zeile": "36 von 36 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 36,
+      "gelaufen": 36,
+      "erwartet": null,
+      "fehl": [],
+      "ausgabe": "  ok   01/04/17 Neuer Nutzer: Einstieg nur die Wahl des Rads, danach Bauziel, kein automatischer Rundgang\n  ok   01/02 Fahrerprofil: ein Editor unter Einstellungen, keine zweite Gewichts- oder Masseingabe\n  ok   03 Budget nur im Bauziel, eine Regel, je Rad\n  ok   05/14/15/16 Eine Aufgabenkarte: Schritte nur Status, genau ein Knopf, kein Einbau/Ablehnen darin\n  ok   15/BEVEL-002 Finder: Vergleichen -> Im Aufbau ersetzen baut genau dieses Teil ein, mit Verlauf und Rueckgaengig\n  ok   16/BEVEL-002 Konflikt: Pruefung im Aufbau zeigt ihn auch zugeklappt, Loesung fuehrt zu passenden Teilen\n  ok   14 Ueber Budget: Aufgabenkarte nennt den Status, Sparen nur unter Upgrades\n  ok   07 Raeder: Anlegen nur in der Verwaltung, Traumrad weiter ins Bauziel, eigenes Rad zum Rahmen\n  ok   06/08 Bauziel je Modus: Traumrad mit Budget und Assistent, eigenes Rad und Angebot nur Disziplin und Budget\n  ok   04 Bauziel-Assistent: fuenf Schritte, Uebernehmen nur auf das offene Rad\n  ok   09 Fahrwerk nur ueber die Navigation (Handy und Desktop): kein Knopf im Kopf, im Aufbau, im Menue oder im Guide\n  ok   10-13 Setup (Pro-Testzustand): ein SAG-Start je Element, eine Testfahrt, ein Angaben-Editor, keine Teilewahl\n  ok   10 Testfahrt fragt nach SAG, misst dasselbe Element und kehrt zur Testfahrt zurueck\n  ok   12/02 Fahrwerkfragen ohne Gewicht mit Rueckweg zum gemeinsamen Fahrerprofil\n  ok   18b/02 Migration: Groesse aus dem Setup ins Fahrerprofil, nichts geloescht\n  ok   Daten bleiben nach Neuladen: Raeder, Budget, Gewicht, Setup-Werte, Pro-Status\n  ok   18c/UX Einkaufsliste nur im Bereich Einkauf; der Preis in der Uebersicht fuehrt mit einem Tipp hin (Handy und Desktop)\n  ok   UX/BEVEL-002 Navigation: vier beschriftete Bereiche auf Handy und Desktop, Wunschliste, Fahrwerk und Einkauf direkt erreichbar\n  ok   UX Score nur im Aufbau (Handy): Wunschliste und Einkauf beginnen mit ihrem Inhalt\n  ok   UX Scrollstand je Bereich: Aufbau -> Wunschliste -> Aufbau landet beim selben Teil; nochmal tippen geht nach oben\n  ok   UX Rad wechseln von ueberall: Kopf -> Blatt mit allen Raedern aller Arten, Bereich bleibt, Verwaltung nur am Stift\n  ok   UX/BEVEL-002 Vergleich: vorher und nachher je Kenngroesse fuer das Ziel, Gesamtkosten mit Zubehoer, ein Ersetzen-Knopf\n  ok   UX Teileblatt: Ansehen -> Zurueck behaelt Suche, Filter und Scrollstand; Vergleich mit dem verbauten Teil\n  ok   UX Konflikt am Teil: Grund steht an der Zeile, das Teileblatt erklaert ihn und zeigt nur passende Teile; ein Einbau loest ihn\n  ok   UX Verbessern und Gruppen: ein Tipp oeffnet die Auswahl fuer das Teil bzw. die eingeklappte Gruppe\n  ok   UX Rueckweg statt Rueckfrage: Teil entfernen und Rad zuruecksetzen lassen sich 7 s lang rueckgaengig machen; Rad loeschen fragt weiter nach\n  ok   17 Hilfe: eine Begriffsliste mit Fahrwerk, Englisch ohne deutsche Reste in den neuen Texten\n  ok   Alle Modi, Handy und Desktop: zeichnen ohne leere Knoepfe\n  ok   APP-002/2 Bauziel: im normalen Zustand genau ein dauerhafter Einstieg (Disziplin oben)\n  ok   APP-002/3 Fahrerprofil: leer bleibt leer, freiwillig eintragen, spaeter wieder entfernen\n  ok   APP-002/4 Ausfuehrungen an die Groesse anpassen nur im Aufbau, Groessen-Blatt nur lesend\n  ok   APP-002/5 Modelljahr: ein Feld, abweichendes Setup-Jahr wird im Aufbau entschieden\n  ok   APP-002/6/7 Hilfe: Guide nur im Kopf; Einstieg nennt Aufgabenkarte, Guide und freiwilligen Rundgang\n  ok   APP-003/1 Migration einmalig: erstmalig uebernommen, bewusst geleert bleibt leer (2x Neuladen, Radwechsel), vorhandene Nichtangabe bleibt\n  ok   APP-003/2 Ohne Koerpergroesse keine persoenlichen Empfehlungen im ganzen Einstieg (de)\n  ok   APP-003/2 Ohne Koerpergroesse keine persoenlichen Empfehlungen im ganzen Einstieg (en)\n\nWEGE: 36 von 36 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Sprache Deutsch/Englisch",
+      "ok": true,
+      "zeile": "0 Funde in 11153 Texten, Exit 0",
+      "exit": 0,
+      "funde": 0,
+      "texte": 11153,
+      "fehl": [],
+      "ausgabe": "\nSPRACHE: 0 Funde in 11153 Texten.\n"
+    },
+    {
+      "name": "Teile finden, Adapter, Wunschliste (BEVEL-002)",
+      "ok": true,
+      "zeile": "34 von 34 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 34,
+      "gelaufen": 34,
+      "erwartet": null,
+      "fehl": [],
+      "ausgabe": "  ok   Gute Bremse ohne Upgrade: \"Behalten sinnvoll\" mit Grund je Ziel, keine Kachel mit Scheinvorteil\n  ok   Optionale Beratung: Kachel startet ohne vorbelegtes Ziel bei Schritt 1, Marke und Budget bleiben bei null Ergebnissen erreichbar\n  ok   Selbst suchen ohne Fragen: alle Modi, DE/EN, Kachel per Tastatur, Suchfilter erhalten, direkter Einbau und Rueckgaengig\n  ok   Alle Teilekategorien starten bei der Suche; leere Plaetze und Konflikte erzwingen keine Beratung\n  ok   Vergleich und Rueckkehr: \"Zurueck zu Ergebnissen\" behaelt Ziel, Marke, Budget, Kompromiss-Schalter und Scrollstand\n  ok   Kompromisse erst auf Wunsch: Leichter zeigt nichts unter der Mindestausstattung, \"Kompromisse anzeigen\" nennt die Abwaegung\n  ok   Zustaende ehrlich: \"Geprueft passend\" nur ohne Zubehoer, Unbekanntes und Kompatibilitaetsverlust; Cura 2 an Center-Lock-Naben braucht Scheiben\n  ok   Keine Rueckschritte: Recon statt Pike Ultimate und MT420 statt XT M8120 erscheinen in keinem Verbesserungsziel\n  ok   Alle Plaetze, alle Verbesserungsziele: nie ein Teil, das in der Zielgroesse schlechter oder nur billiger ist\n  ok   Defektes Teil ersetzen: dein Modell zuerst, danach nur Teile mit gleichen Massen\n  ok   Begrenztes Budget: nur Loesungen bis zum Betrag (Teil plus Zubehoer), ausgeblendete werden genannt\n  ok   Marke egal gegen Wunschmarke: Auswahl aendert die Ergebnisse wirklich\n  ok   Ziel aendert die Ergebnisse: Leichter liefert nur leichtere Teile, Mehr Hub nur mehr Hub\n  ok   Noetiger Adapter: im Paket mit Grund, Preis im Gesamtpreis, beim Uebernehmen eingeplant\n  ok   Unnoetiger Adapter entfaellt: kein Doppel, Verlauf nennt ihn, Rueckgaengig holt ihn zurueck\n  ok   Adapter automatisch: Meldung nennt ihn, keine Warnfarbe, unter der Bremse \"braucht Adapter\", Ausfuehrungswechsel meldet Wegfall, Englisch\n  ok   Scheibenwechsel 203/203 → 220/203 → 180/180: Adapterwechsel je Seite, keine Doppel, Reload (DE/EN, Mein Rad/Traumrad)\n  ok   Bremsenmarke bei gleicher Scheibengroesse wechseln: neuer Artikel wird gemeldet, bezahlt und mit Rueckgaengig wiederhergestellt\n  ok   Gabel und Rahmen wechseln: Adapter werden aus der neuen Aufnahme abgeleitet\n  ok   Adapteruebersicht: unbekannte und unzulaessige Masse bleiben offen bzw. unpassend; native Aufnahme ohne Adapter; Felgenbremse ohne Disc-Hinweis\n  ok   Adapter konkret und Freigabe 220/203: Artikel je Position, unbelegte Freigabe wird erfragt statt bestaetigt\n  ok   Fehlende Angabe: Hinweis mit gezielter Frage, kein Abzug, Antwort rechnet den Adapter\n  ok   Fehlende Angabe zaehlt nicht als Abzug: Score gleich mit und ohne den Hinweis\n  ok   Angebote: ohne gepruefte Quelle kein \"Zum Produkt\"; nicht lieferbar, veraltet, Einzelbremse und kaputter Link zaehlen nicht\n  ok   Produktseite und Gesamtkosten: Satz aus vorn + hinten mit Versand, gepruefte Seite ohne Preisbehauptung, Einzelbremse allein zaehlt nicht\n  ok   Keine Suchlinks als Produktlink: Listen und Einkauf zeigen nur geprueftes Angebot oder nichts\n  ok   Mehrere Raeder: Wunschliste je Rad getrennt, bleibt nach Neuladen\n  ok   Wunschliste: im Aufbau testen und zurueck, auf die Einkaufsliste, als verbaut uebernehmen mit Verlauf\n  ok   Test nie als verbaut: Speicher haelt das echte Teil, Neuladen zeigt den Test wieder, anderes Rad unberuehrt, Einkauf nur Wuensche\n  ok   Vorher/nachher: Tabelle auf gleicher Grundlage mit Ziel, Gesamtkosten, Zubehoer und Unbekanntem\n  ok   Pruefung im Aufbau: unter eigenem Radfoto und Score, vor \"Verbessern\" und Rahmen, per Tastatur, Zustand bleibt\n  ok   Radbild: nur eigenes Foto, kein Spindrift-Render oder fremdes Schema, Foto entfernen erhaelt das Rad\n  ok   Englisch: Finder, Vergleich und Wunschliste ohne deutsche Reste\n  ok   Einfuehrung: sechs Szenen vor der Einrichtung, ueberspringbar, nur einmal, per Tastatur, erneut ueber die Hilfe\n\nBEVEL: 34 von 34 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Preis-Skript offline",
+      "ok": true,
+      "zeile": "0 Fehler, Exit 0",
+      "exit": 0,
+      "fehl": [],
+      "ausgabe": "  ok   Umfang: Set\r\n  ok   Umfang: vorn\r\n  ok   Umfang: hinten\r\n  ok   Umfang: offen\r\n  ok   Feed gelesen\r\n  ok   Bremse: Set, vorn und hinten getrennt\r\n  ok   Set: Preis, UVP, Versand 0, Link, Bild\r\n  ok   Hinterrad: nicht lieferbar, Versand unbekannt\r\n  ok   Aufkleber nicht als Bremse\r\n  ok   http-Link wird verworfen\r\n  ok   Seiten: geprueft mit Datum, Umfang und Titel\r\n  ok   Seiten: Suchseite faellt durch\r\n  ok   Seiten: innerhalb 7 Tagen nicht neu geprueft\r\n  ok   Seiten: nach 7 Tagen neu geprueft\r\n  ok   Seite: nur https\r\n\r\nPREISE: 0 Fehler\r\n"
+    },
+    {
+      "name": "Produktfotos und Großansicht",
+      "ok": true,
+      "zeile": "14 von 14 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 14,
+      "gelaufen": 14,
+      "erwartet": 14,
+      "fehl": [],
+      "ausgabe": "OK   Die drei Gabeln aus dem Screenshot haben anklickbare echte Modellfotos\nOK   Foto öffnen erhält Rad, gespeicherte Daten, Filter und Listenposition\nOK   Schwarze Großansicht zeigt das Foto vollständig und setzt Studiohintergrund auf Schwarz\nOK   Vergrößern und Einpassen lassen Auswahl und Bildquelle erhalten\nOK   Schwarze Darstellung erhält die echten Farben der Produktpixel\nOK   Tab bleibt in der Bildansicht; Escape schließt nur das Foto\nOK   Hellmodus behält schwarze Fotos und schwarze Großansicht\nOK   Fotos im Aufbau sind getrennt von der Teileauswahl per Tastatur erreichbar\nOK   Englische Bildansicht ist übersetzt und eigene Teile bekommen kein fremdes Modellfoto\nOK   Fahrwerk zeigt das gewaehlte Modell schwarz und vergroessert es ohne erfundene Markierungen\nOK   Nicht verfügbares Foto lässt sich ohne Datenänderung schließen\nOK   Teileliste → Ansehen → großes Detailfoto bleibt sichtbar und tatsächlich anklickbar\nOK   Ein Produkt am Bildrand lässt keinen weißen Hintergrund in der Großansicht stehen\nOK   Bildbedienung erzeugt keine JavaScript-Fehler\nFOTOS: 14 von 14 Prüfungen bestanden\n"
+    },
+    {
+      "name": "KI-Guide Deutsch/Englisch",
+      "ok": true,
+      "zeile": "28 Prüfungen bestanden, Exit 0",
+      "exit": 0,
+      "fehl": [],
+      "ausgabe": "GUIDE-UI: 28 Prüfungen bestanden (DE/EN, 390/320 px, simulierte API)\n"
+    },
+    {
+      "name": "Guide-Soforthilfe ohne KI",
+      "ok": true,
+      "zeile": "24 Fälle, Exit 0",
+      "ausgabe": "✔ Bremskolben rausgefallen (1.2033ms)\n✔ Mir ist ein Bremskolben rausgefallen was tun? (0.2175ms)\n✔ Der Kolben ist raus gefallen (0.0799ms)\n✔ Bremskolben fällt rus (0.0781ms)\n✔ My brake piston popped out (0.1007ms)\n✔ Aus meiner Bremse ist etwas herausgefallen (0.101ms)\n✔ Meine Bremse verliert Öl (0.1807ms)\n✔ My brake is leaking (0.1084ms)\n✔ Mein Bremshebel geht bis zum Lenker (0.4209ms)\n✔ Die Bremse bremst nicht mehr (0.2566ms)\n✔ My brake lever pulls to the bar (0.1326ms)\n✔ Ich habe WD40 auf meine Bremsbeläge gesprüht (0.0905ms)\n✔ Oil on brake pads (0.0574ms)\n✔ Falsches Öl in die Bremse eingefüllt (0.0853ms)\n✔ Wrong fluid added to my brake (0.0714ms)\n✔ Mein Carbonrahmen ist gerissen (0.1748ms)\n✔ Crack in my fork (0.0686ms)\n✔ Mein Vorderrad ist locker (0.0915ms)\n✔ My stem is loose (0.0727ms)\n✔ Ich will den Dämpfer unter Druck aufschrauben (0.0958ms)\n✔ My battery is swollen (0.0492ms)\n✔ Ich habe den Bremshebel ohne Rad gezogen (0.0988ms)\n✔ Klare Schadensfolgen bleiben am Fall, Themenwechsel beendet ihn (0.982ms)\n✔ Eine sichere Einstellfrage oder ein Geräusch ist nicht automatisch ein akuter Schaden (0.0823ms)\nℹ tests 24\nℹ suites 0\nℹ pass 24\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 286.634\n",
+      "exit": 0
+    },
+    {
+      "name": "Einführung und interaktive Vorschau",
+      "ok": true,
+      "zeile": "10 von 10 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 10,
+      "gelaufen": 10,
+      "erwartet": 10,
+      "fehl": [],
+      "ausgabe": "  ok   Sechs Szenen erklaeren die Funktionen und schliessen mit genau einem Aufruf ab\n  ok   Vor, zurueck und direkte Fortschrittspunkte oeffnen die angewaehlte Szene\n  ok   Adapter-Demo wechselt 180/203 mm und +23 mm ohne Rad, Plan, Profile, Setup oder Wunschliste zu veraendern\n  ok   Ueberspringen und wiederholtes Schliessen rufen den Abschluss nur einmal auf\n  ok   Tastatur bleibt im Dialog; Pfeile navigieren, Escape schliesst genau einmal\n  ok   320/390/1280 px und kurze Hoehen: Weiter bleibt in allen Szenen sichtbar und anklickbar\n  ok   Deutsch/Englisch und OLED/Hell zeigen lesbare lokalisierte Szenen\n  ok   Bewegung reduzieren entfernt die Introanimationen in jeder Szene\n  ok   Szenen sind als Beispiele gekennzeichnet; echte Fotos haben Alttext und Herstellerquelle\n  ok   Erneut ansehen startet bei Szene 1 und behaelt gespeicherte Daten; keine JavaScript-Fehler\nEINFUEHRUNG: 10 von 10 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Fahrwerkfotos und Einsteller",
+      "ok": true,
+      "zeile": "9 von 9 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 9,
+      "gelaufen": 9,
+      "erwartet": 9,
+      "fehl": [],
+      "ausgabe": "OK   Charger 3.2 / LinearXL 2027: Ventil, Zug, SAG, HSC, LSC und ABO haben getrennte echte Ziele\nOK   Falsches Jahr, Kartusche, Modell und Ausführung bekommen keine neuen Gabelmarker\nOK   Super Deluxe Luft D1 Ultimate 2027: keine Coil- oder B1-Verwechslung, HSC und LSC getrennt\nOK   Super Deluxe Coil B1 2023–2026: nur seine drei Originale, Federaufdruck und beide SAG-Augen\nOK   Vivid Coil, altes/neues B1-Jahr und eigene Teile erhalten keine geliehenen Coil-Marker\nOK   FOX 2025: konkrete DHX/DHX2/Float X/X2-Details, kein falsches Jahr oder falsche Feder\nOK   Leere Markerauswahl zeigt das eigene Gesamtmodell, fehlende Generation bleibt ehrlich leer\nOK   320/390/1280px: volle Breite, schwarze Fläche, 220–300px, SVG erhält Seitenverhältnis\nOK   Antippen vergrößert das richtige Original; Bildfunktionen verändern keine Nutzerdaten\nFAHRWERK-FOTOS: 9 von 9 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Fahrwerk: Orientierung und Datenerhalt",
+      "ok": true,
+      "zeile": "7 von 7 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 7,
+      "gelaufen": 7,
+      "erwartet": 7,
+      "fehl": [],
+      "ausgabe": "  ok   Gabel/Daempfer zuerst waehlen: Auswahl steht vor Fortschritt und zeigt genau ein Teil\n  ok   Fortschritt und Abschluss gehoeren zum ausgewaehlten Teil; die andere Federung bleibt offen\n  ok   Erste Luft-/Federkarte oeffnet nur einmal; bewusstes Schliessen bleibt nach Render und Teilwechsel erhalten\n  ok   Coil-SAG misst zwischen Befestigungsaugen, markiert beide Messpunkte und braucht keinen O-Ring\n  ok   LSC und HSC sind direkt erreichbar und zeigen verschiedene korrekt bezeichnete Einsteller\n  ok   Echtes Bild vor Wert und Anleitung, volle Breite/230–260 px ohne Ueberstand bei320/390/1280\n  ok   475-lbs-Feder, Messung, Notizen und Feintuning bleiben bei Auswahl, Bildansicht und Reload erhalten; keine API\nFAHRWERK-ORIENTIERUNG: 7 von 7 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Dialogfokus, Bildausfall und schmaler Einkauf",
+      "ok": true,
+      "zeile": "10 von 10 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 10,
+      "gelaufen": 10,
+      "erwartet": 10,
+      "fehl": [],
+      "ausgabe": "OK   Zugängliche Dialognamen für Suche, Detail, Vergleich, Profil und Guide (de)\nOK   Zugängliche Dialognamen für Suche, Detail, Vergleich, Profil und Guide (en)\nOK   Tab bleibt vorwärts und rückwärts im sichtbaren Sheet; Escape gibt den Auslöser zurück\nOK   Inhaltwechsel aktualisiert den Namen und erhält den logisch selben Tastaturfokus\nOK   Verdeckte/gesperrte Ziele werden übersprungen, Hintergrund kann keinen Fokus behalten\nOK   Nativer Foto-Dialog und Einführung behalten ihre eigene Fokusführung\nOK   404-Nahfoto: keine falschen Zeiger, Beschreibung und Original-/Quellenlink bleiben (de)\nOK   404-Nahfoto: keine falschen Zeiger, Beschreibung und Original-/Quellenlink bleiben (en)\nOK   Erfolgreiches Nahfoto bleibt unverzerrt, markiert und ohne Fehlermeldung\nOK   Einkauf 320/390/1280px in beiden Sprachen/Designs: Textbreite, Umbruch und stabile Beträge\nBEDIENUNG: 10 von 10 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Datenrettung, Guide-Limit und Offline-Update",
+      "ok": true,
+      "zeile": "10 von 10 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 10,
+      "gelaufen": 10,
+      "erwartet": 10,
+      "fehl": [],
+      "ausgabe": "  ok   Kaputtes optionales JSON isolieren: alle Raeder und Wuensche laden, Fehler benennen, weiter speichern\n  ok   Beschaedigte Profile: lesbare Raeder behalten und Originaldaten nicht mit Rettungsstand ueberschreiben\n  ok   Alte Einzelaufbauten migrieren weiterhin ohne Profile oder Fotoverlust\n  ok   Foto-/Profil-Speicherfehler bei Migration: Originalquelle behalten, Kopien zuruecknehmen und spaeter korrekt zuordnen\n  ok   Free-Tageslimit gilt vor KI-Aufruf und gemeinsam mit lokalem Guide; Pro bleibt unbegrenzt\n  ok   Offline oder abgelehnte Abmeldung behaelt Schluessel und Instanz, bestaetigte Abmeldung entfernt sie\n  ok   Worker bereinigt nur eigene alte Caches und aktiviert bei Installationsfehler nicht\n  ok   Fehlgeschlagenes Update oder ungueltige Versionsantwort erhaelt Offlinecache und aktuelle Seite\n  ok   Bereites Update navigiert erst nach bestaetigtem Offlinecache und loescht keinen fremden Cache\n  ok   Echter Service Worker: offline aktualisieren und neu laden erhaelt Rad, Kernansicht sowie eigenen und fremden Cache\nZUVERLAESSIGKEIT: 10 von 10 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Verständliche Preise, Prüfung und Hilfe",
+      "ok": true,
+      "zeile": "8 von 8 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 8,
+      "gelaufen": 8,
+      "erwartet": 8,
+      "fehl": [],
+      "ausgabe": "  ok   Wunschliste trennt 41 Euro Zubehoer von vorhandener Bremse und offenen Scheibenkosten\n  ok   Einkauf trennt Zubehoer und offene Preise, ohne die vorhandene Bremse erneut zu verkaufen\n  ok   Vollstaendiges Rad ohne Fahrerangaben bleibt ausdruecklich nur teilweise geprueft\n  ok   Ablesehilfe ist vom leeren eigenen Rad, Gebrauchtrad und Profil per Klick erreichbar\n  ok   Adapter in ungewahlten Kandidaten werden erst beim Uebernehmen geplant, Browsen bleibt ohne Mutation\n  ok   Wartungsberatung hat eine nutzbare Auswahl ohne pauschale Unbedenklichkeitszusage\n  ok   Radwechsel benennt die vorhandene Verwaltung, Umbenennen bleibt per Klick erreichbar\n  ok   Lesen, Navigation und Neuladen erhalten Wunschliste, Setup, Ablehnungen und Radprofile\nQUALITAET-UX: 8 von 8 Prüfungen bestanden.\n"
+    },
+    {
+      "name": "Fahrwerk: Werte beim Teilewechsel, Testfahrt je Profil",
+      "ok": true,
+      "zeile": "10 von 10 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 10,
+      "gelaufen": 10,
+      "erwartet": 10,
+      "fehl": [],
+      "ausgabe": "  ok   CS-01 Daempferwechsel: Gabelwerte (Druck, Klicks, Messung, Haken, Grundeinstellung) bleiben in allen Fahrprofilen, nach Neuladen\n  ok   CS-01 Gabelwechsel spiegelbildlich: Coil-Daempfer mit 475 lbs behaelt Klicks, Messung und Feder\n  ok   CS-01 Reparatur: vor der Korrektur leer angelegter Eintrag bekommt die Gabelwerte einmal, Eigenes bleibt\n  ok   CS-01 keine Vermischung: zweites Rad mit gleichen Teilen erbt nichts vom ersten\n  ok   CS-01 Radkopie und Loeschen funktionieren weiter\n  ok   CS-02 Abbruch nach Profilwechsel und Neuladen stellt nur das Ursprungsprofil zurueck\n  ok   CS-02 \"Besser\" nach Profilwechsel uebernimmt nur im Ursprungsprofil, Protokoll nennt es\n  ok   CS-02 alter Test ohne Profilangabe: eindeutig zugeordnet oder sicher nichts zurueckgestellt\n  ok   CS-02 Teilewechsel waehrend Testfahrt: unbestaetigter Testwert wird nicht vererbt\n  ok   CS-02 Profi-Knopftest gehoert seinem Startprofil\n\nFAHRWERK-ERHALT: 10 von 10 bestanden.\n"
+    },
+    {
+      "name": "Datenprüfung, Radkopie, Tastaturfokus, Fahrwerk- und Hilfetexte",
+      "ok": true,
+      "zeile": "18 von 18 bestanden, Exit 0",
+      "exit": 0,
+      "bestanden": 18,
+      "gelaufen": 18,
+      "erwartet": 18,
+      "fehl": [],
+      "ausgabe": "  ok   CS-03 Sicherung mit unlesbarem Rad wird abgelehnt, kein mtb.*-Eintrag aendert sich\n  ok   CS-03 Sicherung mit unlesbarem Setup wird abgelehnt; fehlende Teile (Audit-Fall) werden ergaenzt, Export laeuft\n  ok   CS-03 Start mit Einsatz als Text: Oberflaeche vollstaendig, Einsatz bleibt (Audit-Fall)\n  ok   CS-03 Start mit unlesbarem Einsatz: Rettungsschutz greift, Original bleibt unveraendert\n  ok   CS-03 Start mit unlesbaren Setup-Eintraegen: Lesbares nutzbar, Unlesbares unveraendert aufbewahrt, Export und Wiederladen gehen\n  ok   CS-03 Setup-Datei ganz unlesbar: Original aufbewahrt, App laeuft; ohne Platz bleibt sie unangetastet\n  ok   CS-03 gueltige Sicherung mit Foto, Wunsch, 475 lbs und Notiz: Rundreise ueber die Oberflaeche ohne Verlust\n  ok   CS-03 bekannte aeltere Sicherungsformen werden weiter angenommen\n  ok   CS-04 Radkopie bei vollem Speicher: Kopie sichtbar ohne Foto, Original unveraendert, Foto spaeter uebernehmbar\n  ok   CS-04 Kopie passt gar nicht: nichts angelegt, Speicher unveraendert, keine verwaisten Eintraege\n  ok   CS-05 Startseite: Fokus beginnt dort, Tab und Shift+Tab bleiben zyklisch darin\n  ok   CS-05 Ersteinrichtung (Audit-Weg): 7x Tab und Enter bleiben in der Einrichtung, kein App-Menue dahinter\n  ok   CS-05 Fahrerprofil: Tab bleibt drin, Schliessen gibt den Fokus an den Ausloeser zurueck\n  ok   CS-05 Blatt ueber der Startseite (Impressum): Tab bleibt im Blatt, Escape gibt den Fokus zurueck\n  ok   CS-06 ZEB 2027 (Charger 3.2): Kopf, Anleitung und Foto nennen denselben schwarzen Knopf; aeltere ZEB bleibt rot (de)\n  ok   CS-06 ZEB 2027 (Charger 3.2): Kopf, Anleitung und Foto nennen denselben schwarzen Knopf; aeltere ZEB bleibt rot (en)\n  ok   CS-07 Guide Bremsscheiben nennt den automatisch eingeplanten Adapter wie die Pruefung; Bremsen-Kategorie wie der Vergleich (de)\n  ok   CS-07 Guide Bremsscheiben nennt den automatisch eingeplanten Adapter wie die Pruefung; Bremsen-Kategorie wie der Vergleich (en)\n\nAUDIT: 18 von 18 bestanden.\n"
+    }
+  ],
+  "playwright": "1.56.1",
+  "ok": true,
+  "dauerSek": 294,
+  "zeit": "2026-10-24T15:23:08.426Z"
+}
