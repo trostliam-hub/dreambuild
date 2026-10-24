@@ -14670,7 +14670,7 @@ function suVglHtml(f, d){
     if(!x.coil) zeilen.push({n:tx("Luft", "Air"), p:p => { const v = suPsi(slot, x, d, p); return v ? v + " psi" : "—"; },
       e:{rec:x.modi[fedModus].psi ? x.modi[fedModus].psi + " psi" : "—", mein:(suPsi(slot, x, d) || "—") + (suPsi(slot, x, d) ? " psi" : ""),
         gesp:suP(d).gesp && suP(d).gesp.psi[slot] ? suP(d).gesp.psi[slot] + " psi" : "—", akt:fwAkt(slot).psi ? fwAkt(slot).psi + " psi" : "—"}});
-    else zeilen.push({n:tx("Feder", "Spring"), p:() => x.rate ? x.rate + " lbs" : x.fw ? x.fw.name : "—", e:{rec:x.rate ? x.rate + " lbs" : "—", mein:(slot === "gabel" ? (build.fw || {}).gf : (build.fw || {}).df) || "—", gesp:"—", akt:"—"}});
+    else zeilen.push({n:tx("Feder", "Spring"), p:() => x.federIst || x.rate ? (x.federIst || x.rate) + " lbs" : x.fw ? x.fw.name : "—", e:{rec:x.rate ? x.rate + " lbs" : "—", mein:x.federIst ? x.federIst + " lbs" : "—", gesp:"—", akt:"—"}});
     zeilen.push({n:tx("SAG", "Sag"), p:p => x.modi[p].sag + " %", e:{rec:x.modi[fedModus].sag + " %", mein:fxMess(slot, x, d) ? zahlDe(Math.round(fxMess(slot, x, d) / (slot === "gabel" ? x.t.travel : x.t.hub) * 1000) / 10) + " %" : "—", gesp:"—",
       akt:fwAkt(slot).sag ? zahlDe(fwAkt(slot).sag) + " mm" : "—"}});
     const ks = suKnoepfe(slot, x, d);

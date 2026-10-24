@@ -72,7 +72,13 @@ try{
   assert.equal(got.psi,110);assert.equal(got.test,null);assert.equal(got.tr,got.other);assert.equal(got.sourceSame,true);assert.equal(got.note,true);assert.equal(got.step2tr,null);assert.equal(got.step2test,'daempfer|Zugstufe');assert.equal(got.sourceStillSame,true);
  });
  await test('F02 475-lbs-Feder bleibt in Setup-Karte und lokalem Guide der aktuelle Wert',async p=>{
-  const data=await ev(p,()=>{build.daempfer=findeTeil('daempfer','d-sdcoil').id;fwPruef();Object.assign(fwInfo(),{dj:2025,df:475,fertig:true});const f=federRechnen();oeffneTrailKarte();return{actual:f.daempfer.federIst,recommended:f.daempfer.rate,guide:gFederung().h};});assert.equal(data.actual,475);assert.notEqual(data.recommended,475);assert.match(data.guide,/475 lbs\/in/);const rear=p.locator('#ad-pop .trk-sek').last();assert.match(await rear.innerText(),/475\s*lbs/);assert.doesNotMatch(await rear.innerText(),new RegExp(data.recommended+'\\s*lbs'));return data;
+  const data=await ev(p,()=>{build.daempfer=findeTeil('daempfer','d-sdcoil').id;fwPruef();Object.assign(fwInfo(),{dj:2025,df:475,fertig:true});const f=federRechnen();oeffneTrailKarte();return{actual:f.daempfer.federIst,recommended:f.daempfer.rate,guide:gFederung().h};});assert.equal(data.actual,475);assert.notEqual(data.recommended,475);assert.match(data.guide,/475 lbs\/in/);const rear=p.locator('#ad-pop .trk-sek').last();assert.match(await rear.innerText(),/475\s*lbs/);assert.doesNotMatch(await rear.innerText(),new RegExp(data.recommended+'\\s*lbs'));
+  await p.locator('#ad-pop .adp-zu').click();
+  await ev(p,()=>{suVglArt='profile';oeffneFahrwerkVergleich();});
+  const row=p.locator('#modal tr').filter({has:p.locator('th[scope="row"]', {hasText:/^(Feder|Spring)$/})});
+  assert.deepEqual(await row.locator('td').allTextContents(),['475 lbs','475 lbs','475 lbs'],'Profilvergleich zeigt die tatsaechlich eingebaute Feder');
+  await p.locator('[data-fwvglart="einzel"]').click();
+  assert.deepEqual((await row.locator('td').allTextContents()).slice(0,2),[data.recommended+' lbs','475 lbs'],'Empfehlung und eigene Feder bleiben getrennt');return data;
  });
  await test('F03 SAG10psi erzeugt keinen Wert unter10, zentrale Uebernahme weist8psi ab',async p=>{
   const data=await ev(p,()=>{const f=federRechnen(),d=suDaten(f);suPsiSetzen(f,d,'gabel',f.gabel,10);suSagSetzen('gabel',5);oeffneSagWizard('gabel');sagW.i=4;zeigeSheet(sagWizardHtml());return{html:fxSagHtml('gabel',f.gabel,d),buttons:[...document.querySelectorAll('#modal [data-supsi]')].map(b=>+b.dataset.supsi.split('|')[1])};});assert.doesNotMatch(data.html,/<b>8 psi<\/b>|Auf 8 psi/);assert.ok(data.buttons.every(x=>x>=10));assert.equal(await ev(p,()=>{const f=federRechnen(),d=suDaten(f);suPsiSetzen(f,d,'gabel',f.gabel,8);return suPsi('gabel',f.gabel,d);}),10);return data.buttons;
