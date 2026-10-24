@@ -1,0 +1,738 @@
+{
+  "base": "c10ede11f19fb6c504454fc9c2cc182c87d2ef1c",
+  "sourceHashes": {
+    "index.html": "161a0cd8a658ea7c85c7c664f584f68bbc2b968234d26b99124317f9024784bb",
+    "mtb-sw.js": "646c8aa142df2cee4fd74c88e7e14af59f36995f20d23ac2efbe0ab5db5bff47"
+  },
+  "cases": [
+    {
+      "name": "serverVersion-ten",
+      "before": {
+        "name": "dreambuild-20261024-1817",
+        "total": 56,
+        "pruef": [
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874364"
+        ],
+        "canonical": true
+      },
+      "after": {
+        "name": "dreambuild-20261024-1817",
+        "total": 66,
+        "pruef": [
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874364",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874880",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874889",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874898",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874906",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874914",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874922",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874931",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874939",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874947",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874954"
+        ],
+        "canonical": true
+      },
+      "versions": [
+        "20261024-1817",
+        "20261024-1817",
+        "20261024-1817",
+        "20261024-1817",
+        "20261024-1817",
+        "20261024-1817",
+        "20261024-1817",
+        "20261024-1817",
+        "20261024-1817",
+        "20261024-1817"
+      ],
+      "networkBefore": 2,
+      "networkAfter": 12
+    },
+    {
+      "name": "same-visible-image-twice-http-cache-disabled",
+      "image": "/bilder/fahrwerk/fox-dhx-lsc.jpg",
+      "cacheBefore": true,
+      "networkBefore": 1,
+      "images": [
+        {
+          "step": 1,
+          "controller": "activated",
+          "image": {
+            "complete": true,
+            "naturalWidth": 291,
+            "naturalHeight": 582,
+            "src": "http://127.0.0.1:60813/bilder/fahrwerk/fox-dhx-lsc.jpg"
+          },
+          "networkCount": 2,
+          "cache": true
+        },
+        {
+          "step": 2,
+          "controller": "activated",
+          "image": {
+            "complete": true,
+            "naturalWidth": 291,
+            "naturalHeight": 582,
+            "src": "http://127.0.0.1:60813/bilder/fahrwerk/fox-dhx-lsc.jpg"
+          },
+          "networkCount": 3,
+          "cache": true
+        }
+      ],
+      "networkAfter": 3,
+      "requests": [
+        {
+          "at": "2026-10-24T16:37:54.256Z",
+          "url": "/bilder/fahrwerk/fox-dhx-lsc.jpg",
+          "method": "GET",
+          "cacheControl": "no-cache",
+          "referer": "http://127.0.0.1:60813/mtb-sw.js"
+        },
+        {
+          "at": "2026-10-24T16:37:55.013Z",
+          "url": "/bilder/fahrwerk/fox-dhx-lsc.jpg",
+          "method": "GET",
+          "cacheControl": "max-age=0",
+          "referer": "http://127.0.0.1:60813/mtb-sw.js"
+        },
+        {
+          "at": "2026-10-24T16:37:55.201Z",
+          "url": "/bilder/fahrwerk/fox-dhx-lsc.jpg",
+          "method": "GET",
+          "cacheControl": "max-age=0",
+          "referer": "http://127.0.0.1:60813/mtb-sw.js"
+        }
+      ]
+    },
+    {
+      "name": "offline-navigation-index-query",
+      "prepared": {
+        "name": "dreambuild-20261024-1817",
+        "total": 67,
+        "pruef": [
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874364",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874880",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874889",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874898",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874906",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874914",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874922",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874931",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874939",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874947",
+          "http://127.0.0.1:60813/mtb-sw.js?pruef=1792859874954"
+        ],
+        "canonical": true
+      },
+      "canonical": {
+        "url": "http://127.0.0.1:60813/index.html",
+        "app": {
+          "version": "20261024-1817",
+          "core": true,
+          "controller": "activated"
+        }
+      },
+      "query": {
+        "requested": "http://127.0.0.1:60813/index.html?audit=1",
+        "url": "chrome-error://chromewebdata/",
+        "error": "page.goto: net::ERR_FAILED at http://127.0.0.1:60813/index.html?audit=1\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:60813/index.html?audit=1\", waiting until \"domcontentloaded\"\u001b[22m\n",
+        "title": "127.0.0.1",
+        "body": "Die Website ist nicht erreichbar\n\nDie Webseite unter http://127.0.0.1:60813/index.html?audit=1 ist eventuell vorübergehend nicht verfügbar oder wurde dauerhaft an eine neue Webadresse verschoben.\n\nERR_FAILED"
+      }
+    }
+  ],
+  "errors": [],
+  "blocked": [],
+  "origin": "http://127.0.0.1:60813",
+  "version": "20261024-1817",
+  "requests": [
+    {
+      "at": "2026-10-24T16:37:53.922Z",
+      "url": "/index.html",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": null
+    },
+    {
+      "at": "2026-10-24T16:37:53.946Z",
+      "url": "/bilder/produkte/katalog.js",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:53.948Z",
+      "url": "/guide-safety.js",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:53.963Z",
+      "url": "/bilder/produkte/ansicht.js",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:54.153Z",
+      "url": "/fonts/inter-400-800-latin.woff2",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:54.154Z",
+      "url": "/fonts/barlowsemicondensed-700-latin.woff2",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:54.155Z",
+      "url": "/preise.json",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:54.156Z",
+      "url": "/preisverlauf.json",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:54.156Z",
+      "url": "/links.json",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:54.160Z",
+      "url": "/bilder/produkte/f-stumpy.png",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:54.233Z",
+      "url": "/mtb-sw.js",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:54.233Z",
+      "url": "/mtb-sw.js?pruef=1792859874227",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/index.html"
+    },
+    {
+      "at": "2026-10-24T16:37:54.239Z",
+      "url": "/",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.242Z",
+      "url": "/index.html",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.247Z",
+      "url": "/guide-safety.js",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.251Z",
+      "url": "/bilder/produkte/katalog.js",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.252Z",
+      "url": "/bilder/produkte/ansicht.js",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.252Z",
+      "url": "/manifest.webmanifest",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.254Z",
+      "url": "/icon-180.png",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.254Z",
+      "url": "/icon-192.png",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.255Z",
+      "url": "/icon-512.png",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.255Z",
+      "url": "/icon-mask.png",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.256Z",
+      "url": "/bilder/fahrwerk/fox-dhx-hebel.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.256Z",
+      "url": "/bilder/fahrwerk/fox-dhx-lsc.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.257Z",
+      "url": "/bilder/fahrwerk/fox-dhx-zug.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.257Z",
+      "url": "/bilder/fahrwerk/fox-dhx2-druck.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.258Z",
+      "url": "/bilder/fahrwerk/fox-dhx2-hsr.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.258Z",
+      "url": "/bilder/fahrwerk/fox-dhx2-zug.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.260Z",
+      "url": "/bilder/fahrwerk/fox-floatx-hebel.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.260Z",
+      "url": "/bilder/fahrwerk/fox-floatx-lsc.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.261Z",
+      "url": "/bilder/fahrwerk/fox-gripsl-top.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.262Z",
+      "url": "/bilder/fahrwerk/fox-gripx-top.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.262Z",
+      "url": "/bilder/fahrwerk/fox-gripx2-top.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.263Z",
+      "url": "/bilder/fahrwerk/fox-x2-druck.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.264Z",
+      "url": "/bilder/fahrwerk/fox-x2-hsr.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.264Z",
+      "url": "/bilder/fahrwerk/fox-x2-zug.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.264Z",
+      "url": "/bilder/fahrwerk/rs-charger3-druck.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.265Z",
+      "url": "/bilder/fahrwerk/rs-charger3-luft-zug.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.265Z",
+      "url": "/bilder/fahrwerk/rs-rc2t-druck.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.266Z",
+      "url": "/bilder/fahrwerk/rs-rc2t-hsc-detail.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.266Z",
+      "url": "/bilder/fahrwerk/rs-rc2t-lsc-detail.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.267Z",
+      "url": "/bilder/fahrwerk/rs-sdcoil-front-detail.png",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.267Z",
+      "url": "/bilder/fahrwerk/rs-sdcoil-side-detail.png",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.268Z",
+      "url": "/bilder/fahrwerk/rs-sdcoil-3q-detail.png",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.271Z",
+      "url": "/bilder/fahrwerk/rs-nah-daempfer-druck.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.272Z",
+      "url": "/bilder/fahrwerk/rs-nah-daempfer-luft.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.273Z",
+      "url": "/bilder/fahrwerk/rs-nah-daempfer-oring.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.274Z",
+      "url": "/bilder/fahrwerk/rs-nah-daempfer-zug.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.275Z",
+      "url": "/bilder/fahrwerk/rs-nah-coil-bo.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.275Z",
+      "url": "/bilder/fahrwerk/rs-nah-coil-druck.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.276Z",
+      "url": "/bilder/fahrwerk/rs-nah-coil-hsc.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.276Z",
+      "url": "/bilder/fahrwerk/rs-nah-coil-sag.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.277Z",
+      "url": "/bilder/fahrwerk/rs-nah-coil-zug.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.278Z",
+      "url": "/bilder/fahrwerk/rs-nah-gabel-bo.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.278Z",
+      "url": "/bilder/fahrwerk/rs-nah-gabel-hsc.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.278Z",
+      "url": "/bilder/fahrwerk/rs-nah-gabel-lsc.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.279Z",
+      "url": "/bilder/fahrwerk/rs-nah-gabel-luft.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.280Z",
+      "url": "/bilder/fahrwerk/rs-nah-gabel-oring.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.280Z",
+      "url": "/bilder/fahrwerk/rs-nah-gabel-zug.jpg",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.281Z",
+      "url": "/bilder/beispielrad-seite-640.webp",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.281Z",
+      "url": "/bilder/beispielrad-seite-1200.webp",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.282Z",
+      "url": "/fonts/inter-400-800-latin.woff2",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.282Z",
+      "url": "/fonts/ibmplexmono-400-latin.woff2",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.283Z",
+      "url": "/fonts/ibmplexmono-500-latin.woff2",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.283Z",
+      "url": "/fonts/ibmplexmono-600-latin.woff2",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.284Z",
+      "url": "/fonts/barlowsemicondensed-600-latin.woff2",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.284Z",
+      "url": "/fonts/barlowsemicondensed-700-latin.woff2",
+      "method": "GET",
+      "cacheControl": "no-cache",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.365Z",
+      "url": "/mtb-sw.js?pruef=1792859874364",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.366Z",
+      "url": "/icon-192.png",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.880Z",
+      "url": "/mtb-sw.js?pruef=1792859874880",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.888Z",
+      "url": "/mtb-sw.js?pruef=1792859874889",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.898Z",
+      "url": "/mtb-sw.js?pruef=1792859874898",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.905Z",
+      "url": "/mtb-sw.js?pruef=1792859874906",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.914Z",
+      "url": "/mtb-sw.js?pruef=1792859874914",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.923Z",
+      "url": "/mtb-sw.js?pruef=1792859874922",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.931Z",
+      "url": "/mtb-sw.js?pruef=1792859874931",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.939Z",
+      "url": "/mtb-sw.js?pruef=1792859874939",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.947Z",
+      "url": "/mtb-sw.js?pruef=1792859874947",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:54.954Z",
+      "url": "/mtb-sw.js?pruef=1792859874954",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:55.006Z",
+      "url": "/audit-image.html",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:55.013Z",
+      "url": "/bilder/fahrwerk/fox-dhx-lsc.jpg",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:55.023Z",
+      "url": "/favicon.ico",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:55.195Z",
+      "url": "/audit-image.html",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    },
+    {
+      "at": "2026-10-24T16:37:55.201Z",
+      "url": "/bilder/fahrwerk/fox-dhx-lsc.jpg",
+      "method": "GET",
+      "cacheControl": "max-age=0",
+      "referer": "http://127.0.0.1:60813/mtb-sw.js"
+    }
+  ]
+}

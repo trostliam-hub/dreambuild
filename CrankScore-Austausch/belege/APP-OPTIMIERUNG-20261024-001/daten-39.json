@@ -1,0 +1,534 @@
+{
+  "source": {
+    "root": "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\crankscore",
+    "commit": "c10ede11f19fb6c504454fc9c2cc182c87d2ef1c",
+    "sha256": "5e17eb24e768de55f6f4a9935428996ed9706a79587816edabf77b7396d7475b",
+    "bytes": 1853576
+  },
+  "method": "Isolierter Chrome; einmaliger HTML-Snapshot; externe Requests blockiert; synthetische lokale Daten; echte Dateiimporte/Downloads und relevante Klickwege.",
+  "executed": 39,
+  "passed": 39,
+  "failed": 0,
+  "groups": 8,
+  "groupsPassed": 8,
+  "blockedExternalRequests": 0,
+  "results": [
+    {
+      "group": "D01",
+      "name": "wish-id wird vor Speichern verworfen",
+      "ok": true,
+      "info": {
+        "noMutation": true,
+        "noMarker": true
+      },
+      "ms": 894
+    },
+    {
+      "group": "D01",
+      "name": "profile-id wird vor Speichern verworfen",
+      "ok": true,
+      "info": {
+        "noMutation": true,
+        "noMarker": true
+      },
+      "ms": 856
+    },
+    {
+      "group": "D01",
+      "name": "Doppelte Profil-IDs im Import abgelehnt",
+      "ok": true,
+      "info": {
+        "rejected": true
+      },
+      "ms": 769
+    },
+    {
+      "group": "D01",
+      "name": "Lokaler Start: doppelte und unsichere IDs isoliert, Original geschuetzt",
+      "ok": true,
+      "info": {
+        "safeIds": 3,
+        "protected": true
+      },
+      "ms": 979
+    },
+    {
+      "group": "D02",
+      "name": "Eigenes Teil: setItem mtb.eigene",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.eigene"
+        ],
+        "toast": "Das Teil wurde nicht angelegt: Der Speicher ist voll oder gesperrt. Dein bisheriges Teil bleibt eingebaut."
+      },
+      "ms": 1104
+    },
+    {
+      "group": "D02",
+      "name": "Eigenes Teil: setItem mtb.profile",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.profile"
+        ],
+        "toast": "Das Teil wurde nicht angelegt: Der Speicher ist voll oder gesperrt. Dein bisheriges Teil bleibt eingebaut."
+      },
+      "ms": 1121
+    },
+    {
+      "group": "D02",
+      "name": "Rollback selbst gesperrt: ehrliche Warnung und RAM erhalten",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.profile",
+          "set:mtb.eigene",
+          "set:mtb.eigene",
+          "set:mtb.eigene"
+        ],
+        "toast": "Speichern und Zurücksetzen sind nicht vollständig möglich. Lass die App offen, gib Speicherplatz frei und versuche es erneut."
+      },
+      "ms": 919
+    },
+    {
+      "group": "D03",
+      "name": "Neues Rad: mtb.profile gesperrt",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.profile"
+        ],
+        "toast": "Das neue Rad konnte nicht gespeichert werden. Es wurde nichts angelegt. Gib Speicherplatz frei und versuche es erneut."
+      },
+      "ms": 1049
+    },
+    {
+      "group": "D03",
+      "name": "Kopie: mtb.profile gesperrt",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.profile"
+        ],
+        "toast": "Die Kopie passt nicht mehr in den Speicher des Browsers — es wurde nichts angelegt, dein Rad bleibt unverändert. Lösche alte Fotos oder Räder und versuch es dann noch einmal."
+      },
+      "ms": 1079
+    },
+    {
+      "group": "D03",
+      "name": "Kopie: mtb.setup gesperrt",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.setup"
+        ],
+        "toast": "Die Kopie passt nicht mehr in den Speicher des Browsers — es wurde nichts angelegt, dein Rad bleibt unverändert. Lösche alte Fotos oder Räder und versuch es dann noch einmal."
+      },
+      "ms": 1025
+    },
+    {
+      "group": "D03",
+      "name": "Rad loeschen: profile-set",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.profile"
+        ],
+        "toast": "Das Rad wurde nicht gelöscht: Der Speicher ist voll oder gesperrt. Foto und Fahrwerkdaten bleiben erhalten."
+      },
+      "ms": 1126
+    },
+    {
+      "group": "D03",
+      "name": "Rad loeschen: setup-set",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.setup"
+        ],
+        "toast": "Das Rad wurde nicht gelöscht: Der Speicher ist voll oder gesperrt. Foto und Fahrwerkdaten bleiben erhalten."
+      },
+      "ms": 1158
+    },
+    {
+      "group": "D03",
+      "name": "Rad loeschen: photo-remove",
+      "ok": true,
+      "info": {
+        "hits": [
+          "remove:mtb.foto.pmvmmod803m51"
+        ],
+        "toast": "Das Rad wurde nicht gelöscht: Der Speicher ist voll oder gesperrt. Foto und Fahrwerkdaten bleiben erhalten."
+      },
+      "ms": 1258
+    },
+    {
+      "group": "D03",
+      "name": "Rad loeschen: gabel-topcap-remove",
+      "ok": true,
+      "info": {
+        "hits": [
+          "remove:mtb.topcap.pmvmmoe3uhczn.gabel"
+        ],
+        "toast": "Das Rad wurde nicht gelöscht: Der Speicher ist voll oder gesperrt. Foto und Fahrwerkdaten bleiben erhalten."
+      },
+      "ms": 1098
+    },
+    {
+      "group": "D03",
+      "name": "Rad loeschen: daempfer-topcap-remove",
+      "ok": true,
+      "info": {
+        "hits": [
+          "remove:mtb.topcap.pmvmmof1innxq.daempfer"
+        ],
+        "toast": "Das Rad wurde nicht gelöscht: Der Speicher ist voll oder gesperrt. Foto und Fahrwerkdaten bleiben erhalten."
+      },
+      "ms": 1257
+    },
+    {
+      "group": "FOTO",
+      "name": "RAM-Foto bleibt bei new-fail",
+      "ok": true,
+      "info": {
+        "operation": "new-fail",
+        "photoRetained": true
+      },
+      "ms": 837
+    },
+    {
+      "group": "FOTO",
+      "name": "RAM-Foto bleibt bei copy-fail",
+      "ok": true,
+      "info": {
+        "operation": "copy-fail",
+        "photoRetained": true
+      },
+      "ms": 898
+    },
+    {
+      "group": "FOTO",
+      "name": "RAM-Foto bleibt bei inactive-delete-fail",
+      "ok": true,
+      "info": {
+        "operation": "inactive-delete-fail",
+        "photoRetained": true
+      },
+      "ms": 854
+    },
+    {
+      "group": "FOTO",
+      "name": "RAM-Foto bleibt bei inactive-delete-success",
+      "ok": true,
+      "info": {
+        "operation": "inactive-delete-success",
+        "photoRetained": true
+      },
+      "ms": 862
+    },
+    {
+      "group": "FOTO",
+      "name": "Neueres RAM-Foto vor erfolgreichem Anlegen sichern",
+      "ok": true,
+      "info": {
+        "newId": "pmvmmoiojmt8g",
+        "originalPhotoRetained": true,
+        "copy": false
+      },
+      "ms": 989
+    },
+    {
+      "group": "FOTO",
+      "name": "Neueres RAM-Foto vor erfolgreichem Kopieren sichern",
+      "ok": true,
+      "info": {
+        "newId": "pmvmmojh85r1r",
+        "originalPhotoRetained": true,
+        "copy": true
+      },
+      "ms": 1074
+    },
+    {
+      "group": "FOTO",
+      "name": "Altes Fotofach gesperrt: Neues Rad atomar abbrechen",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.foto.pmvmmok6znu17"
+        ],
+        "toast": "Das neue Rad konnte nicht gespeichert werden. Es wurde nichts angelegt. Gib Speicherplatz frei und versuche es erneut."
+      },
+      "ms": 919
+    },
+    {
+      "group": "FOTO",
+      "name": "Altes Fotofach gesperrt: Kopie atomar abbrechen",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.foto.pmvmmokvi2jj1"
+        ],
+        "toast": "Die Kopie passt nicht mehr in den Speicher des Browsers — es wurde nichts angelegt, dein Rad bleibt unverändert. Lösche alte Fotos oder Räder und versuch es dann noch einmal."
+      },
+      "ms": 930
+    },
+    {
+      "group": "FOTO",
+      "name": "CS04 Kopie ohne Fotoplatz markiert und Foto spaeter wiederherstellbar",
+      "ok": true,
+      "info": {
+        "copyId": "pmvmmolt0xo9x",
+        "photoRecovered": true
+      },
+      "ms": 1384
+    },
+    {
+      "group": "D04",
+      "name": "null-custom abgelehnt ohne Datenaustausch",
+      "ok": true,
+      "info": {
+        "rejected": true,
+        "toast": "Die Sicherung ist beschädigt (Eintrag „mtb.eigene“) und wird nicht geladen. Auf diesem Gerät bleibt alles, wie es ist."
+      },
+      "ms": 855
+    },
+    {
+      "group": "D04",
+      "name": "null-options abgelehnt ohne Datenaustausch",
+      "ok": true,
+      "info": {
+        "rejected": true,
+        "toast": "Die Sicherung ist beschädigt (Eintrag „mtb.eigene“) und wird nicht geladen. Auf diesem Gerät bleibt alles, wie es ist."
+      },
+      "ms": 870
+    },
+    {
+      "group": "D04",
+      "name": "text-price abgelehnt ohne Datenaustausch",
+      "ok": true,
+      "info": {
+        "rejected": true,
+        "toast": "Die Sicherung ist beschädigt (Eintrag „mtb.eigene“) und wird nicht geladen. Auf diesem Gerät bleibt alles, wie es ist."
+      },
+      "ms": 861
+    },
+    {
+      "group": "D04",
+      "name": "unknown-slot abgelehnt ohne Datenaustausch",
+      "ok": true,
+      "info": {
+        "rejected": true,
+        "toast": "Die Räder in der Sicherung sind beschädigt. Die Sicherung wird nicht geladen, auf diesem Gerät bleibt alles, wie es ist."
+      },
+      "ms": 830
+    },
+    {
+      "group": "D04",
+      "name": "javascript-link abgelehnt ohne Datenaustausch",
+      "ok": true,
+      "info": {
+        "rejected": true,
+        "toast": "Die Räder in der Sicherung sind beschädigt. Die Sicherung wird nicht geladen, auf diesem Gerät bleibt alles, wie es ist."
+      },
+      "ms": 834
+    },
+    {
+      "group": "IMPORT-OK",
+      "name": "Gueltige eigene Gabel mit Massvarianten exportieren/importieren",
+      "ok": true,
+      "info": {
+        "profiles": 2,
+        "customId": "x-mvmmoq6a|130",
+        "variants": 1
+      },
+      "ms": 1242
+    },
+    {
+      "group": "D05",
+      "name": "Eigenes Teil loeschen, Einkauf intakt: real",
+      "ok": true,
+      "info": {
+        "mode": "real",
+        "wish": {
+          "id": "w-audit-real",
+          "slot": "griffe",
+          "ziel": "",
+          "budget": 0,
+          "zeit": 1792860224775,
+          "stufe": "einkauf",
+          "frei": {
+            "n": "Auditgriffe",
+            "l": ""
+          }
+        }
+      },
+      "ms": 1319
+    },
+    {
+      "group": "D05",
+      "name": "Eigenes Teil loeschen, Einkauf intakt: traum",
+      "ok": true,
+      "info": {
+        "mode": "traum",
+        "wish": {
+          "id": "w-audit-traum",
+          "slot": "griffe",
+          "ziel": "",
+          "budget": 0,
+          "zeit": 1792860226061,
+          "stufe": "einkauf",
+          "frei": {
+            "n": "Auditgriffe",
+            "l": ""
+          }
+        }
+      },
+      "ms": 1325
+    },
+    {
+      "group": "D05",
+      "name": "Eigenes Teil loeschen, Einkauf intakt: markt",
+      "ok": true,
+      "info": {
+        "mode": "markt",
+        "wish": {
+          "id": "w-audit-markt",
+          "slot": "griffe",
+          "ziel": "",
+          "budget": 0,
+          "zeit": 1792860227385,
+          "stufe": "einkauf",
+          "frei": {
+            "n": "Auditgriffe",
+            "l": ""
+          }
+        }
+      },
+      "ms": 1266
+    },
+    {
+      "group": "D05",
+      "name": "Eigenes Loeschen mit Tests/Wuenschen: mtb.eigene gesperrt",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.eigene"
+        ],
+        "toast": "Das Teil wurde nicht gelöscht: Der Speicher ist voll oder gesperrt."
+      },
+      "ms": 1131
+    },
+    {
+      "group": "D05",
+      "name": "Eigenes Loeschen mit Tests/Wuenschen: mtb.profile gesperrt",
+      "ok": true,
+      "info": {
+        "hits": [
+          "set:mtb.profile"
+        ],
+        "toast": "Das Teil wurde nicht gelöscht: Der Speicher ist voll oder gesperrt."
+      },
+      "ms": 1141
+    },
+    {
+      "group": "D05",
+      "name": "Erfolgreiches Loeschen beendet betroffene Vorschautests aller Modi",
+      "ok": true,
+      "info": [
+        {
+          "m": "traum",
+          "id": "gr-ge1",
+          "wish": {
+            "id": "w-audit-traum",
+            "slot": "griffe",
+            "ziel": "",
+            "budget": 0,
+            "zeit": 1792860230907,
+            "stufe": "einkauf",
+            "frei": {
+              "n": "Auditgriffe",
+              "l": ""
+            }
+          },
+          "working": "gr-ge1"
+        },
+        {
+          "m": "real",
+          "id": "gr-ge1",
+          "wish": {
+            "id": "w-audit-real",
+            "slot": "griffe",
+            "ziel": "",
+            "budget": 0,
+            "zeit": 1792860230907,
+            "stufe": "einkauf",
+            "frei": {
+              "n": "Auditgriffe",
+              "l": ""
+            }
+          },
+          "working": "gr-ge1"
+        },
+        {
+          "m": "markt",
+          "id": null,
+          "wish": {
+            "id": "w-audit-markt",
+            "slot": "griffe",
+            "ziel": "",
+            "budget": 0,
+            "zeit": 1792860230907,
+            "stufe": "einkauf",
+            "frei": {
+              "n": "Auditgriffe",
+              "l": ""
+            }
+          },
+          "working": null
+        }
+      ],
+      "ms": 1045
+    },
+    {
+      "group": "D06",
+      "name": "Backup: setItem mtb.setup gesperrt",
+      "ok": true,
+      "info": {
+        "psi": 102,
+        "bytes": 5098,
+        "hits": [
+          "set:mtb.setup"
+        ],
+        "toast": "Sicherung gespeichert — deine letzten Änderungen fehlen aber darin, weil der Speicher des Browsers voll ist."
+      },
+      "ms": 1189
+    },
+    {
+      "group": "D06",
+      "name": "Backup: setItem mtb.profile gesperrt",
+      "ok": true,
+      "info": {
+        "psi": 110,
+        "bytes": 5098,
+        "hits": [
+          "set:mtb.profile"
+        ],
+        "toast": "Sicherung gespeichert — deine letzten Änderungen fehlen aber darin, weil der Speicher des Browsers voll ist."
+      },
+      "ms": 914
+    },
+    {
+      "group": "D06",
+      "name": "Backup: vollstaendiger Erfolg",
+      "ok": true,
+      "info": {
+        "psi": 110,
+        "bytes": 5098,
+        "hits": [],
+        "toast": "Sicherung „crankscore-sicherung-2026-10-24.json“ gespeichert (5 KB)."
+      },
+      "ms": 970
+    }
+  ]
+}

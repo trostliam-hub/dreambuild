@@ -1,0 +1,144 @@
+{
+  "url": "https://trostliam-hub.github.io/dreambuild/index.html",
+  "expected": "20261024-1903",
+  "started": "2026-10-24T17:05:27.723Z",
+  "checks": [
+    {
+      "name": "F01 390/de Rueckwechsel und Reload erhalten110psi",
+      "ok": true,
+      "detail": {
+        "psi": 110
+      }
+    },
+    {
+      "name": "F02 390/de Eingebaute475lbs erscheinen in Setup-Karte und Guide",
+      "ok": true,
+      "detail": {
+        "own": 475,
+        "recommended": 625,
+        "guide": "Startwerte für 100 kg im Modus Allround:<ul><li><b>Gabel</b> (RockShox ZEB Ultimate · Charger 3.2 RC2 · 180 mm): Druck laut Aufkleber an der Gabel, Sag 18 %</li><li><b>Dämpfer</b> (RockShox Super Deluxe Coil · Ultimate · 230×65 Standard): 475 lbs/in, Sag 28 %</li></ul>LSC, HSC und Zugstufe in Klicks zeigt der Reiter Fahrwerk."
+      }
+    },
+    {
+      "name": "U01 390/de Echter Vergleichsklick oeffnet Fahrwerkdialog",
+      "ok": true,
+      "detail": {
+        "columns": 4,
+        "singleColumns": 5
+      }
+    },
+    {
+      "name": "U02 390/de Wunschbudget400→750 per Dialog speichern und reloaden",
+      "ok": true,
+      "detail": {
+        "before": 400,
+        "after": 750
+      }
+    },
+    {
+      "name": "DATEN 390/de Testfelder erhalten, keine JS-Fehler und kein API-Aufruf",
+      "ok": true,
+      "detail": {
+        "profile": "pmvmngp0zsvdz",
+        "otherProfile": "pmvmngp2xpe64",
+        "bodyFieldsPreserved": true,
+        "setupNote": true,
+        "wishes": 2
+      }
+    },
+    {
+      "name": "F01 320/en Rueckwechsel und Reload erhalten110psi",
+      "ok": true,
+      "detail": {
+        "psi": 110
+      }
+    },
+    {
+      "name": "F02 320/en Eingebaute475lbs erscheinen in Setup-Karte und Guide",
+      "ok": true,
+      "detail": {
+        "own": 475,
+        "recommended": 625,
+        "guide": "Starting values for 100 kg in All-round mode:<ul><li><b>Fork</b> (RockShox ZEB Ultimate · Charger 3.2 RC2 · 180 mm): pressure from the sticker on the fork, Sag 18 %</li><li><b>Shock</b> (RockShox Super Deluxe Coil · Ultimate · 230×65 Standard): 475 lbs/in, Sag 28 %</li></ul>The Setup tab shows LSC, HSC and rebound in clicks."
+      }
+    },
+    {
+      "name": "U01 320/en Echter Vergleichsklick oeffnet Fahrwerkdialog",
+      "ok": true,
+      "detail": {
+        "columns": 4,
+        "singleColumns": 5
+      }
+    },
+    {
+      "name": "U02 320/en Wunschbudget400→750 per Dialog speichern und reloaden",
+      "ok": true,
+      "detail": {
+        "before": 400,
+        "after": 750
+      }
+    },
+    {
+      "name": "DATEN 320/en Testfelder erhalten, keine JS-Fehler und kein API-Aufruf",
+      "ok": true,
+      "detail": {
+        "profile": "pmvmngql9pelj",
+        "otherProfile": "pmvmngqnewego",
+        "bodyFieldsPreserved": true,
+        "setupNote": true,
+        "wishes": 2
+      }
+    }
+  ],
+  "versions": [
+    {
+      "version": "20261024-1903"
+    },
+    {
+      "version": "20261024-1903",
+      "sha256": "9a3c031cf611972c8bcc13fd194f1977af69190d339287e44db4835c9b43e7ff"
+    },
+    {
+      "version": "20261024-1903"
+    },
+    {
+      "version": "20261024-1903"
+    },
+    {
+      "version": "20261024-1903"
+    },
+    {
+      "version": "20261024-1903"
+    },
+    {
+      "version": "20261024-1903"
+    },
+    {
+      "version": "20261024-1903",
+      "sha256": "9a3c031cf611972c8bcc13fd194f1977af69190d339287e44db4835c9b43e7ff"
+    },
+    {
+      "version": "20261024-1903"
+    },
+    {
+      "version": "20261024-1903"
+    },
+    {
+      "version": "20261024-1903"
+    },
+    {
+      "version": "20261024-1903"
+    }
+  ],
+  "blocked": [],
+  "errors": [],
+  "screenshots": [
+    "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\audit-optimierung-20261024\\live\\fahrwerkvergleich-390-de.png",
+    "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\audit-optimierung-20261024\\live\\budgetdialog-390-de.png",
+    "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\audit-optimierung-20261024\\live\\fahrwerkvergleich-320-en.png",
+    "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\audit-optimierung-20261024\\live\\budgetdialog-320-en.png"
+  ],
+  "finished": "2026-10-24T17:05:32.023Z",
+  "count": 10,
+  "failed": 0
+}

@@ -1,0 +1,48 @@
+{
+  "commit": "42eb5fc6fd697f2e24d950284a129d79dbb48bff",
+  "run": 40113615275,
+  "pruefen": "success",
+  "localSeconds": 494,
+  "ciSeconds": 522,
+  "groups": 23,
+  "appCases": 560,
+  "syntaxScripts": 2,
+  "language": {
+    "findings": 0,
+    "texts": 11173
+  },
+  "pricesErrors": 0,
+  "serverTests": {
+    "passed": 10,
+    "failed": 0
+  },
+  "lines": [
+    "2026-10-24T16:53:50.1645798Z OK   Syntax index.html — 2 Skripte",
+    "2026-10-24T16:53:51.4916441Z OK   Kompatibilität — 200 von 200 bestanden, erwartet 200, Exit 0",
+    "2026-10-24T16:54:02.0184499Z OK   Setup und Speicher — 25 von 25 bestanden, Exit 0",
+    "2026-10-24T16:54:20.6006453Z OK   Persönliche Fahrwerkfragen und Einrichtung — 18 von 18 bestanden, Exit 0",
+    "2026-10-24T16:54:57.0402072Z OK   Ein Weg je Aufgabe — 36 von 36 bestanden, Exit 0",
+    "2026-10-24T16:56:48.8972069Z OK   Sprache Deutsch/Englisch — 0 Funde in 11173 Texten, Exit 0",
+    "2026-10-24T16:57:27.7492333Z OK   Teile finden, Adapter, Wunschliste (BEVEL-002) — 34 von 34 bestanden, Exit 0",
+    "2026-10-24T16:57:27.8675958Z OK   Preis-Skript offline — 0 Fehler, Exit 0",
+    "2026-10-24T16:57:33.6815319Z OK   Produktfotos und Großansicht — 14 von 14 bestanden, Exit 0",
+    "2026-10-24T16:57:45.1459677Z OK   KI-Guide Deutsch/Englisch — 28 Prüfungen bestanden, Exit 0",
+    "2026-10-24T16:58:47.8564883Z OK   Guide-Stichpunkte und Warteschlange — 20 Prüfungen bestanden, Exit 0",
+    "2026-10-24T16:58:47.9487335Z OK   Guide-Soforthilfe ohne KI — 24 Fälle, Exit 0",
+    "2026-10-24T16:59:09.6842741Z OK   Einführung und interaktive Vorschau — 10 von 10 bestanden, Exit 0",
+    "2026-10-24T16:59:11.4549952Z OK   Fahrwerkfotos und Einsteller — 9 von 9 bestanden, Exit 0",
+    "2026-10-24T16:59:25.2791360Z OK   Fahrwerk: Orientierung und Datenerhalt — 7 von 7 bestanden, Exit 0",
+    "2026-10-24T16:59:36.2470464Z OK   Dialogfokus, Bildausfall und schmaler Einkauf — 10 von 10 bestanden, Exit 0",
+    "2026-10-24T17:00:13.6175175Z OK   Datenrettung, Guide-Limit und Offline-Update — 10 von 10 bestanden, Exit 0",
+    "2026-10-24T17:00:38.3344948Z OK   Verständliche Preise, Prüfung und Hilfe — 8 von 8 bestanden, Exit 0",
+    "2026-10-24T17:00:53.6266323Z OK   Fahrwerk: Werte beim Teilewechsel, Testfahrt je Profil — 10 von 10 bestanden, Exit 0",
+    "2026-10-24T17:01:14.5761654Z OK   Datenprüfung, Radkopie, Tastaturfokus, Fahrwerk- und Hilfetexte — 18 von 18 bestanden, Exit 0",
+    "2026-10-24T17:01:55.3157789Z OK   Speicherfehler, Import und Fotos ohne Datenverlust — 39 von 39 bestanden, Exit 0",
+    "2026-10-24T17:02:04.4401073Z OK   Fahrwerk-Rueckwechsel, echte Feder und Gewichtsgrenzen — 11 von 11 bestanden, Exit 0",
+    "2026-10-24T17:02:31.4953926Z OK   Wunschbearbeitung, Vergleich, Kopfzeile und Offlinecache — 29 von 29 bestanden, Exit 0",
+    "2026-10-24T17:02:31.4958300Z ALLE TESTS BESTANDEN · Revision 42eb5fc · 522 s · Bericht: test-ergebnis.json",
+    "2026-10-24T17:02:39.2201303Z # tests 10",
+    "2026-10-24T17:02:39.2201971Z # pass 10",
+    "2026-10-24T17:02:39.2202256Z # fail 0"
+  ]
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "name": "F01 Rueckwechsel behaelt letzten Gabeldruck und speichert ihn vor Reload",
+    "ok": true
+  },
+  {
+    "name": "F01 Spiegelbildlicher Gabelwechsel behaelt aktuellen Daempferdruck",
+    "ok": true
+  },
+  {
+    "name": "F01 Alle Fahrprofile: psi, Feintuning, SAG, Haken und Baseline nur am unveraenderten Teil",
+    "ok": true
+  },
+  {
+    "name": "F01 Bewusstes Leeren gewinnt gegen alten Paarstand und bleibt nach Reload leer",
+    "ok": true
+  },
+  {
+    "name": "F01 Varianten-IDs mit | und Reload vor erstem Setup-Aufruf bleiben richtig zugeordnet",
+    "ok": true
+  },
+  {
+    "name": "F01 Basis-/Alias-ID wird beim Reload-Seed zum kanonischen Paar aufgeloest",
+    "ok": true
+  },
+  {
+    "name": "F01 Verschiedene Raeder teilen keine aktuellen Bauteilwerte",
+    "ok": true
+  },
+  {
+    "name": "F01 Aktive Tests: Quelle unveraendert, nur Ziel-Test des uebernommenen Elements endet",
+    "ok": true
+  },
+  {
+    "name": "F02 475-lbs-Feder bleibt in Setup-Karte und lokalem Guide der aktuelle Wert",
+    "ok": true,
+    "evidence": {
+      "actual": 475,
+      "recommended": 600,
+      "guide": "Startwerte für 100 kg im Modus Allround:<ul><li><b>Gabel</b> (RockShox ZEB Ultimate · Charger 3.2 RC2 · 180 mm): Druck laut Aufkleber an der Gabel, Sag 18 %</li><li><b>Dämpfer</b> (RockShox Super Deluxe Coil · Ultimate · 230×65 Standard): 475 lbs/in, Sag 28 %</li></ul>LSC, HSC und Zugstufe in Klicks zeigt der Reiter Fahrwerk."
+    }
+  },
+  {
+    "name": "F03 SAG10psi erzeugt keinen Wert unter10, zentrale Uebernahme weist8psi ab",
+    "ok": true,
+    "evidence": []
+  },
+  {
+    "name": "F04 Gewogenes Rad und eigene Montur:130kg loesen120kg-Laufradgrenze aus",
+    "ok": true,
+    "evidence": {
+      "actual": 130,
+      "max": 120,
+      "title": "Systemgewicht über der Laufrad-Freigabe",
+      "text": "Fahrer <code>95 kg</code> + Rad <code>25 kg</code> (gewogen) + Ausrüstung <code>10 kg</code> = <code>130 kg</code>. Die Freigabe von <code>120 kg</code> wird überschritten. Wähle Laufräder mit passender Freigabe."
+    }
+  }
+]

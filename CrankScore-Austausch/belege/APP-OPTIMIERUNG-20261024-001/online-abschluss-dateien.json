@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T17:19:37.550Z",
+  "files": [
+    {
+      "name": "index.html",
+      "status": 200,
+      "match": true,
+      "sha256": "6dec8ee575a6b3a97d30c2dc01f61fff47c0af473b83e4371f241cd728b37f41",
+      "version": "20261024-1917"
+    },
+    {
+      "name": "mtb-sw.js",
+      "status": 200,
+      "match": true,
+      "sha256": "a5515ba8b32fbaa79bd48aede76fed8d12f5c622ec16e60321eacdfc8193afbb"
+    },
+    {
+      "name": "guide-safety.js",
+      "status": 200,
+      "match": true,
+      "sha256": "c39e0cadb6b5c34e65ae47c5d620d5db158b28739dff2618893b95aeb5fba8bc"
+    }
+  ],
+  "ok": true
+}

@@ -1,0 +1,477 @@
+{
+  "root": "C:\\Users\\trost\\.codex\\visualizations\\2026\\10\\13\\01a135c6-c1f3-72a3-b061-bf6f15e8793c\\crankscore",
+  "sourceHashes": {
+    "index.html": "5e17eb24e768de55f6f4a9935428996ed9706a79587816edabf77b7396d7475b",
+    "mtb-sw.js": "6f52b85686a60c22ad452dfa89c450e829df260d77f7ace6aa92ad32c3b19e6d"
+  },
+  "cases": [
+    {
+      "name": "U01 390/de/oled Fahrwerkvergleich öffnet beide und einzelne Einstellungen",
+      "ok": true,
+      "detail": {
+        "before": "Drei Profile\nAllround: Werte\n\nDeine gespeicherten Werte je Profil — mit Feintuning. Die Spalte des aktiven Profils ist hervorgehoben.\n\n\tDownhill\tAllround\tSprünge\nGabel · vorn\nLuft\t125 psi\t130 psi\t127 psi\nSAG\t20 %\t18 %\t17 %\nZugstufe\t10 auf\t9 auf\t8 auf\nLow-Speed-Druckstufe (LSC)\t+1\t+1\t+3\nHigh-Speed-Druckstufe (HSC)\t−1\t0\t0\nABO\tStufe 4\tStufe 3\tStufe 3\nDämpfer · hinten\nFeder\t500 lbs\t500 lbs\t500 lbs\nSAG\t28 %\t28 %\t28 %\nZugstufe\t12 auf\t11 auf\t10 auf\nLow-Speed-Druckstufe (LSC)\tMitte −1\tMitte\tMitte +1\nHigh-Speed-Druckstufe (HSC)\tMitte −1\tMitte\tMitte\nHBO\tStufe 4\tStufe 3\tStufe 3",
+        "after": "Drei Profile\nAllround: Werte\n\nEmpfehlung, dein Wert, deine Grundeinstellung und was vor dem Setup eingestellt war. Abweichungen von der Empfehlung sind markiert.\n\n\tEmpfehlung\tDein Wert\tGrundeinst.\tVorher\nGabel · vorn\nLuft\t130 psi\t130 psi\t—\t—\nSAG\t18 %\t—\t—\t—\nZugstufe\t9 auf\t9 auf\t—\t—\nLow-Speed-Druckstufe (LSC)\t+1\t+1\t—\t—\nHigh-Speed-Druckstufe (HSC)\t0\t0\t—\t—\nABO\tStufe 3\tStufe 3\t—\t—\nDämpfer · hinten\nFeder\t500 lbs\t475\t—\t—\nSAG\t28 %\t—\t—\t—\nZugstufe\t11 auf\t11 auf\t—\t—\nLow-Speed-Druckstufe (LSC)\tMitte\tMitte\t—"
+      }
+    },
+    {
+      "name": "U02 390/de/oled Ziel und Dezimalbudget speichern und neu laden",
+      "ok": true,
+      "detail": {
+        "id": "ui-wunsch-1",
+        "slot": "bremsen",
+        "teil": "b-mt7|203180",
+        "ziel": "ersatz",
+        "budget": 750.25,
+        "zeit": 1792850400000,
+        "stufe": "einkauf"
+      }
+    },
+    {
+      "name": "U02 390/de/oled Abbrechen und Escape erhalten Wunsch und Speicher",
+      "ok": true
+    },
+    {
+      "name": "U02 390/de/oled Ungültiges Budget bleibt offen und unverändert",
+      "ok": true
+    },
+    {
+      "name": "U02 390/de/oled Leere Angaben entfernen Ziel und Budget",
+      "ok": true,
+      "detail": {
+        "id": "ui-wunsch-1",
+        "slot": "bremsen",
+        "teil": "b-mt7|203180",
+        "ziel": "",
+        "budget": 0,
+        "zeit": 1792850400000,
+        "stufe": "einkauf"
+      }
+    },
+    {
+      "name": "U02 390/de/oled Später Speicherfehler setzt bereits geschriebenes Profil zurück",
+      "ok": true
+    },
+    {
+      "name": "U02 390/de/oled Radwechsel kann gleichnamigen Wunsch eines anderen Rads nicht ändern",
+      "ok": true
+    },
+    {
+      "name": "U02 Freies Wunschprodukt behält Link, Namen, Stufe und Identität",
+      "ok": true
+    },
+    {
+      "name": "U02 Moduswechsel kann ursprünglichen Wunsch nicht verändern",
+      "ok": true
+    },
+    {
+      "name": "U01 320/en/hell Fahrwerkvergleich öffnet beide und einzelne Einstellungen",
+      "ok": true,
+      "detail": {
+        "before": "Three profiles\nAll-round: values\n\nYour saved values per profile — including fine-tuning. The active profile's column is highlighted.\n\n\tDownhill\tAll-round\tJumps\nFork · front\nAir\t125 psi\t130 psi\t127 psi\nSag\t20 %\t18 %\t17 %\nRebound\t10 out\t9 out\t8 out\nLow-speed compression (LSC)\t+1\t+1\t+3\nHigh-speed compression (HSC)\t−1\t0\t0\nABO\tpos. 4\tpos. 3\tpos. 3\nShock · rear\nSpring\t500 lbs\t500 lbs\t500 lbs\nSag\t28 %\t28 %\t28 %\nRebound\t12 out\t11 out\t10 out\nLow-speed compression (LSC)\tmiddle −1\tmiddle\tmiddle +1\nHigh-speed compression (HSC)\tmiddle −1\tmiddle\tmiddle\nHBO\tpos. 4\tpos. 3\tpos. 3",
+        "after": "Three profiles\nAll-round: values\n\nRecommended, yours, your baseline and what was set before. Differences from the recommendation are marked.\n\n\tRecommended\tYours\tBaseline\tBefore\nFork · front\nAir\t130 psi\t130 psi\t—\t—\nSag\t18 %\t—\t—\t—\nRebound\t9 out\t9 out\t—\t—\nLow-speed compression (LSC)\t+1\t+1\t—\t—\nHigh-speed compression (HSC)\t0\t0\t—\t—\nABO\tpos. 3\tpos. 3\t—\t—\nShock · rear\nSpring\t500 lbs\t475\t—\t—\nSag\t28 %\t—\t—\t—\nRebound\t11 out\t11 out\t—\t—\nLow-speed compression (LSC)\tmiddle\tmiddle\t—\t—\nHigh-speed compression (HSC"
+      }
+    },
+    {
+      "name": "U02 320/en/hell Ziel und Dezimalbudget speichern und neu laden",
+      "ok": true,
+      "detail": {
+        "id": "ui-wunsch-1",
+        "slot": "bremsen",
+        "teil": "b-mt7|203180",
+        "ziel": "ersatz",
+        "budget": 750.25,
+        "zeit": 1792850400000,
+        "stufe": "einkauf"
+      }
+    },
+    {
+      "name": "U02 320/en/hell Abbrechen und Escape erhalten Wunsch und Speicher",
+      "ok": true
+    },
+    {
+      "name": "U02 320/en/hell Ungültiges Budget bleibt offen und unverändert",
+      "ok": true
+    },
+    {
+      "name": "U02 320/en/hell Leere Angaben entfernen Ziel und Budget",
+      "ok": true,
+      "detail": {
+        "id": "ui-wunsch-1",
+        "slot": "bremsen",
+        "teil": "b-mt7|203180",
+        "ziel": "",
+        "budget": 0,
+        "zeit": 1792850400000,
+        "stufe": "einkauf"
+      }
+    },
+    {
+      "name": "U02 320/en/hell Später Speicherfehler setzt bereits geschriebenes Profil zurück",
+      "ok": true
+    },
+    {
+      "name": "U02 320/en/hell Radwechsel kann gleichnamigen Wunsch eines anderen Rads nicht ändern",
+      "ok": true
+    },
+    {
+      "name": "U01 1280/de/hell Fahrwerkvergleich öffnet beide und einzelne Einstellungen",
+      "ok": true,
+      "detail": {
+        "before": "Drei Profile\nAllround: Werte\n\nDeine gespeicherten Werte je Profil — mit Feintuning. Die Spalte des aktiven Profils ist hervorgehoben.\n\n\tDownhill\tAllround\tSprünge\nGabel · vorn\nLuft\t125 psi\t130 psi\t127 psi\nSAG\t20 %\t18 %\t17 %\nZugstufe\t10 auf\t9 auf\t8 auf\nLow-Speed-Druckstufe (LSC)\t+1\t+1\t+3\nHigh-Speed-Druckstufe (HSC)\t−1\t0\t0\nABO\tStufe 4\tStufe 3\tStufe 3\nDämpfer · hinten\nFeder\t500 lbs\t500 lbs\t500 lbs\nSAG\t28 %\t28 %\t28 %\nZugstufe\t12 auf\t11 auf\t10 auf\nLow-Speed-Druckstufe (LSC)\tMitte −1\tMitte\tMitte +1\nHigh-Speed-Druckstufe (HSC)\tMitte −1\tMitte\tMitte\nHBO\tStufe 4\tStufe 3\tStufe 3",
+        "after": "Drei Profile\nAllround: Werte\n\nEmpfehlung, dein Wert, deine Grundeinstellung und was vor dem Setup eingestellt war. Abweichungen von der Empfehlung sind markiert.\n\n\tEmpfehlung\tDein Wert\tGrundeinst.\tVorher\nGabel · vorn\nLuft\t130 psi\t130 psi\t—\t—\nSAG\t18 %\t—\t—\t—\nZugstufe\t9 auf\t9 auf\t—\t—\nLow-Speed-Druckstufe (LSC)\t+1\t+1\t—\t—\nHigh-Speed-Druckstufe (HSC)\t0\t0\t—\t—\nABO\tStufe 3\tStufe 3\t—\t—\nDämpfer · hinten\nFeder\t500 lbs\t475\t—\t—\nSAG\t28 %\t—\t—\t—\nZugstufe\t11 auf\t11 auf\t—\t—\nLow-Speed-Druckstufe (LSC)\tMitte\tMitte\t—"
+      }
+    },
+    {
+      "name": "U02 1280/de/hell Ziel und Dezimalbudget speichern und neu laden",
+      "ok": true,
+      "detail": {
+        "id": "ui-wunsch-1",
+        "slot": "bremsen",
+        "teil": "b-mt7|203180",
+        "ziel": "ersatz",
+        "budget": 750.25,
+        "zeit": 1792850400000,
+        "stufe": "einkauf"
+      }
+    },
+    {
+      "name": "U02 1280/de/hell Abbrechen und Escape erhalten Wunsch und Speicher",
+      "ok": true
+    },
+    {
+      "name": "U02 1280/de/hell Ungültiges Budget bleibt offen und unverändert",
+      "ok": true
+    },
+    {
+      "name": "U02 1280/de/hell Leere Angaben entfernen Ziel und Budget",
+      "ok": true,
+      "detail": {
+        "id": "ui-wunsch-1",
+        "slot": "bremsen",
+        "teil": "b-mt7|203180",
+        "ziel": "",
+        "budget": 0,
+        "zeit": 1792850400000,
+        "stufe": "einkauf"
+      }
+    },
+    {
+      "name": "U02 1280/de/hell Später Speicherfehler setzt bereits geschriebenes Profil zurück",
+      "ok": true
+    },
+    {
+      "name": "U02 1280/de/hell Radwechsel kann gleichnamigen Wunsch eines anderen Rads nicht ändern",
+      "ok": true
+    },
+    {
+      "name": "U03 1024 Kompakter Desktopkopf hält langen Radnamen neben Navigation",
+      "ok": true,
+      "detail": {
+        "mini": {
+          "x": 54,
+          "y": 8,
+          "width": 164,
+          "height": 56.296875,
+          "top": 8,
+          "right": 218,
+          "bottom": 64.296875,
+          "left": 54
+        },
+        "tab": {
+          "x": 228.09375,
+          "y": 8,
+          "width": 156.625,
+          "height": 44,
+          "top": 8,
+          "right": 384.71875,
+          "bottom": 52,
+          "left": 228.09375
+        },
+        "name": {
+          "x": 102,
+          "y": 25.796875,
+          "width": 85,
+          "height": 34.5,
+          "top": 25.796875,
+          "right": 187,
+          "bottom": 60.296875,
+          "left": 102
+        }
+      }
+    },
+    {
+      "name": "U03 1280 Kompakter Desktopkopf hält langen Radnamen neben Navigation",
+      "ok": true,
+      "detail": {
+        "mini": {
+          "x": 134,
+          "y": 8,
+          "width": 212,
+          "height": 56.296875,
+          "top": 8,
+          "right": 346,
+          "bottom": 64.296875,
+          "left": 134
+        },
+        "tab": {
+          "x": 356.09375,
+          "y": 8,
+          "width": 156.625,
+          "height": 44,
+          "top": 8,
+          "right": 512.71875,
+          "bottom": 52,
+          "left": 356.09375
+        },
+        "name": {
+          "x": 182,
+          "y": 25.796875,
+          "width": 133,
+          "height": 34.5,
+          "top": 25.796875,
+          "right": 315,
+          "bottom": 60.296875,
+          "left": 182
+        }
+      }
+    },
+    {
+      "name": "Worker Updateprobe mit no-store erzeugt keine neuen Cacheeinträge",
+      "ok": true,
+      "detail": {
+        "before": {
+          "name": "dreambuild-20261024-1817",
+          "total": 55,
+          "pruef": [],
+          "canonical": true,
+          "photo": true
+        },
+        "after": {
+          "name": "dreambuild-20261024-1817",
+          "total": 55,
+          "pruef": [],
+          "canonical": true,
+          "photo": true
+        },
+        "netBefore": 61,
+        "netAfter": 71,
+        "versions": [
+          "20261024-1817",
+          "20261024-1817",
+          "20261024-1817",
+          "20261024-1817",
+          "20261024-1817",
+          "20261024-1817",
+          "20261024-1817",
+          "20261024-1817",
+          "20261024-1817",
+          "20261024-1817"
+        ],
+        "modes": [
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239335",
+            "cache": "reload",
+            "mode": "cors"
+          },
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239345",
+            "cache": "reload",
+            "mode": "cors"
+          },
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239355",
+            "cache": "reload",
+            "mode": "cors"
+          },
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239364",
+            "cache": "reload",
+            "mode": "cors"
+          },
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239374",
+            "cache": "reload",
+            "mode": "cors"
+          },
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239383",
+            "cache": "reload",
+            "mode": "cors"
+          },
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239393",
+            "cache": "reload",
+            "mode": "cors"
+          },
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239403",
+            "cache": "reload",
+            "mode": "cors"
+          },
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239413",
+            "cache": "reload",
+            "mode": "cors"
+          },
+          {
+            "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239424",
+            "cache": "reload",
+            "mode": "cors"
+          }
+        ],
+        "native": {
+          "status": 200,
+          "modes": [
+            "no-store"
+          ],
+          "before": 55,
+          "after": 55
+        }
+      }
+    },
+    {
+      "name": "Worker Statisches Foto aus Cache ohne erneuten Netzabruf anzeigen",
+      "ok": true,
+      "detail": {
+        "before": 3,
+        "after": 3,
+        "shots": [
+          {
+            "complete": true,
+            "width": 291,
+            "height": 582,
+            "controller": "activated",
+            "network": 3
+          },
+          {
+            "complete": true,
+            "width": 291,
+            "height": 582,
+            "controller": "activated",
+            "network": 3
+          }
+        ]
+      }
+    },
+    {
+      "name": "Worker Offlineindex funktioniert kanonisch und mit neuem Queryparameter",
+      "ok": true,
+      "detail": {
+        "canonical": {
+          "url": "http://127.0.0.1:60612/index.html",
+          "version": "20261024-1817",
+          "core": true
+        },
+        "query": {
+          "url": "http://127.0.0.1:60612/index.html?audit=1",
+          "version": "20261024-1817",
+          "core": true
+        }
+      }
+    },
+    {
+      "name": "Isolation: keine JavaScriptfehler und keine fremden oder schreibenden Netzaufrufe",
+      "ok": true,
+      "detail": {
+        "requests": 1051
+      }
+    }
+  ],
+  "errors": [],
+  "blocked": [],
+  "workerProbes": {
+    "before": {
+      "name": "dreambuild-20261024-1817",
+      "total": 55,
+      "pruef": [],
+      "canonical": true,
+      "photo": true
+    },
+    "after": {
+      "name": "dreambuild-20261024-1817",
+      "total": 55,
+      "pruef": [],
+      "canonical": true,
+      "photo": true
+    },
+    "netBefore": 61,
+    "netAfter": 71,
+    "versions": [
+      "20261024-1817",
+      "20261024-1817",
+      "20261024-1817",
+      "20261024-1817",
+      "20261024-1817",
+      "20261024-1817",
+      "20261024-1817",
+      "20261024-1817",
+      "20261024-1817",
+      "20261024-1817"
+    ],
+    "modes": [
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239335",
+        "cache": "reload",
+        "mode": "cors"
+      },
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239345",
+        "cache": "reload",
+        "mode": "cors"
+      },
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239355",
+        "cache": "reload",
+        "mode": "cors"
+      },
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239364",
+        "cache": "reload",
+        "mode": "cors"
+      },
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239374",
+        "cache": "reload",
+        "mode": "cors"
+      },
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239383",
+        "cache": "reload",
+        "mode": "cors"
+      },
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239393",
+        "cache": "reload",
+        "mode": "cors"
+      },
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239403",
+        "cache": "reload",
+        "mode": "cors"
+      },
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239413",
+        "cache": "reload",
+        "mode": "cors"
+      },
+      {
+        "url": "http://127.0.0.1:60612/mtb-sw.js?pruef=1792860239424",
+        "cache": "reload",
+        "mode": "cors"
+      }
+    ],
+    "native": {
+      "status": 200,
+      "modes": [
+        "no-store"
+      ],
+      "before": 55,
+      "after": 55
+    }
+  },
+  "summary": {
+    "count": 29,
+    "failed": 0,
+    "passed": 29
+  }
+}
