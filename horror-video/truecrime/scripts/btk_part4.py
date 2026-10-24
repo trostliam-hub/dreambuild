@@ -1,0 +1,165 @@
+# YOU ARE BTK – Teil 4 "One Question" (Compliance Officer, Jahrestag 2004, Killman-Brief, Pakete, Müslischachtel, Floppy-Frage)
+import sys
+sys.path.insert(0, sys.argv[1] + "/en")
+from tc_common import *
+
+CAP = {"captionY": 1500, "capBox": True}
+BAR = "█" * 6 + " " + "█" * 5   # geschwärzter Name (erst ab Teil 5 Beat 3 sichtbar), wie in Teil 1
+# Titelseite Januar 2004 (Beat 1 und 2 identisch, damit der Schnitt die Seite nicht verändert); kein echter Zeitungskopf
+PAGE = {"style": "modern", "masthead": "THE DAILY EDITION", "date": "JANUARY 2004", "headline": "30 YEARS: THE OTERO MURDERS",
+        "sub": "BTK STILL UNSOLVED", "hl": ["30", "YEARS"], "photo": "house",
+        "classified": {"text": "LOCAL LAWYER WRITING BOOK ON BTK", "label": "LOCAL NEWS", "at": 99}}
+# Absender-Zettel des Briefs vom März 2004
+KILLMAN = {"style": "typewriter", "paper": "white", "tilt": -0.025, "y": 885,
+           "lines": [{"text": "FROM:", "at": "@march", "dur": 0.3, "size": 46},
+                     {"text": "BILL THOMAS KILLMAN", "at": "@bill", "dur": 1.0, "size": 62},
+                     {"text": "B.  T.  K.", "at": "@killman+0.35", "dur": 0.75, "red": True, "size": 150}],
+           "stamp": {"text": "RECEIVED|MAR 2004", "at": 0.25}}
+KILLMAN_DONE = {**KILLMAN, "lines": [{**l, "at": 0, "dur": 0.01} for l in KILLMAN["lines"]], "stamp": {**KILLMAN["stamp"], "at": -5}}
+X = "xxxxx xxxx xxx xxxxxxx xxxx"   # wird beim Schreiben sofort geschwärzt (Handschrift bleibt verborgen)
+
+B = []
+# 0: der neue Job – Macht über die Nachbarn
+B.append({"scene": "id_badge", "clock": "1991", "place": "PARK CITY, KANSAS", **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [540, 880],
+    "p": {"kind": "badge", "org": "CITY OF PARK CITY", "title": "COMPLIANCE OFFICER", "name": BAR, "idno": "ID 0447-1991", "at": 0.05,
+          "stamp": {"text": "SINCE 1991", "at": "@officer+0.5", "x": 70, "y": -40, "rot": -0.14}},
+    "lines": [L("Your new job gives you power over your own neighbors.", emph=["power", "neighbors"], gap=0.25),
+              L("You are Park City's compliance officer.", emph=["compliance"])], "pre": 0.2, "post": 0.55,
+    "punch": ["@power"], "shakeAt": [{"at": "@officer+0.52", "d": 0.2, "a": 8}],
+    "sfx": [{"name": "whoosh_dark", "at": 0.0, "gain": -8}, {"name": "rubber_stamp", "at": "@officer+0.5", "gain": -4}]})
+# 1: Jahrestag – 30 Jahre Otero
+B.append({"scene": "newspaper", "clock": "JAN 2004", **CAP, "trans": "cut", "zoom": [1.0, 1.05], "focus": [540, 700],
+    "p": {**PAGE, "at": 0.0},
+    "lines": [L("In January two thousand four, the Wichita Eagle marks thirty years since the Otero murders.",
+                say="In January two thousand four, the Wichita Eagle marks thirty years since the Oh-tair-oh murders.", emph=["thirty"])],
+    "punch": ["@thirty"],
+    "sfx": [{"name": "whoosh", "at": 0.0, "gain": -8}, {"name": "paper_rustle", "at": 0.7, "gain": -4}]})
+# 2: der Anwalt schreibt ein Buch
+B.append({"scene": "newspaper", "clock": "JAN 2004", **CAP, "trans": "cut", "zoom": [1.02, 1.06], "focus": [540, 900],
+    "p": {**PAGE, "spin": False, "classified": {**PAGE["classified"], "at": "@lawyer-0.2", "y": 900}},
+    "lines": [L("And a lawyer is writing a book about you.", emph=["book", "you"])], "post": 0.6,
+    "sfx": [{"name": "paper_rustle", "at": "@lawyer-0.2", "gain": -5}, {"name": "low_piano_hit", "at": "@you+0.35", "gain": -8}]})
+# 3: das zieht dich zurück (Profil im Lampenlicht)
+B.append({"scene": "profile_silhouette", "clock": "JAN 2004", **CAP, "trans": "glitch", "zoom": [1.0, 1.08], "focus": [540, 820],
+    "p": {"glow": "newsprint", "paper": True, "glasses": True, "eyeLine": "@pulls", "glitch": "@back+0.35"},
+    "lines": [L("Most accounts say that's what pulls you back.", emph=["pulls"])], "pre": 0.15, "post": 0.75,
+    "sfx": [{"name": "sub_pulse", "at": "@pulls", "gain": -10}, {"name": "heartbeat_single", "at": "@back+0.35", "gain": -4},
+            {"name": "tv_static_burst", "at": "@back+0.35", "gain": -14}]})
+# 4: Brief von "Bill Thomas Killman" – B, T, K
+B.append({"scene": "letter", "clock": "MAR 2004", **CAP, "trans": "cut", "zoom": [1.0, 1.04], "focus": [540, 900],
+    "p": KILLMAN,
+    "lines": [L("In March, the Eagle gets a letter from a Bill Thomas Killman.", emph=["Killman"])], "pre": 0.55, "post": 1.3,
+    "sfx": [{"name": "rubber_stamp", "at": 0.25, "gain": -4}, {"name": "typewriter_burst", "at": "@bill", "gain": -9, "dur": 1.1},
+            {"name": "typewriter_key", "at": "@killman+0.35", "gain": -4}, {"name": "typewriter_key", "at": "@killman+0.65", "gain": -4},
+            {"name": "typewriter_key", "at": "@killman+0.95", "gain": -4}, {"name": "stinger_reveal", "at": "@killman+1.15", "gain": -9}],
+    "flash": [{"at": "@killman+1.15", "d": 0.18, "c": "#ff2020", "a": 0.35}]})
+# 5: Kopie von Vicki Wegerles Führerschein (nur der Name lesbar)
+B.append({"scene": "id_badge", "clock": "MAR 2004", **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [540, 850],
+    "p": {"kind": "card", "org": "DRIVER'S LICENSE", "title": " ", "name": "VICKI WEGERLE", "idno": " ", "glasses": False, "at": 0.0,
+          "stamp": {"text": "COPY", "at": "@license+0.4", "x": 40, "y": 105, "rot": -0.1, "w": 400}},
+    "lines": [L("It holds a copy of Vicki Wegerle's driver's license.", say="It holds a copy of Vicky Wegg-er-lee's driver's license.",
+                emph=["Wegerle's"])], "post": 0.6,
+    "sfx": [{"name": "paper_rustle", "at": 0.05, "gain": -4}, {"name": "rubber_stamp", "at": "@license+0.4", "gain": -5}]})
+# 6: Beweis – der Verdacht gegen Bill Wegerle fällt
+B.append({"scene": "evidence_board", "clock": "MAR 2004", "clockRed": True, **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [540, 900],
+    "p": {"title": "WEGERLE · 1986",
+          "cards": [{"kind": "photo", "img": "person", "text": "VICKI WEGERLE", "x": 0.2, "y": 0.1, "at": 0.15, "rot": -0.05},
+                    {"kind": "note", "text": "BTK", "x": 0.74, "y": 0.12, "at": "@proves", "red": True, "s": 1.25, "rot": 0.05},
+                    {"text": "BILL WEGERLE\nSUSPECT", "x": 0.3, "y": 0.68, "at": "@after", "rot": -0.03},
+                    {"kind": "note", "text": "SUSPICION LIFTED", "x": 0.72, "y": 0.86, "at": "@lifts", "rot": 0.06}],
+          "strings": [{"from": 0, "to": 1, "at": "@killed"}],
+          "circle": {"i": 1, "at": "@her"}},
+    "lines": [L("It proves you killed her.", emph=["killed"], gap=0.3),
+              L("After almost eighteen years, the suspicion on her husband Bill finally lifts.", emph=["lifts"])], "post": 0.5,
+    "sfx": [{"name": "hit_deep", "at": "@her+0.3", "gain": -8}, {"name": "paper_rustle", "at": "@after", "gain": -8}]})
+# 7: Eitelkeit
+B.append({"scene": "sfx_text", "clock": "2004", **CAP, "trans": "glitch", "vignette": 0.9,
+    "p": {"lines": ["VANITY."], "times": ["@vanity"], "y": 760, "size": 230, "bg": "letter", "bgP": KILLMAN_DONE},
+    "lines": [L("Your vanity just revived your own case.", emph=["vanity"])], "pre": 0.1, "post": 0.45,
+    "punch": ["@vanity"], "shakeAt": [{"at": "@vanity", "d": 0.5, "a": 10}],
+    "glitch": [{"at": "@case+0.3", "d": 0.12}],
+    "sfx": [{"name": "whoosh_reverse", "at": 0.0, "gain": -9}, {"name": "stinger_reveal", "at": "@case+0.35", "gain": -8}]})
+# 8: Pakete fast jeden Monat (Karte, Monat für Monat)
+B.append({"scene": "city_map", "clock": "2004", **CAP, "trans": "cut", "zoom": [1.0, 1.05], "focus": [540, 900],
+    "p": {"title": "WICHITA", "sub": "PACKAGES · 2004", "pins": [
+        {"x": 0.28, "y": 0.22, "at": "@packages", "label": "MAY 2004"},
+        {"x": 0.55, "y": 0.45, "at": "@turn", "label": "JUN 2004"},
+        {"x": 0.38, "y": 0.62, "at": "@nearly", "label": "JUL 2004"},
+        {"x": 0.72, "y": 0.3, "at": "@every", "label": "OCT 2004"},
+        {"x": 0.62, "y": 0.8, "at": "@month", "label": "DEC 2004"}]},
+    "lines": [L("Now packages from you turn up nearly every month.", emph=["every", "month"])], "post": 0.7,
+    "sfx": [{"name": "typewriter_key", "at": "@packages+0.1", "gain": -6}, {"name": "typewriter_key", "at": "@turn+0.1", "gain": -6},
+            {"name": "typewriter_key", "at": "@nearly+0.1", "gain": -6}, {"name": "typewriter_key", "at": "@every+0.1", "gain": -6},
+            {"name": "typewriter_key", "at": "@month+0.1", "gain": -6}]})
+# 9: Müslischachtel in den Pick-up eines Fremden
+B.append({"scene": "parking_lot", "clock": "JAN 2005", **CAP, "trans": "cut", "zoom": [1.0, 1.05], "focus": [540, 1000],
+    "p": {"mode": "truck", "box": {"at": 0.7}},
+    "lines": [L("In January two thousand five, you leave a cereal box in a stranger's pickup truck.", emph=["cereal"])], "post": 0.5,
+    "sfx": [{"name": "footsteps_approach", "at": 0.7, "gain": -16, "dur": 2.4}, {"name": "paper_rustle", "at": "@pickup", "gain": -8}]})
+# 10: der Besitzer wirft sie weg
+B.append({"scene": "parking_lot", "clock": "JAN 2005", **CAP, "trans": "cut", "zoom": [1.04, 1.08], "focus": [420, 1050],
+    # Besitzer kommt beim Schnitt noch von rechts herein (sonst wirkt er wie BTK aus Beat 9); Wurf bei @away+1.3, Aufprall @away+2.0
+    "p": {"mode": "truck", "owner": {"at": "@throws-2.6"}, "stamp": False},
+    "lines": [L("The owner throws it away.", emph=["away"])], "pre": 0.1, "post": 1.8,
+    "sfx": [{"name": "whoosh", "at": "@away+1.3", "gain": -14}, {"name": "paper_rustle", "at": "@away+2.0", "gain": -5}]})
+# 11: Postkarte – hast du sie bekommen? (Handschrift verborgen)
+B.append({"scene": "letter", "clock": "JAN 2005", **CAP, "trans": "cut", "zoom": [1.0, 1.04], "focus": [540, 900],
+    "p": {"style": "hand", "paper": "white", "tilt": 0.035, "y": 885, "title": "POST CARD",
+          "lines": [{"text": X, "at": "@postcard", "dur": 0.7}, {"text": X[:20], "at": "@asking", "dur": 0.6}, {"text": X[:24], "at": "@anyone", "dur": 0.6}],
+          "redact": [{"line": i, "at": -9} for i in range(3)],
+          "stamp": {"text": "MAILED|JAN 2005", "at": "@it+0.25"}},
+    "lines": [L("So you mail a postcard asking whether anyone got it.", emph=["postcard"])], "post": 0.55,
+    "sfx": [{"name": "paper_rustle", "at": 0.0, "gain": -6}, {"name": "rubber_stamp", "at": "@it+0.25", "gain": -4}]})
+# 12: Polizei gräbt die Schachtel aus dem Müll
+B.append({"scene": "parking_lot", "clock": "JAN 2005", **CAP, "trans": "cut", "zoom": [1.0, 1.06], "focus": [540, 760],
+    "p": {"mode": "trash", "trash": {"at": "@police-0.7"}, "stamp": False},
+    "lines": [L("Police dig the box out of the trash.", emph=["trash"])], "pre": 0.3, "post": 0.6,
+    "sfx": [{"name": "police_radio", "at": 0.0, "gain": -12}, {"name": "paper_rustle", "at": "@box", "gain": -5},
+            {"name": "low_piano_hit", "at": "@trash+0.5", "gain": -9}]})
+# 13: eine Notiz in der Schachtel – Kamera fährt auf die Schachtel zu (Cold Open; pre 0.2, damit das "A" nicht im Einblenden verschwindet)
+B.append({"scene": "parking_lot", "clock": "JAN 2005", **CAP, "trans": "cut", "zoom": [1.05, 1.18], "focus": [540, 560], "pan": [0, 70, 0, 120],
+    "p": {"mode": "trash", "trash": {"at": -4.0}, "stamp": False},
+    "lines": [L("A note inside asks police one question.", emph=["one"])], "pre": 0.2, "post": 0.25,
+    "sfx": [{"name": "paper_rustle", "at": "@note", "gain": -7}, {"name": "heartbeat_single", "at": "@question+0.45", "gain": -6}]})
+# 14: die Frage selbst (Zitat-Stimme)
+B.append({"scene": "letter", "clock": "JAN 2005", "clockRed": True, **CAP, "trans": "glitch", "zoom": [1.0, 1.05], "focus": [540, 900],
+    "p": {"style": "typewriter", "paper": "old", "tilt": -0.018, "y": 885, "hl": ["Floppy", "honest"],
+          "lines": [{"text": "Can I communicate with Floppy and not be traced to a computer.", "at": "@can", "dur": 3.0, "size": 60},
+                    {"text": "Be honest.", "at": "@honest-0.25", "dur": 0.6, "red": True, "size": 104}]},  # "@be" träfe "not be traced"
+    "lines": [L("Can I communicate with Floppy and not be traced to a computer. Be honest.", voice="quote", emph=["Floppy", "honest"])],
+    "pre": 0.25, "post": 0.55,
+    "sfx": [{"name": "typewriter_burst", "at": "@can", "gain": -10}, {"name": "typewriter_burst", "at": "@can+1.6", "gain": -11},
+            {"name": "heartbeat_single", "at": "@honest+0.55", "gain": -4}],
+    # Wort-Schätzung setzt "Floppy" ~0,3 s zu spät (Stimme: Einsatz bei ~1,3 s) -> Effekte vorziehen
+    "glitch": [{"at": "@floppy-0.3", "d": 0.08}], "flash": [{"at": "@floppy-0.3", "d": 0.08, "c": "#8a3cff", "a": 0.35}]})
+# 15: Antwort per Kleinanzeige
+# Fokus nahe der Seitenoberkante: der CLASSIFIEDS-Kopf bleibt beim Zoom (inkl. Punch) die ganze Zeit unter dem HUD,
+# die leuchtende Anzeige wandert nach unten (Ende y≈1250, über der Untertitel-Box)
+B.append({"scene": "classified_ad", "clock": "JAN 2005", **CAP, "trans": "cut", "zoom": [1.04, 1.42], "focus": [465, 400],
+    "p": {"mode": "glow", "title": "CLASSIFIEDS", "y": 1000, "at": "@classified"},
+    "lines": [L("You tell them to answer in the newspaper's classified ads.", emph=["classified"], gap=0.3),
+              L("And the police write back.", emph=["back"])], "post": 0.8,
+    "punch": ["@back+0.45"], "glitch": [{"at": "@back+0.45", "d": 0.12}], "flash": [{"at": "@back+0.45", "d": 0.2, "c": "#ff2020", "a": 0.3}],
+    "sfx": [{"name": "paper_rustle", "at": 0.05, "gain": -7}, {"name": "sub_pulse", "at": "@classified", "gain": -9},
+            {"name": "hit_deep", "at": "@back+0.45", "gain": -5}]})
+# 16: Endkarte
+B.append({"scene": "end_card", "clock": "JAN 2005", **CAP, "trans": "cut",
+    "p": {"title": "YOU ARE BTK", "kicker": "PART 4 OF 5", "pill": "FOLLOW FOR THE FINAL PART", "sub": "WHAT WOULD YOU ANSWER?|TELL ME IN THE COMMENTS"},
+    "lines": [L("Follow for the final part.", emph=["final"])], "post": 0.9,
+    "sfx": [{"name": "whoosh_reverse", "at": 0.0, "gain": -9}]})
+
+story = base("YOU ARE BTK", 4, "WICHITA, KANSAS", "FOLLOW FOR THE FINAL PART", "PART 5")
+story["beats"] = B
+story["coldOpen"] = {"beat": 13, "words": "A note inside asks police one question.", "label": "LATER"}
+story["beds"] = [
+    {"name": "drone_bed", "from": 0, "to": 200, "gain": 1, "fade": 0.4},
+    {"name": "night_suburb_bed", "fromBeat": 0, "toBeat": 0, "gain": -1, "fade": 0.5},
+    {"name": "newsroom_bed", "fromBeat": 1, "toBeat": 2, "gain": -2, "fade": 0.5},
+    {"name": "dark_pad_tension", "fromBeat": 3, "toBeat": 3, "gain": -3, "fade": 0.6},
+    {"name": "newsroom_bed", "fromBeat": 4, "toBeat": 6, "gain": -3, "fade": 0.6},
+    {"name": "clock_tick_bed", "fromBeat": 7, "toBeat": 8, "gain": -4, "fade": 0.5},
+    {"name": "night_suburb_bed", "fromBeat": 9, "toBeat": 13, "gain": 0, "fade": 0.6},
+    {"name": "dark_pad_tension", "fromBeat": 9, "toBeat": 16, "gain": -3, "fade": 1.0},
+    {"name": "heartbeat_slow_muffled", "fromBeat": 13, "toBeat": 15, "gain": -6, "fade": 0.6}]
+save(story, sys.argv[1] + "/en/btk_part4.json")
+print("ok", len(B), "beats,", sum(len(l["text"].split()) for b in B for l in b["lines"]), "words")

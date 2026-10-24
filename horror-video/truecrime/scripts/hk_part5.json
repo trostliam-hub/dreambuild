@@ -1,0 +1,1054 @@
+{
+ "lang": "en",
+ "fluent": true,
+ "series": "NONE LEADING OUT · PART 5",
+ "place": "HINTERKAIFECK, BAVARIA",
+ "cerIgnoreNumbers": true,
+ "lead": 0.15,
+ "tail": 0.7,
+ "lineGap": 0.14,
+ "beatGap": 0.06,
+ "duckDb": 8,
+ "capMaxPx": 860,
+ "noEndFade": true,
+ "voices": {
+  "narrator": {
+   "engine": "supertonic",
+   "sid": 8,
+   "steps": 10,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.05
+  },
+  "quote": {
+   "engine": "supertonic",
+   "sid": 6,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  },
+  "quote_f": {
+   "engine": "supertonic",
+   "sid": 0,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  }
+ },
+ "ui": {
+  "kicker": "THE END",
+  "pill": "FOLLOW FOR THE NEXT TRUE STORY",
+  "end": "NONE LEADING OUT"
+ },
+ "beats": [
+  {
+   "scene": "demolition",
+   "clock": "FEB 1923",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "focus": [
+    880,
+    700
+   ],
+   "pre": 0.15,
+   "post": 0.2,
+   "p": {
+    "stage0": 0.22,
+    "stage1": 0.5,
+    "t0": 0,
+    "t1": 4.6,
+    "workers": 3,
+    "freeze": "@hidden",
+    "snow": true,
+    "label": {
+     "s": "YOU ARE HINTERKAIFECK",
+     "at": 0.2
+    }
+   },
+   "lines": [
+    {
+     "text": "Workers tearing you down find something hidden in your floor.",
+     "emph": [
+      "hidden",
+      "floor"
+     ]
+    }
+   ],
+   "punch": [
+    "@hidden"
+   ],
+   "flash": [
+    {
+     "at": "@hidden",
+     "d": 0.12,
+     "c": "#ffffff",
+     "a": 0.16
+    }
+   ],
+   "sfx": [
+    {
+     "name": "wood_creak_heavy",
+     "at": 0.0,
+     "gain": -7
+    },
+    {
+     "name": "wood_creak_heavy",
+     "at": "@down",
+     "gain": -10
+    },
+    {
+     "name": "heartbeat_single",
+     "at": "@floor+0.45",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "attic",
+   "clock": "FEB 1923",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.12
+   ],
+   "focus": [
+    700,
+    1040
+   ],
+   "pre": 0.1,
+   "post": 0.15,
+   "p": {
+    "lantern": {
+     "x": 700,
+     "y": 760,
+     "at": 0,
+     "swing": true
+    },
+    "creak": [
+     "@conclude",
+     "@weapon"
+    ],
+    "dark": 0.5,
+    "hatch": false
+   },
+   "pops": [
+    {
+     "text": "HIDDEN IN A FALSE FLOOR",
+     "at": 0.25,
+     "x": 540,
+     "y": 1330,
+     "size": 66,
+     "dur": 3.9,
+     "rot": -0.02
+    }
+   ],
+   "lines": [
+    {
+     "text": "Investigators conclude it is the weapon: the family's own mattock.",
+     "say": "Investigators conclude it is the weapon: the family's own Mattuk.",
+     "emph": [
+      "weapon",
+      "mattock"
+     ]
+    }
+   ],
+   "flash": [
+    {
+     "at": "@weapon",
+     "d": 0.1,
+     "c": "#ffffff",
+     "a": 0.14
+    }
+   ],
+   "sfx": [
+    {
+     "name": "lantern_squeak",
+     "at": 0.05,
+     "gain": -9
+    },
+    {
+     "name": "wood_creak_heavy",
+     "at": "@conclude-0.05",
+     "gain": -5
+    },
+    {
+     "name": "wood_creak_heavy",
+     "at": "@weapon",
+     "gain": -8
+    }
+   ]
+  },
+  {
+   "scene": "sfx_text",
+   "clock": "FEB 1923",
+   "clockRed": true,
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "pre": 0.3,
+   "post": 0.04,
+   "p": {
+    "lines": [
+     "IT WAS HERE",
+     "ALL ALONG"
+    ],
+    "times": [
+     "@it",
+     "@whole"
+    ],
+    "y": 760,
+    "size": 170,
+    "bg": "demolition",
+    "bgP": {
+     "stage": 0.8,
+     "workers": 2,
+     "tiles": false,
+     "snow": true
+    }
+   },
+   "lines": [
+    {
+     "text": "It was inside you the whole time,",
+     "emph": [
+      "inside"
+     ]
+    }
+   ],
+   "punch": [
+    "@whole"
+   ],
+   "shakeAt": [
+    {
+     "at": "@it",
+     "d": 0.4,
+     "a": 12
+    }
+   ],
+   "sfx": [
+    {
+     "name": "hit_deep",
+     "at": 0.02,
+     "gain": -10
+    }
+   ]
+  },
+  {
+   "scene": "demolition",
+   "clock": "FEB 1923",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "focus": [
+    600,
+    900
+   ],
+   "pre": 0.05,
+   "post": 1.6,
+   "p": {
+    "stage": 0.86,
+    "workers": 3,
+    "tiles": false,
+    "empty": "@gone"
+   },
+   "lines": [
+    {
+     "text": "and now you are gone.",
+     "emph": [
+      "gone"
+     ]
+    }
+   ],
+   "shakeAt": [
+    {
+     "at": "@gone+0.8",
+     "d": 0.5,
+     "a": 10
+    }
+   ],
+   "sfx": [
+    {
+     "name": "wood_creak_heavy",
+     "at": "@now",
+     "gain": -5
+    },
+    {
+     "name": "whoosh_dark",
+     "at": "@gone+0.35",
+     "gain": -8
+    },
+    {
+     "name": "hit_deep",
+     "at": "@gone+0.8",
+     "gain": -4
+    }
+   ]
+  },
+  {
+   "scene": "courtroom",
+   "clock": "1920s",
+   "place": "BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "pre": 0.1,
+   "post": 0.6,
+   "p": {
+    "defendant": {
+     "stand": "@sues"
+    },
+    "gavel": [
+     "@wins+0.4"
+    ],
+    "text": [
+     {
+      "s": "SLANDER",
+      "at": "@sues"
+     }
+    ],
+    "sentence": {
+     "text": "SCHLITTENBAUER WINS",
+     "at": "@for",
+     "sub": "SIGL FINED 40 MARKS",
+     "count": false
+    }
+   },
+   "punch": [
+    "@sigl"
+   ],
+   "lines": [
+    {
+     "text": "Later, Jakob Sigl, who helped find the family, calls Schlittenbauer ‘the murderer’.",
+     "say": "Later, Yahkob Zeegle, who helped find the family, calls Schlittenbauer the murderer.",
+     "gap": 0.28
+    },
+    {
+     "text": "Schlittenbauer sues him for slander, and wins.",
+     "emph": [
+      "slander",
+      "wins"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "paper_rustle",
+     "at": 0.1,
+     "gain": -9
+    },
+    {
+     "name": "gavel",
+     "at": "@wins+0.35",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "years_flip",
+   "clock": "1930",
+   "place": "BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "pre": 0.1,
+   "post": 0.2,
+   "p": {
+    "from": 1922,
+    "to": 1930,
+    "t0": 0.2,
+    "t1": "@failed-0.3",
+    "label": "100+ POLICE INQUIRIES",
+    "sub": "ALL WITHOUT RESULT"
+   },
+   "lines": [
+    {
+     "text": "By nineteen thirty,",
+     "gap": 0.1
+    },
+    {
+     "text": "over a hundred police inquiries have failed.",
+     "emph": [
+      "failed"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "typewriter_key",
+     "at": 0.25,
+     "gain": -12
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@failed+0.45",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "evidence_board",
+   "clock": "1941",
+   "place": "BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    880
+   ],
+   "pre": 0.1,
+   "post": 0.15,
+   "p": {
+    "title": "SCHLITTENBAUER",
+    "cards": [
+     {
+      "text": "SUSPECT\nNEVER CHARGED",
+      "x": 0.5,
+      "y": 0.1,
+      "at": 0.15,
+      "rot": -0.03
+     },
+     {
+      "kind": "note",
+      "text": "DIED 1941",
+      "x": 0.24,
+      "y": 0.52,
+      "at": "@dies",
+      "rot": 0.05
+     },
+     {
+      "text": "NOTHING PROVEN",
+      "x": 0.66,
+      "y": 0.8,
+      "at": "@nothing",
+      "rot": -0.04
+     }
+    ],
+    "strings": [],
+    "circle": {
+     "i": 2,
+     "at": "@proven"
+    }
+   },
+   "lines": [
+    {
+     "text": "Schlittenbauer dies in nineteen forty-one, and nothing is ever proven against him.",
+     "emph": [
+      "nothing",
+      "proven"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "paper_rustle",
+     "at": "@dies",
+     "gain": -6
+    },
+    {
+     "name": "paper_rustle",
+     "at": "@nothing",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "title_card",
+   "clock": "WARTIME",
+   "place": "BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    840
+   ],
+   "pre": 0.1,
+   "post": 0.3,
+   "p": {
+    "date": "MISSING",
+    "place": "THE SKULLS",
+    "sub": "Perhaps burned in a wartime air raid",
+    "bg": "black",
+    "red": [
+     "MISSING"
+    ],
+    "at": "@missing-0.15",
+    "size": 150,
+    "y": 820
+   },
+   "lines": [
+    {
+     "text": "The skulls, kept for examination, go missing, perhaps burned in a wartime air raid.",
+     "emph": [
+      "missing"
+     ]
+    }
+   ],
+   "flash": [
+    {
+     "at": "@raid+0.2",
+     "d": 0.45,
+     "c": "#ff7a2a",
+     "a": 0.16
+    },
+    {
+     "at": "@raid+0.75",
+     "d": 0.3,
+     "c": "#ff6a1a",
+     "a": 0.1
+    }
+   ],
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": "@missing-0.15",
+     "gain": -11,
+     "dur": 0.9
+    },
+    {
+     "name": "hit_deep",
+     "at": "@raid+0.45",
+     "gain": -13
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "1952",
+   "place": "BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    860
+   ],
+   "pre": 0.1,
+   "post": 0.3,
+   "p": {
+    "style": "typewriter",
+    "paper": "old",
+    "title": "DEATHBED ACCUSATION",
+    "y": 905,
+    "lines": [
+     {
+      "text": "Undated: a dying woman had accused her own brothers.",
+      "at": 0.25
+     },
+     {
+      "text": "Names: ________________",
+      "at": "@brothers",
+      "dur": 0.5
+     },
+     {
+      "text": "1952: one brother arrested.",
+      "at": "@nineteen"
+     }
+    ],
+    "redact": [
+     {
+      "line": 1,
+      "from": 7,
+      "at": "@brothers+0.55"
+     }
+    ],
+    "stamp": {
+     "text": "RELEASED|NO EVIDENCE",
+     "at": "@released+0.3",
+     "x": 120
+    }
+   },
+   "lines": [
+    {
+     "text": "A dying woman had accused her own brothers.",
+     "emph": [
+      "brothers"
+     ]
+    },
+    {
+     "text": "In nineteen fifty-two, one is arrested, then released for lack of evidence.",
+     "emph": [
+      "released"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": 0.25,
+     "gain": -11,
+     "dur": 1.4
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@nineteen",
+     "gain": -12,
+     "dur": 1.0
+    },
+    {
+     "name": "cell_door_slam",
+     "at": "@arrested+0.35",
+     "gain": -12
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@released+0.3",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "evidence_board",
+   "clock": "2007",
+   "place": "FÜRSTENFELDBRUCK, BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "pre": 0.1,
+   "post": 0.25,
+   "p": {
+    "title": "COLD CASE REVIEW · 2007",
+    "torch": false,
+    "cards": [
+     {
+      "text": "15 TRAINEE\nDETECTIVES",
+      "x": 0.26,
+      "y": 0.15,
+      "at": "@fifteen",
+      "rot": -0.04,
+      "s": 1.2
+     },
+     {
+      "text": "FINAL REPORT",
+      "x": 0.76,
+      "y": 0.22,
+      "at": "@file",
+      "rot": 0.04
+     },
+     {
+      "kind": "note",
+      "text": "THE CRIME CAN NO LONGER BE PROVEN",
+      "x": 0.5,
+      "y": 0.76,
+      "at": "@verdict",
+      "rot": -0.02,
+      "s": 1.25
+     }
+    ],
+    "strings": []
+   },
+   "lines": [
+    {
+     "text": "In two thousand seven, fifteen trainee detectives reopen the file."
+    },
+    {
+     "text": "Their verdict: the killer can almost certainly never be identified.",
+     "emph": [
+      "never"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "paper_rustle",
+     "at": "@fifteen",
+     "gain": -6
+    },
+    {
+     "name": "paper_rustle",
+     "at": "@file",
+     "gain": -7
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@verdict",
+     "gain": -12,
+     "dur": 1.0
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "2007",
+   "clockRed": true,
+   "place": "FÜRSTENFELDBRUCK, BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "pre": 0.15,
+   "post": 1.2,
+   "p": {
+    "style": "typewriter",
+    "paper": "white",
+    "title": "FINAL REPORT · 2007",
+    "y": 905,
+    "lines": [
+     {
+      "text": "Most likely perpetrator:",
+      "at": "@agree"
+     },
+     {
+      "text": "________________",
+      "at": "@who",
+      "dur": 0.6,
+      "size": 62
+     },
+     {
+      "text": "Out of respect for descendants.",
+      "at": "@never",
+      "dur": 0.8,
+      "size": 40
+     }
+    ],
+    "redact": [
+     {
+      "line": 1,
+      "from": 0,
+      "at": "@deliberately"
+     }
+    ],
+    "stamp": {
+     "text": "NEVER|PUBLISHED",
+     "at": "@public+0.3",
+     "x": 120
+    }
+   },
+   "lines": [
+    {
+     "text": "They agree on who most likely did it."
+    },
+    {
+     "text": "They deliberately never say the name in public.",
+     "emph": [
+      "never"
+     ]
+    }
+   ],
+   "punch": [
+    "@public+0.35"
+   ],
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": "@agree",
+     "gain": -11,
+     "dur": 1.2
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@public+0.3",
+     "gain": -4
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@never",
+     "gain": -16,
+     "dur": 0.8
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@public+0.6",
+     "gain": -16,
+     "dur": 0.8
+    }
+   ]
+  },
+  {
+   "scene": "footprints",
+   "clock": "MARCH 1922",
+   "place": "BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    1000
+   ],
+   "pre": 0.15,
+   "post": 0.45,
+   "p": {
+    "farm": false,
+    "t0": 0.15,
+    "t1": "@none-0.1",
+    "n": 8,
+    "ring": "@out"
+   },
+   "lines": [
+    {
+     "text": "Footprints led in, none led out.",
+     "emph": [
+      "none",
+      "out"
+     ],
+     "gap": 0.18,
+     "takes": [
+      6,
+      10
+     ]
+    },
+    {
+     "text": "Nobody knows whose they were."
+    }
+   ],
+   "sfx": [
+    {
+     "name": "footsteps_snow",
+     "at": 0.1,
+     "gain": -8,
+     "dur": 1.5
+    },
+    {
+     "name": "heartbeat_single",
+     "at": "@out+0.25",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "memorial",
+   "clock": "31 MAR 1922",
+   "place": "HINTERKAIFECK, BAVARIA",
+   "noHud": true,
+   "noCaptions": true,
+   "trans": "fade",
+   "zoom": [
+    1.0,
+    1.03
+   ],
+   "focus": [
+    540,
+    860
+   ],
+   "pan": [
+    0,
+    40,
+    0,
+    40
+   ],
+   "pre": 0.3,
+   "post": 1.8,
+   "p": {
+    "title": "NIGHT OF 31 MARCH 1922",
+    "names": [
+     {
+      "name": "Andreas Gruber, 63",
+      "sub": ""
+     },
+     {
+      "name": "Cäzilia Gruber, 72",
+      "sub": ""
+     },
+     {
+      "name": "Viktoria Gabriel, 35",
+      "sub": ""
+     },
+     {
+      "name": "Cäzilia Gabriel, 7",
+      "sub": ""
+     },
+     {
+      "name": "Josef, 2",
+      "sub": ""
+     },
+     {
+      "name": "Maria Baumgartner",
+      "sub": "the new maid"
+     }
+    ],
+    "at": 1.08,
+    "gap": 1.56
+   },
+   "lines": [
+    {
+     "text": "Remember them: Andreas and Cäzilia Gruber, and their daughter, Viktoria Gabriel.",
+     "say": "Remember them: Andreas and Tsetseelia Gruber, and their daughter, Viktoria Gabriel.",
+     "speed": 0.98,
+     "gap": 0.3
+    },
+    {
+     "text": "Her children, Cäzilia and Josef, and Maria Baumgartner, who had arrived that very day.",
+     "say": "Her children, Tsetseelia and Yosef, and Maria Bowmgartner, who had arrived that very day.",
+     "speed": 0.98
+    }
+   ],
+   "sfx": [
+    {
+     "name": "church_bell_distant",
+     "at": 0.1,
+     "gain": -14
+    }
+   ]
+  },
+  {
+   "scene": "end_card",
+   "clock": "TODAY",
+   "place": "BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "fade",
+   "zoom": [
+    1.0,
+    1.0
+   ],
+   "pre": 0.25,
+   "post": 0.1,
+   "p": {
+    "title": "NONE LEADING OUT",
+    "kicker": "THE END",
+    "pill": "FOLLOW FOR THE NEXT STORY",
+    "sub": "SIX NAMES|REMEMBER THEM"
+   },
+   "lines": [
+    {
+     "text": "Follow for the next true story."
+    }
+   ]
+  }
+ ],
+ "coldOpen": {
+  "beat": 10,
+  "words": "They deliberately never say the name in public",
+  "label": "LATER",
+  "lead": 0.3,
+  "hold": 0.4
+ },
+ "beds": [
+  {
+   "name": "drone_bed",
+   "fromBeat": 0,
+   "toBeat": 11,
+   "gain": 0,
+   "fade": 0.4
+  },
+  {
+   "name": "drone_bed",
+   "fromBeat": 12,
+   "toBeat": 13,
+   "gain": -5,
+   "fade": 1.2
+  },
+  {
+   "name": "wind_snow_bed",
+   "fromBeat": 0,
+   "toBeat": 0,
+   "gain": -1,
+   "fade": 0.4
+  },
+  {
+   "name": "wind_snow_bed",
+   "fromBeat": 2,
+   "toBeat": 3,
+   "gain": 0,
+   "fade": 0.4
+  },
+  {
+   "name": "farm_night_bed",
+   "fromBeat": 1,
+   "toBeat": 1,
+   "gain": -2,
+   "fade": 0.3
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 0,
+   "toBeat": 3,
+   "gain": -5,
+   "fade": 0.8
+  },
+  {
+   "name": "heartbeat_slow_muffled",
+   "fromBeat": 1,
+   "toBeat": 2,
+   "gain": -9,
+   "fade": 0.6
+  },
+  {
+   "name": "courtroom_room_tone",
+   "fromBeat": 4,
+   "toBeat": 4,
+   "gain": -1,
+   "fade": 0.5
+  },
+  {
+   "name": "clock_tick_bed",
+   "fromBeat": 5,
+   "toBeat": 9,
+   "gain": -9,
+   "fade": 0.6
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 9,
+   "toBeat": 10,
+   "gain": -6,
+   "fade": 0.8
+  },
+  {
+   "name": "wind_snow_bed",
+   "fromBeat": 11,
+   "toBeat": 11,
+   "gain": -1,
+   "fade": 0.6
+  },
+  {
+   "name": "wind_snow_bed",
+   "fromBeat": 12,
+   "toBeat": 12,
+   "gain": -9,
+   "fade": 1.2
+  }
+ ]
+}

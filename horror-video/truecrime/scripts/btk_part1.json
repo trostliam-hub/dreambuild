@@ -1,0 +1,1328 @@
+{
+ "lang": "en",
+ "fluent": true,
+ "series": "YOU ARE BTK · PART 1",
+ "place": "WICHITA, KANSAS",
+ "cerIgnoreNumbers": true,
+ "lead": 0.05,
+ "tail": 1.3,
+ "lineGap": 0.14,
+ "beatGap": 0.06,
+ "duckDb": 8,
+ "capMaxPx": 860,
+ "noEndFade": true,
+ "voices": {
+  "narrator": {
+   "engine": "supertonic",
+   "sid": 8,
+   "steps": 10,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.05
+  },
+  "quote": {
+   "engine": "supertonic",
+   "sid": 6,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  },
+  "quote_f": {
+   "engine": "supertonic",
+   "sid": 0,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  }
+ },
+ "ui": {
+  "kicker": "PART 2",
+  "pill": "FOLLOW FOR PART 2",
+  "end": "YOU ARE BTK"
+ },
+ "beats": [
+  {
+   "scene": "title_card",
+   "clock": "1974",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    800
+   ],
+   "p": {
+    "date": "A TRUE STORY.",
+    "place": "WICHITA, KANSAS",
+    "red": [],
+    "at": 0.0,
+    "bg": "black",
+    "y": 560
+   },
+   "lines": [
+    {
+     "text": "This is a true story.",
+     "emph": [
+      "true"
+     ],
+     "gap": 0.05
+    }
+   ],
+   "post": 0.0,
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": 0.0,
+     "gain": -7
+    }
+   ]
+  },
+  {
+   "scene": "sfx_text",
+   "clock": "1974",
+   "captionY": 1500,
+   "capBox": true,
+   "noCaptions": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    880
+   ],
+   "vignette": 0.95,
+   "p": {
+    "lines": [
+     "YOU ARE",
+     "THE KILLER."
+    ],
+    "times": [
+     "@you",
+     "@killer"
+    ],
+    "y": 880,
+    "size": 170,
+    "bg": "title_card",
+    "bgP": {
+     "date": "A TRUE STORY.",
+     "place": "WICHITA, KANSAS",
+     "red": [],
+     "at": -5,
+     "bg": "black",
+     "y": 560,
+     "speed": 200
+    }
+   },
+   "lines": [
+    {
+     "text": "And in it, you are the killer.",
+     "emph": [
+      "killer"
+     ]
+    }
+   ],
+   "post": 0.55,
+   "punch": [
+    "@killer"
+   ],
+   "shakeAt": [
+    {
+     "at": "@killer",
+     "d": 0.4,
+     "a": 14
+    }
+   ],
+   "glitch": [
+    {
+     "at": "@killer",
+     "d": 0.1
+    }
+   ],
+   "flash": [
+    {
+     "at": "@killer",
+     "d": 0.12,
+     "c": "#ff2020",
+     "a": 0.35
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sub_pulse",
+     "at": "@you",
+     "gain": -8
+    },
+    {
+     "name": "hit_deep",
+     "at": "@killer+0.42",
+     "gain": -4
+    }
+   ]
+  },
+  {
+   "scene": "id_badge",
+   "clock": "1974",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    850
+   ],
+   "p": {
+    "kind": "card",
+    "org": "WICHITA, KANSAS · 1974",
+    "name": "██████ █████",
+    "title": "COLLEGE STUDENT",
+    "idno": " ",
+    "at": 0.0,
+    "stamp": {
+     "text": "AIR FORCE|VETERAN",
+     "at": "@air",
+     "x": 195,
+     "y": 118
+    }
+   },
+   "pops": [
+    {
+     "text": "AGE 28",
+     "at": "@twentyeight",
+     "x": 540,
+     "y": 470,
+     "size": 96,
+     "dur": 30,
+     "rot": -0.04
+    },
+    {
+     "text": "MARRIED",
+     "at": "@married",
+     "x": 330,
+     "y": 1250,
+     "size": 84,
+     "dur": 30,
+     "rot": 0.03
+    },
+    {
+     "text": "STUDENT",
+     "at": "@college",
+     "x": 760,
+     "y": 1250,
+     "size": 84,
+     "dur": 30,
+     "rot": -0.03
+    }
+   ],
+   "lines": [
+    {
+     "text": "You are twenty-eight, married,",
+     "emph": [
+      "twenty-eight"
+     ],
+     "gap": 0.22
+    },
+    {
+     "text": "an Air Force veteran, and a college student."
+    }
+   ],
+   "pre": 0.25,
+   "post": 0.35,
+   "sfx": [
+    {
+     "name": "whoosh_dark",
+     "at": 0.0,
+     "gain": -10
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@air",
+     "gain": -10
+    }
+   ]
+  },
+  {
+   "scene": "double_life",
+   "clock": "LATER",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "p": {
+    "left": "family",
+    "right": "shadow",
+    "split": "@later",
+    "swap": "@president+0.45",
+    "labels": {
+     "l": "FATHER OF TWO. CHURCH COUNCIL PRESIDENT.",
+     "r": "THE KILLER",
+     "at": "@father"
+    }
+   },
+   "lines": [
+    {
+     "text": "Later, you'll be a father of two and a church council president.",
+     "emph": [
+      "father",
+      "president"
+     ]
+    }
+   ],
+   "post": 1.0,
+   "glitch": [
+    {
+     "at": "@president+0.45",
+     "d": 0.14
+    }
+   ],
+   "sfx": [
+    {
+     "name": "whoosh_dark",
+     "at": "@later",
+     "gain": -9
+    },
+    {
+     "name": "tv_static_burst",
+     "at": "@president+0.45",
+     "gain": -12
+    },
+    {
+     "name": "sub_pulse",
+     "at": "@president+0.5",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "years_flip",
+   "clock": "1974",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "p": {
+    "from": 1974,
+    "to": 2005,
+    "t0": "@kill",
+    "t1": "@years+0.15",
+    "label": "HIDDEN FOR 31 YEARS"
+   },
+   "lines": [
+    {
+     "text": "You will kill ten people, and hide it for thirty-one years.",
+     "emph": [
+      "ten",
+      "thirty-one"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "sfx": [
+    {
+     "name": "clock_tick_bed",
+     "at": "@kill",
+     "gain": -9,
+     "dur": 2.6
+    },
+    {
+     "name": "hit_deep",
+     "at": "@years+0.4",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "house_ext",
+   "clock": "JAN 1974",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.02
+   ],
+   "focus": [
+    560,
+    1000
+   ],
+   "p": {
+    "style": "ranch",
+    "tree": true,
+    "lamp": true,
+    "dolly": [
+     0,
+     6,
+     1.1
+    ],
+    "windows": [
+     {
+      "i": 2,
+      "dim": 0.75
+     }
+    ],
+    "figure": {
+     "at": 0.15,
+     "x": 0.95,
+     "y": 0.6,
+     "h": 0.105,
+     "move": [
+      0.15,
+      "@wichita+0.2",
+      0.06
+     ],
+     "until": "@wichita+0.1",
+     "fade": 0.5
+    }
+   },
+   "pops": [
+    {
+     "text": "JANUARY 15, 1974",
+     "at": "@january",
+     "x": 540,
+     "y": 470,
+     "size": 92,
+     "dur": 30,
+     "rot": -0.03
+    }
+   ],
+   "lines": [
+    {
+     "text": "On January fifteenth, nineteen seventy-four, you walk into a family's home in Wichita.",
+     "emph": [
+      "walk"
+     ]
+    }
+   ],
+   "post": 0.5,
+   "sfx": [
+    {
+     "name": "typewriter_key",
+     "at": "@january",
+     "gain": -6
+    },
+    {
+     "name": "footsteps_approach",
+     "at": "@you",
+     "gain": -15,
+     "dur": 2.6
+    }
+   ]
+  },
+  {
+   "scene": "memorial",
+   "clock": "JAN 1974",
+   "captionY": 1500,
+   "capBox": true,
+   "noHud": true,
+   "trans": "fade",
+   "zoom": [
+    1.0,
+    1.03
+   ],
+   "focus": [
+    540,
+    860
+   ],
+   "p": {
+    "title": "",
+    "names": [
+     {
+      "name": "Joseph Otero",
+      "sub": "AGE 38"
+     },
+     {
+      "name": "Julie Otero",
+      "sub": "AGE 34"
+     },
+     {
+      "name": "Josephine Otero",
+      "sub": "AGE 11"
+     },
+     {
+      "name": "Joseph Otero II",
+      "sub": "AGE 9"
+     }
+    ],
+    "at": 0.05,
+    "gap": 1.5
+   },
+   "lines": [
+    {
+     "text": "Joseph and Julie Otero are home with their two youngest, Josephine, eleven, and Joseph, nine.",
+     "say": "Joseph and Julie Oh-tair-oh are home with their two youngest, Josephine, eleven, and Joseph, nine."
+    }
+   ],
+   "post": 0.45
+  },
+  {
+   "scene": "house_ext",
+   "clock": "JAN 1974",
+   "clockRed": true,
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    560,
+    980
+   ],
+   "vignette": 0.9,
+   "p": {
+    "style": "ranch",
+    "tree": true,
+    "lamp": true,
+    "windows": [
+     {
+      "i": 0,
+      "off": "@people"
+     },
+     {
+      "i": 1,
+      "off": "@inside"
+     },
+     {
+      "i": 2,
+      "off": "@walk"
+     }
+    ],
+    "porchOff": "@again+0.35"
+   },
+   "lines": [
+    {
+     "text": "Four people inside never walk out again.",
+     "emph": [
+      "never"
+     ]
+    }
+   ],
+   "post": 1.1,
+   "sfx": [
+    {
+     "name": "light_click",
+     "at": "@people",
+     "gain": -9
+    },
+    {
+     "name": "light_click",
+     "at": "@inside",
+     "gain": -9
+    },
+    {
+     "name": "light_click",
+     "at": "@walk",
+     "gain": -9
+    },
+    {
+     "name": "light_click",
+     "at": "@again+0.35",
+     "gain": -7
+    }
+   ]
+  },
+  {
+   "scene": "title_card",
+   "clock": "JAN 1974",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "p": {
+    "date": "THAT AFTERNOON.",
+    "place": "THE OTERO HOME",
+    "red": [],
+    "bg": "black",
+    "at": 0.0
+   },
+   "lines": [
+    {
+     "text": "That afternoon, their three oldest come home from school and find their parents.",
+     "emph": [
+      "find"
+     ]
+    }
+   ],
+   "post": 0.25,
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": 0.0,
+     "gain": -12,
+     "dur": 1.1
+    },
+    {
+     "name": "footsteps_approach",
+     "at": 0.6,
+     "gain": -15,
+     "dur": 2.6
+    },
+    {
+     "name": "door_handle",
+     "fromEnd": 0.35,
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "JAN 1974",
+   "clockRed": true,
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.3
+   ],
+   "focus": [
+    540,
+    1080
+   ],
+   "vignette": 0.95,
+   "p": {
+    "style": "typewriter",
+    "paper": "old",
+    "title": "CASE FILE · HOMICIDE",
+    "tilt": -0.015,
+    "y": 960,
+    "lines": [
+     {
+      "text": "DATE:     JANUARY 15, 1974",
+      "at": 0.0,
+      "dur": 0.3,
+      "size": 38
+     },
+     {
+      "text": "PLACE:    WICHITA, KANSAS",
+      "at": 0.15,
+      "dur": 0.3,
+      "size": 38
+     },
+     {
+      "text": "VICTIMS:  OTERO FAMILY",
+      "at": 0.3,
+      "dur": 0.35,
+      "size": 38
+     },
+     {
+      "text": "SUSPECT:  UNKNOWN",
+      "at": "@nobody",
+      "dur": 0.55,
+      "size": 38
+     }
+    ],
+    "hl": [
+     "UNKNOWN"
+    ],
+    "stamp": {
+     "text": "MURDERER",
+     "at": "@murderer+0.42",
+     "x": 0,
+     "y": 120,
+     "rot": -0.09,
+     "w": 760
+    }
+   },
+   "lines": [
+    {
+     "text": "Now you are officially a murderer.",
+     "emph": [
+      "murderer"
+     ],
+     "gap": 0.55
+    },
+    {
+     "text": "And nobody in Wichita knows your face.",
+     "emph": [
+      "nobody"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "punch": [
+    "@murderer+0.42"
+   ],
+   "shakeAt": [
+    {
+     "at": "@murderer+0.42",
+     "d": 0.35,
+     "a": 12
+    }
+   ],
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": 0.0,
+     "gain": -11
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@murderer+0.42",
+     "gain": -3
+    },
+    {
+     "name": "hit_deep",
+     "at": "@murderer+0.44",
+     "gain": -7
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@nobody",
+     "gain": -13
+    }
+   ]
+  },
+  {
+   "scene": "house_ext",
+   "clock": "APR 1974",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    560,
+    980
+   ],
+   "p": {
+    "style": "suburb",
+    "tree": true,
+    "lamp": true,
+    "windows": [
+     {
+      "i": 3,
+      "off": "@later"
+     }
+    ],
+    "porch": true
+   },
+   "pops": [
+    {
+     "text": "APRIL 4, 1974",
+     "at": "@april",
+     "x": 500,
+     "y": 410,
+     "size": 84,
+     "dur": 30,
+     "rot": -0.03
+    },
+    {
+     "text": "KATHRYN BRIGHT, 21",
+     "at": "@kathryn",
+     "x": 490,
+     "y": 505,
+     "size": 70,
+     "dur": 30,
+     "rot": 0
+    }
+   ],
+   "lines": [
+    {
+     "text": "In April, you attack Kathryn Bright, twenty-one.",
+     "emph": [
+      "kathryn"
+     ]
+    },
+    {
+     "text": "She dies hours later.",
+     "emph": [
+      "dies"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "sfx": [
+    {
+     "name": "typewriter_key",
+     "at": "@april",
+     "gain": -6
+    },
+    {
+     "name": "heartbeat_single",
+     "at": "@later+0.8",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "house_ext",
+   "clock": "APR 1974",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    560,
+    980
+   ],
+   "p": {
+    "style": "suburb",
+    "tree": true,
+    "lamp": true,
+    "windows": [],
+    "porch": true,
+    "door": {
+     "open": "@escapes-0.45",
+     "dur": 0.4,
+     "light": "warm"
+    },
+    "figure": {
+     "at": "@escapes-0.1",
+     "x": 0.56,
+     "y": 0.62,
+     "h": 0.112,
+     "move": [
+      "@someone-0.25",
+      "@you+0.35",
+      1.25
+     ],
+     "fade": 0.1,
+     "coat": "none"
+    }
+   },
+   "pops": [
+    {
+     "text": "KEVIN BRIGHT",
+     "at": "@someone-0.1",
+     "x": 540,
+     "y": 450,
+     "size": 88,
+     "dur": 30,
+     "rot": -0.03
+    },
+    {
+     "text": "SURVIVED",
+     "at": "@survived",
+     "x": 540,
+     "y": 570,
+     "size": 120,
+     "dur": 30,
+     "rot": 0.02
+    }
+   ],
+   "lines": [
+    {
+     "text": "Her brother Kevin is badly hurt, but he escapes alive.",
+     "emph": [
+      "escapes",
+      "alive"
+     ],
+     "gap": 0.4
+    },
+    {
+     "text": "Someone has survived you.",
+     "emph": [
+      "survived"
+     ]
+    }
+   ],
+   "post": 0.7,
+   "punch": [
+    "@survived"
+   ],
+   "flash": [
+    {
+     "at": "@survived",
+     "d": 0.1,
+     "c": "#ffffff",
+     "a": 0.25
+    }
+   ],
+   "sfx": [
+    {
+     "name": "door_handle",
+     "at": "@escapes-0.5",
+     "gain": -7
+    },
+    {
+     "name": "footsteps_approach",
+     "at": "@someone-0.25",
+     "gain": -10,
+     "dur": 1.6
+    },
+    {
+     "name": "stinger_reveal",
+     "at": "@you+0.35",
+     "gain": -8
+    }
+   ]
+  },
+  {
+   "scene": "evidence_board",
+   "clock": "OCT 1974",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "p": {
+    "title": "THE OTERO CASE",
+    "at": 0.0,
+    "cards": [
+     {
+      "text": "OTERO\nJAN 15, 1974",
+      "x": 0.38,
+      "y": 0.0,
+      "at": 0.15,
+      "rot": -0.03
+     },
+     {
+      "text": "BRIGHT\nAPR 4, 1974",
+      "x": 0.87,
+      "y": 0.04,
+      "at": 0.4,
+      "rot": 0.09,
+      "s": 0.8
+     },
+     {
+      "kind": "photo",
+      "img": "person",
+      "text": "IN CUSTODY",
+      "x": 0.1,
+      "y": 0.5,
+      "at": "@three",
+      "rot": -0.05
+     },
+     {
+      "kind": "photo",
+      "img": "person",
+      "text": "IN CUSTODY",
+      "x": 0.5,
+      "y": 0.52,
+      "at": "@men",
+      "rot": 0.03
+     },
+     {
+      "kind": "photo",
+      "img": "person",
+      "text": "IN CUSTODY",
+      "x": 0.9,
+      "y": 0.5,
+      "at": "@custody",
+      "rot": -0.02
+     },
+     {
+      "kind": "note",
+      "text": "THEY KNOW\nNOTHING",
+      "x": 0.5,
+      "y": 0.97,
+      "at": "@nothing",
+      "red": true,
+      "rot": -0.04
+     }
+    ],
+    "strings": [
+     {
+      "from": 2,
+      "to": 0,
+      "at": "@talk"
+     },
+     {
+      "from": 3,
+      "to": 0,
+      "at": "@about"
+     },
+     {
+      "from": 4,
+      "to": 0,
+      "at": "@oteros"
+     }
+    ],
+    "circle": {
+     "i": 5,
+     "at": "@nothing+0.45"
+    }
+   },
+   "lines": [
+    {
+     "text": "That fall, three men in police custody talk about the Oteros.",
+     "say": "That fall, three men in police custody talk about the Oh-tair-ohs."
+    },
+    {
+     "text": "So you write a letter saying they know nothing.",
+     "emph": [
+      "letter",
+      "nothing"
+     ]
+    }
+   ],
+   "post": 0.5,
+   "sfx": [
+    {
+     "name": "paper_rustle",
+     "at": "@three",
+     "gain": -8
+    },
+    {
+     "name": "paper_rustle",
+     "at": "@custody",
+     "gain": -8
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@write",
+     "gain": -11
+    },
+    {
+     "name": "low_piano_hit",
+     "at": "@nothing+0.45",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "OCT 1974",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    950
+   ],
+   "p": {
+    "style": "typewriter",
+    "paper": "white",
+    "tilt": -0.025,
+    "y": 900,
+    "lines": [
+     {
+      "text": "xxxxxxx xxxx xxxxxx xx xxx xxxx xxxxx",
+      "at": 0.05,
+      "dur": 0.55
+     },
+     {
+      "text": "xxxxx xxxx xxxxxxx xx xxxx xxx",
+      "at": 0.45,
+      "dur": 0.5
+     },
+     {
+      "text": "OTERO",
+      "at": "@murders",
+      "dur": 0.45,
+      "red": true,
+      "size": 96
+     },
+     {
+      "text": "xxxx xxxxxxx xxxxx xxxxxxx xx",
+      "at": "@yours+0.25",
+      "dur": 0.5
+     },
+     {
+      "text": "xxxxxx xx xxx xxxx",
+      "at": "@end",
+      "dur": 0.4
+     }
+    ],
+    "redact": [
+     {
+      "line": 0,
+      "from": 0,
+      "at": -9
+     },
+     {
+      "line": 1,
+      "from": 0,
+      "at": -9
+     },
+     {
+      "line": 3,
+      "from": 0,
+      "at": -9
+     },
+     {
+      "line": 4,
+      "from": 0,
+      "at": -9
+     }
+    ],
+    "hl": [
+     "OTERO"
+    ],
+    "signature": {
+     "text": "B.T.K.",
+     "at": "@name",
+     "style": "type",
+     "red": true
+    }
+   },
+   "lines": [
+    {
+     "text": "You claim the murders as yours.",
+     "emph": [
+      "murders"
+     ]
+    },
+    {
+     "text": "And at the end, you give yourself a name.",
+     "emph": [
+      "name"
+     ]
+    }
+   ],
+   "post": 0.55,
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": 0.05,
+     "gain": -10
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@murders",
+     "gain": -10
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@end",
+     "gain": -12
+    }
+   ]
+  },
+  {
+   "scene": "sfx_text",
+   "clock": "OCT 1974",
+   "noCaptions": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "vignette": 0.95,
+   "p": {
+    "lines": [
+     "B.",
+     "T.",
+     "K."
+    ],
+    "times": [
+     "@b",
+     "@t",
+     "@k"
+    ],
+    "xs": [
+     330,
+     540,
+     750
+    ],
+    "y": 640,
+    "size": 230
+   },
+   "lines": [
+    {
+     "text": "B.",
+     "say": "Bee.",
+     "gap": 0.32
+    },
+    {
+     "text": "T.",
+     "say": "Tee.",
+     "gap": 0.32
+    },
+    {
+     "text": "K.",
+     "say": "Kay."
+    }
+   ],
+   "pre": 0.15,
+   "post": 0.9,
+   "punch": [
+    "@b",
+    "@t",
+    "@k"
+   ],
+   "shakeAt": [
+    {
+     "at": "@k",
+     "d": 0.35,
+     "a": 12
+    }
+   ],
+   "flash": [
+    {
+     "at": "@b",
+     "d": 0.1,
+     "c": "#ff2020",
+     "a": 0.3
+    },
+    {
+     "at": "@t",
+     "d": 0.1,
+     "c": "#ff2020",
+     "a": 0.3
+    },
+    {
+     "at": "@k",
+     "d": 0.12,
+     "c": "#ff2020",
+     "a": 0.28
+    }
+   ],
+   "sfx": [
+    {
+     "name": "typewriter_key",
+     "at": "@b",
+     "gain": -3
+    },
+    {
+     "name": "typewriter_key",
+     "at": "@t",
+     "gain": -3
+    },
+    {
+     "name": "typewriter_key",
+     "at": "@k",
+     "gain": -2
+    },
+    {
+     "name": "hit_deep",
+     "at": "@k+0.45",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "end_card",
+   "clock": "OCT 1974",
+   "captionY": 1500,
+   "capBox": true,
+   "noCaptions": false,
+   "trans": "cut",
+   "p": {
+    "title": "YOU ARE BTK",
+    "kicker": "PART 1 OF 5",
+    "pill": "FOLLOW FOR PART 2",
+    "sub": "WOULD ANYONE SUSPECT YOU?|TELL ME IN THE COMMENTS"
+   },
+   "lines": [
+    {
+     "text": "Follow for part two.",
+     "emph": [
+      "two"
+     ]
+    }
+   ],
+   "post": 0.9,
+   "sfx": [
+    {
+     "name": "whoosh_reverse",
+     "at": 0.0,
+     "gain": -9
+    }
+   ]
+  }
+ ],
+ "coldOpen": {
+  "beat": 11,
+  "words": "Someone has survived you.",
+  "label": "LATER",
+  "lead": 0.05,
+  "hold": 0.75
+ },
+ "beds": [
+  {
+   "name": "drone_bed",
+   "from": 0,
+   "to": 200,
+   "gain": 1,
+   "fade": 0.4
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 1,
+   "toBeat": 4,
+   "gain": -4,
+   "fade": 0.8
+  },
+  {
+   "name": "night_suburb_bed",
+   "fromBeat": 5,
+   "toBeat": 7,
+   "gain": 0,
+   "fade": 0.6
+  },
+  {
+   "name": "heartbeat_slow_muffled",
+   "fromBeat": 7,
+   "toBeat": 9,
+   "gain": -6,
+   "fade": 0.6
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 9,
+   "toBeat": 11,
+   "gain": -3,
+   "fade": 0.8
+  },
+  {
+   "name": "night_suburb_bed",
+   "fromBeat": 10,
+   "toBeat": 11,
+   "gain": -1,
+   "fade": 0.6
+  },
+  {
+   "name": "clock_tick_bed",
+   "fromBeat": 12,
+   "toBeat": 13,
+   "gain": -5,
+   "fade": 0.6
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 12,
+   "toBeat": 15,
+   "gain": -3,
+   "fade": 1.0
+  }
+ ]
+}

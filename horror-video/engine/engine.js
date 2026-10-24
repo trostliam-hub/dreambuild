@@ -1049,9 +1049,10 @@ window.renderFrame = (fi) => {
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; noGlow(ctx);
     ctx.strokeStyle = 'rgba(255,40,40,.75)'; ctx.lineWidth = 10; ctx.strokeRect(5, 5, W - 10, H - 10);
     if (co.label) { ctx.font = '700 30px SMono'; ctx.letterSpacing = '4px'; const tw = ctx.measureText(co.label).width; ctx.letterSpacing = '0px';
-      rr(ctx, 1040 - tw - 64, 96, tw + 64, 54, 12); ctx.fillStyle = 'rgba(208,20,28,.92)'; ctx.fill();
-      ctx.fillStyle = (T % 1) < .6 ? '#fff' : 'rgba(255,255,255,.3)'; ctx.beginPath(); ctx.arc(1040 - tw - 38, 123, 8, 0, 7); ctx.fill();
-      txt(ctx, co.label, 1040 - 18, 134, '700 30px SMono', '#fff', 'right', 'alphabetic', 4); }
+      // links unter dem HUD (oben rechts liegt in TikTok die Suche)
+      const lx = 52, ly = 334; rr(ctx, lx, ly, tw + 64, 54, 12); ctx.fillStyle = 'rgba(208,20,28,.92)'; ctx.fill();
+      ctx.fillStyle = (T % 1) < .6 ? '#fff' : 'rgba(255,255,255,.3)'; ctx.beginPath(); ctx.arc(lx + 26, ly + 27, 8, 0, 7); ctx.fill();
+      txt(ctx, co.label, lx + 46, ly + 38, '700 30px SMono', '#fff', 'left', 'alphabetic', 4); }
     if (T > co.dur - .16) glitch(ctx, T, 1, Math.floor(T * 30) + 7);
     return true;
   }
@@ -1097,10 +1098,13 @@ function drawAt(t, isCold) {
   }
   // Rote Atmung
   if (b.redPulse) { ctx.fillStyle = `rgba(255,0,0,${.06 + .06 * Math.sin(t * 6)})`; ctx.fillRect(0, 0, W, H); }
-  ctx.save(); ctx.translate(230, 170); ctx.scale(1.7, 1); { const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 300); g.addColorStop(0, 'rgba(0,0,0,.72)'); g.addColorStop(.6, 'rgba(0,0,0,.5)'); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(-300, -300, 600, 600); } ctx.restore();
-  hud(ctx, t, b);
+  if (!b.noHud) { // noHud: kein HUD (z. B. Gedenk-Namen); Versatz wie hud(), damit Pops/Untertitel gleich liegen
+    ctx.save(); ctx.translate(230, 170); ctx.scale(1.7, 1); { const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 300); g.addColorStop(0, 'rgba(0,0,0,.72)'); g.addColorStop(.6, 'rgba(0,0,0,.5)'); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(-300, -300, 600, 600); } ctx.restore();
+    hud(ctx, t, b);
+  } else ctx.translate(0, 60);
   for (const f of POST_HOOKS) { ctx.save(); f(ctx, t, b, lt); ctx.restore(); }
   if (!b.noCaptions) captions(ctx, t, b);
+  ctx.setTransform(1, 0, 0, 1, 0, 0); // hud() verschiebt um 60 px; Körnung, Glitch und Blenden wieder bildfüllend
   // Körnung
   ctx.save(); ctx.globalAlpha = .07; ctx.globalCompositeOperation = 'overlay';
   ctx.drawImage(grain[Math.floor(t * 24) % 6], 0, 0, W, H); ctx.restore();
@@ -1118,4 +1122,5 @@ function drawAt(t, isCold) {
   if (TD && !TL.noEndFade && t > TD - .6) { ctx.fillStyle = `rgba(0,0,0,${clamp((t - (TD - .6)) / .6)})`; ctx.fillRect(0, 0, W, H); }
   return true;
 }
-window.enginePromise = document.fonts.ready.then(() => Promise.all(['Anton', 'Bebas', 'Mont', 'Oswald', 'SMono', 'Caveat', 'RockSalt', 'Marker'].map(f => document.fonts.load(`400 40px ${f}`)))).then(() => document.fonts.load('700 40px Caveat')).then(() => document.fonts.load('900 40px Mont')).then(() => document.fonts.load('700 40px SMono'));
+window.enginePromise = document.fonts.ready.then(() => Promise.all(['Anton', 'Bebas', 'Mont', 'Oswald', 'SMono', 'Caveat', 'RockSalt', 'Marker'].map(f => document.fonts.load(`400 40px ${f}`)))).then(() => document.fonts.load('700 40px Caveat')).then(() => document.fonts.load('900 40px Mont')).then(() => document.fonts.load('700 40px SMono'))
+  .then(() => Promise.all(['400 40px Elite', '400 40px Playfair', '900 40px Playfair', '400 40px Fraktur', '400 40px OldStd', '700 40px OldStd'].map(f => document.fonts.load(f))));

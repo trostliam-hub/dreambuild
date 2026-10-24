@@ -1,0 +1,1083 @@
+{
+ "lang": "en",
+ "fluent": true,
+ "series": "YOU ARE BTK · PART 3",
+ "place": "WICHITA, KANSAS",
+ "cerIgnoreNumbers": true,
+ "lead": 0.15,
+ "tail": 1.3,
+ "lineGap": 0.14,
+ "beatGap": 0.06,
+ "duckDb": 8,
+ "capMaxPx": 860,
+ "noEndFade": true,
+ "voices": {
+  "narrator": {
+   "engine": "supertonic",
+   "sid": 8,
+   "steps": 10,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.05
+  },
+  "quote": {
+   "engine": "supertonic",
+   "sid": 6,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  },
+  "quote_f": {
+   "engine": "supertonic",
+   "sid": 0,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  }
+ },
+ "ui": {
+  "kicker": "PART 4",
+  "pill": "FOLLOW FOR PART 4",
+  "end": "YOU ARE BTK"
+ },
+ "beats": [
+  {
+   "scene": "phone_booth",
+   "clock": "DEC 1977",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "p": {
+    "figure": false,
+    "rain": true,
+    "street": "CENTRAL",
+    "at": 0.05
+   },
+   "pops": [
+    {
+     "text": "NO NAME",
+     "at": "@name+0.35",
+     "x": 540,
+     "y": 880,
+     "size": 150,
+     "dur": 30,
+     "rot": -0.07
+    }
+   ],
+   "lines": [
+    {
+     "text": "Police now have your voice on tape.",
+     "emph": [
+      "voice",
+      "tape"
+     ]
+    },
+    {
+     "text": "But a voice is not a name.",
+     "emph": [
+      "name"
+     ]
+    }
+   ],
+   "post": 0.85,
+   "punch": [
+    "@name+0.35"
+   ],
+   "shakeAt": [
+    {
+     "at": "@name+0.35",
+     "d": 0.35,
+     "a": 14
+    }
+   ],
+   "sfx": [
+    {
+     "name": "police_radio",
+     "at": 0.05,
+     "gain": -13
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@name+0.33",
+     "gain": -4
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "JAN 1978",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    850
+   ],
+   "p": {
+    "style": "typewriter",
+    "paper": "old",
+    "envelope": true,
+    "title": "",
+    "lines": [
+     {
+      "text": "xxxxx xxxx xxxxxxx"
+     },
+     {
+      "text": "xxxxxxxx xx xxxxx"
+     },
+     {
+      "text": "xxx xxxxxx xxxx"
+     },
+     {
+      "text": "xxxxx xxxxxxx"
+     }
+    ],
+    "redact": [
+     {
+      "line": 0,
+      "at": 2.15
+     },
+     {
+      "line": 1,
+      "at": 2.7
+     },
+     {
+      "line": 2,
+      "at": 3.2
+     },
+     {
+      "line": 3,
+      "at": 3.62
+     }
+    ],
+    "stamp": {
+     "text": "MAILED|JAN 31 1978",
+     "at": "@newspaper+0.55"
+    }
+   },
+   "lines": [
+    {
+     "text": "Weeks later, you mail a poem about Shirley Vian to the newspaper.",
+     "emph": [
+      "poem"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "sfx": [
+    {
+     "name": "paper_rustle",
+     "at": 0.1,
+     "gain": -6
+    },
+    {
+     "name": "typewriter_burst",
+     "at": 1.8,
+     "gain": -12
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@newspaper+0.55",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "classified_ad",
+   "clock": "FEB 1978",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "p": {
+    "mode": "pile",
+    "at": 0.2,
+    "counter": {
+     "from": 1,
+     "to": 9,
+     "t0": 0.6,
+     "t1": "@days",
+     "label": "DAYS"
+    },
+    "text": "UNNOTICED",
+    "textAt": "@unnoticed"
+   },
+   "lines": [
+    {
+     "text": "It's misrouted to the classified ads, and sits unnoticed for days.",
+     "emph": [
+      "unnoticed"
+     ]
+    }
+   ],
+   "post": 0.5,
+   "sfx": [
+    {
+     "name": "paper_rustle",
+     "at": 0.1,
+     "gain": -6
+    },
+    {
+     "name": "low_piano_hit",
+     "at": "@days+0.45",
+     "gain": -8
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "FEB 1978",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "p": {
+    "style": "typewriter",
+    "paper": "white",
+    "tilt": 0.015,
+    "lines": [
+     {
+      "text": "TO:",
+      "at": 0.25,
+      "dur": 0.3
+     },
+     {
+      "text": "KAKE-TV",
+      "at": "@television-0.35",
+      "dur": 0.45,
+      "size": 120
+     },
+     {
+      "text": "WICHITA, KANSAS",
+      "at": "@television+0.25",
+      "dur": 0.6
+     }
+    ],
+    "stamp": {
+     "text": "RECEIVED|FEB 1978",
+     "at": "@instead+0.5"
+    }
+   },
+   "punch": [
+    "@television"
+   ],
+   "lines": [
+    {
+     "text": "Ignored, you write to a television station instead.",
+     "emph": [
+      "television"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "sfx": [
+    {
+     "name": "typewriter_key",
+     "at": 0.25,
+     "gain": -5
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@television-0.35",
+     "gain": -10
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@instead+0.5",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "FEB 1978",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.12
+   ],
+   "focus": [
+    540,
+    330
+   ],
+   "vignette": 0.95,
+   "p": {
+    "style": "typewriter",
+    "paper": "white",
+    "lines": [
+     {
+      "text": "xxxxx xxxx xxxxxxx",
+      "at": 0.1,
+      "dur": 0.5
+     },
+     {
+      "text": "xxxxxxxx xx xxxxx",
+      "at": 0.5,
+      "dur": 0.5
+     },
+     {
+      "text": "xxx xxxxxx xxxx",
+      "at": 0.9,
+      "dur": 0.6
+     },
+     {
+      "text": "xxxxx xxxxxxx",
+      "at": 1.4,
+      "dur": 0.5
+     },
+     {
+      "text": "NATIONAL ATTENTION",
+      "at": "@national",
+      "dur": 0.7,
+      "red": true
+     },
+     {
+      "text": "xxxxxxxx xx xxxxx",
+      "at": "@attention+0.4",
+      "dur": 0.5
+     }
+    ],
+    "redact": [
+     {
+      "line": 0,
+      "at": 0.65
+     },
+     {
+      "line": 1,
+      "at": 1.05
+     },
+     {
+      "line": 2,
+      "at": 1.55
+     },
+     {
+      "line": 3,
+      "at": 2.0
+     },
+     {
+      "line": 5,
+      "at": "@attention+0.95"
+     }
+    ],
+    "hl": [
+     "NATIONAL",
+     "ATTENTION"
+    ],
+    "focusLine": 4,
+    "focusAt": "@national"
+   },
+   "lines": [
+    {
+     "text": "You ask how many you have to kill before you get some national attention.",
+     "emph": [
+      "kill",
+      "national",
+      "attention"
+     ]
+    }
+   ],
+   "post": 0.7,
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": 0.1,
+     "gain": -11
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@national",
+     "gain": -12
+    },
+    {
+     "name": "stinger_reveal",
+     "at": "@attention+0.55",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "tv_news",
+   "clock": "FEB 1978",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.12,
+    1.0
+   ],
+   "focus": [
+    540,
+    790
+   ],
+   "p": {
+    "era": "1970s",
+    "room": true,
+    "station": "TV 10",
+    "headline": "POLICE: SERIAL KILLER AT LARGE",
+    "sub": "POLICE CHIEF ADDRESSES WICHITA",
+    "image": "silhouette",
+    "insetLabel": "UNIDENTIFIED",
+    "ticker": "WICHITA  ·  SERIAL KILLER AT LARGE  ·  POLICE NEWS CONFERENCE  ·",
+    "at": "@serial-0.3",
+    "viewer": true
+   },
+   "lines": [
+    {
+     "text": "Now the police chief tells Wichita a serial killer is loose.",
+     "emph": [
+      "serial",
+      "killer"
+     ]
+    },
+    {
+     "text": "You have your audience.",
+     "emph": [
+      "audience"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "punch": [
+    "@audience"
+   ],
+   "sfx": [
+    {
+     "name": "crt_on",
+     "at": 0.0,
+     "gain": -6
+    },
+    {
+     "name": "hit_deep",
+     "at": "@audience+0.55",
+     "gain": -7
+    }
+   ]
+  },
+  {
+   "scene": "house_ext",
+   "clock": "APR 1979",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    560,
+    1000
+   ],
+   "p": {
+    "style": "suburb",
+    "windows": [],
+    "porch": false,
+    "figure": {
+     "x": 0.98,
+     "at": "@returns-0.25",
+     "move": [
+      "@returns-0.25",
+      "@returns+1.3",
+      0.56
+     ],
+     "h": 0.115,
+     "y": 0.665
+    }
+   },
+   "pops": [
+    {
+     "text": "ANNA WILLIAMS, 63",
+     "at": "@williams-0.1",
+     "x": 480,
+     "y": 470,
+     "size": 84,
+     "dur": 30,
+     "rot": 0.001
+    },
+    {
+     "text": "SHE SURVIVED",
+     "at": "@returns+0.35",
+     "x": 480,
+     "y": 585,
+     "size": 74,
+     "dur": 30,
+     "rot": 0.001
+    }
+   ],
+   "lines": [
+    {
+     "text": "In nineteen seventy-nine, you wait inside the home of Anna Williams.",
+     "emph": [
+      "wait"
+     ]
+    },
+    {
+     "text": "She stays out late, and you leave before she returns.",
+     "emph": [
+      "leave",
+      "returns"
+     ]
+    }
+   ],
+   "post": 0.9,
+   "sfx": [
+    {
+     "name": "keys_jingle",
+     "at": "@returns+0.9",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "tv_news",
+   "clock": "1979",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    880
+   ],
+   "p": {
+    "era": "1970s",
+    "room": false,
+    "station": "TV 10",
+    "headline": "DO YOU KNOW THIS VOICE?",
+    "sub": "POLICE RELEASE RECORDING OF CALLER",
+    "image": "silhouette",
+    "insetLabel": "CALLER",
+    "ticker": "IF YOU RECOGNIZE THIS VOICE CALL POLICE  ·  WICHITA  ·",
+    "at": 0.2,
+    "static": [
+     "@nobody-0.35"
+    ]
+   },
+   "pops": [
+    {
+     "text": "NO MATCH",
+     "at": "@voice+0.48",
+     "x": 540,
+     "y": 1300,
+     "size": 130,
+     "dur": 30,
+     "rot": -0.06
+    }
+   ],
+   "lines": [
+    {
+     "text": "That same year, police play your phone call on radio and television.",
+     "emph": [
+      "radio",
+      "television"
+     ],
+     "gap": 0.22
+    },
+    {
+     "text": "Nobody recognizes your voice.",
+     "emph": [
+      "nobody"
+     ]
+    }
+   ],
+   "post": 0.85,
+   "shakeAt": [
+    {
+     "at": "@voice+0.48",
+     "d": 0.3,
+     "a": 12
+    }
+   ],
+   "sfx": [
+    {
+     "name": "radio_static_voice",
+     "at": 0.15,
+     "gain": -12
+    },
+    {
+     "name": "tv_static_burst",
+     "at": "@nobody-0.35",
+     "gain": -10
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@voice+0.46",
+     "gain": -4
+    }
+   ]
+  },
+  {
+   "scene": "sfx_text",
+   "clock": "1979",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "vignette": 0.95,
+   "p": {
+    "lines": [
+     "LUCK,",
+     "NOT",
+     "BRAINS."
+    ],
+    "times": [
+     "@luck",
+     "@not",
+     "@brains"
+    ],
+    "y": 600,
+    "size": 175,
+    "bg": "tv_news",
+    "bgP": {
+     "era": "1970s",
+     "room": false,
+     "headline": "",
+     "ticker": "",
+     "anchor": false,
+     "image": "silhouette",
+     "station": "TV 10",
+     "static": [
+      0,
+      1.0,
+      2.0,
+      2.9
+     ]
+    }
+   },
+   "lines": [
+    {
+     "text": "It's luck that saves you, not brains.",
+     "emph": [
+      "luck",
+      "brains"
+     ]
+    }
+   ],
+   "post": 0.9,
+   "glitch": [
+    {
+     "at": "@brains+0.45",
+     "d": 0.14
+    }
+   ],
+   "sfx": [
+    {
+     "name": "tv_static_burst",
+     "at": 0.0,
+     "gain": -9
+    },
+    {
+     "name": "hit_deep",
+     "at": "@brains+0.45",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "city_map",
+   "clock": "1985",
+   "clockRed": true,
+   "place": "PARK CITY, KANSAS",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    690,
+    1000
+   ],
+   "p": {
+    "title": "PARK CITY",
+    "sub": "KANSAS",
+    "coords": "",
+    "river": false,
+    "pins": [
+     {
+      "x": 0.685,
+      "y": 0.47,
+      "at": "@you",
+      "label": "YOU",
+      "red": false
+     },
+     {
+      "x": 0.69,
+      "y": 0.58,
+      "at": "@hedge",
+      "label": "MARINE HEDGE, 53",
+      "red": true
+     }
+    ],
+    "lines": [
+     {
+      "from": 0,
+      "to": 1,
+      "at": "@who"
+     }
+    ],
+    "ring": {
+     "x": 0.69,
+     "y": 0.5,
+     "r0": 0.7,
+     "r1": 0.17,
+     "t0": "@lives",
+     "t1": "@street+0.6",
+     "label": "SAME STREET"
+    }
+   },
+   "lines": [
+    {
+     "text": "In nineteen eighty-five, you kill Marine Hedge, who lives on your own street.",
+     "emph": [
+      "own",
+      "street"
+     ]
+    }
+   ],
+   "post": 0.8,
+   "sfx": [
+    {
+     "name": "heartbeat_single",
+     "at": "@you-0.25",
+     "gain": -9
+    },
+    {
+     "name": "low_piano_hit",
+     "at": "@street+0.5",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "house_ext",
+   "clock": "1986",
+   "clockRed": true,
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    560,
+    1050
+   ],
+   "p": {
+    "style": "ranch",
+    "windows": [],
+    "porch": true,
+    "car": {
+     "x": 0.74,
+     "headlights": false
+    },
+    "dark": 0.15,
+    "figure": {
+     "x": 0.4,
+     "y": 0.665,
+     "h": 0.13,
+     "arms": "down",
+     "at": "@husband-0.2"
+    },
+    "police": "@police-0.2"
+   },
+   "pops": [
+    {
+     "text": "VICKI WEGERLE, 28",
+     "at": "@vicki-0.1",
+     "x": 480,
+     "y": 470,
+     "size": 84,
+     "dur": 30,
+     "rot": 0.001
+    },
+    {
+     "text": "WRONG MAN",
+     "at": "@not",
+     "x": 432,
+     "y": 900,
+     "size": 96,
+     "dur": 30,
+     "rot": -0.05
+    }
+   ],
+   "lines": [
+    {
+     "text": "The next year, you kill Vicki Wegerle, twenty-eight.",
+     "say": "The next year, you kill Vicki Wegger-lee, twenty-eight.",
+     "emph": [
+      "twentyeight"
+     ]
+    },
+    {
+     "text": "Police suspect her husband, not you.",
+     "emph": [
+      "husband",
+      "not"
+     ]
+    }
+   ],
+   "post": 0.7,
+   "sfx": [
+    {
+     "name": "siren_wail",
+     "at": "@police-0.6",
+     "gain": -12,
+     "dur": 4.0
+    },
+    {
+     "name": "police_radio",
+     "at": "@husband+0.1",
+     "gain": -14
+    },
+    {
+     "name": "stinger_reveal",
+     "at": "@you+0.4",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "years_flip",
+   "clock": "1991",
+   "place": "SEDGWICK COUNTY, KANSAS",
+   "captionY": 1500,
+   "capBox": true,
+   "p": {
+    "from": 1986,
+    "to": 1991,
+    "t0": 0.15,
+    "t1": "@ninetyone+0.15",
+    "label": "DOLORES DAVIS, 62",
+    "ticks": true
+   },
+   "lines": [
+    {
+     "text": "In nineteen ninety-one, you take the life of Dolores Davis, sixty-two.",
+     "emph": [
+      "life"
+     ]
+    }
+   ],
+   "post": 0.7,
+   "sfx": [
+    {
+     "name": "low_piano_hit",
+     "at": "@sixtytwo+0.6",
+     "gain": -7
+    }
+   ]
+  },
+  {
+   "scene": "years_flip",
+   "clock": "1991–2004",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.04,
+    1.0
+   ],
+   "focus": [
+    540,
+    760
+   ],
+   "vignette": 0.95,
+   "p": {
+    "from": 1991,
+    "to": 2004,
+    "t0": "@stops",
+    "t1": "@almost-0.15",
+    "label": "SILENCE",
+    "sub": "NO KNOWN KILLINGS AFTER 1991",
+    "ticks": true
+   },
+   "pops": [
+    {
+     "text": "ALMOST",
+     "at": "@almost",
+     "x": 540,
+     "y": 400,
+     "size": 180,
+     "dur": 30,
+     "rot": -0.05
+    }
+   ],
+   "lines": [
+    {
+     "text": "As far as anyone knows, the killing stops there.",
+     "emph": [
+      "stops"
+     ]
+    },
+    {
+     "text": "For thirteen years, you almost get away with it.",
+     "emph": [
+      "almost"
+     ]
+    }
+   ],
+   "post": 1.0,
+   "glitch": [
+    {
+     "at": "@almost+0.05",
+     "d": 0.12
+    },
+    {
+     "at": "@it+0.5",
+     "d": 0.16
+    }
+   ],
+   "flash": [
+    {
+     "at": "@almost",
+     "d": 0.18,
+     "c": "#ff2020",
+     "a": 0.35
+    }
+   ],
+   "sfx": [
+    {
+     "name": "hit_deep",
+     "at": "@it+0.5",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "end_card",
+   "clock": "1991–2004",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "p": {
+    "title": "YOU ARE BTK",
+    "kicker": "PART 3 OF 5",
+    "pill": "FOLLOW FOR PART 4",
+    "sub": "WOULD YOU KNOW THE VOICE?|TELL ME IN THE COMMENTS"
+   },
+   "lines": [
+    {
+     "text": "Follow for part four.",
+     "emph": [
+      "four"
+     ]
+    }
+   ],
+   "post": 0.9,
+   "sfx": [
+    {
+     "name": "whoosh_reverse",
+     "at": 0.0,
+     "gain": -9
+    }
+   ]
+  }
+ ],
+ "coldOpen": {
+  "beat": 10,
+  "words": "Police suspect her husband, not you.",
+  "label": "LATER"
+ },
+ "beds": [
+  {
+   "name": "drone_bed",
+   "from": 0,
+   "to": 200,
+   "gain": 1,
+   "fade": 0.4
+  },
+  {
+   "name": "rain_bed",
+   "fromBeat": 0,
+   "toBeat": 0,
+   "gain": 0,
+   "fade": 0.4
+  },
+  {
+   "name": "newsroom_bed",
+   "fromBeat": 1,
+   "toBeat": 4,
+   "gain": -3,
+   "fade": 0.6
+  },
+  {
+   "name": "crt_hum_bed",
+   "fromBeat": 5,
+   "toBeat": 5,
+   "gain": -3,
+   "fade": 0.4
+  },
+  {
+   "name": "night_suburb_bed",
+   "fromBeat": 6,
+   "toBeat": 6,
+   "gain": -1,
+   "fade": 0.5
+  },
+  {
+   "name": "crt_hum_bed",
+   "fromBeat": 7,
+   "toBeat": 8,
+   "gain": -3,
+   "fade": 0.4
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 9,
+   "toBeat": 12,
+   "gain": -3,
+   "fade": 1.0
+  },
+  {
+   "name": "night_suburb_bed",
+   "fromBeat": 9,
+   "toBeat": 10,
+   "gain": -3,
+   "fade": 0.5
+  },
+  {
+   "name": "heartbeat_slow_muffled",
+   "fromBeat": 10,
+   "toBeat": 10,
+   "gain": -6,
+   "fade": 0.6
+  },
+  {
+   "name": "clock_tick_bed",
+   "fromBeat": 11,
+   "toBeat": 12,
+   "gain": -4,
+   "fade": 0.6
+  }
+ ]
+}

@@ -1,0 +1,1161 @@
+{
+ "lang": "en",
+ "fluent": true,
+ "series": "NONE LEADING OUT · PART 3",
+ "place": "HINTERKAIFECK, BAVARIA",
+ "cerIgnoreNumbers": true,
+ "lead": 0.15,
+ "tail": 1.3,
+ "lineGap": 0.14,
+ "beatGap": 0.06,
+ "duckDb": 8,
+ "capMaxPx": 860,
+ "noEndFade": true,
+ "voices": {
+  "narrator": {
+   "engine": "supertonic",
+   "sid": 8,
+   "steps": 10,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.05
+  },
+  "quote": {
+   "engine": "supertonic",
+   "sid": 6,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  },
+  "quote_f": {
+   "engine": "supertonic",
+   "sid": 0,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  }
+ },
+ "ui": {
+  "kicker": "PART 4",
+  "pill": "FOLLOW FOR PART 4",
+  "end": "NONE LEADING OUT"
+ },
+ "beats": [
+  {
+   "scene": "torch_glare",
+   "clock": "1 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    600,
+    960
+   ],
+   "p": {
+    "on": "@shines-0.08",
+    "swing": "@turns-0.15",
+    "pace": 2.9
+   },
+   "pops": [
+    {
+     "text": "YOU ARE HINTERKAIFECK",
+     "at": 0.05,
+     "x": 540,
+     "y": 410,
+     "size": 72,
+     "dur": 40,
+     "rot": -0.025
+    },
+    {
+     "text": "SATURDAY NIGHT · 1 APRIL 1922",
+     "at": "@saturday",
+     "x": 540,
+     "y": 500,
+     "size": 46,
+     "dur": 40,
+     "rot": 0.015
+    },
+    {
+     "text": "REPORTEDLY",
+     "at": "@reportedly",
+     "x": 760,
+     "y": 1290,
+     "size": 58,
+     "dur": 40,
+     "rot": -0.04
+    }
+   ],
+   "lines": [
+    {
+     "text": "Saturday night, near your farm, a torch reportedly shines straight into a passing man's face.",
+     "emph": [
+      "torch",
+      "face"
+     ],
+     "gap": 0.5
+    },
+    {
+     "text": "Then the figure turns back toward your house.",
+     "emph": [
+      "house"
+     ]
+    }
+   ],
+   "pre": 0.1,
+   "post": 0.45,
+   "punch": [
+    "@shines"
+   ],
+   "shakeAt": [
+    {
+     "at": "@shines",
+     "d": 0.25,
+     "a": 8
+    }
+   ],
+   "sfx": [
+    {
+     "name": "footsteps_snow",
+     "at": 0.0,
+     "gain": -10
+    },
+    {
+     "name": "light_click",
+     "at": "@shines-0.1",
+     "gain": -4
+    },
+    {
+     "name": "sub_pulse",
+     "at": "@shines-0.05",
+     "gain": -8
+    },
+    {
+     "name": "hit_deep",
+     "at": "@face+0.5",
+     "gain": -7
+    },
+    {
+     "name": "footsteps_snow",
+     "at": "@turns+0.2",
+     "gain": -13
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "1 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "p": {
+    "style": "typewriter",
+    "paper": "old",
+    "title": "WITNESS STATEMENT",
+    "tilt": -0.018,
+    "y": 880,
+    "lines": [
+     {
+      "text": "WITNESS:  MICHAEL PLÖCKL",
+      "at": 0.0,
+      "dur": 0.45,
+      "size": 40
+     },
+     {
+      "text": "SIGHTING: 1 APRIL 1922, NIGHT",
+      "at": 0.3,
+      "dur": 0.45,
+      "size": 40
+     },
+     {
+      "text": "xxxxxxx xxxx xxxxxx xx xxx",
+      "at": 0.6,
+      "dur": 0.35,
+      "size": 40
+     },
+     {
+      "text": "xxxxx xxxx xxxxxxx xx xxx",
+      "at": 0.8,
+      "dur": 0.35,
+      "size": 40
+     },
+     {
+      "text": "xxxx xxxxxxx xxxxx xxxx",
+      "at": 1.0,
+      "dur": 0.3,
+      "size": 40
+     },
+     {
+      "text": "KNOWN ONLY SECONDHAND",
+      "at": "@survives",
+      "dur": 0.6,
+      "size": 40
+     }
+    ],
+    "redact": [
+     {
+      "line": 2,
+      "from": 0,
+      "at": -9
+     },
+     {
+      "line": 3,
+      "from": 0,
+      "at": -9
+     },
+     {
+      "line": 4,
+      "from": 0,
+      "at": -9
+     }
+    ],
+    "stamp": {
+     "text": "ORIGINAL STATEMENT|LOST",
+     "at": "@lost+0.3",
+     "x": 0,
+     "y": 375,
+     "rot": -0.08,
+     "w": 680
+    }
+   },
+   "lines": [
+    {
+     "text": "His original statement is lost.",
+     "emph": [
+      "lost"
+     ],
+     "gap": 0.4
+    },
+    {
+     "text": "The story survives only secondhand.",
+     "emph": [
+      "secondhand"
+     ]
+    }
+   ],
+   "post": 0.45,
+   "punch": [
+    "@lost+0.3"
+   ],
+   "shakeAt": [
+    {
+     "at": "@lost+0.3",
+     "d": 0.3,
+     "a": 10
+    }
+   ],
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": 0.0,
+     "gain": -10
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@lost+0.3",
+     "gain": -3
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@survives",
+     "gain": -12
+    }
+   ]
+  },
+  {
+   "scene": "church_ext",
+   "clock": "2 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    520,
+    900
+   ],
+   "p": {
+    "snow": true,
+    "label": "SUNDAY MASS",
+    "sub": "2 APRIL 1922",
+    "lamp": false,
+    "lit": true
+   },
+   "pops": [
+    {
+     "text": "ABSENT",
+     "at": "@misses",
+     "x": 600,
+     "y": 380,
+     "size": 92,
+     "dur": 40,
+     "rot": -0.05
+    }
+   ],
+   "lines": [
+    {
+     "text": "On Sunday, your family misses Mass.",
+     "emph": [
+      "misses"
+     ]
+    }
+   ],
+   "pre": 0.15,
+   "post": 0.5,
+   "sfx": [
+    {
+     "name": "church_bell_distant",
+     "at": 0.0,
+     "gain": -5
+    },
+    {
+     "name": "low_piano_hit",
+     "at": "@mass+0.4",
+     "gain": -10
+    }
+   ]
+  },
+  {
+   "scene": "farm_snow",
+   "clock": "3 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "focus": [
+    600,
+    1000
+   ],
+   "p": {
+    "lit": [],
+    "smoke": false,
+    "dark": 0.3,
+    "moon": false,
+    "label": {
+     "text": "MONDAY, 3 APRIL · MAIL UNTOUCHED",
+     "at": "@monday"
+    },
+    "figure": {
+     "x": 700,
+     "at": 0.1,
+     "until": "@untouched+0.5"
+    }
+   },
+   "lines": [
+    {
+     "text": "On Monday, the postman finds Saturday's mail untouched.",
+     "emph": [
+      "untouched"
+     ]
+    }
+   ],
+   "post": 0.5,
+   "sfx": [
+    {
+     "name": "footsteps_snow",
+     "at": 0.0,
+     "gain": -11
+    },
+    {
+     "name": "paper_rustle",
+     "at": "@mail",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "kitchen_old",
+   "clock": "APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "focus": [
+    560,
+    1000
+   ],
+   "p": {
+    "smoke": true,
+    "keyHook": false,
+    "window": "snow"
+   },
+   "pops": [
+    {
+     "text": "FED?",
+     "at": "@fed",
+     "x": 320,
+     "y": 560,
+     "size": 110,
+     "dur": 40,
+     "rot": -0.05
+    },
+    {
+     "text": "EATEN?",
+     "at": "@eaten",
+     "x": 770,
+     "y": 1170,
+     "size": 110,
+     "dur": 40,
+     "rot": 0.04
+    }
+   ],
+   "lines": [
+    {
+     "text": "Some witnesses spoke of animals that seemed fed, and food that seemed eaten.",
+     "emph": [
+      "fed",
+      "eaten"
+     ]
+    }
+   ],
+   "post": 0.35,
+   "glitch": [
+    {
+     "at": "@eaten+0.55",
+     "d": 0.12
+    }
+   ],
+   "sfx": [
+    {
+     "name": "wood_creak_heavy",
+     "at": 0.1,
+     "gain": -10
+    },
+    {
+     "name": "typewriter_key",
+     "at": "@fed",
+     "gain": -9
+    },
+    {
+     "name": "typewriter_key",
+     "at": "@eaten",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "choice_split",
+   "clock": "APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "p": {
+    "title": "THE FILES DISAGREE",
+    "kicker": "WITNESS ACCOUNTS",
+    "optA": "SOME SAY",
+    "optB": "OTHERS SAY",
+    "a": "SEEMED FED|SEEMED EATEN",
+    "b": "NOTHING|SEEN",
+    "iconA": "note",
+    "iconB": "eye"
+   },
+   "lines": [
+    {
+     "text": "Others saw nothing, and the files contradict each other.",
+     "emph": [
+      "nothing",
+      "contradict"
+     ]
+    }
+   ],
+   "post": 0.5,
+   "sfx": [
+    {
+     "name": "tv_static_burst",
+     "at": 0.0,
+     "gain": -12
+    },
+    {
+     "name": "paper_rustle",
+     "at": "@files",
+     "gain": -6
+    },
+    {
+     "name": "low_piano_hit",
+     "at": "@other+0.45",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "engine_shed",
+   "clock": "4 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    600,
+    900
+   ],
+   "p": {
+    "light": "day",
+    "door": 0.25,
+    "mechanic": {
+     "at": "@mechanic"
+    },
+    "clock": {
+     "t0": "@stays",
+     "t1": "@alone",
+     "hours": 4.5,
+     "from": 10
+    },
+    "text": {
+     "s": "TUESDAY, 4 APRIL",
+     "at": "@tuesday",
+     "y": 1340
+    }
+   },
+   "lines": [
+    {
+     "text": "On Tuesday, April fourth, a mechanic comes to repair your engine.",
+     "emph": [
+      "mechanic"
+     ]
+    },
+    {
+     "text": "He stays four and a half hours, works alone, and sees no one.",
+     "emph": [
+      "alone",
+      "no"
+     ]
+    }
+   ],
+   "post": 0.35,
+   "punch": [
+    "@no"
+   ],
+   "sfx": [
+    {
+     "name": "door_handle",
+     "at": "@mechanic-0.2",
+     "gain": -11
+    },
+    {
+     "name": "clock_tick_bed",
+     "at": "@stays",
+     "gain": -7,
+     "dur": 2.6
+    },
+    {
+     "name": "whoosh_dark",
+     "at": "@hours",
+     "gain": -11
+    },
+    {
+     "name": "keys_jingle",
+     "at": "@works",
+     "gain": -12
+    }
+   ]
+  },
+  {
+   "scene": "engine_shed",
+   "clock": "4 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.04,
+    1.15
+   ],
+   "focus": [
+    880,
+    760
+   ],
+   "pan": [
+    0,
+    0,
+    -110,
+    10
+   ],
+   "vignette": 0.92,
+   "p": {
+    "light": "day",
+    "door": 0.25,
+    "mechanic": {
+     "at": 0
+    },
+    "run": 0.0,
+    "clock": {
+     "from": 14.5
+    }
+   },
+   "pops": [
+    {
+     "text": "BARKING",
+     "at": "@barks",
+     "x": 790,
+     "y": 520,
+     "size": 64,
+     "dur": 40,
+     "rot": -0.06
+    },
+    {
+     "text": "BELLOWING",
+     "at": "@bellow",
+     "x": 760,
+     "y": 640,
+     "size": 64,
+     "dur": 40,
+     "rot": 0.04
+    }
+   ],
+   "lines": [
+    {
+     "text": "The dog barks, the cows bellow, and he never notices what lies steps away.",
+     "emph": [
+      "never",
+      "steps"
+     ]
+    }
+   ],
+   "post": 0.7,
+   "flash": [
+    {
+     "at": "@away+0.55",
+     "d": 0.5,
+     "c": "#ff2020",
+     "a": 0.16
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sub_pulse",
+     "at": "@barks",
+     "gain": -10
+    },
+    {
+     "name": "sub_pulse",
+     "at": "@bellow",
+     "gain": -10
+    },
+    {
+     "name": "heartbeat_single",
+     "at": "@away+0.55",
+     "gain": -4
+    }
+   ]
+  },
+  {
+   "scene": "investigators_old",
+   "clock": "4 APR 1922",
+   "place": "GRÖBERN, BAVARIA",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    1000
+   ],
+   "p": {
+    "figures": 0,
+    "camera": false,
+    "notebook": false,
+    "barnDoor": 0.0,
+    "label": {
+     "text": "AT THE NEIGHBORS'",
+     "at": 0.15
+    }
+   },
+   "lines": [
+    {
+     "text": "Around three, he asks the neighboring Schlittenbauers to tell the family the engine is fixed.",
+     "emph": [
+      "three",
+      "fixed"
+     ]
+    }
+   ],
+   "pre": 0.1,
+   "post": 0.4,
+   "sfx": [
+    {
+     "name": "door_knock_wood",
+     "at": 0.0,
+     "gain": -11
+    },
+    {
+     "name": "typewriter_burst",
+     "at": 0.15,
+     "gain": -13
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "4 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    880
+   ],
+   "p": {
+    "style": "typewriter",
+    "paper": "old",
+    "title": "4 APRIL 1922 · AFTERNOON",
+    "tilt": 0.015,
+    "y": 905,
+    "lines": [
+     {
+      "text": "TWO BOYS SENT OVER",
+      "at": "@sends",
+      "size": 40
+     },
+     {
+      "text": "THEY FIND NO ONE",
+      "at": "@find",
+      "size": 40
+     },
+     {
+      "text": "THEN THE NEIGHBOR GOES HIMSELF",
+      "at": "@then-0.05",
+      "dur": 0.55,
+      "size": 40
+     },
+     {
+      "text": "WITH MICHAEL PÖLL",
+      "at": "@himself+0.05",
+      "dur": 0.45,
+      "size": 40
+     },
+     {
+      "text": "AND JAKOB SIGL",
+      "at": "@men-0.2",
+      "dur": 0.4,
+      "size": 40
+     }
+    ]
+   },
+   "lines": [
+    {
+     "text": "Lorenz Schlittenbauer sends two boys, who find no one, then goes himself with two men.",
+     "emph": [
+      "boys",
+      "men"
+     ]
+    }
+   ],
+   "post": 0.7,
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": "@sends",
+     "gain": -14
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@then-0.05",
+     "gain": -16
+    },
+    {
+     "name": "footsteps_snow",
+     "at": "@himself",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "barn",
+   "clock": "4 APR 1922",
+   "clockRed": true,
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "vignette": 0.92,
+   "p": {
+    "doorGap": 0.0,
+    "swing": "@barn-0.1",
+    "swingTo": 0.95,
+    "swingDur": 1.4,
+    "lantern": false,
+    "animals": false,
+    "dark": 0.8
+   },
+   "pops": [
+    {
+     "text": "ABOUT 5 PM",
+     "at": "@late",
+     "x": 540,
+     "y": 420,
+     "size": 60,
+     "dur": 40,
+     "rot": -0.03
+    }
+   ],
+   "lines": [
+    {
+     "text": "Late that afternoon, in your barn, they find four of the family dead.",
+     "emph": [
+      "four",
+      "dead"
+     ]
+    }
+   ],
+   "post": 0.9,
+   "flash": [
+    {
+     "at": "@dead+0.35",
+     "d": 0.22,
+     "c": "#ffffff",
+     "a": 0.9
+    }
+   ],
+   "shakeAt": [
+    {
+     "at": "@dead+0.35",
+     "d": 0.35,
+     "a": 10
+    }
+   ],
+   "sfx": [
+    {
+     "name": "door_creak",
+     "at": "@barn-0.1",
+     "gain": -6
+    },
+    {
+     "name": "camera_flash_old",
+     "at": "@dead+0.3",
+     "gain": -9
+    },
+    {
+     "name": "hit_deep",
+     "at": "@dead+0.38",
+     "gain": -4
+    }
+   ]
+  },
+  {
+   "scene": "barn",
+   "clock": "4 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "focus": [
+    560,
+    880
+   ],
+   "p": {
+    "doorGap": 1.0,
+    "lantern": false,
+    "animals": true,
+    "dark": 0.72,
+    "figure": false
+   },
+   "lines": [
+    {
+     "text": "Then Schlittenbauer goes alone through the stable, into the house.",
+     "emph": [
+      "alone"
+     ]
+    }
+   ],
+   "post": 0.45,
+   "sfx": [
+    {
+     "name": "footsteps_approach",
+     "at": "@goes",
+     "gain": -12,
+     "dur": 2.0
+    },
+    {
+     "name": "wood_creak_heavy",
+     "at": "@house",
+     "gain": -7
+    }
+   ]
+  },
+  {
+   "scene": "front_door",
+   "clock": "4 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.1
+   ],
+   "focus": [
+    560,
+    900
+   ],
+   "vignette": 0.92,
+   "p": {
+    "keyAt": "@he-0.3",
+    "keyDur": 0.5,
+    "handleAt": "@opens",
+    "open": "@your",
+    "openDur": 1.3
+   },
+   "lines": [
+    {
+     "text": "He opens your front door from the inside.",
+     "emph": [
+      "inside"
+     ]
+    }
+   ],
+   "pre": 0.35,
+   "post": 0.55,
+   "punch": [
+    "@inside+0.4"
+   ],
+   "sfx": [
+    {
+     "name": "keys_lock",
+     "at": "@he-0.3",
+     "gain": -4
+    },
+    {
+     "name": "door_handle",
+     "at": "@opens",
+     "gain": -8
+    },
+    {
+     "name": "door_creak",
+     "at": "@your",
+     "gain": -7
+    },
+    {
+     "name": "heartbeat_single",
+     "at": "@inside+0.6",
+     "gain": -3
+    }
+   ]
+  },
+  {
+   "scene": "sfx_text",
+   "clock": "4 APR 1922",
+   "clockRed": true,
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "vignette": 0.95,
+   "p": {
+    "lines": [
+     "FOUR FOUND.",
+     "TWO STILL",
+     "INSIDE."
+    ],
+    "times": [
+     0.0,
+     "@two",
+     "@inside"
+    ],
+    "y": 560,
+    "size": 150,
+    "bg": "front_door",
+    "bgP": {
+     "keyAt": -9,
+     "handleAt": -8,
+     "open": -7
+    }
+   },
+   "lines": [
+    {
+     "text": "Two of the six are still somewhere inside you.",
+     "emph": [
+      "two",
+      "inside"
+     ]
+    }
+   ],
+   "pre": 0.25,
+   "post": 0.95,
+   "punch": [
+    "@two",
+    "@inside"
+   ],
+   "shakeAt": [
+    {
+     "at": "@you+0.4",
+     "d": 0.35,
+     "a": 12
+    }
+   ],
+   "flash": [
+    {
+     "at": "@inside",
+     "d": 0.12,
+     "c": "#ff2020",
+     "a": 0.3
+    }
+   ],
+   "sfx": [
+    {
+     "name": "heartbeat_single",
+     "at": 0.0,
+     "gain": -4
+    },
+    {
+     "name": "hit_deep",
+     "at": "@you+0.4",
+     "gain": -4
+    }
+   ]
+  },
+  {
+   "scene": "end_card",
+   "clock": "4 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "noCaptions": false,
+   "trans": "cut",
+   "p": {
+    "title": "NONE LEADING OUT",
+    "kicker": "PART 3 OF 5",
+    "pill": "FOLLOW FOR PART 4",
+    "sub": "DID SOMEONE STAY ON THE FARM?|THE FILES STILL DISAGREE"
+   },
+   "lines": [
+    {
+     "text": "Follow for part four.",
+     "emph": [
+      "four"
+     ]
+    }
+   ],
+   "post": 0.9,
+   "sfx": [
+    {
+     "name": "whoosh_reverse",
+     "at": 0.0,
+     "gain": -9
+    }
+   ]
+  }
+ ],
+ "coldOpen": {
+  "beat": 13,
+  "words": "Two of the six are still somewhere inside you",
+  "label": "LATER"
+ },
+ "beds": [
+  {
+   "name": "drone_bed",
+   "from": 0,
+   "to": 200,
+   "gain": 1,
+   "fade": 0.4
+  },
+  {
+   "name": "wind_snow_bed",
+   "fromBeat": 0,
+   "toBeat": 3,
+   "gain": 0,
+   "fade": 0.6
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 0,
+   "toBeat": 1,
+   "gain": -5,
+   "fade": 0.8
+  },
+  {
+   "name": "farm_night_bed",
+   "fromBeat": 4,
+   "toBeat": 5,
+   "gain": -2,
+   "fade": 0.6
+  },
+  {
+   "name": "clock_tick_bed",
+   "fromBeat": 4,
+   "toBeat": 4,
+   "gain": -8,
+   "fade": 0.4
+  },
+  {
+   "name": "wind_snow_bed",
+   "fromBeat": 8,
+   "toBeat": 9,
+   "gain": -2,
+   "fade": 0.6
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 7,
+   "toBeat": 14,
+   "gain": -3,
+   "fade": 1.0
+  },
+  {
+   "name": "heartbeat_slow_muffled",
+   "fromBeat": 10,
+   "toBeat": 13,
+   "gain": -6,
+   "fade": 0.6
+  },
+  {
+   "name": "farm_night_bed",
+   "fromBeat": 10,
+   "toBeat": 11,
+   "gain": -1,
+   "fade": 0.6
+  }
+ ]
+}

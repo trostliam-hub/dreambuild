@@ -26,6 +26,8 @@ KOKORO_NAMES = ("af_alloy af_aoede af_bella af_heart af_jessica af_kore af_nicol
                 "am_adam am_echo am_eric am_fenrir am_liam am_michael am_onyx am_puck am_santa "
                 "bf_alice bf_emma bf_isabella bf_lily bm_daniel bm_fable bm_george bm_lewis").split()
 MIX_SID = {}
+# Threads: bei mehreren parallelen Builds (hohe Last) nur 1 Thread je Modell, sonst blockieren sich die onnxruntime-Threads gegenseitig
+NT = int(os.environ.get("BUILD_THREADS", "0")) or (1 if os.getloadavg()[0] > 5 else 4)
 def kokoro_dir():
     """Gemischte Kokoro-Stimmen ({"am_liam": .6, "am_onyx": .4}) als zusätzliche Sprecher: Kopie von voices.bin,
     die letzten (nicht-englischen) Plätze werden mit den Mischungen überschrieben."""
@@ -44,18 +46,25 @@ def kokoro_sid(sid):
     if isinstance(sid, dict): return MIX_SID[json.dumps(sid, sort_keys=True)]
     return KOKORO_NAMES.index(sid) if isinstance(sid, str) else sid
 def get_tts(model):
+    if model == "supertonic" and model not in _TTS:  # Supertonic 3: 10 feste Stimmen (0-4 weiblich, 5-9 männlich), natürlichere Phrasierung als Kokoro
+        K = f"{MODELS}/supertonic3"
+        cfg = sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(supertonic=sherpa_onnx.OfflineTtsSupertonicModelConfig(
+            duration_predictor=f"{K}/duration_predictor.int8.onnx", text_encoder=f"{K}/text_encoder.int8.onnx",
+            vector_estimator=f"{K}/vector_estimator.int8.onnx", vocoder=f"{K}/vocoder.int8.onnx", tts_json=f"{K}/tts.json",
+            unicode_indexer=f"{K}/unicode_indexer.bin", voice_style=f"{K}/voice.bin"), num_threads=NT, provider="cpu"))
+        _TTS[model] = sherpa_onnx.OfflineTts(cfg)
     if model == "kokoro" and model not in _TTS:
         K = kokoro_dir()
         cfg = sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(kokoro=sherpa_onnx.OfflineTtsKokoroModelConfig(
             model=f"{K}/model.onnx", voices=f"{K}/voices.bin", tokens=f"{K}/tokens.txt", data_dir=f"{K}/espeak-ng-data",
-            lexicon=f"{K}/lexicon-us-en.txt", dict_dir=f"{K}/dict"), num_threads=4))
+            lexicon=f"{K}/lexicon-us-en.txt", dict_dir=f"{K}/dict"), num_threads=NT))
         _TTS[model] = sherpa_onnx.OfflineTts(cfg)
     if model not in _TTS:
         d, mf = {"high": ("vits-piper-de_DE-thorsten-high", "de_DE-thorsten-high.onnx"),
                  "emo": ("vits-piper-de_DE-thorsten_emotional-medium", "de_DE-thorsten_emotional-medium.onnx")}[model]
         d = f"{MODELS}/{d}"
         cfg = sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(vits=sherpa_onnx.OfflineTtsVitsModelConfig(
-            model=f"{d}/{mf}", tokens=f"{d}/tokens.txt", data_dir=f"{d}/espeak-ng-data", length_scale=1.0, noise_scale=0.6, noise_scale_w=0.7), num_threads=4))
+            model=f"{d}/{mf}", tokens=f"{d}/tokens.txt", data_dir=f"{d}/espeak-ng-data", length_scale=1.0, noise_scale=0.6, noise_scale_w=0.7), num_threads=NT))
         _TTS[model] = sherpa_onnx.OfflineTts(cfg)
     return _TTS[model]
 def get_asr():
@@ -63,7 +72,7 @@ def get_asr():
     if _ASR is None:
         M = f"{MODELS}/sherpa-onnx-whisper-small"
         _ASR = sherpa_onnx.OfflineRecognizer.from_whisper(encoder=f"{M}/small-encoder.int8.onnx", decoder=f"{M}/small-decoder.int8.onnx",
-            tokens=f"{M}/small-tokens.txt", language=LANG, task="transcribe", num_threads=4)
+            tokens=f"{M}/small-tokens.txt", language=LANG, task="transcribe", num_threads=NT)
     return _ASR
 
 SPK = {"neutral": ("emo", 4), "whisper": ("emo", 7), "high": ("high", 0)}
@@ -98,10 +107,14 @@ def voice_fx(a, sr, deep, style):
 NUMW = {"1": "eins", "2": "zwei", "3": "drei", "12": "zwölf", "33": "dreiunddreißig"}
 EN_NUM = {w: str(i) for i, w in enumerate("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split())}
 EN_NUM.update({"thirty": "30", "forty": "40", "fifty": "50"})
+EN_NUMWORDS = set(("sixty seventy eighty ninety hundred thousand first second third fourth fifth sixth seventh eighth ninth tenth eleventh twelfth "
+                   "thirteenth fourteenth fifteenth sixteenth seventeenth eighteenth nineteenth twentieth thirtieth").split())
 def nrm(s):
     if LANG == "en":
         s = s.lower().replace("a.m.", "am").replace("p.m.", "pm")
         w = re.sub(r"[^a-z0-9 ]", " ", s.replace("-", " ")).split(); out = []
+        if story.get("cerIgnoreNumbers"):  # Zahlen/Jahre/Ordinalzahlen schreibt Whisper als Ziffern -> für die Take-Wahl ignorieren
+            return "".join(x for x in w if not (x.isdigit() or x in EN_NUM or x in EN_NUMWORDS or re.match(r"^\d+(st|nd|rd|th)$", x)))
         for i, x in enumerate(w):  # "thirty three" -> 33
             if x in EN_NUM: x = EN_NUM[x]
             if out and x.isdigit() and len(x) == 1 and out[-1].isdigit() and out[-1].endswith("0") and len(out[-1]) == 2: out[-1] = str(int(out[-1]) + int(x)); continue
@@ -133,11 +146,15 @@ def tts_clip(text, voice, speed, say=None, takes=None):
         TAKES_LOG.append(json.load(open(out + ".json"))); return out
     model, sid, deep, style, vspeed = voice_cfg(voice)
     if speed is None: speed = vspeed or 1.0
-    lo, hi = (takes or (tuple(story.get("takesKokoro", (2, 4))) if model == "kokoro" else (4, 14)))
+    synth = model in ("kokoro", "supertonic")
+    lo, hi = (takes or (tuple(story.get("takesKokoro", (2, 4))) if synth else (4, 14)))
     cands = []
     for k in range(hi):
-        sp = speed * (1 + (0.035 * ((k + 1) // 2) * (1 if k % 2 else -1) if model == "kokoro" else 0))  # Kokoro ist deterministisch: Takes über Tempo variieren
-        g = get_tts(model).generate(say, sid=kokoro_sid(sid) if model == "kokoro" else sid, speed=sp)
+        sp = speed * (1 + (0.035 * ((k + 1) // 2) * (1 if k % 2 else -1) if synth else 0))  # deterministische Modelle: Takes über Tempo variieren
+        if model == "supertonic":
+            gc = sherpa_onnx.GenerationConfig(); gc.sid = sid; gc.speed = sp; gc.num_steps = VCFG.get(voice, {}).get("steps", 10); gc.extra["lang"] = "en"
+            g = get_tts(model).generate(say, gc)
+        else: g = get_tts(model).generate(say, sid=kokoro_sid(sid) if model == "kokoro" else sid, speed=sp)
         y = voice_fx(np.array(g.samples, dtype=np.float32), g.sample_rate, deep, style)
         hyp = asr(y); e = min(cer(text, hyp), cer(say, hyp))
         cands.append((e, len(y) / SR, y, hyp))
@@ -376,8 +393,9 @@ for b in story.get("beds", []):  # {"name","fromBeat","toBeat"|"to","gain","fade
     fd = int(b.get("fade", 1.0) * SR); fd = min(fd, n // 2); seg[:fd] *= np.linspace(0, 1, fd)[:, None]; seg[-fd:] *= np.linspace(1, 0, fd)[:, None]
     bed[s:e] += seg
 # Ducking des Betts unter der Stimme
-win = int(.05 * SR); env = np.sqrt(np.convolve(voice ** 2, np.ones(win) / win, mode="same"))
-env = np.convolve(env, np.ones(int(.3 * SR)) / int(.3 * SR), mode="same"); env = env / (env.max() + 1e-9)
+from scipy.ndimage import uniform_filter1d  # gleitender Mittelwert in O(N) (np.convolve mit 0,3-s-Kern war minutenlang)
+win = int(.05 * SR); env = np.sqrt(np.maximum(uniform_filter1d(voice.astype(np.float64) ** 2, win, mode="constant"), 0))
+env = uniform_filter1d(env, int(.3 * SR), mode="constant"); env = env / (env.max() + 1e-9)
 duck = 10 ** (-story.get("duckDb", 7) * np.clip(env * 3, 0, 1) / 20)
 mix = bed * duck[:, None] + fx + np.stack([voice, voice], 1) * 10 ** (story.get("voiceGain", 0) / 20)
 mix = mix[:int(duration * SR)]
@@ -395,6 +413,8 @@ if co:
         if not found: raise SystemExit(f"Cold-Open-Wörter {co['words']!r} nicht in Beat {cbi}")
         wi = words_out.index(bwc[i]); pe = words_out[wi - 1]["end"] + .03 if wi > 0 else 0.0  # nicht mitten im Wort davor anfangen
         ts = max(b0["start"], found[0] - co.get("lead", 0.4), min(pe, found[0] - .05)); te = found[1] + co.get("hold", 0.45)
+        wj = words_out.index(bwc[i + len(seq) - 1])  # nicht ins nächste Wort hineinschneiden (sonst endet der Teaser mitten im Wort)
+        if wj + 1 < len(words_out) and words_out[wj + 1]["start"] < te: te = max(found[1] + .05, words_out[wj + 1]["start"] - .03)
     else:
         ts = b0["start"] + co.get("at", 0.0); te = ts + co.get("dur", 2.6)
     cdur = round(min(te - ts, co.get("maxDur", 3.6)), 3); gap = co.get("gap", 0.35)

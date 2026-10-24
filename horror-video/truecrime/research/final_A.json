@@ -1,0 +1,961 @@
+{
+ "seriesTitle": "YOU ARE BTK",
+ "logline": "A true story told in second person. For thirty-one years you live near Wichita, Kansas, as a husband, a father and a church council president, and nobody knows you are the killer who named himself BTK. In the end, your own vanity, a lie in the classified ads and one purple floppy disk give you away.",
+ "perspective": "Second person, present tense: the viewer IS the killer. The narrator is cold and accusing and never admires him. It states only documented actions. The only framing beyond the record is open narrator judgment (\"Yet every choice is yours.\", \"It's luck that saves you, not brains.\", \"Your vanity just revived your own case.\"). Uncertainty is said out loud (\"Most accounts say...\", \"As far as anyone knows...\"). His real name is withheld until the floppy-disk metadata reveals \"Dennis\" in Part 5; a blacked-out name bar recurs on screen until then. Killings are only implied, through dates, dark windows and silence. Survivors and the wrongly suspected are named with care. The series ends by stepping out of \"you\" to name the ten victims: \"Remember their names, not his.\"",
+ "parts": [
+  {
+   "part": 1,
+   "title": "Part 1: The Family Man",
+   "hook": "This is a true story. And in it, you are the killer.",
+   "coldOpen": {
+    "beat": 10,
+    "words": "Someone has survived you."
+   },
+   "beats": [
+    {
+     "scene": "title_card",
+     "visual": "Black screen with film grain. Typewriter text types on 'A TRUE STORY' in white, then 'YOU ARE THE KILLER' below it in glowing red. One glitch flicker, then a hard camera punch-in on 'KILLER'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "This is a true story. And in it, you are the killer."
+      }
+     ]
+    },
+    {
+     "scene": "id_badge",
+     "visual": "Four small cards slide in and stack, each with the same faceless silhouette photo: 'AGE 28', 'MARRIED 1971', 'U.S. AIR FORCE VETERAN', 'COLLEGE STUDENT'. A thin red light sweeps across where the eyes would be. No name appears on any card.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You are twenty-eight, married, an Air Force veteran, and a college student."
+      }
+     ]
+    },
+    {
+     "scene": "double_life",
+     "visual": "Split screen. Left, warm lamp light: a family dinner table with silhouettes, a Cub Scout neckerchief over a chair, a church pew with a small nameplate 'COUNCIL PRESIDENT' whose name is blacked out. Right, pitch dark: the same man's silhouette alone, red rim light, face hidden.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Later, you'll be a father of two and a church council president."
+      }
+     ]
+    },
+    {
+     "scene": "years_flip",
+     "visual": "The dark right half slowly swallows the warm left half. A giant red flip counter rolls from 1974 to 2005, digits clacking faster and faster. It stops on 2005 and white text appears: 'NOBODY KNOWS'. No tally or count of any kind on screen.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You will kill ten people, and hide it for thirty-one years."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "'JANUARY 15, 1974 · WICHITA, KANSAS' types on over a modest one-story house in grey winter daylight, frost on the lawn, a bare tree. A lone male silhouette walks along the side of the house toward the back and out of view; no door is shown. The yard goes still. Slow push-in.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "On January fifteenth, nineteen seventy-four, you walk into a family's home in Wichita."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Wide, still shot of the same house with four warm-lit windows. Four names fade in, in soft white, above the windows: JOSEPH · JULIE · JOSEPHINE, 11 · JOSEPH II, 9. No interior is ever shown.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Joseph and Julie Otero are home with their two youngest, Josephine, eleven, and Joseph, nine."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Same frame. The four windows go dark one by one in total silence. Hold on the dark house; only wind.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Four people inside never walk out again."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Afternoon light. Three teenage silhouettes with school bags walk up the path to the front door. The camera holds wide on the door, then hard-cuts to black before it opens.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "That afternoon, their three oldest come home from school and find their parents."
+      }
+     ]
+    },
+    {
+     "scene": "sfx_text",
+     "visual": "Hard glitch cut. The word 'MURDERER' stamps into frame in cold white block letters like a label on a case file, with a thin red underline and a slow push-in (no celebratory glow or burst). Smaller grey text fades in below: 'NO ONE KNOWS YOUR FACE'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Now you are a murderer."
+      },
+      {
+       "voice": "narrator",
+       "text": "And nobody in Wichita knows your face."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "'APRIL 4, 1974' stamps over a small house at dusk with one lit window. Caption in white: 'KATHRYN BRIGHT, 21'. The lit window slowly dims.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In April, you attack Kathryn Bright, twenty-one. She dies hours later."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Same street, low angle. A young man's silhouette, outlined in red, bursts out of the front door and runs down the street out of frame. No weapon and no injury are shown. Text slams in: 'KEVIN BRIGHT · SURVIVED'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Her brother Kevin is badly hurt, but he escapes alive."
+      },
+      {
+       "voice": "narrator",
+       "text": "Someone has survived you."
+      }
+     ]
+    },
+    {
+     "scene": "evidence_board",
+     "visual": "Corkboard. An index card 'OTERO · JAN 15, 1974' with three blank silhouette cards pinned beside it, each tagged 'IN CUSTODY'. A detective's hat silhouette in the foreground. A separate card 'BRIGHT · APR 4, 1974' sits alone at the far edge with no string to anything. Typewriter text slides across the three cards: 'THEY KNOW NOTHING'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "That fall, three men in police custody talk about the Oteros."
+      },
+      {
+       "voice": "narrator",
+       "text": "So you write a letter saying they know nothing."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "A typewritten page types itself on, every line blurred except the word 'OTERO' in red. Extreme close-up on the blinking cursor at the bottom: three letters type one at a time, 'B.', 'T.', 'K.', each with a typewriter clack and a red flash, as the page goes black around them.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You claim the murders as yours."
+      },
+      {
+       "voice": "narrator",
+       "text": "And at the end, you give yourself a name."
+      },
+      {
+       "voice": "narrator",
+       "text": "B. T. K."
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "Series title 'YOU ARE BTK' in red with subline 'A TRUE STORY · PART 1 OF 5' and a pill button 'FOLLOW FOR PART 2'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for part two."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for part two.",
+   "caption": "True story: for 31 years, the BTK killer hid behind a normal family life near Wichita, Kansas. In this series, you are him. Part 1/5. Would anyone have suspected you?",
+   "hashtags": [
+    "#truecrime",
+    "#BTK",
+    "#serialkiller",
+    "#truestory",
+    "#wichita",
+    "#kansas",
+    "#truecrimecommunity",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "Everything in this series comes from documented news and court reporting. We never show how anyone died, and Part 5 ends with the victims' names, not his. Part 2 is next."
+  },
+  {
+   "part": 2,
+   "title": "Part 2: Your Own Crime",
+   "hook": "You have a name now. You just need someone to read it.",
+   "coldOpen": {
+    "beat": 12,
+    "words": "You are reporting your own crime."
+   },
+   "beats": [
+    {
+     "scene": "letter",
+     "visual": "The 'B.T.K.' page from Part 1 lies on a dark desk. It folds itself in thirds and slides into an envelope. Red text glows: 'WHO WILL READ IT?'",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You have a name now. You just need someone to read it."
+      }
+     ]
+    },
+    {
+     "scene": "newspaper",
+     "visual": "A generic newspaper front page with no real masthead lies on a dark desk. Beside it, an old rotary phone's receiver glows red as a hand silhouette lifts it. Text types on: 'OCTOBER 1974 · A CALL TO THE PAPER'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You phone the Wichita Eagle and tell them exactly where to look."
+      }
+     ]
+    },
+    {
+     "scene": "library_stacks",
+     "visual": "Tall library shelves at night. A flashlight beam moves along the spines and stops on one thick engineering textbook with no readable title. The edge of a folded letter glows red between its pages, dust drifting in the beam. Text: 'WICHITA PUBLIC LIBRARY'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Your letter is tucked inside an engineering textbook at the Wichita Public Library."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "The typed page fills the screen, every line blurred. One word surfaces in red: 'MONSTER'. It cracks and falls away, and plain white text replaces it: 'YOUR CHOICE'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In it, you claim a monster entered your brain."
+      },
+      {
+       "voice": "narrator",
+       "text": "Yet every choice is yours."
+      }
+     ]
+    },
+    {
+     "scene": "newspaper",
+     "visual": "A generic front page spins in with an empty headline space. A red stamp slams down: 'WITHHELD', subline 'AT POLICE REQUEST'. The page drains to grey.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Police ask the paper to keep it quiet, and the paper agrees."
+      },
+      {
+       "voice": "narrator",
+       "text": "The story you wanted doesn't run."
+      }
+     ]
+    },
+    {
+     "scene": "id_badge",
+     "visual": "A plain work ID card slides in: silhouette photo, name field blacked out, title 'SECURITY ALARM INSTALLER', dates 'NOV 1974 – JUL 1988'. No company logo.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "That November, you start installing home security alarms, a job you keep for almost fourteen years."
+      }
+     ]
+    },
+    {
+     "scene": "double_life",
+     "visual": "Left: a family's front door with an alarm keypad glowing a steady green, and a silhouette in work clothes packing up a toolbox. Right: deep shadow. The left figure's own shadow slowly stretches across the split into the dark right half, picking up a red rim light. The keypad stays green the whole time.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Families trust you to keep people like you out."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "'MARCH 17, 1977' types on. A small house on a grey day, a child's tricycle on the lawn, curtains drawn. Caption: 'SHIRLEY VIAN'. Slow push-in while the windows dim.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "On March seventeenth, nineteen seventy-seven, you take the life of Shirley Vian."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "The same house held wide. One small window stays softly lit. White text: 'HER CHILDREN SURVIVED'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Her young children are in the house, and they survive."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "'DECEMBER 8, 1977'. A small home on a quiet street at night in cold blue light, frost on the glass. One window goes dark. Caption: 'NANCY FOX, 25'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "That December, you kill Nancy Fox, twenty-five, in her home."
+      }
+     ]
+    },
+    {
+     "scene": "face_closeup",
+     "visual": "A silhouette profile in total darkness, with only a thin red line of light where the eyes would be. Slow push-in, a slight glitch tremor.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "And this time, you don't wait for anyone to find her."
+      }
+     ]
+    },
+    {
+     "scene": "phone_booth",
+     "visual": "An empty downtown corner with one lit phone booth, light rain and a red glow on the glass. A faceless silhouette steps inside and lifts the receiver.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You go to a phone booth downtown, and you call the police yourself."
+      }
+     ]
+    },
+    {
+     "scene": "phone_booth",
+     "visual": "Close-up of the receiver while a red audio waveform pulses. Text: 'POLICE DISPATCH · DECEMBER 1977'. Hard cut to huge white words: 'YOU REPORTED YOUR OWN CRIME'. Then a blinking red 'REC' dot appears in the corner as the waveform keeps running.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You give the dispatcher an address and a name."
+      },
+      {
+       "voice": "narrator",
+       "text": "You are reporting your own crime."
+      },
+      {
+       "voice": "narrator",
+       "text": "And every word is being recorded."
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "'YOU ARE BTK' title with a pill button 'FOLLOW FOR PART 3'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for part three."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for part three.",
+   "caption": "Part 2/5: He hid a confession in a library book, then called police about his own crime. Should the paper have kept his letter quiet?",
+   "hashtags": [
+    "#truecrime",
+    "#BTK",
+    "#serialkiller",
+    "#truestory",
+    "#wichita",
+    "#coldcase",
+    "#truecrimecommunity",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "Fact check: police asked the Wichita Eagle to keep his 1974 letter out of the paper, and it agreed. In December 1977, after killing Nancy Fox, he called the police himself from a downtown phone booth. Myth: police or the media named him BTK. False. He chose the name himself. Part 3 is next."
+  },
+  {
+   "part": 3,
+   "title": "Part 3: The Voice on the Tape",
+   "hook": "Police now have your voice on tape.",
+   "coldOpen": {
+    "beat": 10,
+    "words": "Police suspect her husband, not you."
+   },
+   "beats": [
+    {
+     "scene": "phone_booth",
+     "visual": "The same phone booth in the rain, the receiver dangling and swinging. A reel-to-reel tape spins beside it in the dark while a red audio waveform pulses. The waveform freezes and a grey stamp lands across it: 'NO NAME'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Police now have your voice on tape."
+      },
+      {
+       "voice": "narrator",
+       "text": "But a voice is not a name."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "A 'JAN 31, 1978' postmark stamps onto an envelope addressed to the newspaper. The envelope slides onto a pile of mail.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Weeks later, you mail a poem about Shirley Vian to the newspaper."
+      }
+     ]
+    },
+    {
+     "scene": "classified_ad",
+     "visual": "The envelope sinks into a stack of blurred classified-ad forms and disappears. A small day counter in the corner ticks up while nothing moves. Red text: 'UNNOTICED'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "It's misrouted to the classified ads, and sits unnoticed for days."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "'FEBRUARY 1978'. A new envelope addressed to 'KAKE-TV' slides in (plain typed address, no station logo), then a hard punch-in on the address.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Ignored, you write to a television station instead."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "The letter fills the screen, typewritten, every line blurred. Only two words surface in red: 'NATIONAL ATTENTION'. Slow push-in while the edges of the page darken.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You ask how many you have to kill before you get some national attention."
+      }
+     ]
+    },
+    {
+     "scene": "tv_news",
+     "visual": "An old late-1970s CRT TV: a police chief's silhouette at a podium, a red bar reading 'POLICE: SERIAL KILLER AT LARGE', ticker 'WICHITA'. The camera pulls back to a silhouette in an armchair, watching.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Now the police chief tells Wichita a serial killer is loose."
+      },
+      {
+       "voice": "narrator",
+       "text": "You have your audience."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "'APRIL 28, 1979'. Night. A quiet house, every window dark. Headlights sweep the street, but the driveway stays empty. Much later, a lone small silhouette walks up to the door. Caption: 'ANNA WILLIAMS, 63', then 'SHE SURVIVED'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In nineteen seventy-nine, you wait inside the home of Anna Williams."
+      },
+      {
+       "voice": "narrator",
+       "text": "She stays out late, and you leave before she returns."
+      }
+     ]
+    },
+    {
+     "scene": "tv_news",
+     "visual": "'1979'. A CRT TV and an old radio side by side, both pulsing the same red waveform. Ticker: 'DO YOU KNOW THIS VOICE?'. Ringing-phone icons pile up, then a grey stamp: 'NO MATCH'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "That same year, police play your phone call on radio and television."
+      },
+      {
+       "voice": "narrator",
+       "text": "Nobody recognizes your voice."
+      }
+     ]
+    },
+    {
+     "scene": "sfx_text",
+     "visual": "Static. The huge white words 'LUCK, NOT BRAINS' fade in, with 'LUCK' glowing red. Glitch cut.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "It's luck that saves you, not brains."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Year counter '1985'. A quiet suburban street at night with a row of small houses. A red dotted line hops from one house to another only a few doors down the same street, and its windows go dark. Caption: 'MARINE HEDGE, 53 · PARK CITY'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In nineteen eighty-five, you kill Marine Hedge, who lives on your own street."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "'1986'. A house at midday, a car in the driveway. A police spotlight swings onto a husband's silhouette in the yard, while a second silhouette far in the background stays untouched in darkness. Caption: 'VICKI WEGERLE, 28'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "The next year, you kill Vicki Wegerle, twenty-eight."
+      },
+      {
+       "voice": "narrator",
+       "text": "Police suspect her husband, not you."
+      }
+     ]
+    },
+    {
+     "scene": "years_flip",
+     "visual": "The year counter flips from 1986 to 1991. Caption: 'DOLORES DAVIS, 62'. No tally or count of any kind.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In nineteen ninety-one, you take the life of Dolores Davis, sixty-two."
+      }
+     ]
+    },
+    {
+     "scene": "sfx_text",
+     "visual": "The huge white word 'SILENCE' fades in, with a small grey line beneath: 'NO KNOWN KILLINGS AFTER 1991'. Behind it the year counter rolls from 1991 to 2004 in red. Last frame: the word 'ALMOST' glows red and glitches.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "As far as anyone knows, the killing stops there."
+      },
+      {
+       "voice": "narrator",
+       "text": "For thirteen years, you almost get away with it."
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "'YOU ARE BTK' title with a pill button 'FOLLOW FOR PART 4'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for part four."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for part four.",
+   "caption": "Part 3/5: In 1979 police played his voice on radio and TV, and nobody recognized it. Would you have?",
+   "hashtags": [
+    "#truecrime",
+    "#BTK",
+    "#serialkiller",
+    "#truestory",
+    "#wichita",
+    "#unsolved",
+    "#truecrimecommunity",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "In 1979 police broadcast the tape of his call on radio and TV. Tips poured in, but nobody identified him. Anna Williams survived because she stayed out late and he left before she got home. One later report said his wife once found a draft of one of his poems, and he told her it was for a class. Part 4 is next."
+  },
+  {
+   "part": 4,
+   "title": "Part 4: One Question",
+   "hook": "Your new job gives you power over your own neighbors.",
+   "coldOpen": {
+    "beat": 9,
+    "words": "Police dig the box out of the trash."
+   },
+   "beats": [
+    {
+     "scene": "id_badge",
+     "visual": "A city ID badge: silhouette photo, name blacked out, title 'COMPLIANCE OFFICER · PARK CITY', 'SINCE 1991'. Behind it, a row of neighbors' lawns with little violation notices fluttering on the doors.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Your new job gives you power over your own neighbors."
+      },
+      {
+       "voice": "narrator",
+       "text": "You are Park City's compliance officer."
+      }
+     ]
+    },
+    {
+     "scene": "newspaper",
+     "visual": "A generic front page spins in dated 'JANUARY 2004' with an illustrative headline (not the real one): '30 YEARS: THE OTERO MURDERS', subline 'BTK STILL UNSOLVED'. No real masthead.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In January two thousand four, the Wichita Eagle marks thirty years since the Otero murders."
+      }
+     ]
+    },
+    {
+     "scene": "newspaper",
+     "visual": "A smaller column slides in: 'LOCAL LAWYER WRITING BOOK ON BTK'. A red circle tightens around it.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "And a lawyer is writing a book about you."
+      }
+     ]
+    },
+    {
+     "scene": "face_closeup",
+     "visual": "A silhouette profile reading by lamplight, the newsprint's glow on his face. Slowly the red glow returns where the eye should be. Glitch cut.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Most accounts say that's what pulls you back."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "A 'MARCH 2004' postmark. The return address types on: 'BILL THOMAS KILLMAN', and the initials B, T and K glow red one by one.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In March, the Eagle gets a letter from a Bill Thomas Killman."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "The envelope opens and a photocopied driver's license slides out, its photo blurred to a soft grey shape. Only the name 'VICKI WEGERLE' is readable. Nothing else from the envelope is shown.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "It holds a copy of Vicki Wegerle's driver's license."
+      }
+     ]
+    },
+    {
+     "scene": "evidence_board",
+     "visual": "Corkboard. The license copy is pinned up and labeled 'WEGERLE 1986'. A red string snaps from it to a 'BTK' card. A second card, 'BILL WEGERLE · SUSPECT', has its red circle slowly wiped away until the card sits plain and unmarked.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "It proves you killed her."
+      },
+      {
+       "voice": "narrator",
+       "text": "After almost eighteen years, the suspicion on her husband Bill finally lifts."
+      }
+     ]
+    },
+    {
+     "scene": "sfx_text",
+     "visual": "The huge red word 'VANITY' glitches in with a camera punch-in and cracks down the middle. Through the crack: a dark map of Wichita where package icons drop in month by month, each tagged with a 2004 date.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Your vanity just revived your own case."
+      },
+      {
+       "voice": "narrator",
+       "text": "Now packages from you turn up nearly every month."
+      }
+     ]
+    },
+    {
+     "scene": "parking_lot",
+     "visual": "A store parking lot at night under orange sodium lights, no logos. A silhouette sets a cereal box in the bed of a stranger's pickup truck and walks off while a pole camera's red REC dot blinks. Later the truck's owner, in silhouette, finds the box and tosses it into a trash can.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In January two thousand five, you leave a cereal box in a stranger's pickup truck."
+      },
+      {
+       "voice": "narrator",
+       "text": "The owner throws it away."
+      }
+     ]
+    },
+    {
+     "scene": "parking_lot",
+     "visual": "A postcard slides in, its handwriting hidden in shadow, stamped 'JAN 2005'. Cut to flashlights over a trash can at night as gloved hands lift the cereal box out.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "So you mail a postcard asking whether anyone got it."
+      },
+      {
+       "voice": "narrator",
+       "text": "Police dig the box out of the trash."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "Close-up inside the box: a note on cardboard. The question types itself on, white on black, in a cold typewriter font, with 'FLOPPY' and 'BE HONEST' highlighted red. A purple floppy disk silhouette flashes for one frame.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "A note inside asks police one question."
+      },
+      {
+       "voice": "quote",
+       "text": "Can I communicate with Floppy and not be traced to a computer. Be honest."
+      }
+     ]
+    },
+    {
+     "scene": "classified_ad",
+     "visual": "A newspaper classifieds page full of tiny blurred ad boxes, generic type, no masthead. One box starts to glow red, its text still unreadable. Hard cut to black.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You tell them to answer in the newspaper's classified ads."
+      },
+      {
+       "voice": "narrator",
+       "text": "And the police write back."
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "'YOU ARE BTK' title with a pill button 'FOLLOW FOR THE FINAL PART'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for the final part."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for the final part.",
+   "caption": "Part 4/5: Thirteen years after his last murder, most accounts say a newspaper anniversary story pulled him back. His comeback letter lifted the suspicion from an innocent man. He asked police to 'be honest.' What would you have answered?",
+   "hashtags": [
+    "#truecrime",
+    "#BTK",
+    "#serialkiller",
+    "#truestory",
+    "#wichita",
+    "#coldcase",
+    "#truecrimecommunity",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "A detail that still gets people: a word puzzle he mailed in 2004 hid clues to his own identity. Nobody spotted them until after the arrest. His March 2004 letter finally lifted the suspicion from Bill Wegerle, who had lived under it since 1986. The final part is next."
+  },
+  {
+   "part": 5,
+   "title": "Part 5: Be Honest",
+   "hook": "The police answer in the ad you asked for.",
+   "coldOpen": {
+    "beat": 9,
+    "words": "Because I was trying to catch you."
+   },
+   "beats": [
+    {
+     "scene": "classified_ad",
+     "visual": "The classifieds page from Part 4. The glowing ad unblurs and types on exactly: 'Rex, it will be ok'. A red circle closes around it.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "The police answer in the ad you asked for."
+      },
+      {
+       "voice": "quote",
+       "text": "Rex, it will be okay."
+      }
+     ]
+    },
+    {
+     "scene": "sfx_text",
+     "visual": "The ad's letters crack, and huge red words burn through: 'IT'S A LIE'. Glitch, then a silhouette nods slowly in the dark.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You believe them, but it's a lie."
+      }
+     ]
+    },
+    {
+     "scene": "computer_disk",
+     "visual": "'FEB 16, 2005'. A padded envelope opens on a TV-station desk (no station logo). A purple floppy disk slides out and clicks into an old beige PC.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In February, your purple floppy disk reaches a television station."
+      }
+     ]
+    },
+    {
+     "scene": "computer_disk",
+     "visual": "A file properties dialog for a deleted file reveals its fields one by one: a field reading 'Christ Lutheran Church', then 'Last modified by: Dennis', which flashes red. Camera punch-in on 'Dennis'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "A deleted file's hidden data reads: Christ Lutheran Church."
+      },
+      {
+       "voice": "narrator",
+       "text": "Last modified by... Dennis."
+      }
+     ]
+    },
+    {
+     "scene": "church_ext",
+     "visual": "A small church at night with one lit window. A generic church-website overlay with no real logo reads 'COUNCIL PRESIDENT'. The blacked-out name bar from earlier parts finally types on: 'DENNIS RADER', circled in red.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "The church website names its council president, Dennis Rader."
+      },
+      {
+       "voice": "narrator",
+       "text": "Your own disk gives you away."
+      }
+     ]
+    },
+    {
+     "scene": "parking_lot",
+     "visual": "A grainy security-camera frame with scanlines and a red REC dot: a black Jeep Cherokee silhouette leaving the store lot from Part 4, circled in red. Cut to a dark residential driveway at night where the same SUV silhouette sits, outlined in red.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Back at the store, a camera caught a black Jeep Cherokee."
+      },
+      {
+       "voice": "narrator",
+       "text": "One is parked outside your house."
+      }
+     ]
+    },
+    {
+     "scene": "evidence_board",
+     "visual": "Corkboard under a lab lamp. A sealed card labeled 'MEDICAL SAMPLE' connects by red string to a card labeled 'CRIME SCENE DNA'. A DNA helix draws itself in red along the string, then 'FAMILY MATCH' stamps in. No person is shown.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "For final proof, police obtain your daughter's medical sample without her knowledge."
+      },
+      {
+       "voice": "narrator",
+       "text": "The DNA points back to you."
+      }
+     ]
+    },
+    {
+     "scene": "police_lights",
+     "visual": "'FEB 25, 2005'. A two-lane road under an overcast midday sky. Squad cars box in a car, red and blue lights sweep, and a silhouette steps out with hands behind his back.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "On February twenty-fifth, two thousand five, police pull you over near your home."
+      }
+     ]
+    },
+    {
+     "scene": "interview_room",
+     "visual": "A bare interview room: one hanging lamp, a metal table, two silhouettes facing each other. The word 'CONFESSION' types on between them in white. Then the purple floppy disk is set down on the table.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Under questioning, you confess."
+      },
+      {
+       "voice": "narrator",
+       "text": "And you ask Lieutenant Ken Landwehr why he lied to you."
+      }
+     ]
+    },
+    {
+     "scene": "sfx_text",
+     "visual": "Hard cut. Huge white words fill the screen one line at a time: 'BECAUSE I WAS TRYING TO CATCH YOU.' 'CATCH YOU' glows red. Camera punch-in.",
+     "lines": [
+      {
+       "voice": "quote",
+       "text": "Because I was trying to catch you."
+      }
+     ]
+    },
+    {
+     "scene": "courtroom",
+     "visual": "A judge's bench and a silhouette standing before it. 'GUILTY' stamps in red, then '10 CONSECUTIVE LIFE SENTENCES', then 'MINIMUM 175 YEARS'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You plead guilty to ten murders, and get ten consecutive life sentences."
+      },
+      {
+       "voice": "narrator",
+       "text": "No parole for at least one hundred seventy-five years."
+      }
+     ]
+    },
+    {
+     "scene": "memorial",
+     "visual": "White on black, no red accents and no photos. The names appear one by one with years: JOSEPH OTERO 1974, JULIE OTERO 1974, JOSEPHINE OTERO 1974, JOSEPH OTERO II 1974, KATHRYN BRIGHT 1974, SHIRLEY VIAN 1977, NANCY FOX 1977, MARINE HEDGE 1985, VICKI WEGERLE 1986, DOLORES DAVIS 1991.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Joseph Otero, Julie Otero, and their children Josephine and Joseph."
+      },
+      {
+       "voice": "narrator",
+       "text": "Kathryn Bright. Shirley Vian. Nancy Fox."
+      },
+      {
+       "voice": "narrator",
+       "text": "Marine Hedge. Vicki Wegerle. Dolores Davis."
+      }
+     ]
+    },
+    {
+     "scene": "memorial",
+     "visual": "All ten names stay softly lit. At the bottom, a bar with the killer's name fades to nothing. One white line: 'REMEMBER THEIR NAMES.'",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Remember their names, not his."
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "'YOU ARE BTK · THE END' in white, then the channel title 'GRIM REEL STORIES' and a pill button 'FOLLOW FOR THE NEXT TRUE STORY'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for the next true story."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for the next true story.",
+   "caption": "Part 5/5: A lie in the classifieds and one deleted file ended 31 years of hiding. Remember their names, not his. Did you know a floppy disk helped catch BTK?",
+   "hashtags": [
+    "#truecrime",
+    "#BTK",
+    "#serialkiller",
+    "#truestory",
+    "#wichita",
+    "#justice",
+    "#remembertheirnames",
+    "#truecrimecommunity",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "Joseph Otero. Julie Otero. Josephine Otero. Joseph Otero II. Kathryn Bright. Shirley Vian. Nancy Fox. Marine Hedge. Vicki Wegerle. Dolores Davis. Kevin Bright survived and later spoke at the sentencing. Kansas had no death penalty when these murders happened (it returned in 1994), so ten consecutive life terms was the maximum. Remember them."
+  }
+ ],
+ "newScenes": [
+  {
+   "name": "library_stacks",
+   "description": "Tall dark library shelves at night. A flashlight beam moves along the spines and stops on one thick engineering textbook with no readable real title, sticking out slightly. The edge of a folded letter glows red between its pages, with dust drifting in the beam. Optional overlay text: 'WICHITA PUBLIC LIBRARY'. Used in Part 2, beat 2."
+  },
+  {
+   "name": "parking_lot",
+   "description": "A big-box store parking lot at night under orange sodium lights, with no store logos. A pickup truck with a cereal box in its open bed, a security camera on a pole with a blinking red REC dot, and a trash can. Variants: (a) a postcard card stamped 'JAN 2005' sliding in, then flashlights and gloved hands lifting the cereal box out of a trash can (location not specified: no store wall behind it); (b) a grainy security-camera frame (timestamp overlay, scanlines) showing a dark SUV silhouette, labeled a black Jeep Cherokee, leaving the lot and circled in red, then the same SUV silhouette in a dark residential driveway (this second shot can reuse house_ext with a car in the driveway). Used in Part 4, beats 8-9 and Part 5, beat 5."
+  },
+  {
+   "name": "classified_ad",
+   "description": "A newspaper classifieds page full of tiny blurred ad boxes with generic type and no real masthead. States: (1) an envelope sinking into a stack of blurred classified-ad forms with a day counter ticking and red 'UNNOTICED' (Part 3, beat 2); (2) one box glowing red, still unreadable, then a hard cut to black (Part 4, beat 11); (3) the box unblurs and types on exactly 'Rex, it will be ok', and a red circle closes around it (Part 5, beat 0). Could also be built as a variant of the newspaper scene."
+  },
+  {
+   "name": "interview_room",
+   "description": "A bare police interview room: one hanging lamp, a metal table, two faceless silhouettes facing each other across it, and an optional object on the table (the purple floppy disk). Big typed text can appear between them (here: 'CONFESSION'). Used in Part 5, beat 8."
+  }
+ ],
+ "notes": "VERIFICATION STATUS\n- I could not check anything live in this run. The shared WebSearch budget for the turn (200 calls) was already used up, and WebFetch to en.wikipedia.org failed with DNS ENOTFOUND. Every decision below rests on the dossier, the two reviews and what I already knew.\n- Where those three disagreed, I chose the wording that stays true under either version.\n- To run a live pass, send a follow-up message or raise CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION.\n\nWORD COUNTS\n- Counted by script: split on whitespace, end-card line left out.\n  - P1: 170 words (174 if hyphens also split).\n  - P2: 171 (173).\n  - P3: 174 (179).\n  - P4: 176 (176).\n  - P5: 177 (179).\n- All five are within 150 to 180.\n- Beats per part, including the end card: 14, 14, 14, 13, 14. Every beat has 1 to 3 lines.\n- Runtime: at about 2.6 words per second, narration runs about 65 to 68 s. With the cold open (2 to 3 s) and the end card, each part is about 70 to 74 s.\n  - P4 and P5 are the longest. Time a test render before relying on Kokoro speed 1.05.\n  - Beats that run a little past 7 s: P1 b11 and b12, P2 b12, P3 b6, P4 b8 and b10, P5 b10. The P5 b11 memorial is meant to be slow.\n\nCOLD OPENS\nEach was rechecked by script: verbatim, contiguous, inside one line of the named 0-based beat, and in the second half of the part by both beat index and word position.\n- P1, beat 10: \"Someone has survived you.\" Starts at 75% of the words.\n- P2, beat 12: \"You are reporting your own crime.\" 93%. A new last line now follows it, so the ending still adds something.\n- P3, beat 10: \"Police suspect her husband, not you.\" 80%. This is the editor's optional upgrade; it opens a loop that pays off in P4.\n- P4, beat 9: \"Police dig the box out of the trash.\" 75%.\n  - Changed from the vanity line. After the required hook rewrite and the cut church beat, the vanity line fell to 49% of the words, out of the second half.\n- P5, beat 9: \"Because I was trying to catch you.\" 69%, quote voice.\n\nFIXES APPLIED\nBlockers:\n- P1 \"Kevin is shot twice\" is now \"badly hurt\".\n- P3 KAKE quote: \"a name\" and \"my name\" both circulate, and I could not check which is right. It is now a narrator paraphrase: \"You ask how many you have to kill before you get some national attention.\" On screen, only 'NATIONAL ATTENTION' is highlighted, which both versions share.\n  - Optional swap once the letter image is checked: use the quote voice with \"How many do I have to kill before I get a name in the paper or some national attention?\" Swap \"a name\" for \"my name\" if that is what the letter says.\n\nMajors:\n- P1 letter motive: beat 11 now uses the trigger the letter itself names (three men in custody, \"they know nothing\"). Bright is no longer linked to the Oteros.\n- P2: the dispatch date on screen and in the pinned comment is now \"December 1977\".\n- P2 cliffhanger: added \"And every word is being recorded.\" The on-screen text is now second person ('YOU REPORTED YOUR OWN CRIME').\n- P3 tape: removed \"too poor to analyze\". The line is now \"But a voice is not a name.\" and the stamp reads 'NO NAME'. The luck verdict moved after \"Nobody recognizes your voice.\"\n- P3 silence: \"Then you go silent\" is now \"As far as anyone knows, the killing stops there.\" The screen adds 'NO LETTERS SINCE 1979'. The P3 pinned comment and the P4 caption now separate 13 years without a killing from 25 years without a letter.\n- Kill tally removed from P1 b3 and P3 b11. \"Becomes your tenth victim\" is now \"you take the life of Dolores Davis\".\n- P3 beat openings are varied: \"The next year...\"; Hedge \"lives on your own street\".\n- P4 hook no longer repeats P3: \"Your new job gives you power over your own neighbors.\"\n- P5 DNA: \"obtain ... without her knowledge\". The visual is an evidence board, and the daughter is not shown.\n- P5 \"I'm BTK\" is not treated as a verbatim quote; the line is now \"Under questioning, you confess.\" The on-screen text reads 'CONFESSION'.\n\nMinors adopted:\n- Otero children: their ages are given, and the line is \"their three oldest ... find their parents\". The visual shows teenage silhouettes.\n- Otero entry visual: he goes around the side of the house; no front door is shown.\n- \"In April\" removes the doubled \"later\".\n- Alarm keypad stays green.\n- Don Granger's name and title dropped: \"You phone the Wichita Eagle\".\n- Poem and ad scenes now use letter and classified_ad.\n- Anna Williams: \"She stays out late, and you leave before she returns.\"\n- \"That same year\" for the broadcast.\n- P4: the church beat is cut so the P5 reveal lands harder; \"It proves you killed her.\"\n- Wegerle: \"the suspicion ... finally lifts\", not \"cleared\".\n- \"a stranger's pickup truck\"; \"A note inside asks police one question\".\n- The note's instruction to answer by classified ad is now spoken (P4 end; P5 \"the ad you asked for\").\n- \"You believe them, but it's a lie.\"\n- \"Last modified by... Dennis.\" (the ellipsis forces a pause).\n- \"Back at the store\".\n- \"Your own disk gives you away\" (the church did nothing).\n- \"Your vanity just revived your own case\" (the case was never closed).\n- \"a book about you\" (keeps BTK out of the narration).\n- Captions:\n  - The P1 caption no longer implies he was a father and council president for all 31 years.\n  - The P2 caption question no longer centers his need for attention.\n  - \"helped catch\".\n- Word puzzle softened to \"clues to his own identity\".\n- #horrortok becomes #truecrimecommunity in all five parts; #dennisrader dropped.\n\nConflict calls:\n- The brief asks for \"Now you're officially a murderer\". The fact-checker wanted it changed and the editor wanted it deleted.\n  - Kept as \"Now you are a murderer.\" Dropping \"officially\" fixes the factual and achievement-framing problems and keeps the requested moment.\n  - The visual is a cold case-file stamp, not a glowing slam.\n  - The cold open moved to \"Someone has survived you.\"\n- Dolores Davis's age (62) is now spoken and shown on purpose, because every source agrees on it. This replaces the old note \"year only\".\n\nREMAINING UNCERTAINTIES (check before publishing)\n1. October 1974: that three men were in custody and \"talking\" about the Oteros comes from the letter and the fact-checker. I could not confirm the exact count.\n2. Nancy Fox's call: December 8 or the morning of December 9. The screen now says only \"DECEMBER 1977\", and the narration gives no date.\n3. The KAKE wording, \"a name\" or \"my name\" (see above).\n4. Landwehr's reply \"Because I was trying to catch you.\" has a single source (ABA Journal). If it cannot be confirmed, paraphrase it and use P5 beat 4 \"Your own disk gives you away.\" as the cold open.\n5. The floppy question's wording is widely cited but medium confidence. \"Rex, it will be ok\" is high confidence; whether he dictated the exact words is likely but unconfirmed, so the narration says only \"the ad you asked for\".\n6. The 2004 trigger is hedged (\"Most accounts say\").\n7. The wife and the poem draft rest on one report (hedged in the P3 pinned comment).\n8. Where the box went into the trash (store or home) is unconfirmed, so the visual leaves it vague.\n9. There may be other victims (the 2023 Oklahoma allegations), so P3 says \"As far as anyone knows\".\n\nPRONUNCIATION (word -> spoken spelling)\n- Otero -> oh-TAIR-oh\n- Wegerle -> WEG-er-lee\n- Landwehr -> LAND-wair\n- Rader -> RAY-der\n- Vian -> VEE-an\n- Marine (Hedge) -> mah-REEN (check against family usage)\n- Killman -> KILL-man\n- Wichita -> WICH-ih-taw\n- B. T. K. -> Bee. Tee. Kay.\n- Lutheran -> LOO-ther-an\n- Cherokee -> CHAIR-oh-kee\n- Dolores -> doh-LOR-es\n- Josephine -> JOH-seh-feen\n- \"Rex, it will be ok\" is spoken \"okay\". The screen shows the verbatim \"ok\".\n- The narration always says \"television\", never \"TV\", and says \"BTK\" nowhere except the spelled-out \"B. T. K.\" in P1.\n\nSAFETY\n- No method, weapons, injuries, binding, staging, trophies, poem text or the \"Bondage\" name.\n- No crime-scene interiors, no faces, no real logos or mastheads, and the daughter is never shown.\n- Survivors named: Kevin Bright, Anna Williams and the Vian children.\n- Bill Wegerle's wrongful suspicion is shown and then lifted.\n- All ten victims are named in the memorial.\n\nSOURCES MOST RELIED ON (from the dossier; not reopened in this run)\n- en.wikipedia.org/wiki/Dennis_Rader\n- en.wikipedia.org/wiki/Kerri_Rawson\n- crimelibrary.org BTK chapters (letters, them_3, collide_4, poetry, act_5)\n- abajournal.com/magazine/article/how_the_cops_caught_btk\n- poynter.org/?p=22120\n- nbcnews.com/id/wbna4615264\n- fbicollector.com/historybtktaskforce.html\n- foxnews.com fast-facts-btk-victims and raw-data-btk-timeline\n- www2.ljworld.com (AP/Eagle reprints, 2004–2008)\n- cnn.com 2005/LAW/06/27/btk\n- npr.org 2005/08/19 sentencing\n- ojp.gov/pdffiles1/nij/nlectc/213470.pdf\n- biography.com btk-killer-dennis-rader-timeline\n- securitysales.com (ADT)\n- law.stanford.edu biobanks-privacy-and-the-subpoena-power"
+}

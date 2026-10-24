@@ -1,0 +1,1064 @@
+{
+ "lang": "en",
+ "fluent": true,
+ "series": "YOU ARE BTK · PART 5",
+ "place": "WICHITA, KANSAS",
+ "cerIgnoreNumbers": true,
+ "lead": 0.15,
+ "tail": 1.3,
+ "lineGap": 0.14,
+ "beatGap": 0.06,
+ "duckDb": 8,
+ "capMaxPx": 860,
+ "noEndFade": true,
+ "voices": {
+  "narrator": {
+   "engine": "supertonic",
+   "sid": 8,
+   "steps": 10,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.05
+  },
+  "quote": {
+   "engine": "supertonic",
+   "sid": 6,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  },
+  "quote_f": {
+   "engine": "supertonic",
+   "sid": 0,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  }
+ },
+ "ui": {
+  "kicker": "THE END",
+  "pill": "FOLLOW FOR THE NEXT TRUE STORY",
+  "end": "YOU ARE BTK"
+ },
+ "beats": [
+  {
+   "scene": "classified_ad",
+   "clock": "JAN 2005",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "pre": 0.15,
+   "p": {
+    "mode": "reveal",
+    "text": "Rex, it will be ok",
+    "at": "@rex-0.15"
+   },
+   "lines": [
+    {
+     "text": "The police answer in the ad you asked for.",
+     "emph": [
+      "ad"
+     ]
+    },
+    {
+     "text": "Rex, it will be okay.",
+     "voice": "quote"
+    }
+   ],
+   "sfx": [
+    {
+     "name": "paper_rustle",
+     "at": 0.05,
+     "gain": -6
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@rex-0.05",
+     "gain": -12,
+     "dur": 1.2
+    }
+   ]
+  },
+  {
+   "scene": "sfx_text",
+   "clock": "JAN 2005",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "pre": 0.1,
+   "post": 0.35,
+   "vignette": 0.9,
+   "p": {
+    "lines": [
+     "IT'S",
+     "A LIE."
+    ],
+    "times": [
+     "@its",
+     "@lie"
+    ],
+    "y": 1120,
+    "size": 200,
+    "bg": "classified_ad",
+    "bgP": {
+     "mode": "reveal",
+     "text": "Rex, it will be ok",
+     "at": -4,
+     "ringAt": -2
+    }
+   },
+   "lines": [
+    {
+     "text": "You believe them, but it's a lie.",
+     "emph": [
+      "lie"
+     ]
+    }
+   ],
+   "shakeAt": [
+    {
+     "at": "@lie",
+     "d": 0.5,
+     "a": 14
+    }
+   ],
+   "glitch": [
+    {
+     "at": "@lie+0.35",
+     "d": 0.12
+    }
+   ],
+   "sfx": [
+    {
+     "name": "hit_deep",
+     "at": "@lie+0.4",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "computer_disk",
+   "clock": "FEB 2005",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.02
+   ],
+   "pre": 0.15,
+   "post": 0.3,
+   "p": {
+    "floppyIn": "@purple-0.5",
+    "open": "@deleted+0.3",
+    "file": "DELETED FILE",
+    "clock": "11:52 PM",
+    "fields": [
+     {
+      "k": "Organization",
+      "v": "Christ Lutheran Church",
+      "at": "@christ",
+      "red": true
+     },
+     {
+      "k": "Last modified by",
+      "v": "Dennis",
+      "at": "@dennis",
+      "red": true
+     }
+    ],
+    "zoom": "@last-0.2"
+   },
+   "lines": [
+    {
+     "text": "In February, your purple floppy disk reaches a television station.",
+     "emph": [
+      "purple"
+     ],
+     "gap": 0.15
+    },
+    {
+     "text": "A deleted file's hidden data reads:",
+     "gap": 0.05
+    },
+    {
+     "text": "Christ Lutheran Church.",
+     "emph": [
+      "christ",
+      "lutheran",
+      "church"
+     ],
+     "gap": 0.15
+    },
+    {
+     "text": "Last modified by...",
+     "gap": 0.25
+    },
+    {
+     "text": "Dennis.",
+     "emph": [
+      "dennis"
+     ]
+    }
+   ],
+   "punch": [
+    "@dennis+0.1"
+   ],
+   "flash": [
+    {
+     "at": "@dennis+0.45",
+     "d": 0.12,
+     "c": "#ff2020",
+     "a": 0.25
+    }
+   ],
+   "sfx": [
+    {
+     "name": "floppy_insert",
+     "at": "@purple+0.71",
+     "gain": -7
+    },
+    {
+     "name": "light_click",
+     "at": "@deleted",
+     "gain": -12
+    },
+    {
+     "name": "typewriter_key",
+     "at": "@christ",
+     "gain": -14
+    },
+    {
+     "name": "stinger_reveal",
+     "at": "@dennis+0.5",
+     "gain": -8
+    }
+   ]
+  },
+  {
+   "scene": "church_ext",
+   "clock": "FEB 2005",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "focus": [
+    600,
+    1000
+   ],
+   "pre": 0.2,
+   "post": 0.12,
+   "p": {
+    "lit": true
+   },
+   "lines": [
+    {
+     "text": "The church website names its council president,",
+     "emph": [
+      "president"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "church_bell_distant",
+     "at": 0.05,
+     "gain": -10
+    }
+   ]
+  },
+  {
+   "scene": "id_badge",
+   "clock": "FEB 2005",
+   "clockRed": true,
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    860
+   ],
+   "pre": 0.4,
+   "post": 0.55,
+   "p": {
+    "kind": "nameplate",
+    "red": true,
+    "org": "CHRIST LUTHERAN CHURCH",
+    "title": "COUNCIL PRESIDENT",
+    "name": "DENNIS RADER",
+    "at": 0.0,
+    "stamp": {
+     "text": "IDENTIFIED",
+     "at": "@away+0.3",
+     "x": 0,
+     "y": -190,
+     "rot": -0.07,
+     "w": 440
+    }
+   },
+   "lines": [
+    {
+     "text": "Dennis Rader.",
+     "emph": [
+      "dennis",
+      "rader"
+     ],
+     "gap": 0.1
+    },
+    {
+     "text": "Your own disk gives you away.",
+     "emph": [
+      "disk"
+     ]
+    }
+   ],
+   "flash": [
+    {
+     "at": 0.75,
+     "d": 0.12,
+     "c": "#ffffff",
+     "a": 0.3
+    }
+   ],
+   "punch": [
+    "@away+0.3"
+   ],
+   "sfx": [
+    {
+     "name": "hit_deep",
+     "at": 0.02,
+     "gain": -5
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@away+0.3",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "parking_lot",
+   "clock": "FEB 2005",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    700,
+    700
+   ],
+   "pre": 0.1,
+   "post": 0.15,
+   "p": {
+    "mode": "cctv",
+    "ring": "@caught+0.1",
+    "ts": "JAN 2005  REC 00:00:07"
+   },
+   "lines": [
+    {
+     "text": "Back at the store, a camera caught a black Jeep Cherokee.",
+     "emph": [
+      "jeep",
+      "cherokee"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "static_burst",
+     "at": 0.0,
+     "gain": -16
+    }
+   ]
+  },
+  {
+   "scene": "parking_lot",
+   "clock": "FEB 2005",
+   "place": "PARK CITY, KANSAS",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "pre": 0.1,
+   "post": 0.2,
+   "p": {
+    "mode": "driveway",
+    "ring": "@one"
+   },
+   "lines": [
+    {
+     "text": "One is parked outside your house.",
+     "emph": [
+      "house"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "heartbeat_single",
+     "at": "@house+0.4",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "evidence_board",
+   "clock": "FEB 2005",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "pre": 0.1,
+   "post": 0.3,
+   "p": {
+    "title": "FINAL PROOF",
+    "at": 0.0,
+    "cards": [
+     {
+      "text": "MEDICAL SAMPLE",
+      "x": 0.22,
+      "y": 0.18,
+      "at": "@medical",
+      "rot": -0.05
+     },
+     {
+      "text": "CRIME SCENE DNA",
+      "x": 0.78,
+      "y": 0.36,
+      "at": "@knowledge",
+      "rot": 0.04
+     },
+     {
+      "kind": "note",
+      "text": "FAMILY MATCH",
+      "x": 0.5,
+      "y": 0.78,
+      "at": "@the-0.4",
+      "red": true,
+      "rot": -0.03
+     }
+    ],
+    "strings": [
+     {
+      "from": 0,
+      "to": 1,
+      "at": "@knowledge"
+     },
+     {
+      "from": 1,
+      "to": 2,
+      "at": "@points"
+     },
+     {
+      "from": 0,
+      "to": 2,
+      "at": "@points+0.15"
+     }
+    ],
+    "circle": {
+     "i": 2,
+     "at": "@you+0.1"
+    }
+   },
+   "lines": [
+    {
+     "text": "For final proof, police obtain your daughter's medical sample without her knowledge.",
+     "emph": [
+      "medical"
+     ]
+    },
+    {
+     "text": "The DNA points back to you.",
+     "emph": [
+      "you"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "paper_rustle",
+     "at": "@medical",
+     "gain": -6
+    },
+    {
+     "name": "paper_rustle",
+     "at": "@knowledge",
+     "gain": -6
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@the-0.4",
+     "gain": -5
+    },
+    {
+     "name": "heartbeat_single",
+     "at": "@you+0.45",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "police_lights",
+   "clock": "FEB 2005",
+   "clockRed": true,
+   "place": "PARK CITY, KANSAS",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "pre": 0.15,
+   "post": 0.35,
+   "p": {
+    "text": {
+     "s": "FEB 25, 2005",
+     "at": "@february"
+    },
+    "arrest": "@pull",
+    "cars": 3,
+    "officers": 3,
+    "house": false,
+    "flashlights": false
+   },
+   "lines": [
+    {
+     "text": "On February twenty-fifth, two thousand five, police pull you over near your home.",
+     "emph": [
+      "pull"
+     ]
+    }
+   ],
+   "shakeAt": [
+    {
+     "at": "@pull+0.4",
+     "d": 0.4,
+     "a": 10
+    }
+   ],
+   "sfx": [
+    {
+     "name": "siren_wail",
+     "at": 0.0,
+     "gain": -9
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@february",
+     "gain": -12,
+     "dur": 1.0
+    },
+    {
+     "name": "car_door",
+     "at": "@over",
+     "gain": -8
+    },
+    {
+     "name": "police_radio",
+     "at": "@home",
+     "gain": -10
+    }
+   ]
+  },
+  {
+   "scene": "interview_room",
+   "clock": "FEB 2005",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "pre": 0.15,
+   "post": 0.35,
+   "p": {
+    "word": {
+     "s": "CONFESSION",
+     "at": "@confess"
+    },
+    "object": {
+     "at": "@lied-0.3"
+    }
+   },
+   "lines": [
+    {
+     "text": "Under questioning, you confess.",
+     "emph": [
+      "confess"
+     ]
+    },
+    {
+     "text": "And you ask Lieutenant Ken Landwehr why he lied to you.",
+     "emph": [
+      "lied"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": "@confess",
+     "gain": -13,
+     "dur": 1.0
+    },
+    {
+     "name": "light_click",
+     "at": "@lied",
+     "gain": -12
+    }
+   ]
+  },
+  {
+   "scene": "rule_card",
+   "clock": "FEB 2005",
+   "noCaptions": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.03
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "pre": 0.35,
+   "post": 0.45,
+   "p": {
+    "label": "LT. KEN LANDWEHR",
+    "text": "BECAUSE I WAS TRYING TO CATCH YOU.",
+    "hl": [
+     "CATCH",
+     "YOU"
+    ]
+   },
+   "lines": [
+    {
+     "text": "Because I was trying to catch you.",
+     "voice": "quote"
+    }
+   ],
+   "punch": [
+    "@catch"
+   ],
+   "sfx": [
+    {
+     "name": "hit_deep",
+     "at": 0.0,
+     "gain": -8
+    },
+    {
+     "name": "heartbeat_single",
+     "at": "@you+0.5",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "courtroom",
+   "clock": "2005",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "pre": 0.1,
+   "post": 0.25,
+   "p": {
+    "defendant": {
+     "stand": true
+    },
+    "gavel": [
+     "@and-0.25"
+    ],
+    "text": [
+     {
+      "s": "GUILTY",
+      "at": "@guilty-0.05"
+     }
+    ],
+    "sentence": {
+     "text": "10 CONSECUTIVE LIFE SENTENCES",
+     "at": "@consecutive-0.2",
+     "sub": "NO PAROLE FOR 175 YEARS"
+    }
+   },
+   "lines": [
+    {
+     "text": "You plead guilty to ten murders, and get ten consecutive life sentences.",
+     "emph": [
+      "guilty"
+     ]
+    },
+    {
+     "text": "No parole for at least one hundred seventy-five years.",
+     "emph": [
+      "parole"
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "name": "gavel",
+     "at": "@and-0.3",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "memorial",
+   "clock": "AUG 2005",
+   "noCaptions": true,
+   "noHud": true,
+   "trans": "fade",
+   "zoom": [
+    1.0,
+    1.02
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "pre": 0.5,
+   "post": 0.1,
+   "minDur": 6.335,
+   "p": {
+    "title": "",
+    "names": [
+     {
+      "name": "Joseph Otero",
+      "sub": "1974"
+     },
+     {
+      "name": "Julie Otero",
+      "sub": "1974"
+     },
+     {
+      "name": "Josephine Otero",
+      "sub": "1974"
+     },
+     {
+      "name": "Joseph Otero II",
+      "sub": "1974"
+     },
+     {
+      "name": "Kathryn Bright",
+      "sub": "1974"
+     },
+     {
+      "name": "Shirley Vian",
+      "sub": "1977"
+     },
+     {
+      "name": "Nancy Fox",
+      "sub": "1977"
+     },
+     {
+      "name": "Marine Hedge",
+      "sub": "1985"
+     },
+     {
+      "name": "Vicki Wegerle",
+      "sub": "1986"
+     },
+     {
+      "name": "Dolores Davis",
+      "sub": "1991"
+     }
+    ],
+    "at": 0.57,
+    "gap": 1.635
+   },
+   "lines": [
+    {
+     "text": "Joseph Otero, Julie Otero, and their children Josephine and Joseph.",
+     "say": "Joseph Oh-tair-oh, Julie Oh-tair-oh, and their children Josephine and Joseph.",
+     "speed": 0.97
+    }
+   ]
+  },
+  {
+   "scene": "memorial",
+   "clock": "AUG 2005",
+   "noCaptions": true,
+   "noHud": true,
+   "trans": "cut",
+   "zoom": [
+    1.02,
+    1.035
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "pre": 0.25,
+   "post": 0.3,
+   "p": {
+    "title": "",
+    "names": [
+     {
+      "name": "Joseph Otero",
+      "sub": "1974"
+     },
+     {
+      "name": "Julie Otero",
+      "sub": "1974"
+     },
+     {
+      "name": "Josephine Otero",
+      "sub": "1974"
+     },
+     {
+      "name": "Joseph Otero II",
+      "sub": "1974"
+     },
+     {
+      "name": "Kathryn Bright",
+      "sub": "1974"
+     },
+     {
+      "name": "Shirley Vian",
+      "sub": "1977"
+     },
+     {
+      "name": "Nancy Fox",
+      "sub": "1977"
+     },
+     {
+      "name": "Marine Hedge",
+      "sub": "1985"
+     },
+     {
+      "name": "Vicki Wegerle",
+      "sub": "1986"
+     },
+     {
+      "name": "Dolores Davis",
+      "sub": "1991"
+     }
+    ],
+    "at": -4.31,
+    "gap": 1.15
+   },
+   "lines": [
+    {
+     "text": "Kathryn Bright.",
+     "speed": 0.97,
+     "gap": 0.19
+    },
+    {
+     "text": "Shirley Vian.",
+     "speed": 0.97,
+     "say": "Shirley Vee-an.",
+     "gap": 0.17
+    },
+    {
+     "text": "Nancy Fox.",
+     "speed": 0.97,
+     "gap": 0.28
+    },
+    {
+     "text": "Marine Hedge.",
+     "speed": 0.97,
+     "gap": 0.26
+    },
+    {
+     "text": "Vicki Wegerle.",
+     "speed": 0.97,
+     "say": "Vicki Wegg-er-lee.",
+     "gap": 0.2
+    },
+    {
+     "text": "Dolores Davis.",
+     "speed": 0.97
+    }
+   ]
+  },
+  {
+   "scene": "memorial",
+   "clock": "AUG 2005",
+   "noCaptions": true,
+   "noHud": true,
+   "trans": "cut",
+   "zoom": [
+    1.035,
+    1.045
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "pre": 0.35,
+   "post": 0.75,
+   "p": {
+    "title": "",
+    "names": [
+     {
+      "name": "Joseph Otero",
+      "sub": "1974"
+     },
+     {
+      "name": "Julie Otero",
+      "sub": "1974"
+     },
+     {
+      "name": "Josephine Otero",
+      "sub": "1974"
+     },
+     {
+      "name": "Joseph Otero II",
+      "sub": "1974"
+     },
+     {
+      "name": "Kathryn Bright",
+      "sub": "1974"
+     },
+     {
+      "name": "Shirley Vian",
+      "sub": "1977"
+     },
+     {
+      "name": "Nancy Fox",
+      "sub": "1977"
+     },
+     {
+      "name": "Marine Hedge",
+      "sub": "1985"
+     },
+     {
+      "name": "Vicki Wegerle",
+      "sub": "1986"
+     },
+     {
+      "name": "Dolores Davis",
+      "sub": "1991"
+     }
+    ],
+    "at": -20,
+    "gap": 0.0
+   },
+   "lines": [
+    {
+     "text": "Remember their names, not his.",
+     "speed": 0.97
+    }
+   ]
+  },
+  {
+   "scene": "end_card",
+   "clock": "AUG 2005",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "fade",
+   "pre": 0.2,
+   "post": 0.1,
+   "p": {
+    "title": "THE END",
+    "kicker": "YOU ARE BTK",
+    "pill": "FOLLOW FOR THE NEXT TRUE STORY",
+    "sub": "REMEMBER THEIR NAMES|NOT HIS"
+   },
+   "lines": [
+    {
+     "text": "Follow for the next true story."
+    }
+   ]
+  }
+ ],
+ "coldOpen": {
+  "beat": 10,
+  "words": "Because I was trying to catch you.",
+  "label": "LATER"
+ },
+ "beds": [
+  {
+   "name": "drone_bed",
+   "fromBeat": 0,
+   "toBeat": 11,
+   "gain": 1,
+   "fade": 0.4
+  },
+  {
+   "name": "drone_bed",
+   "fromBeat": 12,
+   "toBeat": 15,
+   "gain": -4,
+   "fade": 1.2
+  },
+  {
+   "name": "newsroom_bed",
+   "fromBeat": 0,
+   "toBeat": 1,
+   "gain": -4,
+   "fade": 0.5
+  },
+  {
+   "name": "crt_hum_bed",
+   "fromBeat": 2,
+   "toBeat": 2,
+   "gain": -2,
+   "fade": 0.4
+  },
+  {
+   "name": "night_suburb_bed",
+   "fromBeat": 3,
+   "toBeat": 8,
+   "gain": -2,
+   "fade": 0.6
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 1,
+   "toBeat": 10,
+   "gain": -4,
+   "fade": 1.0
+  },
+  {
+   "name": "heartbeat_slow_muffled",
+   "fromBeat": 8,
+   "toBeat": 10,
+   "gain": -7,
+   "fade": 0.8
+  },
+  {
+   "name": "courtroom_room_tone",
+   "fromBeat": 11,
+   "toBeat": 11,
+   "gain": -1,
+   "fade": 0.6
+  }
+ ]
+}

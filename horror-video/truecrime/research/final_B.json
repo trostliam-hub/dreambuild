@@ -1,0 +1,828 @@
+{
+ "seriesTitle": "NONE LEADING OUT",
+ "logline": "A true story told by the farmhouse itself. In March 1922, footprints in the snow led into Hinterkaifeck, a lonely farm in Bavaria, and none led out. In a single night, six people were killed, and more than a century later nobody has ever been convicted.",
+ "perspective": "Second person throughout, and the \"you\" is the farmstead Hinterkaifeck itself. Part 1 sets it up in the first line (\"This is a true story. You are Hinterkaifeck, a lonely farm in Bavaria.\"), Part 2 repeats it in its first line, and Parts 3, 4 and 5 put \"YOU ARE HINTERKAIFECK\" on screen in beat 0 and keep \"your barn\", \"your door\" and \"your floor\" in the narration. The house can only witness: it never thinks or speaks for the victims, the suspects or the killer, and everything \"you\" experience is a documented event inside or around its walls. Part 5 marks the end of that view (\"It was inside you the whole time, and now you are gone.\"). From there the narration follows only the file, in chronological order and in the present tense, and closes on the six names. Speculation always carries a marker: \"may\", \"reportedly\", \"police believe\", \"some point to\", \"perhaps\" or \"by his own later account\".",
+ "parts": [
+  {
+   "part": 1,
+   "title": "Footprints In, None Out",
+   "hook": "This is a true story. You are Hinterkaifeck, a lonely farm in Bavaria.",
+   "coldOpen": {
+    "beat": 6,
+    "words": "None of them lead away"
+   },
+   "beats": [
+    {
+     "scene": "farm_snow",
+     "visual": "Night, heavy snow. A lone farmstead, with house, stable and barn joined under one long roof, at the black edge of a pine forest. One amber window. Slow push-in while a red glow breathes under the eaves. Big bold caption: A TRUE STORY. Small caption beneath: YOU ARE THE FARM.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "This is a true story. You are Hinterkaifeck, a lonely farm in Bavaria."
+      }
+     ]
+    },
+    {
+     "scene": "title_card",
+     "visual": "Typewriter text on black: 'MARCH 1922' / 'HINTERKAIFECK, UPPER BAVARIA', with the subline 'a lone farm, about 70 km north of Munich'. On the word 'killed' a huge red 6 slams in. Glitch cut on line 2, where the caption NEVER SOLVED types on in red.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In nineteen twenty-two, six people within your walls will be killed in one night."
+      },
+      {
+       "voice": "narrator",
+       "text": "Whoever does it will never be caught."
+      }
+     ]
+    },
+    {
+     "scene": "double_life",
+     "visual": "Warm lamplight at a farmhouse table with five silhouettes: an old farmer, his old wife, a younger woman, a small girl and a toddler. The camera tilts up slowly through a cutaway ceiling to the attic right above them, which is blue-black with a faint red rim light on the rafters.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You are home to Andreas Gruber, his wife, their widowed daughter, and her two children."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Late-summer dusk, no snow. Seen from the track, a woman's silhouette with a bundle walks away down the road and does not look back. Caption: 1921. On line 2 a red handwritten tag slides in: SAID ONLY IN 1952.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Your last maid left months ago."
+      },
+      {
+       "voice": "narrator",
+       "text": "Decades later, she said a haunting had driven her away."
+      }
+     ]
+    },
+    {
+     "scene": "newspaper",
+     "visual": "A folded newspaper lies in the snow near the farm. It spins up into a page with a generic Munich masthead (no real paper's name and no legible headline) dated 'MÄRZ 1922'. A red stamp slams across it: NOBODY HERE SUBSCRIBES.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "That March, a Munich newspaper turns up, though nobody nearby subscribes to it."
+      }
+     ]
+    },
+    {
+     "scene": "attic",
+     "visual": "A dark attic above the bedrooms. A lantern rises through the hatch and its beam sweeps rafters, dust and straw. Footsteps creak on the boards, then stop. The beam finds only straw and empty rafters. Caption: FOOTSTEPS ABOVE THEM.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "At night, the family hears footsteps in your attic."
+      },
+      {
+       "voice": "narrator",
+       "text": "Andreas searches with a light and finds no one."
+      }
+     ]
+    },
+    {
+     "scene": "footprints",
+     "visual": "Close-up of fresh snow at night. A line of footprints comes out of the black treeline toward a small motor shed. The camera follows them, then whips 180 degrees to smooth, untouched snow. A red label IN glows over the prints, and a grey label OUT has nothing under it. Punch-in on the last print.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "On March thirtieth, he finds footprints in fresh snow, from the forest to your shed."
+      },
+      {
+       "voice": "narrator",
+       "text": "None of them lead away."
+      }
+     ]
+    },
+    {
+     "scene": "engine_shed",
+     "visual": "The motor shed door, with its forced lock hanging open. Inside, an old stationary engine sits untouched under the caption NOTHING TAKEN. On 'a house key is gone', an inset card slides in: a row of key hooks in the house hallway, one hook empty and glowing red.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "The shed's lock is forced, nothing is taken, and a house key is gone."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "The snowy yard at dusk. The old farmer's silhouette stands at the fence and waves two neighbor silhouettes away. Behind him, a rifle silhouette outlined in red leans by the door. Small grey caption: HIS WORDS, AS REPORTED IN THE FILES.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "He tells the neighbors but refuses help, and never goes to the police."
+      },
+      {
+       "voice": "narrator",
+       "text": "The burglar will be gone by now, he says, and his rifle is ready."
+      }
+     ]
+    },
+    {
+     "scene": "farm_snow",
+     "visual": "Wide night shot of the farm and the single line of footprints leading in. The camera rises slowly to the dark attic window. A caption types on: FRIDAY, 31 MARCH: THE NEW MAID ARRIVES. The attic window flickers red once, then a heartbeat and a hard cut to black.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Tomorrow, a new maid arrives. She will not survive her first night."
+      },
+      {
+       "voice": "narrator",
+       "text": "And whoever made those footprints may still be here."
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "The title 'NONE LEADING OUT' in glowing red over the snowy farm silhouette, with the pill FOLLOW FOR PART 2.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for part two."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for part two.",
+   "caption": "True story. In March 1922, footprints led into this lonely Bavarian farm, and none led out. Would you have stayed in this house?",
+   "hashtags": [
+    "#hinterkaifeck",
+    "#truecrime",
+    "#truestory",
+    "#unsolvedmysteries",
+    "#coldcase",
+    "#historymystery",
+    "#history",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "This series draws on police files, witness statements, archive research and later secondhand accounts. Where the sources disagree, we tell you. For example, the old maid only called the house haunted in 1952, thirty years later. Part 2: the new maid."
+  },
+  {
+   "part": 2,
+   "title": "The New Maid",
+   "hook": "You are Hinterkaifeck, and this is your family's last evening.",
+   "coldOpen": {
+    "beat": 8,
+    "words": "someone may still be inside, listening"
+   },
+   "beats": [
+    {
+     "scene": "title_card",
+     "visual": "Typed on black: 'YOU ARE HINTERKAIFECK' / 'FRIDAY, 31 MARCH 1922'. The farmhouse silhouette sits below with thin chimney smoke, and a clock hand ticks in the corner.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "You are Hinterkaifeck, and this is your family's last evening."
+      },
+      {
+       "voice": "narrator",
+       "text": "It is Friday, March thirty-first, nineteen twenty-two."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Grey morning at the farm gate. A postman's silhouette with a satchel hands a folded newspaper to the old farmer's silhouette. Freeze on the handover, and the farmer's silhouette glows faintly white. Small grey caption: THE POSTMAN'S ACCOUNT, GIVEN IN 1952.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "By his own later account, the postman sees Andreas alive one last time."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Afternoon with snow on the fields. Two women's silhouettes walk up the track to the farm, one carrying a bundle. On line 2, only one silhouette walks back down the road, getting smaller.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "That afternoon, a new maid arrives. Her name is Maria Baumgartner."
+      },
+      {
+       "voice": "narrator",
+       "text": "Her sister brings her, stays a short while, and then leaves."
+      }
+     ]
+    },
+    {
+     "scene": "id_badge",
+     "visual": "A simple service card with a silhouette and no face: 'MARIA BAUMGARTNER' / 'MAID' / 'FIRST DAY: 31 MARCH 1922', with a red underline on the date. Behind the card, the sister's small silhouette fades from the road.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "That sister may be the last outsider to see the family alive."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Night. The farm seen from a distance as snow keeps falling, and the windows go dark one by one. Slow push-in, then a hard glitch cut to black.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Then night falls over the farm, and nobody outside sees what happens."
+      }
+     ]
+    },
+    {
+     "scene": "barn",
+     "visual": "The barn door at night, ajar, with a hanging lantern, hay and a deep red glow through the gap. No people are shown. A red '6' appears. Captions: HOUR UNKNOWN · ONE KILLER OR MORE? UNKNOWN.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Sometime that night, police believe, all six people under your roof are killed."
+      },
+      {
+       "voice": "narrator",
+       "text": "Nobody knows the hour, or whether it was one killer or more."
+      }
+     ]
+    },
+    {
+     "scene": "school_desk",
+     "visual": "A 1920s village classroom in grey morning light, with rows of children's silhouettes at wooden desks. One desk is empty, with a slate and chalk on it. Red text: SATURDAY, 1 APRIL · CÄZILIA, 7 · ABSENT.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Saturday morning, seven-year-old Cäzilia is missing from school."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Midday. Two men's silhouettes carrying order books tap on the dark windows, shown as white sound ripples, and call out (small speech-wave marks, no words). Then they walk a circle around the yard. The house stays dark. Caption: NO ANSWER.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Around midday, two coffee salesmen knock at your windows and call out."
+      },
+      {
+       "voice": "narrator",
+       "text": "They walk around the yard, and nobody answers."
+      }
+     ]
+    },
+    {
+     "scene": "attic",
+     "visual": "Above them, the dark attic. Each knock from below shows as a faint ripple in the dust. The camera creeps along the rafters, and something in the straw does not move. Small grey caption: SPECULATION.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "But someone may still be inside, listening to every knock."
+      }
+     ]
+    },
+    {
+     "scene": "farm_snow",
+     "visual": "Saturday night, with the farm at a distance. A faint orange glow and a thin plume of smoke rise from the small bake oven beside the house. A lone passer-by silhouette stops on the road. Small grey caption: REPORTED SECONDHAND. Huge glowing words: WHO LIT THE FIRE?",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "That night, a man walking past reportedly sees smoke at your bake oven."
+      },
+      {
+       "voice": "narrator",
+       "text": "If all six are dead, who lit the fire?"
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "'NONE LEADING OUT' with the pill FOLLOW FOR PART 3. The bake-oven glow pulses behind the title.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for part three."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for part three.",
+   "caption": "Maria Baumgartner had been on the farm only a few hours. If everyone inside was dead, who lit the fire?",
+   "hashtags": [
+    "#hinterkaifeck",
+    "#truecrime",
+    "#unsolved",
+    "#truestory",
+    "#coldcase",
+    "#historymystery",
+    "#mystery",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "We will never show or describe what was done to them. Maria Baumgartner started her new job that same day. The postman's account was only given in 1952, so we mark it as his account. Part 3: the four days after."
+  },
+  {
+   "part": 3,
+   "title": "Did Someone Stay?",
+   "hook": "Saturday night, near your farm, a torch reportedly shines straight into a passing man's face.",
+   "coldOpen": {
+    "beat": 10,
+    "words": "He opens your front door from the inside"
+   },
+   "beats": [
+    {
+     "scene": "torch_glare",
+     "visual": "Caption: YOU ARE HINTERKAIFECK · SATURDAY NIGHT, 1 APRIL 1922. A narrow road beside the farm with a walker's silhouette. A torch snaps on straight into the camera, with a white flare and a black figure behind it. Hold one beat, then the beam swings away and bobs back toward the farmhouse.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Saturday night, near your farm, a torch reportedly shines straight into a passing man's face."
+      },
+      {
+       "voice": "narrator",
+       "text": "Then the figure turns back toward your house."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "A typed police file page. A paragraph types itself on, then smears. A red stamp lands: ORIGINAL STATEMENT LOST. Small grey note: KNOWN ONLY SECONDHAND.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "His original statement is lost. The story survives only secondhand."
+      }
+     ]
+    },
+    {
+     "scene": "church_ext",
+     "visual": "Sunday morning at a small village church in grey light, with the bells drawn as sound waves and one lit window. Caption: SUNDAY, 2 APRIL · ONE FAMILY MISSING FROM MASS. On line 2 an inset card slides in: envelopes and a newspaper lying untouched under frost at the farm door, labelled MONDAY, 3 APRIL · STILL THERE.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "On Sunday, your family misses Mass."
+      },
+      {
+       "voice": "narrator",
+       "text": "On Monday, the postman finds Saturday's mail untouched."
+      }
+     ]
+    },
+    {
+     "scene": "kitchen_old",
+     "visual": "A dim farmhouse kitchen: a stove with a thread of smoke and a loaf with a slice missing. Glitch cut to the stable with a full feed trough. Then the image tears and the loaf flickers whole again, as if two versions of the room disagree. Two typed labels side by side: 'FED?' / 'NOTHING SEEN'.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Some witnesses spoke of animals that seemed fed, and food that seemed eaten."
+      },
+      {
+       "voice": "narrator",
+       "text": "Others saw nothing, and the files contradict each other."
+      }
+     ]
+    },
+    {
+     "scene": "engine_shed",
+     "visual": "Grey daylight in the motor shed. A mechanic's silhouette bends over an old stationary engine, with a toolbox. A small clock in the corner spins forward four and a half hours. Caption: TUESDAY, 4 APRIL.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "On Tuesday, April fourth, a mechanic comes to repair your engine."
+      },
+      {
+       "voice": "narrator",
+       "text": "He stays four and a half hours, works alone, and sees no one."
+      }
+     ]
+    },
+    {
+     "scene": "barn",
+     "visual": "Outside the long barn wall in grey daylight. Barking comes from the stable as jagged white waves, and the cows as low waves. The camera slides slowly along the boards while red light leaks through one gap. In the background, the mechanic's silhouette walks past, unaware.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "The dog barks, the cows bellow, and he never notices what lies steps away."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Mid-afternoon at a neighboring farmhouse across the fields, with the mechanic's silhouette at its door talking to a girl's silhouette. A name plate slides in: SCHLITTENBAUER FARM · ABOUT 3 PM.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Around three, he asks the neighboring Schlittenbauers to tell the family the engine is fixed."
+      }
+     ]
+    },
+    {
+     "scene": "farm_snow",
+     "visual": "Late afternoon, grey daylight, patches of snow. Two boys' silhouettes, one tall and one small, cross the yard, look around and hurry back. Then three men's silhouettes walk toward the farm, casting long pale shadows. No lanterns.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Lorenz Schlittenbauer sends two boys, who find no one, then goes himself with two men."
+      }
+     ]
+    },
+    {
+     "scene": "barn",
+     "visual": "A side door from the engine shed opens onto grey daylight and hay. The camera stops at the threshold and never goes in. A hard white flash. Caption: 4 APRIL · ABOUT 5 PM. Nothing else is shown.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Late that afternoon, in your barn, they find four of the family dead."
+      }
+     ]
+    },
+    {
+     "scene": "barn",
+     "visual": "A single silhouette moves through the dim stable, between the shapes of cattle, toward a narrow inner door. The other two silhouettes stay behind.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Then Schlittenbauer goes alone through the stable, into the house."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Close on the farmhouse front door from outside. A key turns in the lock from the inside, and the door swings open into darkness. Punch-in on the black doorway. Caption: FOUR FOUND · TWO STILL INSIDE. Heartbeat, hard cut.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "He opens your front door from the inside."
+      },
+      {
+       "voice": "narrator",
+       "text": "Two of the six are still somewhere inside you."
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "'NONE LEADING OUT' with the pill FOLLOW FOR PART 4. A dark open doorway glows faintly behind the title.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for part four."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for part four.",
+   "caption": "For days the farm seemed to keep living. Then a neighbor opened the door from the inside. The accounts of the key disagree.",
+   "hashtags": [
+    "#hinterkaifeck",
+    "#truecrime",
+    "#unsolvedmysteries",
+    "#truestory",
+    "#historymystery",
+    "#germanhistory",
+    "#coldcase",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "The torch comes from a secondhand account, because the original statement is lost. The files also contradict each other about the fed animals and the eaten food. We tell you when a detail is shaky. Part 4: the locked door."
+  },
+  {
+   "part": 4,
+   "title": "The Locked Door",
+   "hook": "Inside, they find the last two: two-year-old Josef, and Maria, the new maid.",
+   "coldOpen": {
+    "beat": 8,
+    "words": "under your floorboards, something has been waiting"
+   },
+   "beats": [
+    {
+     "scene": "house_ext",
+     "visual": "Caption: YOU ARE HINTERKAIFECK · 4 APRIL 1922. The front door stands open into darkness. Two small white names appear in the doorway: JOSEF, 2 · MARIA, THE NEW MAID. Nothing else is shown.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Inside, they find the last two: two-year-old Josef, and Maria, the new maid."
+      }
+     ]
+    },
+    {
+     "scene": "house_ext",
+     "visual": "Door close-up: a key sits in the lock, glowing red, and two captions flicker over it in turn: 'THE MISSING KEY?' / 'ALREADY IN THE LOCK?'. Small grey label: ACCOUNTS DISAGREE.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "How that door was opened is still disputed."
+      },
+      {
+       "voice": "narrator",
+       "text": "Some point to your missing key. Schlittenbauer said a key was already in the lock, on the inside."
+      }
+     ]
+    },
+    {
+     "scene": "kitchen_old",
+     "visual": "The old kitchen is crowded with dark silhouettes. Boots track snow and mud across the floor and a pot steams on the stove. Footprint trails multiply until the floor is a mess. Caption: SCENE UNPROTECTED.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Before the detectives arrive, onlookers trample through you, and reportedly cook in your kitchen."
+      }
+     ]
+    },
+    {
+     "scene": "investigators_old",
+     "visual": "Grey early morning, 5 April 1922. Men in hats and long coats arrive at the farm gate, and a box camera flash goes off. Caption: MUNICH POLICE · GEORG REINGRUBER. On line 2, a drawer slides open and banknotes and coins glow gold. The word ROBBERY types on and is struck through in red.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Early next morning, detectives arrive from Munich, led by Georg Reingruber."
+      },
+      {
+       "voice": "narrator",
+       "text": "Large sums of money are still in the house, so robbery is largely ruled out."
+      }
+     ]
+    },
+    {
+     "scene": "evidence_board",
+     "visual": "A corkboard with the center card 'L. SCHLITTENBAUER · NEIGHBOR · FOUND THE FAMILY'. Red strings snap to three cards: 'VIKTORIA: WANTED TO MARRY HER' / 'HER FATHER: REFUSED' / 'JOSEF: ACKNOWLEDGED AS HIS SON, 1919'. A small grey label stays in the corner: SUSPECT · NEVER CHARGED.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Then police look hard at the neighbor who found them."
+      },
+      {
+       "voice": "narrator",
+       "text": "He had wanted to marry the widowed daughter, Viktoria, and her father refused."
+      },
+      {
+       "voice": "narrator",
+       "text": "And he had acknowledged little Josef as his own son."
+      }
+     ]
+    },
+    {
+     "scene": "evidence_board",
+     "visual": "A red string runs from the SCHLITTENBAUER card toward the farm pin and snaps just short of it. Two grey stamps land: NEVER TIED TO THE CRIME · NEVER CHARGED.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "But police can never tie him to the killings, and he is never charged."
+      }
+     ]
+    },
+    {
+     "scene": "church_ext",
+     "visual": "A small village church in grey daylight, with six small candle lights along the churchyard wall and nothing else shown. Caption: WAIDHOFEN · BURIED 8 APRIL 1922. Small grey label on line 1: AFTER THE AUTOPSY · KEPT FOR EXAMINATION.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "After the autopsy, the skulls are kept for examination."
+      },
+      {
+       "voice": "narrator",
+       "text": "The six are buried without them."
+      }
+     ]
+    },
+    {
+     "scene": "sfx_text",
+     "visual": "A single candle flame on black beside a closed, covered box (nothing inside is shown). The word CLAIRVOYANTS glows and flickers, with the small grey date 1922. The candle goes out, and NOTHING USABLE types on in grey.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Investigators even show the skulls to clairvoyants."
+      },
+      {
+       "voice": "narrator",
+       "text": "Nothing useful ever comes of it."
+      }
+     ]
+    },
+    {
+     "scene": "farm_snow",
+     "visual": "The farm at night in snow, with the caption 1923. The camera rises along the house to the upper floor. Through gaps between the floorboards, a red glow pulses up like a heartbeat, then a hard cut.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Less than a year later, they tear you down."
+      },
+      {
+       "voice": "narrator",
+       "text": "And under your floorboards, something has been waiting."
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "'NONE LEADING OUT' with the pill FOLLOW FOR THE FINAL PART. A faint red glow pulses under the title.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for the final part."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for the final part.",
+   "caption": "Money left behind, a suspect who was never charged, and skulls shown to clairvoyants. Why would anyone leave the money behind?",
+   "hashtags": [
+    "#hinterkaifeck",
+    "#truecrime",
+    "#unsolved",
+    "#coldcase",
+    "#truestory",
+    "#historymystery",
+    "#history",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "Lorenz Schlittenbauer was a suspect, but police never tied him to the killings and he was never charged. Real families are connected to this story, so please keep theories as theories. The final part is next."
+  },
+  {
+   "part": 5,
+   "title": "What the Floor Kept",
+   "hook": "Workers tearing you down find something hidden in your floor.",
+   "coldOpen": {
+    "beat": 9,
+    "words": "They deliberately never say the name in public"
+   },
+   "beats": [
+    {
+     "scene": "demolition",
+     "visual": "A grey winter day. Workmen's silhouettes on the roof, with beams stripped bare and tiles sliding. One workman freezes over a gap in the floor. Typed overlay: FEBRUARY 1923 · DEMOLITION · YOU ARE HINTERKAIFECK.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Workers tearing you down find something hidden in your floor."
+      }
+     ]
+    },
+    {
+     "scene": "attic",
+     "visual": "Old upstairs floorboards by daylight through the torn-open roof. A crowbar lifts a board to reveal a hollow false floor, where a long dark shape lies in the dust. It is never shown clearly, and there is no blood. Caption: HIDDEN IN A FALSE FLOOR · THE FAMILY'S OWN TOOL.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Investigators conclude it is the weapon: the family's own mattock."
+      }
+     ]
+    },
+    {
+     "scene": "sfx_text",
+     "visual": "Huge glowing words over the gutted house: IT WAS HERE ALL ALONG. Glitch, punch-in. On 'now you are gone' the last wall falls and the frame goes empty, white with drifting snow.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "It was inside you the whole time, and now you are gone."
+      }
+     ]
+    },
+    {
+     "scene": "courtroom",
+     "visual": "A 1920s courtroom in silhouette, with the judge's bench and a witness stand. Words appear: SLANDER CASE · SIGL FINED 40 MARKS.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Later, Jakob Sigl, who helped find the family, calls Schlittenbauer the murderer."
+      },
+      {
+       "voice": "narrator",
+       "text": "Schlittenbauer sues him for slander, and wins."
+      }
+     ]
+    },
+    {
+     "scene": "years_flip",
+     "visual": "A big counter flips 1922 … 1926 … 1930. Red case-file stamps pile up beside it, each reading NO RESULT, with a tally: 100+ INQUIRIES.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "By nineteen thirty, over a hundred police inquiries have failed."
+      }
+     ]
+    },
+    {
+     "scene": "evidence_board",
+     "visual": "The corkboard again. The SCHLITTENBAUER card gets a grey stamp: DIED 1941 · NOTHING PROVEN.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Schlittenbauer dies in nineteen forty-one, and nothing is ever proven against him."
+      }
+     ]
+    },
+    {
+     "scene": "years_flip",
+     "visual": "The counter flickers to the word WARTIME as orange firelight plays over it. The word MISSING burns in, with small grey text: possibly destroyed in an air raid.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "The skulls go missing, perhaps burned in a wartime air raid."
+      }
+     ]
+    },
+    {
+     "scene": "letter",
+     "visual": "A typed page headed DEATHBED ACCUSATION slides in, with its text blurred and no names shown. On line 2 a card is pinned beside it: BROTHER ARRESTED, 1952. A red stamp lands on it: RELEASED · NO EVIDENCE.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "A dying woman had accused her own brothers."
+      },
+      {
+       "voice": "narrator",
+       "text": "In nineteen fifty-two, one is arrested, then released for lack of evidence."
+      }
+     ]
+    },
+    {
+     "scene": "evidence_board",
+     "visual": "Cold fluorescent light. '2007' sits on the board, with fifteen small silhouettes in a row and a thick binder labelled FINAL REPORT. On line 2, white text types on: THE CRIME CAN NO LONGER BE PROVEN.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "In two thousand seven, fifteen trainee detectives reopen the file."
+      },
+      {
+       "voice": "narrator",
+       "text": "Their verdict: the killer can almost certainly never be identified."
+      }
+     ]
+    },
+    {
+     "scene": "sfx_text",
+     "visual": "Huge words: THEY AGREED ON A NAME. Beat. A black bar slides over an empty name field, stamped NEVER PUBLISHED. Small grey text: OUT OF RESPECT FOR DESCENDANTS. A second small grey line below: THE PROJECT LEADER LATER REPORTEDLY DOUBTED THE RESULT.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "They agree on who most likely did it."
+      },
+      {
+       "voice": "narrator",
+       "text": "They deliberately never say the name in public."
+      }
+     ]
+    },
+    {
+     "scene": "footprints",
+     "visual": "Fresh snow on an empty field where the farm once stood, with the forest edge behind. A line of footprints leads in from the trees and simply stops. Snow slowly fills them.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Footprints led in, none led out. Nobody knows whose they were."
+      }
+     ]
+    },
+    {
+     "scene": "memorial",
+     "visual": "Black screen, with no red, no glitch and no music hits. White names appear slowly, one by one: ANDREAS GRUBER, 63 · CÄZILIA GRUBER, 72 · VIKTORIA GABRIEL, 35 · CÄZILIA GABRIEL, 7 · JOSEF, 2 · MARIA BAUMGARTNER, THE NEW MAID. Then: HINTERKAIFECK, NIGHT OF 31 MARCH 1922. Hold.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Remember them: Andreas and Cäzilia Gruber, and their daughter, Viktoria Gabriel."
+      },
+      {
+       "voice": "narrator",
+       "text": "Her children, Cäzilia and Josef, and Maria Baumgartner, who had arrived that very day."
+      }
+     ]
+    },
+    {
+     "scene": "end_card",
+     "visual": "'NONE LEADING OUT · THE END' with the pill FOLLOW FOR THE NEXT TRUE STORY.",
+     "lines": [
+      {
+       "voice": "narrator",
+       "text": "Follow for the next true story."
+      }
+     ]
+    }
+   ],
+   "endLine": "Follow for the next true story.",
+   "caption": "The weapon was hidden in the farmhouse floor the whole time. In 2007, fifteen trainee detectives agreed on a likely culprit and kept the name private, out of respect for the families.",
+   "hashtags": [
+    "#hinterkaifeck",
+    "#truecrime",
+    "#unsolvedmysteries",
+    "#coldcase",
+    "#truestory",
+    "#historymystery",
+    "#history",
+    "#grimreelstories"
+   ],
+   "pinnedComment": "In memory of Andreas Gruber, Cäzilia Gruber, Viktoria Gabriel, Cäzilia Gabriel, Josef, and Maria Baumgartner. The case is officially unsolved. Please don't name or accuse anyone in the comments, because real families are still connected to this story."
+  }
+ ],
+ "newScenes": [
+  {
+   "name": "torch_glare",
+   "description": "Night, close to the farm. A hand-held torch snaps on straight into the camera, with a white lens flare and a black silhouette behind it. Hold one beat, then the beam swings away and bobs back toward the farmhouse. It can be built as an overlay on farm_snow. Used in Part 3, beat 0."
+  },
+  {
+   "name": "engine_shed",
+   "description": "A small 1920s motor shed beside the barn: an old stationary engine with a flywheel and drive belt, a toolbox, a door with a lock that can hang forced open, and an optional small corner clock that spins forward through hours. A mechanic's silhouette can work on it. It is a variant of barn. Used in Part 1, beat 7 (forced lock, nothing taken, key-hook inset) and Part 3, beat 4 (mechanic in grey daylight)."
+  },
+  {
+   "name": "school_desk",
+   "description": "A 1920s village classroom in morning light: rows of children's silhouettes (no faces) at wooden desks, and one empty desk with a slate and chalk, with red overlay text. Used in Part 2, beat 6."
+  },
+  {
+   "name": "demolition",
+   "description": "The farmhouse in grey winter light, half torn down: roof beams stripped bare, tiles sliding, and workmen's silhouettes with ropes and crowbars, plus a typed date overlay. It is a variant of farm_snow and house_ext. Used in Part 5, beat 0."
+  }
+ ],
+ "notes": "WORD COUNTS (narration only, end-card line excluded, checked by script). By whitespace: P1 178, P2 161, P3 177, P4 171, P5 176. With hyphenated words split: 179, 165, 177, 173, 178. Beats including the end card: 11, 11, 12, 10, 13. No sentence is over 16 words; the longest is 15.\n\nCOLD OPENS (0-based beat index, verbatim and contiguous in that beat's lines, checked by script):\n- P1 b6 \"None of them lead away\" (5 words), starts at word 111 of 178 (62%).\n- P2 b8 \"someone may still be inside, listening\" (6), word 130 of 161 (81%).\n- P3 b10 \"He opens your front door from the inside\" (8), word 160 of 177 (90%).\n- P4 b8 \"under your floorboards, something has been waiting\" (7), word 164 of 171 (96%). This is new. The old medium line was dropped (see below), and the skulls line was not used as a cold open because it would put the victims' remains up front.\n- P5 b9 \"They deliberately never say the name in public\" (8), word 132 of 176 (75%).\n\nFIXES APPLIED\nBlockers and majors:\n- P3 b10, the key: the line saying the men \"cannot explain where he got a key\" is cut, and so is the flash of the empty key hook. The cliffhanger is now \"Two of the six are still somewhere inside you.\" It is documented and points at no one. The P3 caption now says the accounts of the key disagree. P4 b1 gives both versions, including Schlittenbauer's own: the key was already in the lock, on the inside.\n- P4 b7, the medium: the fact-checker found no support for \"the killers knew the maid\" (the catalogue extract mentions a medium picking a man from a photo), while the dossier and the editor say the catalogue supports it. Factual truth wins, so only what every source agrees on is kept: investigators showed the skulls to clairvoyants, and nothing useful came of it. The on-screen claim and the caption claim are removed.\n- P5 b7, the Gump accusation: the fact-checker dates it 1941 (Kreszenz Mayer died 20 October 1941); the dossier says 1951. The narration now uses the past perfect and no year (\"A dying woman had accused her own brothers.\"). Only the 1952 arrest, which nobody disputes, is dated. The visual no longer shows a year for the accusation.\n- P1 pinned comment: now reads \"police files, witness statements, archive research and later secondhand accounts\".\n- P5 b1, the weapon: \"recognized by a home repair\" is cut and the repair screw is gone from the visual, because the sources conflict (a repair screw vs. made by Andreas himself). The line is now \"the family's own mattock\", which all sources agree on. \"Attic floor\" became \"floor\" or \"floorboards\" in P4 b8, P5 b0 and the P5 caption, because the catalogue says false floor above the stairs while the dossier says attic false floor near the chimney.\n- P5 b0, the hook: now \"Workers tearing you down find something hidden in your floor.\" The date moved on screen.\n- P5 b8, the quote: the 2007 sentence cannot be confirmed as verbatim, so it is now a narrator paraphrase. The quote voice is not used anywhere in the series. '188 PAGES' became 'FINAL REPORT'.\n- P4 b6, the skulls: the line now opens with \"After the autopsy\". The NEUBURG tag and the cemetery wall are gone; the beat now uses church_ext with candles.\n- P4 b4: \"the man with the key\" became \"the neighbor who found them\". \"Privately, he doubted it\" and the flickering OFFICIALLY are cut. The new line is the neutral \"he had acknowledged little Josef as his own son\". The part is renamed \"The Locked Door\", and the P3 pinned comment changed to match.\n- P5 order is now chronological: 1923 weapon, 1920s slander case (no year on screen), 1930 inquiries, 1941 death, skulls lost (undated, \"perhaps\" wartime), 1952 arrest, 2007, names.\n- P4 b5, and the visual and pinned comment: \"never place him at the scene\" became \"never tie him to the killings\".\nMinors:\n- P3: \"two boys\" rather than sons or son and stepson (the sources conflict).\n- P3: grey daylight with no lanterns, and the barn is entered by a side door from the engine shed.\n- P3: \"stays four and a half hours, works alone\".\n- P3: \"asks the neighboring Schlittenbauers to tell the family the engine is fixed\" (Schlittenbauer's April 1922 statement).\n- P3: \"cows bellow\", \"late that afternoon\" (this fixes the five-and-four mix-up), \"Others saw nothing, and...\", and the on-screen torch time changed to SATURDAY NIGHT.\n- P2: the coffee salesmen now knock at the windows and call out; order books replace the peddler packs.\n- P2: the postman beat is \"by his own later account\" and uses house_ext; the repeated police line is cut.\n- P2: \"under your roof\" replaces \"within your walls\"; the cliffhanger is \"If all six are dead, who lit the fire?\"\n- P1: \"That March\" replaces \"mid-March\"; the rifle line is joined into one sentence; the shifting shadow in the attic is cut; the shed beat uses engine_shed with a key-hook inset.\n- Captions: P1 now asks \"Would you have stayed in this house?\" The P5 caption no longer invites naming anyone.\n- P3 is retitled \"Did Someone Stay?\".\n- #horrortok and #creepy are replaced with #coldcase, #historymystery and #germanhistory in all parts.\n- Logline now says \"In a single night\". Courtroom is removed from newScenes because it is already in the vocabulary.\n- The project leader's later doubts appear only as a small grey \"reportedly\" line on screen.\n\nNOT APPLIED, AND WHY\n- The editor's per-line \"say\" field: the task forbids it, so the hints are below.\n- \"Over the decades, 100+ suspects questioned\": the catalogue's own sentence supports the 1930 wording (\"Bis 1930 ... über 100 Ermittlungsverfahren ..., alle ohne Erfolg\"), so the line stays and only the order changed.\n- The engine shed standing open (P2): only one weak source.\n- \"Schlittenbauer asks to stay alone\": cut. It comes from Ulrich's 1953 summary, which leans toward guilt, and it added suspicion against a man who was never charged.\n- The Spitz dog and the reward of 100,000 Mark: P4 has enough words without them.\n\nREMAINING UNCERTAINTIES\n- The medium episode. What was said is unclear (the maid link vs. a photo of Josef Bärtl), so only \"nothing useful\" is stated.\n- The date of the Gump accusation (1941 or 1951). Only the 1952 arrest is dated, and \"released for lack of evidence\" is inferred from the warrant being lifted on 30 May 1952 and the case being closed in 1954.\n- The skulls: missing since they were handed to the prosecutor. The Augsburg air raid of 1944 is a German Wikipedia claim, which is why the narration says \"perhaps\".\n- Where the weapon lay (attic false floor or false floor above the stairs), and how it was identified.\n- The year of the Sigl slander case. A 1926 police report documents it; the narration says only \"Later\".\n- Plöckl's torch and smoke: the original statement is lost, so it is marked \"reportedly\" and \"secondhand\".\n- The fed animals and eaten food: contested, and marked that way.\n- \"Reportedly cook in your kitchen\" (popular retellings via Ulrich): marked \"reportedly\".\n- The postman seeing Andreas on 31 March: rests only on his 1952 statement, and marked that way.\n- \"Two boys\": son and stepson, or two sons.\n- The 2007 report's page count (186 or 188): not shown on screen.\n- Whether the project leader later had doubts: low confidence, small grey \"reportedly\" only.\n- Maria Baumgartner's age (44 or 45): not shown.\n- Method: the reviewers could reach sources only through search-result extracts. No full page reads were possible.\n\nSOURCES MOST RELIED ON\n- Bayerisches Hauptstaatsarchiv exhibition catalogue \"Der sechsfache Mord in Hinterkaifeck\" (Elena Hiemer, 2026, based on StAM PolDir 8091b): https://www.gda.bayern.de/mam/aktuelles/ausstellungskatalog_hinterkaifeck.pdf and its announcement page on gda.bayern.de.\n- Hinterkaifeck wiki transcriptions (fan project, medium confidence): Aktencheck: Die Auffindung; Aktencheck: Die Ermittlungen gegen Lorenz Schlittenbauer; Sachverhalte: Die Begegnung am Backofen; Aussagen 1922-04-05 Schirovsky; Aussagen 1952-01-10 Mayer Josef; Theorien: Gump Adolf und Anton; Berichte: 2007 Projektabschlussbericht (FHVR).\n- German Wikipedia via the dewiki.de and de-academic mirrors.\n- English Wikipedia: Hinterkaifeck murders.\n- The 1922 discovery witness statements: waldpilze.de.tl, a hobby site that has not been checked against the archive originals.\n\nPRONUNCIATION HINTS (Kokoro; keep line text clean, apply as overrides)\nHinterkaifeck -> HIN-ter-KYE-feck\nCäzilia -> tseh-TSEE-lee-ah\nSchlittenbauer -> SHLIT-en-bow-er\nSchlittenbauers -> SHLIT-en-bow-ers\nLorenz -> LOH-rents\nReingruber -> RINE-groo-ber\nGeorg -> GAY-org\nBaumgartner -> BOWM-gart-ner\nViktoria -> vik-TOR-ee-ah\nGabriel -> GAH-bree-el\nGruber -> GROO-ber\nAndreas -> ahn-DRAY-ahs\nJosef -> YOH-zef\nJakob -> YAH-kob\nSigl -> ZEE-gul\nSpellings are American (neighbors)."
+}

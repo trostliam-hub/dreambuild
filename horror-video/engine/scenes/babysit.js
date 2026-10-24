@@ -180,7 +180,7 @@ POST_HOOKS.push((c, t, b, lt) => {
   for (const pp of (b.pops || [])) { // kleine Text-Pops (z. B. CREAK)
     if (lt < pp.at || lt > pp.at + (pp.dur || .7)) continue;
     const k = E.back(prog(lt, pp.at, pp.at + .15)), fa = 1 - prog(lt, pp.at + (pp.dur || .7) - .25, pp.at + (pp.dur || .7));
-    c.save(); c.globalAlpha = fa; c.translate(pp.x || 540, pp.y || 900); c.rotate((pp.rot || -.08)); c.scale(lerp(1.4, 1, k), lerp(1.4, 1, k));
+    c.save(); c.globalAlpha = fa; c.translate(pp.x || 540, pp.y || 900); c.rotate(pp.rot != null ? pp.rot : -.08); c.scale(lerp(1.4, 1, k), lerp(1.4, 1, k));
     glow(c, 'rgba(255,30,30,1)', 20); txt(c, pp.text, 0, 0, `400 ${pp.size || 70}px Anton`, '#ff4a4a', 'center', 'middle', 2); noGlow(c); c.restore();
   }
   if (b.hudRing != null && lt >= b.hudRing) { const k = .6 + .4 * Math.sin(t * 6); c.strokeStyle = `rgba(255,50,50,${k})`; c.lineWidth = 6; glow(c, 'rgba(255,40,40,1)', 25);

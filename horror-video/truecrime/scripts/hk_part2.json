@@ -1,0 +1,1017 @@
+{
+ "lang": "en",
+ "fluent": true,
+ "series": "NONE LEADING OUT · PART 2",
+ "place": "HINTERKAIFECK, BAVARIA",
+ "cerIgnoreNumbers": true,
+ "lead": 0.15,
+ "tail": 1.3,
+ "lineGap": 0.14,
+ "beatGap": 0.06,
+ "duckDb": 8,
+ "capMaxPx": 860,
+ "noEndFade": true,
+ "voices": {
+  "narrator": {
+   "engine": "supertonic",
+   "sid": 8,
+   "steps": 10,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.05
+  },
+  "quote": {
+   "engine": "supertonic",
+   "sid": 6,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  },
+  "quote_f": {
+   "engine": "supertonic",
+   "sid": 0,
+   "steps": 16,
+   "deep": 1.0,
+   "style": "clean",
+   "speed": 1.0
+  }
+ },
+ "ui": {
+  "kicker": "PART 3",
+  "pill": "FOLLOW FOR PART 3",
+  "end": "NONE LEADING OUT"
+ },
+ "beats": [
+  {
+   "scene": "sfx_text",
+   "clock": "31 MAR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "vignette": 0.85,
+   "p": {
+    "lines": [
+     "YOU ARE",
+     "HINTERKAIFECK"
+    ],
+    "times": [
+     "@you",
+     "@hinterkaifeck"
+    ],
+    "y": 540,
+    "size": 122,
+    "bg": "farm_snow",
+    "bgP": {
+     "lit": [
+      1,
+      4,
+      6
+     ],
+     "dark": 0.0
+    }
+   },
+   "lines": [
+    {
+     "text": "You are Hinterkaifeck, and this is your family's last evening.",
+     "emph": [
+      "last"
+     ]
+    }
+   ],
+   "post": 0.35,
+   "punch": [
+    "@hinterkaifeck",
+    "@last"
+   ],
+   "sfx": [
+    {
+     "name": "whoosh_dark",
+     "at": 0.0,
+     "gain": -10
+    },
+    {
+     "name": "sub_pulse",
+     "at": "@hinterkaifeck",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "title_card",
+   "clock": "31 MAR 1922",
+   "noCaptions": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "focus": [
+    540,
+    820
+   ],
+   "p": {
+    "date": "31 MARCH 1922",
+    "place": "FRIDAY · HINTERKAIFECK, BAVARIA",
+    "bg": "snow",
+    "red": [
+     "1922"
+    ],
+    "at": "@it",
+    "y": 820
+   },
+   "lines": [
+    {
+     "text": "It is Friday, March thirty-first, nineteen twenty-two."
+    }
+   ],
+   "post": 0.2,
+   "sfx": [
+    {
+     "name": "typewriter_burst",
+     "at": "@it",
+     "gain": -9
+    }
+   ]
+  },
+  {
+   "scene": "investigators_old",
+   "clock": "31 MAR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    700,
+    1000
+   ],
+   "p": {
+    "figures": 3,
+    "camera": {
+     "x": -2400
+    },
+    "label": {
+     "text": "ACCOUNT GIVEN IN 1952",
+     "at": "@account"
+    }
+   },
+   "pops": [
+    {
+     "text": "ANDREAS, 63",
+     "at": "@andreas",
+     "x": 815,
+     "y": 530,
+     "size": 56,
+     "dur": 30,
+     "rot": -0.03
+    }
+   ],
+   "lines": [
+    {
+     "text": "By his own later account, the postman sees Andreas alive one last time.",
+     "emph": [
+      "alive"
+     ]
+    }
+   ],
+   "post": 0.45,
+   "flash": [
+    {
+     "at": "@alive",
+     "d": 0.16,
+     "c": "#ffffff",
+     "a": 0.22
+    }
+   ],
+   "sfx": [
+    {
+     "name": "footsteps_snow",
+     "at": 0.0,
+     "gain": -13
+    },
+    {
+     "name": "paper_rustle",
+     "at": "@postman",
+     "gain": -7
+    }
+   ]
+  },
+  {
+   "scene": "id_badge",
+   "clock": "31 MAR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "focus": [
+    540,
+    860
+   ],
+   "p": {
+    "kind": "card",
+    "org": "HINTERKAIFECK FARM · 1922",
+    "title": "MAID",
+    "name": "MARIA BAUMGARTNER",
+    "idno": " ",
+    "glasses": false,
+    "at": 0.05,
+    "stamp": {
+     "text": "FIRST DAY",
+     "at": "@baumgartner+0.55",
+     "x": 40,
+     "y": 160,
+     "w": 330,
+     "rot": -0.09
+    }
+   },
+   "lines": [
+    {
+     "text": "That afternoon, a new maid arrives. Her name is Maria Baumgartner.",
+     "emph": [
+      "baumgartner"
+     ],
+     "say": "That afternoon, a new maid arrives. Her name is Maria Bowm-gart-ner."
+    }
+   ],
+   "post": 0.75,
+   "shakeAt": [
+    {
+     "at": "@baumgartner+0.6",
+     "d": 0.25,
+     "a": 9
+    }
+   ],
+   "sfx": [
+    {
+     "name": "whoosh_dark",
+     "at": 0.0,
+     "gain": -11
+    },
+    {
+     "name": "rubber_stamp",
+     "at": "@baumgartner+0.55",
+     "gain": -5
+    }
+   ]
+  },
+  {
+   "scene": "investigators_old",
+   "clock": "31 MAR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "p": {
+    "figures": 0,
+    "camera": false,
+    "barnDoor": 0,
+    "label": {
+     "text": "HER SISTER LEAVES",
+     "at": "@and"
+    }
+   },
+   "lines": [
+    {
+     "text": "Her sister brings her, stays a short while, and then leaves.",
+     "emph": [
+      "leaves"
+     ]
+    }
+   ],
+   "post": 0.45,
+   "sfx": [
+    {
+     "name": "footsteps_snow",
+     "at": "@leaves",
+     "gain": -12
+    }
+   ]
+  },
+  {
+   "scene": "investigators_old",
+   "clock": "31 MAR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.06,
+    1.14
+   ],
+   "focus": [
+    640,
+    700
+   ],
+   "p": {
+    "figures": 0,
+    "camera": false,
+    "barnDoor": 0,
+    "label": {
+     "text": "THE LAST OUTSIDER?",
+     "at": "@last"
+    }
+   },
+   "lines": [
+    {
+     "text": "That sister may be the last outsider to see the family alive.",
+     "emph": [
+      "last"
+     ]
+    }
+   ],
+   "post": 0.5,
+   "sfx": [
+    {
+     "name": "wood_creak_heavy",
+     "at": "@alive+0.3",
+     "gain": -14
+    }
+   ]
+  },
+  {
+   "scene": "farm_snow",
+   "clock": "31 MAR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.12
+   ],
+   "focus": [
+    560,
+    960
+   ],
+   "vignette": 0.9,
+   "p": {
+    "lit": [
+     {
+      "i": 1,
+      "off": "@night"
+     },
+     {
+      "i": 6,
+      "off": "@farm"
+     },
+     {
+      "i": 4,
+      "off": "@happens"
+     }
+    ],
+    "dark": 0.35,
+    "smoke": false
+   },
+   "lines": [
+    {
+     "text": "Then night falls over the farm, and nobody outside sees what happens.",
+     "emph": [
+      "nobody"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "sfx": [
+    {
+     "name": "wood_creak_heavy",
+     "at": "@happens",
+     "gain": -12
+    },
+    {
+     "name": "heartbeat_single",
+     "at": "@happens+0.55",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "barn",
+   "clock": "31 MAR 1922",
+   "clockRed": true,
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "vignette": 0.95,
+   "p": {
+    "doorGap": 0.3,
+    "lantern": {
+     "x": 300,
+     "y": 650,
+     "at": 0.0
+    },
+    "dark": 0.8
+   },
+   "pops": [
+    {
+     "text": "6",
+     "at": "@six",
+     "x": 540,
+     "y": 760,
+     "size": 330,
+     "dur": 30,
+     "rot": -0.03
+    }
+   ],
+   "lines": [
+    {
+     "text": "Sometime that night, police believe, all six people under your roof are killed.",
+     "emph": [
+      "six"
+     ]
+    }
+   ],
+   "post": 0.65,
+   "punch": [
+    "@six"
+   ],
+   "flash": [
+    {
+     "at": "@six",
+     "d": 0.12,
+     "c": "#ff2020",
+     "a": 0.25
+    }
+   ],
+   "sfx": [
+    {
+     "name": "lantern_squeak",
+     "at": 0.15,
+     "gain": -11
+    },
+    {
+     "name": "sub_pulse",
+     "at": "@six",
+     "gain": -9
+    },
+    {
+     "name": "hit_deep",
+     "at": "@killed+0.5",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "letter",
+   "clock": "31 MAR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.03
+   ],
+   "focus": [
+    540,
+    900
+   ],
+   "p": {
+    "style": "typewriter",
+    "paper": "old",
+    "title": "CASE FILE · 1922",
+    "tilt": -0.015,
+    "y": 925,
+    "hl": [
+     "UNKNOWN"
+    ],
+    "lines": [
+     {
+      "text": "VICTIMS:  6",
+      "at": 0.0,
+      "dur": 0.3,
+      "size": 62
+     },
+     {
+      "text": "HOUR:     UNKNOWN",
+      "at": "@hour",
+      "dur": 0.45,
+      "size": 62
+     },
+     {
+      "text": "KILLERS:  ONE? MORE?",
+      "at": "@killer",
+      "dur": 0.5,
+      "size": 62
+     },
+     {
+      "text": "UNKNOWN",
+      "at": "@more+0.2",
+      "dur": 0.35,
+      "size": 62,
+      "indent": 215
+     }
+    ]
+   },
+   "lines": [
+    {
+     "text": "Nobody knows the hour, or whether it was one killer or more.",
+     "emph": [
+      "hour",
+      "killer"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "sfx": [
+    {
+     "name": "typewriter_key",
+     "at": 0.0,
+     "gain": -8
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@hour",
+     "gain": -12
+    },
+    {
+     "name": "typewriter_burst",
+     "at": "@killer",
+     "gain": -12
+    },
+    {
+     "name": "type_bell",
+     "at": "@more+0.55",
+     "gain": -10
+    }
+   ]
+  },
+  {
+   "scene": "school_desk",
+   "clock": "1 APR 1922",
+   "place": "THE VILLAGE SCHOOL",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "focus": [
+    500,
+    1000
+   ],
+   "p": {
+    "text": {
+     "s": "SATURDAY · CÄZILIA, 7 · ABSENT",
+     "at": "@saturday",
+     "y": 650
+    },
+    "ring": "@missing"
+   },
+   "lines": [
+    {
+     "text": "Saturday morning, seven-year-old Cäzilia is missing from school.",
+     "emph": [
+      "missing"
+     ],
+     "say": "Saturday morning, seven-year-old Tseh-tsee-lee-ah is missing from school."
+    }
+   ],
+   "post": 0.7,
+   "sfx": [
+    {
+     "name": "church_bell_distant",
+     "at": 0.0,
+     "gain": -13
+    },
+    {
+     "name": "heartbeat_single",
+     "at": "@missing+0.1",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "investigators_old",
+   "clock": "1 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.1,
+    1.18
+   ],
+   "focus": [
+    500,
+    950
+   ],
+   "p": {
+    "figures": 2,
+    "camera": false,
+    "notebook": false,
+    "barnDoor": 0
+   },
+   "pops": [
+    {
+     "text": "KNOCK",
+     "at": "@knock+0.05",
+     "x": 740,
+     "y": 735,
+     "size": 56,
+     "dur": 0.75,
+     "rot": -0.06
+    },
+    {
+     "text": "KNOCK",
+     "at": "@knock+0.86",
+     "x": 815,
+     "y": 705,
+     "size": 56,
+     "dur": 0.75,
+     "rot": 0.05
+    },
+    {
+     "text": "KNOCK",
+     "at": "@knock+1.7",
+     "x": 770,
+     "y": 745,
+     "size": 56,
+     "dur": 0.75,
+     "rot": -0.03
+    }
+   ],
+   "lines": [
+    {
+     "text": "Around midday, two coffee salesmen knock at your windows and call out.",
+     "emph": [
+      "knock"
+     ]
+    }
+   ],
+   "post": 0.4,
+   "sfx": [
+    {
+     "name": "door_knock_wood",
+     "at": "@knock",
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "scene": "investigators_old",
+   "clock": "1 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    600,
+    700
+   ],
+   "p": {
+    "figures": 0,
+    "camera": false,
+    "label": {
+     "text": "NO ANSWER",
+     "at": "@nobody"
+    }
+   },
+   "lines": [
+    {
+     "text": "They walk around the yard, and nobody answers.",
+     "emph": [
+      "nobody"
+     ]
+    }
+   ],
+   "post": 0.6,
+   "sfx": [
+    {
+     "name": "footsteps_snow",
+     "at": "@walk",
+     "gain": -10
+    }
+   ]
+  },
+  {
+   "scene": "attic",
+   "clock": "1 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.02,
+    1.12
+   ],
+   "focus": [
+    700,
+    900
+   ],
+   "vignette": 0.95,
+   "p": {
+    "lantern": {
+     "x": 330,
+     "y": 560,
+     "swing": false,
+     "at": 0.0
+    },
+    "dark": 0.75,
+    "shadow": {
+     "at": -1.6,
+     "x": 800,
+     "y": 1040,
+     "h": 430,
+     "shift": -25
+    },
+    "creak": [
+     "@knock+0.5",
+     "@knock+1.31"
+    ]
+   },
+   "pops": [
+    {
+     "text": "SPECULATION",
+     "at": 0.15,
+     "x": 540,
+     "y": 1340,
+     "size": 50,
+     "dur": 30,
+     "rot": 0.0
+    }
+   ],
+   "lines": [
+    {
+     "text": "But someone may still be inside, listening to every knock.",
+     "emph": [
+      "listening"
+     ]
+    }
+   ],
+   "post": 1.3,
+   "sfx": [
+    {
+     "name": "door_knock_wood",
+     "at": "@knock+0.45",
+     "gain": -12,
+     "dur": 1.3
+    }
+   ]
+  },
+  {
+   "scene": "farm_snow",
+   "clock": "1 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "cut",
+   "zoom": [
+    1.04,
+    1.18
+   ],
+   "focus": [
+    720,
+    820
+   ],
+   "vignette": 0.9,
+   "p": {
+    "lit": [],
+    "smoke": true,
+    "dark": 0.3,
+    "figure": {
+     "x": 790,
+     "y": 1255,
+     "h": 140,
+     "at": "@man-0.2"
+    },
+    "label": {
+     "text": "BAKE-OVEN SMOKE",
+     "at": "@reportedly"
+    }
+   },
+   "pops": [
+    {
+     "text": "REPORTED SECONDHAND",
+     "at": "@reportedly+0.3",
+     "x": 500,
+     "y": 1240,
+     "size": 50,
+     "dur": 30,
+     "rot": 0.0
+    }
+   ],
+   "lines": [
+    {
+     "text": "That night, a man walking past reportedly sees smoke at your bake oven.",
+     "emph": [
+      "smoke"
+     ]
+    }
+   ],
+   "post": 0.4,
+   "punch": [
+    "@smoke"
+   ],
+   "sfx": [
+    {
+     "name": "footsteps_snow",
+     "at": "@walking",
+     "gain": -11
+    }
+   ]
+  },
+  {
+   "scene": "sfx_text",
+   "clock": "1 APR 1922",
+   "clockRed": true,
+   "captionY": 1500,
+   "capBox": true,
+   "trans": "glitch",
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "focus": [
+    540,
+    800
+   ],
+   "vignette": 0.95,
+   "p": {
+    "lines": [
+     "WHO LIT",
+     "THE FIRE?"
+    ],
+    "times": [
+     "@who",
+     "@fire"
+    ],
+    "y": 1110,
+    "size": 180,
+    "bg": "farm_snow",
+    "bgP": {
+     "lit": [],
+     "smoke": true,
+     "dark": 0.3
+    }
+   },
+   "lines": [
+    {
+     "text": "If all six are dead, who lit the fire?",
+     "emph": [
+      "fire"
+     ]
+    }
+   ],
+   "post": 0.9,
+   "punch": [
+    "@who",
+    "@fire"
+   ],
+   "shakeAt": [
+    {
+     "at": "@fire+0.45",
+     "d": 0.35,
+     "a": 12
+    }
+   ],
+   "glitch": [
+    {
+     "at": "@fire+0.45",
+     "d": 0.1
+    }
+   ],
+   "sfx": [
+    {
+     "name": "sub_pulse",
+     "at": "@who",
+     "gain": -9
+    },
+    {
+     "name": "stinger_reveal",
+     "at": "@fire+0.45",
+     "gain": -7
+    }
+   ]
+  },
+  {
+   "scene": "end_card",
+   "clock": "1 APR 1922",
+   "captionY": 1500,
+   "capBox": true,
+   "noCaptions": false,
+   "trans": "cut",
+   "p": {
+    "title": "NONE LEADING OUT",
+    "kicker": "PART 2 OF 5",
+    "pill": "FOLLOW FOR PART 3",
+    "sub": "WHO LIT THE FIRE?|TELL ME IN THE COMMENTS"
+   },
+   "lines": [
+    {
+     "text": "Follow for part three.",
+     "emph": [
+      "three"
+     ]
+    }
+   ],
+   "post": 0.9,
+   "sfx": [
+    {
+     "name": "whoosh_reverse",
+     "at": 0.0,
+     "gain": -9
+    }
+   ]
+  }
+ ],
+ "coldOpen": {
+  "beat": 12,
+  "words": "But someone may still be inside, listening to every knock",
+  "label": "LATER"
+ },
+ "beds": [
+  {
+   "name": "drone_bed",
+   "from": 0,
+   "to": 200,
+   "gain": 1,
+   "fade": 0.4
+  },
+  {
+   "name": "wind_snow_bed",
+   "fromBeat": 0,
+   "toBeat": 6,
+   "gain": -1,
+   "fade": 0.6
+  },
+  {
+   "name": "clock_tick_bed",
+   "fromBeat": 1,
+   "toBeat": 1,
+   "gain": -6,
+   "fade": 0.3
+  },
+  {
+   "name": "dark_pad_tension",
+   "fromBeat": 6,
+   "toBeat": 14,
+   "gain": -4,
+   "fade": 1.0
+  },
+  {
+   "name": "farm_night_bed",
+   "fromBeat": 7,
+   "toBeat": 8,
+   "gain": -2,
+   "fade": 0.5
+  },
+  {
+   "name": "heartbeat_slow_muffled",
+   "fromBeat": 7,
+   "toBeat": 7,
+   "gain": -7,
+   "fade": 0.5
+  },
+  {
+   "name": "wind_snow_bed",
+   "fromBeat": 10,
+   "toBeat": 11,
+   "gain": -4,
+   "fade": 0.6
+  },
+  {
+   "name": "farm_night_bed",
+   "fromBeat": 12,
+   "toBeat": 12,
+   "gain": -2,
+   "fade": 0.5
+  },
+  {
+   "name": "heartbeat_slow_muffled",
+   "fromBeat": 12,
+   "toBeat": 12,
+   "gain": -5,
+   "fade": 0.5
+  },
+  {
+   "name": "wind_snow_bed",
+   "fromBeat": 13,
+   "toBeat": 14,
+   "gain": -1,
+   "fade": 0.6
+  }
+ ]
+}
