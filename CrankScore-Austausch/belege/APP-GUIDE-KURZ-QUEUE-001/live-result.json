@@ -1,0 +1,47 @@
+{
+  "time": "2026-10-24T16:18:52.148Z",
+  "files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "identical": true
+    },
+    {
+      "file": "mtb-sw.js",
+      "status": 200,
+      "identical": true
+    },
+    {
+      "file": "guide-safety.js",
+      "status": 200,
+      "identical": true
+    }
+  ],
+  "ui": [
+    {
+      "language": "de",
+      "width": 390,
+      "questions": 2,
+      "calls": 2,
+      "fifo": true,
+      "bullets": true,
+      "overflow": false,
+      "errors": [],
+      "dataPreserved": true,
+      "api": "simulated"
+    },
+    {
+      "language": "en",
+      "width": 320,
+      "questions": 2,
+      "calls": 2,
+      "fifo": true,
+      "bullets": true,
+      "overflow": false,
+      "errors": [],
+      "dataPreserved": true,
+      "api": "simulated"
+    }
+  ],
+  "version": "20261024-1817"
+}

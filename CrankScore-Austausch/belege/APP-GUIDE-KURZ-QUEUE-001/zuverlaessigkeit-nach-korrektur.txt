@@ -1,0 +1,11 @@
+  ok   Kaputtes optionales JSON isolieren: alle Raeder und Wuensche laden, Fehler benennen, weiter speichern
+  ok   Beschaedigte Profile: lesbare Raeder behalten und Originaldaten nicht mit Rettungsstand ueberschreiben
+  ok   Alte Einzelaufbauten migrieren weiterhin ohne Profile oder Fotoverlust
+  ok   Foto-/Profil-Speicherfehler bei Migration: Originalquelle behalten, Kopien zuruecknehmen und spaeter korrekt zuordnen
+  ok   Free-Tageslimit gilt vor KI-Aufruf und gemeinsam mit lokalem Guide; Pro bleibt unbegrenzt
+  ok   Offline oder abgelehnte Abmeldung behaelt Schluessel und Instanz, bestaetigte Abmeldung entfernt sie
+  ok   Worker bereinigt nur eigene alte Caches und aktiviert bei Installationsfehler nicht
+  ok   Fehlgeschlagenes Update oder ungueltige Versionsantwort erhaelt Offlinecache und aktuelle Seite
+  ok   Bereites Update navigiert erst nach bestaetigtem Offlinecache und loescht keinen fremden Cache
+  ok   Echter Service Worker: offline aktualisieren und neu laden erhaelt Rad, Kernansicht sowie eigenen und fremden Cache
+ZUVERLAESSIGKEIT: 10 von 10 Prüfungen bestanden.

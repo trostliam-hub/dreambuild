@@ -1,0 +1,107 @@
+{
+  "revision": "99e03058b1bbd2d3c4a5ebe5a6b0036ce532b47c",
+  "ok": false,
+  "seconds": 408,
+  "groups": [
+    {
+      "name": "Syntax index.html",
+      "ok": true,
+      "result": "2 Skripte"
+    },
+    {
+      "name": "Kompatibilität",
+      "ok": true,
+      "result": "200 von 200 bestanden, erwartet 200, Exit 0"
+    },
+    {
+      "name": "Setup und Speicher",
+      "ok": true,
+      "result": "25 von 25 bestanden, Exit 0"
+    },
+    {
+      "name": "Persönliche Fahrwerkfragen und Einrichtung",
+      "ok": true,
+      "result": "18 von 18 bestanden, Exit 0"
+    },
+    {
+      "name": "Ein Weg je Aufgabe",
+      "ok": true,
+      "result": "36 von 36 bestanden, Exit 0"
+    },
+    {
+      "name": "Sprache Deutsch/Englisch",
+      "ok": true,
+      "result": "0 Funde in 11153 Texten, Exit 0"
+    },
+    {
+      "name": "Teile finden, Adapter, Wunschliste (BEVEL-002)",
+      "ok": true,
+      "result": "34 von 34 bestanden, Exit 0"
+    },
+    {
+      "name": "Preis-Skript offline",
+      "ok": true,
+      "result": "0 Fehler, Exit 0"
+    },
+    {
+      "name": "Produktfotos und Großansicht",
+      "ok": true,
+      "result": "14 von 14 bestanden, Exit 0"
+    },
+    {
+      "name": "KI-Guide Deutsch/Englisch",
+      "ok": true,
+      "result": "28 Prüfungen bestanden, Exit 0"
+    },
+    {
+      "name": "Guide-Stichpunkte und Warteschlange",
+      "ok": true,
+      "result": "18 Prüfungen bestanden, Exit 0"
+    },
+    {
+      "name": "Guide-Soforthilfe ohne KI",
+      "ok": true,
+      "result": "24 Fälle, Exit 0"
+    },
+    {
+      "name": "Einführung und interaktive Vorschau",
+      "ok": true,
+      "result": "10 von 10 bestanden, Exit 0"
+    },
+    {
+      "name": "Fahrwerkfotos und Einsteller",
+      "ok": true,
+      "result": "9 von 9 bestanden, Exit 0"
+    },
+    {
+      "name": "Fahrwerk: Orientierung und Datenerhalt",
+      "ok": true,
+      "result": "7 von 7 bestanden, Exit 0"
+    },
+    {
+      "name": "Dialogfokus, Bildausfall und schmaler Einkauf",
+      "ok": true,
+      "result": "10 von 10 bestanden, Exit 0"
+    },
+    {
+      "name": "Datenrettung, Guide-Limit und Offline-Update",
+      "ok": false,
+      "result": "9 von 10 bestanden, Exit 1"
+    },
+    {
+      "name": "Verständliche Preise, Prüfung und Hilfe",
+      "ok": true,
+      "result": "8 von 8 bestanden, Exit 0"
+    },
+    {
+      "name": "Fahrwerk: Werte beim Teilewechsel, Testfahrt je Profil",
+      "ok": true,
+      "result": "10 von 10 bestanden, Exit 0"
+    },
+    {
+      "name": "Datenprüfung, Radkopie, Tastaturfokus, Fahrwerk- und Hilfetexte",
+      "ok": true,
+      "result": "18 von 18 bestanden, Exit 0"
+    }
+  ]
+}
