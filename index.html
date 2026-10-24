@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="MTB-Konfigurator: Traumrad zusammenstellen, Kompatibilität prüfen, Upgrades finden." data-tc="MTB-Konfigurator: Traumrad zusammenstellen, Kompatibilität prüfen, Upgrades finden.|MTB configurator: put together your dream bike, check compatibility, find upgrades.">
 <meta name="robots" content="noindex">
 <link rel="manifest" href="manifest.webmanifest">
@@ -3498,9 +3498,9 @@ body.klein .brand,.brand{opacity:1;visibility:visible;transform:none;pointer-eve
   .tabs button[aria-selected="true"]{background:var(--surface-2);color:var(--ink)}
   /* Name endet vor der mittigen Navigation: halbe Navigationsbreite (270 px mit Beschriftung),
      Logo und Rand (78 px) und der Seitenrand des 1120-px-Kopfes */
-  .mini{max-width:calc(50vw - 270px - 78px - max(0px, (100vw - 1120px) / 2))}
+  .mini,body.klein .mini{max-width:calc(50vw - 270px - 78px - max(0px, (100vw - 1120px) / 2))}
 }
-@media (min-width:820px) and (max-width:1023px){.tabs .tl{display:none}.tabs button{padding:0 12px}.mini{max-width:calc(50vw - 114px - 78px)}}
+@media (min-width:820px) and (max-width:1023px){.tabs .tl{display:none}.tabs button{padding:0 12px}.mini,body.klein .mini{max-width:calc(50vw - 114px - 78px)}}
 @media (max-width:350px){.tabs button{font-size:11px;letter-spacing:-.01em}.tabs .tl{overflow:visible;text-overflow:clip}}
 
 /* ── Seite: eine Spalte; im Aufbau die Uebersicht, sonst schmaler Inhalt ── */
@@ -6112,6 +6112,7 @@ function profilWechseln(id){
    (fotoVon) und das Foto laesst sich spaeter vom Original uebernehmen. Gibt zurueck, ob es ein neues Rad gibt. */
 function profilNeu(kopieVon){
   profilZurueck(modus);
+  const fotoVorher = fotos[modus];
   const q = kopieVon ? profile[modus].find(x => x.id === kopieVon) : null;
   const p = q ? JSON.parse(JSON.stringify({...q, id:neueId(), name:q.name ? q.name + tx(" (Kopie)", " (copy)") : ""})) : profilLeer(modus);
   const vorher = aktivId[modus], setupNeu = [];
@@ -6122,16 +6123,17 @@ function profilNeu(kopieVon){
   aktivId[modus] = p.id;
   profilHolen(modus);
   view = "aufbau";
-  if(!q){ sichern(); zeichne(); return true; }
-  if(!(sichern() && suSichern())){
+  const speicher = speicherTransaktion(() => (fotoVorher ? lsSetzen(fotoFach(vorher),fotoVorher) : lsEntfernen(fotoFach(vorher))) && sichern() && (!q || suSichern()));
+  if(!speicher.ok){
     profile[modus] = profile[modus].filter(x => x !== p);
     for(const n of setupNeu) delete setupAlle[n];
-    aktivId[modus] = vorher; profilHolen(modus);
-    sichern(); suSichern(); zeichne();
-    zeigeToast(tx("Die Kopie passt nicht mehr in den Speicher des Browsers — es wurde nichts angelegt, dein Rad bleibt unverändert. Lösche alte Fotos oder Räder und versuch es dann noch einmal.",
-      "The copy no longer fits in the browser's storage — nothing was created and your bike is unchanged. Delete old photos or bikes, then try again."), 9000);
+    aktivId[modus] = vorher; profilHolen(modus); fotos[modus] = fotoVorher;
+    zeichne();
+    zeigeToast(!speicher.zurueck ? speicherRueckText() : q ? tx("Die Kopie passt nicht mehr in den Speicher des Browsers — es wurde nichts angelegt, dein Rad bleibt unverändert. Lösche alte Fotos oder Räder und versuch es dann noch einmal.",
+      "The copy no longer fits in the browser's storage — nothing was created and your bike is unchanged. Delete old photos or bikes, then try again.") : tx("Das neue Rad konnte nicht gespeichert werden. Es wurde nichts angelegt. Gib Speicherplatz frei und versuche es erneut.", "The new bike could not be saved. Nothing was created. Free some storage and try again."), 9000);
     return false;
   }
+  if(!q){ zeichne(); return true; }
   let f = null; try{ f = localStorage.getItem(fotoFach(q.id)); }catch(e){}
   if(f){
     if(lsSetzen(fotoFach(p.id), f)) fotos[modus] = f;
@@ -6152,15 +6154,22 @@ function fotoVomOriginal(){
   zeigeToast(tx("Foto vom Original übernommen.", "Photo copied from the original."), 4000);
 }
 function profilLoeschen(id){
-  if(profile[modus].length < 2) return;
+  if(profile[modus].length < 2 || !profile[modus].some(p => p.id === id)) return false;
   profilZurueck(modus);
+  const vorher = {liste:profile[modus], aktiv:aktivId[modus], setup:setupAlle, foto:fotos[modus]};
   profile[modus] = profile[modus].filter(x => x.id !== id);
-  try{ localStorage.removeItem(fotoFach(id)); ["gabel", "daempfer"].forEach(k => localStorage.removeItem("mtb.topcap." + id + "." + k)); }catch(e){}
+  setupAlle = {...setupAlle};
   for(const k in setupAlle) if(k.indexOf(id + "|") === 0) delete setupAlle[k];
-  suSichern();
   if(aktivId[modus] === id) aktivId[modus] = profile[modus][0].id;
   profilHolen(modus);
-  sichern(); zeichne();
+  if(aktivId[modus] === vorher.aktiv) fotos[modus] = vorher.foto;
+  const speicher = speicherTransaktion(() => sichern() && suSichern() && lsEntfernen(fotoFach(id))
+    && ["gabel","daempfer"].every(k => lsEntfernen("mtb.topcap." + id + "." + k)));
+  if(!speicher.ok){
+    profile[modus] = vorher.liste; aktivId[modus] = vorher.aktiv; setupAlle = vorher.setup; profilHolen(modus); fotos[modus] = vorher.foto;
+    zeigeToast(speicher.zurueck ? tx("Das Rad wurde nicht gelöscht: Der Speicher ist voll oder gesperrt. Foto und Fahrwerkdaten bleiben erhalten.", "The bike was not deleted: storage is full or blocked. Its photo and suspension data are kept.") : speicherRueckText(), 9000);
+  }
+  zeichne(); return speicher.ok;
 }
 /* Anzeigename: selbst vergeben, sonst Rahmen, sonst Disziplin */
 function profilName(p, m){
@@ -6220,12 +6229,21 @@ let offenerSlot = null;
 let ladeDefekte = new Set(), ladeProfilSchutz = false, ladeMigrationOffen = false;
 const ladeObjekt = v => !!v && typeof v === "object" && !Array.isArray(v);
 const ladeListe = (v, el) => v == null || Array.isArray(v) && v.every(el);
+const ladeId = v => typeof v === "string" && /^[A-Za-z0-9_-]{1,120}$/.test(v);
+const ladeZahl = v => v == null || typeof v === "number" && Number.isFinite(v) && v >= 0;
+const wunschLesbar = w => ladeObjekt(w) && (w.id == null || ladeId(w.id)) && !!slotOf(w.slot)
+  && (w.teil == null || typeof w.teil === "string") && ladeZahl(w.budget)
+  && (w.frei == null || ladeObjekt(w.frei) && (w.frei.n == null || typeof w.frei.n === "string") && (w.frei.l == null || w.frei.l === "" || !!httpsNur(w.frei.l)));
+const eigeneLesbar = v => ladeObjekt(v) && Object.keys(v).every(k => Array.isArray(v[k]) && v[k].every(t =>
+  ladeObjekt(t) && ladeId(t.id) && typeof t.n === "string" && (t.m == null || typeof t.m === "string") && ladeZahl(t.p) && ladeZahl(t.g)
+  && ladeListe(t.v, d => ladeObjekt(d) && typeof d.k === "string" && Array.isArray(d.o) && d.o.length > 0
+    && d.o.every(o => ladeObjekt(o) && (o.s == null || ladeObjekt(o.s))))));
 /* Audit CS-03: Was laden() als lesbar annimmt, prueft auch eine Sicherung, bevor sie etwas ersetzt --
    eine geladene Sicherung darf beim Neustart nie als "nicht vollstaendig lesbar" auffallen */
-const profilLesbar = p => ladeObjekt(p) && typeof p.id === "string" && !!p.id && ladeObjekt(p.build)
+const profilLesbar = p => ladeObjekt(p) && ladeId(p.id) && ladeObjekt(p.build)
   && (p.name == null || typeof p.name === "string") && (p.sel == null || typeof p.sel === "string" || ladeListe(p.sel, x => typeof x === "string"))
-  && ladeListe(p.wuensche, ladeObjekt) && (p.plan == null || ladeObjekt(p.plan)) && (p.markt == null || ladeObjekt(p.markt));
-const LADE_FORM = {"mtb.builds":ladeObjekt, "mtb.build":ladeObjekt, "mtb.jahr":ladeObjekt, "mtb.markt":ladeObjekt, "mtb.eigene":ladeObjekt, "mtb.zu":ladeObjekt,
+  && ladeListe(p.wuensche, wunschLesbar) && (p.plan == null || ladeObjekt(p.plan)) && (p.markt == null || ladeObjekt(p.markt));
+const LADE_FORM = {"mtb.builds":ladeObjekt, "mtb.build":ladeObjekt, "mtb.jahr":ladeObjekt, "mtb.markt":ladeObjekt, "mtb.eigene":eigeneLesbar, "mtb.zu":ladeObjekt,
   "mtb.links":v => ladeObjekt(v) && ladeObjekt(v.teile), "mtb.betreiber":ladeObjekt, "mtb.feed":v => ladeObjekt(v) && ladeObjekt(v.treffer), "mtb.fotos":ladeObjekt,
   "mtb.sel":Array.isArray, "mtb.plan":ladeObjekt, "mtb.aff":ladeObjekt, "mtb.profile":v => ladeObjekt(v) && ladeObjekt(v.liste),
   "mtb.setup":v => ladeObjekt(v) && Object.keys(v).every(k => suLesbar(v[k]))};
@@ -6259,18 +6277,21 @@ function laden(){
   const fa = ladeWert("mtb.fahrer"); if(fa != null && !isNaN(+fa)) plan.fahrer = +fa;
   const q = ladeJSON("mtb.profile"); let migration = null;
   if(q){
+    const ids = new Set();
     for(const m of MODI){
       const liste = Array.isArray(q.liste[m]) ? q.liste[m] : [];
-      const gueltig = liste.filter(p => ladeObjekt(p) && typeof p.id === "string" && p.id && ladeObjekt(p.build));
+      const gueltig = liste.filter(p => { if(!ladeObjekt(p) || !ladeId(p.id) || !ladeObjekt(p.build) || ids.has(p.id)) return false; ids.add(p.id); return true; });
       if(!gueltig.length || gueltig.length !== liste.length || !Array.isArray(q.liste[m])) ladeDefekte.add("mtb.profile");
       profile[m] = gueltig.map(p => {
+        if(!profilLesbar(p)) ladeDefekte.add("mtb.profile");
         const x = {...profilLeer(m), ...p};
+        if(typeof x.name !== "string") x.name = "";
         /* Audit CS-03: ein einzelner Einsatz als Text wird verlustfrei zur Liste; andere Formen sind unlesbar */
         if(typeof x.sel === "string") x.sel = [x.sel];
         else if(x.sel == null) x.sel = ["trail"];
         else if(!ladeListe(x.sel, e => typeof e === "string")){ ladeDefekte.add("mtb.profile"); x.sel = ["trail"]; }
-        if(x.wuensche != null && (!Array.isArray(x.wuensche) || x.wuensche.some(w => !ladeObjekt(w)))){
-          ladeDefekte.add("mtb.profile"); x.wuensche = Array.isArray(x.wuensche) ? x.wuensche.filter(ladeObjekt) : [];
+        if(x.wuensche != null && (!Array.isArray(x.wuensche) || x.wuensche.some(w => !wunschLesbar(w)))){
+          ladeDefekte.add("mtb.profile"); x.wuensche = Array.isArray(x.wuensche) ? x.wuensche.filter(wunschLesbar) : [];
         }
         return x;
       });
@@ -6310,7 +6331,27 @@ function laden(){
 /* Speichern mit Rueckmeldung (Bericht 06.10., Befund 07): jeder Eintrag
    einzeln, ein Fehler wird gemeldet statt verschluckt. Die Profile stehen
    zuerst -- sie sind das Wertvollste. */
-function lsSetzen(k, v){ if(sicherungLaeuft) return true; if(k === "mtb.profile" && ladeProfilSchutz || k === "mtb.setup" && setupSchutz || ladeMigrationOffen && /^mtb\.foto\./.test(k)) return false; try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } }
+let speicherAenderungen = null;
+function speicherVormerken(k){ if(speicherAenderungen && !speicherAenderungen.has(k)) speicherAenderungen.set(k, localStorage.getItem(k)); }
+function lsSetzen(k, v){ if(sicherungLaeuft) return true; if(k === "mtb.profile" && ladeProfilSchutz || k === "mtb.setup" && setupSchutz || ladeMigrationOffen && /^mtb\.foto\./.test(k)) return false; try{ speicherVormerken(k); localStorage.setItem(k, v); return true; }catch(e){ return false; } }
+function lsEntfernen(k){ try{ speicherVormerken(k); localStorage.removeItem(k); return true; }catch(e){ return false; } }
+/* Mehrere zusammengehörige Speicheränderungen: alte Rohwerte nur für tatsächlich
+   berührte Fächer merken. Bei Fehlern zurücksetzen, ohne unveränderte Daten zu löschen. */
+function speicherTransaktion(aktion){
+  const alt = new Map(); speicherAenderungen = alt;
+  try{ if(aktion()) return {ok:true, zurueck:true}; }
+  catch(e){}
+  finally{ speicherAenderungen = null; }
+  const eintraege = [...alt].reverse();
+  // Ein zweiter Durchgang hilft, wenn zunächst ein größerer alter Wert nicht passt.
+  for(let i = 0; i < 2; i++) for(const [k,v] of eintraege) try{
+    if(localStorage.getItem(k) !== v){ if(v == null) localStorage.removeItem(k); else localStorage.setItem(k,v); }
+  }catch(e){}
+  let zurueck = true;
+  for(const [k,v] of alt) try{ if(localStorage.getItem(k) !== v) zurueck = false; }catch(e){ zurueck = false; }
+  return {ok:false, zurueck};
+}
+const speicherRueckText = () => tx("Speichern und Zurücksetzen sind nicht vollständig möglich. Lass die App offen, gib Speicherplatz frei und versuche es erneut.", "Saving and restoring could not finish. Keep the app open, free some storage and try again.");
 /* ═══ Datensicherung (Bericht 06.10., Befund 08) ═══
    Alle Nutzerdaten als eine Datei: Raeder aller Profile, Fahrerangaben,
    Fahrprofil, Fahrwerk-Setup mit Notizen, Einstellungen -- auf Wunsch mit
@@ -6329,7 +6370,7 @@ function sicherungErstellen(mitFotos){
   return {format:SICHERUNG_FORMAT, version:SICHERUNG_VERSION, app:APP_VERSION, erstellt:new Date().toISOString(), fotos:!!mitFotos, daten:daten};
 }
 function sicherungSpeichern(){
-  const ok = sichern(); suSichern();
+  const radOk = sichern(), setupOk = suSichern(), ok = radOk && setupOk;
   let text;
   try{ text = JSON.stringify(sicherungErstellen(sicherungFotos)); }catch(e){ zeigeToast(tx("Die Sicherung ließ sich nicht erstellen. Versuch es ohne Fotos noch einmal.", "The backup couldn't be created. Try again without photos."), 6000); return; }
   const datei = tx("crankscore-sicherung-", "crankscore-backup-") + new Date().toISOString().slice(0, 10) + ".json";
@@ -6363,6 +6404,10 @@ function sicherungPruefen(text){
   /* Jedes Profil braucht mindestens ein lesbares Rad -- sonst stuende nach dem Neuladen der Rettungsschutz */
   if(daten["mtb.profile"] && !(pr && ladeObjekt(pr.liste) && MODI.every(m => Array.isArray(pr.liste[m]) && pr.liste[m].length && pr.liste[m].every(profilLesbar))))
     return {fehler:tx("Die Räder in der Sicherung sind beschädigt. Die Sicherung wird nicht geladen, auf diesem Gerät bleibt alles, wie es ist.", "The bikes in the backup are damaged. The backup won't be loaded, and everything on this device stays as it is.")};
+  if(pr){
+    const ids = MODI.flatMap(m => pr.liste[m].map(p => p.id));
+    if(new Set(ids).size !== ids.length) return {fehler:tx("Die Sicherung enthält doppelte Radkennungen und wird nicht geladen. Deine bisherigen Räder bleiben erhalten.", "The backup contains duplicate bike IDs and won't be loaded. Your existing bikes are kept.")};
+  }
   if(!Object.keys(daten).length) return {fehler:tx("Die Sicherung ist leer — es gibt nichts zu laden.", "The backup is empty — there's nothing to load.")};
   const raeder = {};
   for(const m of MODI) raeder[m] = pr && Array.isArray(pr.liste[m]) ? pr.liste[m].map(p => { try{ return profilName(p, m); }catch(e){ return "?"; } }) : [];
@@ -6451,7 +6496,7 @@ function sichern(){
     const p = aktivesProfil(m);
     if(!p) continue;
     if(fotos[m]){ if(!lsSetzen(fotoFach(p.id), fotos[m])) fotoOk = false; }
-    else try{ localStorage.removeItem(fotoFach(p.id)); }catch(e){}
+    else if(!lsEntfernen(fotoFach(p.id))) fotoOk = false;
   }
   if(!ok) speicherFehler(ladeMigrationOffen ? tx("Die Übernahme alter Fotos ist noch offen. Die Originaldaten bleiben erhalten. Gib Speicherplatz frei und öffne die App erneut, bevor du Änderungen speicherst.", "Old photos still need to be migrated. The original data is kept. Free some storage and reopen the app before saving changes.") : ladeProfilSchutz ? tx("Die ursprünglichen Radprofile sind geschützt, weil sie nicht vollständig lesbar sind. Lade eine Datensicherung, bevor du Änderungen speicherst.", "The original bike profiles are protected because they could not be fully read. Restore a backup before saving changes.") : undefined);
   else if(!fotoOk) speicherFehler(tx("Das Foto passt nicht mehr in den Speicher des Browsers. Es bleibt nur bis zum Schließen — dein Rad selbst ist gespeichert.",
@@ -6778,12 +6823,12 @@ function pruefe(b){
   if(laufraeder && plan.fahrer > 0){
     let radG = 0;
     for(const s of SLOTS){ const x = t[s.k]; if(x) radG += x.g || 0; }
-    const rad = Math.round(radG/1000) + 2;
-    const sys = plan.fahrer + rad + 3;
+    const sg = systemGewicht(b, {gewicht:radG}, rahmen), rad = sg.mR, montur = sg.montur;
+    const sys = Math.round((sg.mF + rad) * 10) / 10;
     if(sys > laufraeder.maxSys)
       out.push(F(tx("Systemgewicht über der Laufrad-Freigabe", "System weight above the wheel rating"),"laufraeder",["laufraeder"],
-        tx(`Bei <code>${plan.fahrer} kg</code> Fahrergewicht plus rund <code>${rad} kg</code> Rad und 3 kg Ausrüstung liegst du bei <code>${sys} kg</code> — freigegeben sind <code>${laufraeder.maxSys} kg</code>. Das ist der häufigste Grund für gerissene Speichennippel, und im Garantiefall schaut der Hersteller genau hier hin.`,
-           `At <code>${plan.fahrer} kg</code> rider weight plus about <code>${rad} kg</code> of bike and 3 kg of kit you're at <code>${sys} kg</code> — the rating is <code>${laufraeder.maxSys} kg</code>. That's the most common cause of broken spoke nipples, and it's exactly what the manufacturer checks in a warranty claim.`)));
+        tx(`Fahrer <code>${plan.fahrer} kg</code> + Rad <code>${rad} kg</code> (${sg.quelle === "eigen" ? "gewogen" : "geschätzt"}) + Ausrüstung <code>${montur} kg</code> = <code>${sys} kg</code>. Die Freigabe von <code>${laufraeder.maxSys} kg</code> wird überschritten. Wähle Laufräder mit passender Freigabe.`,
+           `Rider <code>${plan.fahrer} kg</code> + bike <code>${rad} kg</code> (${sg.quelle === "eigen" ? "weighed" : "estimated"}) + gear <code>${montur} kg</code> = <code>${sys} kg</code>. This exceeds the <code>${laufraeder.maxSys} kg</code> rating. Choose wheels with a suitable rating.`)));
   }
 
   const rc = (reifen, pos, posEn, slotKey, groesse, maxBreite, quelle) => {
@@ -9040,18 +9085,52 @@ function eigenSpeichern(slotKey){
     basis.v.forEach((d, i) => { if(MASSDIM.indexOf(d.k) >= 0 && d.o.length > 1) v.push({...d, d:vorlage.wahl[i]}); });
     if(v.length) t.v = v;
   }
-  (eigene[q] = eigene[q] || []).push(t);
+  const vorher = {liste:eigene[q], teil:build[slotKey]};
+  eigene[q] = [...(eigene[q] || []), t];
   INDEX = {};
   build[slotKey] = t.id;
-  sichern(); schliesse(); zeichne();
+  const speicher = speicherTransaktion(() => lsSetzen("mtb.eigene", JSON.stringify(eigene)) && sichern());
+  if(!speicher.ok){
+    if(vorher.liste) eigene[q] = vorher.liste; else delete eigene[q];
+    build[slotKey] = vorher.teil; INDEX = {}; profilZurueck(); zeichne();
+    zeigeToast(speicher.zurueck ? tx("Das Teil wurde nicht angelegt: Der Speicher ist voll oder gesperrt. Dein bisheriges Teil bleibt eingebaut.", "The part was not created: storage is full or blocked. Your previous part stays fitted.") : speicherRueckText(), 9000);
+    return false;
+  }
+  schliesse(); zeichne();
   zeigeToast(tx("„" + name + "“ ist angelegt und eingebaut.", "“" + name + "” has been added to your build."));
 }
 function eigenLoeschen(slotKey, id){
   const q = quelleOf(slotOf(slotKey));
+  const teil = (eigene[q] || []).find(t => t.id === id);
+  if(!teil) return false;
+  profilZurueck();
+  const vorher = {liste:eigene[q], bauten:alleBauten().map(b => [b,{...b}]), tests:[], wuensche:[]};
+  for(const m of MODI) for(const p of profile[m]){
+    vorher.tests.push([p,p.test]);
+    for(const w of p.wuensche || []) if(w.teil && basisVon(w.teil) === id){
+      vorher.wuensche.push([w,{...w}]);
+      w.frei = {n:teil.n, l:w.frei && httpsNur(w.frei.l) || ""}; delete w.teil;
+    }
+    if(p.test && [p.test.von,p.test.zu].some(x => x && basisVon(x) === id)){
+      const test = p.test, alt = test.von && basisVon(test.von) === id ? null : test.von;
+      const bauten = [p.build, ...(p.id === aktivId[m] ? [builds[m], ...(m === modus ? [build] : [])] : [])];
+      for(const b of bauten) if(b && b[test.slot] === test.zu) b[test.slot] = alt;
+      delete p.test;
+    }
+  }
   eigene[q] = (eigene[q] || []).filter(t => t.id !== id);
   INDEX = {};
   for(const bau of alleBauten()) for(const k in bau) if(bau[k] && basisVon(bau[k]) === id) bau[k] = null;
-  sichern(); schliesse(); zeichne();
+  const speicher = speicherTransaktion(() => lsSetzen("mtb.eigene", JSON.stringify(eigene)) && sichern());
+  if(!speicher.ok){
+    eigene[q] = vorher.liste; INDEX = {};
+    for(const [b,alt] of vorher.bauten){ for(const k of Object.keys(b)) delete b[k]; Object.assign(b,alt); }
+    for(const [p,test] of vorher.tests){ if(test) p.test = test; else delete p.test; }
+    for(const [w,alt] of vorher.wuensche){ for(const k of Object.keys(w)) delete w[k]; Object.assign(w,alt); }
+    zeichne(); zeigeToast(speicher.zurueck ? tx("Das Teil wurde nicht gelöscht: Der Speicher ist voll oder gesperrt.", "The part was not deleted: storage is full or blocked.") : speicherRueckText(), 9000);
+    return false;
+  }
+  schliesse(); zeichne(); return true;
 }
 
 /* ═══════════ Bauteil-Detailansicht ═══════════
@@ -10892,7 +10971,7 @@ function gFederung(){
   const fr = federRechnen();
   if(!fr.gabel && !fr.daempfer) return {h:tx("In diesem Aufbau ist noch keine Federung eingetragen. Wähl zuerst eine Gabel.", "There's no suspension in this build yet. Choose a fork first."), ak:["slot:gabel"]};
   const zeile = (name, x) => { const m = x.modi[fedModus];
-    return `<li><b>${name}</b> (${esc(x.t.n)}): ${x.coil ? (x.rate ? x.rate + " lbs/in" : x.feder ? esc(x.feder) : tx("Feder laut Herstellertabelle", "spring per the manufacturer's chart"))
+    return `<li><b>${name}</b> (${esc(x.t.n)}): ${x.coil ? (x.federIst || x.rate ? (x.federIst || x.rate) + " lbs/in" : x.feder ? esc(x.feder) : tx("Feder laut Herstellertabelle", "spring per the manufacturer's chart"))
       : m.psi ? m.psi + " psi (" + barVon(m.psi) + " bar)" : x.hintenEl ? tx("Startdruck aus Trailhead oder der Anleitung, dann per SAG", "starting pressure from Trailhead or the manual, then by sag") : tx("Druck laut Aufkleber an der Gabel", "pressure from the sticker on the fork")}, Sag ${m.sag} %</li>`; };
   let h = tx(`Startwerte für ${plan.fahrer} kg im Modus ${esc(modusName(fedModus))}:`, `Starting values for ${plan.fahrer} kg in ${esc(modusName(fedModus))} mode:`)
     + "<ul>" + (fr.gabel ? zeile(tx("Gabel", "Fork"), fr.gabel) : "") + (fr.daempfer ? zeile(tx("Dämpfer", "Shock"), fr.daempfer) : "") + "</ul>"
@@ -13660,6 +13739,53 @@ function suSichern(){
    Raeder mit denselben Teilen teilen sich keine Messungen, Druecke oder Notizen. */
 const suTeile = f => ((f.gabel && f.gabel.t.id) || "-") + "|" + ((f.daempfer && f.daempfer.t.id) || "-");
 const suKey = f => (aktivId[modus] || modus) + "|" + suTeile(f);
+/* Das zuletzt aktive Paar liefert den aktuellen Stand des unveraenderten Teils.
+   Ein aelterer Eintrag fuer ein erneut eingesetztes Paar darf ihn nicht ersetzen. */
+const suAktive = new Map();
+function suMerkeVorWechsel(fw){
+  const rad = aktivId[modus] || modus, alt = suAktive.get(rad);
+  if(alt && alt.register === setupAlle) return;
+  const g = fw.gid && findeTeil("gabel",fw.gid), d = fw.did && findeTeil("daempfer",fw.did);
+  const gid = g && g.id || fw.gid || "-", did = d && d.id || fw.did || "-", key = rad + "|" + gid + "|" + did;
+  if(setupAlle[key]) suAktive.set(rad, {key, gid, did, d:setupAlle[key], register:setupAlle});
+}
+function suTeilAktualisieren(ziel, quelle, slot){
+  const eigen = k => typeof k === "string" && (k.startsWith(slot + "|") || k.startsWith(slot + ":"));
+  const vorher = JSON.stringify(ziel), q = suNorm(JSON.parse(JSON.stringify(quelle)));
+  /* Unbestaetigte A/B-Testwerte werden nicht zu festen Einstellwerten. */
+  const c = q.tr && q.tr.stand === "test" && q.tr.c, p = c && trUrsprung(q);
+  if(c && p && (c.slot === slot || eigen(c.key))){
+    if(c.art === "knopf"){ if(c.vorher) q.prof[p].off[c.key] = c.vorher; else delete q.prof[p].off[c.key]; }
+    if(c.art === "psi"){ if(c.vorher > 0) q.prof[p].psi[slot] = c.vorher; else delete q.prof[p].psi[slot]; }
+  }
+  const kopie = v => JSON.parse(JSON.stringify(v));
+  const eintrag = (a, b) => { if(Object.hasOwn(a || {}, slot)) b[slot] = kopie(a[slot]); else delete b[slot]; };
+  const schluessel = (a, b) => { for(const k of Object.keys(b)) if(eigen(k)) delete b[k]; for(const k of Object.keys(a || {})) if(eigen(k)) b[k] = kopie(a[k]); };
+  for(const p of FMODI){
+    const A = q.prof[p], B = ziel.prof[p];
+    for(const k of ["psi", "sag"]) eintrag(A[k], B[k]);
+    if(A.alt || B.alt) eintrag(A.alt, B.alt || (B.alt = {}));
+    for(const k of ["off", "fertig"]) schluessel(A[k], B[k]);
+    if(A.gesp || B.gesp){
+      const g = B.gesp || (B.gesp = {t:A.gesp.t, psi:{}, off:{}});
+      eintrag(A.gesp && A.gesp.psi, g.psi || (g.psi = {}));
+      schluessel(A.gesp && A.gesp.off, g.off || (g.off = {}));
+      if(!Object.keys(g.psi).length && !Object.keys(g.off).length) B.gesp = null;
+    }
+  }
+  if(ziel.test && eigen(ziel.test.k)) ziel.test = null;
+  const zc = ziel.tr && ziel.tr.c;
+  if(zc && (zc.slot === slot || eigen(zc.key))) ziel.tr = null;
+  const da = new Set(ziel.log.map(e => e && [e.t, e.typ, e.k || e.slot].join("|")));
+  for(const e of q.log) if(e && ((e.typ === "psi" && e.slot === slot) || (["knopf", "test", "fertig"].includes(e.typ) && eigen(e.k)))){
+    const id = [e.t, e.typ, e.k || e.slot].join("|");
+    if(!da.has(id)){ ziel.log.push({...e, von:"erbe"}); da.add(id); }
+  }
+  ziel.log.sort((a,b) => (a.t || 0) - (b.t || 0));
+  if(ziel.log.length > 200) ziel.log.splice(0, ziel.log.length - 200);
+  ziel.erbe = 1;
+  return JSON.stringify(ziel) !== vorher;
+}
 function suDaten(f){
   f = f || federRechnen();
   const k = suKey(f), alt = suTeile(f);
@@ -13669,6 +13795,13 @@ function suDaten(f){
   const d = suNorm(setupAlle[k] || (setupAlle[k] = {}));
   /* Vor der Korrektur angelegter Eintrag ohne Werte des unveraenderten Elements: einmal ergaenzen */
   if(!d.erbe && ((f.gabel && suLeerFuer(d, "gabel")) || (f.daempfer && suLeerFuer(d, "daempfer")))) suErben(f, k, d);
+  const rad = aktivId[modus] || modus, gid = f.gabel && f.gabel.t.id || "-", did = f.daempfer && f.daempfer.t.id || "-";
+  const altAktiv = suAktive.get(rad);
+  suAktive.set(rad, {key:k, gid, did, d, register:setupAlle});
+  if(altAktiv && altAktiv.register === setupAlle && altAktiv.key !== k){
+    const gleichG = gid !== "-" && gid === altAktiv.gid, gleichD = did !== "-" && did === altAktiv.did;
+    if(gleichG !== gleichD && suTeilAktualisieren(d, altAktiv.d, gleichG ? "gabel" : "daempfer")) suSichern();
+  }
   return d;
 }
 /* CS-01 (Audit 23.10.2026): Wird nur Gabel ODER Daempfer getauscht, entsteht ein
@@ -14561,7 +14694,7 @@ function suVglHtml(f, d){
         : tx("Empfehlung, dein Wert, deine Grundeinstellung und was vor dem Setup eingestellt war. Abweichungen von der Empfehlung sind markiert.", "Recommended, yours, your baseline and what was set before. Differences from the recommendation are marked.")}</p>
       <div class="fw-v-w"><table class="fw-v"><thead><tr><th></th>${kopf.map(([k, t]) => `<th scope="col"${suVglArt === "profile" && k === fedModus ? ' class="an"' : ""}>${t}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></div></div>`;
 }
-function oeffneVergleich(){ const f = federRechnen(); if(!f.gabel && !f.daempfer) return; zeigeSheet(suVglHtml(f, suDaten(f))); }
+function oeffneFahrwerkVergleich(){ const f = federRechnen(); if(!f.gabel && !f.daempfer) return; zeigeSheet(suVglHtml(f, suDaten(f))); }
 
 /* ── SAG: Barometer und gefuehrte Messung ── */
 function fxSagHtml(slot, x, d){
@@ -14582,7 +14715,7 @@ function fxSagHtml(slot, x, d){
     /* hoechstens 20 % pro Schritt -- Sag und Druck haengen nicht linear zusammen */
     const fk = Math.max(0.8, Math.min(1.2, 1 + 0.75 * (pz / ziel - 1)));
     const max = suMax(slot, x);
-    neu = Math.round(psi * fk); if(max && neu > max) neu = max;
+    neu = Math.max(10, Math.round(psi * fk)); if(max && neu > max) neu = max;
     const dp = Math.abs(neu - psi);
     rat = !dp ? tx("An der Druckgrenze. Lass die Abstimmung prüfen, wenn das Einsinken noch nicht passt.", "At the pressure limit. Have the setup checked if sag is still wrong.")
       : dz > 0 ? tx(`Zu weich: auf etwa <b>${neu} psi</b> pumpen (+${dp}), dann nachmessen.`, `Too soft: pump to about <b>${neu} psi</b> (+${dp}), then measure again.`)
@@ -15141,6 +15274,7 @@ function obHat(){
 function fwPruef(){
   const fw = build.fw;
   if(!fw) return;
+  suMerkeVorWechsel(fw);
   for(const [k, id, felder, slot] of [["rid", build.rahmen, ["rj", "gr", "fwH"], null], ["gid", build.gabel, ["gj", "gf"], "gabel"], ["did", build.daempfer, ["dj", "df"], "daempfer"]]){
     const neu = id || null;
     if(fw[k] !== undefined && fw[k] !== neu){
@@ -15597,6 +15731,7 @@ function suKarteZeigen(slot, key){
 /* Luftdruck aendern: Messung gilt nicht mehr, gleiche Aenderungen kurz hintereinander
    stehen als ein Eintrag im Notizbuch */
 function suPsiSetzen(f, d, slot, x, neu){
+  if(!x || x.coil || !Number.isFinite(neu) || !suPsiOk(neu, suMax(slot,x))) return false;
   const P = suP(d), alt = suPsi(slot, x, d), m = x.modi[fedModus];
   if(neu === m.psi && !(P.alt && P.alt[slot] > 0)) delete P.psi[slot]; else P.psi[slot] = neu;
   const l = d.log[d.log.length - 1];
@@ -15658,7 +15793,7 @@ function oeffneTrailKarte(knopf){
     const n = ks.length, breit = n === 1 ? " s6" : n === 2 || n === 4 ? " s3" : "";
     const w = (lbl, gross, unter, haupt, zeichen, kl) => `<div class="trk-w${haupt ? " haupt" : ""}${kl}"><span class="trk-l"><span>${lbl}</span>${zeichen
       ? `<i class="${zeichen === "+" ? "zu" : "auf"}" aria-label="${zeichen === "+" ? tx("zudrehen", "turn in") : tx("aufdrehen", "turn out")}">${zeichen}</i>` : ""}</span><b>${gross}</b>${unter ? `<small>${unter}</small>` : ""}</div>`;
-    const werte = [x.coil ? w(tx("Feder", "Spring"), x.rate ? `${x.rate}<small>lbs</small>` : `<span class="fx-wort">${esc(x.fw ? x.fw.name : tx("laut Tabelle", "per chart"))}</span>`, "", true, "", " s3")
+    const werte = [x.coil ? w(tx("Feder", "Spring"), x.federIst || x.rate ? `${x.federIst || x.rate}<small>lbs</small>` : `<span class="fx-wort">${esc(x.fw ? x.fw.name : tx("laut Tabelle", "per chart"))}</span>`, "", true, "", " s3")
         : w(tx("Luft", "Air"), psi ? `${psi}<small>psi</small>` : `<span class="fx-wort">${slot === "gabel" ? tx("Aufkleber", "sticker") : tx("Trailhead", "Trailhead")}</span>`, psi ? barVon(psi) + " bar" : tx("per SAG", "by sag"), true, "", " s3"),
       w("SAG", `${m.sag}<small>%</small>`, m.sagMm > 0 ? `${zahlDe(m.sagMm)} mm` : "", false, "", " s3")]
       .concat(ks.map(k => w(k.g === "zug" ? tx("Zugstufe", "Rebound") : tx("Druckstufe", "Compression"), esc(k.k.kurz), esc(k.k.von || ""), false, k.k.zeichen, breit)));
@@ -16813,6 +16948,30 @@ function rueckgaengigLetzte(){
    verbaut ist. Drei getrennte Schritte: im Aufbau testen (mit Weg zurueck),
    auf die Einkaufsliste, als verbaut uebernehmen. */
 const wunschListe = p => { p = p || aktivesProfil(); if(!p) return []; if(!Array.isArray(p.wuensche)) p.wuensche = []; return p.wuensche; };
+let wunschEdit = null;
+function oeffneWunschZiel(id){
+  const w = wunschListe().find(x => x.id === id); if(!w || !slotOf(w.slot)) return;
+  const ziele = zieleFuer(w.slot, wunschTeil(w), false);
+  if(w.ziel && Object.prototype.hasOwnProperty.call(ZIEL,w.ziel) && !ziele.includes(w.ziel)) ziele.push(w.ziel);
+  zeigeSheet(`<div class="sheet-h"><h3>${tx("Ziel und Budget ändern", "Edit goal and budget")}</h3>${zuBtn}</div>
+    <div class="sheet-b"><div class="fld"><label for="wz-ziel">${tx("Ziel", "Goal")}</label><select id="wz-ziel"><option value="">${tx("Noch offen", "Not decided")}</option>${ziele.map(z => `<option value="${esc(z)}"${w.ziel === z ? " selected" : ""}>${esc(zielName(z))}</option>`).join("")}</select></div>
+    <div class="fld"><label for="wz-budget">${tx("Budget in € (leer = offen)", "Budget in € (empty = no limit)")}</label><input id="wz-budget" type="text" inputmode="decimal" autocomplete="off" value="${w.budget > 0 ? esc(zahlDe(w.budget)) : ""}"></div></div>
+    <div class="sheet-f"><button class="btn ghost" data-zu="1">${tx("Abbrechen", "Cancel")}</button><button class="btn" data-wzielsave="1">${tx("Speichern", "Save")}</button></div>`);
+  wunschEdit = {modus, rad:aktivId[modus], id};
+}
+function wunschZielSpeichern(){
+  const r = wunschEdit;
+  if(!r || r.modus !== modus || r.rad !== aktivId[modus]){ zeigeToast(tx("Das Rad wurde gewechselt. Öffne den Wunsch erneut.", "The bike changed. Open the wishlist item again.")); return false; }
+  const w = wunschListe().find(x => x.id === r.id), input = $("wz-budget"), auswahl = $("wz-ziel");
+  if(!w || !input || !auswahl) return false;
+  const z = feldZahl(input), budget = input.value.trim() ? z.v : 0;
+  if(z.kaputt || !Number.isFinite(budget) || budget < 0 || budget > 50000){ feldHinweis(input,tx("Gib ein Budget zwischen 0 und 50.000 € ein oder lass das Feld leer.", "Enter a budget between €0 and €50,000 or leave it empty.")); input.focus(); return false; }
+  const alt = {ziel:w.ziel, budget:w.budget};
+  w.ziel = Object.prototype.hasOwnProperty.call(ZIEL,auswahl.value) ? auswahl.value : ""; w.budget = Math.round(budget * 100) / 100;
+  const speicher = speicherTransaktion(() => sichern());
+  if(!speicher.ok){ Object.assign(w,alt); zeigeToast(speicher.zurueck ? tx("Dein Wunsch konnte nicht gespeichert werden. Ziel und Budget bleiben wie zuvor.", "Your wishlist item could not be saved. Its goal and budget are unchanged.") : speicherRueckText(), 9000); return false; }
+  schliesse(); zeichne(); zeigeToast(tx("Ziel und Budget gespeichert.", "Goal and budget saved.")); return true;
+}
 const istGemerkt = (k, id) => wunschListe().some(w => w.slot === k && w.teil === id);
 function merken(k, id, knopf){
   const l = wunschListe(), i = l.findIndex(w => w.slot === k && w.teil === id);
@@ -16831,7 +16990,7 @@ function wunschBadge(){
   const b = $("b-wunsch"); if(!b) return;
   const n = wunschListe().length; b.textContent = n; b.hidden = !n;
 }
-function wunschTeil(w){ return w.teil && w.slot ? findeTeil(w.slot, w.teil) : null; }
+function wunschTeil(w){ return w.teil && slotOf(w.slot) ? findeTeil(w.slot, w.teil) : null; }
 /* Gleiche Bremse mit anderen Scheiben: der Betrag enthaelt keine neue Bremse
    und keine noch unbekannten Scheibenpreise. Nur die Anzeige wird eingeordnet. */
 function wunschPreisInfo(pk, t, verbaut){
@@ -16876,13 +17035,13 @@ function wunschHtml(){
       ? `<button class="btn sm" data-wtestok="1">${tx("Übernehmen", "Keep it")}</button><button class="btn ghost sm" data-wtestende="1">${tx("Test abbrechen", "Cancel trial")}</button>`
       : verbaut ? ""
       : stufe === "einkauf"
-        ? `${t ? `<button class="btn sm" data-wverbaut="${w.id}"${pk && pk.neueFehler.length ? " disabled" : ""}>${modus === "traum" ? tx("In den Aufbau übernehmen", "Add to build") : tx("Als montiert übernehmen", "Mark as fitted")}</button>` : ""}
-           ${kannTesten ? `<button class="btn ghost sm" data-wtest="${w.id}">${tx("Im Aufbau testen", "Try in build")}</button>` : ""}
-           <button class="btn ghost sm" data-wkauf="${w.id}">${tx("Von der Einkaufsliste", "Off the shopping list")}</button>`
-        : `${kannTesten ? `<button class="btn sm" data-wtest="${w.id}">${tx("Im Aufbau testen", "Try in build")}</button>` : ""}
-           <button class="btn ghost sm" data-wkauf="${w.id}">${tx("Auf die Einkaufsliste", "To shopping list")}</button>
-           ${t ? `<button class="btn ghost sm" data-wverbaut="${w.id}"${pk && pk.neueFehler.length ? " disabled" : ""}>${modus === "traum" ? tx("In den Aufbau übernehmen", "Add to build") : tx("Als montiert übernehmen", "Mark as fitted")}</button>` : ""}`;
-    return `<article class="wl wl3${imTest ? " test" : ""}" data-wl="${w.id}">
+        ? `${t ? `<button class="btn sm" data-wverbaut="${esc(w.id)}"${pk && pk.neueFehler.length ? " disabled" : ""}>${modus === "traum" ? tx("In den Aufbau übernehmen", "Add to build") : tx("Als montiert übernehmen", "Mark as fitted")}</button>` : ""}
+           ${kannTesten ? `<button class="btn ghost sm" data-wtest="${esc(w.id)}">${tx("Im Aufbau testen", "Try in build")}</button>` : ""}
+           <button class="btn ghost sm" data-wkauf="${esc(w.id)}">${tx("Von der Einkaufsliste", "Off the shopping list")}</button>`
+        : `${kannTesten ? `<button class="btn sm" data-wtest="${esc(w.id)}">${tx("Im Aufbau testen", "Try in build")}</button>` : ""}
+           <button class="btn ghost sm" data-wkauf="${esc(w.id)}">${tx("Auf die Einkaufsliste", "To shopping list")}</button>
+           ${t ? `<button class="btn ghost sm" data-wverbaut="${esc(w.id)}"${pk && pk.neueFehler.length ? " disabled" : ""}>${modus === "traum" ? tx("In den Aufbau übernehmen", "Add to build") : tx("Als montiert übernehmen", "Mark as fitted")}</button>` : ""}`;
+    return `<article class="wl wl3${imTest ? " test" : ""}" data-wl="${esc(w.id)}">
       <div class="wl-t">${teilFoto(t, "wl-foto")}<span class="wl-k">${esc(s.label)}</span><b>${pk && pk.bleibt ? tx("Zubehör für ", "Accessories for ") : ""}${esc(t ? t.nb || t.n : (w.frei && w.frei.n) || "")}</b>
         ${preisInfo ? `<span class="wl-p"><small>${preisInfo.art}</small>${preisInfo.betrag}</span>` : ""}</div>
       ${variante ? `<p class="wl-variante">${esc(variante)}</p>` : ""}
@@ -16895,12 +17054,12 @@ function wunschHtml(){
         ${d(tx("Budget", "Budget"), w.budget > 0 ? eur(w.budget) : tx("offen", "open"))}
         ${t ? d(preisInfo.art, `${preisInfo.betrag} <small>${preisInfo.quelle}</small>`) : d(tx("Preis", "Price"), tx("nicht im Katalog", "not in the catalogue"))}
         ${zub.length ? d(tx("Dazu nötig", "Also needed"), esc(zub.join("; "))) : ""}
-        ${w.frei && w.frei.l ? d(tx("Link", "Link"), `<a href="${esc(w.frei.l)}" target="_blank" rel="noopener nofollow">${esc(kurzUrl(w.frei.l))}</a>`) : ""}
+        ${w.frei && httpsNur(w.frei.l) ? d(tx("Link", "Link"), `<a href="${esc(httpsNur(w.frei.l))}" target="_blank" rel="noopener nofollow">${esc(kurzUrl(w.frei.l))}</a>`) : ""}
       </dl>
       <div class="wl-akt">${akt}</div>
-      <div class="wl-neben">${t ? `<button class="linkbtn" data-vergleich="${w.slot}|${esc(t.id)}">${tx("Vergleichen", "Compare")}</button>` : ""}
-        <button class="linkbtn" data-wfinder="${w.id}">${tx("Ziel oder Budget ändern", "Change goal or budget")}</button>
-        <button class="linkbtn" data-wweg="${w.id}">${tx("Entfernen", "Remove")}</button></div></article>`;
+      <div class="wl-neben">${t ? `<button class="linkbtn" data-vergleich="${esc(w.slot)}|${esc(t.id)}">${tx("Vergleichen", "Compare")}</button>` : ""}
+        <button class="linkbtn" data-wfinder="${esc(w.id)}">${tx("Ziel oder Budget ändern", "Change goal or budget")}</button>
+        <button class="linkbtn" data-wweg="${esc(w.id)}">${tx("Entfernen", "Remove")}</button></div></article>`;
   };
   const verlauf = verlaufListe();
   return kopf + (l.length ? l.map(eintrag).join("") : `<p class="empty-note">${tx("Noch nichts gemerkt. Tippe bei einem Vorschlag auf „Merken“ — oder trag ein Teil von Hand ein.", "Nothing saved yet. Tap “Save” on a suggestion — or add a part by hand.")}</p>`)
@@ -16985,11 +17144,11 @@ function wunschKaufHtml(){
     else offen = true;
     /* BEVEL-003: was dazu gekauft werden muss -- Scheiben, Adapter, Umstellung; vorhandene Teile nicht */
     const dazu = pk ? pk.scheibenNeu.map(scheibeName).concat(pk.neu.map(a => a.n), pk.folge.map(x => slotOf(x.slot).label + ": " + (x.aenderung.join(", ") || x.zu.n))) : [];
-    return `<div class="ek"><div>${teilFoto(t, "ek-foto")}<span class="ek-k">${esc(slotOf(w.slot).label)}</span><span class="ek-n">${pk && pk.bleibt ? tx("Zubehör für ", "Accessories for ") : ""}${esc(t ? t.nb || t.n : w.frei.n)}</span>
+    return `<div class="ek"><div>${teilFoto(t, "ek-foto")}<span class="ek-k">${esc((slotOf(w.slot) || {}).label || tx("Teil", "Part"))}</span><span class="ek-n">${pk && pk.bleibt ? tx("Zubehör für ", "Accessories for ") : ""}${esc(t ? t.nb || t.n : w.frei && w.frei.n || tx("Teil nicht mehr im Katalog", "Part no longer in catalogue"))}</span>
         ${variante ? `<span class="ek-fit">${esc(variante)}</span>` : ""}
         ${dazu.length ? `<span class="ek-fit">${tx("dazu", "plus")} ${esc(dazu.join(", "))}</span>` : ""}
         ${pk && pk.weiter.length ? `<span class="ek-fit">${tx("vorhanden, nicht neu kaufen", "already there, don't rebuy")}: ${esc(pk.weiter.map(a => a.n).join(", "))}</span>` : ""}</div>
-        <div class="ek-r">${t ? `<span class="ek-preisart">${preisInfo.art}</span><span class="p">${preisInfo.betrag}</span>${preisInfo.hinweis ? `<small class="ek-preishinweis">${esc(preisInfo.hinweis)}</small>` : ""}${pk.bleibt ? `<button class="linkbtn" data-vergleich="${w.slot}|${esc(t.id)}">${tx("Zubehör ansehen", "View accessories")}</button>` : zumProduktHtml(t, true)}` : `<span class="ek-preishinweis">${tx("Preis offen", "Price pending")}</span>` + (w.frei.l ? `<a class="shop bez" href="${esc(w.frei.l)}" target="_blank" rel="noopener nofollow">${esc(kurzUrl(w.frei.l))}</a>` : "")}</div></div>`; });
+        <div class="ek-r">${t ? `<span class="ek-preisart">${preisInfo.art}</span><span class="p">${preisInfo.betrag}</span>${preisInfo.hinweis ? `<small class="ek-preishinweis">${esc(preisInfo.hinweis)}</small>` : ""}${pk.bleibt ? `<button class="linkbtn" data-vergleich="${esc(w.slot)}|${esc(t.id)}">${tx("Zubehör ansehen", "View accessories")}</button>` : zumProduktHtml(t, true)}` : `<span class="ek-preishinweis">${tx("Preis offen", "Price pending")}</span>` + (w.frei && httpsNur(w.frei.l) ? `<a class="shop bez" href="${esc(httpsNur(w.frei.l))}" target="_blank" rel="noopener nofollow">${esc(kurzUrl(w.frei.l))}</a>` : "")}</div></div>`; });
   return `<div class="wk"><div class="grp-h"><h2>${modus === "traum" ? tx("Aus der Wunschliste", "From your wishlist") : tx("Deine Einkaufsliste", "Your shopping list")}</h2><div class="rule"></div></div>
     ${modus === "traum" ? "" : `<p class="hint" style="margin:0 0 10px">${tx("Nur was du aus der Wunschliste kaufen willst, mit nötigem Zubehör. Was an deinem Rad schon verbaut ist, steht hier nicht.", "Only what you want to buy from your wishlist, with the accessories it needs. What's already on your bike isn't listed.")}</p>`}
     ${zeilen.join("")}
@@ -17428,7 +17587,7 @@ function zeichne(){
   Array.prototype.forEach.call(document.querySelectorAll(".modus-in button"),
     b => b.setAttribute("aria-pressed", String(b.dataset.modus === modus)));
   $("profile").innerHTML = profile[modus].map(p =>
-      `<button class="pchip" data-profil="${p.id}" aria-pressed="${p.id === aktivId[modus]}"><span class="pn">${esc(profilName(p, modus))}</span></button>`).join("")
+      `<button class="pchip" data-profil="${esc(p.id)}" aria-pressed="${p.id === aktivId[modus]}"><span class="pn">${esc(profilName(p, modus))}</span></button>`).join("")
     + `<button class="pchip rand" data-profile="1" aria-label="${modus === "markt" ? tx("Angebote verwalten", "Manage listings") : tx("Räder verwalten", "Manage bikes")}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>`;
   const pa = $("profile").querySelector('[aria-pressed="true"]');
   if(pa){ const box = $("profile"), l = pa.offsetLeft, r = l + pa.offsetWidth;
@@ -18122,7 +18281,7 @@ function schliesse(){
     if(z && z.getClientRects().length) try{ z.focus({preventScroll:true}); }catch(e){}
   }, 0);
 }
-function schliesseNurZustand(){ d3Weg(); schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; vglWunsch = null; detailOffen = null; detailVon = null; profUmbenennen = null; profLoeschFrage = null; }
+function schliesseNurZustand(){ d3Weg(); schliesseAdapterInfo(); $("modal").innerHTML = ""; freigeben(); suchText = ""; offenerSlot = null; wunschEdit = null; vglWunsch = null; detailOffen = null; detailVon = null; profUmbenennen = null; profLoeschFrage = null; }
 const zuBtn = `<button class="iconbtn" data-zu="1" aria-label="Schließen" data-ta="Schließen|Close">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
 
@@ -18154,7 +18313,7 @@ function radZeile(m, p){
   const b = (m === modus && p.id === aktivId[m]) ? build : (p.build || {});
   const teile = SLOTS.filter(x => b[x.k]).length;
   const preis = SLOTS.reduce((a, x) => { const t = b[x.k] ? findeTeil(x.k, b[x.k]) : null; return a + (t ? preisVon(t) : 0); }, 0);
-  return `<button class="rw-z${akt ? " akt" : ""}" data-radwechsel="${m}|${p.id}" aria-pressed="${akt}">
+  return `<button class="rw-z${akt ? " akt" : ""}" data-radwechsel="${m}|${esc(p.id)}" aria-pressed="${akt}">
     <span class="rw-n"><b>${esc(profilName(p, m))}</b><span>${teile} ${teile === 1 ? tx("Teil", "part") : tx("Teile", "parts")}${teile ? " · " + eur(preis) : ""}</span></span>
     ${akt ? `<span class="rw-ok">${HAKEN}</span>` : ""}</button>`;
 }
@@ -18346,17 +18505,17 @@ function profilZeile(p){
   const d = (p.sel || []).filter(x => DID.indexOf(x) >= 0).map(dName).join(" + ");
   return `<div class="prof${akt ? " akt" : ""}">
     ${profUmbenennen === p.id
-      ? `<input class="prof-in" data-profname="${p.id}" value="${esc(p.name || "")}" maxlength="40"
+      ? `<input class="prof-in" data-profname="${esc(p.id)}" value="${esc(p.name || "")}" maxlength="40"
            placeholder="${esc(profilName({...p, name:""}, modus))}" aria-label="${modus === "markt" ? tx("Name des Angebots", "Listing name") : tx("Name des Rads", "Bike name")}">`
-      : `<button class="prof-w" data-profil="${p.id}"><b>${esc(profilName(p, modus))}</b>
+      : `<button class="prof-w" data-profil="${esc(p.id)}"><b>${esc(profilName(p, modus))}</b>
            <span>${esc(d)} · ${teile} ${teile === 1 ? tx("Teil", "part") : tx("Teile", "parts")}${p.fotoVon ? tx(" · Foto fehlt noch", " · photo still missing") : ""}${akt ? tx(" · gerade offen", " · open now") : ""}</span></button>`}
     <div class="prof-akt">
       ${profUmbenennen === p.id ? `<button class="btn sm" data-profnameok="1">${tx("Fertig", "Done")}</button>`
-                                : `<button class="btn ghost sm" data-profumb="${p.id}">${tx("Umbenennen", "Rename")}</button>`}
-      <button class="btn ghost sm" data-profkopie="${p.id}">${tx("Kopieren", "Copy")}</button>
+                                : `<button class="btn ghost sm" data-profumb="${esc(p.id)}">${tx("Umbenennen", "Rename")}</button>`}
+      <button class="btn ghost sm" data-profkopie="${esc(p.id)}">${tx("Kopieren", "Copy")}</button>
       ${profile[modus].length > 1 ? (profLoeschFrage === p.id
-          ? `<button class="btn sm rot" data-profweg="${p.id}">${tx("Wirklich löschen", "Yes, delete")}</button>`
-          : `<button class="btn ghost sm" data-profwegfrage="${p.id}">${tx("Löschen", "Delete")}</button>`) : ""}
+          ? `<button class="btn sm rot" data-profweg="${esc(p.id)}">${tx("Wirklich löschen", "Yes, delete")}</button>`
+          : `<button class="btn ghost sm" data-profwegfrage="${esc(p.id)}">${tx("Löschen", "Delete")}</button>`) : ""}
     </div>
   </div>`;
 }
@@ -18971,7 +19130,7 @@ document.addEventListener("click", e => {
   const fel = T("[data-fwel]");
   if(fel){ suElWahl = fel.dataset.fwel; setupZeichnen(); fokusZurueck(`[data-fwel="${suElWahl}"]`); return; }
   if(T("[data-fwtest]")){ oeffneTest(); return; }
-  if(T("[data-fwvgl]")){ oeffneVergleich(); return; }
+  if(T("[data-fwvgl]")){ oeffneFahrwerkVergleich(); return; }
   const fva = T("[data-fwvglart]");
   if(fva){ suVglArt = fva.dataset.fwvglart; const f = federRechnen(); zeigeSheet(suVglHtml(f, suDaten(f))); return; }
   /* Testfahrt-Assistent */
@@ -19195,8 +19354,8 @@ document.addEventListener("click", e => {
     return; }
   if(T("[data-vlzurueck]")){ rueckgaengigLetzte(); return; }
   const wf = T("[data-wfinder]");
-  if(wf){ const w = wunschListe().find(x => x.id === wf.dataset.wfinder); if(!w) return;
-    oeffneSlot(w.slot, {tab:"finden"}); if(w.ziel && ZIEL[w.ziel]){ finder.ziel = w.ziel; finder.schritt = "erg"; finder.fertig = true; } finder.budgetAn = w.budget > 0; finder.budget = w.budget || 0; oeffneSlot(w.slot); return; }
+  if(wf){ oeffneWunschZiel(wf.dataset.wfinder); return; }
+  if(T("[data-wzielsave]")){ wunschZielSpeichern(); return; }
   const fr = T("[data-frage]");
   if(fr){ const q = fr.dataset.frage.split("|"); if(q[1] === "max") oeffneMaxAngabe(q[0]); else oeffneAngabe(q[0]); return; }
   const am = T("[data-angabemax]");
@@ -19636,6 +19795,7 @@ document.addEventListener("toggle", e => {
   if(el && el.dataset && el.dataset.suauf){ if(el.open) suAuf.add(el.dataset.suauf); else suAuf.delete(el.dataset.suauf); }
 }, true);
 document.addEventListener("keydown", e => {
+  if(e.key === "Enter" && e.target && e.target.id === "wz-budget"){ e.preventDefault(); wunschZielSpeichern(); return; }
   if(e.key === "Enter" && e.target && e.target.tagName === "INPUT" && e.target.dataset && (e.target.dataset.fwin || e.target.dataset.fwpsiin)){ e.preventDefault(); e.target.blur(); return; }
   if(tour){
     if(e.key === "Escape") tourEnde();

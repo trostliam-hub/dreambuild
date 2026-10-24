@@ -4,9 +4,9 @@
    Zweck: die App startet ohne Netz. Der gesamte Aufbau liegt im localStorage,
    die Logik in der HTML-Datei -- es gibt nichts, wofuer ein Server noetig waere.
 
-   Strategie: Cache zuerst, Netz nebenher (stale-while-revalidate). Die Antwort
-   kommt sofort aus dem Cache, die frische Fassung wird im Hintergrund geholt und
-   greift beim naechsten Start. Der Cache-Name traegt die Version: beim Aktivieren
+   Strategie: Programmdateien aus dem Cache, Netz nebenher. Lokale Bilder und
+   Schriften kommen direkt aus dem versionierten Cache; Preise aus dem Netz.
+   Der Cache-Name traegt die Version: beim Aktivieren
    fliegt alles Aeltere raus, deshalb kann die App nicht auf einer alten Fassung
    festhaengen.
 
@@ -100,6 +100,14 @@ self.addEventListener('fetch', function(e){
   var eigen = url.origin === self.location.origin;
   var fremd = FREMD.indexOf(url.origin) >= 0;
   if(!eigen && !fremd) return;
+  /* Update-Proben muessen frisch bleiben und duerfen keine neuen Cacheeintraege
+     fuer jeden Zeitstempel anlegen. Auch andere no-store-Aufrufe respektieren. */
+  if(req.cache === 'no-store' || eigen && url.pathname === self.location.pathname) return;
+
+  var schreiben = function(c, key, res){
+    if(!res || !(res.ok || res.type === 'opaque')) return Promise.resolve(res);
+    return c.put(key, res.clone()).catch(function(){}).then(function(){ return res; });
+  };
 
   /* Preise (preise.json, preisverlauf.json): Netz zuerst. Ein Preis von
      gestern ist schlechter als keiner -- der Cache springt nur ein, wenn das
@@ -107,8 +115,7 @@ self.addEventListener('fetch', function(e){
   if(eigen && /\.json$/.test(url.pathname)){
     e.respondWith(caches.open(CACHE).then(function(c){
       return fetch(req, {cache:"no-cache"}).then(function(res){
-        if(res && res.ok) c.put(req, res.clone());
-        return res;
+        return schreiben(c, req, res);
       }).catch(function(){
         return c.match(req).then(function(hit){ return hit || new Response("", {status:504}); });
       });
@@ -116,13 +123,22 @@ self.addEventListener('fetch', function(e){
     return;
   }
 
-  e.respondWith(caches.open(CACHE).then(function(c){
-    return c.match(req).then(function(hit){
+  var hintergrund = Promise.resolve();
+  var antwort = caches.open(CACHE).then(function(c){
+    var start = new URL('./', self.location.href);
+    var einstieg = eigen && req.mode === 'navigate' && (url.pathname === start.pathname || url.pathname === start.pathname + 'index.html');
+    var key = einstieg ? new URL(url.pathname === start.pathname ? './' : './index.html', start).href : req;
+    return c.match(key).then(function(hit){
+      if(hit && eigen && /\.(?:avif|gif|ico|jpe?g|png|svg|webp|woff2?|glb)$/i.test(url.pathname)) return hit;
       var netz = fetch(req, eigen ? {cache:"no-cache"} : undefined).then(function(res){
-        if(res && (res.ok || res.type === 'opaque')) c.put(req, res.clone());
-        return res;
-      }).catch(function(){ return hit; });
+        return schreiben(c, key, res);
+      }).catch(function(){ return hit || new Response("", {status:504}); });
+      hintergrund = netz;
       return hit || netz;
     });
-  }));
+  });
+  e.respondWith(antwort);
+  /* Auch nach einer schnellen Cacheantwort darf der Worker erst nach dem
+     abgeschlossenen Hintergrundabruf und Cache-Schreiben beendet werden. */
+  e.waitUntil(antwort.then(function(){ return hintergrund; }).catch(function(){}));
 });

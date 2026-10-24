@@ -150,6 +150,15 @@ if(process.env.CRANKSCORE_TEST_FEHLER === '1') teil('Gate-Probe', false, {zeile:
   const r = lauf('audit-test.mjs', /AUDIT: (\d+) von (\d+) bestanden/, 18);
   teil('Datenprüfung, Radkopie, Tastaturfokus, Fahrwerk- und Hilfetexte', r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
 }
+/* Audit 24.10.2026: nachgewiesene Speicher-, Rueckwechsel-, Bedien- und Offlinefehler. */
+for(const [datei, muster, erwartet, name] of [
+  ['daten-regression-test.mjs', /DATEN-REGRESSION: (\d+) von (\d+) Pruefungen bestanden/, 39, 'Speicherfehler, Import und Fotos ohne Datenverlust'],
+  ['fahrwerk-regression-test.mjs', /FAHRWERK-REGRESSION: (\d+) von (\d+) bestanden/, 11, 'Fahrwerk-Rueckwechsel, echte Feder und Gewichtsgrenzen'],
+  ['ui-offline-regression-test.mjs', /UI-OFFLINE: (\d+) von (\d+) Prüfungen bestanden/, 29, 'Wunschbearbeitung, Vergleich, Kopfzeile und Offlinecache']
+]){
+  const r = lauf(datei, muster, erwartet);
+  teil(name, r.ok, {zeile:`${r.bestanden} von ${r.gelaufen} bestanden, Exit ${r.exit}`, ...r});
+}
 bericht.ok = gesamtOk; bericht.dauerSek = Math.round((Date.now() - start) / 1000); bericht.zeit = new Date().toISOString();
 fs.writeFileSync(path.join(wurzel, 'test-ergebnis.json'), JSON.stringify(bericht, null, 2));
 for(const t of bericht.teile) if(!t.ok && t.fehl && t.fehl.length) console.log(`\n${t.name}:\n  ` + t.fehl.join('\n  '));
